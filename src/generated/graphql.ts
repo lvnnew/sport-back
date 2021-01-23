@@ -20,7 +20,7 @@ export type Query = {
 
 
 export type QueryAgrTagArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -48,30 +48,29 @@ export type Mutation = {
 
 
 export type MutationCreateAgrTagArgs = {
-  id: Scalars['ID'];
   comment?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationUpdateAgrTagArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   comment?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationRemoveAgrTagArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 export type AgrTag = {
   __typename?: 'AgrTag';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   comment?: Maybe<Scalars['String']>;
 };
 
 export type AgrTagFilter = {
   q?: Maybe<Scalars['String']>;
-  ids?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   comment?: Maybe<Scalars['String']>;
 };
 
@@ -159,7 +158,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -172,7 +170,6 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {};
-  ID: Scalars['ID'];
   Int: Scalars['Int'];
   String: Scalars['String'];
   Mutation: {};
@@ -189,13 +186,13 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createAgrTag?: Resolver<Maybe<ResolversTypes['AgrTag']>, ParentType, ContextType, RequireFields<MutationCreateAgrTagArgs, 'id'>>;
+  createAgrTag?: Resolver<Maybe<ResolversTypes['AgrTag']>, ParentType, ContextType, RequireFields<MutationCreateAgrTagArgs, never>>;
   updateAgrTag?: Resolver<Maybe<ResolversTypes['AgrTag']>, ParentType, ContextType, RequireFields<MutationUpdateAgrTagArgs, 'id'>>;
   removeAgrTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAgrTagArgs, 'id'>>;
 };
 
 export type AgrTagResolvers<ContextType = any, ParentType extends ResolversParentTypes['AgrTag'] = ResolversParentTypes['AgrTag']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

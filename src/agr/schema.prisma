@@ -1,4 +1,4 @@
 model AgrTag {
-  id	String	@id
+  id	Int	@default(autoincrement())	@id
   comment	String?
 }

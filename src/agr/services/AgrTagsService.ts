@@ -28,7 +28,7 @@ class AgrTagsService extends DataSource {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async close() { }
 
-  async get(id: string): Promise<AgrTag | null> {
+  async get(id: number): Promise<AgrTag | null> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
