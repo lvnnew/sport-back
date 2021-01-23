@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: agr-back
+  labels:
+    app: agr-back
+spec:
+  ports:
+  - port: 3000
+  selector:
+    app: agr-back
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agr-back
+spec:
+  replicas: {{ .Values.app.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  selector:
+    matchLabels:
+      app: agr-back
+  template:
+    metadata:
+      labels:
+        app: agr-back
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+      - name: agr-back
+        image: {{ .Values.dockerRegistry }}/agr-back{{ .Values.app.tag }}
+        ports:
+        - name: main-port
+          containerPort: 3000
+        imagePullPolicy: Always
+        env:
+        - name: RANDOM
+          value: {{ .Values.random | quote }}
+        - name: ENV
+          value: '{{ .Values.global.env }}'
+        - name: APOLLO_KEY
+          value: {{ .Values.apollo.key | quote }}
+        - name: AGR_PG_URI
+          value: {{ .Values.database.uri | quote }}
+
+        livenessProbe:
+          httpGet:
+            path: /?query=query%20test%20%7BallAgrTags%7Bid%7D%7D
+            port: main-port
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /?query=query%20test%20%7BallAgrTags%7Bid%7D%7D
+            port: main-port
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        startupProbe:
+          httpGet:
+            path: /?query=query%20test%20%7BallAgrTags%7Bid%7D%7D
+            port: main-port
+          initialDelaySeconds: 60
+          failureThreshold: 10
+          periodSeconds: 10
+
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "0.15"
+          limits:
+            memory: "512Mi"
+            cpu: "1"
+
+        securityContext:
+          runAsNonRoot: true
+          # readOnlyRootFilesystem: true
+          runAsUser: 1000
+---

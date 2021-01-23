@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+set -v
+
+# Static checks
+yarn prisma:gen
+yarn test:lint
+yarn build
+# yarn test

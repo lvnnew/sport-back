@@ -1,0 +1,4 @@
+model AgrTag {
+  id	String	@id
+  comment	String?
+}

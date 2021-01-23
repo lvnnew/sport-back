@@ -1,0 +1,101 @@
+image: node:14
+
+stages:
+  - check
+  - build
+  - latest-image
+  - deploy-stage
+
+cache:
+  paths:
+    - .cache
+    - .cache_images
+    - node_modules
+
+variables:
+  REPO_NAME: $CI_PROJECT_NAME
+  VERBOSE: 'true'
+  RELEASE: $CI_COMMIT_SHORT_SHA
+  KUBECONFIG: /etc/deploy/config
+
+check:
+  stage: check
+  before_script:
+    - yarn
+  script:
+    - ./pre-commit
+
+build:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: ['']
+  before_script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    # - /kaniko/warmer --cache-dir=$CI_PROJECT_DIR/.cache_images --image=browserless/chrome
+  script:
+    - /kaniko/executor
+      --cache-dir=$CI_PROJECT_DIR/.cache_images
+      --context ${CI_PROJECT_DIR}
+      --dockerfile ${CI_PROJECT_DIR}/Dockerfile
+      --destination ${CI_REGISTRY_IMAGE}:$CI_COMMIT_REF_SLUG
+      --single-snapshot
+
+master-to-latest:
+  extends: .tag-image
+  stage: latest-image
+  only:
+    - master
+  variables:
+    TAG_ORIGIN: master
+    TAG_DESTINATION: latest
+
+deploy-to-stage:
+  extends: .deploy-dev
+  variables:
+    ENV: "stage"
+
+.tag-image:
+  image:
+    name: gcr.io/go-containerregistry/crane:debug
+    entrypoint: ['']
+  script:
+    - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - crane cp ${CI_REGISTRY_IMAGE}:${TAG_ORIGIN} ${CI_REGISTRY_IMAGE}:${TAG_DESTINATION}
+  variables:
+    GIT_STRATEGY: none
+
+.deploy-dev:
+  stage: deploy-stage
+  extends: .deploy
+  before_script:
+    - mkdir -p /etc/deploy
+    - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
+  variables:
+    DEV: "true"
+    HOST: "${ENV}.apps.making.ventures"
+    TAG: ":latest"
+  only:
+    - master
+
+.deploy:
+  image:
+    name: alpine/helm:3.1.2
+    entrypoint: [""]
+  script:
+    - NAMESPACE=${NAMESPACE:-"agr-${ENV}"}
+    - echo NAMESPACE ${NAMESPACE}
+
+    - helm upgrade
+      --install
+      --wait ${NAMESPACE}-back chart
+      --timeout 3600s
+      -f chart/values_${ENV}.yaml
+      --set "random=:$(date)"
+      --set "app.tag=${TAG}"
+      --set "ingress.host=${HOST}"
+      --set "style=${STYLE}"
+      --set "apollo.key=${SAMIR_APOLLO_KEY}"
+      --set "database.uri=${AGR_PG_URI}"
+      --namespace ${NAMESPACE}

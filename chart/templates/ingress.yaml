@@ -1,0 +1,29 @@
+# nginx.ingress.kubernetes.io/whitelist-source-range
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+ name: agr-back
+ labels:
+    app: {{ template "leadreaktor.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+ annotations:
+ {{- range $key, $value := .Values.ingress.annotations }}
+   {{ $key }}: {{ $value | quote }}
+ {{- end }}
+ {{ if .Values.ingress.letsencryptCert }}
+   cert-manager.io/cluster-issuer: "letsencrypt-prod"
+ {{ end }}
+spec:
+  rules:
+    - host: {{ .Values.ingress.domain }}.{{ .Values.ingress.host }}
+      http:
+        paths:
+          - backend:
+              serviceName: agr-back
+              servicePort: 3000
+  tls:
+  - hosts:
+    - {{ .Values.ingress.domain }}.{{ .Values.ingress.host }}
+    secretName: {{ .Values.ingress.domain }}.{{ .Values.ingress.host }}-tls
