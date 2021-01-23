@@ -8,7 +8,7 @@ global:
 
 dev: false
 
-dockerRegistry: registry.gitlab.com/agr-sys
+dockerRegistry: registry.gitlab.com/agro-sys
 
 app:
   tag: :master
