@@ -6,13 +6,14 @@ import {
 } from 'change-case';
 import pluralize from 'pluralize';
 
-export const pascalSingular = (name: string): string => pascalCase(pluralize(name, 1));
-export const pascalPlural = (name: string): string => pascalCase(pluralize(name, 2));
-export const camelSingular = (name: string): string => camelCase(pluralize(name, 1));
-export const camelPlural = (name: string): string => camelCase(pluralize(name, 2));
+export const pascalSingular = (str: string): string => pascalCase(pluralize(str, 1));
+export const pascalPlural = (str: string): string => pascalCase(pluralize(str, 2));
+export const camelSingular = (str: string): string => camelCase(pluralize(str, 1));
+export const camelPlural = (str: string): string => camelCase(pluralize(str, 2));
 
-export const pascal = (name: string): string => pascalCase(name);
-export const camel = (name: string): string => camelCase(name);
-export const sentence = (name: string): string => sentenceCase(name);
-export const capital = (name: string): string => capitalCase(name);
+export const pascal = (str: string): string => pascalCase(str);
+export const camel = (str: string): string => camelCase(str);
+export const sentence = (str: string): string => sentenceCase(str);
+export const capital = (str: string): string => capitalCase(str);
+export const upper = (str: string): string => str.toUpperCase();
 
