@@ -6,7 +6,7 @@ datasource db {
   provider = "postgresql"
   url      = env("AGR_PG_URI")
 }
-
+  
 model AgrTag {
   id	Int	@default(autoincrement())	@id
   comment	String?

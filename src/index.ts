@@ -35,25 +35,6 @@ const init = async () => {
     schema,
   });
 
-  // app.use(async (req, res, next) => {
-  //   const token = req.headers && (req.headers.token as string) || '';
-  //   log.info(req.headers);
-  //   log.info(`token: ${token}`);
-  //   log.info(`method: ${req.method}`);
-  //   const agrConfig = await getAgrConfig();
-  //   if (req.method !== 'OPTIONS') {
-  //     if (agrConfig.token.trim() && agrConfig.token.trim() !== token.trim()) {
-  //       const error = new Error('Wrong token');
-  //       log.warn(error);
-
-  //       res.sendStatus(401);
-
-  //       return;
-  //     }
-  //   }
-  //   next();
-  // });
-
   server.applyMiddleware({app, path: '/'});
 
   const port = 3000;
@@ -64,4 +45,3 @@ const init = async () => {
 
 init()
   .catch(error => log.error(error));
-

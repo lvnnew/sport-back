@@ -96,6 +96,5 @@ deploy-to-stage:
       --set "app.tag=${TAG}"
       --set "ingress.host=${HOST}"
       --set "style=${STYLE}"
-      --set "apollo.key=${SAMIR_APOLLO_KEY}"
       --set "database.uri=${AGR_PG_URI}"
       --namespace ${NAMESPACE}
