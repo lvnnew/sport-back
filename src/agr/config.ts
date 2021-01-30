@@ -7,12 +7,7 @@ dotenv.config();
 
 const envConfig = {
   database: {
-    host: process.env.AGR_PG_HOST || '',
-    name: process.env.AGR_PG_DATABASE || '',
-    password: process.env.AGR_PG_PASSWORD || '',
-    port: process.env.AGR_PG_PORT || '',
     uri: process.env.AGR_PG_URI || '',
-    user: process.env.AGR_PG_USER || '',
   },
 };
 
