@@ -13,6 +13,7 @@ import {DataSource} from 'apollo-datasource';
 import {toPrismaRequest} from '../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../utils/prisma/toPrismaTotalRequest';
 import {AgrContext} from './context';
+import {Prisma} from '@prisma/client';
 
 class AgrTagsService extends DataSource {
   protected ctx: AgrContext | null = null;
@@ -33,7 +34,7 @@ class AgrTagsService extends DataSource {
       throw new Error('AgrContext is not initialised');
     }
 
-    return this.ctx.prisma.agrTag.findOne({where: {id}});
+    return this.ctx.prisma.agrTag.findFirst({where: {id}});
   }
 
   async all(params: QueryAllAgrTagsArgs = {}): Promise<AgrTag[]> {
@@ -44,18 +45,12 @@ class AgrTagsService extends DataSource {
     return this.ctx.prisma.agrTag.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<AgrTag[]>;
   }
 
-  async findOne(params: QueryAllAgrTagsArgs = {}): Promise<AgrTag> {
+  async findOne(params: QueryAllAgrTagsArgs = {}): Promise<AgrTag | null> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    const list = await this.all(params);
-
-    if (list.length === 0) {
-      throw new Error(`There is no entity that fits filter "${JSON.stringify(params)}"`);
-    }
-
-    return list[0];
+    return this.ctx.prisma.agrTag.findFirst(toPrismaRequest(params, {noId: true}));
   }
 
   async count(params: Query_AllAgrTagsMetaArgs = {}): Promise<number> {
@@ -80,6 +75,20 @@ class AgrTagsService extends DataSource {
     }
 
     const result = await this.ctx.prisma.agrTag.create({data});
+
+    if (!result) {
+      throw new Error('There is no such entity');
+    }
+
+    return result;
+  }
+
+  async createMany(data: MutationCreateAgrTagArgs[]): Promise<Prisma.BatchPayload> {
+    if (!this.ctx) {
+      throw new Error('AgrContext is not initialised');
+    }
+
+    const result = await this.ctx.prisma.agrTag.createMany({data});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -133,6 +142,10 @@ class AgrTagsService extends DataSource {
       return this.create(data);
     } else {
       const current = await this.findOne({filter});
+
+      if (!current) {
+        return this.create(data);
+      }
 
       return this.update({
         ...data,
