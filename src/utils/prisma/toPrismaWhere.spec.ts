@@ -196,5 +196,15 @@ describe('toPrismaWhere', () => {
       name: 'someName',
     });
   });
+
+  it('converts filter with ids', () => {
+    expect(
+      toPrismaWhere({ids: [1, 2]}),
+    ).toEqual({
+      id: {
+        in: [1, 2],
+      },
+    });
+  });
 });
 
