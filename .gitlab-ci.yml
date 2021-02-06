@@ -20,6 +20,7 @@ variables:
 
 check:
   stage: check
+  image: registry.gitlab.com/making.ventures/images/prisma-cli
   before_script:
     - yarn
   script:

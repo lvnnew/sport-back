@@ -109,7 +109,6 @@
     "@graphql-codegen/introspection": "^1.17.8",
     "@graphql-codegen/typescript": "^1.17.9",
     "@graphql-codegen/typescript-resolvers": "^1.17.9",
-    "@prisma/cli": "2.16.0",
     "@types/amqplib": "^0.5.13",
     "@types/cheerio": "^0.22.22",
     "@types/cookie-parser": "^1.4.2",

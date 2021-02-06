@@ -1,4 +1,4 @@
-FROM node:14-buster AS builder
+FROM registry.gitlab.com/making.ventures/images/prisma-cli AS builder
 
 RUN mkdir /app
 WORKDIR /app
@@ -14,7 +14,7 @@ RUN npm run prisma:gen
 RUN npm run build
 
 # Actual image
-FROM node:14-buster
+FROM registry.gitlab.com/making.ventures/images/prisma-cli
 
 RUN mkdir -p /usr/src/app/back
 WORKDIR /usr/src/app/back
