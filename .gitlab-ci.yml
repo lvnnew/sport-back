@@ -42,6 +42,9 @@ build:
       --dockerfile ${CI_PROJECT_DIR}/Dockerfile
       --destination ${CI_REGISTRY_IMAGE}:$CI_COMMIT_REF_SLUG
       --single-snapshot
+  only:
+    - master
+    - /^release-.*$/
 
 master-to-latest:
   extends: .tag-image
