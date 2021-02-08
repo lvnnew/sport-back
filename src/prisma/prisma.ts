@@ -5,7 +5,7 @@ let prisma: PrismaClient | null = null;
 
 export const getPrisma = async () => {
   const agrConfig = await getAgrConfig();
-  const url = agrConfig.database.uri;
+  const url = agrConfig.pgUri;
 
   if (!prisma) {
     prisma = new PrismaClient({

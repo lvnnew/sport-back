@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {merge} from 'lodash';
 import {readJson} from 'fs-extra';
 
@@ -6,9 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const envConfig = {
-  database: {
-    uri: process.env.AGR_PG_URI || '',
-  },
+  pgUri: process.env.AGR_PG_URI || '',
 };
 
 export type AgrConfig = typeof envConfig;
