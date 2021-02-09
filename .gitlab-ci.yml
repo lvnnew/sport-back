@@ -83,6 +83,21 @@ deploy-to-stage:
   only:
     - master
 
+.deploy-prod:
+  stage: deploy-prod
+  extends: .deploy
+  when: manual
+  before_script:
+    - mkdir -p /etc/deploy
+    - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
+  variables:
+    DEV: "true"
+    HOST: "${ENV}.apps.making.ventures"
+    TAG: ":release"
+  only:
+    - release
+    - /^release-.*$/
+
 .deploy:
   image:
     name: alpine/helm:3.1.2
