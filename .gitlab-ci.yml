@@ -44,6 +44,7 @@ build:
       --single-snapshot
   only:
     - master
+    - release
     - /^release-.*$/
 
 master-to-latest:
