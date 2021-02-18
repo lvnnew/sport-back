@@ -80,6 +80,7 @@ deploy-to-stage:
     DEV: "true"
     HOST: "${ENV}.apps.making.ventures"
     TAG: ":latest"
+    PG_URI: ${AGR_STAGE_PG_URI}
   only:
     - master
 
@@ -94,6 +95,7 @@ deploy-to-stage:
     DEV: "true"
     HOST: "${ENV}.apps.making.ventures"
     TAG: ":release"
+    PG_URI: ${AGR_PROD_PG_URI}
   only:
     - release
     - /^release-.*$/
@@ -115,5 +117,5 @@ deploy-to-stage:
       --set "app.tag=${TAG}"
       --set "ingress.host=${HOST}"
       --set "style=${STYLE}"
-      --set "database.uri=${AGR_PG_URI}"
+      --set "database.uri=${PG_URI}"
       --namespace ${NAMESPACE}
