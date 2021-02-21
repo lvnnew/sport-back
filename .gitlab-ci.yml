@@ -18,6 +18,7 @@ variables:
   VERBOSE: 'true'
   RELEASE: $CI_COMMIT_SHORT_SHA
   KUBECONFIG: /etc/deploy/config
+  APPNAME: back
 
 check:
   stage: check
@@ -47,6 +48,7 @@ build:
     - master
     - release
     - /^release-.*$/
+    - demo
 
 master-to-latest:
   extends: .tag-image
@@ -59,13 +61,18 @@ master-to-latest:
 
 deploy-to-stage:
   extends: .deploy-dev
+  stage: deploy-stage
   variables:
     ENV: "stage"
 
 deploy-to-demo:
   extends: .deploy-prod
+  stage: deploy-demo
   variables:
-    ENV: "prod"
+    ENV: "demo"
+    TAG: ":demo"
+  only:
+    - demo
 
 .tag-image:
   image:
@@ -78,11 +85,7 @@ deploy-to-demo:
     GIT_STRATEGY: none
 
 .deploy-dev:
-  stage: deploy-stage
   extends: .deploy
-  before_script:
-    - mkdir -p /etc/deploy
-    - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
   variables:
     DEV: "true"
     HOST: "${ENV}.apps.making.ventures"
@@ -92,12 +95,8 @@ deploy-to-demo:
     - master
 
 .deploy-prod:
-  stage: deploy-prod
   extends: .deploy
   when: manual
-  before_script:
-    - mkdir -p /etc/deploy
-    - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
   variables:
     DEV: "true"
     HOST: "${ENV}.apps.making.ventures"
@@ -111,15 +110,17 @@ deploy-to-demo:
   image:
     name: alpine/helm:3.1.2
     entrypoint: [""]
+  before_script:
+    - mkdir -p /etc/deploy
+    - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
   script:
     - NAMESPACE=${NAMESPACE:-"agr-${ENV}"}
     - echo NAMESPACE ${NAMESPACE}
 
     - helm upgrade
       --install
-      --wait ${NAMESPACE}-back chart
+      --wait ${NAMESPACE}-${APPNAME} chart
       --timeout 3600s
-      -f chart/values_${ENV}.yaml
       --set "random=:$(date)"
       --set "app.tag=${TAG}"
       --set "ingress.host=${HOST}"
