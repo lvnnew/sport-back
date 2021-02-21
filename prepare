@@ -3,4 +3,5 @@
 set -e
 set -v
 
+yarn
 yarn prisma:gen
