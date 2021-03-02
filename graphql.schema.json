@@ -14,7 +14,7 @@
         "description": null,
         "fields": [
           {
-            "name": "AgrTag",
+            "name": "Tag",
             "description": null,
             "args": [
               {
@@ -34,14 +34,14 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "AgrTag",
+              "name": "Tag",
               "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "allAgrTags",
+            "name": "allTags",
             "description": null,
             "args": [
               {
@@ -89,7 +89,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "AgrTagFilter",
+                  "name": "TagFilter",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -100,7 +100,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "AgrTag",
+                "name": "Tag",
                 "ofType": null
               }
             },
@@ -108,7 +108,7 @@
             "deprecationReason": null
           },
           {
-            "name": "_allAgrTagsMeta",
+            "name": "_allTagsMeta",
             "description": null,
             "args": [
               {
@@ -136,7 +136,7 @@
                 "description": null,
                 "type": {
                   "kind": "INPUT_OBJECT",
-                  "name": "AgrTagFilter",
+                  "name": "TagFilter",
                   "ofType": null
                 },
                 "defaultValue": null
@@ -182,7 +182,7 @@
         "description": null,
         "fields": [
           {
-            "name": "createAgrTag",
+            "name": "createTag",
             "description": null,
             "args": [
               {
@@ -198,14 +198,14 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "AgrTag",
+              "name": "Tag",
               "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "updateAgrTag",
+            "name": "updateTag",
             "description": null,
             "args": [
               {
@@ -235,14 +235,14 @@
             ],
             "type": {
               "kind": "OBJECT",
-              "name": "AgrTag",
+              "name": "Tag",
               "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "removeAgrTag",
+            "name": "removeTag",
             "description": null,
             "args": [
               {
@@ -286,7 +286,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "AgrTag",
+        "name": "Tag",
         "description": null,
         "fields": [
           {
@@ -325,7 +325,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "AgrTagFilter",
+        "name": "TagFilter",
         "description": null,
         "fields": null,
         "inputFields": [

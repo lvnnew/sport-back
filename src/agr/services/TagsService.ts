@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {
   ListMetadata,
-  MutationCreateAgrTagArgs,
-  MutationUpdateAgrTagArgs,
-  MutationRemoveAgrTagArgs,
-  QueryAllAgrTagsArgs,
-  Query_AllAgrTagsMetaArgs,
-  AgrTag,
-  AgrTagFilter,
+  MutationCreateTagArgs,
+  MutationUpdateTagArgs,
+  MutationRemoveTagArgs,
+  QueryAllTagsArgs,
+  Query_AllTagsMetaArgs,
+  Tag,
+  TagFilter,
 } from '../../generated/graphql';
 import {DataSource} from 'apollo-datasource';
 import {toPrismaRequest} from '../../utils/prisma/toPrismaRequest';
@@ -15,7 +15,7 @@ import {toPrismaTotalRequest} from '../../utils/prisma/toPrismaTotalRequest';
 import {AgrContext} from './context';
 import {Prisma} from '@prisma/client';
 
-class AgrTagsService extends DataSource {
+class TagsService extends DataSource {
   protected ctx: AgrContext | null = null;
 
   constructor() {
@@ -29,39 +29,39 @@ class AgrTagsService extends DataSource {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   async close() { }
 
-  async get(id: number): Promise<AgrTag | null> {
+  async get(id: number): Promise<Tag | null> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    return this.ctx.prisma.agrTag.findFirst({where: {id}});
+    return this.ctx.prisma.tag.findFirst({where: {id}});
   }
 
-  async all(params: QueryAllAgrTagsArgs = {}): Promise<AgrTag[]> {
+  async all(params: QueryAllTagsArgs = {}): Promise<Tag[]> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    return this.ctx.prisma.agrTag.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<AgrTag[]>;
+    return this.ctx.prisma.tag.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Tag[]>;
   }
 
-  async findOne(params: QueryAllAgrTagsArgs = {}): Promise<AgrTag | null> {
+  async findOne(params: QueryAllTagsArgs = {}): Promise<Tag | null> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    return this.ctx.prisma.agrTag.findFirst(toPrismaRequest(params, {noId: true}));
+    return this.ctx.prisma.tag.findFirst(toPrismaRequest(params, {noId: true}));
   }
 
-  async count(params: Query_AllAgrTagsMetaArgs = {}): Promise<number> {
+  async count(params: Query_AllTagsMetaArgs = {}): Promise<number> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    return this.ctx.prisma.agrTag.count(toPrismaTotalRequest(params));
+    return this.ctx.prisma.tag.count(toPrismaTotalRequest(params));
   }
 
-  async meta(params: Query_AllAgrTagsMetaArgs = {}): Promise<ListMetadata> {
+  async meta(params: Query_AllTagsMetaArgs = {}): Promise<ListMetadata> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
@@ -69,12 +69,12 @@ class AgrTagsService extends DataSource {
     return this.count(params).then(count => ({count}));
   }
 
-  async create(data: MutationCreateAgrTagArgs): Promise<AgrTag> {
+  async create(data: MutationCreateTagArgs): Promise<Tag> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await this.ctx.prisma.agrTag.create({data});
+    const result = await this.ctx.prisma.tag.create({data});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -83,12 +83,12 @@ class AgrTagsService extends DataSource {
     return result;
   }
 
-  async createMany(data: MutationCreateAgrTagArgs[]): Promise<Prisma.BatchPayload> {
+  async createMany(data: MutationCreateTagArgs[]): Promise<Prisma.BatchPayload> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await this.ctx.prisma.agrTag.createMany({data});
+    const result = await this.ctx.prisma.tag.createMany({data, skipDuplicates: true});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -97,12 +97,12 @@ class AgrTagsService extends DataSource {
     return result;
   }
 
-  async update({id, ...rest}: MutationUpdateAgrTagArgs): Promise<AgrTag> {
+  async update({id, ...rest}: MutationUpdateTagArgs): Promise<Tag> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await this.ctx.prisma.agrTag.update({data: rest, where: {id}});
+    const result = await this.ctx.prisma.tag.update({data: rest, where: {id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -111,14 +111,14 @@ class AgrTagsService extends DataSource {
     return result;
   }
 
-  async upsert(data: MutationUpdateAgrTagArgs): Promise<AgrTag> {
+  async upsert(data: MutationUpdateTagArgs): Promise<Tag> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
     const {id, ...rest} = data;
 
-    const result = await this.ctx.prisma.agrTag.upsert({create: data, update: rest, where: {id}});
+    const result = await this.ctx.prisma.tag.upsert({create: data, update: rest, where: {id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -127,7 +127,7 @@ class AgrTagsService extends DataSource {
     return result;
   }
 
-  async upsertAdvansed(filter: AgrTagFilter, data: MutationCreateAgrTagArgs): Promise<AgrTag> {
+  async upsertAdvansed(filter: TagFilter, data: MutationCreateTagArgs): Promise<Tag> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
@@ -154,12 +154,12 @@ class AgrTagsService extends DataSource {
     }
   }
 
-  async delete(params: MutationRemoveAgrTagArgs): Promise<boolean> {
+  async delete(params: MutationRemoveTagArgs): Promise<boolean> {
     if (!this.ctx) {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await this.ctx.prisma.agrTag.delete({where: {id: params.id}});
+    const result = await this.ctx.prisma.tag.delete({where: {id: params.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -169,4 +169,4 @@ class AgrTagsService extends DataSource {
   }
 }
 
-export default AgrTagsService;
+export default TagsService;

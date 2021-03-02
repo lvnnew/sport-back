@@ -1,14 +1,14 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["createMany"]
+  previewFeatures = ["createMany", "groupBy"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("AGR_PG_URI")
 }
-  
-model AgrTag {
-  id	Int	@default(autoincrement())	@id
-  comment	String?
+
+model Tag {
+	id	Int	@default(autoincrement())	@id
+	comment	String?
 }

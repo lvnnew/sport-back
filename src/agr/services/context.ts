@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 // import apm from 'elastic-apm-node/start';
 import {getPrisma} from '../../prisma/prisma';
-import AgrTagsService from './AgrTagsService';
+import TagsService from './TagsService';
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 
@@ -10,7 +10,7 @@ export type AgrContext = ThenArg<ReturnType<typeof createAgrContext>>
 export const createAgrContext = async () => {
   const prisma = await getPrisma();
 
-  const agrTags = new AgrTagsService();
+  const tags = new TagsService();
 
   const close = async () => {
     prisma.$disconnect();
@@ -19,13 +19,13 @@ export const createAgrContext = async () => {
   const context = {
     prisma,
 
-    agrTags,
+    tags,
 
     close,
   };
 
   await Promise.all([
-    agrTags.init(context),
+    tags.init(context),
   ]);
 
   return context;

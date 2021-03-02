@@ -13,62 +13,62 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  AgrTag?: Maybe<AgrTag>;
-  allAgrTags?: Maybe<Array<Maybe<AgrTag>>>;
-  _allAgrTagsMeta?: Maybe<ListMetadata>;
+  Tag?: Maybe<Tag>;
+  allTags?: Maybe<Array<Maybe<Tag>>>;
+  _allTagsMeta?: Maybe<ListMetadata>;
 };
 
 
-export type QueryAgrTagArgs = {
+export type QueryTagArgs = {
   id: Scalars['Int'];
 };
 
 
-export type QueryAllAgrTagsArgs = {
+export type QueryAllTagsArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   sortField?: Maybe<Scalars['String']>;
   sortOrder?: Maybe<Scalars['String']>;
-  filter?: Maybe<AgrTagFilter>;
+  filter?: Maybe<TagFilter>;
 };
 
 
-export type Query_AllAgrTagsMetaArgs = {
+export type Query_AllTagsMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
-  filter?: Maybe<AgrTagFilter>;
+  filter?: Maybe<TagFilter>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createAgrTag?: Maybe<AgrTag>;
-  updateAgrTag?: Maybe<AgrTag>;
-  removeAgrTag?: Maybe<Scalars['Boolean']>;
+  createTag?: Maybe<Tag>;
+  updateTag?: Maybe<Tag>;
+  removeTag?: Maybe<Scalars['Boolean']>;
 };
 
 
-export type MutationCreateAgrTagArgs = {
+export type MutationCreateTagArgs = {
   comment?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationUpdateAgrTagArgs = {
+export type MutationUpdateTagArgs = {
   id: Scalars['Int'];
   comment?: Maybe<Scalars['String']>;
 };
 
 
-export type MutationRemoveAgrTagArgs = {
+export type MutationRemoveTagArgs = {
   id: Scalars['Int'];
 };
 
-export type AgrTag = {
-  __typename?: 'AgrTag';
+export type Tag = {
+  __typename?: 'Tag';
   id: Scalars['Int'];
   comment?: Maybe<Scalars['String']>;
 };
 
-export type AgrTagFilter = {
+export type TagFilter = {
   q?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   comment?: Maybe<Scalars['String']>;
@@ -162,8 +162,8 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  AgrTag: ResolverTypeWrapper<AgrTag>;
-  AgrTagFilter: AgrTagFilter;
+  Tag: ResolverTypeWrapper<Tag>;
+  TagFilter: TagFilter;
   ListMetadata: ResolverTypeWrapper<ListMetadata>;
 };
 
@@ -174,24 +174,24 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
-  AgrTag: AgrTag;
-  AgrTagFilter: AgrTagFilter;
+  Tag: Tag;
+  TagFilter: TagFilter;
   ListMetadata: ListMetadata;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  AgrTag?: Resolver<Maybe<ResolversTypes['AgrTag']>, ParentType, ContextType, RequireFields<QueryAgrTagArgs, 'id'>>;
-  allAgrTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['AgrTag']>>>, ParentType, ContextType, RequireFields<QueryAllAgrTagsArgs, never>>;
-  _allAgrTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAgrTagsMetaArgs, never>>;
+  Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
+  allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, RequireFields<QueryAllTagsArgs, never>>;
+  _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllTagsMetaArgs, never>>;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createAgrTag?: Resolver<Maybe<ResolversTypes['AgrTag']>, ParentType, ContextType, RequireFields<MutationCreateAgrTagArgs, never>>;
-  updateAgrTag?: Resolver<Maybe<ResolversTypes['AgrTag']>, ParentType, ContextType, RequireFields<MutationUpdateAgrTagArgs, 'id'>>;
-  removeAgrTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAgrTagArgs, 'id'>>;
+  createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationCreateTagArgs, never>>;
+  updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
+  removeTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
 };
 
-export type AgrTagResolvers<ContextType = any, ParentType extends ResolversParentTypes['AgrTag'] = ResolversParentTypes['AgrTag']> = {
+export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -205,7 +205,7 @@ export type ListMetadataResolvers<ContextType = any, ParentType extends Resolver
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  AgrTag?: AgrTagResolvers<ContextType>;
+  Tag?: TagResolvers<ContextType>;
   ListMetadata?: ListMetadataResolvers<ContextType>;
 };
 
