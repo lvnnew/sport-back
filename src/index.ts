@@ -6,12 +6,17 @@ import {getAgrContext} from './agr/services/context';
 import {getAgrConfig} from './agr/config';
 import express from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
+import restRouter from './restRouter';
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
+
+app.use('/rest', restRouter);
 
 getAgrConfig().then(agrConfig => log.info(agrConfig));
 
@@ -20,14 +25,10 @@ const init = async () => {
 
   const server = new ApolloServer({
     dataSources: () => ({
-      // ...({} as any),
-
       ...(context as any),
     }),
     engine: {
       reportSchema: false,
-
-      // reportSchema: true,
     },
     introspection: true,
     mockEntireSchema: false,
