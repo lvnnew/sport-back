@@ -80,10 +80,6 @@ export const genGQSchemes = async () => {
     });
     await fs.writeFile(path.join(__dirname, filename), output);
   }
-
-  await fs.writeFile('/home/name/prj/crawler/schema.graphql', printSchema(schema));
-
-  // await fs.writeFile('/prjs/crawler/schema.graphql', printSchema(schema));
 };
 
 genGQSchemes();
