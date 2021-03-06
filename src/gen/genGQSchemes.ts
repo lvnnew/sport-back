@@ -11,7 +11,6 @@ import {
   GraphQLSchema,
 } from 'graphql';
 import fs from 'fs-extra';
-import {log} from '../log';
 
 // ts-node src/gen/genGQSchemes.ts
 
@@ -27,9 +26,6 @@ export const genGQSchemes = async () => {
 
   // const schema = (await import('../graph/schema')).default as GraphQLSchema;
   const parsed = parse(printSchema(schema));
-
-  log.info(Object.keys(schema));
-  log.info(Object.keys(schema?.toConfig()));
 
   gens.push({
     filename: '../generated/graphql.ts',
