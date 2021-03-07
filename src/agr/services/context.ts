@@ -1,42 +1,56 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-// import apm from 'elastic-apm-node/start';
 import {getPrisma} from '../../prisma/prisma';
-import TagsService from './TagsService';
+import {PrismaClient} from '@prisma/client';
+import {TagsService, getTagsService} from './TagsService/TagsService';
+import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
-type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
+export interface BaseServices {
+  prisma: PrismaClient;
+  tags: TagsService;
+  close: () => Promise<void>;
+}
 
-export type AgrContext = ThenArg<ReturnType<typeof createAgrContext>>
+export type AgrContext = BaseServices & AdditionalServices;
+
+let context: AgrContext | null = null;
 
 export const createAgrContext = async () => {
   const prisma = await getPrisma();
-
-  const tags = new TagsService();
 
   const close = async () => {
     prisma.$disconnect();
   };
 
-  const context = {
+  const baseServices: BaseServices = {
     prisma,
 
-    tags,
+    tags: getTagsService(getCtx),
 
     close,
   };
 
-  await Promise.all([
-    tags.init(context),
-  ]);
+  const additionalServices = getAdditionalServices(getCtx);
+
+  context = {
+    ...baseServices,
+    ...additionalServices,
+  };
 
   return context;
 };
 
-let ctx: AgrContext | null = null;
-
 export const getAgrContext = async (): Promise<AgrContext> => {
-  if (!ctx) {
-    ctx = await createAgrContext();
+  if (!context) {
+    context = await createAgrContext();
   }
 
-  return ctx;
+  return context;
+};
+
+export const getCtx = (): AgrContext => {
+  if (!context) {
+    throw new Error('Context is not initialised');
+  }
+
+  return context;
 };
