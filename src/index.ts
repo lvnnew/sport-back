@@ -31,7 +31,6 @@ const init = async () => {
       reportSchema: false,
     },
     introspection: true,
-    mockEntireSchema: false,
     playground: true,
     schema,
   });
