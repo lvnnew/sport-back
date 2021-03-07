@@ -17,10 +17,10 @@ import {Prisma} from '@prisma/client';
 
 interface BaseTagsService {
   get: (id: number) => Promise<Tag | null>;
-  all: (params: QueryAllTagsArgs) => Promise<Tag[]>;
-  findOne: (params: QueryAllTagsArgs) => Promise<Tag | null>;
-  count: (params: Query_AllTagsMetaArgs) => Promise<number>;
-  meta: (params: Query_AllTagsMetaArgs) => Promise<ListMetadata>;
+  all: (params?: QueryAllTagsArgs) => Promise<Tag[]>;
+  findOne: (params?: QueryAllTagsArgs) => Promise<Tag | null>;
+  count: (params?: Query_AllTagsMetaArgs) => Promise<number>;
+  meta: (params?: Query_AllTagsMetaArgs) => Promise<ListMetadata>;
   create: (data: MutationCreateTagArgs) => Promise<Tag>;
   createMany: (data: MutationCreateTagArgs[]) => Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateTagArgs) => Promise<Tag>;
