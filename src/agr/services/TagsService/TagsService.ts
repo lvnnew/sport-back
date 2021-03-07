@@ -14,8 +14,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {AgrContext} from '../context';
 import {Prisma} from '@prisma/client';
+import {AdditionalTagsMethods, getAdditionalMethods} from './additionalMethods';
 
-interface BaseTagsService {
+export interface BaseTagsMethods {
   get: (id: number) => Promise<Tag | null>;
   all: (params?: QueryAllTagsArgs) => Promise<Tag[]>;
   findOne: (params?: QueryAllTagsArgs) => Promise<Tag | null>;
@@ -29,7 +30,7 @@ interface BaseTagsService {
   delete: (params: MutationRemoveTagArgs) => Promise<boolean>;
 }
 
-export type TagsService = BaseTagsService
+export type TagsService = BaseTagsMethods & AdditionalTagsMethods;
 
 export const getTagsService = (getCtx: () => AgrContext) => {
   const get = async (id: number): Promise<Tag | null> => {
@@ -171,7 +172,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     return true;
   };
 
-  return {
+  const baseMethods: BaseTagsMethods = {
     get,
     all,
     findOne,
@@ -183,5 +184,12 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     upsert,
     upsertAdvansed,
     delete: del,
+  };
+
+  const additionalMethods = getAdditionalMethods(baseMethods);
+
+  return {
+    ...baseMethods,
+    ...additionalMethods,
   };
 };
