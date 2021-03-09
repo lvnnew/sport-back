@@ -12,7 +12,7 @@ import {AgrContext} from '../../../services/context';
 
 const queryResolvers: Resolvers = {
   Query: {
-    Tag: (_, {id}, {dataSources}: AgrContext}) =>
+    Tag: (_, {id}, {dataSources}: {dataSources: AgrContext}) =>
       dataSources.tags.get(id),
     allTags: (_, params: QueryAllTagsArgs, {dataSources}: {dataSources: AgrContext}) =>
       dataSources.tags.all(params),
