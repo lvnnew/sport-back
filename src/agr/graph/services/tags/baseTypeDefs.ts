@@ -1,5 +1,7 @@
 import {gql} from 'apollo-server';
 
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 export default gql`
 type Tag {
   id: Int!

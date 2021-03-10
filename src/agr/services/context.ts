@@ -4,6 +4,8 @@ import {PrismaClient} from '@prisma/client';
 import {TagsService, getTagsService} from './TagsService/TagsService';
 import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 export interface BaseServices {
   prisma: PrismaClient;
   tags: TagsService;

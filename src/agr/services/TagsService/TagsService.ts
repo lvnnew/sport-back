@@ -16,6 +16,8 @@ import {AgrContext} from '../context';
 import {Prisma} from '@prisma/client';
 import {AdditionalTagsMethods, getAdditionalMethods} from './additionalMethods';
 
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 export interface BaseTagsMethods {
   get: (id: number) => Promise<Tag | null>;
   all: (params?: QueryAllTagsArgs) => Promise<Tag[]>;

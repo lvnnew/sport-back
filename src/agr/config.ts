@@ -1,6 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import {merge} from 'lodash';
 import {readJson} from 'fs-extra';
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 
 import dotenv from 'dotenv';
 

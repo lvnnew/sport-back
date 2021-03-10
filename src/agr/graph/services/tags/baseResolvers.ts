@@ -10,6 +10,8 @@ import {
 } from '../../../../generated/graphql';
 import {AgrContext} from '../../../services/context';
 
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 const queryResolvers: Resolvers = {
   Query: {
     Tag: (_, {id}, {dataSources}: {dataSources: AgrContext}) =>

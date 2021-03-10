@@ -1,5 +1,7 @@
 import {PrismaClient} from '@prisma/client';
 import {getAgrConfig} from '../agr/config';
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 
 let prisma: PrismaClient | null = null;
 

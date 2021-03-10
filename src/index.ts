@@ -9,6 +9,8 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import restRouter from './restRouter';
 
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 dotenv.config();
 
 const app = express();

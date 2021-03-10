@@ -1,3 +1,5 @@
+
+# DO NOT EDIT! THIS IS GENERATED FILE
 global:
   env: canary
   imagePullPolicy: Always
