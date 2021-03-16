@@ -6,6 +6,8 @@ metadata:
   name: agr-back
   labels:
     app: agr-back
+  annotations:
+    prometheus.io/scrape: 'true'
 spec:
   ports:
   - port: 3000

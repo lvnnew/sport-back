@@ -8,6 +8,7 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import restRouter from './restRouter';
+import {collectDefaultMetrics, register} from 'prom-client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -17,6 +18,17 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+collectDefaultMetrics();
+
+app.get('/metrics', async (_req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+  } catch (error) {
+    res.status(500).end(error);
+  }
+});
 
 app.use('/rest', restRouter);
 
