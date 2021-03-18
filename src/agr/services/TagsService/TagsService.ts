@@ -188,7 +188,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(baseMethods);
+  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
 
   return {
     ...baseMethods,
