@@ -11,6 +11,7 @@ type Tag {
 input TagFilter {
   q: String
   ids: [Int]
+  id: Int
   comment: String
 }
 

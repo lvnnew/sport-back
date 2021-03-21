@@ -4,12 +4,9 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY package.json yarn.lock ./
-# RUN npm i --legacy-peer-deps
 RUN npm i
-# RUN npm i && npm cache clean
 COPY . .
 
-# RUN npm run prisma:gen && npm run build
 RUN npm run prisma:gen
 RUN npm run build
 

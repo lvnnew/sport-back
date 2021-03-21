@@ -224,6 +224,7 @@ export type Tag = {
 export type TagFilter = {
   q?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
   comment?: Maybe<Scalars['String']>;
 };
 

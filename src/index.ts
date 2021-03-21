@@ -3,7 +3,6 @@ import {ApolloServer} from 'apollo-server-express';
 import {log} from './log';
 import schema from './graph/schema';
 import {getAgrContext} from './agr/services/context';
-import {getAgrConfig} from './agr/config';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -31,8 +30,6 @@ app.get('/metrics', async (_req, res) => {
 });
 
 app.use('/rest', restRouter);
-
-getAgrConfig().then(agrConfig => log.info(agrConfig));
 
 const init = async () => {
   const context = await getAgrContext();

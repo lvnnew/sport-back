@@ -816,6 +816,16 @@
             "defaultValue": null
           },
           {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "comment",
             "description": null,
             "type": {
