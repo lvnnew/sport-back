@@ -206,5 +206,15 @@ describe('toPrismaWhere', () => {
       },
     });
   });
+
+  it('search', () => {
+    expect(
+      toPrismaWhere({q: 'bob'}),
+    ).toEqual({
+      search: {
+        contains: 'bob',
+      },
+    });
+  });
 });
 

@@ -26,6 +26,15 @@ export const toPrismaWhere = (filter?: object | null) => {
     ...flatWhere,
   }
 
+  if (Object.keys(filter).includes('q')) {
+    result = {
+      ...result,
+      search: {
+        contains: filter['q'],
+      },
+    }
+  }
+
   const pairsForAnd = initialPairs.filter(([key, _]: [string, any]) => postfixesForAnd.some(pf => key.includes(pf)));
 
   if (pairsForAnd.length > 0) {
