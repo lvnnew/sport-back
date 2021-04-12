@@ -30,7 +30,7 @@ export const toPrismaWhere = (filter?: object | null) => {
     result = {
       ...result,
       search: {
-        contains: filter['q'],
+        contains: filter['q'].toLowerCase(),
       },
     }
   }
