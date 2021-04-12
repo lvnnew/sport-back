@@ -17,7 +17,7 @@ export const toPrismaWhere = (filter?: object | null) => {
 
   const initialPairs = toPairs(filter);
 
-  const flatPairs = initialPairs.filter(([key, _]: [string, any]) => key !== 'ids' && !postfixesForAnd.some(pf => key.includes(pf)));
+  const flatPairs = initialPairs.filter(([key, _]: [string, any]) => !['ids', 'q'].includes(key) && !postfixesForAnd.some(pf => key.includes(pf)));
 
   const flatWhere = fromPairs(flatPairs);
 
