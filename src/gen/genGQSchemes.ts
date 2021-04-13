@@ -51,7 +51,7 @@ export const genGQSchemes = async () => {
   });
 
   gens.push({
-    filename: '../../graphql.schema.json',
+    filename: '../generated/graphql.schema.json',
     options: {
       // used by a plugin internally, although the 'typescript' plugin currently
       // returns the string output, rather than writing to a file
