@@ -2,6 +2,8 @@
 import {describe, expect} from 'jest-without-globals';
 import {toPrismaWhere} from './toPrismaWhere';
 
+// yarn test -t toPrismaWhere
+
 describe('toPrismaWhere', () => {
   it('converts blank filter', () => {
     expect(
@@ -84,6 +86,22 @@ describe('toPrismaWhere', () => {
         {
           date: {
             gt: date,
+          },
+        },
+      ],
+    });
+  });
+
+  it('converts filter with in condition', () => {
+    const str1 = 'str';
+    const str2 = 'str';
+    expect(
+      toPrismaWhere({str_in: [str1, str2]}),
+    ).toEqual({
+      AND: [
+        {
+          str: {
+            in: [str1, str2],
           },
         },
       ],

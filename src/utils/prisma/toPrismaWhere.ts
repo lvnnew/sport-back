@@ -13,6 +13,7 @@ export const toPrismaWhere = (filter?: object | null) => {
     '_gte',
     '_lt',
     '_gt',
+    '_in',
   ];
 
   const initialPairs = toPairs(filter);
@@ -48,6 +49,8 @@ export const toPrismaWhere = (filter?: object | null) => {
           return [key.replace(/(_lt)$/, ''), {lt: value}];
         } else if (key.includes('_gt')) {
           return [key.replace(/(_gt)$/, ''), {gt: value}];
+        } else if (key.includes('_in')) {
+          return [key.replace(/(_in)$/, ''), {in: value}];
         }
 
         throw new Error(`Unknown AND filter, key: "${key}"`);
@@ -61,7 +64,7 @@ export const toPrismaWhere = (filter?: object | null) => {
   }
 
   // Arrays
-  const arraysPairs = initialPairs.filter(([_, val]: [string, any]) => Array.isArray(val));
+  const arraysPairs = initialPairs.filter(([key, val]: [string, any]) => Array.isArray(val) && !postfixesForAnd.some(pf => key.includes(pf)));
   if (arraysPairs.length > 0) {
     const arrays = arraysPairs
       .map(([key, value]) => fromPairs([[singular(key), {
