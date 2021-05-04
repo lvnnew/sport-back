@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["createMany", "groupBy"]
 }
 
 datasource db {
@@ -10,5 +9,6 @@ datasource db {
 
 model Tag {
 	id	Int	@default(autoincrement())	@id
+	search	String?
 	comment	String?
 }

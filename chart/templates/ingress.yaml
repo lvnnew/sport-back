@@ -5,7 +5,7 @@ kind: Ingress
 metadata:
  name: agr-back
  labels:
-    app: {{ template "leadreaktor.fullname" . }}
+    app: agr-back
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"

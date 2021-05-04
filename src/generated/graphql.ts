@@ -226,6 +226,7 @@ export type TagFilter = {
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   id?: Maybe<Scalars['Int']>;
   comment?: Maybe<Scalars['String']>;
+  comment_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type ListMetadata = {

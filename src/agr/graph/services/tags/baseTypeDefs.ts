@@ -13,6 +13,7 @@ input TagFilter {
   ids: [Int]
   id: Int
   comment: String
+  comment_in: [String]
 }
 
 type ListMetadata {

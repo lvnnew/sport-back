@@ -1,28 +1,25 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import {PrismaClient} from '@prisma/client';
 import {getConfig} from '../config';
+import knex, {Knex} from 'knex';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-let prisma: PrismaClient | null = null;
+let knexInstance: Knex | null = null;
 
-export const getPrisma = async (appName = 'someBack_Prisma') => {
+export const getKnex = async (appName = 'someBack_Knex') => {
   const config = await getConfig();
   const url = addParamsToPgUri(config.pgUri, {
     application_name: appName,
     ...(process.env.NODE_ENV === 'production' ? {} : {connection_limit: '1'}),
   });
 
-  if (!prisma) {
-    prisma = new PrismaClient({
-      datasources: {
-        db: {
-          url,
-        },
-      },
+  if (!knexInstance) {
+    knexInstance = knex({
+      client: 'pg',
+      connection: url,
     });
   }
 
-  return prisma;
+  return knexInstance;
 };

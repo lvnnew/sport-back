@@ -1,6 +1,10 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import {getPrisma} from '../../prisma/prisma';
 import {PrismaClient} from '@prisma/client';
+import {getKnex} from '../../clients/knex';
+import {Knex} from 'knex';
+import {WorkerUtils} from 'graphile-worker';
+import {getQueue} from '../../clients/queue/getQueue';
 import {TagsService, getTagsService} from './TagsService/TagsService';
 import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
@@ -8,6 +12,8 @@ import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
 export interface BaseServices {
   prisma: PrismaClient;
+  knex: Knex;
+  worker: WorkerUtils;
   tags: TagsService;
   close: () => Promise<void>;
 }
@@ -19,12 +25,21 @@ let context: AgrContext | null = null;
 export const createAgrContext = async () => {
   const prisma = await getPrisma();
 
+  const knex = await getKnex();
+
+  const worker = await getQueue();
+
   const close = async () => {
-    prisma.$disconnect();
+    await prisma.$disconnect();
+    await knex.destroy();
+
+    // context = null;
   };
 
   const baseServices: BaseServices = {
     prisma,
+    knex,
+    worker,
 
     tags: getTagsService(getCtx),
 
@@ -55,4 +70,10 @@ export const getCtx = (): AgrContext => {
   }
 
   return context;
+};
+
+export const closeCtx = async () => {
+  if (context) {
+    await context.close();
+  }
 };

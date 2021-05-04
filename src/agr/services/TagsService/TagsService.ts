@@ -15,6 +15,15 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {AgrContext} from '../context';
 import {Prisma} from '@prisma/client';
 import {AdditionalTagsMethods, getAdditionalMethods} from './additionalMethods';
+import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
+import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
+import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
+import {beforeCreate} from './hooks/beforeCreate';
+import {beforeUpdate} from './hooks/beforeUpdate';
+import {afterCreate} from './hooks/afterCreate';
+import {afterUpdate} from './hooks/afterUpdate';
+import {afterDelete} from './hooks/afterDelete';
+import R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -80,7 +89,70 @@ export const getTagsService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await getCtx().prisma.tag.create({data});
+    const processedData = await beforeCreate(getCtx, data);
+
+    const createOperation = getCtx().prisma.tag.create({
+      data: R.mergeDeepLeft(
+        {
+          search: R.toPairs(
+          R.pick(['id', 'comment'], data),
+        )
+          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
+          .join(' '),
+        
+        },
+        processedData,
+      ),
+    });
+
+    const operations = [
+      createOperation,
+      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+    ];
+
+    const [result] = await getCtx().prisma.$transaction(operations as any);
+
+    // update search. earlier we does not have id
+    await getCtx().prisma.tag.update({
+      where: {id: result.id},
+      data: {
+        search: R.toPairs(
+          R.pick(['id', 'comment'], result),
+        )
+          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
+          .join(' '),
+        
+      },
+    });
+
+    await afterCreate(getCtx, result as Tag);
+
+    if (!result) {
+      throw new Error('There is no such entity');
+    }
+
+    return result as Tag;
+  };
+
+  const createMany = async (entries: MutationCreateTagArgs[]): Promise<Prisma.BatchPayload> => {
+    if (!getCtx()) {
+      throw new Error('AgrContext is not initialised');
+    }
+
+    const result = await getCtx().prisma.tag.createMany({
+      data: entries.map(data => R.mergeDeepLeft(
+        {
+          search: R.toPairs(
+          R.pick(['id', 'comment'], data),
+        )
+          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
+          .join(' '),
+        
+        },
+        data,
+      )),
+      skipDuplicates: true,
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -89,32 +161,44 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     return result;
   };
 
-  const createMany = async (data: MutationCreateTagArgs[]): Promise<Prisma.BatchPayload> => {
+  const update = async (data: MutationUpdateTagArgs): Promise<Tag> => {
     if (!getCtx()) {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await getCtx().prisma.tag.createMany({data, skipDuplicates: true});
+    const processedData = await beforeUpdate(getCtx, data);
+
+    const {id, ...rest} = processedData;
+
+    const updateOperation = getCtx().prisma.tag.update({
+      data: R.mergeDeepLeft(
+        {
+          search: R.toPairs(
+          R.pick(['id', 'comment'], data),
+        )
+          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
+          .join(' '),
+        
+        },
+        rest,
+      ),
+      where: {id},
+    });
+
+    const operations = [
+      updateOperation,
+      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+    ];
+
+    const [result] = await getCtx().prisma.$transaction(operations as any);
+
+    await afterUpdate(getCtx, result as Tag);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    return result;
-  };
-
-  const update = async ({id, ...rest}: MutationUpdateTagArgs): Promise<Tag> => {
-    if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
-    }
-
-    const result = await getCtx().prisma.tag.update({data: rest, where: {id}});
-
-    if (!result) {
-      throw new Error('There is no such entity');
-    }
-
-    return result;
+    return result as Tag;
   };
 
   const upsert = async (data: MutationUpdateTagArgs): Promise<Tag> => {
@@ -124,7 +208,27 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
     const {id, ...rest} = data;
 
-    const result = await getCtx().prisma.tag.upsert({create: data, update: rest, where: {id}});
+    const result = await getCtx().prisma.tag.upsert({create: R.mergeDeepLeft(
+      {
+        search: R.toPairs(
+          R.pick(['id', 'comment'], data),
+        )
+          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
+          .join(' '),
+        
+      },
+      data,
+    ), update: R.mergeDeepLeft(
+      {
+        search: R.toPairs(
+          R.pick(['id', 'comment'], data),
+        )
+          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
+          .join(' '),
+        
+      },
+      rest,
+    ), where: {id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -165,7 +269,22 @@ export const getTagsService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    const result = await getCtx().prisma.tag.delete({where: {id: params.id}});
+    const deleteOperation = getCtx().prisma.tag.delete({where: {id: params.id}});
+
+    const operations = [
+      deleteOperation,
+      ...(await additionalOperationsOnDelete(getCtx, params)),
+    ];
+
+    const entity = await get(params.id);
+
+    if (!entity) {
+      throw new Error(`There is no entity with "${params.id}" id`);
+    }
+
+    const [result] = await getCtx().prisma.$transaction(operations as any);
+
+    await afterDelete(getCtx, entity);
 
     if (!result) {
       throw new Error('There is no such entity');

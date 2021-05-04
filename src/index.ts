@@ -1,8 +1,9 @@
 import * as dotenv from 'dotenv';
+import exitHook from 'exit-hook';
 import {ApolloServer} from 'apollo-server-express';
 import {log} from './log';
 import schema from './graph/schema';
-import {getAgrContext} from './agr/services/context';
+import {getAgrContext, closeCtx} from './agr/services/context';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -12,6 +13,10 @@ import {collectDefaultMetrics, register} from 'prom-client';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 dotenv.config();
+
+exitHook(async () => {
+  await closeCtx();
+});
 
 const app = express();
 
@@ -31,7 +36,7 @@ app.get('/metrics', async (_req, res) => {
 
 app.use('/rest', restRouter);
 
-const init = async () => {
+const start = async () => {
   const context = await getAgrContext();
 
   const server = new ApolloServer({
@@ -54,5 +59,10 @@ const init = async () => {
   });
 };
 
-init()
-  .catch(error => log.error(error));
+try {
+  start();
+} catch (error) {
+  log.error(error);
+} finally {
+  closeCtx();
+}

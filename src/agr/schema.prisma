@@ -1,4 +1,5 @@
 model Tag {
 	id	Int	@default(autoincrement())	@id
+	search	String?
 	comment	String?
 }
