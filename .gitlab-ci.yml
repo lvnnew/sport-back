@@ -8,6 +8,7 @@ stages:
   - latest-image
   - deploy-stage
   - deploy-demo
+  - deploy-test
 
 cache:
   paths:
@@ -22,59 +23,59 @@ variables:
   KUBECONFIG: /etc/deploy/config
   APPNAME: back
 
-check:
-  stage: check
-  image: registry.gitlab.com/making.ventures/images/prisma-cli
-  before_script:
-    - yarn
-  script:
-    - ./check
+# check:
+#   stage: check
+#   image: registry.gitlab.com/making.ventures/images/prisma-cli
+#   before_script:
+#     - yarn
+#   script:
+#     - ./check
 
-build:
-  stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: ['']
-  before_script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    # - /kaniko/warmer --cache-dir=$CI_PROJECT_DIR/.cache_images --image=browserless/chrome
-  script:
-    - /kaniko/executor
-      --cache-dir=$CI_PROJECT_DIR/.cache_images
-      --context ${CI_PROJECT_DIR}
-      --dockerfile ${CI_PROJECT_DIR}/Dockerfile
-      --destination ${CI_REGISTRY_IMAGE}:$CI_COMMIT_REF_SLUG
-      --single-snapshot
-  only:
-    - master
-    - release
-    - /^release-.*$/
-    - demo
+# build:
+#   stage: build
+#   image:
+#     name: gcr.io/kaniko-project/executor:debug
+#     entrypoint: ['']
+#   before_script:
+#     - mkdir -p /kaniko/.docker
+#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#     # - /kaniko/warmer --cache-dir=$CI_PROJECT_DIR/.cache_images --image=browserless/chrome
+#   script:
+#     - /kaniko/executor
+#       --cache-dir=$CI_PROJECT_DIR/.cache_images
+#       --context ${CI_PROJECT_DIR}
+#       --dockerfile ${CI_PROJECT_DIR}/Dockerfile
+#       --destination ${CI_REGISTRY_IMAGE}:$CI_COMMIT_REF_SLUG
+#       --single-snapshot
+#   only:
+#     - master
+#     - release
+#     - /^release-.*$/
+#     - demo
+#     - test
 
-master-to-latest:
-  extends: .tag-image
-  stage: latest-image
-  only:
-    - master
-  variables:
-    TAG_ORIGIN: master
-    TAG_DESTINATION: latest
+# master-to-latest:
+#   extends: .tag-image
+#   stage: latest-image
+#   only:
+#     - master
+#   variables:
+#     TAG_ORIGIN: master
+#     TAG_DESTINATION: latest
 
-deploy-to-stage:
+deploy-stage:
   extends: .deploy-dev
   stage: deploy-stage
   variables:
     ENV: "stage"
+    ENV_NAME: "stage01"
 
-deploy-to-demo:
-  extends: .deploy-prod
-  stage: deploy-demo
+deploy-stage-workers:
+  extends: .deploy-dev-workers
+  stage: deploy-stage
   variables:
-    ENV: "demo"
-    TAG: ":demo"
-  only:
-    - demo
+    ENV: "stage"
+    ENV_NAME: "workers01"
 
 .tag-image:
   image:
@@ -90,20 +91,76 @@ deploy-to-demo:
   extends: .deploy
   variables:
     DEV: "true"
-    HOST: "${ENV}.apps.making.ventures"
+    HOST: "making.ventures"
     TAG: ":latest"
     PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
+    BACK_ENABLED: "true"
+    INGRESS_ENABLED: "true"
+    METRICS_ENABLED: "true"
+    WORKER_ENABLED: "false"
+    TIKA_ENABLED: "true"
+    TIKA_INGRESS_ENABLED: "true"
+    ROOT_ENABLED: "true"
+  only:
+    - master
+
+.deploy-dev-workers:
+  extends: .deploy
+  variables:
+    DEV: "true"
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
+    APPNAME: workers
+    BACK_ENABLED: "false"
+    INGRESS_ENABLED: "false"
+    METRICS_ENABLED: "false"
+    WORKER_ENABLED: "true"
+    TIKA_ENABLED: "false"
+    TIKA_INGRESS_ENABLED: "false"
+    ROOT_ENABLED: "false"
   only:
     - master
 
 .deploy-prod:
   extends: .deploy
-  when: manual
+  # when: manual
   variables:
     DEV: "true"
-    HOST: "${ENV}.apps.making.ventures"
-    TAG: ":release"
-    PG_URI: ${AGR_PROD_PG_URI}
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
+    BACK_ENABLED: "true"
+    INGRESS_ENABLED: "true"
+    METRICS_ENABLED: "true"
+    WORKER_ENABLED: "false"
+    TIKA_ENABLED: "true"
+    TIKA_INGRESS_ENABLED: "true"
+    ROOT_ENABLED: "true"
+  only:
+    - release
+    - /^release-.*$/
+
+.deploy-prod-workers:
+  extends: .deploy
+  # when: manual
+  variables:
+    DEV: "true"
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
+    APPNAME: workers
+    BACK_ENABLED: "false"
+    INGRESS_ENABLED: "false"
+    METRICS_ENABLED: "false"
+    WORKER_ENABLED: "true"
+    TIKA_ENABLED: "false"
+    TIKA_INGRESS_ENABLED: "false"
+    ROOT_ENABLED: "false"
   only:
     - release
     - /^release-.*$/
@@ -123,9 +180,21 @@ deploy-to-demo:
       --install
       --wait ${NAMESPACE}-${APPNAME} chart
       --timeout 3600s
+      --set "global.envName=${ENV_NAME}"
+      --set "global.env=${ENV}"
       --set "random=:$(date)"
       --set "app.tag=${TAG}"
       --set "ingress.host=${HOST}"
       --set "style=${STYLE}"
       --set "database.uri=${PG_URI}"
+      --set "sita.ftp.host=${AGR_SITA_FTP_HOST}"
+      --set "sita.ftp.user=${AGR_SITA_FTP_USER}"
+      --set "sita.ftp.pass=${AGR_SITA_FTP_PASS}"
+      --set "s3.accessKeyId=${AGR_S3_ACCESS_KEY_ID}"
+      --set "s3.secretAccessKey=${AGR_S3_SECRET_ACCESS_KEY}"
+      --set "back.enabled=${BACK_ENABLED}"
+      --set "ingress.enabled=${INGRESS_ENABLED}"
+      --set "metrics.enabled=${METRICS_ENABLED}"
+      --set "worker.enabled=${WORKER_ENABLED}"
+      --set "ingress.rootEnabled=${ROOT_ENABLED}"
       --namespace ${NAMESPACE}
