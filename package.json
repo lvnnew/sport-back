@@ -30,7 +30,7 @@
     "studio": "prisma studio --experimental",
     "migrate:save": "prisma migrate save --experimental",
     "migrate:up": "prisma migrate up --experimental",
-    "test": "jest",
+    "test": "jest --maxWorkers 8",
     "prisma:gen": "prisma generate"
   },
   "jest": {
