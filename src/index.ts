@@ -4,7 +4,7 @@ import {ApolloServer} from 'apollo-server-express';
 import {log} from './log';
 import schema from './graph/schema';
 import {getAgrContext, closeCtx} from './agr/services/context';
-import express from 'express';
+import express, {Request, Response} from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import restRouter from './restRouter';
@@ -22,6 +22,12 @@ const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.get('/health', (_: Request, res: Response) => {
+  res
+    .status(200)
+    .send({message: 'Ok'});
+});
 
 collectDefaultMetrics();
 

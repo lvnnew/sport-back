@@ -57,19 +57,19 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /?query=query%20test%20%7BallTags%7Bid%7D%7D
+            path: /health
             port: main-port
           initialDelaySeconds: 60
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /?query=query%20test%20%7BallTags%7Bid%7D%7D
+            path: /health
             port: main-port
           initialDelaySeconds: 60
           periodSeconds: 5
         startupProbe:
           httpGet:
-            path: /?query=query%20test%20%7BallTags%7Bid%7D%7D
+            path: /health
             port: main-port
           initialDelaySeconds: 60
           failureThreshold: 10
