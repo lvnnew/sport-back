@@ -112,6 +112,7 @@
     "genUiElements": true,
     "genUiResourcesPage": true,
     "genUiRoutes": true,
+    "genUIApp": true,
     "genUiFunctions": true,
     "genUiDashboard": true,
     "showMetaPage": true,
