@@ -6,9 +6,16 @@ import schema from './graph/schema';
 import {getAgrContext, closeCtx} from './agr/services/context';
 import express, {Request, Response} from 'express';
 import cors from 'cors';
+import passport from 'passport';
 import bodyParser from 'body-parser';
 import restRouter from './restRouter';
+import helmet from 'helmet';
 import {collectDefaultMetrics, register} from 'prom-client';
+import {initAppPassport} from './app/config/passport';
+import {initAdmPassport} from './adm/config/passport';
+import appAuthRouter from './app/authRouter';
+import admAuthRouter from './adm/authRouter';
+import getAppServer from './app/getAppServer';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -20,8 +27,16 @@ exitHook(async () => {
 
 const app = express();
 
+initAppPassport();
+initAdmPassport();
+
 app.use(cors());
 app.use(bodyParser.json());
+app.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false}));
+app.use(passport.initialize());
+
+app.use('/app/rest', appAuthRouter);
+app.use('/adm/rest', admAuthRouter);
 
 app.get('/health', (_: Request, res: Response) => {
   res
@@ -45,6 +60,10 @@ app.use('/rest', restRouter);
 const start = async () => {
   const context = await getAgrContext();
 
+  app.use('/app/graph', passport.authenticate('appJwt', {session: false}));
+
+  getAppServer(context).applyMiddleware({app, path: '/app/graph'});
+
   const server = new ApolloServer({
     dataSources: () => ({
       ...(context as any),
@@ -57,7 +76,9 @@ const start = async () => {
     schema,
   });
 
-  server.applyMiddleware({app, path: '/'});
+  const admGraphPath = '/adm/graph';
+  app.use(admGraphPath, passport.authenticate('admJwt', {session: false}));
+  server.applyMiddleware({app, path: admGraphPath});
 
   const port = 3000;
   app.listen({port}, () => {
