@@ -65,6 +65,9 @@ const start = async () => {
   getAppServer(context).applyMiddleware({app, path: '/app/graph'});
 
   const server = new ApolloServer({
+    context: ({req}) => ({
+      user: req.user,
+    }),
     dataSources: () => ({
       ...(context as any),
     }),

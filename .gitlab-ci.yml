@@ -93,6 +93,7 @@ deploy-to-demo:
     HOST: "${ENV}.apps.making.ventures"
     TAG: ":latest"
     PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
   only:
     - master
 
@@ -104,6 +105,7 @@ deploy-to-demo:
     HOST: "${ENV}.apps.making.ventures"
     TAG: ":release"
     PG_URI: ${AGR_PROD_PG_URI}
+    KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
   only:
     - release
     - /^release-.*$/
