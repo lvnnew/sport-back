@@ -3,13 +3,13 @@ import {Response} from 'express';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
-import {getAloyalContext} from '../../aloyal/services/context';
+import {getAgrContext} from '../../agr/services/context';
 import {getCurrentLogin} from './getCurrentLogin';
 
 export const updatePassword = async (req: AuthenticatedRequest, res: Response) => {
   if (req.user) {
     const passwordHash = await bcrypt.hash(req.body.password, BCRYPT_SALT_ROUNDS);
-    const ctx = await getAloyalContext();
+    const ctx = await getAgrContext();
     const login = await getCurrentLogin(ctx, req);
     await ctx.appLogins.update({
       ...login,

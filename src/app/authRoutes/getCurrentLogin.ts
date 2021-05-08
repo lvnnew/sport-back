@@ -1,7 +1,7 @@
-import {AloyalContext} from '../../aloyal/services/context';
+import {AgrContext} from '../../agr/services/context';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 
-export const getCurrentLogin = async (ctx: AloyalContext, req: AuthenticatedRequest) => {
+export const getCurrentLogin = async (ctx: AgrContext, req: AuthenticatedRequest) => {
   if (!req.user) {
     throw new Error('There is no user payload in request');
   }
