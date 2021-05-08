@@ -7,6 +7,47 @@ datasource db {
   url      = env("AGR_PG_URI")
 }
 
+model User {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	lastname	String
+	firstname	String
+	email	String
+	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
+}
+
+
+model Admin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	lastname	String
+	firstname	String
+	email	String
+}
+
+
+model AppLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	userId	Int
+	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
+}
+
+
+model AdminLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	role	String
+	emailVerified	Boolean
+	initialPasswordChanged	Boolean
+	locked	Boolean
+}
+
+
 model Tag {
 	id	Int	@default(autoincrement())	@id
 	search	String?

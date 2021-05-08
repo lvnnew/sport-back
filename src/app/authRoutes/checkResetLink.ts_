@@ -1,0 +1,27 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+import Sequelize from 'sequelize';
+import {Request, Response} from 'express';
+import {log} from '../log';
+
+// eslint-disable-next-line prefer-destructuring
+const Op = Sequelize.Op;
+
+export const checkResetLink = async (req: Request, res: Response) => {
+  const user = await User.findOne({
+    where: {
+      resetPasswordToken: req.query.resetPasswordToken,
+      resetPasswordExpires: {
+        [Op.gt]: Date.now(),
+      },
+    },
+  });
+  if (user) {
+    res.status(200).send({
+      cardNumber: user.id,
+      message: 'password reset link a-ok',
+    });
+  } else {
+    log.error('password reset link is invalid or has expired');
+    res.status(403).send('password reset link is invalid or has expired');
+  }
+};
