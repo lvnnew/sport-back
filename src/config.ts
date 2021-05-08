@@ -11,6 +11,11 @@ dotenv.config();
 const envConfig = {
   appName: process.env.APP_NAME || '',
   pgUri: process.env.AGR_PG_URI || '',
+  smtpHost: process.env.AGR_SMTP_HOST || '',
+  smtpPort: process.env.AGR_SMTP_PORT || '',
+  smtpUser: process.env.AGR_SMTP_USER || '',
+  smtpPass: process.env.AGR_SMTP_PASS || '',
+  smtpFrom: process.env.AGR_SMTP_FROM || '',
 };
 
 export type Config = typeof envConfig;

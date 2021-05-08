@@ -8,101 +8,35 @@ import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {getAgrContext} from '../../agr/services/context';
 import generator from 'generate-password';
-import dayjs from 'dayjs';
 
 passport.use(
   'appRegister',
   new LocalStrategy(
     {
-      usernameField: 'firstname',
+      usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true,
       session: false,
     },
-    async (req, _, password, done) => {
+    async (req, email, password, done) => {
       try {
         const ctx = await getAgrContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-        const member = await ctx.members.create({
+        const user = await ctx.users.create({
           firstname: req.body.firstname,
           lastname: req.body.lastname,
-          newMember: true,
-          birthDay: req.body.birthDay,
-          memberTypeId: MemberType.Individual,
-          enrolDate: new Date(),
-          registrationSourceId: RegistrationSource.Web,
+          email,
         });
-        await ctx.prisma.memberAggregate.update({
-          where: {id: member.id},
-          data: {statusId: MemberStatus.Active},
-        });
-        await ctx.sendingEmails.sendEmailOnNewRegistration(member.id, password);
+        await ctx.sendingEmails.sendEmailOnNewRegistration(user.id, password);
         log.info();
         await ctx.appLogins.create({
-          login: member.id.toString(),
+          login: user.id.toString(),
           passwordHash: hashedPassword,
-          memberId: member.id,
+          userId: user.id,
         });
         log.info('user created');
 
-        return done(null, {id: member.id});
-      } catch (error) {
-        return done(error, null);
-      }
-    },
-  ),
-);
-
-passport.use(
-  'appTransferFromOldSystem',
-  new LocalStrategy(
-    {
-      usernameField: 'cardNumber',
-      passwordField: 'cardNumber',
-      passReqToCallback: true,
-      session: false,
-    },
-    async (req, cardNumber, _, done) => {
-      try {
-        log.info(`cardNumber: ${cardNumber}`);
-
-        // const preparedCardNumber = prepareCardNumber(cardNumber);
-        // log.info(`preparedCardNumber: ${preparedCardNumber}`);
-        const ctx = await getAgrContext();
-
-        // Check member with such id exists
-        const member = await ctx.members.get(Number.parseInt(cardNumber, 10));
-        if (!member) {
-          return done(new Error(`There is no member with "${cardNumber}" cardNumber`), null);
-        }
-        if (member.lastname.toUpperCase() !== req.body.lastname.toUpperCase()) {
-          return done(new Error(`Lastname does not match. Expected: "${member.lastname}", got: "${req.body.lastname}"`), null);
-        }
-        if (dayjs(member.birthDay).diff(dayjs(req.body.birthDay), 'day') > 1) {
-          return done(new Error(`BirthDay does not match. Expected: "${member.birthDay}", got: "${req.body.birthDay}"`), null);
-        }
-
-        // Check there is no yet login for this member
-        const login = await ctx.appLogins.findOne({filter: {memberId: member.id}});
-        if (login) {
-          return done(new Error(`There is already login for member with "${cardNumber}" cardNumber`), null);
-        }
-
-        const password = generator.generate({
-          length: 10,
-          numbers: true,
-        });
-        const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-        await ctx.sendingEmails.sendEmailOnTransitionFromOldSystem(member.id, password);
-        log.info();
-        await ctx.appLogins.create({
-          login: member.id.toString(),
-          passwordHash: hashedPassword,
-          memberId: member.id,
-        });
-        log.info('user created');
-
-        return done(null, {id: member.id});
+        return done(null, {id: user.id});
       } catch (error) {
         return done(error, null);
       }
@@ -114,29 +48,21 @@ passport.use(
   'appRestorePassword',
   new LocalStrategy(
     {
-      usernameField: 'cardNumber',
-      passwordField: 'cardNumber',
+      usernameField: 'email',
+      passwordField: 'no',
       passReqToCallback: true,
       session: false,
     },
-    async (_, cardNumber, __, done) => {
+    async (_req, email, __, done) => {
       try {
-        log.info(`cardNumber: ${cardNumber}`);
+        log.info(`email: ${email}`);
 
-        // const preparedCardNumber = prepareCardNumber(cardNumber);
-        // log.info(`preparedCardNumber: ${preparedCardNumber}`);
         const ctx = await getAgrContext();
 
-        // Check member with such id exists
-        const member = await ctx.members.get(Number.parseInt(cardNumber, 10));
-        if (!member) {
-          return done(new Error(`There is no member with "${cardNumber}" cardNumber`), null);
-        }
-
-        // Check there is no yet login for this member
-        const login = await ctx.appLogins.findOne({filter: {memberId: member.id}});
+        // Check there is no yet login for this user
+        const login = await ctx.appLogins.findOne({filter: {login: email}});
         if (!login) {
-          return done(new Error(`There is no login for member with "${cardNumber}" cardNumber`), null);
+          return done(new Error(`There is no login for user with "${email}" email`), null);
         }
 
         const password = generator.generate({
@@ -145,16 +71,18 @@ passport.use(
         });
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
         log.info();
-        await ctx.appLogins.update({
-          id: login.id,
-          login: member.id.toString(),
-          passwordHash: hashedPassword,
-          memberId: member.id,
+        await ctx.prisma.appLogin.update({
+          where: {
+            id: login.id,
+          },
+          data: {
+            passwordHash: hashedPassword,
+          },
         });
-        await ctx.sendingEmails.sendEmailOnRestorePassword(member.id, password);
+        await ctx.sendingEmails.sendEmailOnRestorePassword(login.userId, password);
         log.info('password restored');
 
-        return done(null, {id: member.id});
+        return done(null, {id: login.userId});
       } catch (error) {
         return done(error, null);
       }
@@ -162,22 +90,29 @@ passport.use(
   ),
 );
 
+// const prepareCardNumber = (cardNumber: string) => cardNumber.toString()
+//   .replace(/\s/g, '')
+//   .replace(/,/g, '')
+//   .replace(/\./g, '')
+//   .replace(/-/g, '')
+//   .replace(/_/g, '');
+
 passport.use(
   'appLogin',
   new LocalStrategy(
     {
-      usernameField: 'cardNumber',
+      usernameField: 'email',
       passwordField: 'password',
       session: false,
     },
-    async (cardNumber, password, done) => {
+    async (email, password, done) => {
       try {
-        log.info(`cardNumber: ${cardNumber}`);
+        log.info(`email: ${email}`);
 
         // const preparedCardNumber = prepareCardNumber(cardNumber);
         // log.info(`preparedCardNumber: ${preparedCardNumber}`);
         const ctx = await getAgrContext();
-        const login = await ctx.appLogins.findOne({filter: {memberId: Number.parseInt(cardNumber, 10)}});
+        const login = await ctx.appLogins.findOne({filter: {login: email}});
 
         if (!login) {
           return done(null, false, {message: 'bad cardNumber'});
@@ -192,7 +127,7 @@ passport.use(
 
         log.info('user found & password match');
 
-        return done(null, {id: cardNumber});
+        return done(null, {id: login.userId});
       } catch (error) {
         return done(error, null);
       }

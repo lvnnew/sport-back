@@ -7,7 +7,12 @@
   "demo"
  ],
  "configVars": [
-  "pgUri"
+  "pgUri",
+  "smtpHost",
+  "smtpPort",
+  "smtpUser",
+  "smtpPass",
+  "smtpFrom"
  ],
  "catalogs": [
   {

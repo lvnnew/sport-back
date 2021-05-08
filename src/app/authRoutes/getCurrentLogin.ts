@@ -5,7 +5,7 @@ export const getCurrentLogin = async (ctx: AgrContext, req: AuthenticatedRequest
   if (!req.user) {
     throw new Error('There is no user payload in request');
   }
-  const login = await ctx.appLogins.findOne({filter: {memberId: req.user.id}});
+  const login = await ctx.appLogins.findOne({filter: {userId: req.user.id}});
   if (!login) {
     throw new Error('Login not found');
   }

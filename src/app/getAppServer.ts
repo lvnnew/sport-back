@@ -6,6 +6,7 @@ import {AgrContext} from '../agr/services/context';
 const getAppServer = (context: AgrContext) => new ApolloServer({
   context: ({req}) => ({
     user: req.user,
+    user2: 123,
   }),
   dataSources: () => ({
     ...(context as any),

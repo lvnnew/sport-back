@@ -1,17 +1,17 @@
 import {Router} from 'express';
 import passport from 'passport';
-import {register} from './authRoutes/register';
-import {login} from './authRoutes/login';
+import {registerUser} from './authRoutes/registerUser';
+import {loginUser} from './authRoutes/loginUser';
+import {findUser} from './authRoutes/findUser';
 import {updatePassword} from './authRoutes/updatePassword';
-import {transferFromOldSystem} from './authRoutes/transferFromOldSystem';
-import {restorePassword} from './authRoutes/restorePassword';
+import {updateUser} from './authRoutes/updateUser';
 
-const appAuthRouter = Router();
-appAuthRouter.post('/register', register);
-appAuthRouter.post('/transferFromOldSystem', transferFromOldSystem);
-appAuthRouter.post('/restorePassword', restorePassword);
-appAuthRouter.post('/login', login);
+const authRouter = Router();
+authRouter.post('/registerUser', registerUser);
+authRouter.post('/loginUser', loginUser);
 
-appAuthRouter.put('/updatePassword', passport.authenticate('appJwt', {session: false}), updatePassword as any);
+authRouter.get('/findUser', passport.authenticate('jwt', {session: false}), findUser as any);
+authRouter.put('/updatePassword', passport.authenticate('jwt', {session: false}), updatePassword as any);
+authRouter.put('/updateUser', passport.authenticate('jwt', {session: false}), updateUser as any);
 
-export default appAuthRouter;
+export default authRouter;

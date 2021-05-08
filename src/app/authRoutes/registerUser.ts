@@ -5,8 +5,8 @@ import jwtSecret from '../config/jwtConfig';
 import jwt from 'jsonwebtoken';
 import {log} from '../../log';
 
-export const transferFromOldSystem = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('appTransferFromOldSystem', async (error, user, info) => {
+export const registerUser = (req: Request, res: Response, next: NextFunction) => {
+  passport.authenticate('register', async (error, user, info) => {
     if (error) {
       log.error(error);
       res.status(400).send({
@@ -23,14 +23,14 @@ export const transferFromOldSystem = (req: Request, res: Response, next: NextFun
         log.info('user');
         log.info('user created in db');
 
-        // res.status(200).send({cardNumber: user.memberId, message: 'user created'});
+        // res.status(200).send({email: user.userId, message: 'user created'});
         const token = jwt.sign({id: user.id}, jwtSecret.secret, {
           expiresIn: 60 * 60,
         });
         res.status(200).send({
           auth: true,
           id: user.id,
-          message: 'User transfered',
+          message: 'user created',
           token,
         });
       });

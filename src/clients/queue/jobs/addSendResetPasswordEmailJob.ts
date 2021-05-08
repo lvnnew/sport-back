@@ -1,0 +1,26 @@
+/* eslint-disable sort-keys-fix/sort-keys-fix */
+import {log} from '../../../log';
+import {SendEmailLocals} from './addSendEmailJob';
+import {addSendEmailToUserJob} from './addSendEmailToUserJob';
+import {AgrContext} from '../../../agr/services/context';
+
+export interface ResetPasswordEmaiLocals extends SendEmailLocals {
+  password: string;
+  loginUrl: string;
+}
+
+export const addSendResetPasswordEmailJob = async (ctx: AgrContext, userId: number, locals: ResetPasswordEmaiLocals) => {
+  log.info('addSendPasswordChangeEmailJob');
+  log.info(`to userId: ${userId}`);
+
+  // log.info(locals);
+
+  await addSendEmailToUserJob(
+    ctx,
+    userId,
+    {
+      template: 'resetPassword',
+      locals,
+    },
+  );
+};
