@@ -61,21 +61,6 @@ master-to-latest:
     TAG_ORIGIN: master
     TAG_DESTINATION: latest
 
-deploy-to-stage:
-  extends: .deploy-dev
-  stage: deploy-stage
-  variables:
-    ENV: "stage"
-
-deploy-to-demo:
-  extends: .deploy-prod
-  stage: deploy-demo
-  variables:
-    ENV: "demo"
-    TAG: ":demo"
-  only:
-    - demo
-
 .tag-image:
   image:
     name: gcr.io/go-containerregistry/crane:debug
@@ -86,14 +71,35 @@ deploy-to-demo:
   variables:
     GIT_STRATEGY: none
 
+deploy-stage:
+  extends: .deploy-dev
+  stage: deploy-stage
+  variables:
+    ENV: "stage"
+    ENV_NAME: "stage01"
+
+deploy-demo:
+  extends: .deploy-prod
+  stage: deploy-demo
+  variables:
+    ENV: "demo"
+    ENV_NAME: "demo01"
+    TAG: ":demo"
+  only:
+    - demo
 .deploy-dev:
   extends: .deploy
   variables:
     DEV: "true"
-    HOST: "${ENV}.apps.making.ventures"
+    HOST: "making.ventures"
     TAG: ":latest"
     PG_URI: ${AGR_STAGE_PG_URI}
     KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
+    BACK_ENABLED: "true"
+    INGRESS_ENABLED: "true"
+    METRICS_ENABLED: "true"
+    WORKER_ENABLED: "false"
+    ROOT_ENABLED: "false"
   only:
     - master
 
@@ -102,10 +108,15 @@ deploy-to-demo:
   when: manual
   variables:
     DEV: "true"
-    HOST: "${ENV}.apps.making.ventures"
+    HOST: "making.ventures"
     TAG: ":release"
     PG_URI: ${AGR_PROD_PG_URI}
     KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
+    BACK_ENABLED: "true"
+    INGRESS_ENABLED: "true"
+    METRICS_ENABLED: "true"
+    WORKER_ENABLED: "false"
+    ROOT_ENABLED: "false"
   only:
     - release
     - /^release-.*$/
@@ -125,9 +136,21 @@ deploy-to-demo:
       --install
       --wait ${NAMESPACE}-${APPNAME} chart
       --timeout 3600s
+      --set "global.envName=${ENV_NAME}"
+      --set "global.env=${ENV}"
       --set "random=:$(date)"
       --set "app.tag=${TAG}"
       --set "ingress.host=${HOST}"
       --set "style=${STYLE}"
       --set "database.uri=${PG_URI}"
+      --set "smtp.host=${PRJ_SMTP_HOST}"
+      --set "smtp.port=${PRJ_SMTP_PORT}"
+      --set "smtp.user=${PRJ_SMTP_USER}"
+      --set "smtp.pass=${PRJ_SMTP_PASS}"
+      --set "smtp.from=${PRJ_SMTP_FROM}"
+      --set "back.enabled=${BACK_ENABLED}"
+      --set "ingress.enabled=${INGRESS_ENABLED}"
+      --set "metrics.enabled=${METRICS_ENABLED}"
+      --set "worker.enabled=${WORKER_ENABLED}"
+      --set "ingress.rootEnabled=${ROOT_ENABLED}"
       --namespace ${NAMESPACE}
