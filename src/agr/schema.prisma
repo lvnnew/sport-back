@@ -39,6 +39,14 @@ model AdminLogin {
 }
 
 
+model Stat {
+	id	String	@id
+	search	String?
+	updated	DateTime?
+	helloCount	Int?
+}
+
+
 model Tag {
 	id	Int	@default(autoincrement())	@id
 	search	String?

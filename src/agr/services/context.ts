@@ -9,6 +9,7 @@ import {UsersService, getUsersService} from './UsersService/UsersService';
 import {AdminsService, getAdminsService} from './AdminsService/AdminsService';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
 import {AdminLoginsService, getAdminLoginsService} from './AdminLoginsService/AdminLoginsService';
+import {StatsService, getStatsService} from './StatsService/StatsService';
 import {TagsService, getTagsService} from './TagsService/TagsService';
 import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
@@ -22,6 +23,7 @@ export interface BaseServices {
   admins: AdminsService;
   appLogins: AppLoginsService;
   adminLogins: AdminLoginsService;
+  stats: StatsService;
   tags: TagsService;
   close: () => Promise<void>;
 }
@@ -53,6 +55,7 @@ export const createAgrContext = async () => {
     admins: getAdminsService(getCtx),
     appLogins: getAppLoginsService(getCtx),
     adminLogins: getAdminLoginsService(getCtx),
+    stats: getStatsService(getCtx),
     tags: getTagsService(getCtx),
 
     close,

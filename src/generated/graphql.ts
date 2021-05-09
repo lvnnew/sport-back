@@ -130,6 +130,9 @@ export type Query = {
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
   Meta?: Maybe<Scalars['JSONObject']>;
+  Stat?: Maybe<Stat>;
+  allStats?: Maybe<Array<Maybe<Stat>>>;
+  _allStatsMeta?: Maybe<ListMetadata>;
   Tag?: Maybe<Tag>;
   allTags?: Maybe<Array<Maybe<Tag>>>;
   _allTagsMeta?: Maybe<ListMetadata>;
@@ -202,6 +205,27 @@ export type Query_AllAppLoginsMetaArgs = {
 };
 
 
+export type QueryStatArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllStatsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<StatFilter>;
+};
+
+
+export type Query_AllStatsMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<StatFilter>;
+};
+
+
 export type QueryTagArgs = {
   id: Scalars['Int'];
 };
@@ -254,6 +278,10 @@ export type Mutation = {
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<Scalars['Boolean']>;
+  recalculateStat?: Maybe<Scalars['Void']>;
+  createStat?: Maybe<Stat>;
+  updateStat?: Maybe<Stat>;
+  removeStat?: Maybe<Scalars['Boolean']>;
   createTag?: Maybe<Tag>;
   updateTag?: Maybe<Tag>;
   removeTag?: Maybe<Scalars['Boolean']>;
@@ -326,6 +354,25 @@ export type MutationUpdateAppLoginArgs = {
 
 export type MutationRemoveAppLoginArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationCreateStatArgs = {
+  id: Scalars['ID'];
+  updated?: Maybe<Scalars['DateTime']>;
+  helloCount?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationUpdateStatArgs = {
+  id: Scalars['ID'];
+  updated?: Maybe<Scalars['DateTime']>;
+  helloCount?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationRemoveStatArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -480,6 +527,30 @@ export type AppLoginFilter = {
   userId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
 };
 
+export type Stat = {
+  __typename?: 'Stat';
+  id: Scalars['ID'];
+  updated?: Maybe<Scalars['DateTime']>;
+  helloCount?: Maybe<Scalars['Int']>;
+};
+
+export type StatFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  id?: Maybe<Scalars['ID']>;
+  updated?: Maybe<Scalars['DateTime']>;
+  updated_lte?: Maybe<Scalars['DateTime']>;
+  updated_gte?: Maybe<Scalars['DateTime']>;
+  updated_lt?: Maybe<Scalars['DateTime']>;
+  updated_gt?: Maybe<Scalars['DateTime']>;
+  helloCount?: Maybe<Scalars['Int']>;
+  helloCount_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  helloCount_lte?: Maybe<Scalars['Int']>;
+  helloCount_gte?: Maybe<Scalars['Int']>;
+  helloCount_lt?: Maybe<Scalars['Int']>;
+  helloCount_gt?: Maybe<Scalars['Int']>;
+};
+
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['Int'];
@@ -595,6 +666,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
@@ -649,6 +721,8 @@ export type ResolversTypes = {
   AdminFilter: AdminFilter;
   AppLogin: ResolverTypeWrapper<AppLogin>;
   AppLoginFilter: AppLoginFilter;
+  Stat: ResolverTypeWrapper<Stat>;
+  StatFilter: StatFilter;
   Tag: ResolverTypeWrapper<Tag>;
   TagFilter: TagFilter;
   User: ResolverTypeWrapper<User>;
@@ -660,6 +734,7 @@ export type ResolversParentTypes = {
   Query: {};
   Int: Scalars['Int'];
   String: Scalars['String'];
+  ID: Scalars['ID'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
@@ -714,6 +789,8 @@ export type ResolversParentTypes = {
   AdminFilter: AdminFilter;
   AppLogin: AppLogin;
   AppLoginFilter: AppLoginFilter;
+  Stat: Stat;
+  StatFilter: StatFilter;
   Tag: Tag;
   TagFilter: TagFilter;
   User: User;
@@ -731,6 +808,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
   Meta?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  Stat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<QueryStatArgs, 'id'>>;
+  allStats?: Resolver<Maybe<Array<Maybe<ResolversTypes['Stat']>>>, ParentType, ContextType, RequireFields<QueryAllStatsArgs, never>>;
+  _allStatsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllStatsMetaArgs, never>>;
   Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
   allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, RequireFields<QueryAllTagsArgs, never>>;
   _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllTagsMetaArgs, never>>;
@@ -749,6 +829,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
+  recalculateStat?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType>;
+  createStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationCreateStatArgs, 'id'>>;
+  updateStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationUpdateStatArgs, 'id'>>;
+  removeStat?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveStatArgs, 'id'>>;
   createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationCreateTagArgs, never>>;
   updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
   removeTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
@@ -969,6 +1053,13 @@ export type AppLoginResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type StatResolvers<ContextType = any, ParentType extends ResolversParentTypes['Stat'] = ResolversParentTypes['Stat']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  updated?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  helloCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1035,6 +1126,7 @@ export type Resolvers<ContextType = any> = {
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Admin?: AdminResolvers<ContextType>;
   AppLogin?: AppLoginResolvers<ContextType>;
+  Stat?: StatResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
