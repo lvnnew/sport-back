@@ -87,6 +87,13 @@ deploy-demo:
     TAG: ":demo"
   only:
     - demo
+deploy-stage-workers:
+  extends: .deploy-dev-workers
+  stage: deploy-stage
+  variables:
+    ENV: "stage"
+    ENV_NAME: "workers01"
+
 .deploy-dev:
   extends: .deploy
   variables:
@@ -98,7 +105,26 @@ deploy-demo:
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
-    WORKER_ENABLED: "false"
+    WORKER_ENABLED: "true"
+    ROOT_ENABLED: "false"
+  only:
+    - master
+
+.deploy-dev-workers:
+  extends: .deploy
+  variables:
+    DEV: "true"
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
+    APPNAME: workers
+    BACK_ENABLED: "false"
+    INGRESS_ENABLED: "false"
+    METRICS_ENABLED: "false"
+    WORKER_ENABLED: "true"
+    TIKA_ENABLED: "false"
+    TIKA_INGRESS_ENABLED: "false"
     ROOT_ENABLED: "false"
   only:
     - master
@@ -116,6 +142,27 @@ deploy-demo:
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
     WORKER_ENABLED: "false"
+    ROOT_ENABLED: "false"
+  only:
+    - release
+    - /^release-.*$/
+
+.deploy-prod-workers:
+  extends: .deploy
+  when: manual
+  variables:
+    DEV: "true"
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_STAGE_PG_URI}
+    KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
+    APPNAME: workers
+    BACK_ENABLED: "false"
+    INGRESS_ENABLED: "false"
+    METRICS_ENABLED: "false"
+    WORKER_ENABLED: "true"
+    TIKA_ENABLED: "false"
+    TIKA_INGRESS_ENABLED: "false"
     ROOT_ENABLED: "false"
   only:
     - release
@@ -143,11 +190,13 @@ deploy-demo:
       --set "ingress.host=${HOST}"
       --set "style=${STYLE}"
       --set "database.uri=${PG_URI}"
-      --set "smtp.host=${PRJ_SMTP_HOST}"
-      --set "smtp.port=${PRJ_SMTP_PORT}"
-      --set "smtp.user=${PRJ_SMTP_USER}"
-      --set "smtp.pass=${PRJ_SMTP_PASS}"
-      --set "smtp.from=${PRJ_SMTP_FROM}"
+      --set "s3.accessKeyId=${AGR_S3_ACCESS_KEY_ID}"
+      --set "s3.secretAccessKey=${AGR_S3_SECRET_ACCESS_KEY}"
+      --set "smtp.host=${AGR_SMTP_HOST}"
+      --set "smtp.port=${AGR_SMTP_PORT}"
+      --set "smtp.user=${AGR_SMTP_USER}"
+      --set "smtp.pass=${AGR_SMTP_PASS}"
+      --set "smtp.from=${AGR_SMTP_FROM}"
       --set "back.enabled=${BACK_ENABLED}"
       --set "ingress.enabled=${INGRESS_ENABLED}"
       --set "metrics.enabled=${METRICS_ENABLED}"
