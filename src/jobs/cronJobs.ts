@@ -35,4 +35,5 @@ export const oneMinCron = (name: string, queued = false): CronItem =>
 export const cronJobs: CronItem[] = [
   // hourly
   hourlyCron('hello'),
+  hourlyCron('recalculateStats'),
 ];

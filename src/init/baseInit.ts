@@ -15,6 +15,8 @@ const app = async () => {
 
   await initTestUser(ctx);
 
+  await ctx.stats.recalculate();
+
   await ctx.close();
 
   log.info('finish');
