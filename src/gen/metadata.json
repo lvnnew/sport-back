@@ -486,7 +486,11 @@
       "category": "link"
      }
     ],
-    "uniqueConstraints": [],
+    "uniqueConstraints": [
+     [
+      "login"
+     ]
+    ],
     "deletable": false,
     "editable": true
    },
@@ -698,7 +702,11 @@
       "category": "scalar"
      }
     ],
-    "uniqueConstraints": [],
+    "uniqueConstraints": [
+     [
+      "login"
+     ]
+    ],
     "deletable": false,
     "editable": true
    },

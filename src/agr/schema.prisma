@@ -24,6 +24,7 @@ model AppLogin {
 	passwordHash	String
 	userId	Int
 	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
+	@@unique([login])
 }
 
 
@@ -36,6 +37,7 @@ model AdminLogin {
 	emailVerified	Boolean
 	initialPasswordChanged	Boolean
 	locked	Boolean
+	@@unique([login])
 }
 
 
