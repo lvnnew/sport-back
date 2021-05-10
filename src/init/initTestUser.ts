@@ -7,12 +7,17 @@ export const initTestUser = async (ctx: AgrContext) => {
   const email = 'demo';
   const hashedPassword = await bcrypt.hash(email, BCRYPT_SALT_ROUNDS);
 
-  await ctx.adminLogins.create({
-    login: email,
-    passwordHash: hashedPassword,
-    role: '',
-    emailVerified: true,
-    initialPasswordChanged: true,
-    locked: false,
-  });
+  await ctx.adminLogins.upsertAdvansed(
+    {
+      login: email,
+    },
+    {
+      login: email,
+      passwordHash: hashedPassword,
+      role: '',
+      emailVerified: true,
+      initialPasswordChanged: true,
+      locked: false,
+    },
+  );
 };
