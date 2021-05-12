@@ -3,9 +3,9 @@ import {CronItem} from 'graphile-worker';
 
 export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * * * *`;
 
-export const getFiveMinsCronPattern = () => '*/5 * * *';
+export const getFiveMinsCronPattern = () => '*/5 * * * *';
 
-export const getOneMinCronPattern = () => '*/1 * * *';
+export const getOneMinCronPattern = () => '*/1 * * * *';
 
 export const constructCron = (
   name: string,
