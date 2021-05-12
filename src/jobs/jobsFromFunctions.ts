@@ -23,6 +23,7 @@ export const jobsFromFunctions = (
         queue: helpers.job.queue_name || undefined,
       });
       try {
+        log.info(`job: ${name}`);
         await handler(payload, helpers);
       } catch (error) {
         end({status: 'error'});
