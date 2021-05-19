@@ -105,7 +105,7 @@ deploy-stage-workers:
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
-    WORKER_ENABLED: "true"
+    WORKER_ENABLED: "false"
     ROOT_ENABLED: "false"
   only:
     - master

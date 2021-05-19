@@ -1,5 +1,7 @@
 
 # DO NOT EDIT! THIS IS GENERATED FILE
+
+{{- if .Values.back.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -88,3 +90,4 @@ spec:
           # readOnlyRootFilesystem: true
           runAsUser: 1000
 ---
+{{- end }}
