@@ -49,7 +49,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    return getCtx().prisma.tag.findFirst({where: {id}});
+    return getCtx().prisma.tag.findUnique({where: {id}});
   };
 
   const all = async (params: QueryAllTagsArgs = {}): Promise<Tag[]> => {

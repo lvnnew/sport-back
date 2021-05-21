@@ -49,7 +49,7 @@ export const getAdminLoginsService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    return getCtx().prisma.adminLogin.findFirst({where: {id}});
+    return getCtx().prisma.adminLogin.findUnique({where: {id}});
   };
 
   const all = async (params: QueryAllAdminLoginsArgs = {}): Promise<AdminLogin[]> => {

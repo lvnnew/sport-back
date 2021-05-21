@@ -49,7 +49,7 @@ export const getStatsService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    return getCtx().prisma.stat.findFirst({where: {id}});
+    return getCtx().prisma.stat.findUnique({where: {id}});
   };
 
   const all = async (params: QueryAllStatsArgs = {}): Promise<Stat[]> => {

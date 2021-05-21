@@ -49,7 +49,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    return getCtx().prisma.user.findFirst({where: {id}});
+    return getCtx().prisma.user.findUnique({where: {id}});
   };
 
   const all = async (params: QueryAllUsersArgs = {}): Promise<User[]> => {

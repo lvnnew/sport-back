@@ -49,7 +49,7 @@ export const getAppLoginsService = (getCtx: () => AgrContext) => {
       throw new Error('AgrContext is not initialised');
     }
 
-    return getCtx().prisma.appLogin.findFirst({where: {id}});
+    return getCtx().prisma.appLogin.findUnique({where: {id}});
   };
 
   const all = async (params: QueryAllAppLoginsArgs = {}): Promise<AppLogin[]> => {
