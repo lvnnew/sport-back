@@ -10,8 +10,8 @@ COPY . .
 RUN npm run prisma:gen
 RUN npm run build
 
-# Actual image
-FROM node:14-buster
+# Actual image (this version of node required for email sending by email-templates, not booster)
+FROM node:14
 
 RUN mkdir -p /usr/src/app/back
 WORKDIR /usr/src/app/back
