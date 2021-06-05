@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {AgrContext} from '../context';
 import {BaseStatsMethods} from './StatsService';
-import {log} from '../../../log';
 import {MutationUpdateStatArgs, Stat} from '../../../generated/graphql';
 import {Gauge} from 'prom-client';
 import R from 'ramda';
 
 export interface AdditionalStatsMethods {
   recalculate: () => Promise<Stat>;
+  updateGauges: () => Promise<void>;
 }
 
 const gauge = new Gauge({
@@ -29,18 +29,29 @@ export const getAdditionalMethods = (getCtx: () => AgrContext, _baseMethods: Bas
 
     await ctx.stats.upsert(stats);
 
-    R.toPairs(stats)
-      .filter(([key]) => key !== 'id' && key !== 'updated')
-      .forEach(([key, value]) => {
-        gauge.set({label: key}, value);
-      });
-
-    log.info(stats);
+    await updateGauges();
 
     return stats;
   };
 
+  const updateGauges = async () => {
+    const ctx = getCtx();
+
+    const stats = await ctx.stats.get('stats');
+
+    if (!stats) {
+      return;
+    }
+
+    R.toPairs(stats)
+      .filter(([key]) => !['id', 'updated', 'search'].includes(key))
+      .forEach(([key, value]) => {
+        gauge.set({label: key}, value);
+      });
+  };
+
   return {
     recalculate,
+    updateGauges,
   };
 };

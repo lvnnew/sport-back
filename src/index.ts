@@ -83,6 +83,8 @@ const start = async () => {
   app.use(admGraphPath, passport.authenticate('admJwt', {session: false}));
   server.applyMiddleware({app, path: admGraphPath});
 
+  context.stats.updateGauges();
+
   const port = 3000;
   app.listen({port}, () => {
     log.info(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
