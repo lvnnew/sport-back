@@ -3,7 +3,7 @@
 import {AgrContext} from '../context';
 import {BaseStatsMethods} from './StatsService';
 import {log} from '../../../log';
-import {MutationUpdateStatArgs} from '../../../generated/graphql';
+import {MutationUpdateStatArgs, Stat} from '../../../generated/graphql';
 import {Gauge} from 'prom-client';
 import R from 'ramda';
 
