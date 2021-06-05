@@ -1,6 +1,8 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -31,13 +33,38 @@ export type Scalars = {
    * H is the hour designator that follows the value for the number of hours.
    * M is the minute designator that follows the value for the number of minutes.
    * S is the second designator that follows the value for the number of seconds.
-   * 
+   *
    * Note the time designator, T, that precedes the time value.
-   * 
+   *
+   * Matches moment.js, Luxon and DateFns implementations
+   * ,/. is valid for decimal places and +/- is a valid prefix
+   */
+  Duration: any;
+  /**
+   * A string representing a duration conforming to the ISO8601 standard,
+   * such as: P1W1DT13H23M34S
+   * P is the duration designator (for period) placed at the start of the duration representation.
+   * Y is the year designator that follows the value for the number of years.
+   * M is the month designator that follows the value for the number of months.
+   * W is the week designator that follows the value for the number of weeks.
+   * D is the day designator that follows the value for the number of days.
+   * T is the time designator that precedes the time components of the representation.
+   * H is the hour designator that follows the value for the number of hours.
+   * M is the minute designator that follows the value for the number of minutes.
+   * S is the second designator that follows the value for the number of seconds.
+   *
+   * Note the time designator, T, that precedes the time value.
+   *
    * Matches moment.js, Luxon and DateFns implementations
    * ,/. is valid for decimal places and +/- is a valid prefix
    */
   ISO8601Duration: any;
+  /** A local date string (i.e., with no associated timezone) in `YYYY-MM-DD` format, e.g. `2020-01-01`. */
+  LocalDate: any;
+  /** A local time string (i.e., with no associated timezone) in 24-hr `HH:mm[:ss[.SSS]]` format, e.g. `14:25` or `14:25:06` or `14:25:06.123`. */
+  LocalTime: any;
+  /** A local time string (i.e., with no associated timezone) in 24-hr `HH:mm[:ss[.SSS]]` format, e.g. `14:25` or `14:25:06` or `14:25:06.123`.  This scalar is very similar to the `LocalTime`, with the only difference being that `LocalEndTime` also allows `24:00` as a valid value to indicate midnight of the following day.  This is useful when using the scalar to represent the exclusive upper bound of a time block. */
+  LocalEndTime: any;
   /** A field whose value conforms to the standard internet email address format as specified in RFC822: https://www.w3.org/Protocols/rfc822/. */
   EmailAddress: any;
   /** Floats that will have a value less than 0. */
@@ -92,6 +119,12 @@ export type Scalars = {
   IPv6: any;
   /** A field whose value is a ISBN-10 or ISBN-13 number: https://en.wikipedia.org/wiki/International_Standard_Book_Number. */
   ISBN: any;
+  /** A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction. */
+  JWT: any;
+  /** A field whose value is a valid decimal degrees latitude number (53.471): https://en.wikipedia.org/wiki/Latitude */
+  Latitude: any;
+  /** A field whose value is a valid decimal degrees longitude number (53.471): https://en.wikipedia.org/wiki/Longitude */
+  Longitude: any;
   /** A field whose value is a IEEE 802 48-bit MAC address: https://en.wikipedia.org/wiki/MAC_address. */
   MAC: any;
   /** A field whose value is a valid TCP port within the range of 0 to 65535: https://en.wikipedia.org/wiki/Transmission_Control_Protocol#TCP_ports */
@@ -456,6 +489,13 @@ export type MutationRemoveUserArgs = {
 
 
 
+
+
+
+
+
+
+
 export type AdminLogin = {
   __typename?: 'AdminLogin';
   id: Scalars['Int'];
@@ -674,7 +714,11 @@ export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
   UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
+  Duration: ResolverTypeWrapper<Scalars['Duration']>;
   ISO8601Duration: ResolverTypeWrapper<Scalars['ISO8601Duration']>;
+  LocalDate: ResolverTypeWrapper<Scalars['LocalDate']>;
+  LocalTime: ResolverTypeWrapper<Scalars['LocalTime']>;
+  LocalEndTime: ResolverTypeWrapper<Scalars['LocalEndTime']>;
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>;
   NegativeFloat: ResolverTypeWrapper<Scalars['NegativeFloat']>;
   NegativeInt: ResolverTypeWrapper<Scalars['NegativeInt']>;
@@ -702,6 +746,9 @@ export type ResolversTypes = {
   IPv4: ResolverTypeWrapper<Scalars['IPv4']>;
   IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
   ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
+  JWT: ResolverTypeWrapper<Scalars['JWT']>;
+  Latitude: ResolverTypeWrapper<Scalars['Latitude']>;
+  Longitude: ResolverTypeWrapper<Scalars['Longitude']>;
   MAC: ResolverTypeWrapper<Scalars['MAC']>;
   Port: ResolverTypeWrapper<Scalars['Port']>;
   RGB: ResolverTypeWrapper<Scalars['RGB']>;
@@ -742,7 +789,11 @@ export type ResolversParentTypes = {
   DateTime: Scalars['DateTime'];
   Timestamp: Scalars['Timestamp'];
   UtcOffset: Scalars['UtcOffset'];
+  Duration: Scalars['Duration'];
   ISO8601Duration: Scalars['ISO8601Duration'];
+  LocalDate: Scalars['LocalDate'];
+  LocalTime: Scalars['LocalTime'];
+  LocalEndTime: Scalars['LocalEndTime'];
   EmailAddress: Scalars['EmailAddress'];
   NegativeFloat: Scalars['NegativeFloat'];
   NegativeInt: Scalars['NegativeInt'];
@@ -770,6 +821,9 @@ export type ResolversParentTypes = {
   IPv4: Scalars['IPv4'];
   IPv6: Scalars['IPv6'];
   ISBN: Scalars['ISBN'];
+  JWT: Scalars['JWT'];
+  Latitude: Scalars['Latitude'];
+  Longitude: Scalars['Longitude'];
   MAC: Scalars['MAC'];
   Port: Scalars['Port'];
   RGB: Scalars['RGB'];
@@ -861,8 +915,24 @@ export interface UtcOffsetScalarConfig extends GraphQLScalarTypeConfig<Resolvers
   name: 'UtcOffset';
 }
 
+export interface DurationScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Duration'], any> {
+  name: 'Duration';
+}
+
 export interface Iso8601DurationScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ISO8601Duration'], any> {
   name: 'ISO8601Duration';
+}
+
+export interface LocalDateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalDate'], any> {
+  name: 'LocalDate';
+}
+
+export interface LocalTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalTime'], any> {
+  name: 'LocalTime';
+}
+
+export interface LocalEndTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['LocalEndTime'], any> {
+  name: 'LocalEndTime';
 }
 
 export interface EmailAddressScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['EmailAddress'], any> {
@@ -971,6 +1041,18 @@ export interface IPv6ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export interface IsbnScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['ISBN'], any> {
   name: 'ISBN';
+}
+
+export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JWT'], any> {
+  name: 'JWT';
+}
+
+export interface LatitudeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Latitude'], any> {
+  name: 'Latitude';
+}
+
+export interface LongitudeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Longitude'], any> {
+  name: 'Longitude';
 }
 
 export interface MacScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['MAC'], any> {
@@ -1082,7 +1164,11 @@ export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
   UtcOffset?: GraphQLScalarType;
+  Duration?: GraphQLScalarType;
   ISO8601Duration?: GraphQLScalarType;
+  LocalDate?: GraphQLScalarType;
+  LocalTime?: GraphQLScalarType;
+  LocalEndTime?: GraphQLScalarType;
   EmailAddress?: GraphQLScalarType;
   NegativeFloat?: GraphQLScalarType;
   NegativeInt?: GraphQLScalarType;
@@ -1110,6 +1196,9 @@ export type Resolvers<ContextType = any> = {
   IPv4?: GraphQLScalarType;
   IPv6?: GraphQLScalarType;
   ISBN?: GraphQLScalarType;
+  JWT?: GraphQLScalarType;
+  Latitude?: GraphQLScalarType;
+  Longitude?: GraphQLScalarType;
   MAC?: GraphQLScalarType;
   Port?: GraphQLScalarType;
   RGB?: GraphQLScalarType;
