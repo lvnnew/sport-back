@@ -1,4 +1,5 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
+/* eslint-disable @typescript-eslint/camelcase */
 import {merge} from 'lodash';
 import {readJson} from 'fs-extra';
 
