@@ -1,9 +1,9 @@
-import {fromPairs, toPairs} from 'lodash';
 import qs from 'qs';
+import R from 'ramda';
 
 export const urlStr = (params: any): string => {
-  const filteredParams = fromPairs(
-    toPairs(params).filter(
+  const filteredParams = R.fromPairs(
+    R.toPairs(params).filter(
       ([, value]) => Boolean(value) || value === 0 || typeof value === 'boolean',
     ),
   );

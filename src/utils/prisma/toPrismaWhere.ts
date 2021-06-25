@@ -1,5 +1,5 @@
-import {fromPairs, toPairs} from "lodash";
-import { singular } from "pluralize";
+import {singular} from 'pluralize';
+import R, {KeyValuePair} from 'ramda';
 
 export const toPrismaWhere = (filter?: object | null) => {
   let result = {};
@@ -16,27 +16,27 @@ export const toPrismaWhere = (filter?: object | null) => {
     '_in',
   ];
 
-  const initialPairs = toPairs(filter);
+  const initialPairs = R.toPairs<string>(filter as Record<string, string>);
 
-  const flatPairs = initialPairs.filter(([key, _]: [string, any]) => !['ids', 'q'].includes(key) && !postfixesForAnd.some(pf => key.includes(pf)));
+  const flatPairs = initialPairs.filter(([key, _]: KeyValuePair<string, any>) => !['ids', 'q'].includes(key) && !postfixesForAnd.some(pf => key.includes(pf)));
 
-  const flatWhere = fromPairs(flatPairs);
+  const flatWhere = R.fromPairs(flatPairs);
 
   result = {
     ...result,
     ...flatWhere,
-  }
+  };
 
   if (Object.keys(filter).includes('q')) {
     result = {
       ...result,
       search: {
-        contains: filter['q'].toLowerCase(),
+        contains: (filter as any).q.toLowerCase(),
       },
-    }
+    };
   }
 
-  const pairsForAnd = initialPairs.filter(([key, _]: [string, any]) => postfixesForAnd.some(pf => key.includes(pf)));
+  const pairsForAnd = initialPairs.filter(([key, _]: KeyValuePair<string, any>) => postfixesForAnd.some(pf => key.includes(pf)));
 
   if (pairsForAnd.length > 0) {
     const filtersForAnd = pairsForAnd
@@ -55,19 +55,19 @@ export const toPrismaWhere = (filter?: object | null) => {
 
         throw new Error(`Unknown AND filter, key: "${key}"`);
       })
-      .map(([key, value]) => fromPairs([[key, value]]));
+      .map(([key, value]) => R.fromPairs([[key, value]] as KeyValuePair<string, string>[]));
 
     result = {
       ...result,
       AND: filtersForAnd,
-    }
+    };
   }
 
   // Arrays
-  const arraysPairs = initialPairs.filter(([key, val]: [string, any]) => Array.isArray(val) && !postfixesForAnd.some(pf => key.includes(pf)));
+  const arraysPairs = initialPairs.filter(([key, val]: KeyValuePair<string, any>) => Array.isArray(val) && !postfixesForAnd.some(pf => key.includes(pf)));
   if (arraysPairs.length > 0) {
     const arrays = arraysPairs
-      .map(([key, value]) => fromPairs([[singular(key), {
+      .map(([key, value]) => R.fromPairs([[singular(key), {
         in: value,
       }]]))
       .reduce((acc, current) => ({...acc, ...current}), {});
@@ -75,8 +75,7 @@ export const toPrismaWhere = (filter?: object | null) => {
     result = {
       ...result,
       ...arrays,
-    }
-
+    };
   }
 
   return result;
