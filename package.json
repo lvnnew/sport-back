@@ -130,6 +130,7 @@
     "@types/express": "^4.17.6",
     "@types/faker": "^5.1.5",
     "@types/fs-extra": "^9.0.1",
+    "@types/graphql-upload": "^8.0.5",
     "@types/jest": "^26.0.15",
     "@types/jsdom": "^16.2.3",
     "@types/lodash": "^4.14.168",
