@@ -25,6 +25,7 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import R from 'ramda';
 
+
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseTagsMethods {
@@ -94,11 +95,14 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     const createOperation = getCtx().prisma.tag.create({
       data: R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'comment'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'comment'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
         },
         processedData,
@@ -116,11 +120,14 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     await getCtx().prisma.tag.update({
       where: {id: result.id},
       data: {
-        search: R.toPairs(
-          R.pick(['id', 'comment'], result),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'comment'], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
       },
     });
@@ -142,11 +149,14 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     const result = await getCtx().prisma.tag.createMany({
       data: entries.map(data => R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'comment'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'comment'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
         },
         data,
@@ -173,11 +183,14 @@ export const getTagsService = (getCtx: () => AgrContext) => {
     const updateOperation = getCtx().prisma.tag.update({
       data: R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'comment'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'comment'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
         },
         rest,
@@ -210,21 +223,27 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
     const result = await getCtx().prisma.tag.upsert({create: R.mergeDeepLeft(
       {
-        search: R.toPairs(
-          R.pick(['id', 'comment'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'comment'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
       },
       data,
     ), update: R.mergeDeepLeft(
       {
-        search: R.toPairs(
-          R.pick(['id', 'comment'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'comment'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
       },
       rest,

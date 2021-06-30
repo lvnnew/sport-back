@@ -25,6 +25,7 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import R from 'ramda';
 
+
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseAppLoginsMethods {
@@ -94,11 +95,14 @@ export const getAppLoginsService = (getCtx: () => AgrContext) => {
     const createOperation = getCtx().prisma.appLogin.create({
       data: R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
         },
         processedData,
@@ -116,11 +120,14 @@ export const getAppLoginsService = (getCtx: () => AgrContext) => {
     await getCtx().prisma.appLogin.update({
       where: {id: result.id},
       data: {
-        search: R.toPairs(
-          R.pick(['id', 'login', 'passwordHash', 'userId'], result),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'login', 'passwordHash', 'userId'], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
       },
     });
@@ -142,11 +149,14 @@ export const getAppLoginsService = (getCtx: () => AgrContext) => {
     const result = await getCtx().prisma.appLogin.createMany({
       data: entries.map(data => R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
         },
         data,
@@ -173,11 +183,14 @@ export const getAppLoginsService = (getCtx: () => AgrContext) => {
     const updateOperation = getCtx().prisma.appLogin.update({
       data: R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
         },
         rest,
@@ -210,21 +223,27 @@ export const getAppLoginsService = (getCtx: () => AgrContext) => {
 
     const result = await getCtx().prisma.appLogin.upsert({create: R.mergeDeepLeft(
       {
-        search: R.toPairs(
-          R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
       },
       data,
     ), update: R.mergeDeepLeft(
       {
-        search: R.toPairs(
-          R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
         
       },
       rest,

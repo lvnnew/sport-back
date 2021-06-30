@@ -570,7 +570,7 @@
      "description": "",
      "updatableByUser": true,
      "hidden": false,
-     "searchable": false,
+     "searchable": true,
      "constantOnCreate": false,
      "constantOnUpdate": false,
      "type": "datetime",

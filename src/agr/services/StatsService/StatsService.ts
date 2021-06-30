@@ -24,6 +24,10 @@ import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import R from 'ramda';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -94,11 +98,18 @@ export const getStatsService = (getCtx: () => AgrContext) => {
     const createOperation = getCtx().prisma.stat.create({
       data: R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'helloCount'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
         
         },
         processedData,
@@ -116,11 +127,18 @@ export const getStatsService = (getCtx: () => AgrContext) => {
     await getCtx().prisma.stat.update({
       where: {id: result.id},
       data: {
-        search: R.toPairs(
-          R.pick(['id', 'helloCount'], result),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+            .toPairs(
+              R.pick(['updated'], result),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
         
       },
     });
@@ -142,11 +160,18 @@ export const getStatsService = (getCtx: () => AgrContext) => {
     const result = await getCtx().prisma.stat.createMany({
       data: entries.map(data => R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'helloCount'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
         
         },
         data,
@@ -173,11 +198,18 @@ export const getStatsService = (getCtx: () => AgrContext) => {
     const updateOperation = getCtx().prisma.stat.update({
       data: R.mergeDeepLeft(
         {
-          search: R.toPairs(
-          R.pick(['id', 'helloCount'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+          search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
         
         },
         rest,
@@ -210,21 +242,35 @@ export const getStatsService = (getCtx: () => AgrContext) => {
 
     const result = await getCtx().prisma.stat.upsert({create: R.mergeDeepLeft(
       {
-        search: R.toPairs(
-          R.pick(['id', 'helloCount'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
         
       },
       data,
     ), update: R.mergeDeepLeft(
       {
-        search: R.toPairs(
-          R.pick(['id', 'helloCount'], data),
-        )
-          .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? '')
-          .join(' '),
+        search: [
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
         
       },
       rest,
