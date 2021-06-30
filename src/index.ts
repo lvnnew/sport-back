@@ -16,6 +16,7 @@ import {initAdmPassport} from './adm/config/passport';
 import appAuthRouter from './app/authRouter';
 import admAuthRouter from './adm/authRouter';
 import getAppServer from './app/getAppServer';
+import {graphqlUploadExpress} from 'graphql-upload';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -31,7 +32,7 @@ initAppPassport();
 initAdmPassport();
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false}));
 app.use(passport.initialize());
 
@@ -61,6 +62,7 @@ const start = async () => {
   const context = await getAgrContext();
 
   app.use('/app/graph', passport.authenticate('appJwt', {session: false}));
+  app.use('/app/graph', graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}));
 
   getAppServer(context).applyMiddleware({app, path: '/app/graph'});
 
@@ -77,10 +79,12 @@ const start = async () => {
     introspection: true,
     playground: true,
     schema,
+    uploads: false,
   });
 
   const admGraphPath = '/adm/graph';
   app.use(admGraphPath, passport.authenticate('admJwt', {session: false}));
+  app.use(admGraphPath, graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}));
   server.applyMiddleware({app, path: admGraphPath});
 
   context.stats.updateGauges();
