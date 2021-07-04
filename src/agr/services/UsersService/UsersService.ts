@@ -25,7 +25,6 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import R from 'ramda';
 
-
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseUsersMethods {

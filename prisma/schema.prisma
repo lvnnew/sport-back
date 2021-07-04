@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("AGR_PG_URI")
+  url               = env("AGR_PG_URI")
+  shadowDatabaseUrl = env("AGR_MIGRATION_PG_URI")
 }
 
 model User {
