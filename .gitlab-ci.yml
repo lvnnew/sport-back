@@ -100,7 +100,7 @@ deploy-stage-workers:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
-    PG_URI: ${AGR_STAGE_PG_URI}
+    PG_URI: ${AGR_DEV_PG_URI}
     KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
@@ -116,7 +116,7 @@ deploy-stage-workers:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
-    PG_URI: ${AGR_STAGE_PG_URI}
+    PG_URI: ${AGR_DEV_PG_URI}
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
     APPNAME: workers
     BACK_ENABLED: "false"
@@ -154,7 +154,7 @@ deploy-stage-workers:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
-    PG_URI: ${AGR_STAGE_PG_URI}
+    PG_URI: ${AGR_DEV_PG_URI}
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
     APPNAME: workers
     BACK_ENABLED: "false"
