@@ -8,6 +8,17 @@ datasource db {
   shadowDatabaseUrl = env("AGR_MIGRATION_PG_URI")
 }
 
+model File {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	originalName	String
+	url	String
+	mimetype	String
+	s3Key	String
+	eTag	String
+}
+
+
 model User {
 	id	Int	@default(autoincrement())	@id
 	search	String?

@@ -162,6 +162,9 @@ export type Query = {
   AppLogin?: Maybe<AppLogin>;
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
+  File?: Maybe<File>;
+  allFiles?: Maybe<Array<Maybe<File>>>;
+  _allFilesMeta?: Maybe<ListMetadata>;
   Meta?: Maybe<Scalars['JSONObject']>;
   Stat?: Maybe<Stat>;
   allStats?: Maybe<Array<Maybe<Stat>>>;
@@ -238,6 +241,27 @@ export type Query_AllAppLoginsMetaArgs = {
 };
 
 
+export type QueryFileArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllFilesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<FileFilter>;
+};
+
+
+export type Query_AllFilesMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<FileFilter>;
+};
+
+
 export type QueryStatArgs = {
   id: Scalars['ID'];
 };
@@ -311,6 +335,9 @@ export type Mutation = {
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<Scalars['Boolean']>;
+  createFile?: Maybe<File>;
+  updateFile?: Maybe<File>;
+  removeFile?: Maybe<Scalars['Boolean']>;
   recalculateStat?: Maybe<Scalars['Void']>;
   createStat?: Maybe<Stat>;
   updateStat?: Maybe<Stat>;
@@ -386,6 +413,30 @@ export type MutationUpdateAppLoginArgs = {
 
 
 export type MutationRemoveAppLoginArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateFileArgs = {
+  originalName: Scalars['String'];
+  url: Scalars['String'];
+  mimetype: Scalars['String'];
+  s3Key: Scalars['String'];
+  eTag: Scalars['String'];
+};
+
+
+export type MutationUpdateFileArgs = {
+  id: Scalars['Int'];
+  originalName: Scalars['String'];
+  url: Scalars['String'];
+  mimetype: Scalars['String'];
+  s3Key: Scalars['String'];
+  eTag: Scalars['String'];
+};
+
+
+export type MutationRemoveFileArgs = {
   id: Scalars['Int'];
 };
 
@@ -565,6 +616,32 @@ export type AppLoginFilter = {
   passwordHash_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   userId?: Maybe<Scalars['Int']>;
   userId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+};
+
+export type File = {
+  __typename?: 'File';
+  id: Scalars['Int'];
+  originalName: Scalars['String'];
+  url: Scalars['String'];
+  mimetype: Scalars['String'];
+  s3Key: Scalars['String'];
+  eTag: Scalars['String'];
+};
+
+export type FileFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
+  originalName?: Maybe<Scalars['String']>;
+  originalName_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  url?: Maybe<Scalars['String']>;
+  url_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  mimetype?: Maybe<Scalars['String']>;
+  mimetype_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  s3Key?: Maybe<Scalars['String']>;
+  s3Key_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  eTag?: Maybe<Scalars['String']>;
+  eTag_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Stat = {
@@ -768,6 +845,8 @@ export type ResolversTypes = {
   AdminFilter: AdminFilter;
   AppLogin: ResolverTypeWrapper<AppLogin>;
   AppLoginFilter: AppLoginFilter;
+  File: ResolverTypeWrapper<File>;
+  FileFilter: FileFilter;
   Stat: ResolverTypeWrapper<Stat>;
   StatFilter: StatFilter;
   Tag: ResolverTypeWrapper<Tag>;
@@ -843,6 +922,8 @@ export type ResolversParentTypes = {
   AdminFilter: AdminFilter;
   AppLogin: AppLogin;
   AppLoginFilter: AppLoginFilter;
+  File: File;
+  FileFilter: FileFilter;
   Stat: Stat;
   StatFilter: StatFilter;
   Tag: Tag;
@@ -861,6 +942,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
+  File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
+  allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, RequireFields<QueryAllFilesArgs, never>>;
+  _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllFilesMetaArgs, never>>;
   Meta?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   Stat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<QueryStatArgs, 'id'>>;
   allStats?: Resolver<Maybe<Array<Maybe<ResolversTypes['Stat']>>>, ParentType, ContextType, RequireFields<QueryAllStatsArgs, never>>;
@@ -883,6 +967,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
+  createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
+  updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
+  removeFile?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
   recalculateStat?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType>;
   createStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationCreateStatArgs, 'id'>>;
   updateStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationUpdateStatArgs, 'id'>>;
@@ -1135,6 +1222,16 @@ export type AppLoginResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type FileResolvers<ContextType = any, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  originalName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  mimetype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  s3Key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  eTag?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type StatResolvers<ContextType = any, ParentType extends ResolversParentTypes['Stat'] = ResolversParentTypes['Stat']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   updated?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -1215,6 +1312,7 @@ export type Resolvers<ContextType = any> = {
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Admin?: AdminResolvers<ContextType>;
   AppLogin?: AppLoginResolvers<ContextType>;
+  File?: FileResolvers<ContextType>;
   Stat?: StatResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

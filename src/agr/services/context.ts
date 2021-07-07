@@ -5,6 +5,7 @@ import {getKnex} from '../../clients/knex';
 import {Knex} from 'knex';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
+import {FilesService, getFilesService} from './FilesService/FilesService';
 import {UsersService, getUsersService} from './UsersService/UsersService';
 import {AdminsService, getAdminsService} from './AdminsService/AdminsService';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
@@ -19,6 +20,7 @@ export interface BaseServices {
   prisma: PrismaClient;
   knex: Knex;
   worker: WorkerUtils;
+  files: FilesService;
   users: UsersService;
   admins: AdminsService;
   appLogins: AppLoginsService;
@@ -51,6 +53,7 @@ export const createAgrContext = async () => {
     knex,
     worker,
 
+    files: getFilesService(getCtx),
     users: getUsersService(getCtx),
     admins: getAdminsService(getCtx),
     appLogins: getAppLoginsService(getCtx),
