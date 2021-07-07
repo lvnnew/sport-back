@@ -153,7 +153,6 @@
     "apollo-server-testing": "^2.19.0",
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.3",
-    "cypress": "^4.9.0",
     "eslint": "^7.14.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-canonical": "^18.1.0",
