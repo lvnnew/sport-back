@@ -22,7 +22,7 @@ passport.use(
         const ctx = await getAgrContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
         log.info();
-        const login = await ctx.adminLogins.create({
+        const login = await ctx.managerLogins.create({
           login: email,
           passwordHash: hashedPassword,
           role: '',
@@ -53,7 +53,7 @@ passport.use(
         log.info(`email: ${email}`);
 
         const ctx = await getAgrContext();
-        const loginEntry = await ctx.adminLogins.findOne({filter: {login: email}});
+        const loginEntry = await ctx.managerLogins.findOne({filter: {login: email}});
 
         if (!loginEntry) {
           return done(null, false, {message: 'bad login'});

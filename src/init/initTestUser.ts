@@ -7,7 +7,7 @@ export const initTestUser = async (ctx: AgrContext) => {
   const email = 'demo';
   const hashedPassword = await bcrypt.hash(email, BCRYPT_SALT_ROUNDS);
 
-  await ctx.adminLogins.upsertAdvansed(
+  await ctx.managerLogins.upsertAdvansed(
     {
       login: email,
     },

@@ -488,7 +488,7 @@
   },
   {
    "type": "catalog",
-   "name": "adminLogins",
+   "name": "managerLogins",
    "title": "Admin logins",
    "singleKey": true,
    "description": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)",

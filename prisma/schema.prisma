@@ -49,7 +49,7 @@ model AppLogin {
 }
 
 
-model AdminLogin {
+model ManagerLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
 	login	String

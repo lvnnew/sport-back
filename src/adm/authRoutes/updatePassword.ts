@@ -11,7 +11,7 @@ export const updatePassword = async (req: AuthenticatedRequest, res: Response) =
     const passwordHash = await bcrypt.hash(req.body.password, BCRYPT_SALT_ROUNDS);
     const ctx = await getAgrContext();
     const login = await getCurrentLogin(ctx, req);
-    await ctx.adminLogins.update({
+    await ctx.managerLogins.update({
       ...login,
       passwordHash,
     });
