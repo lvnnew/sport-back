@@ -17,12 +17,6 @@ import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseServices {
-<<<<<<< HEAD
-  prisma: PrismaClient;
-  knex: Knex;
-  worker: WorkerUtils;
-=======
->>>>>>> 6375169 (gen)
   files: FilesService;
   users: UsersService;
   admins: AdminsService;
@@ -69,18 +63,6 @@ export const createBaseContext = async (): Promise<BaseContext> => {
     prisma,
     knex,
     worker,
-<<<<<<< HEAD
-
-    files: getFilesService(getCtx),
-    users: getUsersService(getCtx),
-    admins: getAdminsService(getCtx),
-    appLogins: getAppLoginsService(getCtx),
-    managerLogins: getManagerLoginsService(getCtx),
-    stats: getStatsService(getCtx),
-    tags: getTagsService(getCtx),
-
-=======
->>>>>>> 6375169 (gen)
     close,
   };
 };
@@ -129,7 +111,7 @@ export const getOrCreateBaseContext = async (): Promise<BaseContext> => {
 export const getOrCreateContext = async (): Promise<Context> => {
   if (!context) {
     const baseContext = await getOrCreateBaseContext();
-    context = createContext(baseContext, getContext);
+    context = createContext(baseContext, getCtx);
   }
 
   return context;
@@ -137,7 +119,7 @@ export const getOrCreateContext = async (): Promise<Context> => {
 
 export const getOrCreateUserAwareContext = (baseContext: BaseContext, userId: number): Context => {
   const userAwareContextGetter = () => {
-    const context = getContext();
+    const context = getCtx();
 
     return {
       ...context,
@@ -150,7 +132,7 @@ export const getOrCreateUserAwareContext = (baseContext: BaseContext, userId: nu
   return context;
 };
 
-export const getContext = (): Context => {
+export const getCtx = (): Context => {
   if (!context) {
     throw new Error('Context is not initialised');
   }

@@ -43,11 +43,7 @@ export interface BaseManagerLoginsMethods {
 
 export type ManagerLoginsService = BaseManagerLoginsMethods & AdditionalManagerLoginsMethods;
 
-<<<<<<< HEAD:src/agr/services/ManagerLoginsService/ManagerLoginsService.ts
-export const getManagerLoginsService = (getCtx: () => AgrContext) => {
-=======
 export const getManagerLoginsService = (getCtx: () => Context) => {
->>>>>>> 6375169 (gen):src/agr/services/AdminLoginsService/AdminLoginsService.ts
   const get = async (id: number): Promise<ManagerLogin | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');

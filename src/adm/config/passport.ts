@@ -52,11 +52,7 @@ passport.use(
       try {
         log.info(`email: ${email}`);
 
-<<<<<<< HEAD
-        const ctx = await getAgrContext();
-=======
         const ctx = await getContext();
->>>>>>> 6375169 (gen)
         const loginEntry = await ctx.managerLogins.findOne({filter: {login: email}});
 
         if (!loginEntry) {
