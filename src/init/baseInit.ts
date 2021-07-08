@@ -1,4 +1,4 @@
-import {getAgrContext} from '../agr/services/context';
+import {getContext} from '../agr/services/context';
 import {log} from '../log';
 import {getQueue} from '../clients/queue/getQueue';
 import {initTestUser} from './initTestUser';
@@ -11,7 +11,7 @@ const app = async () => {
   const queue = await getQueue();
   await queue.migrate();
 
-  const ctx = await getAgrContext();
+  const ctx = await getContext();
 
   await initTestUser(ctx);
 

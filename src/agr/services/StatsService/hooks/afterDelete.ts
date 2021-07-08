@@ -2,9 +2,9 @@
 import {
   Stat,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../context';
+import {Context} from '../../context';
 
 export const afterDelete = async (
-  _getCtx: () => AgrContext,
+  _getCtx: () => Context,
   _data: Stat,
 ): Promise<void> => {};

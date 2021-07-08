@@ -1,9 +1,9 @@
 import {
   MutationUpdateStatArgs,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../context';
+import {Context} from '../../context';
 
 export const additionalOperationsOnUpdate = (
-  _getCtx: () => AgrContext,
+  _getCtx: () => Context,
   _data: MutationUpdateStatArgs,
 ) => [];

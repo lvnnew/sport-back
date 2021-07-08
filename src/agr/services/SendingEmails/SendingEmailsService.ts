@@ -6,7 +6,7 @@ import {addSendResetPasswordEmailJob} from '../../../clients/queue/jobs/addSendR
 import {addSendRestorePasswordEmailJob} from '../../../clients/queue/jobs/addSendRestorePasswordEmailJob';
 import {addSendTransitionFromOldSystemEmailJob} from '../../../clients/queue/jobs/addSendTransitionFromOldSystemEmailJob';
 import {log} from '../../../log';
-import {AgrContext} from '../context';
+import {Context} from '../context';
 
 export interface SendingEmailsService {
   sendEmailOnNewRegistration: (memberId: number, password: string) => Promise<void>;
@@ -16,7 +16,7 @@ export interface SendingEmailsService {
   sendEmailOnResetPassword: (memberId: number, password: string) => Promise<void>;
 }
 
-export const getSendingEmailsService = (getCtx: () => AgrContext): SendingEmailsService => {
+export const getSendingEmailsService = (getCtx: () => Context): SendingEmailsService => {
   const sendEmailOnNewRegistration = async (memberId: number, password: string) => {
     log.info(`sendEmailOnNewRegistration, memberId: "${memberId}"`);
 

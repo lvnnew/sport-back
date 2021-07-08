@@ -12,7 +12,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {AgrContext} from '../context';
+import {Context} from '../context';
 import {Prisma} from '@prisma/client';
 import {AdditionalManagerLoginsMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -43,10 +43,14 @@ export interface BaseManagerLoginsMethods {
 
 export type ManagerLoginsService = BaseManagerLoginsMethods & AdditionalManagerLoginsMethods;
 
+<<<<<<< HEAD:src/agr/services/ManagerLoginsService/ManagerLoginsService.ts
 export const getManagerLoginsService = (getCtx: () => AgrContext) => {
+=======
+export const getManagerLoginsService = (getCtx: () => Context) => {
+>>>>>>> 6375169 (gen):src/agr/services/AdminLoginsService/AdminLoginsService.ts
   const get = async (id: number): Promise<ManagerLogin | null> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.managerLogin.findUnique({where: {id}});
@@ -54,7 +58,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const all = async (params: QueryAllManagerLoginsArgs = {}): Promise<ManagerLogin[]> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.managerLogin.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<ManagerLogin[]>;
@@ -62,7 +66,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const findOne = async (params: QueryAllManagerLoginsArgs = {}): Promise<ManagerLogin | null> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.managerLogin.findFirst(toPrismaRequest(params, {noId: true}));
@@ -70,7 +74,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const count = async (params: Query_AllManagerLoginsMetaArgs = {}): Promise<number> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.managerLogin.count(toPrismaTotalRequest(params));
@@ -78,7 +82,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const meta = async (params: Query_AllManagerLoginsMetaArgs = {}): Promise<ListMetadata> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return count(params).then(count => ({count}));
@@ -86,7 +90,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const create = async (data: MutationCreateManagerLoginArgs): Promise<ManagerLogin> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeCreate(getCtx, data);
@@ -142,7 +146,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const createMany = async (entries: MutationCreateManagerLoginArgs[]): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const result = await getCtx().prisma.managerLogin.createMany({
@@ -172,7 +176,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const update = async (data: MutationUpdateManagerLoginArgs): Promise<ManagerLogin> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeUpdate(getCtx, data);
@@ -215,7 +219,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const upsert = async (data: MutationUpdateManagerLoginArgs): Promise<ManagerLogin> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const {id, ...rest} = data;
@@ -257,7 +261,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const upsertAdvansed = async (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs): Promise<ManagerLogin> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const cnt = await count({filter});
@@ -284,7 +288,7 @@ export const getManagerLoginsService = (getCtx: () => AgrContext) => {
 
   const del = async (params: MutationRemoveManagerLoginArgs): Promise<boolean> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const deleteOperation = getCtx().prisma.managerLogin.delete({where: {id: params.id}});

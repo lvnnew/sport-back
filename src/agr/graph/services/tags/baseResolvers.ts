@@ -8,26 +8,26 @@ import {
   MutationUpdateTagArgs,
   MutationRemoveTagArgs,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../../services/context';
+import {Context} from '../../../services/context';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
-    Tag: (_, {id}, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.tags.get(id),
-    allTags: (_, params: QueryAllTagsArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.tags.all(params),
-    _allTagsMeta: (_, params: Query_AllTagsMetaArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.tags.meta(params),
+    Tag: (_, {id}, {context}: {context: Context}) =>
+      context.tags.get(id),
+    allTags: (_, params: QueryAllTagsArgs, {context}: {context: Context}) =>
+      context.tags.all(params),
+    _allTagsMeta: (_, params: Query_AllTagsMetaArgs, {context}: {context: Context}) =>
+      context.tags.meta(params),
   },
   Mutation: {
-    createTag: (_, params: MutationCreateTagArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.tags.create(params),
-    updateTag: (_, params: MutationUpdateTagArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.tags.update(params),
-    removeTag: (_, params: MutationRemoveTagArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.tags.delete(params),
+    createTag: (_, params: MutationCreateTagArgs, {context}: {context: Context}) =>
+      context.tags.create(params),
+    updateTag: (_, params: MutationUpdateTagArgs, {context}: {context: Context}) =>
+      context.tags.update(params),
+    removeTag: (_, params: MutationRemoveTagArgs, {context}: {context: Context}) =>
+      context.tags.delete(params),
   },
 };
 

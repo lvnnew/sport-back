@@ -1,9 +1,9 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import {AgrContext} from '../agr/services/context';
+import {Context} from '../agr/services/context';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';
 
-export const initTestUser = async (ctx: AgrContext) => {
+export const initTestUser = async (ctx: Context) => {
   const email = 'demo';
   const hashedPassword = await bcrypt.hash(email, BCRYPT_SALT_ROUNDS);
 

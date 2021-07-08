@@ -2,9 +2,9 @@
 import {
   Tag,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../context';
+import {Context} from '../../context';
 
 export const afterUpdate = async (
-  _getCtx: () => AgrContext,
+  _getCtx: () => Context,
   _data: Tag,
 ): Promise<void> => {};

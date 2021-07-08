@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable @typescript-eslint/camelcase */
-import {AgrContext} from '../context';
+import {Context} from '../context';
 import {BaseStatsMethods} from './StatsService';
 import {MutationUpdateStatArgs, Stat} from '../../../generated/graphql';
 import {Gauge} from 'prom-client';
@@ -17,7 +17,7 @@ const gauge = new Gauge({
   labelNames: ['label'],
 });
 
-export const getAdditionalMethods = (getCtx: () => AgrContext, _baseMethods: BaseStatsMethods): AdditionalStatsMethods => {
+export const getAdditionalMethods = (getCtx: () => Context, _baseMethods: BaseStatsMethods): AdditionalStatsMethods => {
   const recalculate = async () => {
     const ctx = getCtx();
 

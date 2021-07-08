@@ -1,9 +1,9 @@
 import {
   MutationCreateUserArgs,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../context';
+import {Context} from '../../context';
 
 export const additionalOperationsOnCreate = (
-  _getCtx: () => AgrContext,
+  _getCtx: () => Context,
   _data: MutationCreateUserArgs,
 ) => [];

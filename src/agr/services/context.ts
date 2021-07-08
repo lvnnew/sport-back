@@ -17,9 +17,12 @@ import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseServices {
+<<<<<<< HEAD
   prisma: PrismaClient;
   knex: Knex;
   worker: WorkerUtils;
+=======
+>>>>>>> 6375169 (gen)
   files: FilesService;
   users: UsersService;
   admins: AdminsService;
@@ -27,14 +30,30 @@ export interface BaseServices {
   managerLogins: ManagerLoginsService;
   stats: StatsService;
   tags: TagsService;
-  close: () => Promise<void>;
 }
 
-export type AgrContext = BaseServices & AdditionalServices;
+export type BaseContext = {
+  prisma: PrismaClient;
+  knex: Knex;
+  worker: WorkerUtils;
+  close: () => Promise<void>;
+};
 
-let context: AgrContext | null = null;
+export type Context = BaseContext & BaseServices & AdditionalServices & {
+  prisma: PrismaClient;
+  knex: Knex;
+  worker: WorkerUtils;
+  close: () => Promise<void>;
+  getUserId: () => number | null;
+};
 
-export const createAgrContext = async () => {
+let baseContext: BaseContext | null = null;
+
+export type GetCtx = () => Context;
+
+let context: Context | null = null;
+
+export const createBaseContext = async (): Promise<BaseContext> => {
   const prisma = await getPrisma();
 
   const knex = await getKnex();
@@ -44,14 +63,13 @@ export const createAgrContext = async () => {
   const close = async () => {
     await prisma.$disconnect();
     await knex.destroy();
-
-    // context = null;
   };
 
-  const baseServices: BaseServices = {
+  return {
     prisma,
     knex,
     worker,
+<<<<<<< HEAD
 
     files: getFilesService(getCtx),
     users: getUsersService(getCtx),
@@ -61,28 +79,78 @@ export const createAgrContext = async () => {
     stats: getStatsService(getCtx),
     tags: getTagsService(getCtx),
 
+=======
+>>>>>>> 6375169 (gen)
     close,
   };
+};
 
-  const additionalServices = getAdditionalServices(getCtx);
+export const createContext = (baseContext: BaseContext, getContext: () => Context): Context => {
+  const baseServices: BaseServices = {
+    files: getFilesService(getContext),
+    users: getUsersService(getContext),
+    admins: getAdminsService(getContext),
+    appLogins: getAppLoginsService(getContext),
+    managerLogins: getManagerLoginsService(getContext),
+    stats: getStatsService(getContext),
+    tags: getTagsService(getContext),
+  };
 
-  context = {
+  const additionalServices = getAdditionalServices(getContext);
+
+  const context = {
+    ...baseContext,
     ...baseServices,
     ...additionalServices,
+
+    getUserId: () => null,
   };
 
   return context;
 };
 
-export const getAgrContext = async (): Promise<AgrContext> => {
+export const createUserAwareContext = (context: Context, userId: number): Context => {
+  const Context = {
+    ...context,
+    userId,
+  };
+
+  return Context;
+};
+
+export const getOrCreateBaseContext = async (): Promise<BaseContext> => {
+  if (!baseContext) {
+    baseContext = await createBaseContext();
+  }
+
+  return baseContext;
+};
+
+export const getOrCreateContext = async (): Promise<Context> => {
   if (!context) {
-    context = await createAgrContext();
+    const baseContext = await getOrCreateBaseContext();
+    context = createContext(baseContext, getContext);
   }
 
   return context;
 };
 
-export const getCtx = (): AgrContext => {
+export const getOrCreateUserAwareContext = (baseContext: BaseContext, userId: number): Context => {
+  const userAwareContextGetter = () => {
+    const context = getContext();
+
+    return {
+      ...context,
+      getUserId: () => userId,
+    };
+  };
+
+  const context = createContext(baseContext, userAwareContextGetter);
+
+  return context;
+};
+
+export const getContext = (): Context => {
   if (!context) {
     throw new Error('Context is not initialised');
   }
@@ -91,7 +159,7 @@ export const getCtx = (): AgrContext => {
 };
 
 export const closeCtx = async () => {
-  if (context) {
-    await context.close();
+  if (baseContext) {
+    await baseContext.close();
   }
 };

@@ -2,14 +2,14 @@
 import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
-import {AgrContext} from '../../../agr/services/context';
+import {Context} from '../../../agr/services/context';
 
 export interface TransitionFromOldSystemEmaiLocals extends SendEmailLocals {
   password: string;
   loginUrl: string;
 }
 
-export const addSendTransitionFromOldSystemEmailJob = async (ctx: AgrContext, userId: number, locals: TransitionFromOldSystemEmaiLocals) => {
+export const addSendTransitionFromOldSystemEmailJob = async (ctx: Context, userId: number, locals: TransitionFromOldSystemEmaiLocals) => {
   log.info('addSendTransitionFromOldSystemEmailJob');
   log.info(`to userId: ${userId}`);
 

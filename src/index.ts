@@ -3,7 +3,12 @@ import exitHook from 'exit-hook';
 import {ApolloServer} from 'apollo-server-express';
 import {log} from './log';
 import schema from './graph/schema';
-import {getAgrContext, closeCtx} from './agr/services/context';
+import {
+  getOrCreateBaseContext,
+  getOrCreateUserAwareContext,
+  getOrCreateContext,
+  closeCtx,
+} from './agr/services/context';
 import express, {Request, Response} from 'express';
 import cors from 'cors';
 import passport from 'passport';
@@ -59,7 +64,8 @@ app.get('/metrics', async (_req, res) => {
 app.use('/rest', restRouter);
 
 const start = async () => {
-  const context = await getAgrContext();
+  const baseContext = await getOrCreateBaseContext();
+  const context = await getOrCreateContext();
 
   app.use('/app/graph', passport.authenticate('appJwt', {session: false}));
   app.use('/app/graph', graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}));
@@ -68,10 +74,10 @@ const start = async () => {
 
   const server = new ApolloServer({
     context: ({req}) => ({
-      user: req.user,
-    }),
-    dataSources: () => ({
-      ...(context as any),
+      context: {
+        ...getOrCreateUserAwareContext(baseContext, (req.user as any).id),
+        currentUserId: (req.user as any).id,
+      },
     }),
     engine: {
       reportSchema: false,

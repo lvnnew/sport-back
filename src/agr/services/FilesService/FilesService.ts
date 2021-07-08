@@ -12,7 +12,11 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+<<<<<<< HEAD
 import {AgrContext} from '../context';
+=======
+import {Context} from '../context';
+>>>>>>> 6375169 (gen)
 import {Prisma} from '@prisma/client';
 import {AdditionalFilesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -43,10 +47,17 @@ export interface BaseFilesMethods {
 
 export type FilesService = BaseFilesMethods & AdditionalFilesMethods;
 
+<<<<<<< HEAD
 export const getFilesService = (getCtx: () => AgrContext) => {
   const get = async (id: number): Promise<File | null> => {
     if (!getCtx()) {
       throw new Error('AgrContext is not initialised');
+=======
+export const getFilesService = (getCtx: () => Context) => {
+  const get = async (id: number): Promise<File | null> => {
+    if (!getCtx()) {
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     return getCtx().prisma.file.findUnique({where: {id}});
@@ -54,7 +65,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const all = async (params: QueryAllFilesArgs = {}): Promise<File[]> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     return getCtx().prisma.file.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<File[]>;
@@ -62,7 +77,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const findOne = async (params: QueryAllFilesArgs = {}): Promise<File | null> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     return getCtx().prisma.file.findFirst(toPrismaRequest(params, {noId: true}));
@@ -70,7 +89,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const count = async (params: Query_AllFilesMetaArgs = {}): Promise<number> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     return getCtx().prisma.file.count(toPrismaTotalRequest(params));
@@ -78,7 +101,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const meta = async (params: Query_AllFilesMetaArgs = {}): Promise<ListMetadata> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     return count(params).then(count => ({count}));
@@ -86,7 +113,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const create = async (data: MutationCreateFileArgs): Promise<File> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     const processedData = await beforeCreate(getCtx, data);
@@ -142,7 +173,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const createMany = async (entries: MutationCreateFileArgs[]): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     const result = await getCtx().prisma.file.createMany({
@@ -172,7 +207,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const update = async (data: MutationUpdateFileArgs): Promise<File> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     const processedData = await beforeUpdate(getCtx, data);
@@ -215,7 +254,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const upsert = async (data: MutationUpdateFileArgs): Promise<File> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     const {id, ...rest} = data;
@@ -257,7 +300,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const upsertAdvansed = async (filter: FileFilter, data: MutationCreateFileArgs): Promise<File> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     const cnt = await count({filter});
@@ -284,7 +331,11 @@ export const getFilesService = (getCtx: () => AgrContext) => {
 
   const del = async (params: MutationRemoveFileArgs): Promise<boolean> => {
     if (!getCtx()) {
+<<<<<<< HEAD
       throw new Error('AgrContext is not initialised');
+=======
+      throw new Error('Context is not initialised');
+>>>>>>> 6375169 (gen)
     }
 
     const deleteOperation = getCtx().prisma.file.delete({where: {id: params.id}});

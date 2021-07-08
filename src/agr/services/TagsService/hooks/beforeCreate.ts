@@ -1,9 +1,9 @@
 import {
   MutationCreateTagArgs,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../context';
+import {Context} from '../../context';
 
 export const beforeCreate = async (
-  _getCtx: () => AgrContext,
+  _getCtx: () => Context,
   data: MutationCreateTagArgs,
 ): Promise<MutationCreateTagArgs> => data;

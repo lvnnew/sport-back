@@ -1,14 +1,14 @@
 import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
-import {AgrContext} from '../../../agr/services/context';
+import {Context} from '../../../agr/services/context';
 
 export interface RestorePasswordEmailLocals extends SendEmailLocals {
   password: string;
   loginUrl: string;
 }
 
-export const addSendRestorePasswordEmailJob = async (ctx: AgrContext, userId: number, locals: RestorePasswordEmailLocals) => {
+export const addSendRestorePasswordEmailJob = async (ctx: Context, userId: number, locals: RestorePasswordEmailLocals) => {
   log.info('addSendRestorePasswordEmailJob');
   log.info(`to userId: ${userId}`);
 

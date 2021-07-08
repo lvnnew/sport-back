@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import {getAgrContext} from '../../agr/services/context';
+import {getContext} from '../../agr/services/context';
 import {log} from '../../log';
 
 // ts-node src/cli/stats/tryRecalcStats.ts
@@ -7,7 +7,7 @@ import {log} from '../../log';
 const app = async () => {
   log.info('start');
 
-  const ctx = await getAgrContext();
+  const ctx = await getContext();
 
   log.info(await ctx.stats.recalculate());
 

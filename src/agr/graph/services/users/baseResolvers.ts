@@ -8,26 +8,26 @@ import {
   MutationUpdateUserArgs,
   MutationRemoveUserArgs,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../../services/context';
+import {Context} from '../../../services/context';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
-    User: (_, {id}, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.users.get(id),
-    allUsers: (_, params: QueryAllUsersArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.users.all(params),
-    _allUsersMeta: (_, params: Query_AllUsersMetaArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.users.meta(params),
+    User: (_, {id}, {context}: {context: Context}) =>
+      context.users.get(id),
+    allUsers: (_, params: QueryAllUsersArgs, {context}: {context: Context}) =>
+      context.users.all(params),
+    _allUsersMeta: (_, params: Query_AllUsersMetaArgs, {context}: {context: Context}) =>
+      context.users.meta(params),
   },
   Mutation: {
-    createUser: (_, params: MutationCreateUserArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.users.create(params),
-    updateUser: (_, params: MutationUpdateUserArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.users.update(params),
-    removeUser: (_, params: MutationRemoveUserArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.users.delete(params),
+    createUser: (_, params: MutationCreateUserArgs, {context}: {context: Context}) =>
+      context.users.create(params),
+    updateUser: (_, params: MutationUpdateUserArgs, {context}: {context: Context}) =>
+      context.users.update(params),
+    removeUser: (_, params: MutationRemoveUserArgs, {context}: {context: Context}) =>
+      context.users.delete(params),
   },
 };
 

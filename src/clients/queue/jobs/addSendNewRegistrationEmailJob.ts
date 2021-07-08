@@ -1,6 +1,6 @@
 import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
-import {AgrContext} from '../../../agr/services/context';
+import {Context} from '../../../agr/services/context';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
 
 export interface NewRegistrationEmailLocals extends SendEmailLocals {
@@ -8,7 +8,7 @@ export interface NewRegistrationEmailLocals extends SendEmailLocals {
   loginUrl: string;
 }
 
-export const addSendNewRegistrationEmailJob = async (ctx: AgrContext, userId: number, locals: NewRegistrationEmailLocals) => {
+export const addSendNewRegistrationEmailJob = async (ctx: Context, userId: number, locals: NewRegistrationEmailLocals) => {
   log.info('addSendNewRegistrationEmailJob');
   log.info(`to userId: ${userId}`);
 

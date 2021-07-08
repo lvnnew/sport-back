@@ -12,7 +12,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {AgrContext} from '../context';
+import {Context} from '../context';
 import {Prisma} from '@prisma/client';
 import {AdditionalUsersMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -43,10 +43,10 @@ export interface BaseUsersMethods {
 
 export type UsersService = BaseUsersMethods & AdditionalUsersMethods;
 
-export const getUsersService = (getCtx: () => AgrContext) => {
+export const getUsersService = (getCtx: () => Context) => {
   const get = async (id: number): Promise<User | null> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.user.findUnique({where: {id}});
@@ -54,7 +54,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const all = async (params: QueryAllUsersArgs = {}): Promise<User[]> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.user.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<User[]>;
@@ -62,7 +62,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const findOne = async (params: QueryAllUsersArgs = {}): Promise<User | null> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.user.findFirst(toPrismaRequest(params, {noId: true}));
@@ -70,7 +70,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const count = async (params: Query_AllUsersMetaArgs = {}): Promise<number> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.user.count(toPrismaTotalRequest(params));
@@ -78,7 +78,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const meta = async (params: Query_AllUsersMetaArgs = {}): Promise<ListMetadata> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return count(params).then(count => ({count}));
@@ -86,7 +86,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const create = async (data: MutationCreateUserArgs): Promise<User> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeCreate(getCtx, data);
@@ -142,7 +142,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const createMany = async (entries: MutationCreateUserArgs[]): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const result = await getCtx().prisma.user.createMany({
@@ -172,7 +172,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const update = async (data: MutationUpdateUserArgs): Promise<User> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeUpdate(getCtx, data);
@@ -215,7 +215,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const upsert = async (data: MutationUpdateUserArgs): Promise<User> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const {id, ...rest} = data;
@@ -257,7 +257,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const upsertAdvansed = async (filter: UserFilter, data: MutationCreateUserArgs): Promise<User> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const cnt = await count({filter});
@@ -284,7 +284,7 @@ export const getUsersService = (getCtx: () => AgrContext) => {
 
   const del = async (params: MutationRemoveUserArgs): Promise<boolean> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const deleteOperation = getCtx().prisma.user.delete({where: {id: params.id}});

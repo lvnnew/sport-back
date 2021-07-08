@@ -6,7 +6,7 @@ import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
-import {getAgrContext} from '../../agr/services/context';
+import {getContext} from '../../agr/services/context';
 
 passport.use(
   'admRegister',
@@ -19,7 +19,7 @@ passport.use(
     },
     async (_, email, password, done) => {
       try {
-        const ctx = await getAgrContext();
+        const ctx = await getContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
         log.info();
         const login = await ctx.managerLogins.create({
@@ -52,7 +52,11 @@ passport.use(
       try {
         log.info(`email: ${email}`);
 
+<<<<<<< HEAD
         const ctx = await getAgrContext();
+=======
+        const ctx = await getContext();
+>>>>>>> 6375169 (gen)
         const loginEntry = await ctx.managerLogins.findOne({filter: {login: email}});
 
         if (!loginEntry) {

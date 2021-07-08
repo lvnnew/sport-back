@@ -2,9 +2,9 @@
 import {
   AppLogin,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../context';
+import {Context} from '../../context';
 
 export const afterCreate = async (
-  _getCtx: () => AgrContext,
+  _getCtx: () => Context,
   _data: AppLogin,
 ): Promise<void> => {};

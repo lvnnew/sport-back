@@ -1,9 +1,9 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
-import {AgrContext} from '../../../agr/services/context';
+import {Context} from '../../../agr/services/context';
 import {log} from '../../../log';
 import {addSendEmailJob, AddSendEmailJobArgs} from './addSendEmailJob';
 
-export const addSendEmailToAdminJob = async (ctx: AgrContext, adminId: number, {template, locals}: Omit<AddSendEmailJobArgs, 'to'>) => {
+export const addSendEmailToAdminJob = async (ctx: Context, adminId: number, {template, locals}: Omit<AddSendEmailJobArgs, 'to'>) => {
   log.info('addSendEmailToAdminJob');
 
   const admin = await ctx.admins.get(adminId);

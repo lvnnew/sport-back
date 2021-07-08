@@ -12,7 +12,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {AgrContext} from '../context';
+import {Context} from '../context';
 import {Prisma} from '@prisma/client';
 import {AdditionalTagsMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -43,10 +43,10 @@ export interface BaseTagsMethods {
 
 export type TagsService = BaseTagsMethods & AdditionalTagsMethods;
 
-export const getTagsService = (getCtx: () => AgrContext) => {
+export const getTagsService = (getCtx: () => Context) => {
   const get = async (id: number): Promise<Tag | null> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.tag.findUnique({where: {id}});
@@ -54,7 +54,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const all = async (params: QueryAllTagsArgs = {}): Promise<Tag[]> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.tag.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Tag[]>;
@@ -62,7 +62,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const findOne = async (params: QueryAllTagsArgs = {}): Promise<Tag | null> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.tag.findFirst(toPrismaRequest(params, {noId: true}));
@@ -70,7 +70,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const count = async (params: Query_AllTagsMetaArgs = {}): Promise<number> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return getCtx().prisma.tag.count(toPrismaTotalRequest(params));
@@ -78,7 +78,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const meta = async (params: Query_AllTagsMetaArgs = {}): Promise<ListMetadata> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     return count(params).then(count => ({count}));
@@ -86,7 +86,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const create = async (data: MutationCreateTagArgs): Promise<Tag> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeCreate(getCtx, data);
@@ -142,7 +142,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const createMany = async (entries: MutationCreateTagArgs[]): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const result = await getCtx().prisma.tag.createMany({
@@ -172,7 +172,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const update = async (data: MutationUpdateTagArgs): Promise<Tag> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeUpdate(getCtx, data);
@@ -215,7 +215,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const upsert = async (data: MutationUpdateTagArgs): Promise<Tag> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const {id, ...rest} = data;
@@ -257,7 +257,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const upsertAdvansed = async (filter: TagFilter, data: MutationCreateTagArgs): Promise<Tag> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const cnt = await count({filter});
@@ -284,7 +284,7 @@ export const getTagsService = (getCtx: () => AgrContext) => {
 
   const del = async (params: MutationRemoveTagArgs): Promise<boolean> => {
     if (!getCtx()) {
-      throw new Error('AgrContext is not initialised');
+      throw new Error('Context is not initialised');
     }
 
     const deleteOperation = getCtx().prisma.tag.delete({where: {id: params.id}});

@@ -8,26 +8,26 @@ import {
   MutationUpdateAppLoginArgs,
   MutationRemoveAppLoginArgs,
 } from '../../../../generated/graphql';
-import {AgrContext} from '../../../services/context';
+import {Context} from '../../../services/context';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
-    AppLogin: (_, {id}, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.appLogins.get(id),
-    allAppLogins: (_, params: QueryAllAppLoginsArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.appLogins.all(params),
-    _allAppLoginsMeta: (_, params: Query_AllAppLoginsMetaArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.appLogins.meta(params),
+    AppLogin: (_, {id}, {context}: {context: Context}) =>
+      context.appLogins.get(id),
+    allAppLogins: (_, params: QueryAllAppLoginsArgs, {context}: {context: Context}) =>
+      context.appLogins.all(params),
+    _allAppLoginsMeta: (_, params: Query_AllAppLoginsMetaArgs, {context}: {context: Context}) =>
+      context.appLogins.meta(params),
   },
   Mutation: {
-    createAppLogin: (_, params: MutationCreateAppLoginArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.appLogins.create(params),
-    updateAppLogin: (_, params: MutationUpdateAppLoginArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.appLogins.update(params),
-    removeAppLogin: (_, params: MutationRemoveAppLoginArgs, {dataSources}: {dataSources: AgrContext}) =>
-      dataSources.appLogins.delete(params),
+    createAppLogin: (_, params: MutationCreateAppLoginArgs, {context}: {context: Context}) =>
+      context.appLogins.create(params),
+    updateAppLogin: (_, params: MutationUpdateAppLoginArgs, {context}: {context: Context}) =>
+      context.appLogins.update(params),
+    removeAppLogin: (_, params: MutationRemoveAppLoginArgs, {context}: {context: Context}) =>
+      context.appLogins.delete(params),
   },
 };
 
