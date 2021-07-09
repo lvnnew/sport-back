@@ -1,9 +1,9 @@
 import {
-  MutationRemoveFileArgs,
+  MutationCreateManagerArgs,
 } from '../../../../generated/graphql';
 import {Context} from '../../context';
 
-export const additionalOperationsOnDelete = (
+export const additionalOperationsOnCreate = (
   _getCtx: () => Context,
-  _data: MutationRemoveFileArgs,
+  _data: MutationCreateManagerArgs,
 ) => [];

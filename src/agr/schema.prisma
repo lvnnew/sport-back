@@ -39,6 +39,16 @@ model AppLogin {
 }
 
 
+model Manager {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	lastName	String
+	firstName	String
+	title	String?
+	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
+}
+
+
 model ManagerLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -48,6 +58,8 @@ model ManagerLogin {
 	emailVerified	Boolean
 	initialPasswordChanged	Boolean
 	locked	Boolean
+	managerId	Int
+	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
 	@@unique([login])
 }
 

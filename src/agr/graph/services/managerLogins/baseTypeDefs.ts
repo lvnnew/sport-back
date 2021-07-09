@@ -11,6 +11,7 @@ type ManagerLogin {
   emailVerified: Boolean!
   initialPasswordChanged: Boolean!
   locked: Boolean!
+  managerId: Int!
 }
 
 input ManagerLoginFilter {
@@ -26,6 +27,8 @@ input ManagerLoginFilter {
   emailVerified: Boolean
   initialPasswordChanged: Boolean
   locked: Boolean
+  managerId: Int
+  managerId_in: [Int]
 }
 
 type ListMetadata {
@@ -39,8 +42,8 @@ type Query {
 }
 
 type Mutation {
-  createManagerLogin(login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!): ManagerLogin
-  updateManagerLogin(id: Int!, login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!): ManagerLogin
+  createManagerLogin(login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
+  updateManagerLogin(id: Int!, login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
   removeManagerLogin(id: Int!): Boolean
 }
 

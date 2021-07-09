@@ -2,19 +2,19 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {
   ListMetadata,
-  MutationCreateManagerLoginArgs,
-  MutationUpdateManagerLoginArgs,
-  MutationRemoveManagerLoginArgs,
-  QueryAllManagerLoginsArgs,
-  Query_AllManagerLoginsMetaArgs,
-  ManagerLogin,
-  ManagerLoginFilter,
+  MutationCreateManagerArgs,
+  MutationUpdateManagerArgs,
+  MutationRemoveManagerArgs,
+  QueryAllManagersArgs,
+  Query_AllManagersMetaArgs,
+  Manager,
+  ManagerFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../context';
 import {Prisma} from '@prisma/client';
-import {AdditionalManagerLoginsMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalManagersMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
 import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
 import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
@@ -27,56 +27,56 @@ import R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-export interface BaseManagerLoginsMethods {
-  get: (id: number) => Promise<ManagerLogin | null>;
-  all: (params?: QueryAllManagerLoginsArgs) => Promise<ManagerLogin[]>;
-  findOne: (params?: QueryAllManagerLoginsArgs) => Promise<ManagerLogin | null>;
-  count: (params?: Query_AllManagerLoginsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllManagerLoginsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateManagerLoginArgs) => Promise<ManagerLogin>;
-  createMany: (data: MutationCreateManagerLoginArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerLoginArgs) => Promise<ManagerLogin>;
-  upsert: (data: MutationUpdateManagerLoginArgs) => Promise<ManagerLogin>;
-  upsertAdvansed: (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs) => Promise<ManagerLogin>;
-  delete: (params: MutationRemoveManagerLoginArgs) => Promise<boolean>;
+export interface BaseManagersMethods {
+  get: (id: number) => Promise<Manager | null>;
+  all: (params?: QueryAllManagersArgs) => Promise<Manager[]>;
+  findOne: (params?: QueryAllManagersArgs) => Promise<Manager | null>;
+  count: (params?: Query_AllManagersMetaArgs) => Promise<number>;
+  meta: (params?: Query_AllManagersMetaArgs) => Promise<ListMetadata>;
+  create: (data: MutationCreateManagerArgs) => Promise<Manager>;
+  createMany: (data: MutationCreateManagerArgs[]) => Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateManagerArgs) => Promise<Manager>;
+  upsert: (data: MutationUpdateManagerArgs) => Promise<Manager>;
+  upsertAdvansed: (filter: ManagerFilter, data: MutationCreateManagerArgs) => Promise<Manager>;
+  delete: (params: MutationRemoveManagerArgs) => Promise<boolean>;
 }
 
-export type ManagerLoginsService = BaseManagerLoginsMethods & AdditionalManagerLoginsMethods;
+export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
 
-export const getManagerLoginsService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<ManagerLogin | null> => {
+export const getManagersService = (getCtx: () => Context) => {
+  const get = async (id: number): Promise<Manager | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.managerLogin.findUnique({where: {id}});
+    return getCtx().prisma.manager.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllManagerLoginsArgs = {}): Promise<ManagerLogin[]> => {
+  const all = async (params: QueryAllManagersArgs = {}): Promise<Manager[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.managerLogin.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<ManagerLogin[]>;
+    return getCtx().prisma.manager.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Manager[]>;
   };
 
-  const findOne = async (params: QueryAllManagerLoginsArgs = {}): Promise<ManagerLogin | null> => {
+  const findOne = async (params: QueryAllManagersArgs = {}): Promise<Manager | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.managerLogin.findFirst(toPrismaRequest(params, {noId: true}));
+    return getCtx().prisma.manager.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllManagerLoginsMetaArgs = {}): Promise<number> => {
+  const count = async (params: Query_AllManagersMetaArgs = {}): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.managerLogin.count(toPrismaTotalRequest(params));
+    return getCtx().prisma.manager.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllManagerLoginsMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (params: Query_AllManagersMetaArgs = {}): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -84,20 +84,20 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateManagerLoginArgs): Promise<ManagerLogin> => {
+  const create = async (data: MutationCreateManagerArgs): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeCreate(getCtx, data);
 
-    const createOperation = getCtx().prisma.managerLogin.create({
+    const createOperation = getCtx().prisma.manager.create({
       data: R.mergeDeepLeft(
         {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick(['id', 'lastName', 'firstName', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -116,13 +116,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
     // update search. earlier we does not have id
-    await getCtx().prisma.managerLogin.update({
+    await getCtx().prisma.manager.update({
       where: {id: result.id},
       data: {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], result),
+                R.pick(['id', 'lastName', 'firstName', 'title'], result),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -131,27 +131,27 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as ManagerLogin);
+    await afterCreate(getCtx, result as Manager);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    return result as ManagerLogin;
+    return result as Manager;
   };
 
-  const createMany = async (entries: MutationCreateManagerLoginArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (entries: MutationCreateManagerArgs[]): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const result = await getCtx().prisma.managerLogin.createMany({
+    const result = await getCtx().prisma.manager.createMany({
       data: entries.map(data => R.mergeDeepLeft(
         {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick(['id', 'lastName', 'firstName', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -170,7 +170,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateManagerLoginArgs): Promise<ManagerLogin> => {
+  const update = async (data: MutationUpdateManagerArgs): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -179,13 +179,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.managerLogin.update({
+    const updateOperation = getCtx().prisma.manager.update({
       data: R.mergeDeepLeft(
         {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick(['id', 'lastName', 'firstName', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -204,28 +204,28 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
-    await afterUpdate(getCtx, result as ManagerLogin);
+    await afterUpdate(getCtx, result as Manager);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    return result as ManagerLogin;
+    return result as Manager;
   };
 
-  const upsert = async (data: MutationUpdateManagerLoginArgs): Promise<ManagerLogin> => {
+  const upsert = async (data: MutationUpdateManagerArgs): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
     const {id, ...rest} = data;
 
-    const result = await getCtx().prisma.managerLogin.upsert({create: R.mergeDeepLeft(
+    const result = await getCtx().prisma.manager.upsert({create: R.mergeDeepLeft(
       {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick(['id', 'lastName', 'firstName', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -238,7 +238,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick(['id', 'lastName', 'firstName', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -255,7 +255,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs): Promise<ManagerLogin> => {
+  const upsertAdvansed = async (filter: ManagerFilter, data: MutationCreateManagerArgs): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -282,12 +282,12 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveManagerLoginArgs): Promise<boolean> => {
+  const del = async (params: MutationRemoveManagerArgs): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const deleteOperation = getCtx().prisma.managerLogin.delete({where: {id: params.id}});
+    const deleteOperation = getCtx().prisma.manager.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
@@ -311,7 +311,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     return true;
   };
 
-  const baseMethods: BaseManagerLoginsMethods = {
+  const baseMethods: BaseManagersMethods = {
     get,
     all,
     findOne,

@@ -9,6 +9,7 @@ import {FilesService, getFilesService} from './FilesService/FilesService';
 import {UsersService, getUsersService} from './UsersService/UsersService';
 import {AdminsService, getAdminsService} from './AdminsService/AdminsService';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
+import {ManagersService, getManagersService} from './ManagersService/ManagersService';
 import {ManagerLoginsService, getManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService';
 import {StatsService, getStatsService} from './StatsService/StatsService';
 import {TagsService, getTagsService} from './TagsService/TagsService';
@@ -21,6 +22,7 @@ export interface BaseServices {
   users: UsersService;
   admins: AdminsService;
   appLogins: AppLoginsService;
+  managers: ManagersService;
   managerLogins: ManagerLoginsService;
   stats: StatsService;
   tags: TagsService;
@@ -73,6 +75,7 @@ export const createContext = (baseContext: BaseContext, getContext: () => Contex
     users: getUsersService(getContext),
     admins: getAdminsService(getContext),
     appLogins: getAppLoginsService(getContext),
+    managers: getManagersService(getContext),
     managerLogins: getManagerLoginsService(getContext),
     stats: getStatsService(getContext),
     tags: getTagsService(getContext),

@@ -1,6 +1,6 @@
-import {getContext} from '../agr/services/context';
+import {getOrCreateContext} from '../agr/services/context';
 
 export const recalculateStats = async () => {
-  const ctx = await getContext();
+  const ctx = await getOrCreateContext();
   await ctx.stats.recalculate();
 };

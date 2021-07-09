@@ -6,7 +6,7 @@ import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
-import {getContext} from '../../agr/services/context';
+import {getOrCreateContext} from '../../agr/services/context';
 import generator from 'generate-password';
 
 passport.use(
@@ -20,7 +20,7 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const ctx = await getContext();
+        const ctx = await getOrCreateContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
         const user = await ctx.users.create({
           firstname: req.body.firstname,
@@ -57,7 +57,7 @@ passport.use(
       try {
         log.info(`email: ${email}`);
 
-        const ctx = await getContext();
+        const ctx = await getOrCreateContext();
 
         // Check there is no yet login for this user
         const login = await ctx.appLogins.findOne({filter: {login: email}});
@@ -111,7 +111,7 @@ passport.use(
 
         // const preparedCardNumber = prepareCardNumber(cardNumber);
         // log.info(`preparedCardNumber: ${preparedCardNumber}`);
-        const ctx = await getContext();
+        const ctx = await getOrCreateContext();
         const login = await ctx.appLogins.findOne({filter: {login: email}});
 
         if (!login) {

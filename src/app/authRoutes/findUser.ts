@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import {Response} from 'express';
-import {getContext} from '../../agr/services/context';
+import {getOrCreateContext} from '../../agr/services/context';
 import {log} from '../../log';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 import {getCurrentUser} from './getCurrentUser';
@@ -8,7 +8,7 @@ import {getCurrentUser} from './getCurrentUser';
 export const findUser = async (req: AuthenticatedRequest, res: Response) => {
   log.info(req.user);
   if (req.user) {
-    const ctx = await getContext();
+    const ctx = await getOrCreateContext();
     const user = await getCurrentUser(ctx, req);
     if (!user) {
       throw new Error('User not found');

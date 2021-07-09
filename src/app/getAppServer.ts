@@ -8,7 +8,7 @@ const getAppServer = (context: Context) => new ApolloServer({
     user: req.user,
     user2: 123,
   }),
-  context: () => ({
+  dataSources: () => ({
     ...(context as any),
   }),
   engine: {

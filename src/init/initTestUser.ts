@@ -7,6 +7,11 @@ export const initTestUser = async (ctx: Context) => {
   const email = 'demo';
   const hashedPassword = await bcrypt.hash(email, BCRYPT_SALT_ROUNDS);
 
+  const manager = await ctx.managers.create({
+    lastName: 'Test',
+    firstName: 'Admin',
+  });
+
   await ctx.managerLogins.upsertAdvansed(
     {
       login: email,
@@ -18,6 +23,7 @@ export const initTestUser = async (ctx: Context) => {
       emailVerified: true,
       initialPasswordChanged: true,
       locked: false,
+      managerId: manager.id,
     },
   );
 };

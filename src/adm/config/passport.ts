@@ -6,7 +6,7 @@ import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
-import {getContext} from '../../agr/services/context';
+import {getOrCreateContext} from '../../agr/services/context';
 
 passport.use(
   'admRegister',
@@ -19,20 +19,26 @@ passport.use(
     },
     async (_, email, password, done) => {
       try {
-        const ctx = await getContext();
+        const ctx = await getOrCreateContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-        log.info();
-        const login = await ctx.managerLogins.create({
+
+        const manager = await ctx.managers.create({
+          lastName: '',
+          firstName: '',
+        });
+
+        await ctx.managerLogins.create({
           login: email,
           passwordHash: hashedPassword,
           role: '',
           emailVerified: false,
           initialPasswordChanged: true,
           locked: true,
+          managerId: manager.id,
         });
         log.info('user created');
 
-        return done(null, {id: login.id});
+        return done(null, {id: manager.id});
       } catch (error) {
         return done(error, null);
       }
@@ -52,14 +58,14 @@ passport.use(
       try {
         log.info(`email: ${email}`);
 
-        const ctx = await getContext();
-        const loginEntry = await ctx.managerLogins.findOne({filter: {login: email}});
+        const ctx = await getOrCreateContext();
+        const login = await ctx.managerLogins.findOne({filter: {login: email}});
 
-        if (!loginEntry) {
+        if (!login) {
           return done(null, false, {message: 'bad login'});
         }
 
-        const passwordMatch = await bcrypt.compare(password, loginEntry.passwordHash);
+        const passwordMatch = await bcrypt.compare(password, login.passwordHash);
         if (passwordMatch !== true) {
           log.info('passwords do not match');
 
@@ -68,7 +74,7 @@ passport.use(
 
         log.info('user found & password match');
 
-        return done(null, {id: loginEntry.id});
+        return done(null, {id: login.managerId});
       } catch (error) {
         return done(error, null);
       }
