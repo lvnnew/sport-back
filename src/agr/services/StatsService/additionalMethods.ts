@@ -46,7 +46,7 @@ export const getAdditionalMethods = (getCtx: () => Context, _baseMethods: BaseSt
     R.toPairs(stats)
       .filter(([key]) => !['id', 'updated', 'search'].includes(key))
       .forEach(([key, value]) => {
-        gauge.set({label: key}, value);
+        gauge.set({label: key}, value || 0);
       });
   };
 
