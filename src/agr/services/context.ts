@@ -121,18 +121,21 @@ export const getOrCreateContext = async (): Promise<Context> => {
 };
 
 export const getOrCreateUserAwareContext = (baseContext: BaseContext, userId: number): Context => {
+  const getUserId = () => userId;
+
   const userAwareContextGetter = () => {
     const context = getCtx();
 
     return {
       ...context,
-      getUserId: () => userId,
+      getUserId,
     };
   };
 
-  const context = createContext(baseContext, userAwareContextGetter);
-
-  return context;
+  return {
+    ...createContext(baseContext, userAwareContextGetter),
+    getUserId,
+  };
 };
 
 export const getCtx = (): Context => {
