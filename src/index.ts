@@ -70,13 +70,12 @@ const start = async () => {
   app.use('/app/graph', passport.authenticate('appJwt', {session: false}));
   app.use('/app/graph', graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}));
 
-  getAppServer(context).applyMiddleware({app, path: '/app/graph'});
+  getAppServer(baseContext).applyMiddleware({app, path: '/app/graph'});
 
   const server = new ApolloServer({
     context: ({req}) => ({
       context: {
         ...getOrCreateUserAwareContext(baseContext, (req.user as any).id),
-        currentUserId: (req.user as any).id,
       },
     }),
     engine: {
