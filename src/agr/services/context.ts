@@ -88,7 +88,7 @@ export const createContext = (baseContext: BaseContext, getContext: () => Contex
     ...baseServices,
     ...additionalServices,
 
-    getUserId: () => getContext().getUserId(),
+    getUserId: () => null,
   };
 
   return context;
