@@ -2,7 +2,7 @@
 import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
-import {Context} from '../../../agr/services/context';
+import {Context} from '../../../adm/services/context';
 
 export interface ResetPasswordEmaiLocals extends SendEmailLocals {
   password: string;

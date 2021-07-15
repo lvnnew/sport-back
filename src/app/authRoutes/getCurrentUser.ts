@@ -1,4 +1,4 @@
-import {Context} from '../../agr/services/context';
+import {Context} from '../../adm/services/context';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 
 export const getCurrentUser = async (ctx: Context, req: AuthenticatedRequest) => {

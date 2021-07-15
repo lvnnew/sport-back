@@ -1,6 +1,6 @@
 import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
-import {Context} from '../../../agr/services/context';
+import {Context} from '../../../adm/services/context';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
 
 export interface NewRegistrationEmailLocals extends SendEmailLocals {

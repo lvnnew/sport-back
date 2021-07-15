@@ -9,7 +9,7 @@ import {run, parseCronItems} from 'graphile-worker';
 import {getConfig} from '../config';
 import {generalJobs} from '../jobs/generalJobs';
 import {cronJobs} from '../jobs/cronJobs';
-import {closeCtx} from '../agr/services/context';
+import {closeCtx} from '../adm/services/context';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 
 // ts-node src/cli/generalWorker.ts

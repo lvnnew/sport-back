@@ -6,7 +6,7 @@ import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
-import {getOrCreateContext} from '../../agr/services/context';
+import {getOrCreateContext} from '../services/context';
 
 passport.use(
   'admRegister',

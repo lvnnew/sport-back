@@ -3,7 +3,7 @@ import {Response} from 'express';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
-import {getOrCreateContext} from '../../agr/services/context';
+import {getOrCreateContext} from '../services/context';
 import {getCurrentLogin} from './getCurrentLogin';
 
 export const updatePassword = async (req: AuthenticatedRequest, res: Response) => {
