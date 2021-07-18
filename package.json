@@ -40,10 +40,6 @@
     ]
   },
   "dependencies": {
-    "@graphql-codegen/core": "^1.17.9",
-    "@graphql-codegen/plugin-helpers": "^1.18.2",
-    "@instants/core": "^1.0.66",
-    "@instants/json-graphql-server-lib": "^1.0.20",
     "@prisma/client": "^2.23.0",
     "@types/adm-zip": "^0.4.33",
     "adm-zip": "^0.4.16",
@@ -117,6 +113,8 @@
     "zen-observable": "^0.8.15"
   },
   "devDependencies": {
+    "@graphql-codegen/core": "^1.17.9",
+    "@graphql-codegen/plugin-helpers": "^1.18.2",
     "@graphql-codegen/cli": "^1.17.8",
     "@graphql-codegen/introspection": "^1.17.8",
     "@graphql-codegen/typescript": "^1.17.9",
