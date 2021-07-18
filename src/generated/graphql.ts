@@ -151,6 +151,83 @@ export type Scalars = {
   Void: any;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export type Admin = {
+  __typename?: 'Admin';
+  id: Scalars['Int'];
+  lastname: Scalars['String'];
+  firstname: Scalars['String'];
+  email: Scalars['String'];
+};
+
+export type AdminFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
+  lastname?: Maybe<Scalars['String']>;
+  lastname_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  firstname?: Maybe<Scalars['String']>;
+  firstname_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  email?: Maybe<Scalars['String']>;
+  email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type ListMetadata = {
+  __typename?: 'ListMetadata';
+  count?: Maybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   Admin?: Maybe<Admin>;
@@ -544,83 +621,6 @@ export type MutationRemoveUserArgs = {
   id: Scalars['Int'];
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export type Admin = {
-  __typename?: 'Admin';
-  id: Scalars['Int'];
-  lastname: Scalars['String'];
-  firstname: Scalars['String'];
-  email: Scalars['String'];
-};
-
-export type AdminFilter = {
-  q?: Maybe<Scalars['String']>;
-  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
-  id?: Maybe<Scalars['Int']>;
-  lastname?: Maybe<Scalars['String']>;
-  lastname_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-  firstname?: Maybe<Scalars['String']>;
-  firstname_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-  email?: Maybe<Scalars['String']>;
-  email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type ListMetadata = {
-  __typename?: 'ListMetadata';
-  count?: Maybe<Scalars['Int']>;
-};
-
 export type AppLogin = {
   __typename?: 'AppLogin';
   id: Scalars['Int'];
@@ -852,12 +852,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  Mutation: ResolverTypeWrapper<{}>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
@@ -911,8 +905,14 @@ export type ResolversTypes = {
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
   Void: ResolverTypeWrapper<Scalars['Void']>;
   Admin: ResolverTypeWrapper<Admin>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   AdminFilter: AdminFilter;
   ListMetadata: ResolverTypeWrapper<ListMetadata>;
+  Query: ResolverTypeWrapper<{}>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  Mutation: ResolverTypeWrapper<{}>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   AppLogin: ResolverTypeWrapper<AppLogin>;
   AppLoginFilter: AppLoginFilter;
   File: ResolverTypeWrapper<File>;
@@ -931,12 +931,6 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
-  Int: Scalars['Int'];
-  String: Scalars['String'];
-  ID: Scalars['ID'];
-  Mutation: {};
-  Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
   Time: Scalars['Time'];
   DateTime: Scalars['DateTime'];
@@ -990,8 +984,14 @@ export type ResolversParentTypes = {
   ObjectID: Scalars['ObjectID'];
   Void: Scalars['Void'];
   Admin: Admin;
+  Int: Scalars['Int'];
+  String: Scalars['String'];
   AdminFilter: AdminFilter;
   ListMetadata: ListMetadata;
+  Query: {};
+  ID: Scalars['ID'];
+  Mutation: {};
+  Boolean: Scalars['Boolean'];
   AppLogin: AppLogin;
   AppLoginFilter: AppLoginFilter;
   File: File;
@@ -1006,62 +1006,6 @@ export type ResolversParentTypes = {
   TagFilter: TagFilter;
   User: User;
   UserFilter: UserFilter;
-};
-
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  Admin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<QueryAdminArgs, 'id'>>;
-  allAdmins?: Resolver<Maybe<Array<Maybe<ResolversTypes['Admin']>>>, ParentType, ContextType, RequireFields<QueryAllAdminsArgs, never>>;
-  _allAdminsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAdminsMetaArgs, never>>;
-  AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
-  allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
-  _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
-  File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
-  allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, RequireFields<QueryAllFilesArgs, never>>;
-  _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllFilesMetaArgs, never>>;
-  ManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<QueryManagerLoginArgs, 'id'>>;
-  allManagerLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLogin']>>>, ParentType, ContextType, RequireFields<QueryAllManagerLoginsArgs, never>>;
-  _allManagerLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagerLoginsMetaArgs, never>>;
-  Manager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<QueryManagerArgs, 'id'>>;
-  allManagers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Manager']>>>, ParentType, ContextType, RequireFields<QueryAllManagersArgs, never>>;
-  _allManagersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagersMetaArgs, never>>;
-  Meta?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
-  Stat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<QueryStatArgs, 'id'>>;
-  allStats?: Resolver<Maybe<Array<Maybe<ResolversTypes['Stat']>>>, ParentType, ContextType, RequireFields<QueryAllStatsArgs, never>>;
-  _allStatsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllStatsMetaArgs, never>>;
-  Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
-  allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, RequireFields<QueryAllTagsArgs, never>>;
-  _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllTagsMetaArgs, never>>;
-  User?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
-  allUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryAllUsersArgs, never>>;
-  _allUsersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllUsersMetaArgs, never>>;
-};
-
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<MutationCreateAdminArgs, 'lastname' | 'firstname' | 'email'>>;
-  updateAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<MutationUpdateAdminArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
-  removeAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAdminArgs, 'id'>>;
-  createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
-  updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
-  removeAppLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
-  createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
-  updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
-  removeFile?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
-  createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
-  updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
-  removeManagerLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
-  createManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationCreateManagerArgs, 'lastName' | 'firstName'>>;
-  updateManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationUpdateManagerArgs, 'id' | 'lastName' | 'firstName'>>;
-  removeManager?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerArgs, 'id'>>;
-  recalculateStat?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType>;
-  createStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationCreateStatArgs, 'id'>>;
-  updateStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationUpdateStatArgs, 'id'>>;
-  removeStat?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveStatArgs, 'id'>>;
-  createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationCreateTagArgs, never>>;
-  updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
-  removeTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
-  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
-  removeUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -1285,6 +1229,62 @@ export type ListMetadataResolvers<ContextType = any, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  Admin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<QueryAdminArgs, 'id'>>;
+  allAdmins?: Resolver<Maybe<Array<Maybe<ResolversTypes['Admin']>>>, ParentType, ContextType, RequireFields<QueryAllAdminsArgs, never>>;
+  _allAdminsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAdminsMetaArgs, never>>;
+  AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
+  allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
+  _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
+  File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
+  allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, RequireFields<QueryAllFilesArgs, never>>;
+  _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllFilesMetaArgs, never>>;
+  ManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<QueryManagerLoginArgs, 'id'>>;
+  allManagerLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLogin']>>>, ParentType, ContextType, RequireFields<QueryAllManagerLoginsArgs, never>>;
+  _allManagerLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagerLoginsMetaArgs, never>>;
+  Manager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<QueryManagerArgs, 'id'>>;
+  allManagers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Manager']>>>, ParentType, ContextType, RequireFields<QueryAllManagersArgs, never>>;
+  _allManagersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagersMetaArgs, never>>;
+  Meta?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
+  Stat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<QueryStatArgs, 'id'>>;
+  allStats?: Resolver<Maybe<Array<Maybe<ResolversTypes['Stat']>>>, ParentType, ContextType, RequireFields<QueryAllStatsArgs, never>>;
+  _allStatsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllStatsMetaArgs, never>>;
+  Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
+  allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, RequireFields<QueryAllTagsArgs, never>>;
+  _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllTagsMetaArgs, never>>;
+  User?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  allUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryAllUsersArgs, never>>;
+  _allUsersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllUsersMetaArgs, never>>;
+};
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<MutationCreateAdminArgs, 'lastname' | 'firstname' | 'email'>>;
+  updateAdmin?: Resolver<Maybe<ResolversTypes['Admin']>, ParentType, ContextType, RequireFields<MutationUpdateAdminArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
+  removeAdmin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAdminArgs, 'id'>>;
+  createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
+  updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
+  removeAppLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
+  createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
+  updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
+  removeFile?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
+  createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
+  updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
+  removeManagerLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
+  createManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationCreateManagerArgs, 'lastName' | 'firstName'>>;
+  updateManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationUpdateManagerArgs, 'id' | 'lastName' | 'firstName'>>;
+  removeManager?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerArgs, 'id'>>;
+  recalculateStat?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType>;
+  createStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationCreateStatArgs, 'id'>>;
+  updateStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationUpdateStatArgs, 'id'>>;
+  removeStat?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveStatArgs, 'id'>>;
+  createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationCreateTagArgs, never>>;
+  updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
+  removeTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
+  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
+  removeUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
+};
+
 export type AppLoginResolvers<ContextType = any, ParentType extends ResolversParentTypes['AppLogin'] = ResolversParentTypes['AppLogin']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1345,8 +1345,6 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
-  Query?: QueryResolvers<ContextType>;
-  Mutation?: MutationResolvers<ContextType>;
   Date?: GraphQLScalarType;
   Time?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
@@ -1401,6 +1399,8 @@ export type Resolvers<ContextType = any> = {
   Void?: GraphQLScalarType;
   Admin?: AdminResolvers<ContextType>;
   ListMetadata?: ListMetadataResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
   AppLogin?: AppLoginResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;

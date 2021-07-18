@@ -41,6 +41,7 @@ export type Context = BaseContext & BaseServices & AdditionalServices & {
   worker: WorkerUtils;
   close: () => Promise<void>;
   getUserId: () => number | null;
+  getManagerId: () => number | null;
 };
 
 let baseContext: BaseContext | null = null;
@@ -89,6 +90,7 @@ export const createContext = (baseContext: BaseContext, getContext: () => Contex
     ...additionalServices,
 
     getUserId: () => null,
+    getManagerId: () => null,
   };
 
   return context;
@@ -120,8 +122,15 @@ export const getOrCreateContext = async (): Promise<Context> => {
   return context;
 };
 
-export const getOrCreateUserAwareContext = (baseContext: BaseContext, userId: number): Context => {
-  const getUserId = () => userId;
+export const getOrCreateUsersAwareContext = (
+  baseContext: BaseContext,
+  users: {
+    userId?: number;
+    managerId?: number;
+  },
+): Context => {
+  const getUserId = () => users.userId || null;
+  const getManagerId = () => users.managerId || null;
 
   const userAwareContextGetter = () => {
     const context = getCtx();
@@ -129,12 +138,14 @@ export const getOrCreateUserAwareContext = (baseContext: BaseContext, userId: nu
     return {
       ...context,
       getUserId,
+      getManagerId,
     };
   };
 
   return {
     ...createContext(baseContext, userAwareContextGetter),
     getUserId,
+    getManagerId,
   };
 };
 

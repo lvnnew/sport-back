@@ -5,7 +5,7 @@ import {log} from './log';
 import schema from './graph/schema';
 import {
   getOrCreateBaseContext,
-  getOrCreateUserAwareContext,
+  getOrCreateUsersAwareContext,
   getOrCreateContext,
   closeCtx,
 } from './adm/services/context';
@@ -75,7 +75,12 @@ const start = async () => {
   const server = new ApolloServer({
     context: ({req}) => ({
       context: {
-        ...getOrCreateUserAwareContext(baseContext, (req.user as any).id),
+        ...getOrCreateUsersAwareContext(
+          baseContext,
+          {
+            managerId: (req.user as any).id,
+          },
+        ),
       },
     }),
     engine: {
