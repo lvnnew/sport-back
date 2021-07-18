@@ -50,6 +50,7 @@
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "change-case": "^4.1.1",
+    "cheerio": "^1.0.0-rc.10",
     "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -107,10 +108,10 @@
     "zen-observable": "^0.8.15"
   },
   "devDependencies": {
-    "@graphql-codegen/core": "^1.17.9",
-    "@graphql-codegen/plugin-helpers": "^1.18.2",
     "@graphql-codegen/cli": "^1.17.8",
+    "@graphql-codegen/core": "^1.17.9",
     "@graphql-codegen/introspection": "^1.17.8",
+    "@graphql-codegen/plugin-helpers": "^1.18.2",
     "@graphql-codegen/typescript": "^1.17.9",
     "@graphql-codegen/typescript-resolvers": "^1.17.9",
     "@types/bcrypt": "^3.0.1",
