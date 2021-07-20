@@ -75,8 +75,8 @@ deploy-dev:
   extends: .deploy-dev
   stage: deploy-dev
   variables:
-    ENV: "stage"
-    ENV_NAME: "stage01"
+    ENV: "dev"
+    ENV_NAME: "dev01"
 
 deploy-demo:
   extends: .deploy-prod
@@ -87,11 +87,11 @@ deploy-demo:
     TAG: ":demo"
   only:
     - demo
-
 deploy-dev-workers:
   extends: .deploy-dev-workers
+  stage: deploy-dev
   variables:
-    ENV: "stage"
+    ENV: "dev"
     ENV_NAME: "workers01"
 
 .deploy-dev-back:
@@ -144,14 +144,11 @@ deploy-dev-workers:
 
 .deploy-dev:
   extends: .deploy
-  stage: deploy-dev
   variables:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
     PG_URI: ${AGR_DEV_PG_URI}
-  only:
-    - master
 
 .deploy-prod:
   extends: .deploy
