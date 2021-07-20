@@ -71,11 +71,10 @@ master-to-latest:
   variables:
     GIT_STRATEGY: none
 
-deploy-dev:
-  extends: .deploy-dev
+deploy-dev-back:
+  extends: .deploy-dev-back
   stage: deploy-dev
   variables:
-    ENV: "dev"
     ENV_NAME: "dev01"
 
 deploy-demo:
@@ -87,11 +86,11 @@ deploy-demo:
     TAG: ":demo"
   only:
     - demo
+
 deploy-dev-workers:
   extends: .deploy-dev-workers
   stage: deploy-dev
   variables:
-    ENV: "dev"
     ENV_NAME: "workers01"
 
 .deploy-dev-back:
@@ -145,6 +144,7 @@ deploy-dev-workers:
 .deploy-dev:
   extends: .deploy
   variables:
+    ENV: "dev"
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
