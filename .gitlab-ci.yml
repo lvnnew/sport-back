@@ -6,7 +6,7 @@ stages:
   - check
   - build
   - latest-image
-  - deploy-stage
+  - deploy-dev
   - deploy-demo
 
 cache:
@@ -71,9 +71,9 @@ master-to-latest:
   variables:
     GIT_STRATEGY: none
 
-deploy-stage:
+deploy-dev:
   extends: .deploy-dev
-  stage: deploy-stage
+  stage: deploy-dev
   variables:
     ENV: "stage"
     ENV_NAME: "stage01"
@@ -87,36 +87,38 @@ deploy-demo:
     TAG: ":demo"
   only:
     - demo
-deploy-stage-workers:
+
+deploy-dev-workers:
   extends: .deploy-dev-workers
-  stage: deploy-stage
   variables:
     ENV: "stage"
     ENV_NAME: "workers01"
 
 .deploy-dev:
   extends: .deploy
+  stage: deploy-dev
   variables:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
     PG_URI: ${AGR_DEV_PG_URI}
     KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
+  only:
+    - master
+
+.deploy-dev-back:
+  extends: .deploy-dev
+  variables:
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
     WORKER_ENABLED: "false"
     ROOT_ENABLED: "false"
-  only:
-    - master
 
 .deploy-dev-workers:
-  extends: .deploy
+  extends: .deploy-dev
   variables:
-    DEV: "true"
-    HOST: "making.ventures"
-    TAG: ":latest"
-    PG_URI: ${AGR_DEV_PG_URI}
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
     APPNAME: workers
     BACK_ENABLED: "false"
@@ -131,30 +133,29 @@ deploy-stage-workers:
 
 .deploy-prod:
   extends: .deploy
+  stage: deploy-prod
   when: manual
   variables:
-    DEV: "true"
+    DEV: "false"
     HOST: "making.ventures"
-    TAG: ":release"
+    TAG: ":latest"
     PG_URI: ${AGR_PROD_PG_URI}
     KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
+  only:
+    - master
+
+.deploy-prod-back:
+  extends: .deploy-prod
+  variables:
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
     WORKER_ENABLED: "false"
     ROOT_ENABLED: "false"
-  only:
-    - release
-    - /^release-.*$/
 
 .deploy-prod-workers:
-  extends: .deploy
-  when: manual
+  extends: .deploy-prod
   variables:
-    DEV: "true"
-    HOST: "making.ventures"
-    TAG: ":latest"
-    PG_URI: ${AGR_DEV_PG_URI}
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
     APPNAME: workers
     BACK_ENABLED: "false"
@@ -164,9 +165,6 @@ deploy-stage-workers:
     TIKA_ENABLED: "false"
     TIKA_INGRESS_ENABLED: "false"
     ROOT_ENABLED: "false"
-  only:
-    - release
-    - /^release-.*$/
 
 .deploy:
   image:
