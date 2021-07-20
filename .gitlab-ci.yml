@@ -94,18 +94,6 @@ deploy-dev-workers:
     ENV: "stage"
     ENV_NAME: "workers01"
 
-.deploy-dev:
-  extends: .deploy
-  stage: deploy-dev
-  variables:
-    DEV: "true"
-    HOST: "making.ventures"
-    TAG: ":latest"
-    PG_URI: ${AGR_DEV_PG_URI}
-    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
-  only:
-    - master
-
 .deploy-dev-back:
   extends: .deploy-dev
   variables:
@@ -131,22 +119,10 @@ deploy-dev-workers:
   only:
     - master
 
-.deploy-prod:
-  extends: .deploy
-  stage: deploy-prod
-  when: manual
-  variables:
-    DEV: "false"
-    HOST: "making.ventures"
-    TAG: ":latest"
-    PG_URI: ${AGR_PROD_PG_URI}
-    KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
-  only:
-    - master
-
 .deploy-prod-back:
   extends: .deploy-prod
   variables:
+    KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
@@ -165,6 +141,29 @@ deploy-dev-workers:
     TIKA_ENABLED: "false"
     TIKA_INGRESS_ENABLED: "false"
     ROOT_ENABLED: "false"
+
+.deploy-dev:
+  extends: .deploy
+  stage: deploy-dev
+  variables:
+    DEV: "true"
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_DEV_PG_URI}
+  only:
+    - master
+
+.deploy-prod:
+  extends: .deploy
+  stage: deploy-prod
+  when: manual
+  variables:
+    DEV: "false"
+    HOST: "making.ventures"
+    TAG: ":latest"
+    PG_URI: ${AGR_PROD_PG_URI}
+  only:
+    - master
 
 .deploy:
   image:
