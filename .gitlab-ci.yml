@@ -6,7 +6,7 @@ stages:
   - check
   - build
   - latest-image
-  - deploy-dev
+  - deploy-stage
   - deploy-demo
 
 cache:
@@ -73,7 +73,7 @@ master-to-latest:
 
 deploy-dev-back:
   extends: .deploy-dev-back
-  stage: deploy-dev
+  stage: deploy-stage
   variables:
     ENV_NAME: "dev01"
 
@@ -89,7 +89,7 @@ deploy-demo:
 
 deploy-dev-workers:
   extends: .deploy-dev-workers
-  stage: deploy-dev
+  stage: deploy-stage
   variables:
     ENV_NAME: "workers01"
 
