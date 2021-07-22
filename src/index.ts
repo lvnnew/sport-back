@@ -22,6 +22,7 @@ import appAuthRouter from './app/authRouter';
 import admAuthRouter from './adm/authRouter';
 import getAppServer from './app/getAppServer';
 import {graphqlUploadExpress} from 'graphql-upload';
+import './utils/polyfills/BigInt';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 

@@ -1,12 +1,12 @@
 image: node:14
-# DO NOT EDIT! THIS IS GENERATED FILE
 
+# DO NOT EDIT! THIS IS GENERATED FILE
 
 stages:
   - check
   - build
   - latest-image
-  - deploy-stage
+  - deploy-dev
   - deploy-demo
 
 cache:
@@ -71,11 +71,12 @@ master-to-latest:
   variables:
     GIT_STRATEGY: none
 
-deploy-dev-back:
-  extends: .deploy-dev-back
-  stage: deploy-stage
+deploy-dev:
+  extends: .deploy-dev
+  stage: deploy-dev
   variables:
-    ENV_NAME: "stage01"
+    ENV: "dev"
+    ENV_NAME: "dev01"
 
 deploy-demo:
   extends: .deploy-prod
@@ -86,7 +87,6 @@ deploy-demo:
     TAG: ":demo"
   only:
     - demo
-
 deploy-dev-workers:
   extends: .deploy-dev-workers
   stage: deploy-stage
@@ -94,7 +94,7 @@ deploy-dev-workers:
     ENV_NAME: "workers01"
 
 .deploy-dev-back:
-  extends: .deploy-dev
+  extends: .deploy-dev-back
   variables:
     KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "true"
@@ -155,6 +155,7 @@ deploy-dev-workers:
   stage: deploy-prod
   when: manual
   variables:
+    ENV: "prod"
     DEV: "false"
     HOST: "making.ventures"
     TAG: ":latest"
