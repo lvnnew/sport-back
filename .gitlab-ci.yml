@@ -145,7 +145,6 @@ deploy-dev-workers:
 .deploy-dev:
   extends: .deploy
   variables:
-    ENV: "dev"
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
