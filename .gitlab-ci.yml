@@ -22,44 +22,44 @@ variables:
   KUBECONFIG: /etc/deploy/config
   APPNAME: back
 
-check:
-  stage: check
-  image: registry.gitlab.com/making.ventures/images/prisma-cli
-  before_script:
-    - yarn
-  script:
-    - ./check
+# check:
+#   stage: check
+#   image: registry.gitlab.com/making.ventures/images/prisma-cli
+#   before_script:
+#     - yarn
+#   script:
+#     - ./check
 
-build:
-  stage: build
-  image:
-    name: gcr.io/kaniko-project/executor:debug
-    entrypoint: ['']
-  before_script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    # - /kaniko/warmer --cache-dir=$CI_PROJECT_DIR/.cache_images --image=browserless/chrome
-  script:
-    - /kaniko/executor
-      --cache-dir=$CI_PROJECT_DIR/.cache_images
-      --context ${CI_PROJECT_DIR}
-      --dockerfile ${CI_PROJECT_DIR}/Dockerfile
-      --destination ${CI_REGISTRY_IMAGE}:$CI_COMMIT_REF_SLUG
-      --single-snapshot
-  only:
-    - master
-    - release
-    - /^release-.*$/
-    - demo
+# build:
+#   stage: build
+#   image:
+#     name: gcr.io/kaniko-project/executor:debug
+#     entrypoint: ['']
+#   before_script:
+#     - mkdir -p /kaniko/.docker
+#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#     # - /kaniko/warmer --cache-dir=$CI_PROJECT_DIR/.cache_images --image=browserless/chrome
+#   script:
+#     - /kaniko/executor
+#       --cache-dir=$CI_PROJECT_DIR/.cache_images
+#       --context ${CI_PROJECT_DIR}
+#       --dockerfile ${CI_PROJECT_DIR}/Dockerfile
+#       --destination ${CI_REGISTRY_IMAGE}:$CI_COMMIT_REF_SLUG
+#       --single-snapshot
+#   only:
+#     - master
+#     - release
+#     - /^release-.*$/
+#     - demo
 
-master-to-latest:
-  extends: .tag-image
-  stage: latest-image
-  only:
-    - master
-  variables:
-    TAG_ORIGIN: master
-    TAG_DESTINATION: latest
+# master-to-latest:
+#   extends: .tag-image
+#   stage: latest-image
+#   only:
+#     - master
+#   variables:
+#     TAG_ORIGIN: master
+#     TAG_DESTINATION: latest
 
 .tag-image:
   image:
@@ -87,14 +87,15 @@ deploy-demo:
     TAG: ":demo"
   only:
     - demo
+
 deploy-dev-workers:
   extends: .deploy-dev-workers
-  stage: deploy-stage
+  stage: deploy-dev
   variables:
     ENV_NAME: "workers01"
 
 .deploy-dev-back:
-  extends: .deploy-dev-back
+  extends: .deploy-dev
   variables:
     KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "true"
