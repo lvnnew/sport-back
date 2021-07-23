@@ -6,7 +6,7 @@ stages:
   - check
   - build
   - latest-image
-  - deploy-dev
+  - deploy-stage
 
 cache:
   paths:
@@ -50,7 +50,6 @@ build:
     - release
     - /^release-.*$/
 
-
 master-to-latest:
   extends: .tag-image
   stage: latest-image
@@ -72,17 +71,17 @@ master-to-latest:
 
 deploy-dev-back:
   extends: .deploy-dev-back
-  stage: deploy-dev
+  stage: deploy-stage
   variables:
-    ENV: "dev"
-    ENV_NAME: "dev01"
+    ENV: "stage"
+    ENV_NAME: "stage01"
 
 
-deploy-dev-workers:
+deploy-stage-workers:
   extends: .deploy-dev-workers
-  stage: deploy-dev
+  stage: deploy-stage
   variables:
-    ENV: "dev"
+    ENV: "stage"
     ENV_NAME: "workers-dev-01"
 
 
