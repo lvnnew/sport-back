@@ -50,6 +50,7 @@ build:
     - release
     - /^release-.*$/
 
+
 master-to-latest:
   extends: .tag-image
   stage: latest-image
@@ -69,7 +70,7 @@ master-to-latest:
   variables:
     GIT_STRATEGY: none
 
-deploy-dev-back:
+deploy-stage-back:
   extends: .deploy-dev-back
   stage: deploy-stage
   variables:
@@ -82,7 +83,7 @@ deploy-stage-workers:
   stage: deploy-stage
   variables:
     ENV: "stage"
-    ENV_NAME: "workers-dev-01"
+    ENV_NAME: "workers-stage-01"
 
 
 .deploy-dev-back:
@@ -187,6 +188,5 @@ deploy-stage-workers:
       --set "ingress.enabled=${INGRESS_ENABLED}"
       --set "metrics.enabled=${METRICS_ENABLED}"
       --set "worker.enabled=${WORKER_ENABLED}"
-      --set "bot.enabled=${BOT_ENABLED}"
       --set "ingress.rootEnabled=${ROOT_ENABLED}"
       --namespace ${NAMESPACE}

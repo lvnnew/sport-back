@@ -3,7 +3,7 @@
  "prefix": "agr",
  "description": "notSet",
  "deployEnvironments": [
-  "dev"
+  "stage"
  ],
  "configVars": [
   "pgUri",
