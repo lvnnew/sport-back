@@ -3222,6 +3222,18 @@
             "description": null,
             "args": [
               {
+                "name": "title",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "lastName",
                 "description": null,
                 "type": {
@@ -3254,7 +3266,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "title",
+                "name": "email",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -3295,6 +3307,18 @@
                 "deprecationReason": null
               },
               {
+                "name": "title",
+                "description": null,
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "lastName",
                 "description": null,
                 "type": {
@@ -3327,7 +3351,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "title",
+                "name": "email",
                 "description": null,
                 "type": {
                   "kind": "SCALAR",
@@ -5023,6 +5047,18 @@
             "deprecationReason": null
           },
           {
+            "name": "title",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "lastName",
             "description": null,
             "args": [],
@@ -5055,7 +5091,7 @@
             "deprecationReason": null
           },
           {
-            "name": "title",
+            "name": "email",
             "description": null,
             "args": [],
             "type": {
@@ -5119,6 +5155,34 @@
             "deprecationReason": null
           },
           {
+            "name": "title",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "title_in",
+            "description": null,
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "lastName",
             "description": null,
             "type": {
@@ -5175,7 +5239,7 @@
             "deprecationReason": null
           },
           {
-            "name": "title",
+            "name": "email",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5187,7 +5251,7 @@
             "deprecationReason": null
           },
           {
-            "name": "title_in",
+            "name": "email_in",
             "description": null,
             "type": {
               "kind": "LIST",

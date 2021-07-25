@@ -97,7 +97,7 @@ export const getManagersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastName', 'firstName', 'title'], data),
+                R.pick(['id', 'title', 'lastName', 'firstName', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -122,7 +122,7 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastName', 'firstName', 'title'], result),
+                R.pick(['id', 'title', 'lastName', 'firstName', 'email'], result),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -151,7 +151,7 @@ export const getManagersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastName', 'firstName', 'title'], data),
+                R.pick(['id', 'title', 'lastName', 'firstName', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -185,7 +185,7 @@ export const getManagersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastName', 'firstName', 'title'], data),
+                R.pick(['id', 'title', 'lastName', 'firstName', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -225,7 +225,7 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastName', 'firstName', 'title'], data),
+                R.pick(['id', 'title', 'lastName', 'firstName', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -238,7 +238,7 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastName', 'firstName', 'title'], data),
+                R.pick(['id', 'title', 'lastName', 'firstName', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             

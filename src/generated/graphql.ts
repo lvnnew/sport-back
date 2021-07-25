@@ -609,17 +609,19 @@ export type MutationRemoveManagerLoginArgs = {
 
 
 export type MutationCreateManagerArgs = {
+  title?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   firstName: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationUpdateManagerArgs = {
   id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   firstName: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
 };
 
 
@@ -816,21 +818,24 @@ export type ManagerLoginFilter = {
 export type Manager = {
   __typename?: 'Manager';
   id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   firstName: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
 };
 
 export type ManagerFilter = {
   q?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   lastName?: Maybe<Scalars['String']>;
   lastName_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   firstName?: Maybe<Scalars['String']>;
   firstName_in?: Maybe<Array<Maybe<Scalars['String']>>>;
-  title?: Maybe<Scalars['String']>;
-  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  email?: Maybe<Scalars['String']>;
+  email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type ManagersToRole = {
@@ -1526,9 +1531,10 @@ export type ManagerLoginResolvers<ContextType = any, ParentType extends Resolver
 
 export type ManagerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Manager'] = ResolversParentTypes['Manager']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

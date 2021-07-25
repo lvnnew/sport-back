@@ -442,6 +442,18 @@
      "category": "scalar"
     },
     {
+     "name": "title",
+     "required": false,
+     "requiredOnInput": null,
+     "updatable": true,
+     "description": "",
+     "updatableByUser": true,
+     "hidden": false,
+     "searchable": true,
+     "type": "string",
+     "category": "scalar"
+    },
+    {
      "name": "lastName",
      "required": true,
      "requiredOnInput": true,
@@ -466,7 +478,7 @@
      "category": "scalar"
     },
     {
-     "name": "title",
+     "name": "email",
      "required": false,
      "requiredOnInput": null,
      "updatable": true,

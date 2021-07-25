@@ -5,21 +5,24 @@ import {gql} from 'apollo-server';
 export default gql`
 type Manager {
   id: Int!
+  title: String
   lastName: String!
   firstName: String!
-  title: String
+  email: String
 }
 
 input ManagerFilter {
   q: String
   ids: [Int]
   id: Int
+  title: String
+  title_in: [String]
   lastName: String
   lastName_in: [String]
   firstName: String
   firstName_in: [String]
-  title: String
-  title_in: [String]
+  email: String
+  email_in: [String]
 }
 
 type ListMetadata {
@@ -33,8 +36,8 @@ type Query {
 }
 
 type Mutation {
-  createManager(lastName: String!, firstName: String!, title: String): Manager
-  updateManager(id: Int!, lastName: String!, firstName: String!, title: String): Manager
+  createManager(title: String, lastName: String!, firstName: String!, email: String): Manager
+  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, email: String): Manager
   removeManager(id: Int!): Boolean
 }
 

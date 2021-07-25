@@ -42,9 +42,10 @@ model AppLogin {
 model Manager {
 	id	Int	@default(autoincrement())	@id
 	search	String?
+	title	String?
 	lastName	String
 	firstName	String
-	title	String?
+	email	String?
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToRoleManages	ManagersToRole[]	@relation("From-ManagersToRole.manage")
 }
