@@ -93,6 +93,7 @@ deploy-stage-workers:
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
     WORKER_ENABLED: "false"
+    BOT_ENABLED: "false"
     ROOT_ENABLED: "false"
 
 .deploy-dev-workers:
@@ -104,8 +105,7 @@ deploy-stage-workers:
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
     WORKER_ENABLED: "true"
-    TIKA_ENABLED: "false"
-    TIKA_INGRESS_ENABLED: "false"
+    BOT_ENABLED: "true"
     ROOT_ENABLED: "false"
   only:
     - master
@@ -118,6 +118,7 @@ deploy-stage-workers:
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
     WORKER_ENABLED: "false"
+    BOT_ENABLED: "false"
     ROOT_ENABLED: "false"
 
 .deploy-prod-workers:
@@ -129,8 +130,7 @@ deploy-stage-workers:
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
     WORKER_ENABLED: "true"
-    TIKA_ENABLED: "false"
-    TIKA_INGRESS_ENABLED: "false"
+    BOT_ENABLED: "true"
     ROOT_ENABLED: "false"
 
 .deploy-dev:
@@ -187,5 +187,6 @@ deploy-stage-workers:
       --set "ingress.enabled=${INGRESS_ENABLED}"
       --set "metrics.enabled=${METRICS_ENABLED}"
       --set "worker.enabled=${WORKER_ENABLED}"
+      --set "bot.enabled=${BOT_ENABLED}"
       --set "ingress.rootEnabled=${ROOT_ENABLED}"
       --namespace ${NAMESPACE}

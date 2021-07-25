@@ -33,6 +33,41 @@ deployment:
     prometheus.io/scrape: true
     prometheus.io/port: 2100
 
+back:
+  enabled: true
+
+ingress:
+  enabled: true
+
+metrics:
+  enabled: true
+
+worker:
+  enabled: false
+  requests:
+    memory: "256Mi"
+    cpu: "0.15"
+  limits:
+    memory: "512Mi"
+    cpu: "1"
+
+workers:
+  - name: general
+    file: dist/workers/generalWorker.js
+
+bot:
+  enabled: false
+  requests:
+    memory: "256Mi"
+    cpu: "0.15"
+  limits:
+    memory: "512Mi"
+    cpu: "1"
+
+bots:
+  - name: hello
+    file: dist/bots/helloBot.js
+
 apollo:
   key: ''
 

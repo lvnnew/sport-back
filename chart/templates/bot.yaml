@@ -1,0 +1,83 @@
+
+# DO NOT EDIT! THIS IS GENERATED FILE
+
+{{- if $.Values.bot.enabled }}
+
+{{- range $.Values.bots }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: agr-{{ .name  }}-bot
+  labels:
+    app: agr-{{ .name  }}-bot
+  annotations:
+    prometheus.io/scrape: 'true'
+spec:
+  ports:
+  - port: 3000
+  selector:
+    app: agr-{{ .name  }}-bot
+---
+{{- end }}
+
+{{- range $.Values.bots }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agr-{{ .name  }}-bot
+spec:
+  replicas: {{ $.Values.app.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  selector:
+    matchLabels:
+      app: agr-{{ .name  }}-bot
+  template:
+    metadata:
+      labels:
+        app: agr-{{ .name  }}-bot
+    spec:
+    {{- with $.Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      containers:
+      - name: agr-{{ .name  }}-bot
+        image: {{ $.Values.dockerRegistry }}/agr-back{{ $.Values.app.tag }}
+        command: ["node", "{{ .file  }}"]
+        ports:
+        - name: main-port
+          containerPort: 3000
+        imagePullPolicy: Always
+        env:
+        - name: RANDOM
+          value: {{ $.Values.random | quote }}
+        - name: APP_NAME
+          value: agr-{{ .name  }}-bot
+        - name: ENV
+          value: '{{ $.Values.global.env }}'
+        - name: APOLLO_KEY
+          value: {{ $.Values.apollo.key | quote }}
+        - name: AGR_PG_URI
+          value: {{ $.Values.database.uri | quote }}
+
+        - name: AGR_APP_URI
+          value: {{ $.Values.app.prefix }}.{{ $.Values.ingress.host }}
+
+        resources:
+          requests:
+            memory: {{ $.Values.bot.requests.memory }}
+            cpu: {{ $.Values.bot.requests.cpu }}
+          limits:
+            memory: {{ $.Values.bot.limits.memory }}
+            cpu: {{ $.Values.bot.limits.cpu }}
+
+        securityContext:
+          runAsNonRoot: true
+          # readOnlyRootFilesystem: true
+          runAsUser: 1000
+---
+{{- end }}
+{{- end }}
