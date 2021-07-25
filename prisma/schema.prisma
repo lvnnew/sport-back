@@ -28,15 +28,6 @@ model User {
 }
 
 
-model Admin {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	lastname	String
-	firstname	String
-	email	String
-}
-
-
 model AppLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -55,6 +46,7 @@ model Manager {
 	firstName	String
 	title	String?
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
+	managersToRoleManages	ManagersToRole[]	@relation("From-ManagersToRole.manage")
 }
 
 
@@ -70,6 +62,48 @@ model ManagerLogin {
 	managerId	Int
 	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
 	@@unique([login])
+}
+
+
+model Role {
+	id	String	@id
+	search	String?
+	title	String?
+	hasFullAccess	Boolean?
+	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
+	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
+}
+
+
+model Permission {
+	id	String	@id
+	search	String?
+	title	String?
+	rolesToPermissionPermissions	RolesToPermission[]	@relation("From-RolesToPermission.permission")
+}
+
+
+model RolesToPermission {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String?
+	roleId	String
+	role	Role	@relation("From-RolesToPermission.role", fields: [roleId], references: [id])
+	permissionId	String
+	permission	Permission	@relation("From-RolesToPermission.permission", fields: [permissionId], references: [id])
+	@@unique([roleId, permissionId])
+}
+
+
+model ManagersToRole {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String?
+	manageId	Int
+	manage	Manager	@relation("From-ManagersToRole.manage", fields: [manageId], references: [id])
+	roleId	String
+	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
+	@@unique([manageId, roleId])
 }
 
 
