@@ -7,8 +7,8 @@ import express, {Request, Response} from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {run, parseCronItems} from 'graphile-worker';
 import {getConfig} from '../config';
-import {generalJobs} from '../jobs/generalJobs';
-import {cronJobs} from '../jobs/cronJobs';
+import {generalJobs} from './generalJobs';
+import {cronJobs} from './cronJobs';
 import {closeCtx} from '../adm/services/context';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 

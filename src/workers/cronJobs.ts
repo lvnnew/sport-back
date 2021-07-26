@@ -1,5 +1,6 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 import {CronItem} from 'graphile-worker';
+import {Job} from '../clients/queue/jobs/Job';
 
 export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * * * *`;
 
@@ -34,6 +35,6 @@ export const oneMinCron = (name: string, queued = false): CronItem =>
 
 export const cronJobs: CronItem[] = [
   // hourly
-  hourlyCron('hello'),
-  hourlyCron('recalculateStats'),
+  hourlyCron(Job.Hello),
+  hourlyCron(Job.RecalculateStats),
 ];
