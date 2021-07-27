@@ -236,6 +236,9 @@ export type Query = {
   File?: Maybe<File>;
   allFiles?: Maybe<Array<Maybe<File>>>;
   _allFilesMeta?: Maybe<ListMetadata>;
+  Language?: Maybe<Language>;
+  allLanguages?: Maybe<Array<Maybe<Language>>>;
+  _allLanguagesMeta?: Maybe<ListMetadata>;
   ManagerLogin?: Maybe<ManagerLogin>;
   allManagerLogins?: Maybe<Array<Maybe<ManagerLogin>>>;
   _allManagerLoginsMeta?: Maybe<ListMetadata>;
@@ -306,6 +309,27 @@ export type Query_AllFilesMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<FileFilter>;
+};
+
+
+export type QueryLanguageArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllLanguagesArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<LanguageFilter>;
+};
+
+
+export type Query_AllLanguagesMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<LanguageFilter>;
 };
 
 
@@ -505,6 +529,9 @@ export type Mutation = {
   createFile?: Maybe<File>;
   updateFile?: Maybe<File>;
   removeFile?: Maybe<Scalars['Boolean']>;
+  createLanguage?: Maybe<Language>;
+  updateLanguage?: Maybe<Language>;
+  removeLanguage?: Maybe<Scalars['Boolean']>;
   createManagerLogin?: Maybe<ManagerLogin>;
   updateManagerLogin?: Maybe<ManagerLogin>;
   removeManagerLogin?: Maybe<Scalars['Boolean']>;
@@ -580,6 +607,23 @@ export type MutationRemoveFileArgs = {
 };
 
 
+export type MutationCreateLanguageArgs = {
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateLanguageArgs = {
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveLanguageArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationCreateManagerLoginArgs = {
   login: Scalars['String'];
   passwordHash: Scalars['String'];
@@ -612,6 +656,7 @@ export type MutationCreateManagerArgs = {
   title?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   firstName: Scalars['String'];
+  languageId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
 };
 
@@ -621,6 +666,7 @@ export type MutationUpdateManagerArgs = {
   title?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   firstName: Scalars['String'];
+  languageId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
 };
 
@@ -786,6 +832,20 @@ export type FileFilter = {
   eTag_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export type Language = {
+  __typename?: 'Language';
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type LanguageFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  id?: Maybe<Scalars['ID']>;
+  title?: Maybe<Scalars['String']>;
+  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type ManagerLogin = {
   __typename?: 'ManagerLogin';
   id: Scalars['Int'];
@@ -821,6 +881,7 @@ export type Manager = {
   title?: Maybe<Scalars['String']>;
   lastName: Scalars['String'];
   firstName: Scalars['String'];
+  languageId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
 };
 
@@ -834,6 +895,8 @@ export type ManagerFilter = {
   lastName_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   firstName?: Maybe<Scalars['String']>;
   firstName_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  languageId?: Maybe<Scalars['String']>;
+  languageId_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   email?: Maybe<Scalars['String']>;
   email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
@@ -1107,6 +1170,8 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   File: ResolverTypeWrapper<File>;
   FileFilter: FileFilter;
+  Language: ResolverTypeWrapper<Language>;
+  LanguageFilter: LanguageFilter;
   ManagerLogin: ResolverTypeWrapper<ManagerLogin>;
   ManagerLoginFilter: ManagerLoginFilter;
   Manager: ResolverTypeWrapper<Manager>;
@@ -1192,6 +1257,8 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   File: File;
   FileFilter: FileFilter;
+  Language: Language;
+  LanguageFilter: LanguageFilter;
   ManagerLogin: ManagerLogin;
   ManagerLoginFilter: ManagerLoginFilter;
   Manager: Manager;
@@ -1440,6 +1507,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
   allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, RequireFields<QueryAllFilesArgs, never>>;
   _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllFilesMetaArgs, never>>;
+  Language?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<QueryLanguageArgs, 'id'>>;
+  allLanguages?: Resolver<Maybe<Array<Maybe<ResolversTypes['Language']>>>, ParentType, ContextType, RequireFields<QueryAllLanguagesArgs, never>>;
+  _allLanguagesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllLanguagesMetaArgs, never>>;
   ManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<QueryManagerLoginArgs, 'id'>>;
   allManagerLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLogin']>>>, ParentType, ContextType, RequireFields<QueryAllManagerLoginsArgs, never>>;
   _allManagerLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagerLoginsMetaArgs, never>>;
@@ -1477,6 +1547,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   removeFile?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
+  createLanguage?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<MutationCreateLanguageArgs, 'id'>>;
+  updateLanguage?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<MutationUpdateLanguageArgs, 'id'>>;
+  removeLanguage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveLanguageArgs, 'id'>>;
   createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   removeManagerLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
@@ -1517,6 +1590,12 @@ export type FileResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type LanguageResolvers<ContextType = any, ParentType extends ResolversParentTypes['Language'] = ResolversParentTypes['Language']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ManagerLoginResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagerLogin'] = ResolversParentTypes['ManagerLogin']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1534,6 +1613,7 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  languageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -1646,6 +1726,7 @@ export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
+  Language?: LanguageResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;
   Manager?: ManagerResolvers<ContextType>;
   ManagersToRole?: ManagersToRoleResolvers<ContextType>;

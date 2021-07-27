@@ -18,6 +18,14 @@ model File {
 }
 
 
+model Language {
+	id	String	@id
+	search	String?
+	title	String?
+	managerLanguages	Manager[]	@relation("From-Manager.language")
+}
+
+
 model User {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -45,6 +53,8 @@ model Manager {
 	title	String?
 	lastName	String
 	firstName	String
+	languageId	String?
+	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
 	email	String?
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToRoleManages	ManagersToRole[]	@relation("From-ManagersToRole.manage")

@@ -2,19 +2,19 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {
   ListMetadata,
-  MutationCreateManagerArgs,
-  MutationUpdateManagerArgs,
-  MutationRemoveManagerArgs,
-  QueryAllManagersArgs,
-  Query_AllManagersMetaArgs,
-  Manager,
-  ManagerFilter,
+  MutationCreateLanguageArgs,
+  MutationUpdateLanguageArgs,
+  MutationRemoveLanguageArgs,
+  QueryAllLanguagesArgs,
+  Query_AllLanguagesMetaArgs,
+  Language,
+  LanguageFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../context';
 import {Prisma} from '@prisma/client';
-import {AdditionalManagersMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalLanguagesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
 import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
 import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
@@ -27,56 +27,56 @@ import R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-export interface BaseManagersMethods {
-  get: (id: number) => Promise<Manager | null>;
-  all: (params?: QueryAllManagersArgs) => Promise<Manager[]>;
-  findOne: (params?: QueryAllManagersArgs) => Promise<Manager | null>;
-  count: (params?: Query_AllManagersMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllManagersMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateManagerArgs) => Promise<Manager>;
-  createMany: (data: MutationCreateManagerArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerArgs) => Promise<Manager>;
-  upsert: (data: MutationUpdateManagerArgs) => Promise<Manager>;
-  upsertAdvansed: (filter: ManagerFilter, data: MutationCreateManagerArgs) => Promise<Manager>;
-  delete: (params: MutationRemoveManagerArgs) => Promise<boolean>;
+export interface BaseLanguagesMethods {
+  get: (id: string) => Promise<Language | null>;
+  all: (params?: QueryAllLanguagesArgs) => Promise<Language[]>;
+  findOne: (params?: QueryAllLanguagesArgs) => Promise<Language | null>;
+  count: (params?: Query_AllLanguagesMetaArgs) => Promise<number>;
+  meta: (params?: Query_AllLanguagesMetaArgs) => Promise<ListMetadata>;
+  create: (data: MutationCreateLanguageArgs) => Promise<Language>;
+  createMany: (data: MutationCreateLanguageArgs[]) => Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateLanguageArgs) => Promise<Language>;
+  upsert: (data: MutationUpdateLanguageArgs) => Promise<Language>;
+  upsertAdvansed: (filter: LanguageFilter, data: MutationCreateLanguageArgs) => Promise<Language>;
+  delete: (params: MutationRemoveLanguageArgs) => Promise<boolean>;
 }
 
-export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
+export type LanguagesService = BaseLanguagesMethods & AdditionalLanguagesMethods;
 
-export const getManagersService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<Manager | null> => {
+export const getLanguagesService = (getCtx: () => Context) => {
+  const get = async (id: string): Promise<Language | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.manager.findUnique({where: {id}});
+    return getCtx().prisma.language.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllManagersArgs = {}): Promise<Manager[]> => {
+  const all = async (params: QueryAllLanguagesArgs = {}): Promise<Language[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.manager.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Manager[]>;
+    return getCtx().prisma.language.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Language[]>;
   };
 
-  const findOne = async (params: QueryAllManagersArgs = {}): Promise<Manager | null> => {
+  const findOne = async (params: QueryAllLanguagesArgs = {}): Promise<Language | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.manager.findFirst(toPrismaRequest(params, {noId: true}));
+    return getCtx().prisma.language.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllManagersMetaArgs = {}): Promise<number> => {
+  const count = async (params: Query_AllLanguagesMetaArgs = {}): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.manager.count(toPrismaTotalRequest(params));
+    return getCtx().prisma.language.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllManagersMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (params: Query_AllLanguagesMetaArgs = {}): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -84,20 +84,20 @@ export const getManagersService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateManagerArgs): Promise<Manager> => {
+  const create = async (data: MutationCreateLanguageArgs): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
     const processedData = await beforeCreate(getCtx, data);
 
-    const createOperation = getCtx().prisma.manager.create({
+    const createOperation = getCtx().prisma.language.create({
       data: R.mergeDeepLeft(
         {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+                R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -116,13 +116,13 @@ export const getManagersService = (getCtx: () => Context) => {
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
     // update search. earlier we does not have id
-    await getCtx().prisma.manager.update({
+    await getCtx().prisma.language.update({
       where: {id: result.id},
       data: {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], result),
+                R.pick(['id', 'title'], result),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -131,27 +131,27 @@ export const getManagersService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as Manager);
+    await afterCreate(getCtx, result as Language);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    return result as Manager;
+    return result as Language;
   };
 
-  const createMany = async (entries: MutationCreateManagerArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (entries: MutationCreateLanguageArgs[]): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const result = await getCtx().prisma.manager.createMany({
+    const result = await getCtx().prisma.language.createMany({
       data: entries.map(data => R.mergeDeepLeft(
         {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+                R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -170,7 +170,7 @@ export const getManagersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateManagerArgs): Promise<Manager> => {
+  const update = async (data: MutationUpdateLanguageArgs): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -179,13 +179,13 @@ export const getManagersService = (getCtx: () => Context) => {
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.manager.update({
+    const updateOperation = getCtx().prisma.language.update({
       data: R.mergeDeepLeft(
         {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+                R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -204,28 +204,28 @@ export const getManagersService = (getCtx: () => Context) => {
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
-    await afterUpdate(getCtx, result as Manager);
+    await afterUpdate(getCtx, result as Language);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    return result as Manager;
+    return result as Language;
   };
 
-  const upsert = async (data: MutationUpdateManagerArgs): Promise<Manager> => {
+  const upsert = async (data: MutationUpdateLanguageArgs): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
     const {id, ...rest} = data;
 
-    const result = await getCtx().prisma.manager.upsert({create: R.mergeDeepLeft(
+    const result = await getCtx().prisma.language.upsert({create: R.mergeDeepLeft(
       {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+                R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -238,7 +238,7 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+                R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             
@@ -255,7 +255,7 @@ export const getManagersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: ManagerFilter, data: MutationCreateManagerArgs): Promise<Manager> => {
+  const upsertAdvansed = async (filter: LanguageFilter, data: MutationCreateLanguageArgs): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -282,12 +282,12 @@ export const getManagersService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveManagerArgs): Promise<boolean> => {
+  const del = async (params: MutationRemoveLanguageArgs): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const deleteOperation = getCtx().prisma.manager.delete({where: {id: params.id}});
+    const deleteOperation = getCtx().prisma.language.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
@@ -311,7 +311,7 @@ export const getManagersService = (getCtx: () => Context) => {
     return true;
   };
 
-  const baseMethods: BaseManagersMethods = {
+  const baseMethods: BaseLanguagesMethods = {
     get,
     all,
     findOne,

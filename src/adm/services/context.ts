@@ -6,6 +6,7 @@ import {Knex} from 'knex';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
 import {FilesService, getFilesService} from './FilesService/FilesService';
+import {LanguagesService, getLanguagesService} from './LanguagesService/LanguagesService';
 import {UsersService, getUsersService} from './UsersService/UsersService';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
 import {ManagersService, getManagersService} from './ManagersService/ManagersService';
@@ -22,6 +23,7 @@ import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
 export interface BaseServices {
   files: FilesService;
+  languages: LanguagesService;
   users: UsersService;
   appLogins: AppLoginsService;
   managers: ManagersService;
@@ -79,6 +81,7 @@ export const createBaseContext = async (): Promise<BaseContext> => {
 export const createContext = (baseContext: BaseContext, getContext: () => Context): Context => {
   const baseServices: BaseServices = {
     files: getFilesService(getContext),
+    languages: getLanguagesService(getContext),
     users: getUsersService(getContext),
     appLogins: getAppLoginsService(getContext),
     managers: getManagersService(getContext),

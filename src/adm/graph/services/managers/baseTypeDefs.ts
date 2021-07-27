@@ -8,6 +8,7 @@ type Manager {
   title: String
   lastName: String!
   firstName: String!
+  languageId: String
   email: String
 }
 
@@ -21,6 +22,8 @@ input ManagerFilter {
   lastName_in: [String]
   firstName: String
   firstName_in: [String]
+  languageId: String
+  languageId_in: [String]
   email: String
   email_in: [String]
 }
@@ -36,8 +39,8 @@ type Query {
 }
 
 type Mutation {
-  createManager(title: String, lastName: String!, firstName: String!, email: String): Manager
-  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, email: String): Manager
+  createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String): Manager
+  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String): Manager
   removeManager(id: Int!): Boolean
 }
 
