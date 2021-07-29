@@ -84,13 +84,8 @@ const start = async () => {
         ),
       },
     }),
-    engine: {
-      reportSchema: false,
-    },
     introspection: true,
-    playground: true,
     schema,
-    uploads: false,
   });
 
   const admGraphPath = '/adm/graph';

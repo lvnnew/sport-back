@@ -5,14 +5,9 @@ import {BaseContext, getOrCreateUsersAwareContext} from '../adm/services/context
 
 const getAppServer = (baseContext: BaseContext) => new ApolloServer({
   context: ({req}) => ({context: getOrCreateUsersAwareContext(baseContext, (req.user as any).id)}),
-  engine: {
-    reportSchema: false,
-  },
   introspection: true,
-  playground: true,
   resolvers,
   typeDefs,
-  uploads: false,
 });
 
 export default getAppServer;
