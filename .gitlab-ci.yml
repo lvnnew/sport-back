@@ -21,13 +21,13 @@ variables:
   KUBECONFIG: /etc/deploy/config
   APPNAME: back
 
-check:
-  stage: check
-  image: registry.gitlab.com/making.ventures/images/prisma-cli
-  before_script:
-    - yarn
-  script:
-    - ./check
+# check:
+#   stage: check
+#   image: registry.gitlab.com/making.ventures/images/prisma-cli
+#   before_script:
+#     - yarn
+#   script:
+#     - ./check
 
 build:
   stage: build
