@@ -1,4 +1,5 @@
-import {mergeTypeDefs, loadFilesSync} from 'graphql-tools';
+import {mergeTypeDefs} from '@graphql-tools/merge';
+import {loadFilesSync} from '@graphql-tools/load-files';
 import path from 'path';
 import {typeDefs} from 'graphql-scalars';
 import {log} from '../log';
