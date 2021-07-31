@@ -1,11 +1,11 @@
-import {loadFilesSync} from '@graphql-tools/load-files';
 import {mergeResolvers} from '@graphql-tools/merge';
+import {loadFilesSync} from '@graphql-tools/load-files';
 import path from 'path';
 import {resolvers} from 'graphql-scalars';
+import {IResolvers} from '@graphql-tools/utils';
 
-const resolversArray = loadFilesSync(path.join(__dirname, './services/*/resolvers.?(ts)?(js)'));
 const resolversArrayPrjcts = loadFilesSync(path.join(__dirname, '../*/graph/services/*/*Resolvers.?(ts)?(js)'));
 
-const mergedResolvers = mergeResolvers([resolvers, ...resolversArray, ...resolversArrayPrjcts]);
+const mergedResolvers: IResolvers = mergeResolvers([resolvers, ...resolversArrayPrjcts]);
 
 export default mergedResolvers;
