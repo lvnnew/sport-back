@@ -3,6 +3,8 @@ import {getPrisma} from '../../prisma/prisma';
 import {PrismaClient} from '@prisma/client';
 import {getKnex} from '../../clients/knex';
 import {Knex} from 'knex';
+import {getPostgres} from '../../clients/postgres';
+import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
 import {FilesService, getFilesService} from './FilesService/FilesService';
@@ -39,15 +41,12 @@ export interface BaseServices {
 export type BaseContext = {
   prisma: PrismaClient;
   knex: Knex;
+  postgres: Client;
   worker: WorkerUtils;
   close: () => Promise<void>;
 };
 
 export type Context = BaseContext & BaseServices & AdditionalServices & {
-  prisma: PrismaClient;
-  knex: Knex;
-  worker: WorkerUtils;
-  close: () => Promise<void>;
   getUserId: () => number | null;
   getManagerId: () => number | null;
 };
@@ -63,16 +62,20 @@ export const createBaseContext = async (): Promise<BaseContext> => {
 
   const knex = await getKnex();
 
+  const postgres = await getPostgres();
+
   const worker = await getQueue();
 
   const close = async () => {
     await prisma.$disconnect();
     await knex.destroy();
+    await postgres.end();
   };
 
   return {
     prisma,
     knex,
+    postgres,
     worker,
     close,
   };
