@@ -7,6 +7,49 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {getOrCreateContext} from '../services/context';
+import R from 'ramda';
+import LRUCache from 'lru-cache';
+
+const cache = new LRUCache({
+  max: 500,
+  maxAge: 1000 * 60 * 60,
+});
+
+const getPermissions = async (managerId: number) => {
+  log.info(cache.has(managerId));
+
+  if (!cache.has(managerId)) {
+    const ctx = await getOrCreateContext();
+    const permissionsRaw = await ctx.prisma.managersToRole.findMany({
+      where: {
+        manageId: managerId,
+      },
+      include: {
+        role: {
+          include: {
+            rolesToPermissionRoles: {
+              select: {
+                permissionId: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const permissions = R.uniq(
+      R.flatten(
+        permissionsRaw.map(managersToRole => managersToRole.role.rolesToPermissionRoles.map(link => link.permissionId)),
+      ),
+    );
+
+    log.info('permissions');
+    log.info(permissions);
+    cache.set(managerId, permissions);
+  }
+
+  return cache.get(managerId);
+};
 
 passport.use(
   'admRegister',
@@ -38,7 +81,10 @@ passport.use(
         });
         log.info('user created');
 
-        return done(null, {id: manager.id});
+        return done(null, {
+          id: manager.id,
+          permissions: await getPermissions(manager.id),
+        });
       } catch (error) {
         return done(error, null);
       }
@@ -74,7 +120,10 @@ passport.use(
 
         log.info('user found & password match');
 
-        return done(null, {id: login.managerId});
+        return done(null, {
+          id: login.managerId,
+          permissions: await getPermissions(login.managerId),
+        });
       } catch (error) {
         return done(error, null);
       }
@@ -100,7 +149,10 @@ export const initAdmPassport = () => passport.use(
         return;
       }
 
-      done(null, {id: jwtPayload.id});
+      done(null, {
+        id: jwtPayload.id,
+        permissions: await getPermissions(jwtPayload.managerId),
+      });
     } catch (error) {
       done(error, null);
     }

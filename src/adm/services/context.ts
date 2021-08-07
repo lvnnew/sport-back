@@ -38,6 +38,8 @@ export interface BaseServices {
   tags: TagsService;
 }
 
+export type Services = BaseServices & AdditionalServices;
+
 export type BaseContext = {
   prisma: PrismaClient;
   knex: Knex;
@@ -46,9 +48,10 @@ export type BaseContext = {
   close: () => Promise<void>;
 };
 
-export type Context = BaseContext & BaseServices & AdditionalServices & {
+export type Context = BaseContext & Services & {
   getUserId: () => number | null;
   getManagerId: () => number | null;
+  getManagerPermissions: () => string[];
 };
 
 let baseContext: BaseContext | null = null;
@@ -81,35 +84,34 @@ export const createBaseContext = async (): Promise<BaseContext> => {
   };
 };
 
-export const createContext = (baseContext: BaseContext, getContext: () => Context): Context => {
-  const baseServices: BaseServices = {
-    files: getFilesService(getContext),
-    languages: getLanguagesService(getContext),
-    users: getUsersService(getContext),
-    appLogins: getAppLoginsService(getContext),
-    managers: getManagersService(getContext),
-    managerLogins: getManagerLoginsService(getContext),
-    roles: getRolesService(getContext),
-    permissions: getPermissionsService(getContext),
-    rolesToPermissions: getRolesToPermissionsService(getContext),
-    managersToRoles: getManagersToRolesService(getContext),
-    stats: getStatsService(getContext),
-    tags: getTagsService(getContext),
-  };
+export const getBaseServices = (getContext: () => Context): BaseServices => ({
+  files: getFilesService(getContext),
+  languages: getLanguagesService(getContext),
+  users: getUsersService(getContext),
+  appLogins: getAppLoginsService(getContext),
+  managers: getManagersService(getContext),
+  managerLogins: getManagerLoginsService(getContext),
+  roles: getRolesService(getContext),
+  permissions: getPermissionsService(getContext),
+  rolesToPermissions: getRolesToPermissionsService(getContext),
+  managersToRoles: getManagersToRolesService(getContext),
+  stats: getStatsService(getContext),
+  tags: getTagsService(getContext),
+});
 
-  const additionalServices = getAdditionalServices(getContext);
+export const getServices = (getContext: () => Context): Services => ({
+  ...getBaseServices(getContext),
+  ...getAdditionalServices(getContext),
+});
 
-  const context = {
-    ...baseContext,
-    ...baseServices,
-    ...additionalServices,
+export const createContext = (baseContext: BaseContext, getContext: () => Context): Context => ({
+  ...baseContext,
+  ...getServices(getContext),
 
-    getUserId: () => null,
-    getManagerId: () => null,
-  };
-
-  return context;
-};
+  getUserId: () => null,
+  getManagerId: () => null,
+  getManagerPermissions: () => [],
+});
 
 export const createUserAwareContext = (context: Context, userId: number): Context => {
   const Context = {
@@ -142,10 +144,12 @@ export const getOrCreateUsersAwareContext = (
   users: {
     userId?: number;
     managerId?: number;
+    managerPermissions?: string[];
   },
 ): Context => {
   const getUserId = () => users.userId || null;
   const getManagerId = () => users.managerId || null;
+  const getManagerPermissions = () => users.managerPermissions || [];
 
   const userAwareContextGetter = () => {
     const context = getCtx();
@@ -154,6 +158,7 @@ export const getOrCreateUsersAwareContext = (
       ...context,
       getUserId,
       getManagerId,
+      getManagerPermissions,
     };
   };
 
@@ -161,6 +166,7 @@ export const getOrCreateUsersAwareContext = (
     ...createContext(baseContext, userAwareContextGetter),
     getUserId,
     getManagerId,
+    getManagerPermissions,
   };
 };
 

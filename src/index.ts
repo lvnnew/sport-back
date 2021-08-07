@@ -1,6 +1,14 @@
 import * as dotenv from 'dotenv';
 import exitHook from 'exit-hook';
-import {ApolloServer} from 'apollo-server-express';
+import {ApolloServer, AuthenticationError} from 'apollo-server-express';
+import {
+  ApolloServerPlugin,
+  GraphQLRequestContext,
+  GraphQLRequestContextDidResolveOperation,
+} from 'apollo-server-plugin-base';
+import {
+  SelectionNode,
+} from 'graphql';
 import {log} from './log';
 import schema from './graph/schema';
 import {
@@ -8,6 +16,7 @@ import {
   getOrCreateUsersAwareContext,
   getOrCreateContext,
   closeCtx,
+  Context,
 } from './adm/services/context';
 import express, {Request, Response} from 'express';
 import cors from 'cors';
@@ -23,6 +32,7 @@ import admAuthRouter from './adm/authRouter';
 import getAppServer from './app/getAppServer';
 import {graphqlUploadExpress} from 'graphql-upload';
 import './utils/polyfills/BigInt';
+import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -75,18 +85,76 @@ const start = async () => {
   await appServer.start();
   appServer.applyMiddleware({app, path: '/app/graph'});
 
+  const authPlugin: ApolloServerPlugin = {
+    requestDidStart: async (requestContext: GraphQLRequestContext<{context: Context}>) => {
+      const {
+        context: {context},
+
+        // request: {
+        //   variables: requestVariables,
+        // },
+      } = requestContext;
+
+      // log.info('requestVariables');
+      // log.info(requestVariables);
+
+      return {
+        didResolveOperation: async (resolutionContext: GraphQLRequestContextDidResolveOperation<{context: Context}>) => {
+          const {getManagerId, getManagerPermissions} = context;
+
+          resolutionContext.operation.selectionSet.selections.forEach((selection: SelectionNode) => {
+            if (selection.kind === 'Field') {
+              const {name: {value: operationName}} = selection;
+              log.info(typeof getManagerId);
+              log.info(getManagerId());
+              log.info(getManagerPermissions());
+
+              // log.info(Object.keys(context));
+
+              log.info(operationName);
+              log.info(`operationName: ${operationName}`);
+
+              const permission = flattenGraphqlToPermission[operationName];
+              log.info(`permission: ${permission}`);
+              log.info(`flattenGraphqlToPermission['allActionSources']: ${flattenGraphqlToPermission.allActionSources}`);
+
+              if (!permission) {
+                throw new AuthenticationError(`There is no permission for "${operationName}"`);
+              }
+
+              if (!getManagerPermissions().includes(permission)) {
+                throw new AuthenticationError(`Operation "${operationName}" not permitted`);
+              }
+
+              // log.info(selection);
+            } else {
+              throw new Error('Not expected');
+            }
+          });
+        },
+      };
+    },
+  };
+
   const server = new ApolloServer({
-    context: ({req}) => ({
-      context: {
-        ...getOrCreateUsersAwareContext(
-          baseContext,
-          {
-            managerId: (req.user as any).id,
-          },
-        ),
-      },
-    }),
+    context: ({req}) => {
+      log.info('req.user');
+      log.info(req.user);
+
+      return ({
+        context: {
+          ...getOrCreateUsersAwareContext(
+            baseContext,
+            {
+              managerId: (req.user as any).id,
+              managerPermissions: (req.user as any).permissions,
+            },
+          ),
+        },
+      });
+    },
     introspection: true,
+    plugins: [authPlugin as any],
     schema,
   });
 
