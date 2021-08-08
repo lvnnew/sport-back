@@ -9,6 +9,7 @@ import {initTestManager} from './initTestManager';
 // yarn ts-node src/init/initDev.ts
 // AGR_PG_URI=$AGR_TEST_PG_URI yarn ts-node src/init/initDev.ts
 // AGR_PG_URI=$AGR_STAGE_PG_URI yarn ts-node src/init/initDev.ts
+
 // AGR_PG_URI=$AGR_DEV_TUNIK_PG_URI yarn ts-node src/init/initDev.ts
 // AGR_PG_URI=$AGR_DEV_THTH_PG_URI yarn ts-node src/init/initDev.ts
 // AGR_PG_URI=$AGR_DEV_PAPKA_PG_URI yarn ts-node src/init/initDev.ts
