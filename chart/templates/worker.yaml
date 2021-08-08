@@ -26,7 +26,7 @@ kind: Deployment
 metadata:
   name: agr-{{ .name  }}-worker
 spec:
-  replicas: {{ $.Values.app.replicas }}
+  replicas: {{ default $.Values.worker.replicas .replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:

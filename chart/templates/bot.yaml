@@ -26,7 +26,7 @@ kind: Deployment
 metadata:
   name: agr-{{ .name  }}-bot
 spec:
-  replicas: {{ $.Values.app.replicas }}
+  replicas: {{ default $.Values.bot.replicas .replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
