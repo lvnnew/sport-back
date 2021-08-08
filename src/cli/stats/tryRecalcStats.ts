@@ -2,7 +2,7 @@
 import {getOrCreateContext} from '../../adm/services/context';
 import {log} from '../../log';
 
-// ts-node src/cli/stats/tryRecalcStats.ts
+// yarn ts-node src/cli/stats/tryRecalcStats.ts
 
 const app = async () => {
   log.info('start');

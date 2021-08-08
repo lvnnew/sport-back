@@ -12,7 +12,7 @@ import {cronJobs} from './cronJobs';
 import {closeCtx} from '../adm/services/context';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 
-// ts-node src/cli/generalWorker.ts
+// yarn ts-node src/cli/generalWorker.ts
 
 exitHook(async () => {
   await closeCtx();

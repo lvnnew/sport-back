@@ -12,7 +12,7 @@ import {
 } from 'graphql';
 import fs from 'fs-extra';
 
-// ts-node src/gen/genGQSchemes.ts
+// yarn ts-node src/gen/genGQSchemes.ts
 
 interface Gen {
   filename: string;

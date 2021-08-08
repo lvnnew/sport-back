@@ -1,9 +1,10 @@
 import {getOrCreateContext} from '../adm/services/context';
 import {log} from '../log';
 import {getQueue} from '../clients/queue/getQueue';
-import {initTestUser} from './initTestUser';
+import {initPermissions} from './permissions/initPermissions';
+import {initRoles} from './permissions/initRoles';
 
-// ts-node src/init/baseInit.ts
+// yarn ts-node src/init/baseInit.ts
 
 const app = async () => {
   log.info('start');
@@ -13,7 +14,9 @@ const app = async () => {
 
   const ctx = await getOrCreateContext();
 
-  await initTestUser(ctx);
+  // Permissions
+  await initPermissions(ctx);
+  await initRoles(ctx);
 
   await ctx.stats.recalculate();
 
