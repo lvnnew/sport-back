@@ -18,7 +18,7 @@ import {
   closeCtx,
   Context,
 } from './adm/services/context';
-import express, {Request, Response} from 'express';
+import express, {Request, RequestHandler, Response} from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import bodyParser from 'body-parser';
@@ -48,8 +48,8 @@ initAppPassport();
 initAdmPassport();
 
 app.use(cors());
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false}));
+app.use(bodyParser.json({limit: '50mb'}) as RequestHandler);
+app.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false}) as RequestHandler);
 app.use(passport.initialize());
 
 app.use('/app/rest', appAuthRouter);
