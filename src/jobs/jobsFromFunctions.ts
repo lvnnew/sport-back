@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {fromPairs, toPairs} from 'ramda';
 import {Summary} from 'prom-client';
 import {JobHelpers} from 'graphile-worker';

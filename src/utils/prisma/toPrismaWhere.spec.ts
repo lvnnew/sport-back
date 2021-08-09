@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {describe, expect} from 'jest-without-globals';
 import {toPrismaWhere} from './toPrismaWhere';
 

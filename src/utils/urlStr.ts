@@ -1,5 +1,5 @@
 import qs from 'qs';
-import R from 'ramda';
+import * as R from 'ramda';
 
 export const urlStr = (params: any): string => {
   const filteredParams = R.fromPairs(

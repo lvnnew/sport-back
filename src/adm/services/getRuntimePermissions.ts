@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import R, {KeyValuePair} from 'ramda';
 import {getBaseServices} from './context';
 import {getAdditionalServices} from './AdditionalServices';

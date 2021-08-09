@@ -1,6 +1,4 @@
 /* eslint-disable promise/prefer-await-to-callbacks */
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {log} from '../log';
 import exitHook from 'exit-hook';
 import express, {Request, Response} from 'express';

@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import Email from 'email-templates';
 import {getConfig} from '../config';
 

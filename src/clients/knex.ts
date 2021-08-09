@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {getConfig} from '../config';
 import knex from 'knex';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';

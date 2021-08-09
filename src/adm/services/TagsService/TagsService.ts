@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable @typescript-eslint/camelcase */
 import {
   ListMetadata,
   MutationCreateTagArgs,
@@ -23,7 +21,7 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
-import R from 'ramda';
+import * as R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 

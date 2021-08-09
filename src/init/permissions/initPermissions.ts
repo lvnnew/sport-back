@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {Context} from '../../adm/services/context';
 import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 import {log} from '../../log';

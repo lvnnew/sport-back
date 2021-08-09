@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 /* eslint-disable promise/prefer-await-to-callbacks */
 import jwt from 'jsonwebtoken';
 import passport from 'passport';

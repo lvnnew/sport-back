@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {PrismaClient} from '@prisma/client';
 import {getConfig} from '../config';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';

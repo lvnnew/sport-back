@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {getConfig} from '../config';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 import {Client} from 'pg';

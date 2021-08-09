@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {Context} from '../adm/services/context';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';

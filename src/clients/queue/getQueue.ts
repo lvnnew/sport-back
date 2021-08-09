@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import {getConfig} from '../../config';
 import {makeWorkerUtils, WorkerUtils} from 'graphile-worker';
 import {addParamsToPgUri} from '../../utils/addParamsToPgUri';

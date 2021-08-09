@@ -1,5 +1,4 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-import R from 'ramda';
+import * as R from 'ramda';
 import {getBaseServices, Context} from '../../adm/services/context';
 
 // yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts

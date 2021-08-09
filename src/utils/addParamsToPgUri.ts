@@ -1,5 +1,4 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-import R from 'ramda';
+import * as R from 'ramda';
 
 export const addParamsToPgUri = (uri: string, params: Record<string, string>) => {
   const initDelimeter = uri.includes('?') ? '&' : '?';

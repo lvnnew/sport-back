@@ -1,8 +1,6 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable @typescript-eslint/camelcase */
 import {readJson} from 'fs-extra';
 import dotenv from 'dotenv';
-import R from 'ramda';
+import * as R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -20,7 +18,6 @@ const envConfig = {
 
 export type Config = typeof envConfig;
 
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 export const getConfig = async (): Promise<Config> => {
   if (process.env.AGR_CONFIG_PATH) {
     const fromFile = await readJson(process.env.AGR_CONFIG_PATH);

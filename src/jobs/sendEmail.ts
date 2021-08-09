@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {log} from '../log';
 import {getEmailSender} from '../clients/emaiSender';
 

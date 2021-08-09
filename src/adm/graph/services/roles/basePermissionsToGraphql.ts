@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {RolesService} from '../../../services/RolesService/RolesService';
 import {PermissionToGraphql} from '../../permissionsToGraphql';
 

@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {CronItem} from 'graphile-worker';
 import {Job} from '../clients/queue/jobs/Job';
 

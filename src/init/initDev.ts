@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {getOrCreateContext} from '../adm/services/context';
 import {log} from '../log';
 import {getQueue} from '../clients/queue/getQueue';

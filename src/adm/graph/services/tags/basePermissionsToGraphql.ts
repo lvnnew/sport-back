@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {TagsService} from '../../../services/TagsService/TagsService';
 import {PermissionToGraphql} from '../../permissionsToGraphql';
 

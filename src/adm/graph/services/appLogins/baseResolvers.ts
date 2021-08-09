@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable @typescript-eslint/camelcase */
 import {
   QueryAllAppLoginsArgs,
   Query_AllAppLoginsMetaArgs,

@@ -1,10 +1,8 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
-/* eslint-disable @typescript-eslint/camelcase */
 import {Context} from '../context';
 import {BaseStatsMethods} from './StatsService';
 import {MutationUpdateStatArgs, Stat} from '../../../generated/graphql';
 import {Gauge} from 'prom-client';
-import R from 'ramda';
+import * as R from 'ramda';
 
 export interface AdditionalStatsMethods {
   recalculate: () => Promise<Stat>;

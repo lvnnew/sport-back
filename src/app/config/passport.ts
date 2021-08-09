@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import jwtSecret from './jwtConfig';

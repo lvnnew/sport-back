@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import {getPrisma} from '../../prisma/prisma';
 import {PrismaClient} from '@prisma/client';
 import {getKnex} from '../../clients/knex';

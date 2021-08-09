@@ -24,6 +24,10 @@ module.exports = {
     'linebreak-style': 0,
     'lines-between-class-members': [0],
 
+    'sort-keys-fix/sort-keys-fix': [0],
+    'object-curly-newline': [0],
+    'unicorn/numeric-separators-style': [0],
+
     // Enable this rules later
     'jsdoc/check-tag-names': [0],
     'react/jsx-sort-props': [0],

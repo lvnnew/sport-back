@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix */
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import jwtSecret from './jwtConfig';
@@ -7,7 +6,7 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {getOrCreateContext} from '../services/context';
-import R from 'ramda';
+import * as R from 'ramda';
 import LRUCache from 'lru-cache';
 
 const cache = new LRUCache({
