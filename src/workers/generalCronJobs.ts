@@ -32,7 +32,7 @@ export const fiveMinsCron = (name: string, queued = false): CronItem =>
 export const oneMinCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}OneMin`, getOneMinCronPattern(), queued);
 
-export const cronJobs: CronItem[] = [
+export const generalCronJobs: CronItem[] = [
   // hourly
   hourlyCron(Job.Hello),
   hourlyCron(Job.RecalculateStats),

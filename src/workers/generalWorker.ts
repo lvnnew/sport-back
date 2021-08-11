@@ -6,7 +6,7 @@ import {collectDefaultMetrics, register} from 'prom-client';
 import {run, parseCronItems} from 'graphile-worker';
 import {getConfig} from '../config';
 import {generalJobs} from './generalJobs';
-import {cronJobs} from './cronJobs';
+import {generalCronJobs} from './generalCronJobs';
 import {closeCtx} from '../adm/services/context';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 
@@ -56,7 +56,7 @@ const generalWorker = async (appName = 'someBack_generalWorker') => {
     noHandleSignals: false,
     pollInterval: 1000,
     taskList: generalJobs,
-    parsedCronItems: parseCronItems(cronJobs),
+    parsedCronItems: parseCronItems(generalCronJobs),
   });
   log.info('start');
   await runner.promise;

@@ -27,10 +27,13 @@ module.exports = {
     'sort-keys-fix/sort-keys-fix': [0],
     'object-curly-newline': [0],
     'unicorn/numeric-separators-style': [0],
+    '@typescript-eslint/explicit-module-boundary-types': [0],
+    'jest/prefer-expect-assertions': [0],
 
     // Enable this rules later
     'jsdoc/check-tag-names': [0],
     'react/jsx-sort-props': [0],
+
     // 'lines-around-comment': [0],
     'react/forbid-component-props': [0],
     'import/no-unresolved': [0],
@@ -38,6 +41,7 @@ module.exports = {
     'func-style': [0],
     'id-match': [0],
     'filenames/match-regex': [0],
+
     // 'react-hooks/rules-of-hooks': [0],
     'unicorn/prevent-abbreviations': [0],
     'no-extra-parens': [0],
@@ -71,7 +75,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': [0],
     '@typescript-eslint/no-unused-vars': [0],
     'unicorn/consistent-function-scoping': [0],
-    'complexity': [0],
+    complexity: [0],
     'promise/prefer-await-to-then': [0],
     'no-warning-comments': [0],
     'import/unambiguous': [0],
