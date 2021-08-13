@@ -118,13 +118,15 @@ const start = async () => {
               log.info(`permission: ${permission}`);
               log.info(`flattenGraphqlToPermission['allActionSources']: ${flattenGraphqlToPermission.allActionSources}`);
 
-              if (!permission) {
-                throw new AuthenticationError(`There is no permission for "${operationName}"`);
-              }
+              log.info(typeof AuthenticationError);
 
-              if (!getManagerPermissions().includes(permission)) {
-                throw new AuthenticationError(`Operation "${operationName}" not permitted`);
-              }
+              // if (!permission) {
+              //   throw new AuthenticationError(`There is no permission for "${operationName}"`);
+              // }
+
+              // if (!getManagerPermissions().includes(permission)) {
+              //   throw new AuthenticationError(`Operation "${operationName}" not permitted`);
+              // }
 
               // log.info(selection);
             } else {
