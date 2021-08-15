@@ -8,7 +8,7 @@ const app = async () => {
 
   const ctx = await getOrCreateContext();
 
-  const result = await ctx.postgres.query('SELECT 1;');
+  const result = await ctx.postgres.query('SELECT 1 as value;');
   log.info(result.rows);
 
   await ctx.close();
