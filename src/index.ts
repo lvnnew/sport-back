@@ -100,14 +100,15 @@ const start = async () => {
 
       return {
         didResolveOperation: async (resolutionContext: GraphQLRequestContextDidResolveOperation<{context: Context}>) => {
-          const {getManagerId, getManagerPermissions} = context;
+          const {getManagerId} = context;
 
           resolutionContext.operation.selectionSet.selections.forEach((selection: SelectionNode) => {
             if (selection.kind === 'Field') {
               const {name: {value: operationName}} = selection;
               log.info(typeof getManagerId);
               log.info(getManagerId());
-              log.info(getManagerPermissions());
+
+              // log.info(getManagerPermissions());
 
               // log.info(Object.keys(context));
 
