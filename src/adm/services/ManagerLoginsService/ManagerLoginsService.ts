@@ -35,7 +35,7 @@ export interface BaseManagerLoginsMethods {
   createMany: (data: MutationCreateManagerLoginArgs[]) => Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagerLoginArgs) => Promise<ManagerLogin>;
   upsert: (data: MutationUpdateManagerLoginArgs) => Promise<ManagerLogin>;
-  upsertAdvansed: (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs) => Promise<ManagerLogin>;
+  upsertAdvanced: (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs) => Promise<ManagerLogin>;
   delete: (params: MutationRemoveManagerLoginArgs) => Promise<boolean>;
 }
 
@@ -98,9 +98,9 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                 R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         processedData,
       ),
@@ -118,14 +118,14 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
     });
 
@@ -152,9 +152,9 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                 R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         data,
       )),
@@ -186,9 +186,9 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                 R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         rest,
       ),
@@ -221,27 +221,27 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.managerLogin.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       rest,
     ), where: {id}});
@@ -253,7 +253,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs): Promise<ManagerLogin> => {
+  const upsertAdvanced = async (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs): Promise<ManagerLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -319,7 +319,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     createMany,
     update,
     upsert,
-    upsertAdvansed,
+    upsertAdvanced,
     delete: del,
   };
 

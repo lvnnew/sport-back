@@ -129,6 +129,14 @@ export const getOrCreateBaseContext = async (): Promise<BaseContext> => {
   return baseContext;
 };
 
+export const getCtx = (): Context => {
+  if (!context) {
+    throw new Error('Context is not initialised');
+  }
+
+  return context;
+};
+
 export const getOrCreateContext = async (): Promise<Context> => {
   if (!context) {
     const baseContext = await getOrCreateBaseContext();
@@ -167,14 +175,6 @@ export const getOrCreateUsersAwareContext = (
     getManagerId,
     getManagerPermissions,
   };
-};
-
-export const getCtx = (): Context => {
-  if (!context) {
-    throw new Error('Context is not initialised');
-  }
-
-  return context;
 };
 
 export const closeCtx = async () => {

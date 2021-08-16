@@ -12,7 +12,7 @@ export const initTestManager = async (ctx: Context) => {
     firstName: 'Manager',
   });
 
-  await ctx.managerLogins.upsertAdvansed(
+  await ctx.managerLogins.upsertAdvanced(
     {
       login: email,
     },

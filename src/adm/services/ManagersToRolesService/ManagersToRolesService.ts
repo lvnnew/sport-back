@@ -35,7 +35,7 @@ export interface BaseManagersToRolesMethods {
   createMany: (data: MutationCreateManagersToRoleArgs[]) => Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagersToRoleArgs) => Promise<ManagersToRole>;
   upsert: (data: MutationUpdateManagersToRoleArgs) => Promise<ManagersToRole>;
-  upsertAdvansed: (filter: ManagersToRoleFilter, data: MutationCreateManagersToRoleArgs) => Promise<ManagersToRole>;
+  upsertAdvanced: (filter: ManagersToRoleFilter, data: MutationCreateManagersToRoleArgs) => Promise<ManagersToRole>;
   delete: (params: MutationRemoveManagersToRoleArgs) => Promise<boolean>;
 }
 
@@ -98,9 +98,9 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'manageId', 'roleId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         processedData,
       ),
@@ -118,14 +118,14 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'manageId', 'roleId'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'manageId', 'roleId'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
     });
 
@@ -152,9 +152,9 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'manageId', 'roleId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         data,
       )),
@@ -186,9 +186,9 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'manageId', 'roleId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         rest,
       ),
@@ -221,27 +221,27 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.managersToRole.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'manageId', 'roleId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'manageId', 'roleId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'manageId', 'roleId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'manageId', 'roleId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       rest,
     ), where: {id}});
@@ -253,7 +253,7 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: ManagersToRoleFilter, data: MutationCreateManagersToRoleArgs): Promise<ManagersToRole> => {
+  const upsertAdvanced = async (filter: ManagersToRoleFilter, data: MutationCreateManagersToRoleArgs): Promise<ManagersToRole> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -319,7 +319,7 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
     createMany,
     update,
     upsert,
-    upsertAdvansed,
+    upsertAdvanced,
     delete: del,
   };
 

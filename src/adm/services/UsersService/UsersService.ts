@@ -35,7 +35,7 @@ export interface BaseUsersMethods {
   createMany: (data: MutationCreateUserArgs[]) => Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateUserArgs) => Promise<User>;
   upsert: (data: MutationUpdateUserArgs) => Promise<User>;
-  upsertAdvansed: (filter: UserFilter, data: MutationCreateUserArgs) => Promise<User>;
+  upsertAdvanced: (filter: UserFilter, data: MutationCreateUserArgs) => Promise<User>;
   delete: (params: MutationRemoveUserArgs) => Promise<boolean>;
 }
 
@@ -98,9 +98,9 @@ export const getUsersService = (getCtx: () => Context) => {
                 R.pick(['id', 'lastname', 'firstname', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         processedData,
       ),
@@ -118,14 +118,14 @@ export const getUsersService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'lastname', 'firstname', 'email'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
     });
 
@@ -152,9 +152,9 @@ export const getUsersService = (getCtx: () => Context) => {
                 R.pick(['id', 'lastname', 'firstname', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         data,
       )),
@@ -186,9 +186,9 @@ export const getUsersService = (getCtx: () => Context) => {
                 R.pick(['id', 'lastname', 'firstname', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         rest,
       ),
@@ -221,27 +221,27 @@ export const getUsersService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.user.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'lastname', 'firstname', 'email'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'lastname', 'firstname', 'email'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       rest,
     ), where: {id}});
@@ -253,7 +253,7 @@ export const getUsersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: UserFilter, data: MutationCreateUserArgs): Promise<User> => {
+  const upsertAdvanced = async (filter: UserFilter, data: MutationCreateUserArgs): Promise<User> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -319,7 +319,7 @@ export const getUsersService = (getCtx: () => Context) => {
     createMany,
     update,
     upsert,
-    upsertAdvansed,
+    upsertAdvanced,
     delete: del,
   };
 

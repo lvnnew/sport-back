@@ -35,7 +35,7 @@ export interface BaseLanguagesMethods {
   createMany: (data: MutationCreateLanguageArgs[]) => Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateLanguageArgs) => Promise<Language>;
   upsert: (data: MutationUpdateLanguageArgs) => Promise<Language>;
-  upsertAdvansed: (filter: LanguageFilter, data: MutationCreateLanguageArgs) => Promise<Language>;
+  upsertAdvanced: (filter: LanguageFilter, data: MutationCreateLanguageArgs) => Promise<Language>;
   delete: (params: MutationRemoveLanguageArgs) => Promise<boolean>;
 }
 
@@ -98,9 +98,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         processedData,
       ),
@@ -118,14 +118,14 @@ export const getLanguagesService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
     });
 
@@ -152,9 +152,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         data,
       )),
@@ -186,9 +186,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         rest,
       ),
@@ -221,27 +221,27 @@ export const getLanguagesService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.language.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       rest,
     ), where: {id}});
@@ -253,7 +253,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: LanguageFilter, data: MutationCreateLanguageArgs): Promise<Language> => {
+  const upsertAdvanced = async (filter: LanguageFilter, data: MutationCreateLanguageArgs): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -319,7 +319,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
     createMany,
     update,
     upsert,
-    upsertAdvansed,
+    upsertAdvanced,
     delete: del,
   };
 

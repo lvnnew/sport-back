@@ -35,7 +35,7 @@ export interface BaseRolesToPermissionsMethods {
   createMany: (data: MutationCreateRolesToPermissionArgs[]) => Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateRolesToPermissionArgs) => Promise<RolesToPermission>;
   upsert: (data: MutationUpdateRolesToPermissionArgs) => Promise<RolesToPermission>;
-  upsertAdvansed: (filter: RolesToPermissionFilter, data: MutationCreateRolesToPermissionArgs) => Promise<RolesToPermission>;
+  upsertAdvanced: (filter: RolesToPermissionFilter, data: MutationCreateRolesToPermissionArgs) => Promise<RolesToPermission>;
   delete: (params: MutationRemoveRolesToPermissionArgs) => Promise<boolean>;
 }
 
@@ -98,9 +98,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         processedData,
       ),
@@ -118,14 +118,14 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'roleId', 'permissionId'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
     });
 
@@ -152,9 +152,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         data,
       )),
@@ -186,9 +186,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
+
           ].join(' '),
-        
+
         },
         rest,
       ),
@@ -221,27 +221,27 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.rolesToPermission.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+
+        ].join(' '),
+
       },
       rest,
     ), where: {id}});
@@ -253,7 +253,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvansed = async (filter: RolesToPermissionFilter, data: MutationCreateRolesToPermissionArgs): Promise<RolesToPermission> => {
+  const upsertAdvanced = async (filter: RolesToPermissionFilter, data: MutationCreateRolesToPermissionArgs): Promise<RolesToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -319,7 +319,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     createMany,
     update,
     upsert,
-    upsertAdvansed,
+    upsertAdvanced,
     delete: del,
   };
 
