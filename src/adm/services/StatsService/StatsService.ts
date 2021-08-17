@@ -103,12 +103,12 @@ export const getStatsService = (getCtx: () => Context) => {
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
-              .toPairs(
-                R.pick(['updated'], data),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
-
+        
         },
         processedData,
       ),
@@ -126,18 +126,18 @@ export const getStatsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'helloCount'], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
             .toPairs(
               R.pick(['updated'], result),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-
+          ].join(' '),
+        
       },
     });
 
@@ -165,12 +165,12 @@ export const getStatsService = (getCtx: () => Context) => {
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
-              .toPairs(
-                R.pick(['updated'], data),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
-
+        
         },
         data,
       )),
@@ -203,12 +203,12 @@ export const getStatsService = (getCtx: () => Context) => {
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
-              .toPairs(
-                R.pick(['updated'], data),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+            .toPairs(
+              R.pick(['updated'], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
-
+        
         },
         rest,
       ),
@@ -241,35 +241,35 @@ export const getStatsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.stat.upsert({create: R.mergeDeepLeft(
       {
         search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'helloCount'], data),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
             .toPairs(
               R.pick(['updated'], data),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-
+          ].join(' '),
+        
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'helloCount'], data),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
+            ...R
+              .toPairs(
+                R.pick(['id', 'helloCount'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
             .toPairs(
               R.pick(['updated'], data),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-
+          ].join(' '),
+        
       },
       rest,
     ), where: {id}});

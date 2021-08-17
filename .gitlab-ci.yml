@@ -25,7 +25,6 @@ check:
   stage: check
   image: registry.gitlab.com/making.ventures/images/prisma-cli
   before_script:
-    - rm -rf node_modules
     - yarn
   script:
     - ./check

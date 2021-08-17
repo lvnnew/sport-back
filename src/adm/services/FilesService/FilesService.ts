@@ -98,9 +98,9 @@ export const getFilesService = (getCtx: () => Context) => {
                 R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-
+            
           ].join(' '),
-
+        
         },
         processedData,
       ),
@@ -118,14 +118,14 @@ export const getFilesService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-
-        ].join(' '),
-
+            ...R
+              .toPairs(
+                R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
+        
       },
     });
 
@@ -152,9 +152,9 @@ export const getFilesService = (getCtx: () => Context) => {
                 R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-
+            
           ].join(' '),
-
+        
         },
         data,
       )),
@@ -186,9 +186,9 @@ export const getFilesService = (getCtx: () => Context) => {
                 R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-
+            
           ].join(' '),
-
+        
         },
         rest,
       ),
@@ -221,27 +221,27 @@ export const getFilesService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.file.upsert({create: R.mergeDeepLeft(
       {
         search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-
-        ].join(' '),
-
+            ...R
+              .toPairs(
+                R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
+        
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-
-        ].join(' '),
-
+            ...R
+              .toPairs(
+                R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            
+          ].join(' '),
+        
       },
       rest,
     ), where: {id}});
