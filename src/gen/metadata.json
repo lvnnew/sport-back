@@ -6,12 +6,60 @@
   "stage"
  ],
  "configVars": [
-  "pgUri",
-  "smtpHost",
-  "smtpPort",
-  "smtpUser",
-  "smtpPass",
-  "smtpFrom"
+  {
+   "description": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "pgUri"
+  },
+  {
+   "description": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "smtpHost"
+  },
+  {
+   "description": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "smtpPort"
+  },
+  {
+   "description": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "smtpUser"
+  },
+  {
+   "description": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "smtpPass"
+  },
+  {
+   "description": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "smtpFrom"
+  }
  ],
  "catalogs": [
   {
