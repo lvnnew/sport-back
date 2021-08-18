@@ -141,8 +141,8 @@ const start = async () => {
 
   const server = new ApolloServer({
     context: ({req}) => {
-      log.info('req.user');
-      log.info(req.user);
+      // log.info('req.user');
+      // log.info(req.user);
 
       return ({
         context: {
