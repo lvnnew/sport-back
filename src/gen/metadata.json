@@ -22,7 +22,7 @@
     "worker",
     "telegramBot"
    ],
-   "name": "smtpHost"
+   "name": "smtp.host"
   },
   {
    "description": "",
@@ -31,7 +31,7 @@
     "worker",
     "telegramBot"
    ],
-   "name": "smtpPort"
+   "name": "smtp.port"
   },
   {
    "description": "",
@@ -40,7 +40,7 @@
     "worker",
     "telegramBot"
    ],
-   "name": "smtpUser"
+   "name": "smtp.user"
   },
   {
    "description": "",
@@ -49,7 +49,7 @@
     "worker",
     "telegramBot"
    ],
-   "name": "smtpPass"
+   "name": "smtp.pass"
   },
   {
    "description": "",
@@ -58,7 +58,7 @@
     "worker",
     "telegramBot"
    ],
-   "name": "smtpFrom"
+   "name": "smtp.from"
   }
  ],
  "catalogs": [
