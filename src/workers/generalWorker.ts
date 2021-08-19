@@ -11,7 +11,7 @@ import {closeCtx} from '../adm/services/context';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 import {jobsFromFunctions} from '../jobs/jobsFromFunctions';
 
-// yarn ts-node src/cli/generalWorker.ts
+// yarn ts-node src/workers/generalWorker.ts
 
 exitHook(async () => {
   await closeCtx();
