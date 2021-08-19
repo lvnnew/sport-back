@@ -9,6 +9,7 @@ import {generalJobs} from './generalJobs';
 import {generalCronJobs} from './generalCronJobs';
 import {closeCtx} from '../adm/services/context';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
+import {jobsFromFunctions} from '../jobs/jobsFromFunctions';
 
 // yarn ts-node src/cli/generalWorker.ts
 
@@ -55,7 +56,7 @@ const generalWorker = async (appName = 'someBack_generalWorker') => {
     concurrency: 3,
     noHandleSignals: false,
     pollInterval: 1000,
-    taskList: generalJobs,
+    taskList: jobsFromFunctions(generalJobs),
     parsedCronItems: parseCronItems(generalCronJobs),
   });
   log.info('start');
