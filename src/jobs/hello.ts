@@ -1,6 +1,6 @@
-import {JobHelpers} from 'graphile-worker';
+import {log} from '../log';
 
-export const hello = async (payload: any, helpers: JobHelpers) => {
+export const hello = async (payload: {name: string}) => {
   const {name} = payload;
-  helpers.logger.info(`Hello, ${name}`);
+  log.info(`name: ${name}`);
 };
