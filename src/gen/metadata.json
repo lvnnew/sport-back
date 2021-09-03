@@ -65,9 +65,11 @@
   {
    "type": "catalog",
    "name": "files",
-   "title": "Files",
+   "title": {
+    "en": "Files"
+   },
    "singleKey": true,
-   "description": "",
+   "description": {},
    "titleField": {
     "description": "",
     "hidden": false,
@@ -196,9 +198,11 @@
   {
    "type": "catalog",
    "name": "languages",
-   "title": "Languages",
+   "title": {
+    "en": "Languages"
+   },
    "singleKey": true,
-   "description": "",
+   "description": {},
    "titleField": {
     "name": "title",
     "required": false,
@@ -272,9 +276,11 @@
   {
    "type": "catalog",
    "name": "users",
-   "title": "Users",
+   "title": {
+    "en": "Users"
+   },
    "singleKey": true,
-   "description": "",
+   "description": {},
    "titleField": {
     "description": "",
     "hidden": false,
@@ -379,9 +385,13 @@
   {
    "type": "catalog",
    "name": "appLogins",
-   "title": "Logins of usual (not admins) users",
+   "title": {
+    "en": "Logins of usual (not admins) users"
+   },
    "singleKey": true,
-   "description": "Аккаунты (информация по логинам) обычных пользователей (не админов)",
+   "description": {
+    "en": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
+   },
    "titleField": {
     "description": "",
     "hidden": false,
@@ -505,9 +515,13 @@
   {
    "type": "catalog",
    "name": "managers",
-   "title": "Manager",
+   "title": {
+    "en": "Manager"
+   },
    "singleKey": true,
-   "description": "Менеджерские (административные) аккаунты",
+   "description": {
+    "en": "Менеджерские (административные) аккаунты"
+   },
    "titleField": {
     "name": "title",
     "required": false,
@@ -648,9 +662,13 @@
   {
    "type": "catalog",
    "name": "managerLogins",
-   "title": "Manager logins",
+   "title": {
+    "en": "Manager logins"
+   },
    "singleKey": true,
-   "description": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)",
+   "description": {
+    "en": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
+   },
    "titleField": {
     "description": "",
     "hidden": false,
@@ -822,9 +840,13 @@
   {
    "type": "catalog",
    "name": "roles",
-   "title": "Roles",
+   "title": {
+    "en": "Roles"
+   },
    "singleKey": true,
-   "description": "Роли, определющие права на те или иные операции",
+   "description": {
+    "en": "Роли, определющие права на те или иные операции"
+   },
    "titleField": {
     "name": "title",
     "required": false,
@@ -910,9 +932,13 @@
   {
    "type": "catalog",
    "name": "permissions",
-   "title": "Permissions",
+   "title": {
+    "en": "Permissions"
+   },
    "singleKey": true,
-   "description": "Разрешение на совершение той или иной операции",
+   "description": {
+    "en": "Разрешение на совершение той или иной операции"
+   },
    "titleField": {
     "name": "title",
     "required": false,
@@ -986,9 +1012,13 @@
   {
    "type": "catalog",
    "name": "rolesToPermissions",
-   "title": "Roles To Permissions",
+   "title": {
+    "en": "Roles To Permissions"
+   },
    "singleKey": true,
-   "description": "Соединение, которым в роли наполняются разрешениями на те или иные операции",
+   "description": {
+    "en": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
+   },
    "titleField": {
     "name": "title",
     "required": false,
@@ -1124,9 +1154,13 @@
   {
    "type": "catalog",
    "name": "managersToRoles",
-   "title": "Managers To Roles",
+   "title": {
+    "en": "Managers To Roles"
+   },
    "singleKey": true,
-   "description": "Соединение, которым менеджерам назначаются роли",
+   "description": {
+    "en": "Соединение, которым менеджерам назначаются роли"
+   },
    "titleField": {
     "name": "title",
     "required": false,
@@ -1262,9 +1296,13 @@
   {
    "type": "catalog",
    "name": "stats",
-   "title": "Stats",
+   "title": {
+    "en": "Stats"
+   },
    "singleKey": true,
-   "description": "Статистика",
+   "description": {
+    "en": "Статистика"
+   },
    "titleField": {
     "description": "",
     "hidden": false,
@@ -1355,9 +1393,11 @@
   {
    "type": "catalog",
    "name": "tags",
-   "title": "Tags",
+   "title": {
+    "en": "Tags"
+   },
    "singleKey": true,
-   "description": "",
+   "description": {},
    "titleField": {
     "description": "",
     "hidden": false,
@@ -1438,5 +1478,9 @@
  ],
  "documents": [],
  "infoRegistries": [],
- "sumRegistries": []
+ "sumRegistries": [],
+ "languages": [
+  "en"
+ ],
+ "defaultLanguage": "en"
 }
