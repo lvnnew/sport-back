@@ -193,7 +193,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -271,7 +272,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -380,7 +382,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -510,7 +513,8 @@
     ]
    ],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -657,7 +661,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -835,7 +840,8 @@
     ]
    ],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -927,7 +933,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -1007,7 +1014,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -1149,7 +1157,8 @@
     ]
    ],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -1291,7 +1300,8 @@
     ]
    ],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -1388,7 +1398,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   },
   {
    "type": "catalog",
@@ -1473,7 +1484,8 @@
    ],
    "uniqueConstraints": [],
    "deletable": false,
-   "editable": true
+   "editable": true,
+   "materialUiIcon": "DescriptionOutlined"
   }
  ],
  "documents": [],
