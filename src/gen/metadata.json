@@ -194,7 +194,50 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "originalName",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "url",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "mimetype",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "s3Key",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "eTag",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -273,7 +316,30 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "title",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -383,7 +449,40 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "lastname",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "firstname",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "email",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -514,7 +613,40 @@
    ],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "login",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "passwordHash",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "userId",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -662,7 +794,50 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "title",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "lastName",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "firstName",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "languageId",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "email",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -841,7 +1016,60 @@
    ],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "login",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "passwordHash",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "role",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "emailVerified",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "initialPasswordChanged",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "locked",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "managerId",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -934,7 +1162,35 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "title",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "hasFullAccess",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -1015,7 +1271,30 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "title",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -1158,7 +1437,40 @@
    ],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "title",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "roleId",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "permissionId",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -1301,7 +1613,40 @@
    ],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "title",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "manageId",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "roleId",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -1399,7 +1744,35 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "updated",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "helloCount",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   },
   {
    "type": "catalog",
@@ -1485,7 +1858,30 @@
    "uniqueConstraints": [],
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "DescriptionOutlined"
+   "materialUiIcon": "DescriptionOutlined",
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "name": "id",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "search",
+        "hidden": true,
+        "alwaysOn": false
+       },
+       {
+        "name": "comment",
+        "hidden": false,
+        "alwaysOn": false
+       }
+      ]
+     }
+    }
+   }
   }
  ],
  "documents": [],
