@@ -42,7 +42,9 @@ export interface BaseManagersMethods {
 export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
 
 export const getManagersService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<Manager | null> => {
+  const get = async (
+    id: number,
+  ): Promise<Manager | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getManagersService = (getCtx: () => Context) => {
     return getCtx().prisma.manager.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllManagersArgs = {}): Promise<Manager[]> => {
+  const all = async (
+    params: QueryAllManagersArgs = {},
+  ): Promise<Manager[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.manager.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Manager[]>;
+    return getCtx().prisma.manager.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<Manager[]>;
   };
 
-  const findOne = async (params: QueryAllManagersArgs = {}): Promise<Manager | null> => {
+  const findOne = async (
+    params: QueryAllManagersArgs = {},
+  ): Promise<Manager | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getManagersService = (getCtx: () => Context) => {
     return getCtx().prisma.manager.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllManagersMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllManagersMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getManagersService = (getCtx: () => Context) => {
     return getCtx().prisma.manager.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllManagersMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllManagersMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getManagersService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateManagerArgs): Promise<Manager> => {
+  const create = async (
+    data: MutationCreateManagerArgs,
+  ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getManagersService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getManagersService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getManagersService = (getCtx: () => Context) => {
     return result as Manager;
   };
 
-  const createMany = async (entries: MutationCreateManagerArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateManagerArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getManagersService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getManagersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateManagerArgs): Promise<Manager> => {
+  const update = async (
+    data: MutationUpdateManagerArgs,
+  ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getManagersService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getManagersService = (getCtx: () => Context) => {
     return result as Manager;
   };
 
-  const upsert = async (data: MutationUpdateManagerArgs): Promise<Manager> => {
+  const upsert = async (
+    data: MutationUpdateManagerArgs,
+  ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getManagersService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.manager.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getManagersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: ManagerFilter, data: MutationCreateManagerArgs): Promise<Manager> => {
+  const upsertAdvanced = async (
+    filter: ManagerFilter,
+    data: MutationCreateManagerArgs,
+  ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getManagersService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveManagerArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveManagerArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

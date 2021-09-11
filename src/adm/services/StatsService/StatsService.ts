@@ -46,7 +46,9 @@ export interface BaseStatsMethods {
 export type StatsService = BaseStatsMethods & AdditionalStatsMethods;
 
 export const getStatsService = (getCtx: () => Context) => {
-  const get = async (id: string): Promise<Stat | null> => {
+  const get = async (
+    id: string,
+  ): Promise<Stat | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -54,15 +56,21 @@ export const getStatsService = (getCtx: () => Context) => {
     return getCtx().prisma.stat.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllStatsArgs = {}): Promise<Stat[]> => {
+  const all = async (
+    params: QueryAllStatsArgs = {},
+  ): Promise<Stat[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.stat.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Stat[]>;
+    return getCtx().prisma.stat.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<Stat[]>;
   };
 
-  const findOne = async (params: QueryAllStatsArgs = {}): Promise<Stat | null> => {
+  const findOne = async (
+    params: QueryAllStatsArgs = {},
+  ): Promise<Stat | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -70,7 +78,9 @@ export const getStatsService = (getCtx: () => Context) => {
     return getCtx().prisma.stat.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllStatsMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllStatsMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -78,7 +88,9 @@ export const getStatsService = (getCtx: () => Context) => {
     return getCtx().prisma.stat.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllStatsMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllStatsMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -86,7 +98,9 @@ export const getStatsService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateStatArgs): Promise<Stat> => {
+  const create = async (
+    data: MutationCreateStatArgs,
+  ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -108,7 +122,6 @@ export const getStatsService = (getCtx: () => Context) => {
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -126,18 +139,17 @@ export const getStatsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'helloCount'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
+          ...R
             .toPairs(
-              R.pick(['updated'], result),
+              R.pick(['id', 'helloCount'], result),
             )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
-        
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ...R
+          .toPairs(
+            R.pick(['updated'], result),
+          )
+          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+        ].join(' '),
       },
     });
 
@@ -150,7 +162,9 @@ export const getStatsService = (getCtx: () => Context) => {
     return result as Stat;
   };
 
-  const createMany = async (entries: MutationCreateStatArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateStatArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -170,7 +184,6 @@ export const getStatsService = (getCtx: () => Context) => {
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
-        
         },
         data,
       )),
@@ -184,7 +197,9 @@ export const getStatsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateStatArgs): Promise<Stat> => {
+  const update = async (
+    data: MutationUpdateStatArgs,
+  ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -208,7 +223,6 @@ export const getStatsService = (getCtx: () => Context) => {
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
-        
         },
         rest,
       ),
@@ -231,7 +245,9 @@ export const getStatsService = (getCtx: () => Context) => {
     return result as Stat;
   };
 
-  const upsert = async (data: MutationUpdateStatArgs): Promise<Stat> => {
+  const upsert = async (
+    data: MutationUpdateStatArgs,
+  ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -241,35 +257,33 @@ export const getStatsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.stat.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'helloCount'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
+          ...R
             .toPairs(
-              R.pick(['updated'], data),
+              R.pick(['id', 'helloCount'], data),
             )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
-        
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ...R
+          .toPairs(
+            R.pick(['updated'], data),
+          )
+          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'helloCount'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
+          ...R
             .toPairs(
-              R.pick(['updated'], data),
+              R.pick(['id', 'helloCount'], data),
             )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
-        
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ...R
+          .toPairs(
+            R.pick(['updated'], data),
+          )
+          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -281,7 +295,10 @@ export const getStatsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: StatFilter, data: MutationCreateStatArgs): Promise<Stat> => {
+  const upsertAdvanced = async (
+    filter: StatFilter,
+    data: MutationCreateStatArgs,
+  ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -308,7 +325,9 @@ export const getStatsService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveStatArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveStatArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

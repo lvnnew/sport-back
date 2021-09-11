@@ -5,6 +5,6 @@ set -v
 
 # Static checks
 yarn prisma:gen
-yarn test:lint
+yarn lint
 yarn build
 AGR_PG_URI=${AGR_TEST_PG_URI:-$AGR_PG_URI} yarn test

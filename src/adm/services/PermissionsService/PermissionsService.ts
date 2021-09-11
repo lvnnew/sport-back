@@ -42,7 +42,9 @@ export interface BasePermissionsMethods {
 export type PermissionsService = BasePermissionsMethods & AdditionalPermissionsMethods;
 
 export const getPermissionsService = (getCtx: () => Context) => {
-  const get = async (id: string): Promise<Permission | null> => {
+  const get = async (
+    id: string,
+  ): Promise<Permission | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return getCtx().prisma.permission.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllPermissionsArgs = {}): Promise<Permission[]> => {
+  const all = async (
+    params: QueryAllPermissionsArgs = {},
+  ): Promise<Permission[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.permission.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Permission[]>;
+    return getCtx().prisma.permission.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<Permission[]>;
   };
 
-  const findOne = async (params: QueryAllPermissionsArgs = {}): Promise<Permission | null> => {
+  const findOne = async (
+    params: QueryAllPermissionsArgs = {},
+  ): Promise<Permission | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return getCtx().prisma.permission.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllPermissionsMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllPermissionsMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return getCtx().prisma.permission.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllPermissionsMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllPermissionsMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreatePermissionArgs): Promise<Permission> => {
+  const create = async (
+    data: MutationCreatePermissionArgs,
+  ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getPermissionsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return result as Permission;
   };
 
-  const createMany = async (entries: MutationCreatePermissionArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreatePermissionArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdatePermissionArgs): Promise<Permission> => {
+  const update = async (
+    data: MutationUpdatePermissionArgs,
+  ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return result as Permission;
   };
 
-  const upsert = async (data: MutationUpdatePermissionArgs): Promise<Permission> => {
+  const upsert = async (
+    data: MutationUpdatePermissionArgs,
+  ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getPermissionsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.permission.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: PermissionFilter, data: MutationCreatePermissionArgs): Promise<Permission> => {
+  const upsertAdvanced = async (
+    filter: PermissionFilter,
+    data: MutationCreatePermissionArgs,
+  ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemovePermissionArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemovePermissionArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

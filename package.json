@@ -19,7 +19,7 @@
     "dev": "ts-node-dev --files src/index.ts",
     "dev:stage": "cross-env AGR_PG_URI=$AGR_STAGE_PG_URI yarn dev",
     "ts": "node --loader ts-node/esm.mjs --experimental-specifier-resolution=node",
-    "test:lint": "eslint ./src/**.ts",
+    "lint": "eslint ./src/**.ts",
     "gen": "graphql-codegen --config codegen.yml",
     "test": "jest --maxWorkers 8",
     "prisma:gen": "prisma generate",

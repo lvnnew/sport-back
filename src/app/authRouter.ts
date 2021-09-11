@@ -6,7 +6,7 @@ import {findUser} from './authRoutes/findUser';
 import {updatePassword} from './authRoutes/updatePassword';
 import {updateUser} from './authRoutes/updateUser';
 
-const authRouter = Router();
+const authRouter: Router = Router();
 authRouter.post('/registerUser', registerUser);
 authRouter.post('/loginUser', loginUser);
 

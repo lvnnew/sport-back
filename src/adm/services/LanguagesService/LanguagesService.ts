@@ -42,7 +42,9 @@ export interface BaseLanguagesMethods {
 export type LanguagesService = BaseLanguagesMethods & AdditionalLanguagesMethods;
 
 export const getLanguagesService = (getCtx: () => Context) => {
-  const get = async (id: string): Promise<Language | null> => {
+  const get = async (
+    id: string,
+  ): Promise<Language | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return getCtx().prisma.language.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllLanguagesArgs = {}): Promise<Language[]> => {
+  const all = async (
+    params: QueryAllLanguagesArgs = {},
+  ): Promise<Language[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.language.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Language[]>;
+    return getCtx().prisma.language.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<Language[]>;
   };
 
-  const findOne = async (params: QueryAllLanguagesArgs = {}): Promise<Language | null> => {
+  const findOne = async (
+    params: QueryAllLanguagesArgs = {},
+  ): Promise<Language | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return getCtx().prisma.language.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllLanguagesMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllLanguagesMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return getCtx().prisma.language.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllLanguagesMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllLanguagesMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateLanguageArgs): Promise<Language> => {
+  const create = async (
+    data: MutationCreateLanguageArgs,
+  ): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getLanguagesService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return result as Language;
   };
 
-  const createMany = async (entries: MutationCreateLanguageArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateLanguageArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateLanguageArgs): Promise<Language> => {
+  const update = async (
+    data: MutationUpdateLanguageArgs,
+  ): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return result as Language;
   };
 
-  const upsert = async (data: MutationUpdateLanguageArgs): Promise<Language> => {
+  const upsert = async (
+    data: MutationUpdateLanguageArgs,
+  ): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getLanguagesService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.language.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: LanguageFilter, data: MutationCreateLanguageArgs): Promise<Language> => {
+  const upsertAdvanced = async (
+    filter: LanguageFilter,
+    data: MutationCreateLanguageArgs,
+  ): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getLanguagesService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveLanguageArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveLanguageArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

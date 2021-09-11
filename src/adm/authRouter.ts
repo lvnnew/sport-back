@@ -4,7 +4,7 @@ import {register} from './authRoutes/register';
 import {login} from './authRoutes/login';
 import {updatePassword} from './authRoutes/updatePassword';
 
-const admAuthRouter = Router();
+const admAuthRouter: Router = Router();
 admAuthRouter.post('/register', register);
 admAuthRouter.post('/login', login);
 

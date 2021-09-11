@@ -42,7 +42,9 @@ export interface BaseRolesToPermissionsMethods {
 export type RolesToPermissionsService = BaseRolesToPermissionsMethods & AdditionalRolesToPermissionsMethods;
 
 export const getRolesToPermissionsService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<RolesToPermission | null> => {
+  const get = async (
+    id: number,
+  ): Promise<RolesToPermission | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return getCtx().prisma.rolesToPermission.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllRolesToPermissionsArgs = {}): Promise<RolesToPermission[]> => {
+  const all = async (
+    params: QueryAllRolesToPermissionsArgs = {},
+  ): Promise<RolesToPermission[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.rolesToPermission.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<RolesToPermission[]>;
+    return getCtx().prisma.rolesToPermission.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<RolesToPermission[]>;
   };
 
-  const findOne = async (params: QueryAllRolesToPermissionsArgs = {}): Promise<RolesToPermission | null> => {
+  const findOne = async (
+    params: QueryAllRolesToPermissionsArgs = {},
+  ): Promise<RolesToPermission | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return getCtx().prisma.rolesToPermission.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllRolesToPermissionsMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllRolesToPermissionsMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return getCtx().prisma.rolesToPermission.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllRolesToPermissionsMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllRolesToPermissionsMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateRolesToPermissionArgs): Promise<RolesToPermission> => {
+  const create = async (
+    data: MutationCreateRolesToPermissionArgs,
+  ): Promise<RolesToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'roleId', 'permissionId'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return result as RolesToPermission;
   };
 
-  const createMany = async (entries: MutationCreateRolesToPermissionArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateRolesToPermissionArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateRolesToPermissionArgs): Promise<RolesToPermission> => {
+  const update = async (
+    data: MutationUpdateRolesToPermissionArgs,
+  ): Promise<RolesToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
                 R.pick(['id', 'title', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return result as RolesToPermission;
   };
 
-  const upsert = async (data: MutationUpdateRolesToPermissionArgs): Promise<RolesToPermission> => {
+  const upsert = async (
+    data: MutationUpdateRolesToPermissionArgs,
+  ): Promise<RolesToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.rolesToPermission.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: RolesToPermissionFilter, data: MutationCreateRolesToPermissionArgs): Promise<RolesToPermission> => {
+  const upsertAdvanced = async (
+    filter: RolesToPermissionFilter,
+    data: MutationCreateRolesToPermissionArgs,
+  ): Promise<RolesToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveRolesToPermissionArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveRolesToPermissionArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

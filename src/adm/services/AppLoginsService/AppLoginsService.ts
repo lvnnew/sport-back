@@ -42,7 +42,9 @@ export interface BaseAppLoginsMethods {
 export type AppLoginsService = BaseAppLoginsMethods & AdditionalAppLoginsMethods;
 
 export const getAppLoginsService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<AppLogin | null> => {
+  const get = async (
+    id: number,
+  ): Promise<AppLogin | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return getCtx().prisma.appLogin.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllAppLoginsArgs = {}): Promise<AppLogin[]> => {
+  const all = async (
+    params: QueryAllAppLoginsArgs = {},
+  ): Promise<AppLogin[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.appLogin.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<AppLogin[]>;
+    return getCtx().prisma.appLogin.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<AppLogin[]>;
   };
 
-  const findOne = async (params: QueryAllAppLoginsArgs = {}): Promise<AppLogin | null> => {
+  const findOne = async (
+    params: QueryAllAppLoginsArgs = {},
+  ): Promise<AppLogin | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return getCtx().prisma.appLogin.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllAppLoginsMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllAppLoginsMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return getCtx().prisma.appLogin.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllAppLoginsMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllAppLoginsMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateAppLoginArgs): Promise<AppLogin> => {
+  const create = async (
+    data: MutationCreateAppLoginArgs,
+  ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                 R.pick(['id', 'login', 'passwordHash', 'userId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'userId'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'login', 'passwordHash', 'userId'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return result as AppLogin;
   };
 
-  const createMany = async (entries: MutationCreateAppLoginArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateAppLoginArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                 R.pick(['id', 'login', 'passwordHash', 'userId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateAppLoginArgs): Promise<AppLogin> => {
+  const update = async (
+    data: MutationUpdateAppLoginArgs,
+  ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                 R.pick(['id', 'login', 'passwordHash', 'userId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return result as AppLogin;
   };
 
-  const upsert = async (data: MutationUpdateAppLoginArgs): Promise<AppLogin> => {
+  const upsert = async (
+    data: MutationUpdateAppLoginArgs,
+  ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.appLogin.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: AppLoginFilter, data: MutationCreateAppLoginArgs): Promise<AppLogin> => {
+  const upsertAdvanced = async (
+    filter: AppLoginFilter,
+    data: MutationCreateAppLoginArgs,
+  ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveAppLoginArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveAppLoginArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

@@ -42,7 +42,9 @@ export interface BaseRolesMethods {
 export type RolesService = BaseRolesMethods & AdditionalRolesMethods;
 
 export const getRolesService = (getCtx: () => Context) => {
-  const get = async (id: string): Promise<Role | null> => {
+  const get = async (
+    id: string,
+  ): Promise<Role | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getRolesService = (getCtx: () => Context) => {
     return getCtx().prisma.role.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllRolesArgs = {}): Promise<Role[]> => {
+  const all = async (
+    params: QueryAllRolesArgs = {},
+  ): Promise<Role[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.role.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Role[]>;
+    return getCtx().prisma.role.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<Role[]>;
   };
 
-  const findOne = async (params: QueryAllRolesArgs = {}): Promise<Role | null> => {
+  const findOne = async (
+    params: QueryAllRolesArgs = {},
+  ): Promise<Role | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getRolesService = (getCtx: () => Context) => {
     return getCtx().prisma.role.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllRolesMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllRolesMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getRolesService = (getCtx: () => Context) => {
     return getCtx().prisma.role.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllRolesMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllRolesMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getRolesService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateRoleArgs): Promise<Role> => {
+  const create = async (
+    data: MutationCreateRoleArgs,
+  ): Promise<Role> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getRolesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getRolesService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getRolesService = (getCtx: () => Context) => {
     return result as Role;
   };
 
-  const createMany = async (entries: MutationCreateRoleArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateRoleArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getRolesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getRolesService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateRoleArgs): Promise<Role> => {
+  const update = async (
+    data: MutationUpdateRoleArgs,
+  ): Promise<Role> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getRolesService = (getCtx: () => Context) => {
                 R.pick(['id', 'title'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getRolesService = (getCtx: () => Context) => {
     return result as Role;
   };
 
-  const upsert = async (data: MutationUpdateRoleArgs): Promise<Role> => {
+  const upsert = async (
+    data: MutationUpdateRoleArgs,
+  ): Promise<Role> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getRolesService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.role.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'title'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getRolesService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: RoleFilter, data: MutationCreateRoleArgs): Promise<Role> => {
+  const upsertAdvanced = async (
+    filter: RoleFilter,
+    data: MutationCreateRoleArgs,
+  ): Promise<Role> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getRolesService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveRoleArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveRoleArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

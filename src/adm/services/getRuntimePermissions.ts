@@ -1,8 +1,6 @@
-import R, {KeyValuePair} from 'ramda';
+import * as R from 'ramda';
 import {getBaseServices} from './context';
 import {getAdditionalServices} from './AdditionalServices';
-
-// DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface RuntimePermission {
   id: string;
@@ -35,7 +33,7 @@ export const getAdditionalPermissions = (): RuntimePermission[] => {
   return R.flatten(
     R.toPairs(services)
       .map(
-        ([service, value]) => R.toPairs(value).map(([method]: KeyValuePair<string, any>) => ({
+        ([service, value]) => R.toPairs(value).map(([method]: R.KeyValuePair<string, any>) => ({
           id: `${service}.${method}`,
           service,
           name: method,

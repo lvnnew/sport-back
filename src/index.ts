@@ -49,8 +49,12 @@ initAdmPassport();
 
 app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}) as RequestHandler);
-app.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false}) as RequestHandler);
-app.use(passport.initialize());
+app.use(
+  helmet(
+    {contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false},
+  ) as RequestHandler,
+);
+app.use(passport.initialize() as RequestHandler);
 
 app.use('/app/rest', appAuthRouter);
 app.use('/adm/rest', admAuthRouter);
@@ -79,7 +83,7 @@ const start = async () => {
   const context = await getOrCreateContext();
 
   app.use('/app/graph', passport.authenticate('appJwt', {session: false}));
-  app.use('/app/graph', graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}));
+  app.use('/app/graph', graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}) as RequestHandler);
 
   const appServer = getAppServer(baseContext);
   await appServer.start();
@@ -99,7 +103,9 @@ const start = async () => {
       // log.info(requestVariables);
 
       return {
-        didResolveOperation: async (resolutionContext: GraphQLRequestContextDidResolveOperation<{context: Context}>) => {
+        didResolveOperation: async (
+          resolutionContext: GraphQLRequestContextDidResolveOperation<{context: Context}>,
+        ) => {
           const {getManagerId} = context;
 
           resolutionContext.operation.selectionSet.selections.forEach((selection: SelectionNode) => {
@@ -117,7 +123,7 @@ const start = async () => {
 
               const permission = flattenGraphqlToPermission[operationName];
               log.info(`permission: ${permission}`);
-              log.info(`flattenGraphqlToPermission['allActionSources']: ${flattenGraphqlToPermission.allActionSources}`);
+              log.info(`allActionSources: ${flattenGraphqlToPermission.allActionSources}`);
 
               log.info(typeof AuthenticationError);
 
@@ -163,7 +169,7 @@ const start = async () => {
 
   const admGraphPath = '/adm/graph';
   app.use(admGraphPath, passport.authenticate('admJwt', {session: false}));
-  app.use(admGraphPath, graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}));
+  app.use(admGraphPath, graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}) as RequestHandler);
   await server.start();
   server.applyMiddleware({app, path: admGraphPath});
 

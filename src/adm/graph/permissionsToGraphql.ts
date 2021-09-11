@@ -1,4 +1,4 @@
-import R, {KeyValuePair} from 'ramda';
+import * as R from 'ramda';
 import {additionalServicesPermissionToGraphql} from './additionalServicesPermissionToGraphql';
 import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
 import {Services} from '../services/context';
@@ -45,9 +45,14 @@ const flattenPermissionToGraphqlRaw = R.unnest(
   R.toPairs(permissionsToGraphql)
     .filter(([, mapping]) => mapping)
     .map(
-      ([service, mapping]) => (R.toPairs(mapping as Partial<PermissionToGraphql<any>>).map(([serviceMethod, graphqlMethod]) => [`${service}.${String(serviceMethod)}`, graphqlMethod])),
+      ([service, mapping]) =>
+        R
+          .toPairs(mapping as Partial<PermissionToGraphql<any>>)
+          .map(
+            ([serviceMethod, graphqlMethod]) => [`${service}.${String(serviceMethod)}`, graphqlMethod],
+          ),
     ),
-) as KeyValuePair<string, string>[];
+) as R.KeyValuePair<string, string>[];
 
 export const flattenPermissionToGraphql = R.fromPairs(flattenPermissionToGraphqlRaw);
 

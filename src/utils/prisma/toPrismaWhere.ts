@@ -1,7 +1,7 @@
 import {singular} from 'pluralize';
-import R, {KeyValuePair} from 'ramda';
+import * as R from 'ramda';
 
-export const toPrismaWhere = (filter?: object | null) => {
+export const toPrismaWhere = (filter?: Record<string, any> | null) => {
   let result = {};
 
   if (!filter) {
@@ -18,7 +18,10 @@ export const toPrismaWhere = (filter?: object | null) => {
 
   const initialPairs = R.toPairs<string>(filter as Record<string, string>);
 
-  const flatPairs = initialPairs.filter(([key, _]: KeyValuePair<string, any>) => !['ids', 'q'].includes(key) && !postfixesForAnd.some(pf => key.includes(pf)));
+  const flatPairs = initialPairs
+    .filter(
+      ([key, _]: R.KeyValuePair<string, any>) => !['ids', 'q'].includes(key) && !postfixesForAnd.some(pf => key.includes(pf)),
+    );
 
   const flatWhere = R.fromPairs(flatPairs);
 
@@ -36,7 +39,9 @@ export const toPrismaWhere = (filter?: object | null) => {
     };
   }
 
-  const pairsForAnd = initialPairs.filter(([key, _]: KeyValuePair<string, any>) => postfixesForAnd.some(pf => key.includes(pf)));
+  const pairsForAnd = initialPairs.filter(
+    ([key, _]: R.KeyValuePair<string, any>) => postfixesForAnd.some(pf => key.includes(pf)),
+  );
 
   if (pairsForAnd.length > 0) {
     const filtersForAnd = pairsForAnd
@@ -55,7 +60,7 @@ export const toPrismaWhere = (filter?: object | null) => {
 
         throw new Error(`Unknown AND filter, key: "${key}"`);
       })
-      .map(([key, value]) => R.fromPairs([[key, value]] as KeyValuePair<string, string>[]));
+      .map(([key, value]) => R.fromPairs([[key, value]] as R.KeyValuePair<string, string>[]));
 
     result = {
       ...result,
@@ -64,7 +69,10 @@ export const toPrismaWhere = (filter?: object | null) => {
   }
 
   // Arrays
-  const arraysPairs = initialPairs.filter(([key, val]: KeyValuePair<string, any>) => Array.isArray(val) && !postfixesForAnd.some(pf => key.includes(pf)));
+  const arraysPairs = initialPairs
+    .filter(
+      ([key, val]: R.KeyValuePair<string, any>) => Array.isArray(val) && !postfixesForAnd.some(pf => key.includes(pf)),
+    );
   if (arraysPairs.length > 0) {
     const arrays = arraysPairs
       .map(([key, value]) => R.fromPairs([[singular(key), {

@@ -10,13 +10,13 @@ export type EmailTemplate = 'hello'
   | 'restorePassword'
   | 'resetPassword';
 
+export type SendEmailLocals = Record<string, any>;
+
 export interface AddSendEmailJobArgs {
   to: string;
   template: EmailTemplate;
   locals: SendEmailLocals;
 }
-
-export type SendEmailLocals = Record<string, any>;
 
 export const addSendEmailJob = async ({to, template, locals}: AddSendEmailJobArgs) => {
   log.info('addSendEmailJob');

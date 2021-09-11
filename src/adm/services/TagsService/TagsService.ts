@@ -42,7 +42,9 @@ export interface BaseTagsMethods {
 export type TagsService = BaseTagsMethods & AdditionalTagsMethods;
 
 export const getTagsService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<Tag | null> => {
+  const get = async (
+    id: number,
+  ): Promise<Tag | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getTagsService = (getCtx: () => Context) => {
     return getCtx().prisma.tag.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllTagsArgs = {}): Promise<Tag[]> => {
+  const all = async (
+    params: QueryAllTagsArgs = {},
+  ): Promise<Tag[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.tag.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<Tag[]>;
+    return getCtx().prisma.tag.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<Tag[]>;
   };
 
-  const findOne = async (params: QueryAllTagsArgs = {}): Promise<Tag | null> => {
+  const findOne = async (
+    params: QueryAllTagsArgs = {},
+  ): Promise<Tag | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getTagsService = (getCtx: () => Context) => {
     return getCtx().prisma.tag.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllTagsMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllTagsMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getTagsService = (getCtx: () => Context) => {
     return getCtx().prisma.tag.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllTagsMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllTagsMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getTagsService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateTagArgs): Promise<Tag> => {
+  const create = async (
+    data: MutationCreateTagArgs,
+  ): Promise<Tag> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getTagsService = (getCtx: () => Context) => {
                 R.pick(['id', 'comment'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getTagsService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'comment'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'comment'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getTagsService = (getCtx: () => Context) => {
     return result as Tag;
   };
 
-  const createMany = async (entries: MutationCreateTagArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateTagArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getTagsService = (getCtx: () => Context) => {
                 R.pick(['id', 'comment'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getTagsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateTagArgs): Promise<Tag> => {
+  const update = async (
+    data: MutationUpdateTagArgs,
+  ): Promise<Tag> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getTagsService = (getCtx: () => Context) => {
                 R.pick(['id', 'comment'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getTagsService = (getCtx: () => Context) => {
     return result as Tag;
   };
 
-  const upsert = async (data: MutationUpdateTagArgs): Promise<Tag> => {
+  const upsert = async (
+    data: MutationUpdateTagArgs,
+  ): Promise<Tag> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getTagsService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.tag.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'comment'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'comment'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'comment'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'comment'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getTagsService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: TagFilter, data: MutationCreateTagArgs): Promise<Tag> => {
+  const upsertAdvanced = async (
+    filter: TagFilter,
+    data: MutationCreateTagArgs,
+  ): Promise<Tag> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getTagsService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveTagArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveTagArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }

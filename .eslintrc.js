@@ -1,7 +1,7 @@
 module.exports = {
   env: {
-    browser: true,
     es2020: true,
+    browser: true,
     node: true,
     jest: true,
     mocha: true,
@@ -16,7 +16,7 @@ module.exports = {
   rules: {
     'max-len': [
       'error',
-      110,
+      140,
       {
         ignorePattern: '^import|^export',
       },
@@ -60,7 +60,6 @@ module.exports = {
     'no-unused-vars': [0],
     'require-await': [0],
     'import/max-dependencies': [0],
-    'max-len': [0],
     'class-methods-use-this': [0],
     '@typescript-eslint/no-unused-vars': [0],
     'jest/no-disabled-tests': [0],
@@ -73,7 +72,6 @@ module.exports = {
     'max-nested-callbacks': [0],
     'no-useless-constructor': [0],
     '@typescript-eslint/no-use-before-define': [0],
-    '@typescript-eslint/no-unused-vars': [0],
     'unicorn/consistent-function-scoping': [0],
     complexity: [0],
     'promise/prefer-await-to-then': [0],
@@ -86,10 +84,7 @@ module.exports = {
     'mocha/max-top-level-suites': [0],
     'import/order': [0],
     'no-process-env': [0],
-    'mocha/max-top-level-suites': [0],
     'import/no-unassigned-import': [0],
-
-    'jsdoc/check-tag-names': [0],
     'import/no-namespace': [0],
     'implicit-arrow-linebreak': [0],
     'arrow-body-style': [0],

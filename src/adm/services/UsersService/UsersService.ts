@@ -42,7 +42,9 @@ export interface BaseUsersMethods {
 export type UsersService = BaseUsersMethods & AdditionalUsersMethods;
 
 export const getUsersService = (getCtx: () => Context) => {
-  const get = async (id: number): Promise<User | null> => {
+  const get = async (
+    id: number,
+  ): Promise<User | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -50,15 +52,21 @@ export const getUsersService = (getCtx: () => Context) => {
     return getCtx().prisma.user.findUnique({where: {id}});
   };
 
-  const all = async (params: QueryAllUsersArgs = {}): Promise<User[]> => {
+  const all = async (
+    params: QueryAllUsersArgs = {},
+  ): Promise<User[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.user.findMany(toPrismaRequest(params, {noId: true})) as unknown as Promise<User[]>;
+    return getCtx().prisma.user.findMany(
+      toPrismaRequest(params, {noId: true}),
+    ) as unknown as Promise<User[]>;
   };
 
-  const findOne = async (params: QueryAllUsersArgs = {}): Promise<User | null> => {
+  const findOne = async (
+    params: QueryAllUsersArgs = {},
+  ): Promise<User | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -66,7 +74,9 @@ export const getUsersService = (getCtx: () => Context) => {
     return getCtx().prisma.user.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
-  const count = async (params: Query_AllUsersMetaArgs = {}): Promise<number> => {
+  const count = async (
+    params: Query_AllUsersMetaArgs = {},
+  ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -74,7 +84,9 @@ export const getUsersService = (getCtx: () => Context) => {
     return getCtx().prisma.user.count(toPrismaTotalRequest(params));
   };
 
-  const meta = async (params: Query_AllUsersMetaArgs = {}): Promise<ListMetadata> => {
+  const meta = async (
+    params: Query_AllUsersMetaArgs = {},
+  ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -82,7 +94,9 @@ export const getUsersService = (getCtx: () => Context) => {
     return count(params).then(count => ({count}));
   };
 
-  const create = async (data: MutationCreateUserArgs): Promise<User> => {
+  const create = async (
+    data: MutationCreateUserArgs,
+  ): Promise<User> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -98,9 +112,7 @@ export const getUsersService = (getCtx: () => Context) => {
                 R.pick(['id', 'lastname', 'firstname', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         processedData,
       ),
@@ -118,14 +130,12 @@ export const getUsersService = (getCtx: () => Context) => {
       where: {id: result.id},
       data: {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'lastname', 'firstname', 'email'], result),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
     });
 
@@ -138,7 +148,9 @@ export const getUsersService = (getCtx: () => Context) => {
     return result as User;
   };
 
-  const createMany = async (entries: MutationCreateUserArgs[]): Promise<Prisma.BatchPayload> => {
+  const createMany = async (
+    entries: MutationCreateUserArgs[],
+  ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -152,9 +164,7 @@ export const getUsersService = (getCtx: () => Context) => {
                 R.pick(['id', 'lastname', 'firstname', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         data,
       )),
@@ -168,7 +178,9 @@ export const getUsersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const update = async (data: MutationUpdateUserArgs): Promise<User> => {
+  const update = async (
+    data: MutationUpdateUserArgs,
+  ): Promise<User> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -186,9 +198,7 @@ export const getUsersService = (getCtx: () => Context) => {
                 R.pick(['id', 'lastname', 'firstname', 'email'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
           ].join(' '),
-        
         },
         rest,
       ),
@@ -211,7 +221,9 @@ export const getUsersService = (getCtx: () => Context) => {
     return result as User;
   };
 
-  const upsert = async (data: MutationUpdateUserArgs): Promise<User> => {
+  const upsert = async (
+    data: MutationUpdateUserArgs,
+  ): Promise<User> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -221,27 +233,23 @@ export const getUsersService = (getCtx: () => Context) => {
     const result = await getCtx().prisma.user.upsert({create: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'lastname', 'firstname', 'email'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       data,
     ), update: R.mergeDeepLeft(
       {
         search: [
-            ...R
-              .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            
-          ].join(' '),
-        
+          ...R
+            .toPairs(
+              R.pick(['id', 'lastname', 'firstname', 'email'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
       },
       rest,
     ), where: {id}});
@@ -253,7 +261,10 @@ export const getUsersService = (getCtx: () => Context) => {
     return result;
   };
 
-  const upsertAdvanced = async (filter: UserFilter, data: MutationCreateUserArgs): Promise<User> => {
+  const upsertAdvanced = async (
+    filter: UserFilter,
+    data: MutationCreateUserArgs,
+  ): Promise<User> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -280,7 +291,9 @@ export const getUsersService = (getCtx: () => Context) => {
     }
   };
 
-  const del = async (params: MutationRemoveUserArgs): Promise<boolean> => {
+  const del = async (
+    params: MutationRemoveUserArgs,
+  ): Promise<boolean> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
