@@ -105,6 +105,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
 
     const createOperation = getCtx().prisma.language.create({
       data: R.mergeDeepLeft(
+        processedData,
         {
           search: [
             ...R
@@ -114,7 +115,6 @@ export const getLanguagesService = (getCtx: () => Context) => {
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
         },
-        processedData,
       ),
     });
 
@@ -157,6 +157,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
 
     const result = await getCtx().prisma.language.createMany({
       data: entries.map(data => R.mergeDeepLeft(
+        data,
         {
           search: [
             ...R
@@ -166,7 +167,6 @@ export const getLanguagesService = (getCtx: () => Context) => {
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
         },
-        data,
       )),
       skipDuplicates: true,
     });
@@ -191,6 +191,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
 
     const updateOperation = getCtx().prisma.language.update({
       data: R.mergeDeepLeft(
+        rest,
         {
           search: [
             ...R
@@ -200,7 +201,6 @@ export const getLanguagesService = (getCtx: () => Context) => {
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
         },
-        rest,
       ),
       where: {id},
     });
@@ -231,17 +231,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
     const {id, ...rest} = data;
 
     const result = await getCtx().prisma.language.upsert({create: R.mergeDeepLeft(
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'title'], data),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
       data,
-    ), update: R.mergeDeepLeft(
       {
         search: [
           ...R
@@ -251,7 +241,17 @@ export const getLanguagesService = (getCtx: () => Context) => {
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
+    ), update: R.mergeDeepLeft(
       rest,
+      {
+        search: [
+          ...R
+            .toPairs(
+              R.pick(['id', 'title'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+        ].join(' '),
+      },
     ), where: {id}});
 
     if (!result) {

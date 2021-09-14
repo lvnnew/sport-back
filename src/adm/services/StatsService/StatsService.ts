@@ -109,6 +109,7 @@ export const getStatsService = (getCtx: () => Context) => {
 
     const createOperation = getCtx().prisma.stat.create({
       data: R.mergeDeepLeft(
+        processedData,
         {
           search: [
             ...R
@@ -123,7 +124,6 @@ export const getStatsService = (getCtx: () => Context) => {
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
-        processedData,
       ),
     });
 
@@ -171,6 +171,7 @@ export const getStatsService = (getCtx: () => Context) => {
 
     const result = await getCtx().prisma.stat.createMany({
       data: entries.map(data => R.mergeDeepLeft(
+        data,
         {
           search: [
             ...R
@@ -185,7 +186,6 @@ export const getStatsService = (getCtx: () => Context) => {
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
-        data,
       )),
       skipDuplicates: true,
     });
@@ -210,6 +210,7 @@ export const getStatsService = (getCtx: () => Context) => {
 
     const updateOperation = getCtx().prisma.stat.update({
       data: R.mergeDeepLeft(
+        rest,
         {
           search: [
             ...R
@@ -224,7 +225,6 @@ export const getStatsService = (getCtx: () => Context) => {
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
-        rest,
       ),
       where: {id},
     });
@@ -255,22 +255,7 @@ export const getStatsService = (getCtx: () => Context) => {
     const {id, ...rest} = data;
 
     const result = await getCtx().prisma.stat.upsert({create: R.mergeDeepLeft(
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick(['id', 'helloCount'], data),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-          .toPairs(
-            R.pick(['updated'], data),
-          )
-          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
       data,
-    ), update: R.mergeDeepLeft(
       {
         search: [
           ...R
@@ -285,7 +270,22 @@ export const getStatsService = (getCtx: () => Context) => {
           .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
+    ), update: R.mergeDeepLeft(
       rest,
+      {
+        search: [
+          ...R
+            .toPairs(
+              R.pick(['id', 'helloCount'], data),
+            )
+            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ...R
+          .toPairs(
+            R.pick(['updated'], data),
+          )
+          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+        ].join(' '),
+      },
     ), where: {id}});
 
     if (!result) {
