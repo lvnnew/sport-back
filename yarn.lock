@@ -2171,10 +2171,12 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/bcrypt@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-3.0.1.tgz#9c767594e31aa1c4ce78d23aa4351984403ca28f"
-  integrity sha512-SwBrq5wb6jXP0o3O3jStdPWbKpimTImfdFD/OZE3uW+jhGpds/l5wMX9lfYOTDOa5Bod2QmOgo9ln+tMp2XP/w==
+"@types/bcrypt@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-5.0.0.tgz#a835afa2882d165aff5690893db314eaa98b9f20"
+  integrity sha512-agtcFKaruL8TmcvqbndlqHPSJgsolhf/qPWchFlgnW1gECTN/nKbFcoFnvKAQRFfKbh+BO6A3SWdJu9t+xF3Lw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/body-parser@*", "@types/body-parser@1.19.1":
   version "1.19.1"
@@ -2492,7 +2494,7 @@
   resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-6.0.1.tgz#f8ae4fbcd2b9ba4ff934698e28778961f9cb22ca"
   integrity sha512-ARATsLdrGPUnaBvxLhUlnltcMgn7pQG312S8ccdYlnyijabrX9RN/KN/iGj9Am96CoW8e/K9628BA7Bv4XHdrA==
 
-"@types/passport-jwt@^3.0.5":
+"@types/passport-jwt@^3.0.6":
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/@types/passport-jwt/-/passport-jwt-3.0.6.tgz#41cc8b5803d5f5f06eb33e19c453b42716def4f1"
   integrity sha512-cmAAMIRTaEwpqxlrZyiEY9kdibk94gP5KTF8AT1Ra4rWNZYHNMreqhKUEeC5WJtuN5SJZjPQmV+XO2P5PlnvNQ==
@@ -2501,7 +2503,7 @@
     "@types/jsonwebtoken" "*"
     "@types/passport-strategy" "*"
 
-"@types/passport-local@^1.0.33":
+"@types/passport-local@^1.0.34":
   version "1.0.34"
   resolved "https://registry.yarnpkg.com/@types/passport-local/-/passport-local-1.0.34.tgz#84d3b35b2fd4d36295039ded17fe5f3eaa62f4f6"
   integrity sha512-PSc07UdYx+jhadySxxIYWuv6sAnY5e+gesn/5lkPKfBeGuIYn9OPR+AAEDq73VRUh6NBTpvE/iPE62rzZUslog==
@@ -2518,7 +2520,7 @@
     "@types/express" "*"
     "@types/passport" "*"
 
-"@types/passport@*", "@types/passport@^1.0.6":
+"@types/passport@*", "@types/passport@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@types/passport/-/passport-1.0.7.tgz#85892f14932168158c86aecafd06b12f5439467a"
   integrity sha512-JtswU8N3kxBYgo+n9of7C97YQBT+AYPP2aBfNGTzABqPAZnK/WOAaKfh3XesUYMZRrXFuoPc2Hv0/G/nQFveHw==
@@ -4930,7 +4932,7 @@ date-fns@^1.27.2:
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
-dayjs@^1.10.4, dayjs@^1.10.6:
+dayjs@^1.10.6:
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
   integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
@@ -4947,7 +4949,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
+debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.2.tgz#f0a49c18ac8779e31d4a0c6029dfb76873c7428b"
   integrity sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==
@@ -5331,20 +5333,20 @@ elegant-spinner@^1.0.1:
   resolved "https://registry.yarnpkg.com/elegant-spinner/-/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
   integrity sha1-2wQ1IcldfjA/2PNFvtwzSc+wcp4=
 
-email-templates@^8.0.4:
-  version "8.0.7"
-  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-8.0.7.tgz#4cdaa0bfd56bc3191262fe4b82cea5bf61bdef1a"
-  integrity sha512-Qlr9z5Zp1EFjs1T8zdFoQiBZNBdqo44OvlqSE36905dijnB06AZ8aPg+AycfC23obEA82gYGplGP25Khn2vrBg==
+email-templates@^8.0.8:
+  version "8.0.8"
+  resolved "https://registry.yarnpkg.com/email-templates/-/email-templates-8.0.8.tgz#a56f08ee1e92262b4886733b9b97f240416099c6"
+  integrity sha512-VUIMOYQ/1YmTRTImeLwCT143lnI/l9Y/fczV5w/zcxN3B/FgUbqkwqQK9f4WNT5zL5296cR3x968hTDXvo514w==
   dependencies:
     "@ladjs/i18n" "^7.2.3"
     consolidate "^0.16.0"
-    debug "^4.3.1"
+    debug "^4.3.2"
     get-paths "^0.0.7"
     html-to-text "^6.0.0"
     juice "^7.0.0"
     lodash "^4.17.21"
-    nodemailer "^6.6.0"
-    preview-email "^3.0.4"
+    nodemailer "^6.6.3"
+    preview-email "^3.0.5"
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -6568,7 +6570,7 @@ gauge@~2.7.3:
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
 
-generate-password@^1.6.0:
+generate-password@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/generate-password/-/generate-password-1.6.1.tgz#c2a7a2af74abb353dd855c16b3e13336b9d80272"
   integrity sha512-JvtWSiN4KVmF6kBFi89Uz9LLN7l/EuGZYiKrIxddFlKcjSgc3D3va0Z5faooNwN85O0VBlt/ZtTdqhbQKhAOyw==
@@ -6781,10 +6783,10 @@ graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.8.tgz#e412b8d33f5e006593cbd3cee6df9f2cebbe802a"
   integrity sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==
 
-graphile-worker@^0.11.0:
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/graphile-worker/-/graphile-worker-0.11.3.tgz#baefe68a45d70dd86f08a9cb079f2cb5b0ee00f4"
-  integrity sha512-2f873+TacvDBswzyDZIDxN6ylAZOHbspygPGAftdiZeOGtzLO2pLxNsFmXZVOsJ17feCjVz6qUQKIfcwkzOWLg==
+graphile-worker@^0.11.3:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/graphile-worker/-/graphile-worker-0.11.4.tgz#96fce7ed35ca307c5b2651f83d9dd73bda72242e"
+  integrity sha512-9YwDZ9+Qv8jYsyhr4jKx4QgEPkcQ4ha/LVwjWX62q/uBoJBNPLaWjGmvqj0vgwrEOQipNyj/NKNCS2Gv3qWQvw==
   dependencies:
     "@graphile/logger" "^0.2.0"
     "@types/debug" "^4.1.2"
@@ -9147,10 +9149,10 @@ magic-string@^0.25.2, magic-string@^0.25.7:
   dependencies:
     sourcemap-codec "^1.4.4"
 
-mailparser@^3.1.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/mailparser/-/mailparser-3.3.0.tgz#1f688f769760dbe46eb1ba8ffbf05eae04cb14ac"
-  integrity sha512-cSvqT3y735gN3IFLcda/H/grJ+7HItKw8OOshzlhAHAic5R0c33GB1ZizREWmLJONjFMrKUitFeopZd9rsRfvg==
+mailparser@^3.3.0:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/mailparser/-/mailparser-3.3.1.tgz#9741a4175f00e43259b0b1a662aa582e5b0fe746"
+  integrity sha512-0X5uO4JHkYWyw0Y6v6m53d622AHZUOJLvmsHXxnEIXNBbsbUDruPi/Pwyi/tUkANLY4dfn/WrOfVdaFCwTNbdw==
   dependencies:
     encoding-japanese "1.0.30"
     he "1.2.0"
@@ -9158,14 +9160,14 @@ mailparser@^3.1.0:
     iconv-lite "0.6.3"
     libmime "5.0.0"
     linkify-it "3.0.2"
-    mailsplit "5.0.1"
+    mailsplit "5.2.0"
     nodemailer "6.6.3"
     tlds "1.221.1"
 
-mailsplit@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/mailsplit/-/mailsplit-5.0.1.tgz#070bd883bddc0c6c7f5c6ea4a54847729d95dc6f"
-  integrity sha512-CcGy1sv8j9jdjKiNIuMZYIKhq4s47nUj9Q98BZfptabH/whmiQX7EvrHx36O4DcyPEsnG152GVNyvqPi9FNIew==
+mailsplit@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/mailsplit/-/mailsplit-5.2.0.tgz#c9b5154d05d661f793e7b902747a4241fcceee47"
+  integrity sha512-B6bXTcriVWOkU4REELr87iWRbV6tvF6w5AX84AFNyd1vxFv9ppIFqE5vnPptWqF1q/jnAmsInKf4wmImCD6bCQ==
   dependencies:
     libbase64 "1.2.1"
     libmime "5.0.0"
@@ -9677,7 +9679,7 @@ node-releases@^1.1.73:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.73.tgz#dd4e81ddd5277ff846b80b52bb40c49edf7a7b20"
   integrity sha512-uW7fodD6pyW2FZNZnp/Z3hvWKeEW1Y8R1+1CnErE8cXFXzl5blBOoVB41CvMer6P6Q0S5FXDwcHgFd1Wj0U9zg==
 
-nodemailer@6.6.3, nodemailer@^6.5.0, nodemailer@^6.6.0:
+nodemailer@6.6.3, nodemailer@^6.6.3:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.6.3.tgz#31fb53dd4d8ae16fc088a65cb9ffa8d928a69b48"
   integrity sha512-faZFufgTMrphYoDjvyVpbpJcYzwyFnbAMmQtj1lVBYAUSm3SOy2fIdd9+Mr4UxPosBa0JRw9bJoIwQn+nswiew==
@@ -10856,15 +10858,15 @@ pretty-format@^27.0.6:
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
 
-preview-email@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/preview-email/-/preview-email-3.0.4.tgz#3405c014dcd6890e1618f18d1b2973db71e7e60f"
-  integrity sha512-g9jbnFHI8QfQAcKeCsZpSzMJT/CeGuJoV311R/NLS6PTsalJkMKkUeirSJJgMJBUYOGJLrhM7MsNVWgk1b13BA==
+preview-email@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/preview-email/-/preview-email-3.0.5.tgz#09c32ba43c450ead16b309d9e5cb10f90ff45a95"
+  integrity sha512-q37jdkVw+wic0o/7xYhOTBS4kF0WX3two0OepmR1Fhxp9NTpO3rJTccAjQm95gJx/2Wa/Nv98sr9pXIQ77/foA==
   dependencies:
-    dayjs "^1.10.4"
-    debug "^4.3.1"
-    mailparser "^3.1.0"
-    nodemailer "^6.5.0"
+    dayjs "^1.10.6"
+    debug "^4.3.2"
+    mailparser "^3.3.0"
+    nodemailer "^6.6.3"
     open "7"
     pug "^3.0.2"
     uuid "^8.3.2"
