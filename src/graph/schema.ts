@@ -1,4 +1,4 @@
-import {mergeSchemas} from '@graphql-tools/merge';
+import {mergeSchemas} from '@graphql-tools/schema';
 import resolvers from './resolvers';
 import typeDefs from './typeDefs';
 
