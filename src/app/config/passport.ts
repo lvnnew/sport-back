@@ -36,7 +36,7 @@ passport.use(
         log.info('user created');
 
         return done(null, {id: user.id});
-      } catch (error) {
+      } catch (error: any) {
         return done(error, null);
       }
     },
@@ -82,7 +82,7 @@ passport.use(
         log.info('password restored');
 
         return done(null, {id: login.userId});
-      } catch (error) {
+      } catch (error: any) {
         return done(error, null);
       }
     },
@@ -127,7 +127,7 @@ passport.use(
         log.info('user found & password match');
 
         return done(null, {id: login.userId});
-      } catch (error) {
+      } catch (error: any) {
         return done(error, null);
       }
     },
@@ -153,7 +153,7 @@ export const initAppPassport = () => passport.use(
       }
 
       done(null, {id: jwtPayload.id});
-    } catch (error) {
+    } catch (error: any) {
       done(error, null);
     }
   }),

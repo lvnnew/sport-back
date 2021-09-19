@@ -84,7 +84,7 @@ passport.use(
           id: manager.id,
           permissions: await getPermissions(manager.id),
         });
-      } catch (error) {
+      } catch (error: any) {
         return done(error, null);
       }
     },
@@ -123,7 +123,7 @@ passport.use(
           id: login.managerId,
           permissions: await getPermissions(login.managerId),
         });
-      } catch (error) {
+      } catch (error: any) {
         return done(error, null);
       }
     },
@@ -152,7 +152,7 @@ export const initAdmPassport = () => passport.use(
         id: jwtPayload.id,
         permissions: await getPermissions(jwtPayload.managerId),
       });
-    } catch (error) {
+    } catch (error: any) {
       done(error, null);
     }
   }),

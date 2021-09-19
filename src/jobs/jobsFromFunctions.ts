@@ -24,7 +24,7 @@ export const jobsFromFunctions = (
       try {
         log.info(`job: ${name}`);
         await handler(payload, helpers);
-      } catch (error) {
+      } catch (error: any) {
         end({status: 'error'});
         log.error(error.message);
         throw error;

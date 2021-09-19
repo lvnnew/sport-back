@@ -71,7 +71,7 @@ app.get('/metrics', async (_req, res) => {
   try {
     res.set('Content-Type', register.contentType);
     res.end(await register.metrics());
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).end(error);
   }
 });
@@ -183,7 +183,7 @@ const start = async () => {
 
 try {
   start();
-} catch (error) {
+} catch (error: any) {
   log.error(error);
 } finally {
   closeCtx();

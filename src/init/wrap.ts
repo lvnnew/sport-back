@@ -20,13 +20,13 @@ const wrap = async () => {
         if (typeof method === 'function') {
           try {
             await method(ctx);
-          } catch (error) {
+          } catch (error: any) {
             log.error(`Method "${name || method?.name}" from file "${file}" run with error`);
             log.error(error);
           }
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       log.error(`Fail run file: ${file} ${error.toString()}`);
     }
   }
