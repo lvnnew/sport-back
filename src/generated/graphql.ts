@@ -200,6 +200,7 @@ export type Query = {
   Permission?: Maybe<Permission>;
   allPermissions?: Maybe<Array<Maybe<Permission>>>;
   _allPermissionsMeta?: Maybe<ListMetadata>;
+  getPermissions: Array<Scalars['String']>;
   Role?: Maybe<Role>;
   allRoles?: Maybe<Array<Maybe<Role>>>;
   _allRolesMeta?: Maybe<ListMetadata>;
@@ -1462,6 +1463,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Permission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<QueryPermissionArgs, 'id'>>;
   allPermissions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Permission']>>>, ParentType, ContextType, RequireFields<QueryAllPermissionsArgs, never>>;
   _allPermissionsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllPermissionsMetaArgs, never>>;
+  getPermissions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   Role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
   allRoles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, RequireFields<QueryAllRolesArgs, never>>;
   _allRolesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllRolesMetaArgs, never>>;
