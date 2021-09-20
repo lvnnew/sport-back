@@ -3707,7 +3707,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "manageId",
+                "name": "managerId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -3780,7 +3780,7 @@
                 "deprecationReason": null
               },
               {
-                "name": "manageId",
+                "name": "managerId",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -5753,7 +5753,7 @@
             "deprecationReason": null
           },
           {
-            "name": "manageId",
+            "name": "managerId",
             "description": null,
             "args": [],
             "type": {
@@ -5865,7 +5865,7 @@
             "deprecationReason": null
           },
           {
-            "name": "manageId",
+            "name": "managerId",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5877,7 +5877,7 @@
             "deprecationReason": null
           },
           {
-            "name": "manageId_in",
+            "name": "managerId_in",
             "description": null,
             "type": {
               "kind": "LIST",

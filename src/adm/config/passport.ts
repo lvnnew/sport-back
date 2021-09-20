@@ -21,7 +21,7 @@ const getPermissions = async (managerId: number) => {
     const ctx = await getOrCreateContext();
     const permissionsRaw = await ctx.prisma.managersToRole.findMany({
       where: {
-        manageId: managerId,
+        managerId,
       },
       include: {
         role: {

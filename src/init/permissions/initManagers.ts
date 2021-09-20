@@ -9,7 +9,7 @@ export const initManagers = async (ctx: Context) => {
   const managers = await ctx.managers.all();
 
   await ctx.managersToRoles.createMany(managers.map(manager => ({
-    manageId: manager.id,
+    managerId: manager.id,
     roleId: Role.Manager,
   })));
 };

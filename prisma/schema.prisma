@@ -57,7 +57,7 @@ model Manager {
 	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
 	email	String?
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
-	managersToRoleManages	ManagersToRole[]	@relation("From-ManagersToRole.manage")
+	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
 }
 
 
@@ -110,11 +110,11 @@ model ManagersToRole {
 	id	Int	@default(autoincrement())	@id
 	search	String?
 	title	String?
-	manageId	Int
-	manage	Manager	@relation("From-ManagersToRole.manage", fields: [manageId], references: [id])
+	managerId	Int
+	manager	Manager	@relation("From-ManagersToRole.manager", fields: [managerId], references: [id])
 	roleId	String
 	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
-	@@unique([manageId, roleId])
+	@@unique([managerId, roleId])
 }
 
 

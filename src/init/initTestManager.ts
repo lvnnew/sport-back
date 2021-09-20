@@ -28,7 +28,7 @@ export const initTestManager = async (ctx: Context) => {
   );
 
   await ctx.managersToRoles.createMany([{
-    manageId: manager.id,
+    managerId: manager.id,
     roleId: 'manager',
   }]);
 };

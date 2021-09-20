@@ -1496,7 +1496,7 @@
    },
    "linkFields": [
     {
-     "name": "manageId",
+     "name": "managerId",
      "required": true,
      "requiredOnInput": true,
      "updatable": true,
@@ -1579,7 +1579,7 @@
      "category": "scalar"
     },
     {
-     "name": "manageId",
+     "name": "managerId",
      "required": true,
      "requiredOnInput": true,
      "updatable": true,
@@ -1607,7 +1607,7 @@
    ],
    "uniqueConstraints": [
     [
-     "manageId",
+     "managerId",
      "roleId"
     ]
    ],
@@ -1634,7 +1634,7 @@
         "alwaysOn": false
        },
        {
-        "name": "manageId",
+        "name": "managerId",
         "hidden": false,
         "alwaysOn": false
        },

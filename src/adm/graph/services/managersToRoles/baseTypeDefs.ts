@@ -6,7 +6,7 @@ export default gql`
 type ManagersToRole {
   id: Int!
   title: String
-  manageId: Int!
+  managerId: Int!
   roleId: String!
 }
 
@@ -16,8 +16,8 @@ input ManagersToRoleFilter {
   id: Int
   title: String
   title_in: [String]
-  manageId: Int
-  manageId_in: [Int]
+  managerId: Int
+  managerId_in: [Int]
   roleId: String
   roleId_in: [String]
 }
@@ -33,8 +33,8 @@ type Query {
 }
 
 type Mutation {
-  createManagersToRole(title: String, manageId: Int!, roleId: String!): ManagersToRole
-  updateManagersToRole(id: Int!, title: String, manageId: Int!, roleId: String!): ManagersToRole
+  createManagersToRole(title: String, managerId: Int!, roleId: String!): ManagersToRole
+  updateManagersToRole(id: Int!, title: String, managerId: Int!, roleId: String!): ManagersToRole
   removeManagersToRole(id: Int!): Boolean
 }
 
