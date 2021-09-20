@@ -5,7 +5,6 @@ import {gql} from 'apollo-server';
 export default gql`
 type RolesToPermission {
   id: Int!
-  title: String
   roleId: String!
   permissionId: String!
 }
@@ -14,8 +13,6 @@ input RolesToPermissionFilter {
   q: String
   ids: [Int]
   id: Int
-  title: String
-  title_in: [String]
   roleId: String
   roleId_in: [String]
   permissionId: String
@@ -33,8 +30,8 @@ type Query {
 }
 
 type Mutation {
-  createRolesToPermission(title: String, roleId: String!, permissionId: String!): RolesToPermission
-  updateRolesToPermission(id: Int!, title: String, roleId: String!, permissionId: String!): RolesToPermission
+  createRolesToPermission(roleId: String!, permissionId: String!): RolesToPermission
+  updateRolesToPermission(id: Int!, roleId: String!, permissionId: String!): RolesToPermission
   removeRolesToPermission(id: Int!): Boolean
 }
 

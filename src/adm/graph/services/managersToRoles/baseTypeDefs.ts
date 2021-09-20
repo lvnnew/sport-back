@@ -5,7 +5,6 @@ import {gql} from 'apollo-server';
 export default gql`
 type ManagersToRole {
   id: Int!
-  title: String
   managerId: Int!
   roleId: String!
 }
@@ -14,8 +13,6 @@ input ManagersToRoleFilter {
   q: String
   ids: [Int]
   id: Int
-  title: String
-  title_in: [String]
   managerId: Int
   managerId_in: [Int]
   roleId: String
@@ -33,8 +30,8 @@ type Query {
 }
 
 type Mutation {
-  createManagersToRole(title: String, managerId: Int!, roleId: String!): ManagersToRole
-  updateManagersToRole(id: Int!, title: String, managerId: Int!, roleId: String!): ManagersToRole
+  createManagersToRole(managerId: Int!, roleId: String!): ManagersToRole
+  updateManagersToRole(id: Int!, managerId: Int!, roleId: String!): ManagersToRole
   removeManagersToRole(id: Int!): Boolean
 }
 

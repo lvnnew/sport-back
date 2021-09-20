@@ -110,7 +110,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+                R.pick(['id', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +132,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'roleId', 'permissionId'], result),
+              R.pick(['id', 'roleId', 'permissionId'], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +162,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+                R.pick(['id', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +196,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+                R.pick(['id', 'roleId', 'permissionId'], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +236,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+              R.pick(['id', 'roleId', 'permissionId'], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +247,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'roleId', 'permissionId'], data),
+              R.pick(['id', 'roleId', 'permissionId'], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

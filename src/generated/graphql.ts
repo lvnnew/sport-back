@@ -626,7 +626,6 @@ export type MutationRemoveManagerArgs = {
 
 
 export type MutationCreateManagersToRoleArgs = {
-  title?: Maybe<Scalars['String']>;
   managerId: Scalars['Int'];
   roleId: Scalars['String'];
 };
@@ -634,7 +633,6 @@ export type MutationCreateManagersToRoleArgs = {
 
 export type MutationUpdateManagersToRoleArgs = {
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
   managerId: Scalars['Int'];
   roleId: Scalars['String'];
 };
@@ -682,7 +680,6 @@ export type MutationRemoveRoleArgs = {
 
 
 export type MutationCreateRolesToPermissionArgs = {
-  title?: Maybe<Scalars['String']>;
   roleId: Scalars['String'];
   permissionId: Scalars['String'];
 };
@@ -690,7 +687,6 @@ export type MutationCreateRolesToPermissionArgs = {
 
 export type MutationUpdateRolesToPermissionArgs = {
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
   roleId: Scalars['String'];
   permissionId: Scalars['String'];
 };
@@ -853,7 +849,6 @@ export type ManagerFilter = {
 export type ManagersToRole = {
   __typename?: 'ManagersToRole';
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
   managerId: Scalars['Int'];
   roleId: Scalars['String'];
 };
@@ -862,8 +857,6 @@ export type ManagersToRoleFilter = {
   q?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   id?: Maybe<Scalars['Int']>;
-  title?: Maybe<Scalars['String']>;
-  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   managerId?: Maybe<Scalars['Int']>;
   managerId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
   roleId?: Maybe<Scalars['String']>;
@@ -903,7 +896,6 @@ export type RoleFilter = {
 export type RolesToPermission = {
   __typename?: 'RolesToPermission';
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
   roleId: Scalars['String'];
   permissionId: Scalars['String'];
 };
@@ -912,8 +904,6 @@ export type RolesToPermissionFilter = {
   q?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   id?: Maybe<Scalars['Int']>;
-  title?: Maybe<Scalars['String']>;
-  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   roleId?: Maybe<Scalars['String']>;
   roleId_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   permissionId?: Maybe<Scalars['String']>;
@@ -1561,7 +1551,6 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type ManagersToRoleResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagersToRole'] = ResolversParentTypes['ManagersToRole']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   managerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   roleId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -1582,7 +1571,6 @@ export type RoleResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type RolesToPermissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['RolesToPermission'] = ResolversParentTypes['RolesToPermission']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   roleId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   permissionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
