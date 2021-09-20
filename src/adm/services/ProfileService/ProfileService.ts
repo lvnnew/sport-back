@@ -33,7 +33,7 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
     });
 
     log.info('rawPermissions');
-    log.info(rawPermissions);
+    log.info(rawPermissions.map(p => p.roleId));
 
     const permissions = R.uniq(
       R.flatten(
@@ -46,6 +46,8 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
     );
     log.info('permissions');
     log.info(permissions);
+    log.info(`permissions count: ${permissions.length}`);
+    log.info(permissions.filter(p => p.includes('sub')));
 
     return permissions;
   };

@@ -1,7 +1,6 @@
 import {getOrCreateContext} from '../adm/services/context';
 import {log} from '../log';
 import {getQueue} from '../clients/queue/getQueue';
-import {initTestAdmin} from './initTestAdmin';
 import {initTestManager} from './initTestManager';
 
 // yarn ts-node src/init/initDev.ts
@@ -24,7 +23,6 @@ const app = async () => {
 
   const ctx = await getOrCreateContext();
 
-  await initTestAdmin(ctx);
   await initTestManager(ctx);
 
   await ctx.close();
