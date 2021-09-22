@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import {getBaseServices, Context} from '../../adm/services/context';
+import {Role} from '../../types/enums';
 
 // yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
 // AGR_PG_URI=$AGR_STAGE_PG_URI yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
@@ -60,9 +61,15 @@ export const initRoles = async (ctx: Context) => {
 
   const readPermissions = R.flatten(serviceNames.map(service => getReadPermissionsOnService(service)));
 
+  await ctx.roles.upsert({
+    id: Role.Admin,
+    title: 'Admin',
+    hasFullAccess: true,
+  });
+
   const manager = await ctx.roles.upsert({
-    id: 'manager',
-    title: 'manager',
+    id: Role.Manager,
+    title: 'Manager',
     hasFullAccess: false,
   });
   await ctx.rolesToPermissions.createMany(readPermissions.map(p => ({

@@ -56,6 +56,9 @@ model Manager {
 	languageId	String?
 	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
 	email	String?
+	unitId	Int?
+	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
+	headOfUnit	Boolean?
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
 }
@@ -128,4 +131,15 @@ model Tag {
 	id	Int	@default(autoincrement())	@id
 	search	String?
 	comment	String?
+}
+
+
+model Unit {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String?
+	parentId	Int?
+	parent	Unit?	@relation("From-Unit.parent", fields: [parentId], references: [id])
+	managerUnits	Manager[]	@relation("From-Manager.unit")
+	unitParents	Unit[]	@relation("From-Unit.parent")
 }

@@ -32,6 +32,10 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
       },
     });
 
+    if (rawPermissions.some(p => p.role.hasFullAccess)) {
+      return (await ctx.prisma.permission.findMany({select: {id: true}})).map(p => p.id);
+    }
+
     log.info('rawPermissions');
     log.info(rawPermissions.map(p => p.roleId));
 

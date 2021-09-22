@@ -213,6 +213,9 @@ export type Query = {
   Tag?: Maybe<Tag>;
   allTags?: Maybe<Array<Maybe<Tag>>>;
   _allTagsMeta?: Maybe<ListMetadata>;
+  Unit?: Maybe<Unit>;
+  allUnits?: Maybe<Array<Maybe<Unit>>>;
+  _allUnitsMeta?: Maybe<ListMetadata>;
   User?: Maybe<User>;
   allUsers?: Maybe<Array<Maybe<User>>>;
   _allUsersMeta?: Maybe<ListMetadata>;
@@ -450,6 +453,27 @@ export type Query_AllTagsMetaArgs = {
 };
 
 
+export type QueryUnitArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllUnitsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<UnitFilter>;
+};
+
+
+export type Query_AllUnitsMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<UnitFilter>;
+};
+
+
 export type QueryUserArgs = {
   id: Scalars['Int'];
 };
@@ -506,6 +530,9 @@ export type Mutation = {
   createTag?: Maybe<Tag>;
   updateTag?: Maybe<Tag>;
   removeTag?: Maybe<Scalars['Boolean']>;
+  createUnit?: Maybe<Unit>;
+  updateUnit?: Maybe<Unit>;
+  removeUnit?: Maybe<Scalars['Boolean']>;
   createUser?: Maybe<User>;
   updateUser?: Maybe<User>;
   removeUser?: Maybe<Scalars['Boolean']>;
@@ -607,6 +634,8 @@ export type MutationCreateManagerArgs = {
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  unitId?: Maybe<Scalars['Int']>;
+  headOfUnit?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -617,6 +646,8 @@ export type MutationUpdateManagerArgs = {
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  unitId?: Maybe<Scalars['Int']>;
+  headOfUnit?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -732,6 +763,24 @@ export type MutationRemoveTagArgs = {
 };
 
 
+export type MutationCreateUnitArgs = {
+  title?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationUpdateUnitArgs = {
+  id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['Int']>;
+};
+
+
+export type MutationRemoveUnitArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationCreateUserArgs = {
   lastname: Scalars['String'];
   firstname: Scalars['String'];
@@ -828,6 +877,8 @@ export type Manager = {
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
+  unitId?: Maybe<Scalars['Int']>;
+  headOfUnit?: Maybe<Scalars['Boolean']>;
 };
 
 export type ManagerFilter = {
@@ -844,6 +895,9 @@ export type ManagerFilter = {
   languageId_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   email?: Maybe<Scalars['String']>;
   email_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  unitId?: Maybe<Scalars['Int']>;
+  unitId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  headOfUnit?: Maybe<Scalars['Boolean']>;
 };
 
 export type ManagersToRole = {
@@ -946,6 +1000,23 @@ export type TagFilter = {
   id?: Maybe<Scalars['Int']>;
   comment?: Maybe<Scalars['String']>;
   comment_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type Unit = {
+  __typename?: 'Unit';
+  id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
+  parentId?: Maybe<Scalars['Int']>;
+};
+
+export type UnitFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  parentId?: Maybe<Scalars['Int']>;
+  parentId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
 };
 
 export type User = {
@@ -1118,6 +1189,8 @@ export type ResolversTypes = {
   StatFilter: StatFilter;
   Tag: ResolverTypeWrapper<Tag>;
   TagFilter: TagFilter;
+  Unit: ResolverTypeWrapper<Unit>;
+  UnitFilter: UnitFilter;
   User: ResolverTypeWrapper<User>;
   UserFilter: UserFilter;
 };
@@ -1205,6 +1278,8 @@ export type ResolversParentTypes = {
   StatFilter: StatFilter;
   Tag: Tag;
   TagFilter: TagFilter;
+  Unit: Unit;
+  UnitFilter: UnitFilter;
   User: User;
   UserFilter: UserFilter;
 };
@@ -1466,6 +1541,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
   allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, RequireFields<QueryAllTagsArgs, never>>;
   _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllTagsMetaArgs, never>>;
+  Unit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<QueryUnitArgs, 'id'>>;
+  allUnits?: Resolver<Maybe<Array<Maybe<ResolversTypes['Unit']>>>, ParentType, ContextType, RequireFields<QueryAllUnitsArgs, never>>;
+  _allUnitsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllUnitsMetaArgs, never>>;
   User?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   allUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryAllUsersArgs, never>>;
   _allUsersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllUsersMetaArgs, never>>;
@@ -1506,6 +1584,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationCreateTagArgs, never>>;
   updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
   removeTag?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
+  createUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationCreateUnitArgs, never>>;
+  updateUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationUpdateUnitArgs, 'id'>>;
+  removeUnit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUnitArgs, 'id'>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
   removeUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
@@ -1546,6 +1627,8 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   languageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  unitId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  headOfUnit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1586,6 +1669,13 @@ export type StatResolvers<ContextType = any, ParentType extends ResolversParentT
 export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1664,6 +1754,7 @@ export type Resolvers<ContextType = any> = {
   RolesToPermission?: RolesToPermissionResolvers<ContextType>;
   Stat?: StatResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
+  Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
 

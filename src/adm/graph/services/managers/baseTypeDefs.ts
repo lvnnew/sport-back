@@ -10,6 +10,8 @@ type Manager {
   firstName: String!
   languageId: String
   email: String
+  unitId: Int
+  headOfUnit: Boolean
 }
 
 input ManagerFilter {
@@ -26,6 +28,9 @@ input ManagerFilter {
   languageId_in: [String]
   email: String
   email_in: [String]
+  unitId: Int
+  unitId_in: [Int]
+  headOfUnit: Boolean
 }
 
 type ListMetadata {
@@ -39,8 +44,8 @@ type Query {
 }
 
 type Mutation {
-  createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String): Manager
-  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String): Manager
+  createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String, unitId: Int, headOfUnit: Boolean): Manager
+  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String, unitId: Int, headOfUnit: Boolean): Manager
   removeManager(id: Int!): Boolean
 }
 

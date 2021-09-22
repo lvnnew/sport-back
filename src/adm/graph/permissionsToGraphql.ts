@@ -14,6 +14,7 @@ import rolesToPermissionsPermissionToGraphql from './services/rolesToPermissions
 import managersToRolesPermissionToGraphql from './services/managersToRoles/permissionsToGraphql';
 import statsPermissionToGraphql from './services/stats/permissionsToGraphql';
 import tagsPermissionToGraphql from './services/tags/permissionsToGraphql';
+import unitsPermissionToGraphql from './services/units/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -39,6 +40,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   managersToRoles: managersToRolesPermissionToGraphql,
   stats: statsPermissionToGraphql,
   tags: tagsPermissionToGraphql,
+  units: unitsPermissionToGraphql,
 };
 
 const flattenPermissionToGraphqlRaw = R.unnest(

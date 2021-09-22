@@ -1,7 +1,7 @@
 import {getOrCreateContext} from '../adm/services/context';
 import {log} from '../log';
 import {getQueue} from '../clients/queue/getQueue';
-import {initTestManager} from './initTestManager';
+import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts
 // AGR_PG_URI=$AGR_TEST_PG_URI yarn ts-node src/init/initDev.ts
@@ -23,7 +23,7 @@ const app = async () => {
 
   const ctx = await getOrCreateContext();
 
-  await initTestManager(ctx);
+  await initTestManagers(ctx);
 
   await ctx.close();
 

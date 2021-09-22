@@ -18,6 +18,7 @@ import {RolesToPermissionsService, getRolesToPermissionsService} from './RolesTo
 import {ManagersToRolesService, getManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
 import {StatsService, getStatsService} from './StatsService/StatsService';
 import {TagsService, getTagsService} from './TagsService/TagsService';
+import {UnitsService, getUnitsService} from './UnitsService/UnitsService';
 import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -35,6 +36,7 @@ export interface BaseServices {
   managersToRoles: ManagersToRolesService;
   stats: StatsService;
   tags: TagsService;
+  units: UnitsService;
 }
 
 export type Services = BaseServices & AdditionalServices;
@@ -96,6 +98,7 @@ export const getBaseServices = (getContext: () => Context): BaseServices => ({
   managersToRoles: getManagersToRolesService(getContext),
   stats: getStatsService(getContext),
   tags: getTagsService(getContext),
+  units: getUnitsService(getContext),
 });
 
 export const getServices = (getContext: () => Context): Services => ({
