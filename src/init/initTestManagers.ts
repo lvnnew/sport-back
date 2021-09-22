@@ -3,8 +3,7 @@ import {Role} from '../types/enums';
 import {initManager} from './initManager';
 
 // yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
-// PRJ_PG_URI=$PRJ_STAGE_PG_URI yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
-// PRJ_PG_URI=$PRJ_PROD_PG_URI yarn ts-node ./src/init/wrap.ts src/init/initTestManagers.ts
+// ALOYAL_PG_URI=$ALOYAL_STAGE_PG_URI yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
 
 export const initTestManagers = async (ctx: Context) => {
   await Promise.all([
@@ -26,6 +25,16 @@ export const initTestManagers = async (ctx: Context) => {
         firstName: 'Admin',
         lastName: 'Test',
         roles: [Role.Admin],
+      },
+    ),
+    initManager(
+      ctx,
+      {
+        email: 'controller@example.com',
+        password: 'controller',
+        firstName: 'Controller',
+        lastName: 'Test',
+        roles: [Role.Controller],
       },
     ),
   ]);
