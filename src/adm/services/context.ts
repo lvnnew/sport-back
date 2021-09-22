@@ -1,4 +1,4 @@
-import {getPrisma} from '../../prisma/prisma';
+import {getPrisma} from '../../clients/getPrisma';
 import {PrismaClient} from '@prisma/client';
 import {getKnex} from '../../clients/knex';
 import knex from 'knex';

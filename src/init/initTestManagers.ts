@@ -27,15 +27,5 @@ export const initTestManagers = async (ctx: Context) => {
         roles: [Role.Admin],
       },
     ),
-    initManager(
-      ctx,
-      {
-        email: 'controller@example.com',
-        password: 'controller',
-        firstName: 'Controller',
-        lastName: 'Test',
-        roles: [Role.Controller],
-      },
-    ),
   ]);
 };
