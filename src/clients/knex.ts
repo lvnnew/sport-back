@@ -1,11 +1,11 @@
 import {getConfig} from '../config';
-import knex from 'knex';
+import knex, {Knex} from 'knex';
 import {log} from '../log';
 import {addParamsToPgUri} from '../utils/addParamsToPgUri';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-let knexInstance: knex | null = null;
+let knexInstance: Knex | null = null;
 
 export const getKnex = async (appName = 'someBack_Knex') => {
   const config = await getConfig();

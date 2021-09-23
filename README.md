@@ -9,12 +9,12 @@ npm install --global windows-build-tools
 
 ## Create migrations
 ```
-AGR_PG_URI=$AGR_MIGRATION_PG_URI prisma migrate dev --preview-feature
+yarn prisma:migrate
 ```
 
 ## Run main migration
 ```
-prisma migrate deploy --preview-feature
+yarn prisma:deploy
 ```
 
 ## Run all migrations

@@ -1,7 +1,7 @@
 import {getPrisma} from '../../clients/getPrisma';
 import {PrismaClient} from '@prisma/client';
 import {getKnex} from '../../clients/knex';
-import knex from 'knex';
+import {Knex} from 'knex';
 import {getPostgres} from '../../clients/postgres';
 import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
@@ -43,7 +43,7 @@ export type Services = BaseServices & AdditionalServices;
 
 export type BaseContext = {
   prisma: PrismaClient;
-  knex: knex;
+  knex: Knex;
   postgres: Client;
   worker: WorkerUtils;
   close: () => Promise<void>;
