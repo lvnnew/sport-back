@@ -22,7 +22,7 @@ import express, {Request, RequestHandler, Response} from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import bodyParser from 'body-parser';
-import restRouter from './restRouter';
+import restRouter from './rest/restRouter';
 import helmet from 'helmet';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {initAppPassport} from './app/config/passport';
