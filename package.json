@@ -60,7 +60,7 @@
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "email-templates": "^8.0.8",
-    "exit-hook": "^3.0.0",
+    "exit-hook": "^2.2.1",
     "express": "^4.17.1",
     "faker": "^5.5.3",
     "fs-extra": "^10.0.0",
