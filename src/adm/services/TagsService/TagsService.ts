@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseTagsMethods {
-  get: (id: number) => Promise<Tag | null>;
-  all: (params?: QueryAllTagsArgs) => Promise<Tag[]>;
-  findOne: (params?: QueryAllTagsArgs) => Promise<Tag | null>;
-  count: (params?: Query_AllTagsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllTagsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateTagArgs) => Promise<Tag>;
-  createMany: (data: MutationCreateTagArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateTagArgs) => Promise<Tag>;
-  upsert: (data: MutationUpdateTagArgs) => Promise<Tag>;
-  upsertAdvanced: (filter: TagFilter, data: MutationCreateTagArgs) => Promise<Tag>;
-  delete: (params: MutationRemoveTagArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<Tag | null>;
+  all: (params?: QueryAllTagsArgs) =>
+    Promise<Tag[]>;
+  findOne: (params?: QueryAllTagsArgs) =>
+    Promise<Tag | null>;
+  count: (params?: Query_AllTagsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllTagsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateTagArgs) =>
+    Promise<Tag>;
+  createMany: (data: MutationCreateTagArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateTagArgs) =>
+    Promise<Tag>;
+  upsert: (data: MutationUpdateTagArgs) =>
+    Promise<Tag>;
+  upsertAdvanced: (
+    filter: TagFilter,
+    data: MutationCreateTagArgs,
+  ) =>
+    Promise<Tag>;
+  delete: (params: MutationRemoveTagArgs) =>
+    Promise<boolean>;
 }
 
 export type TagsService = BaseTagsMethods & AdditionalTagsMethods;
@@ -110,7 +124,10 @@ export const getTagsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'comment'], data),
+                R.pick([
+                  'id',
+                  'comment',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +149,10 @@ export const getTagsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'comment'], result),
+              R.pick([
+                'id',
+                'comment',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +182,10 @@ export const getTagsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'comment'], data),
+                R.pick([
+                  'id',
+                  'comment',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +219,10 @@ export const getTagsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'comment'], data),
+                R.pick([
+                  'id',
+                  'comment',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +262,10 @@ export const getTagsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'comment'], data),
+              R.pick([
+                'id',
+                'comment',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +276,10 @@ export const getTagsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'comment'], data),
+              R.pick([
+                'id',
+                'comment',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseLanguagesMethods {
-  get: (id: string) => Promise<Language | null>;
-  all: (params?: QueryAllLanguagesArgs) => Promise<Language[]>;
-  findOne: (params?: QueryAllLanguagesArgs) => Promise<Language | null>;
-  count: (params?: Query_AllLanguagesMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllLanguagesMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateLanguageArgs) => Promise<Language>;
-  createMany: (data: MutationCreateLanguageArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateLanguageArgs) => Promise<Language>;
-  upsert: (data: MutationUpdateLanguageArgs) => Promise<Language>;
-  upsertAdvanced: (filter: LanguageFilter, data: MutationCreateLanguageArgs) => Promise<Language>;
-  delete: (params: MutationRemoveLanguageArgs) => Promise<boolean>;
+  get: (id: string) =>
+    Promise<Language | null>;
+  all: (params?: QueryAllLanguagesArgs) =>
+    Promise<Language[]>;
+  findOne: (params?: QueryAllLanguagesArgs) =>
+    Promise<Language | null>;
+  count: (params?: Query_AllLanguagesMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllLanguagesMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateLanguageArgs) =>
+    Promise<Language>;
+  createMany: (data: MutationCreateLanguageArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateLanguageArgs) =>
+    Promise<Language>;
+  upsert: (data: MutationUpdateLanguageArgs) =>
+    Promise<Language>;
+  upsertAdvanced: (
+    filter: LanguageFilter,
+    data: MutationCreateLanguageArgs,
+  ) =>
+    Promise<Language>;
+  delete: (params: MutationRemoveLanguageArgs) =>
+    Promise<boolean>;
 }
 
 export type LanguagesService = BaseLanguagesMethods & AdditionalLanguagesMethods;
@@ -110,7 +124,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +149,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], result),
+              R.pick([
+                'id',
+                'title',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +182,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +219,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +262,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], data),
+              R.pick([
+                'id',
+                'title',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +276,10 @@ export const getLanguagesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], data),
+              R.pick([
+                'id',
+                'title',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

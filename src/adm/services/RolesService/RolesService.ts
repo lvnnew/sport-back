@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseRolesMethods {
-  get: (id: string) => Promise<Role | null>;
-  all: (params?: QueryAllRolesArgs) => Promise<Role[]>;
-  findOne: (params?: QueryAllRolesArgs) => Promise<Role | null>;
-  count: (params?: Query_AllRolesMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllRolesMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateRoleArgs) => Promise<Role>;
-  createMany: (data: MutationCreateRoleArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateRoleArgs) => Promise<Role>;
-  upsert: (data: MutationUpdateRoleArgs) => Promise<Role>;
-  upsertAdvanced: (filter: RoleFilter, data: MutationCreateRoleArgs) => Promise<Role>;
-  delete: (params: MutationRemoveRoleArgs) => Promise<boolean>;
+  get: (id: string) =>
+    Promise<Role | null>;
+  all: (params?: QueryAllRolesArgs) =>
+    Promise<Role[]>;
+  findOne: (params?: QueryAllRolesArgs) =>
+    Promise<Role | null>;
+  count: (params?: Query_AllRolesMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllRolesMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateRoleArgs) =>
+    Promise<Role>;
+  createMany: (data: MutationCreateRoleArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateRoleArgs) =>
+    Promise<Role>;
+  upsert: (data: MutationUpdateRoleArgs) =>
+    Promise<Role>;
+  upsertAdvanced: (
+    filter: RoleFilter,
+    data: MutationCreateRoleArgs,
+  ) =>
+    Promise<Role>;
+  delete: (params: MutationRemoveRoleArgs) =>
+    Promise<boolean>;
 }
 
 export type RolesService = BaseRolesMethods & AdditionalRolesMethods;
@@ -110,7 +124,10 @@ export const getRolesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +149,10 @@ export const getRolesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], result),
+              R.pick([
+                'id',
+                'title',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +182,10 @@ export const getRolesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +219,10 @@ export const getRolesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +262,10 @@ export const getRolesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], data),
+              R.pick([
+                'id',
+                'title',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +276,10 @@ export const getRolesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], data),
+              R.pick([
+                'id',
+                'title',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

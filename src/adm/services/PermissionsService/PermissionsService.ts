@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BasePermissionsMethods {
-  get: (id: string) => Promise<Permission | null>;
-  all: (params?: QueryAllPermissionsArgs) => Promise<Permission[]>;
-  findOne: (params?: QueryAllPermissionsArgs) => Promise<Permission | null>;
-  count: (params?: Query_AllPermissionsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllPermissionsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreatePermissionArgs) => Promise<Permission>;
-  createMany: (data: MutationCreatePermissionArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdatePermissionArgs) => Promise<Permission>;
-  upsert: (data: MutationUpdatePermissionArgs) => Promise<Permission>;
-  upsertAdvanced: (filter: PermissionFilter, data: MutationCreatePermissionArgs) => Promise<Permission>;
-  delete: (params: MutationRemovePermissionArgs) => Promise<boolean>;
+  get: (id: string) =>
+    Promise<Permission | null>;
+  all: (params?: QueryAllPermissionsArgs) =>
+    Promise<Permission[]>;
+  findOne: (params?: QueryAllPermissionsArgs) =>
+    Promise<Permission | null>;
+  count: (params?: Query_AllPermissionsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllPermissionsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreatePermissionArgs) =>
+    Promise<Permission>;
+  createMany: (data: MutationCreatePermissionArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdatePermissionArgs) =>
+    Promise<Permission>;
+  upsert: (data: MutationUpdatePermissionArgs) =>
+    Promise<Permission>;
+  upsertAdvanced: (
+    filter: PermissionFilter,
+    data: MutationCreatePermissionArgs,
+  ) =>
+    Promise<Permission>;
+  delete: (params: MutationRemovePermissionArgs) =>
+    Promise<boolean>;
 }
 
 export type PermissionsService = BasePermissionsMethods & AdditionalPermissionsMethods;
@@ -110,7 +124,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +149,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], result),
+              R.pick([
+                'id',
+                'title',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +182,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +219,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title'], data),
+                R.pick([
+                  'id',
+                  'title',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +262,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], data),
+              R.pick([
+                'id',
+                'title',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +276,10 @@ export const getPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title'], data),
+              R.pick([
+                'id',
+                'title',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseRolesToPermissionsMethods {
-  get: (id: number) => Promise<RolesToPermission | null>;
-  all: (params?: QueryAllRolesToPermissionsArgs) => Promise<RolesToPermission[]>;
-  findOne: (params?: QueryAllRolesToPermissionsArgs) => Promise<RolesToPermission | null>;
-  count: (params?: Query_AllRolesToPermissionsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllRolesToPermissionsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateRolesToPermissionArgs) => Promise<RolesToPermission>;
-  createMany: (data: MutationCreateRolesToPermissionArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateRolesToPermissionArgs) => Promise<RolesToPermission>;
-  upsert: (data: MutationUpdateRolesToPermissionArgs) => Promise<RolesToPermission>;
-  upsertAdvanced: (filter: RolesToPermissionFilter, data: MutationCreateRolesToPermissionArgs) => Promise<RolesToPermission>;
-  delete: (params: MutationRemoveRolesToPermissionArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<RolesToPermission | null>;
+  all: (params?: QueryAllRolesToPermissionsArgs) =>
+    Promise<RolesToPermission[]>;
+  findOne: (params?: QueryAllRolesToPermissionsArgs) =>
+    Promise<RolesToPermission | null>;
+  count: (params?: Query_AllRolesToPermissionsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllRolesToPermissionsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateRolesToPermissionArgs) =>
+    Promise<RolesToPermission>;
+  createMany: (data: MutationCreateRolesToPermissionArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateRolesToPermissionArgs) =>
+    Promise<RolesToPermission>;
+  upsert: (data: MutationUpdateRolesToPermissionArgs) =>
+    Promise<RolesToPermission>;
+  upsertAdvanced: (
+    filter: RolesToPermissionFilter,
+    data: MutationCreateRolesToPermissionArgs,
+  ) =>
+    Promise<RolesToPermission>;
+  delete: (params: MutationRemoveRolesToPermissionArgs) =>
+    Promise<boolean>;
 }
 
 export type RolesToPermissionsService = BaseRolesToPermissionsMethods & AdditionalRolesToPermissionsMethods;
@@ -110,7 +124,11 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'roleId', 'permissionId'], data),
+                R.pick([
+                  'id',
+                  'roleId',
+                  'permissionId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +150,11 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'roleId', 'permissionId'], result),
+              R.pick([
+                'id',
+                'roleId',
+                'permissionId',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +184,11 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'roleId', 'permissionId'], data),
+                R.pick([
+                  'id',
+                  'roleId',
+                  'permissionId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +222,11 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'roleId', 'permissionId'], data),
+                R.pick([
+                  'id',
+                  'roleId',
+                  'permissionId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +266,11 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'roleId', 'permissionId'], data),
+              R.pick([
+                'id',
+                'roleId',
+                'permissionId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +281,11 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'roleId', 'permissionId'], data),
+              R.pick([
+                'id',
+                'roleId',
+                'permissionId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

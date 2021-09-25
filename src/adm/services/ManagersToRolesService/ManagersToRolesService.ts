@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseManagersToRolesMethods {
-  get: (id: number) => Promise<ManagersToRole | null>;
-  all: (params?: QueryAllManagersToRolesArgs) => Promise<ManagersToRole[]>;
-  findOne: (params?: QueryAllManagersToRolesArgs) => Promise<ManagersToRole | null>;
-  count: (params?: Query_AllManagersToRolesMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllManagersToRolesMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateManagersToRoleArgs) => Promise<ManagersToRole>;
-  createMany: (data: MutationCreateManagersToRoleArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagersToRoleArgs) => Promise<ManagersToRole>;
-  upsert: (data: MutationUpdateManagersToRoleArgs) => Promise<ManagersToRole>;
-  upsertAdvanced: (filter: ManagersToRoleFilter, data: MutationCreateManagersToRoleArgs) => Promise<ManagersToRole>;
-  delete: (params: MutationRemoveManagersToRoleArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<ManagersToRole | null>;
+  all: (params?: QueryAllManagersToRolesArgs) =>
+    Promise<ManagersToRole[]>;
+  findOne: (params?: QueryAllManagersToRolesArgs) =>
+    Promise<ManagersToRole | null>;
+  count: (params?: Query_AllManagersToRolesMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllManagersToRolesMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateManagersToRoleArgs) =>
+    Promise<ManagersToRole>;
+  createMany: (data: MutationCreateManagersToRoleArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateManagersToRoleArgs) =>
+    Promise<ManagersToRole>;
+  upsert: (data: MutationUpdateManagersToRoleArgs) =>
+    Promise<ManagersToRole>;
+  upsertAdvanced: (
+    filter: ManagersToRoleFilter,
+    data: MutationCreateManagersToRoleArgs,
+  ) =>
+    Promise<ManagersToRole>;
+  delete: (params: MutationRemoveManagersToRoleArgs) =>
+    Promise<boolean>;
 }
 
 export type ManagersToRolesService = BaseManagersToRolesMethods & AdditionalManagersToRolesMethods;
@@ -110,7 +124,11 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'managerId', 'roleId'], data),
+                R.pick([
+                  'id',
+                  'managerId',
+                  'roleId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +150,11 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'managerId', 'roleId'], result),
+              R.pick([
+                'id',
+                'managerId',
+                'roleId',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +184,11 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'managerId', 'roleId'], data),
+                R.pick([
+                  'id',
+                  'managerId',
+                  'roleId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +222,11 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'managerId', 'roleId'], data),
+                R.pick([
+                  'id',
+                  'managerId',
+                  'roleId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +266,11 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'managerId', 'roleId'], data),
+              R.pick([
+                'id',
+                'managerId',
+                'roleId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +281,11 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'managerId', 'roleId'], data),
+              R.pick([
+                'id',
+                'managerId',
+                'roleId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

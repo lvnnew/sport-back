@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseUnitsMethods {
-  get: (id: number) => Promise<Unit | null>;
-  all: (params?: QueryAllUnitsArgs) => Promise<Unit[]>;
-  findOne: (params?: QueryAllUnitsArgs) => Promise<Unit | null>;
-  count: (params?: Query_AllUnitsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllUnitsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateUnitArgs) => Promise<Unit>;
-  createMany: (data: MutationCreateUnitArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateUnitArgs) => Promise<Unit>;
-  upsert: (data: MutationUpdateUnitArgs) => Promise<Unit>;
-  upsertAdvanced: (filter: UnitFilter, data: MutationCreateUnitArgs) => Promise<Unit>;
-  delete: (params: MutationRemoveUnitArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<Unit | null>;
+  all: (params?: QueryAllUnitsArgs) =>
+    Promise<Unit[]>;
+  findOne: (params?: QueryAllUnitsArgs) =>
+    Promise<Unit | null>;
+  count: (params?: Query_AllUnitsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllUnitsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateUnitArgs) =>
+    Promise<Unit>;
+  createMany: (data: MutationCreateUnitArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateUnitArgs) =>
+    Promise<Unit>;
+  upsert: (data: MutationUpdateUnitArgs) =>
+    Promise<Unit>;
+  upsertAdvanced: (
+    filter: UnitFilter,
+    data: MutationCreateUnitArgs,
+  ) =>
+    Promise<Unit>;
+  delete: (params: MutationRemoveUnitArgs) =>
+    Promise<boolean>;
 }
 
 export type UnitsService = BaseUnitsMethods & AdditionalUnitsMethods;
@@ -110,7 +124,11 @@ export const getUnitsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'parentId'], data),
+                R.pick([
+                  'id',
+                  'title',
+                  'parentId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +150,11 @@ export const getUnitsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'parentId'], result),
+              R.pick([
+                'id',
+                'title',
+                'parentId',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +184,11 @@ export const getUnitsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'parentId'], data),
+                R.pick([
+                  'id',
+                  'title',
+                  'parentId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +222,11 @@ export const getUnitsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'parentId'], data),
+                R.pick([
+                  'id',
+                  'title',
+                  'parentId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +266,11 @@ export const getUnitsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'parentId'], data),
+              R.pick([
+                'id',
+                'title',
+                'parentId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +281,11 @@ export const getUnitsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'parentId'], data),
+              R.pick([
+                'id',
+                'title',
+                'parentId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

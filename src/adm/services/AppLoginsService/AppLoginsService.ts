@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseAppLoginsMethods {
-  get: (id: number) => Promise<AppLogin | null>;
-  all: (params?: QueryAllAppLoginsArgs) => Promise<AppLogin[]>;
-  findOne: (params?: QueryAllAppLoginsArgs) => Promise<AppLogin | null>;
-  count: (params?: Query_AllAppLoginsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllAppLoginsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateAppLoginArgs) => Promise<AppLogin>;
-  createMany: (data: MutationCreateAppLoginArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAppLoginArgs) => Promise<AppLogin>;
-  upsert: (data: MutationUpdateAppLoginArgs) => Promise<AppLogin>;
-  upsertAdvanced: (filter: AppLoginFilter, data: MutationCreateAppLoginArgs) => Promise<AppLogin>;
-  delete: (params: MutationRemoveAppLoginArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<AppLogin | null>;
+  all: (params?: QueryAllAppLoginsArgs) =>
+    Promise<AppLogin[]>;
+  findOne: (params?: QueryAllAppLoginsArgs) =>
+    Promise<AppLogin | null>;
+  count: (params?: Query_AllAppLoginsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllAppLoginsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateAppLoginArgs) =>
+    Promise<AppLogin>;
+  createMany: (data: MutationCreateAppLoginArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateAppLoginArgs) =>
+    Promise<AppLogin>;
+  upsert: (data: MutationUpdateAppLoginArgs) =>
+    Promise<AppLogin>;
+  upsertAdvanced: (
+    filter: AppLoginFilter,
+    data: MutationCreateAppLoginArgs,
+  ) =>
+    Promise<AppLogin>;
+  delete: (params: MutationRemoveAppLoginArgs) =>
+    Promise<boolean>;
 }
 
 export type AppLoginsService = BaseAppLoginsMethods & AdditionalAppLoginsMethods;
@@ -110,7 +124,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+                R.pick([
+                  'id',
+                  'login',
+                  'passwordHash',
+                  'userId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +151,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'login', 'passwordHash', 'userId'], result),
+              R.pick([
+                'id',
+                'login',
+                'passwordHash',
+                'userId',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +186,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+                R.pick([
+                  'id',
+                  'login',
+                  'passwordHash',
+                  'userId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +225,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+                R.pick([
+                  'id',
+                  'login',
+                  'passwordHash',
+                  'userId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +270,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              R.pick([
+                'id',
+                'login',
+                'passwordHash',
+                'userId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +286,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'login', 'passwordHash', 'userId'], data),
+              R.pick([
+                'id',
+                'login',
+                'passwordHash',
+                'userId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

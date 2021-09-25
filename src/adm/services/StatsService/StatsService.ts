@@ -30,17 +30,31 @@ dayjs.extend(utc);
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseStatsMethods {
-  get: (id: string) => Promise<Stat | null>;
-  all: (params?: QueryAllStatsArgs) => Promise<Stat[]>;
-  findOne: (params?: QueryAllStatsArgs) => Promise<Stat | null>;
-  count: (params?: Query_AllStatsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllStatsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateStatArgs) => Promise<Stat>;
-  createMany: (data: MutationCreateStatArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateStatArgs) => Promise<Stat>;
-  upsert: (data: MutationUpdateStatArgs) => Promise<Stat>;
-  upsertAdvanced: (filter: StatFilter, data: MutationCreateStatArgs) => Promise<Stat>;
-  delete: (params: MutationRemoveStatArgs) => Promise<boolean>;
+  get: (id: string) =>
+    Promise<Stat | null>;
+  all: (params?: QueryAllStatsArgs) =>
+    Promise<Stat[]>;
+  findOne: (params?: QueryAllStatsArgs) =>
+    Promise<Stat | null>;
+  count: (params?: Query_AllStatsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllStatsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateStatArgs) =>
+    Promise<Stat>;
+  createMany: (data: MutationCreateStatArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateStatArgs) =>
+    Promise<Stat>;
+  upsert: (data: MutationUpdateStatArgs) =>
+    Promise<Stat>;
+  upsertAdvanced: (
+    filter: StatFilter,
+    data: MutationCreateStatArgs,
+  ) =>
+    Promise<Stat>;
+  delete: (params: MutationRemoveStatArgs) =>
+    Promise<boolean>;
 }
 
 export type StatsService = BaseStatsMethods & AdditionalStatsMethods;
@@ -114,14 +128,19 @@ export const getStatsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'helloCount'], data),
+                R.pick([
+                  'id',
+                  'helloCount',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
-            .toPairs(
-              R.pick(['updated'], data),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+              .toPairs(
+                R.pick([
+                  'updated',
+                ], data),
+              )
+              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
       ),
@@ -141,14 +160,19 @@ export const getStatsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'helloCount'], result),
+              R.pick([
+                'id',
+                'helloCount',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
-          .toPairs(
-            R.pick(['updated'], result),
-          )
-          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+            .toPairs(
+              R.pick([
+                'updated',
+              ], result),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     });
@@ -176,14 +200,19 @@ export const getStatsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'helloCount'], data),
+                R.pick([
+                  'id',
+                  'helloCount',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
-            .toPairs(
-              R.pick(['updated'], data),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+              .toPairs(
+                R.pick([
+                  'updated',
+                ], data),
+              )
+              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
       )),
@@ -215,14 +244,19 @@ export const getStatsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'helloCount'], data),
+                R.pick([
+                  'id',
+                  'helloCount',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
-            .toPairs(
-              R.pick(['updated'], data),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+              .toPairs(
+                R.pick([
+                  'updated',
+                ], data),
+              )
+              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
       ),
@@ -260,14 +294,19 @@ export const getStatsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'helloCount'], data),
+              R.pick([
+                'id',
+                'helloCount',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
-          .toPairs(
-            R.pick(['updated'], data),
-          )
-          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+            .toPairs(
+              R.pick([
+                'updated',
+              ], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
@@ -276,14 +315,19 @@ export const getStatsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'helloCount'], data),
+              R.pick([
+                'id',
+                'helloCount',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
-          .toPairs(
-            R.pick(['updated'], data),
-          )
-          .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+            .toPairs(
+              R.pick([
+                'updated',
+              ], data),
+            )
+            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), where: {id}});

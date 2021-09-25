@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseFilesMethods {
-  get: (id: number) => Promise<File | null>;
-  all: (params?: QueryAllFilesArgs) => Promise<File[]>;
-  findOne: (params?: QueryAllFilesArgs) => Promise<File | null>;
-  count: (params?: Query_AllFilesMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllFilesMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateFileArgs) => Promise<File>;
-  createMany: (data: MutationCreateFileArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateFileArgs) => Promise<File>;
-  upsert: (data: MutationUpdateFileArgs) => Promise<File>;
-  upsertAdvanced: (filter: FileFilter, data: MutationCreateFileArgs) => Promise<File>;
-  delete: (params: MutationRemoveFileArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<File | null>;
+  all: (params?: QueryAllFilesArgs) =>
+    Promise<File[]>;
+  findOne: (params?: QueryAllFilesArgs) =>
+    Promise<File | null>;
+  count: (params?: Query_AllFilesMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllFilesMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateFileArgs) =>
+    Promise<File>;
+  createMany: (data: MutationCreateFileArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateFileArgs) =>
+    Promise<File>;
+  upsert: (data: MutationUpdateFileArgs) =>
+    Promise<File>;
+  upsertAdvanced: (
+    filter: FileFilter,
+    data: MutationCreateFileArgs,
+  ) =>
+    Promise<File>;
+  delete: (params: MutationRemoveFileArgs) =>
+    Promise<boolean>;
 }
 
 export type FilesService = BaseFilesMethods & AdditionalFilesMethods;
@@ -110,7 +124,14 @@ export const getFilesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+                R.pick([
+                  'id',
+                  'originalName',
+                  'url',
+                  'mimetype',
+                  's3Key',
+                  'eTag',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +153,14 @@ export const getFilesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], result),
+              R.pick([
+                'id',
+                'originalName',
+                'url',
+                'mimetype',
+                's3Key',
+                'eTag',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +190,14 @@ export const getFilesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+                R.pick([
+                  'id',
+                  'originalName',
+                  'url',
+                  'mimetype',
+                  's3Key',
+                  'eTag',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +231,14 @@ export const getFilesService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+                R.pick([
+                  'id',
+                  'originalName',
+                  'url',
+                  'mimetype',
+                  's3Key',
+                  'eTag',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +278,14 @@ export const getFilesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+              R.pick([
+                'id',
+                'originalName',
+                'url',
+                'mimetype',
+                's3Key',
+                'eTag',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +296,14 @@ export const getFilesService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'originalName', 'url', 'mimetype', 's3Key', 'eTag'], data),
+              R.pick([
+                'id',
+                'originalName',
+                'url',
+                'mimetype',
+                's3Key',
+                'eTag',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

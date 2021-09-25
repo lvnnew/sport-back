@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseUsersMethods {
-  get: (id: number) => Promise<User | null>;
-  all: (params?: QueryAllUsersArgs) => Promise<User[]>;
-  findOne: (params?: QueryAllUsersArgs) => Promise<User | null>;
-  count: (params?: Query_AllUsersMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllUsersMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateUserArgs) => Promise<User>;
-  createMany: (data: MutationCreateUserArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateUserArgs) => Promise<User>;
-  upsert: (data: MutationUpdateUserArgs) => Promise<User>;
-  upsertAdvanced: (filter: UserFilter, data: MutationCreateUserArgs) => Promise<User>;
-  delete: (params: MutationRemoveUserArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<User | null>;
+  all: (params?: QueryAllUsersArgs) =>
+    Promise<User[]>;
+  findOne: (params?: QueryAllUsersArgs) =>
+    Promise<User | null>;
+  count: (params?: Query_AllUsersMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllUsersMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateUserArgs) =>
+    Promise<User>;
+  createMany: (data: MutationCreateUserArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateUserArgs) =>
+    Promise<User>;
+  upsert: (data: MutationUpdateUserArgs) =>
+    Promise<User>;
+  upsertAdvanced: (
+    filter: UserFilter,
+    data: MutationCreateUserArgs,
+  ) =>
+    Promise<User>;
+  delete: (params: MutationRemoveUserArgs) =>
+    Promise<boolean>;
 }
 
 export type UsersService = BaseUsersMethods & AdditionalUsersMethods;
@@ -110,7 +124,12 @@ export const getUsersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
+                R.pick([
+                  'id',
+                  'lastname',
+                  'firstname',
+                  'email',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +151,12 @@ export const getUsersService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'lastname', 'firstname', 'email'], result),
+              R.pick([
+                'id',
+                'lastname',
+                'firstname',
+                'email',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +186,12 @@ export const getUsersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
+                R.pick([
+                  'id',
+                  'lastname',
+                  'firstname',
+                  'email',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +225,12 @@ export const getUsersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'lastname', 'firstname', 'email'], data),
+                R.pick([
+                  'id',
+                  'lastname',
+                  'firstname',
+                  'email',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +270,12 @@ export const getUsersService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'lastname', 'firstname', 'email'], data),
+              R.pick([
+                'id',
+                'lastname',
+                'firstname',
+                'email',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +286,12 @@ export const getUsersService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'lastname', 'firstname', 'email'], data),
+              R.pick([
+                'id',
+                'lastname',
+                'firstname',
+                'email',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseManagerLoginsMethods {
-  get: (id: number) => Promise<ManagerLogin | null>;
-  all: (params?: QueryAllManagerLoginsArgs) => Promise<ManagerLogin[]>;
-  findOne: (params?: QueryAllManagerLoginsArgs) => Promise<ManagerLogin | null>;
-  count: (params?: Query_AllManagerLoginsMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllManagerLoginsMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateManagerLoginArgs) => Promise<ManagerLogin>;
-  createMany: (data: MutationCreateManagerLoginArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerLoginArgs) => Promise<ManagerLogin>;
-  upsert: (data: MutationUpdateManagerLoginArgs) => Promise<ManagerLogin>;
-  upsertAdvanced: (filter: ManagerLoginFilter, data: MutationCreateManagerLoginArgs) => Promise<ManagerLogin>;
-  delete: (params: MutationRemoveManagerLoginArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<ManagerLogin | null>;
+  all: (params?: QueryAllManagerLoginsArgs) =>
+    Promise<ManagerLogin[]>;
+  findOne: (params?: QueryAllManagerLoginsArgs) =>
+    Promise<ManagerLogin | null>;
+  count: (params?: Query_AllManagerLoginsMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllManagerLoginsMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateManagerLoginArgs) =>
+    Promise<ManagerLogin>;
+  createMany: (data: MutationCreateManagerLoginArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateManagerLoginArgs) =>
+    Promise<ManagerLogin>;
+  upsert: (data: MutationUpdateManagerLoginArgs) =>
+    Promise<ManagerLogin>;
+  upsertAdvanced: (
+    filter: ManagerLoginFilter,
+    data: MutationCreateManagerLoginArgs,
+  ) =>
+    Promise<ManagerLogin>;
+  delete: (params: MutationRemoveManagerLoginArgs) =>
+    Promise<boolean>;
 }
 
 export type ManagerLoginsService = BaseManagerLoginsMethods & AdditionalManagerLoginsMethods;
@@ -110,7 +124,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick([
+                  'id',
+                  'login',
+                  'passwordHash',
+                  'role',
+                  'managerId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +152,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], result),
+              R.pick([
+                'id',
+                'login',
+                'passwordHash',
+                'role',
+                'managerId',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +188,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick([
+                  'id',
+                  'login',
+                  'passwordHash',
+                  'role',
+                  'managerId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +228,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+                R.pick([
+                  'id',
+                  'login',
+                  'passwordHash',
+                  'role',
+                  'managerId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +274,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+              R.pick([
+                'id',
+                'login',
+                'passwordHash',
+                'role',
+                'managerId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +291,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'login', 'passwordHash', 'role', 'managerId'], data),
+              R.pick([
+                'id',
+                'login',
+                'passwordHash',
+                'role',
+                'managerId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),

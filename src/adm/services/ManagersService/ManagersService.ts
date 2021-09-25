@@ -26,17 +26,31 @@ import * as R from 'ramda';
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseManagersMethods {
-  get: (id: number) => Promise<Manager | null>;
-  all: (params?: QueryAllManagersArgs) => Promise<Manager[]>;
-  findOne: (params?: QueryAllManagersArgs) => Promise<Manager | null>;
-  count: (params?: Query_AllManagersMetaArgs) => Promise<number>;
-  meta: (params?: Query_AllManagersMetaArgs) => Promise<ListMetadata>;
-  create: (data: MutationCreateManagerArgs) => Promise<Manager>;
-  createMany: (data: MutationCreateManagerArgs[]) => Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerArgs) => Promise<Manager>;
-  upsert: (data: MutationUpdateManagerArgs) => Promise<Manager>;
-  upsertAdvanced: (filter: ManagerFilter, data: MutationCreateManagerArgs) => Promise<Manager>;
-  delete: (params: MutationRemoveManagerArgs) => Promise<boolean>;
+  get: (id: number) =>
+    Promise<Manager | null>;
+  all: (params?: QueryAllManagersArgs) =>
+    Promise<Manager[]>;
+  findOne: (params?: QueryAllManagersArgs) =>
+    Promise<Manager | null>;
+  count: (params?: Query_AllManagersMetaArgs) =>
+    Promise<number>;
+  meta: (params?: Query_AllManagersMetaArgs) =>
+    Promise<ListMetadata>;
+  create: (data: MutationCreateManagerArgs) =>
+    Promise<Manager>;
+  createMany: (data: MutationCreateManagerArgs[]) =>
+    Promise<Prisma.BatchPayload>;
+  update: ({id, ...rest}: MutationUpdateManagerArgs) =>
+    Promise<Manager>;
+  upsert: (data: MutationUpdateManagerArgs) =>
+    Promise<Manager>;
+  upsertAdvanced: (
+    filter: ManagerFilter,
+    data: MutationCreateManagerArgs,
+  ) =>
+    Promise<Manager>;
+  delete: (params: MutationRemoveManagerArgs) =>
+    Promise<boolean>;
 }
 
 export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
@@ -110,7 +124,15 @@ export const getManagersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email', 'unitId'], data),
+                R.pick([
+                  'id',
+                  'title',
+                  'lastName',
+                  'firstName',
+                  'languageId',
+                  'email',
+                  'unitId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -132,7 +154,15 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email', 'unitId'], result),
+              R.pick([
+                'id',
+                'title',
+                'lastName',
+                'firstName',
+                'languageId',
+                'email',
+                'unitId',
+              ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -162,7 +192,15 @@ export const getManagersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email', 'unitId'], data),
+                R.pick([
+                  'id',
+                  'title',
+                  'lastName',
+                  'firstName',
+                  'languageId',
+                  'email',
+                  'unitId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -196,7 +234,15 @@ export const getManagersService = (getCtx: () => Context) => {
           search: [
             ...R
               .toPairs(
-                R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email', 'unitId'], data),
+                R.pick([
+                  'id',
+                  'title',
+                  'lastName',
+                  'firstName',
+                  'languageId',
+                  'email',
+                  'unitId',
+                ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -236,7 +282,15 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email', 'unitId'], data),
+              R.pick([
+                'id',
+                'title',
+                'lastName',
+                'firstName',
+                'languageId',
+                'email',
+                'unitId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -247,7 +301,15 @@ export const getManagersService = (getCtx: () => Context) => {
         search: [
           ...R
             .toPairs(
-              R.pick(['id', 'title', 'lastName', 'firstName', 'languageId', 'email', 'unitId'], data),
+              R.pick([
+                'id',
+                'title',
+                'lastName',
+                'firstName',
+                'languageId',
+                'email',
+                'unitId',
+              ], data),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
