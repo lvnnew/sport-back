@@ -1,5 +1,5 @@
 import {getConfig} from '../config';
-import {addParamsToPgUri} from '../utils/addParamsToPgUri';
+import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
 import {Client} from 'pg';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -8,9 +8,9 @@ let postgresInstance: Client | null = null;
 
 export const getPostgres = async (appName = 'someBack_Knex') => {
   if (!postgresInstance) {
-    const {pgUri} = await getConfig();
+    const {databaseUri} = await getConfig();
 
-    const url = addParamsToPgUri(pgUri, {
+    const url = addParamsToDatabaseUri(databaseUri, {
       application_name: appName,
       ...(process.env.NODE_ENV === 'production' ? {} : {connection_limit: '1'}),
     });

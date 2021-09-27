@@ -5,9 +5,9 @@ import {initPermissions} from './permissions/initPermissions';
 import {initRoles} from './permissions/initRoles';
 
 // yarn ts-node src/init/baseInit.ts
-// AGR_PG_URI=$AGR_STAGE_PG_URI yarn ts-node src/init/baseInit.ts
-// AGR_PG_URI=$AGR_TEST_PG_URI yarn ts-node src/init/baseInit.ts
-// AGR_PG_URI=$AGR_PROD_PG_URI yarn ts-node src/init/baseInit.ts
+// AGR_DATABASE_URI=$AGR_STAGE_DATABASE_URI yarn ts-node src/init/baseInit.ts
+// AGR_DATABASE_URI=$AGR_TEST_DATABASE_URI yarn ts-node src/init/baseInit.ts
+// AGR_DATABASE_URI=$AGR_PROD_DATABASE_URI yarn ts-node src/init/baseInit.ts
 
 const app = async () => {
   log.info('start');

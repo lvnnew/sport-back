@@ -13,7 +13,43 @@
     "worker",
     "telegramBot"
    ],
-   "name": "pgUri"
+   "name": "database.uri"
+  },
+  {
+   "needFor": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "adm.jwt.secret"
+  },
+  {
+   "needFor": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "app.jwt.secret"
+  },
+  {
+   "needFor": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "s3.accessKeyId"
+  },
+  {
+   "needFor": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "s3.secretAccessKey"
   },
   {
    "needFor": "",

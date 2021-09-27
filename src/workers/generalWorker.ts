@@ -8,7 +8,7 @@ import {getConfig} from '../config';
 import {generalJobs} from './generalJobs';
 import {generalCronJobs} from './generalCronJobs';
 import {closeCtx} from '../adm/services/context';
-import {addParamsToPgUri} from '../utils/addParamsToPgUri';
+import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
 import {jobsFromFunctions} from '../jobs/jobsFromFunctions';
 
 // yarn ts-node src/workers/generalWorker.ts
@@ -49,7 +49,7 @@ startExpress()
 const generalWorker = async (appName = 'someBack_generalWorker') => {
   const config = await getConfig();
   const runner = await run({
-    connectionString: addParamsToPgUri(config.pgUri, {
+    connectionString: addParamsToDatabaseUri(config.databaseUri, {
       application_name: appName,
       ...(process.env.NODE_ENV === 'production' ? {} : {connection_limit: '1'}),
     }),

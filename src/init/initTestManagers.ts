@@ -3,7 +3,7 @@ import {Role} from '../types/enums';
 import {initManager} from './initManager';
 
 // yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
-// ALOYAL_PG_URI=$ALOYAL_STAGE_PG_URI yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
+// ALOYAL_DATABASE_URI=$ALOYAL_STAGE_DATABASE_URI yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
 
 export const initTestManagers = async (ctx: Context) => {
   await Promise.all([

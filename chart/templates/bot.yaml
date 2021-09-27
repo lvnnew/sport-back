@@ -60,7 +60,7 @@ spec:
           value: '{{ $.Values.global.env }}'
         - name: APOLLO_KEY
           value: {{ $.Values.apollo.key | quote }}
-        - name: AGR_PG_URI
+        - name: AGR_DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
 
         - name: AGR_APP_URI

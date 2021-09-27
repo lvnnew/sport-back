@@ -3,8 +3,8 @@ import {getBaseServices, Context} from '../../adm/services/context';
 import {Role} from '../../types/enums';
 
 // yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
-// AGR_PG_URI=$AGR_STAGE_PG_URI yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
-// AGR_PG_URI=$AGR_PROD_PG_URI yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
+// AGR_DATABASE_URI=$AGR_STAGE_DATABASE_URI yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
+// AGR_DATABASE_URI=$AGR_PROD_DATABASE_URI yarn ts-node ./src/init/wrap.ts src/init/permissions/initRoles.ts
 
 export const initRoles = async (ctx: Context) => {
   // const allPermissions = getRuntimePermissions();

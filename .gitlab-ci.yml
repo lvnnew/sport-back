@@ -50,7 +50,6 @@ build:
     - release
     - /^release-.*$/
 
-
 master-to-latest:
   extends: .tag-image
   stage: latest-image
@@ -87,7 +86,9 @@ deploy-stage-workers:
 
 
 .deploy-dev-back:
-  extends: .deploy-dev
+  extends:
+    - .deploy-dev
+    - .deploy-back
   variables:
     KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "true"
@@ -98,8 +99,11 @@ deploy-stage-workers:
     ROOT_ENABLED: "false"
 
 .deploy-dev-workers:
-  extends: .deploy-dev
+  extends:
+    - .deploy-dev
+    - .deploy-worker
   variables:
+    DEPLOY_KIND: "back"
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
     APPNAME: workers
     BACK_ENABLED: "false"
@@ -112,7 +116,9 @@ deploy-stage-workers:
     - master
 
 .deploy-prod-back:
-  extends: .deploy-prod
+  extends:
+    - .deploy-prod
+    - .deploy-back
   variables:
     KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
     BACK_ENABLED: "true"
@@ -123,7 +129,9 @@ deploy-stage-workers:
     ROOT_ENABLED: "false"
 
 .deploy-prod-workers:
-  extends: .deploy-prod
+  extends:
+    - .deploy-prod
+    - .deploy-worker
   variables:
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
     APPNAME: workers
@@ -140,7 +148,9 @@ deploy-stage-workers:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
-    PG_URI: ${AGR_DEV_PG_URI}
+    AGR_DATABASE_URI: ${AGR_DEV_DATABASE_URI}
+    AGR_ADM_JWT_SECRET: ${AGR_DEV_ADM_JWT_SECRET}
+    AGR_APP_JWT_SECRET: ${AGR_DEV_APP_JWT_SECRET}
 
 .deploy-prod:
   extends: .deploy
@@ -151,9 +161,23 @@ deploy-stage-workers:
     DEV: "false"
     HOST: "making.ventures"
     TAG: ":latest"
-    PG_URI: ${AGR_PROD_PG_URI}
+    AGR_DATABASE_URI: ${AGR_PROD_DATABASE_URI}
+    AGR_ADM_JWT_SECRET: ${AGR_PROD_ADM_JWT_SECRET}
+    AGR_APP_JWT_SECRET: ${AGR_PROD_APP_JWT_SECRET}
   only:
     - master
+
+.deploy-back:
+  variables:
+    DEPLOY_KIND: "back"
+
+.deploy-worker:
+  variables:
+    DEPLOY_KIND: "worker"
+
+.deploy-telegramBot:
+  variables:
+    DEPLOY_KIND: "telegramBot"
 
 .deploy:
   image:
@@ -172,11 +196,20 @@ deploy-stage-workers:
       --timeout 3600s
       --set "global.envName=${ENV_NAME}"
       --set "global.env=${ENV}"
+      --set "global.deployKind=${DEPLOY_KIND}"
       --set "random=:$(date)"
       --set "app.tag=${TAG}"
       --set "ingress.host=${HOST}"
       --set "style=${STYLE}"
-      --set "database.uri=${PG_URI}"
+      --set "back.enabled=${BACK_ENABLED}"
+      --set "ingress.enabled=${INGRESS_ENABLED}"
+      --set "metrics.enabled=${METRICS_ENABLED}"
+      --set "worker.enabled=${WORKER_ENABLED}"
+      --set "bot.enabled=${BOT_ENABLED}"
+      --set "ingress.rootEnabled=${ROOT_ENABLED}"
+      --set "database.uri=${AGR_DATABASE_URI}"
+      --set "adm.jwt.secret=${AGR_ADM_JWT_SECRET}"
+      --set "app.jwt.secret=${AGR_APP_JWT_SECRET}"
       --set "s3.accessKeyId=${AGR_S3_ACCESS_KEY_ID}"
       --set "s3.secretAccessKey=${AGR_S3_SECRET_ACCESS_KEY}"
       --set "smtp.host=${AGR_SMTP_HOST}"
@@ -184,9 +217,4 @@ deploy-stage-workers:
       --set "smtp.user=${AGR_SMTP_USER}"
       --set "smtp.pass=${AGR_SMTP_PASS}"
       --set "smtp.from=${AGR_SMTP_FROM}"
-      --set "back.enabled=${BACK_ENABLED}"
-      --set "ingress.enabled=${INGRESS_ENABLED}"
-      --set "metrics.enabled=${METRICS_ENABLED}"
-      --set "worker.enabled=${WORKER_ENABLED}"
-      --set "ingress.rootEnabled=${ROOT_ENABLED}"
       --namespace ${NAMESPACE}

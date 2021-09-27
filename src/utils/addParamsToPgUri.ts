@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 
-export const addParamsToPgUri = (uri: string, params: Record<string, string>) => {
+export const addParamsToDatabaseUri = (uri: string, params: Record<string, string>) => {
   const initDelimeter = uri.includes('?') ? '&' : '?';
 
   const filteredParams = R.fromPairs(

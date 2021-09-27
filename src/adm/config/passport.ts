@@ -15,8 +15,6 @@ const cache = new LRUCache({
 });
 
 const getPermissions = async (managerId: number) => {
-  log.info(cache.has(managerId));
-
   if (!cache.has(managerId)) {
     const ctx = await getOrCreateContext();
     const permissionsRaw = await ctx.prisma.managersToRole.findMany({
