@@ -5,6 +5,9 @@
  "deployEnvironments": [
   "stage"
  ],
+ "telegramBots": [
+  "hello"
+ ],
  "configVars": [
   {
    "needFor": "",
