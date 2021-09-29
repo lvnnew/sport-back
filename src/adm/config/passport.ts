@@ -40,8 +40,6 @@ const getPermissions = async (managerId: number) => {
       ),
     );
 
-    log.info('permissions');
-    log.info(permissions);
     cache.set(managerId, permissions);
   }
 
@@ -118,6 +116,15 @@ passport.use(
         }
 
         log.info('user found & password match');
+
+        const manager = await ctx.managers.get(login.managerId);
+        if (!manager) {
+          return done(null, false, {message: `There is no manager with "${login.managerId}" id`});
+        }
+
+        if (!manager.active) {
+          return done(null, false, {message: 'There is no manager is not active'});
+        }
 
         return done(null, {
           id: login.managerId,
