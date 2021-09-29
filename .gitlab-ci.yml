@@ -151,6 +151,8 @@ deploy-stage-workers:
     AGR_DATABASE_URI: ${AGR_DEV_DATABASE_URI}
     AGR_ADM_JWT_SECRET: ${AGR_DEV_ADM_JWT_SECRET}
     AGR_APP_JWT_SECRET: ${AGR_DEV_APP_JWT_SECRET}
+  only:
+    - master
 
 .deploy-prod:
   extends: .deploy

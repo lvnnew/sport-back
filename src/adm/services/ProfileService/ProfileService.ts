@@ -39,13 +39,16 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
     log.info('rawPermissions');
     log.info(rawPermissions.map(p => p.roleId));
 
+    const permissionsWithoutRoles = await ctx.managersToPermissions.all({filter: {managerId}});
+
     const permissions = R.uniq(
       R.flatten(
         rawPermissions
           .map(m => m.role)
           .map(
             r => r.rolesToPermissionRoles.map(m => m.permissionId),
-          ),
+          )
+          .concat(permissionsWithoutRoles.map(el => el.permissionId)),
       ),
     );
     log.info('permissions');
