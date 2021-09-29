@@ -932,6 +932,18 @@
      "category": "scalar"
     },
     {
+     "name": "telegramLogin",
+     "required": false,
+     "requiredOnInput": null,
+     "updatable": true,
+     "needFor": "",
+     "updatableByUser": true,
+     "hidden": false,
+     "searchable": true,
+     "type": "string",
+     "category": "scalar"
+    },
+    {
      "name": "unitId",
      "required": false,
      "requiredOnInput": null,
@@ -946,8 +958,20 @@
     },
     {
      "name": "headOfUnit",
-     "required": false,
-     "requiredOnInput": null,
+     "required": true,
+     "requiredOnInput": true,
+     "updatable": true,
+     "needFor": "",
+     "updatableByUser": true,
+     "hidden": false,
+     "searchable": false,
+     "type": "bool",
+     "category": "scalar"
+    },
+    {
+     "name": "active",
+     "required": true,
+     "requiredOnInput": true,
      "updatable": true,
      "needFor": "",
      "updatableByUser": true,
@@ -1001,12 +1025,22 @@
         "alwaysOn": false
        },
        {
+        "name": "telegramLogin",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
         "name": "unitId",
         "hidden": false,
         "alwaysOn": false
        },
        {
         "name": "headOfUnit",
+        "hidden": false,
+        "alwaysOn": false
+       },
+       {
+        "name": "active",
         "hidden": false,
         "alwaysOn": false
        }

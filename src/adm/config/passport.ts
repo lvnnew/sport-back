@@ -64,7 +64,9 @@ passport.use(
 
         const manager = await ctx.managers.create({
           lastName: '',
-          firstName: '',
+          firstName: email,
+          active: true,
+          headOfUnit: false,
         });
 
         await ctx.managerLogins.create({

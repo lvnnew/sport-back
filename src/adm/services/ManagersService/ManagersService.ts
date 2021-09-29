@@ -131,6 +131,7 @@ export const getManagersService = (getCtx: () => Context) => {
                   'firstName',
                   'languageId',
                   'email',
+                  'telegramLogin',
                   'unitId',
                 ], data),
               )
@@ -161,6 +162,7 @@ export const getManagersService = (getCtx: () => Context) => {
                 'firstName',
                 'languageId',
                 'email',
+                'telegramLogin',
                 'unitId',
               ], result),
             )
@@ -199,6 +201,7 @@ export const getManagersService = (getCtx: () => Context) => {
                   'firstName',
                   'languageId',
                   'email',
+                  'telegramLogin',
                   'unitId',
                 ], data),
               )
@@ -241,6 +244,7 @@ export const getManagersService = (getCtx: () => Context) => {
                   'firstName',
                   'languageId',
                   'email',
+                  'telegramLogin',
                   'unitId',
                 ], data),
               )
@@ -289,6 +293,7 @@ export const getManagersService = (getCtx: () => Context) => {
                 'firstName',
                 'languageId',
                 'email',
+                'telegramLogin',
                 'unitId',
               ], data),
             )
@@ -308,6 +313,7 @@ export const getManagersService = (getCtx: () => Context) => {
                 'firstName',
                 'languageId',
                 'email',
+                'telegramLogin',
                 'unitId',
               ], data),
             )

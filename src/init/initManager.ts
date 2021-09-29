@@ -30,6 +30,8 @@ export const initManager = async (
     {
       lastName,
       firstName,
+      active: true,
+      headOfUnit: false,
     },
   );
 

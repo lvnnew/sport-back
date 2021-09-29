@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://fake:fake@127.0.0.1:5432"
+  url      = env("AGR_DATABASE_URI")
 }
 
 model AppLogin {
@@ -61,9 +61,11 @@ model Manager {
 	languageId	String?
 	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
 	email	String?
+	telegramLogin	String?
 	unitId	Int?
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
-	headOfUnit	Boolean?
+	headOfUnit	Boolean	@default(false)
+	active	Boolean	@default(true)
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
