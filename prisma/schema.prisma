@@ -7,17 +7,6 @@ datasource db {
   url      = env("AGR_DATABASE_URI")
 }
 
-model AppLogin {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	login	String
-	passwordHash	String
-	userId	Int
-	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
-	@@unique([login])
-}
-
-
 model File {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -37,17 +26,13 @@ model Language {
 }
 
 
-model ManagerLogin {
+model AppLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
 	login	String
 	passwordHash	String
-	role	String
-	emailVerified	Boolean
-	initialPasswordChanged	Boolean
-	locked	Boolean
-	managerId	Int
-	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
+	userId	Int
+	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
 	@@unique([login])
 }
 
@@ -64,11 +49,26 @@ model Manager {
 	telegramLogin	String?
 	unitId	Int?
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
-	headOfUnit	Boolean	@default(false)
-	active	Boolean	@default(true)
+	headOfUnit	Boolean
+	active	Boolean
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
+}
+
+
+model ManagerLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	role	String
+	emailVerified	Boolean
+	initialPasswordChanged	Boolean
+	locked	Boolean
+	managerId	Int
+	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
+	@@unique([login])
 }
 
 
