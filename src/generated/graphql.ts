@@ -193,6 +193,9 @@ export type Query = {
   Manager?: Maybe<Manager>;
   allManagers?: Maybe<Array<Maybe<Manager>>>;
   _allManagersMeta?: Maybe<ListMetadata>;
+  ManagersToPermission?: Maybe<ManagersToPermission>;
+  allManagersToPermissions?: Maybe<Array<Maybe<ManagersToPermission>>>;
+  _allManagersToPermissionsMeta?: Maybe<ListMetadata>;
   ManagersToRole?: Maybe<ManagersToRole>;
   allManagersToRoles?: Maybe<Array<Maybe<ManagersToRole>>>;
   _allManagersToRolesMeta?: Maybe<ListMetadata>;
@@ -324,6 +327,27 @@ export type Query_AllManagersMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<ManagerFilter>;
+};
+
+
+export type QueryManagersToPermissionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllManagersToPermissionsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<ManagersToPermissionFilter>;
+};
+
+
+export type Query_AllManagersToPermissionsMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<ManagersToPermissionFilter>;
 };
 
 
@@ -511,6 +535,9 @@ export type Mutation = {
   createManager?: Maybe<Manager>;
   updateManager?: Maybe<Manager>;
   removeManager?: Maybe<Scalars['Boolean']>;
+  createManagersToPermission?: Maybe<ManagersToPermission>;
+  updateManagersToPermission?: Maybe<ManagersToPermission>;
+  removeManagersToPermission?: Maybe<Scalars['Boolean']>;
   createManagersToRole?: Maybe<ManagersToRole>;
   updateManagersToRole?: Maybe<ManagersToRole>;
   removeManagersToRole?: Maybe<Scalars['Boolean']>;
@@ -652,6 +679,24 @@ export type MutationUpdateManagerArgs = {
 
 
 export type MutationRemoveManagerArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateManagersToPermissionArgs = {
+  managerId: Scalars['Int'];
+  permissionId: Scalars['String'];
+};
+
+
+export type MutationUpdateManagersToPermissionArgs = {
+  id: Scalars['Int'];
+  managerId: Scalars['Int'];
+  permissionId: Scalars['String'];
+};
+
+
+export type MutationRemoveManagersToPermissionArgs = {
   id: Scalars['Int'];
 };
 
@@ -898,6 +943,23 @@ export type ManagerFilter = {
   unitId?: Maybe<Scalars['Int']>;
   unitId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
   headOfUnit?: Maybe<Scalars['Boolean']>;
+};
+
+export type ManagersToPermission = {
+  __typename?: 'ManagersToPermission';
+  id: Scalars['Int'];
+  managerId: Scalars['Int'];
+  permissionId: Scalars['String'];
+};
+
+export type ManagersToPermissionFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
+  managerId?: Maybe<Scalars['Int']>;
+  managerId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  permissionId?: Maybe<Scalars['String']>;
+  permissionId_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type ManagersToRole = {
@@ -1177,6 +1239,8 @@ export type ResolversTypes = {
   ManagerLoginFilter: ManagerLoginFilter;
   Manager: ResolverTypeWrapper<Manager>;
   ManagerFilter: ManagerFilter;
+  ManagersToPermission: ResolverTypeWrapper<ManagersToPermission>;
+  ManagersToPermissionFilter: ManagersToPermissionFilter;
   ManagersToRole: ResolverTypeWrapper<ManagersToRole>;
   ManagersToRoleFilter: ManagersToRoleFilter;
   Permission: ResolverTypeWrapper<Permission>;
@@ -1266,6 +1330,8 @@ export type ResolversParentTypes = {
   ManagerLoginFilter: ManagerLoginFilter;
   Manager: Manager;
   ManagerFilter: ManagerFilter;
+  ManagersToPermission: ManagersToPermission;
+  ManagersToPermissionFilter: ManagersToPermissionFilter;
   ManagersToRole: ManagersToRole;
   ManagersToRoleFilter: ManagersToRoleFilter;
   Permission: Permission;
@@ -1521,6 +1587,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Manager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<QueryManagerArgs, 'id'>>;
   allManagers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Manager']>>>, ParentType, ContextType, RequireFields<QueryAllManagersArgs, never>>;
   _allManagersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagersMetaArgs, never>>;
+  ManagersToPermission?: Resolver<Maybe<ResolversTypes['ManagersToPermission']>, ParentType, ContextType, RequireFields<QueryManagersToPermissionArgs, 'id'>>;
+  allManagersToPermissions?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagersToPermission']>>>, ParentType, ContextType, RequireFields<QueryAllManagersToPermissionsArgs, never>>;
+  _allManagersToPermissionsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagersToPermissionsMetaArgs, never>>;
   ManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<QueryManagersToRoleArgs, 'id'>>;
   allManagersToRoles?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagersToRole']>>>, ParentType, ContextType, RequireFields<QueryAllManagersToRolesArgs, never>>;
   _allManagersToRolesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllManagersToRolesMetaArgs, never>>;
@@ -1565,6 +1634,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationCreateManagerArgs, 'lastName' | 'firstName'>>;
   updateManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationUpdateManagerArgs, 'id' | 'lastName' | 'firstName'>>;
   removeManager?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerArgs, 'id'>>;
+  createManagersToPermission?: Resolver<Maybe<ResolversTypes['ManagersToPermission']>, ParentType, ContextType, RequireFields<MutationCreateManagersToPermissionArgs, 'managerId' | 'permissionId'>>;
+  updateManagersToPermission?: Resolver<Maybe<ResolversTypes['ManagersToPermission']>, ParentType, ContextType, RequireFields<MutationUpdateManagersToPermissionArgs, 'id' | 'managerId' | 'permissionId'>>;
+  removeManagersToPermission?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagersToPermissionArgs, 'id'>>;
   createManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationCreateManagersToRoleArgs, 'managerId' | 'roleId'>>;
   updateManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationUpdateManagersToRoleArgs, 'id' | 'managerId' | 'roleId'>>;
   removeManagersToRole?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagersToRoleArgs, 'id'>>;
@@ -1629,6 +1701,13 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   unitId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   headOfUnit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ManagersToPermissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagersToPermission'] = ResolversParentTypes['ManagersToPermission']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  managerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  permissionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -1748,6 +1827,7 @@ export type Resolvers<ContextType = any> = {
   Language?: LanguageResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;
   Manager?: ManagerResolvers<ContextType>;
+  ManagersToPermission?: ManagersToPermissionResolvers<ContextType>;
   ManagersToRole?: ManagersToRoleResolvers<ContextType>;
   Permission?: PermissionResolvers<ContextType>;
   Role?: RoleResolvers<ContextType>;

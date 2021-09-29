@@ -7,6 +7,17 @@ datasource db {
   url      = "postgresql://fake:fake@127.0.0.1:5432"
 }
 
+model AppLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	userId	Int
+	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
+	@@unique([login])
+}
+
+
 model File {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -26,23 +37,17 @@ model Language {
 }
 
 
-model User {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	lastname	String
-	firstname	String
-	email	String
-	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
-}
-
-
-model AppLogin {
+model ManagerLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
 	login	String
 	passwordHash	String
-	userId	Int
-	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
+	role	String
+	emailVerified	Boolean
+	initialPasswordChanged	Boolean
+	locked	Boolean
+	managerId	Int
+	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
 	@@unique([login])
 }
 
@@ -60,51 +65,18 @@ model Manager {
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
 	headOfUnit	Boolean?
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
+	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
 }
 
 
-model ManagerLogin {
+model ManagersToPermission {
 	id	Int	@default(autoincrement())	@id
 	search	String?
-	login	String
-	passwordHash	String
-	role	String
-	emailVerified	Boolean
-	initialPasswordChanged	Boolean
-	locked	Boolean
 	managerId	Int
-	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
-	@@unique([login])
-}
-
-
-model Role {
-	id	String	@id
-	search	String?
-	title	String?
-	hasFullAccess	Boolean?
-	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
-	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
-}
-
-
-model Permission {
-	id	String	@id
-	search	String?
-	title	String?
-	rolesToPermissionPermissions	RolesToPermission[]	@relation("From-RolesToPermission.permission")
-}
-
-
-model RolesToPermission {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	roleId	String
-	role	Role	@relation("From-RolesToPermission.role", fields: [roleId], references: [id])
+	manager	Manager	@relation("From-ManagersToPermission.manager", fields: [managerId], references: [id])
 	permissionId	String
-	permission	Permission	@relation("From-RolesToPermission.permission", fields: [permissionId], references: [id])
-	@@unique([roleId, permissionId])
+	permission	Permission	@relation("From-ManagersToPermission.permission", fields: [permissionId], references: [id])
 }
 
 
@@ -116,6 +88,36 @@ model ManagersToRole {
 	roleId	String
 	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
 	@@unique([managerId, roleId])
+}
+
+
+model Permission {
+	id	String	@id
+	search	String?
+	title	String?
+	managersToPermissionPermissions	ManagersToPermission[]	@relation("From-ManagersToPermission.permission")
+	rolesToPermissionPermissions	RolesToPermission[]	@relation("From-RolesToPermission.permission")
+}
+
+
+model Role {
+	id	String	@id
+	search	String?
+	title	String?
+	hasFullAccess	Boolean?
+	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
+	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
+}
+
+
+model RolesToPermission {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	roleId	String
+	role	Role	@relation("From-RolesToPermission.role", fields: [roleId], references: [id])
+	permissionId	String
+	permission	Permission	@relation("From-RolesToPermission.permission", fields: [permissionId], references: [id])
+	@@unique([roleId, permissionId])
 }
 
 
@@ -142,4 +144,14 @@ model Unit {
 	parent	Unit?	@relation("From-Unit.parent", fields: [parentId], references: [id])
 	managerUnits	Manager[]	@relation("From-Manager.unit")
 	unitParents	Unit[]	@relation("From-Unit.parent")
+}
+
+
+model User {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	lastname	String
+	firstname	String
+	email	String
+	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
 }

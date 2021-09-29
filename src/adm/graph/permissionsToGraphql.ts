@@ -2,19 +2,20 @@ import * as R from 'ramda';
 import {additionalServicesPermissionToGraphql} from './additionalServicesPermissionToGraphql';
 import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
 import {Services} from '../services/context';
+import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
 import filesPermissionToGraphql from './services/files/permissionsToGraphql';
 import languagesPermissionToGraphql from './services/languages/permissionsToGraphql';
-import usersPermissionToGraphql from './services/users/permissionsToGraphql';
-import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
-import managersPermissionToGraphql from './services/managers/permissionsToGraphql';
 import managerLoginsPermissionToGraphql from './services/managerLogins/permissionsToGraphql';
-import rolesPermissionToGraphql from './services/roles/permissionsToGraphql';
-import permissionsPermissionToGraphql from './services/permissions/permissionsToGraphql';
-import rolesToPermissionsPermissionToGraphql from './services/rolesToPermissions/permissionsToGraphql';
+import managersPermissionToGraphql from './services/managers/permissionsToGraphql';
+import managersToPermissionsPermissionToGraphql from './services/managersToPermissions/permissionsToGraphql';
 import managersToRolesPermissionToGraphql from './services/managersToRoles/permissionsToGraphql';
+import permissionsPermissionToGraphql from './services/permissions/permissionsToGraphql';
+import rolesPermissionToGraphql from './services/roles/permissionsToGraphql';
+import rolesToPermissionsPermissionToGraphql from './services/rolesToPermissions/permissionsToGraphql';
 import statsPermissionToGraphql from './services/stats/permissionsToGraphql';
 import tagsPermissionToGraphql from './services/tags/permissionsToGraphql';
 import unitsPermissionToGraphql from './services/units/permissionsToGraphql';
+import usersPermissionToGraphql from './services/users/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -28,19 +29,20 @@ export type PermissionToGraphql <T = any> = Record<
 
 export const permissionsToGraphql: Partial<Record<keyof Services, Partial<PermissionToGraphql>>> = {
   ...additionalServicesPermissionToGraphql,
+  appLogins: appLoginsPermissionToGraphql,
   files: filesPermissionToGraphql,
   languages: languagesPermissionToGraphql,
-  users: usersPermissionToGraphql,
-  appLogins: appLoginsPermissionToGraphql,
-  managers: managersPermissionToGraphql,
   managerLogins: managerLoginsPermissionToGraphql,
-  roles: rolesPermissionToGraphql,
-  permissions: permissionsPermissionToGraphql,
-  rolesToPermissions: rolesToPermissionsPermissionToGraphql,
+  managers: managersPermissionToGraphql,
+  managersToPermissions: managersToPermissionsPermissionToGraphql,
   managersToRoles: managersToRolesPermissionToGraphql,
+  permissions: permissionsPermissionToGraphql,
+  roles: rolesPermissionToGraphql,
+  rolesToPermissions: rolesToPermissionsPermissionToGraphql,
   stats: statsPermissionToGraphql,
   tags: tagsPermissionToGraphql,
   units: unitsPermissionToGraphql,
+  users: usersPermissionToGraphql,
 };
 
 const flattenPermissionToGraphqlRaw = R.unnest(

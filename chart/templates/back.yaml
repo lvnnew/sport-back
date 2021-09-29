@@ -54,26 +54,26 @@ spec:
           value: '{{ .Values.global.env }}'
         - name: APOLLO_KEY
           value: {{ .Values.apollo.key | quote }}
-        - name: AGR_DATABASE_URI
-          value: {{ .Values.database.uri | quote }}
         - name: AGR_ADM_JWT_SECRET
           value: {{ .Values.adm.jwt.secret | quote }}
         - name: AGR_APP_JWT_SECRET
           value: {{ .Values.app.jwt.secret | quote }}
+        - name: AGR_DATABASE_URI
+          value: {{ .Values.database.uri | quote }}
         - name: AGR_S3_ACCESS_KEY_ID
           value: {{ .Values.s3.accessKeyId | quote }}
         - name: AGR_S3_SECRET_ACCESS_KEY
           value: {{ .Values.s3.secretAccessKey | quote }}
+        - name: AGR_SMTP_FROM
+          value: {{ .Values.smtp.from | quote }}
         - name: AGR_SMTP_HOST
           value: {{ .Values.smtp.host | quote }}
+        - name: AGR_SMTP_PASS
+          value: {{ .Values.smtp.pass | quote }}
         - name: AGR_SMTP_PORT
           value: {{ .Values.smtp.port | quote }}
         - name: AGR_SMTP_USER
           value: {{ .Values.smtp.user | quote }}
-        - name: AGR_SMTP_PASS
-          value: {{ .Values.smtp.pass | quote }}
-        - name: AGR_SMTP_FROM
-          value: {{ .Values.smtp.from | quote }}
 
         livenessProbe:
           httpGet:

@@ -6,37 +6,39 @@ import {getPostgres} from '../../clients/postgres';
 import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
+import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
 import {FilesService, getFilesService} from './FilesService/FilesService';
 import {LanguagesService, getLanguagesService} from './LanguagesService/LanguagesService';
-import {UsersService, getUsersService} from './UsersService/UsersService';
-import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
-import {ManagersService, getManagersService} from './ManagersService/ManagersService';
 import {ManagerLoginsService, getManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService';
-import {RolesService, getRolesService} from './RolesService/RolesService';
-import {PermissionsService, getPermissionsService} from './PermissionsService/PermissionsService';
-import {RolesToPermissionsService, getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
+import {ManagersService, getManagersService} from './ManagersService/ManagersService';
+import {ManagersToPermissionsService, getManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
 import {ManagersToRolesService, getManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
+import {PermissionsService, getPermissionsService} from './PermissionsService/PermissionsService';
+import {RolesService, getRolesService} from './RolesService/RolesService';
+import {RolesToPermissionsService, getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
 import {StatsService, getStatsService} from './StatsService/StatsService';
 import {TagsService, getTagsService} from './TagsService/TagsService';
 import {UnitsService, getUnitsService} from './UnitsService/UnitsService';
+import {UsersService, getUsersService} from './UsersService/UsersService';
 import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseServices {
+  appLogins: AppLoginsService;
   files: FilesService;
   languages: LanguagesService;
-  users: UsersService;
-  appLogins: AppLoginsService;
-  managers: ManagersService;
   managerLogins: ManagerLoginsService;
-  roles: RolesService;
-  permissions: PermissionsService;
-  rolesToPermissions: RolesToPermissionsService;
+  managers: ManagersService;
+  managersToPermissions: ManagersToPermissionsService;
   managersToRoles: ManagersToRolesService;
+  permissions: PermissionsService;
+  roles: RolesService;
+  rolesToPermissions: RolesToPermissionsService;
   stats: StatsService;
   tags: TagsService;
   units: UnitsService;
+  users: UsersService;
 }
 
 export type Services = BaseServices & AdditionalServices;
@@ -86,19 +88,20 @@ export const createBaseContext = async (): Promise<BaseContext> => {
 };
 
 export const getBaseServices = (getContext: () => Context): BaseServices => ({
+  appLogins: getAppLoginsService(getContext),
   files: getFilesService(getContext),
   languages: getLanguagesService(getContext),
-  users: getUsersService(getContext),
-  appLogins: getAppLoginsService(getContext),
-  managers: getManagersService(getContext),
   managerLogins: getManagerLoginsService(getContext),
-  roles: getRolesService(getContext),
-  permissions: getPermissionsService(getContext),
-  rolesToPermissions: getRolesToPermissionsService(getContext),
+  managers: getManagersService(getContext),
+  managersToPermissions: getManagersToPermissionsService(getContext),
   managersToRoles: getManagersToRolesService(getContext),
+  permissions: getPermissionsService(getContext),
+  roles: getRolesService(getContext),
+  rolesToPermissions: getRolesToPermissionsService(getContext),
   stats: getStatsService(getContext),
   tags: getTagsService(getContext),
   units: getUnitsService(getContext),
+  users: getUsersService(getContext),
 });
 
 export const getServices = (getContext: () => Context): Services => ({
