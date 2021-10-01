@@ -3,8 +3,14 @@
  "prefix": "agr",
  "needFor": "notSet",
  "deployEnvironments": [
-  "stage",
-  "prod"
+  {
+   "name": "stage",
+   "clusterName": "stage"
+  },
+  {
+   "name": "prod",
+   "clusterName": "stage"
+  }
  ],
  "telegramBots": [
   "hello"

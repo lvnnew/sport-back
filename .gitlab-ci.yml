@@ -75,14 +75,14 @@ deploy-stage-back:
   stage: deploy-stage
   variables:
     ENV: "stage"
-    ENV_NAME: "stage01"
+    CLUSTER_NAME: "stage-01"
 
 deploy-prod-back:
   extends: .deploy-prod-back
   stage: deploy-prod
   variables:
     ENV: "prod"
-    ENV_NAME: "prod01"
+    CLUSTER_NAME: "stage-01"
 
 
 deploy-stage-workers:
@@ -90,14 +90,14 @@ deploy-stage-workers:
   stage: deploy-stage
   variables:
     ENV: "stage"
-    ENV_NAME: "workers-stage-01"
+    CLUSTER_NAME: "workers-stage-01"
 
 deploy-prod-workers:
   extends: .deploy-prod-workers
   stage: deploy-prod
   variables:
     ENV: "prod"
-    ENV_NAME: "workers-prod-01"
+    CLUSTER_NAME: "workers-stage-01"
 
 
 .deploy-dev-back:
@@ -225,7 +225,7 @@ deploy-prod-workers:
       --install
       --wait ${NAMESPACE}-${APPNAME} chart
       --timeout 3600s
-      --set "global.envName=${ENV_NAME}"
+      --set "global.clusterName=${CLUSTER_NAME}"
       --set "global.env=${ENV}"
       --set "global.deployKind=${DEPLOY_KIND}"
       --set "random=:$(date)"
