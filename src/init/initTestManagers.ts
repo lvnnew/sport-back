@@ -2,8 +2,8 @@ import {Context} from '../adm/services/context';
 import {Role} from '../types/enums';
 import {initManager} from './initManager';
 
-// yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
-// ALOYAL_DATABASE_URI=$ALOYAL_STAGE_DATABASE_URI yarn ts-node ./src/init/wrap.ts  src/init/initTestManagers.ts
+// yarn ts-node:withContext  src/init/initTestManagers.ts
+// ALOYAL_DATABASE_URI=$ALOYAL_STAGE_DATABASE_URI yarn ts-node:withContext  src/init/initTestManagers.ts
 
 export const initTestManagers = async (ctx: Context) => {
   await Promise.all([

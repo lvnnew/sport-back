@@ -75,14 +75,14 @@ deploy-stage-back:
   stage: deploy-stage
   variables:
     ENV: "stage"
-    CLUSTER_NAME: "stage-01"
+    CLUSTER_NAME: "stage01"
 
 deploy-prod-back:
   extends: .deploy-prod-back
   stage: deploy-prod
   variables:
     ENV: "prod"
-    CLUSTER_NAME: "stage-01"
+    CLUSTER_NAME: "stage01"
 
 
 deploy-stage-workers:
@@ -90,14 +90,14 @@ deploy-stage-workers:
   stage: deploy-stage
   variables:
     ENV: "stage"
-    CLUSTER_NAME: "workers-stage-01"
+    CLUSTER_NAME: "workers-stage01"
 
 deploy-prod-workers:
   extends: .deploy-prod-workers
   stage: deploy-prod
   variables:
     ENV: "prod"
-    CLUSTER_NAME: "workers-stage-01"
+    CLUSTER_NAME: "workers-stage01"
 
 
 .deploy-dev-back:

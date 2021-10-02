@@ -26,7 +26,8 @@
     "prisma:migrate": "cross-env AGR_DATABASE_URI=$AGR_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
     "prisma:deploy": "prisma migrate deploy --preview-feature",
     "prisma": "prisma",
-    "ts-node": "ts-node --files"
+    "ts-node": "ts-node --files",
+    "ts-node:withContext": "yarn ts-node ./src/init/wrap.ts"
   },
   "jest": {
     "preset": "ts-jest",
