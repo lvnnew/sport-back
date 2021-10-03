@@ -33,6 +33,7 @@ export const loginUser = (req: Request, res: Response, next: NextFunction) => {
         res.status(200).send({
           auth: true,
           id: user.id,
+          fullName: user.fullName,
           token,
           message: 'user found & logged in',
         });

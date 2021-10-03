@@ -128,6 +128,7 @@ passport.use(
 
         return done(null, {
           id: login.managerId,
+          fullName: `${manager.firstName} ${manager.lastName}`,
           permissions: await getPermissions(login.managerId),
         });
       } catch (error: any) {

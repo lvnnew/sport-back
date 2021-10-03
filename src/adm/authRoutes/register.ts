@@ -30,6 +30,7 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
         res.status(200).send({
           auth: true,
           id: user.id,
+          fullName: user.fullName,
           message: 'User created',
           token,
         });
