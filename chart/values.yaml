@@ -46,10 +46,10 @@ worker:
   enabled: false
   replicas: 1
   requests:
-    memory: "256Mi"
+    memory: "128Mi"
     cpu: "0.15"
   limits:
-    memory: "512Mi"
+    memory: "256Mi"
     cpu: "1"
 
 workers:
@@ -60,10 +60,10 @@ bot:
   enabled: false
   replicas: 1
   requests:
-    memory: "256Mi"
+    memory: "128Mi"
     cpu: "0.15"
   limits:
-    memory: "512Mi"
+    memory: "256Mi"
     cpu: "1"
 
 bots:

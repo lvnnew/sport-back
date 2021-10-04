@@ -85,6 +85,7 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.7.1",
+    "pg-connection-string": "^2.5.0",
     "pg-hstore": "^2.3.4",
     "pluralize": "^8.0.0",
     "prom-client": "^14.0.0",
