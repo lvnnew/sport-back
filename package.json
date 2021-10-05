@@ -27,7 +27,10 @@
     "prisma:deploy": "prisma migrate deploy --preview-feature",
     "prisma": "prisma",
     "ts-node": "ts-node --files",
-    "ts-node:withContext": "yarn ts-node ./src/init/wrap.ts"
+    "ts-node:withContext": "yarn ts-node ./src/init/wrap.ts",
+    "init": "yarn ts-node src/init/baseInit.ts",
+    "init:permissions": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
+    "init:dev": "yarn ts-node src/init/initDev.ts"
   },
   "jest": {
     "preset": "ts-jest",

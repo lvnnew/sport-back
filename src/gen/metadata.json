@@ -12,6 +12,105 @@
    "clusterName": "stage"
   }
  ],
+ "glossary": [],
+ "commands": [
+  {
+   "projectCategory": "back",
+   "name": "build",
+   "command": "(rm -rf dist || true) && tsc",
+   "needFor": "Сборки проекта"
+  },
+  {
+   "projectCategory": "back",
+   "name": "prisma:migrate",
+   "command": "GOS_DATABASE_URI=$GOS_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
+   "needFor": "Создания новой миграции базы данных"
+  },
+  {
+   "projectCategory": "back",
+   "name": "dev:stage",
+   "command": "cross-env GOS_DATABASE_URI=$GOS_STAGE_DATABASE_URI yarn dev",
+   "needFor": "Запуска преокта в режиме разработки с использование stage базы данных"
+  },
+  {
+   "projectCategory": "back",
+   "name": "start",
+   "command": "cross-env NODE_ENV=production node --unhandled-rejections=strict dist/index.js",
+   "needFor": "Запуска собранного проекта"
+  },
+  {
+   "projectCategory": "back",
+   "name": "lint",
+   "command": "eslint ./src/**.ts",
+   "needFor": "Проверки проекта линтером"
+  },
+  {
+   "projectCategory": "back",
+   "name": "gen",
+   "command": "graphql-codegen --config codegen.yml",
+   "needFor": "Генерации typescript-типов на основе graphql-типов"
+  },
+  {
+   "projectCategory": "back",
+   "name": "test",
+   "command": "jest --maxWorkers 8",
+   "needFor": "Запуска тестов"
+  },
+  {
+   "projectCategory": "back",
+   "name": "prisma",
+   "command": "prisma",
+   "needFor": "Запуска cli призмы из зависимостей проекта"
+  },
+  {
+   "projectCategory": "back",
+   "name": "prisma:gen",
+   "command": "prisma generate",
+   "needFor": "Генерации prisma-клиента"
+  },
+  {
+   "projectCategory": "back",
+   "name": "prisma:deploy",
+   "command": "prisma migrate deploy --preview-feature",
+   "needFor": "Мигрирования базы данных"
+  },
+  {
+   "projectCategory": "back",
+   "name": "ts-node",
+   "command": "ts-node --files",
+   "needFor": "Запуска typescript скрипта"
+  },
+  {
+   "projectCategory": "back",
+   "name": "dev",
+   "command": "ts-node-dev --files src/index.ts",
+   "needFor": "Запуска преокта в режиме разработки"
+  },
+  {
+   "projectCategory": "back",
+   "name": "ts-node:withContext",
+   "command": "yarn ts-node ./src/init/wrap.ts",
+   "needFor": "Запуска typescript скрипта, требующего для работы контекст"
+  },
+  {
+   "projectCategory": "back",
+   "name": "init",
+   "command": "yarn ts-node src/init/baseInit.ts",
+   "needFor": "Инициализации базы данных"
+  },
+  {
+   "projectCategory": "back",
+   "name": "init:dev",
+   "command": "yarn ts-node src/init/initDev.ts",
+   "needFor": "Инициализации базы данных для разработчика или тестировщика"
+  },
+  {
+   "projectCategory": "back",
+   "name": "init:permissions",
+   "command": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
+   "needFor": "Инициализации системы ролевой модели"
+  }
+ ],
  "telegramBots": [
   "hello"
  ],
