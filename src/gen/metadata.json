@@ -23,13 +23,13 @@
   {
    "projectCategory": "back",
    "name": "prisma:migrate",
-   "command": "GOS_DATABASE_URI=$GOS_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
+   "command": "DATABASE_URI=$GOS_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
    "needFor": "Создания новой миграции базы данных"
   },
   {
    "projectCategory": "back",
    "name": "dev:stage",
-   "command": "cross-env GOS_DATABASE_URI=$GOS_STAGE_DATABASE_URI yarn dev",
+   "command": "cross-env DOTENV_CONFIG_PATH=stage.env yarn dev",
    "needFor": "Запуска преокта в режиме разработки с использование stage базы данных"
   },
   {
@@ -117,6 +117,7 @@
  "configVars": [
   {
    "needFor": "",
+   "default": "admSecret",
    "scopes": [
     "back",
     "worker",
@@ -126,6 +127,7 @@
   },
   {
    "needFor": "",
+   "default": "appSecret",
    "scopes": [
     "back",
     "worker",
@@ -135,6 +137,7 @@
   },
   {
    "needFor": "",
+   "default": "postgresql://fake:fake@127.0.0.1:5432",
    "scopes": [
     "back",
     "worker",
@@ -144,6 +147,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",
@@ -153,6 +157,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",
@@ -162,6 +167,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",
@@ -171,6 +177,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",
@@ -180,6 +187,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",
@@ -189,6 +197,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",
@@ -198,6 +207,7 @@
   },
   {
    "needFor": "",
+   "default": "",
    "scopes": [
     "back",
     "worker",

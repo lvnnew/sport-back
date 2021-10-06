@@ -4,16 +4,16 @@ import {getQueue} from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts
-// AGR_DATABASE_URI=$AGR_TEST_DATABASE_URI yarn ts-node src/init/initDev.ts
-// AGR_DATABASE_URI=$AGR_STAGE_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_TEST_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DOTENV_CONFIG_PATH=stage.env yarn ts-node src/init/initDev.ts
 
-// AGR_DATABASE_URI=$AGR_DEV_TUNIK_DATABASE_URI yarn ts-node src/init/initDev.ts
-// AGR_DATABASE_URI=$AGR_DEV_THTH_DATABASE_URI yarn ts-node src/init/initDev.ts
-// AGR_DATABASE_URI=$AGR_DEV_PAPKA_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_DEV_TUNIK_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_DEV_THTH_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_DEV_PAPKA_DATABASE_URI yarn ts-node src/init/initDev.ts
 
-// AGR_DATABASE_URI=$AGR_DEV_LAVROVA_DATABASE_URI yarn ts-node src/init/initDev.ts
-// AGR_DATABASE_URI=$AGR_DEV_FERUNELLI_DATABASE_URI yarn ts-node src/init/initDev.ts
-// AGR_DATABASE_URI=$AGR_DEV_KARIMOVA_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_DEV_LAVROVA_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_DEV_FERUNELLI_DATABASE_URI yarn ts-node src/init/initDev.ts
+// DATABASE_URI=$AGR_DEV_KARIMOVA_DATABASE_URI yarn ts-node src/init/initDev.ts
 
 const app = async () => {
   log.info('start');

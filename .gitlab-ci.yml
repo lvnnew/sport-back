@@ -163,16 +163,16 @@ deploy-prod-workers:
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
-    AGR_ADM_JWT_SECRET: ${AGR_DEV_ADM_JWT_SECRET}
-    AGR_APP_JWT_SECRET: ${AGR_DEV_APP_JWT_SECRET}
-    AGR_DATABASE_URI: ${AGR_DEV_DATABASE_URI}
-    AGR_S3_ACCESS_KEY_ID: ${AGR_DEV_S3_ACCESS_KEY_ID}
-    AGR_S3_SECRET_ACCESS_KEY: ${AGR_DEV_S3_SECRET_ACCESS_KEY}
-    AGR_SMTP_FROM: ${AGR_DEV_SMTP_FROM}
-    AGR_SMTP_HOST: ${AGR_DEV_SMTP_HOST}
-    AGR_SMTP_PASS: ${AGR_DEV_SMTP_PASS}
-    AGR_SMTP_PORT: ${AGR_DEV_SMTP_PORT}
-    AGR_SMTP_USER: ${AGR_DEV_SMTP_USER}
+    ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
+    APP_JWT_SECRET: ${DEV_APP_JWT_SECRET}
+    DATABASE_URI: ${DEV_DATABASE_URI}
+    S3_ACCESS_KEY_ID: ${DEV_S3_ACCESS_KEY_ID}
+    S3_SECRET_ACCESS_KEY: ${DEV_S3_SECRET_ACCESS_KEY}
+    SMTP_FROM: ${DEV_SMTP_FROM}
+    SMTP_HOST: ${DEV_SMTP_HOST}
+    SMTP_PASS: ${DEV_SMTP_PASS}
+    SMTP_PORT: ${DEV_SMTP_PORT}
+    SMTP_USER: ${DEV_SMTP_USER}
   only:
     - master
 
@@ -185,16 +185,16 @@ deploy-prod-workers:
     DEV: "false"
     HOST: "making.ventures"
     TAG: ":latest"
-    AGR_ADM_JWT_SECRET: ${AGR_PROD_ADM_JWT_SECRET}
-    AGR_APP_JWT_SECRET: ${AGR_PROD_APP_JWT_SECRET}
-    AGR_DATABASE_URI: ${AGR_PROD_DATABASE_URI}
-    AGR_S3_ACCESS_KEY_ID: ${AGR_PROD_S3_ACCESS_KEY_ID}
-    AGR_S3_SECRET_ACCESS_KEY: ${AGR_PROD_S3_SECRET_ACCESS_KEY}
-    AGR_SMTP_FROM: ${AGR_PROD_SMTP_FROM}
-    AGR_SMTP_HOST: ${AGR_PROD_SMTP_HOST}
-    AGR_SMTP_PASS: ${AGR_PROD_SMTP_PASS}
-    AGR_SMTP_PORT: ${AGR_PROD_SMTP_PORT}
-    AGR_SMTP_USER: ${AGR_PROD_SMTP_USER}
+    ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
+    APP_JWT_SECRET: ${PROD_APP_JWT_SECRET}
+    DATABASE_URI: ${PROD_DATABASE_URI}
+    S3_ACCESS_KEY_ID: ${PROD_S3_ACCESS_KEY_ID}
+    S3_SECRET_ACCESS_KEY: ${PROD_S3_SECRET_ACCESS_KEY}
+    SMTP_FROM: ${PROD_SMTP_FROM}
+    SMTP_HOST: ${PROD_SMTP_HOST}
+    SMTP_PASS: ${PROD_SMTP_PASS}
+    SMTP_PORT: ${PROD_SMTP_PORT}
+    SMTP_USER: ${PROD_SMTP_USER}
   only:
     - master
 
@@ -238,14 +238,14 @@ deploy-prod-workers:
       --set "worker.enabled=${WORKER_ENABLED}"
       --set "bot.enabled=${BOT_ENABLED}"
       --set "ingress.rootEnabled=${ROOT_ENABLED}"
-      --set "adm.jwt.secret=${AGR_ADM_JWT_SECRET}"
-      --set "app.jwt.secret=${AGR_APP_JWT_SECRET}"
-      --set "database.uri=${AGR_DATABASE_URI}"
-      --set "s3.accessKeyId=${AGR_S3_ACCESS_KEY_ID}"
-      --set "s3.secretAccessKey=${AGR_S3_SECRET_ACCESS_KEY}"
-      --set "smtp.from=${AGR_SMTP_FROM}"
-      --set "smtp.host=${AGR_SMTP_HOST}"
-      --set "smtp.pass=${AGR_SMTP_PASS}"
-      --set "smtp.port=${AGR_SMTP_PORT}"
-      --set "smtp.user=${AGR_SMTP_USER}"
+      --set "adm.jwt.secret=${ADM_JWT_SECRET}"
+      --set "app.jwt.secret=${APP_JWT_SECRET}"
+      --set "database.uri=${DATABASE_URI}"
+      --set "s3.accessKeyId=${S3_ACCESS_KEY_ID}"
+      --set "s3.secretAccessKey=${S3_SECRET_ACCESS_KEY}"
+      --set "smtp.from=${SMTP_FROM}"
+      --set "smtp.host=${SMTP_HOST}"
+      --set "smtp.pass=${SMTP_PASS}"
+      --set "smtp.port=${SMTP_PORT}"
+      --set "smtp.user=${SMTP_USER}"
       --namespace ${NAMESPACE}

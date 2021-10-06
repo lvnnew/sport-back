@@ -14,4 +14,7 @@ yarn-error.log
 **/*.sh
 
 .env
+*.env
+!default.env
+
 *.db

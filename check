@@ -7,4 +7,4 @@ set -v
 yarn prisma:gen
 yarn lint
 yarn build
-AGR_DATABASE_URI=${AGR_TEST_DATABASE_URI:-$AGR_DATABASE_URI} yarn test
+DATABASE_URI=${AGR_TEST_DATABASE_URI:-$DATABASE_URI} yarn test

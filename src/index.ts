@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv';
 import exitHook from 'exit-hook';
 import {ApolloServer, AuthenticationError} from 'apollo-server-express';
 import {
@@ -36,7 +35,6 @@ import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-dotenv.config();
 
 exitHook(async () => {
   await closeCtx();
