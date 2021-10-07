@@ -1,6 +1,4 @@
-
 // DO NOT EDIT! THIS IS GENERATED FILE
-
 
 const envConfig = {
   appName: process.env.APP_NAME || '',

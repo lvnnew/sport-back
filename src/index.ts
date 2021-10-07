@@ -35,7 +35,6 @@ import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-
 exitHook(async () => {
   await closeCtx();
 });
