@@ -17,4 +17,7 @@ yarn-error.log
 *.env
 !default.env
 
+config/
+!config/default.json
+
 *.db

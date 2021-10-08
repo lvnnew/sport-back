@@ -21,4 +21,7 @@ data
 *.env
 !default.env
 
+config/
+!config/default.json
+
 *.db
