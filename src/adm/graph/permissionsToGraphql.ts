@@ -3,6 +3,7 @@ import {additionalServicesPermissionToGraphql} from './additionalServicesPermiss
 import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
 import {Services} from '../services/context';
 import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
+import delegationsPermissionToGraphql from './services/delegations/permissionsToGraphql';
 import filesPermissionToGraphql from './services/files/permissionsToGraphql';
 import languagesPermissionToGraphql from './services/languages/permissionsToGraphql';
 import managerLoginsPermissionToGraphql from './services/managerLogins/permissionsToGraphql';
@@ -30,6 +31,7 @@ export type PermissionToGraphql <T = any> = Record<
 export const permissionsToGraphql: Partial<Record<keyof Services, Partial<PermissionToGraphql>>> = {
   ...additionalServicesPermissionToGraphql,
   appLogins: appLoginsPermissionToGraphql,
+  delegations: delegationsPermissionToGraphql,
   files: filesPermissionToGraphql,
   languages: languagesPermissionToGraphql,
   managerLogins: managerLoginsPermissionToGraphql,

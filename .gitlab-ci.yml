@@ -230,6 +230,7 @@ deploy-prod-workers:
       --install
       --wait ${NAMESPACE}-${APPNAME} chart
       --timeout 3600s
+      -f chart/values_${ENV}.yaml
       --set "global.clusterName=${CLUSTER_NAME}"
       --set "global.env=${ENV}"
       --set "global.deployKind=${DEPLOY_KIND}"

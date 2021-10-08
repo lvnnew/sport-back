@@ -181,6 +181,9 @@ export type Query = {
   AppLogin?: Maybe<AppLogin>;
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
+  Delegation?: Maybe<Delegation>;
+  allDelegations?: Maybe<Array<Maybe<Delegation>>>;
+  _allDelegationsMeta?: Maybe<ListMetadata>;
   File?: Maybe<File>;
   allFiles?: Maybe<Array<Maybe<File>>>;
   _allFilesMeta?: Maybe<ListMetadata>;
@@ -243,6 +246,27 @@ export type Query_AllAppLoginsMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<AppLoginFilter>;
+};
+
+
+export type QueryDelegationArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllDelegationsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<DelegationFilter>;
+};
+
+
+export type Query_AllDelegationsMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<DelegationFilter>;
 };
 
 
@@ -523,6 +547,9 @@ export type Mutation = {
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<Scalars['Boolean']>;
+  createDelegation?: Maybe<Delegation>;
+  updateDelegation?: Maybe<Delegation>;
+  removeDelegation?: Maybe<Scalars['Boolean']>;
   createFile?: Maybe<File>;
   updateFile?: Maybe<File>;
   removeFile?: Maybe<Scalars['Boolean']>;
@@ -582,6 +609,28 @@ export type MutationUpdateAppLoginArgs = {
 
 
 export type MutationRemoveAppLoginArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateDelegationArgs = {
+  fromId: Scalars['Int'];
+  toId: Scalars['Int'];
+  expiresAt?: Maybe<Scalars['Date']>;
+  active: Scalars['Boolean'];
+};
+
+
+export type MutationUpdateDelegationArgs = {
+  id: Scalars['Int'];
+  fromId: Scalars['Int'];
+  toId: Scalars['Int'];
+  expiresAt?: Maybe<Scalars['Date']>;
+  active: Scalars['Boolean'];
+};
+
+
+export type MutationRemoveDelegationArgs = {
   id: Scalars['Int'];
 };
 
@@ -847,6 +896,31 @@ export type MutationUpdateUserArgs = {
 
 export type MutationRemoveUserArgs = {
   id: Scalars['Int'];
+};
+
+export type Delegation = {
+  __typename?: 'Delegation';
+  id: Scalars['Int'];
+  fromId: Scalars['Int'];
+  toId: Scalars['Int'];
+  expiresAt?: Maybe<Scalars['Date']>;
+  active: Scalars['Boolean'];
+};
+
+export type DelegationFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
+  fromId?: Maybe<Scalars['Int']>;
+  fromId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  toId?: Maybe<Scalars['Int']>;
+  toId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  expiresAt?: Maybe<Scalars['Date']>;
+  expiresAt_lte?: Maybe<Scalars['Date']>;
+  expiresAt_gte?: Maybe<Scalars['Date']>;
+  expiresAt_lt?: Maybe<Scalars['Date']>;
+  expiresAt_gt?: Maybe<Scalars['Date']>;
+  active?: Maybe<Scalars['Boolean']>;
 };
 
 export type File = {
@@ -1240,6 +1314,8 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Delegation: ResolverTypeWrapper<Delegation>;
+  DelegationFilter: DelegationFilter;
   File: ResolverTypeWrapper<File>;
   FileFilter: FileFilter;
   Language: ResolverTypeWrapper<Language>;
@@ -1331,6 +1407,8 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
+  Delegation: Delegation;
+  DelegationFilter: DelegationFilter;
   File: File;
   FileFilter: FileFilter;
   Language: Language;
@@ -1584,6 +1662,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
+  Delegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<QueryDelegationArgs, 'id'>>;
+  allDelegations?: Resolver<Maybe<Array<Maybe<ResolversTypes['Delegation']>>>, ParentType, ContextType, RequireFields<QueryAllDelegationsArgs, never>>;
+  _allDelegationsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllDelegationsMetaArgs, never>>;
   File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
   allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, RequireFields<QueryAllFilesArgs, never>>;
   _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllFilesMetaArgs, never>>;
@@ -1631,6 +1712,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
+  createDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationCreateDelegationArgs, 'fromId' | 'toId' | 'active'>>;
+  updateDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationUpdateDelegationArgs, 'id' | 'fromId' | 'toId' | 'active'>>;
+  removeDelegation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveDelegationArgs, 'id'>>;
   createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   removeFile?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
@@ -1671,6 +1755,15 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
   removeUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
+};
+
+export type DelegationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Delegation'] = ResolversParentTypes['Delegation']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  fromId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  toId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  expiresAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type FileResolvers<ContextType = any, ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']> = {
@@ -1834,6 +1927,7 @@ export type Resolvers<ContextType = any> = {
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  Delegation?: DelegationResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   Language?: LanguageResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;

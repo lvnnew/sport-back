@@ -1,3 +1,4 @@
+import {constantCase} from 'change-case';
 import nconf from 'nconf';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -8,19 +9,21 @@ nconf
   .file({file: './config/default.json'})
   .file({file: `./config/${process.env.ENV || 'dev'}.json`});
 
+const getFromNconf = (name: string) => nconf.get(constantCase(name)) || nconf.get(name) || '';
+
 const envConfig = {
-  admJwtSecret: nconf.get('ADM_JWT_SECRET') || nconf.get('adm.jwt.secret') || '',
-  appJwtSecret: nconf.get('APP_JWT_SECRET') || nconf.get('app.jwt.secret') || '',
-  appName: nconf.get('APP_NAME') || nconf.get('appName') || '',
-  appTitle: nconf.get('APP_TITLE') || nconf.get('appTitle') || '',
-  databaseUri: nconf.get('DATABASE_URI') || nconf.get('database.uri') || '',
-  s3AccessKeyId: nconf.get('S3_ACCESS_KEY_ID') || nconf.get('s3.accessKeyId') || '',
-  s3SecretAccessKey: nconf.get('S3_SECRET_ACCESS_KEY') || nconf.get('s3.secretAccessKey') || '',
-  smtpFrom: nconf.get('SMTP_FROM') || nconf.get('smtp.from') || '',
-  smtpHost: nconf.get('SMTP_HOST') || nconf.get('smtp.host') || '',
-  smtpPass: nconf.get('SMTP_PASS') || nconf.get('smtp.pass') || '',
-  smtpPort: nconf.get('SMTP_PORT') || nconf.get('smtp.port') || '',
-  smtpUser: nconf.get('SMTP_USER') || nconf.get('smtp.user') || '',
+  admJwtSecret: getFromNconf('adm.jwt.secret'),
+  appJwtSecret: getFromNconf('app.jwt.secret'),
+  appName: getFromNconf('appName'),
+  appTitle: getFromNconf('appTitle'),
+  databaseUri: getFromNconf('database.uri'),
+  s3AccessKeyId: getFromNconf('s3.accessKeyId'),
+  s3SecretAccessKey: getFromNconf('s3.secretAccessKey'),
+  smtpFrom: getFromNconf('smtp.from'),
+  smtpHost: getFromNconf('smtp.host'),
+  smtpPass: getFromNconf('smtp.pass'),
+  smtpPort: getFromNconf('smtp.port'),
+  smtpUser: getFromNconf('smtp.user'),
 };
 
 export type Config = typeof envConfig;

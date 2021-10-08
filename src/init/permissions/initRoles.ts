@@ -21,43 +21,7 @@ export const initRoles = async (ctx: Context) => {
     'meta',
   ];
 
-  const writePermissionNames = [
-    'create',
-    'update',
-    'delete',
-  ];
-
-  const readWritePermissionNames = [
-    ...readPermissionNames,
-    ...writePermissionNames,
-  ];
-
   const getReadPermissionsOnService = (service: string) => readPermissionNames.map(permission => `${service}.${permission}`);
-  const getReadWritePermissionsOnService = (service: string) => readWritePermissionNames.map(permission => `${service}.${permission}`);
-
-  for (const serviceName of serviceNames) {
-    const read = await ctx.roles.upsert({
-      id: `${serviceName}Read`,
-      title: `${serviceName}Read`,
-      hasFullAccess: false,
-    });
-    const readPermissions = getReadPermissionsOnService(serviceName);
-    await ctx.rolesToPermissions.createMany(readPermissions.map(p => ({
-      roleId: read.id,
-      permissionId: p,
-    })));
-
-    const readWrite = await ctx.roles.upsert({
-      id: `${serviceName}ReadWrite`,
-      title: `${serviceName}ReadWrite`,
-      hasFullAccess: false,
-    });
-    const readWritePermissions = getReadWritePermissionsOnService(serviceName);
-    await ctx.rolesToPermissions.createMany(readWritePermissions.map(p => ({
-      roleId: readWrite.id,
-      permissionId: p,
-    })));
-  }
 
   const readPermissions = R.flatten(serviceNames.map(service => getReadPermissionsOnService(service)));
 

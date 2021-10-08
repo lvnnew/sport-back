@@ -7,6 +7,18 @@ datasource db {
   url      = env("DATABASE_URI")
 }
 
+model Delegation {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	fromId	Int
+	from	Manager	@relation("From-Delegation.from", fields: [fromId], references: [id])
+	toId	Int
+	to	Manager	@relation("From-Delegation.to", fields: [toId], references: [id])
+	expiresAt	DateTime?	@db.Date
+	active	Boolean
+}
+
+
 model File {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -51,6 +63,8 @@ model Manager {
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
 	headOfUnit	Boolean
 	active	Boolean
+	delegationFroms	Delegation[]	@relation("From-Delegation.from")
+	delegationTos	Delegation[]	@relation("From-Delegation.to")
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")

@@ -63,7 +63,7 @@ spec:
         - name: DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
 
-        - name: AGR_APP_URI
+        - name: APP_URI
           value: {{ $.Values.app.prefix }}.{{ $.Values.ingress.host }}
 
         resources:
