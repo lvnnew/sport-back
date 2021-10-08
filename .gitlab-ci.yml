@@ -200,7 +200,8 @@ deploy-prod-workers:
     SMTP_PORT: ${PROD_SMTP_PORT}
     SMTP_USER: ${PROD_SMTP_USER}
   only:
-    - master
+    - release
+    - /^release-.*$/
 
 .deploy-back:
   variables:
