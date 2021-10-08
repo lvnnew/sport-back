@@ -186,7 +186,7 @@ deploy-prod-workers:
     ENV: "prod"
     DEV: "false"
     HOST: "making.ventures"
-    TAG: ":latest"
+    TAG: ":release"
     ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
     APP_JWT_SECRET: ${PROD_APP_JWT_SECRET}
     APP_NAME: ${PROD_APP_NAME}
