@@ -5,8 +5,8 @@ import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 import {log} from '../../log';
 
 // yarn init:permissions
-// DOTENV_CONFIG_PATH=stage.env yarn init:permissions
-// DOTENV_CONFIG_PATH=prod.env yarn init:permissions
+// ENV=stage yarn init:permissions
+// ENV=prod yarn init:permissions
 
 export const initPermissions = async (ctx: Context) => {
   await initPermissionsItself(ctx);

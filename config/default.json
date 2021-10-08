@@ -1,0 +1,12 @@
+{
+  "adm.jwt.secret": "admSecret",
+  "app.jwt.secret": "appSecret",
+  "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
+  "s3.accessKeyId": "",
+  "s3.secretAccessKey": "",
+  "smtp.from": "",
+  "smtp.host": "",
+  "smtp.pass": "",
+  "smtp.port": "",
+  "smtp.user": ""
+}

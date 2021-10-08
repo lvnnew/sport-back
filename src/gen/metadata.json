@@ -29,7 +29,7 @@
   {
    "projectCategory": "back",
    "name": "dev:stage",
-   "command": "cross-env DOTENV_CONFIG_PATH=stage.env yarn dev",
+   "command": "cross-env ENV=stage yarn dev",
    "needFor": "Запуска преокта в режиме разработки с использование stage базы данных"
   },
   {
@@ -116,7 +116,7 @@
  ],
  "configVars": [
   {
-   "needFor": "",
+   "needFor": "Секрет для подписи JWT-токенов приложения админки",
    "default": "admSecret",
    "scopes": [
     "back",
@@ -126,7 +126,7 @@
    "name": "adm.jwt.secret"
   },
   {
-   "needFor": "",
+   "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
    "default": "appSecret",
    "scopes": [
     "back",
@@ -136,7 +136,7 @@
    "name": "app.jwt.secret"
   },
   {
-   "needFor": "",
+   "needFor": "Строка подключения к основной базе данных",
    "default": "postgresql://fake:fake@127.0.0.1:5432",
    "scopes": [
     "back",
@@ -146,7 +146,7 @@
    "name": "database.uri"
   },
   {
-   "needFor": "",
+   "needFor": "Идентификатор доступа для авторизации в S3",
    "default": "",
    "scopes": [
     "back",
@@ -156,7 +156,7 @@
    "name": "s3.accessKeyId"
   },
   {
-   "needFor": "",
+   "needFor": "Секретный ключ для авторизации в S3",
    "default": "",
    "scopes": [
     "back",
@@ -166,7 +166,7 @@
    "name": "s3.secretAccessKey"
   },
   {
-   "needFor": "",
+   "needFor": "Почтовый адрес, от имени которого следует отправлять письма",
    "default": "",
    "scopes": [
     "back",
@@ -176,7 +176,7 @@
    "name": "smtp.from"
   },
   {
-   "needFor": "",
+   "needFor": "Хост почтового сервера",
    "default": "",
    "scopes": [
     "back",
@@ -186,7 +186,7 @@
    "name": "smtp.host"
   },
   {
-   "needFor": "",
+   "needFor": "Пароль пользователя для авторизации на почтовом сервере",
    "default": "",
    "scopes": [
     "back",
@@ -196,7 +196,7 @@
    "name": "smtp.pass"
   },
   {
-   "needFor": "",
+   "needFor": "Порт почтового сервера",
    "default": "",
    "scopes": [
     "back",
@@ -206,7 +206,7 @@
    "name": "smtp.port"
   },
   {
-   "needFor": "",
+   "needFor": "Имя пользователя для авторизации на почтовом сервере",
    "default": "",
    "scopes": [
     "back",

@@ -3,8 +3,8 @@ import {getBaseServices, Context} from '../../adm/services/context';
 import {Role} from '../../types/enums';
 
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
-// DOTENV_CONFIG_PATH=stage.env yarn ts-node:withContext src/init/permissions/initRoles.ts
-// DOTENV_CONFIG_PATH=prod.env yarn ts-node:withContext src/init/permissions/initRoles.ts
+// ENV=stage yarn ts-node:withContext src/init/permissions/initRoles.ts
+// ENV=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 export const initRoles = async (ctx: Context) => {
   // const allPermissions = getRuntimePermissions();

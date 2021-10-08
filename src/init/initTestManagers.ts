@@ -3,7 +3,7 @@ import {Role} from '../types/enums';
 import {initManager} from './initManager';
 
 // yarn ts-node:withContext  src/init/initTestManagers.ts
-// DOTENV_CONFIG_PATH=stage.env yarn ts-node:withContext  src/init/initTestManagers.ts
+// ENV=stage yarn ts-node:withContext  src/init/initTestManagers.ts
 
 export const initTestManagers = async (ctx: Context) => {
   await Promise.all([

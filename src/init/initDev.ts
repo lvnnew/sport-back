@@ -5,7 +5,7 @@ import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts
 // DATABASE_URI=$AGR_TEST_DATABASE_URI yarn ts-node src/init/initDev.ts
-// DOTENV_CONFIG_PATH=stage.env yarn ts-node src/init/initDev.ts
+// ENV=stage yarn ts-node src/init/initDev.ts
 
 // DATABASE_URI=$AGR_DEV_TUNIK_DATABASE_URI yarn ts-node src/init/initDev.ts
 // DATABASE_URI=$AGR_DEV_THTH_DATABASE_URI yarn ts-node src/init/initDev.ts
