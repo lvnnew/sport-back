@@ -136,6 +136,26 @@
    "name": "app.jwt.secret"
   },
   {
+   "needFor": "Техническое название приложения",
+   "default": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "appName"
+  },
+  {
+   "needFor": "Человеческое название приложения",
+   "default": "Agro Platform",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "appTitle"
+  },
+  {
    "needFor": "Строка подключения к основной базе данных",
    "default": "postgresql://fake:fake@127.0.0.1:5432",
    "scopes": [

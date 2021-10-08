@@ -48,8 +48,6 @@ spec:
         env:
         - name: RANDOM
           value: {{ .Values.random | quote }}
-        - name: APP_NAME
-          value: agr-back
         - name: ENV
           value: '{{ .Values.global.env }}'
         - name: APOLLO_KEY
@@ -58,6 +56,10 @@ spec:
           value: {{ .Values.adm.jwt.secret | quote }}
         - name: APP_JWT_SECRET
           value: {{ .Values.app.jwt.secret | quote }}
+        - name: APP_NAME
+          value: {{ .Values.appName | quote }}
+        - name: APP_TITLE
+          value: {{ .Values.appTitle | quote }}
         - name: DATABASE_URI
           value: {{ .Values.database.uri | quote }}
         - name: S3_ACCESS_KEY_ID

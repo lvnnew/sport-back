@@ -19,6 +19,8 @@ If both files exists they will be merged. `${ENV}.json` takes precedence.
 | ------------------ | -------------------- | ----------------------------------------------------------- |
 | adm.jwt.secret     | ADM_JWT_SECRET       | Секрет для подписи JWT-токенов приложения админки           |
 | app.jwt.secret     | APP_JWT_SECRET       | Секрет для подписи JWT-токенов приложения пользователей     |
+| appName            | APP_NAME             | Техническое название приложения                             |
+| appTitle           | APP_TITLE            | Человеческое название приложения                            |
 | database.uri       | DATABASE_URI         | Строка подключения к основной базе данных                   |
 | s3.accessKeyId     | S3_ACCESS_KEY_ID     | Идентификатор доступа для авторизации в S3                  |
 | s3.secretAccessKey | S3_SECRET_ACCESS_KEY | Секретный ключ для авторизации в S3                         |
