@@ -147,6 +147,9 @@ export const getManagersService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
+    if (!result) {
+      throw new Error('There is no such entity');
+    }
 
     // update search. earlier we does not have id
     await getCtx().prisma.manager.update({
@@ -172,10 +175,6 @@ export const getManagersService = (getCtx: () => Context) => {
     });
 
     await afterCreate(getCtx, result as Manager);
-
-    if (!result) {
-      throw new Error('There is no such entity');
-    }
 
     return result as Manager;
   };
@@ -261,12 +260,11 @@ export const getManagersService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
-
-    await afterUpdate(getCtx, result as Manager);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterUpdate(getCtx, result as Manager);
 
     return result as Manager;
   };
@@ -381,11 +379,11 @@ export const getManagersService = (getCtx: () => Context) => {
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
-    await afterDelete(getCtx, entity);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterDelete(getCtx, entity);
 
     return true;
   };

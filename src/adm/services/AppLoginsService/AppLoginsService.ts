@@ -143,6 +143,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
+    if (!result) {
+      throw new Error('There is no such entity');
+    }
 
     // update search. earlier we does not have id
     await getCtx().prisma.appLogin.update({
@@ -164,10 +167,6 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     });
 
     await afterCreate(getCtx, result as AppLogin);
-
-    if (!result) {
-      throw new Error('There is no such entity');
-    }
 
     return result as AppLogin;
   };
@@ -245,12 +244,11 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
-
-    await afterUpdate(getCtx, result as AppLogin);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterUpdate(getCtx, result as AppLogin);
 
     return result as AppLogin;
   };
@@ -357,11 +355,11 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
-    await afterDelete(getCtx, entity);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterDelete(getCtx, entity);
 
     return true;
   };

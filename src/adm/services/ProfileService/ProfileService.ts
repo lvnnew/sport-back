@@ -1,6 +1,9 @@
 import * as R from 'ramda';
-import {log} from '../../../log';
 import {Context} from '../context';
+
+import {PermissionsWithMeta} from '../../../generated/graphql';
+import {KeyValuePair} from 'ramda';
+import {log} from '../../../log';
 
 export const BASE_MILES_TO_RECEIVE_FOR_FLIGHT = 1000;
 export const BASE_MILES_TO_UPGRADE_CLASS = 1000;
@@ -9,11 +12,13 @@ export const BASE_MILES_TO_REWARD_FLIGHT = 1000;
 export interface ProfileService {
   getPermissionsOfManager: (managerId: number) => Promise<string[]>;
   getPermissions: () => Promise<string[]>;
+  getPermissionsOfManagerWithMeta: (managerId: number) => Promise<PermissionsWithMeta[]>;
+  getPermissionsWithMeta: () => Promise<PermissionsWithMeta[]>;
 }
 
 export const getProfileService = (getCtx: () => Context): ProfileService => {
-  const getPermissionsOfManager = async (managerId: number) => {
-    const ctx = getCtx();
+  const getPermissionsOfManagerWithMeta = async (managerId: number) => {
+    const ctx = await getCtx();
 
     const rawPermissions = await ctx.prisma.managersToRole.findMany({
       where: {
@@ -32,31 +37,62 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
       },
     });
 
-    if (rawPermissions.some(p => p.role.hasFullAccess)) {
-      return (await ctx.prisma.permission.findMany({select: {id: true}})).map(p => p.id);
-    }
+    const roles = rawPermissions
+      .map(m => m.role);
+    const fullAccessRoles = roles.filter(r => r.hasFullAccess);
 
-    log.info('rawPermissions');
-    log.info(rawPermissions.map(p => p.roleId));
+    const permissionsByRoles = R.flatten(
+      rawPermissions
+        .map(m => m.role)
+        .map(
+          r => r.rolesToPermissionRoles.map(m => m.permissionId),
+        ),
+    );
 
-    const permissionsWithoutRoles = await ctx.managersToPermissions.all({filter: {managerId}});
+    const permissionsFullAccessRoles = fullAccessRoles.length > 0 ? (await ctx.permissions.all()).map(p => p.id) : [];
+
+    const managersToPermissions = await ctx.managersToPermissions.all({filter: {managerId}});
+    const permissionsWithoutRoles = managersToPermissions.map(el => el.permissionId);
 
     const permissions = R.uniq(
-      R.flatten(
-        rawPermissions
-          .map(m => m.role)
-          .map(
-            r => r.rolesToPermissionRoles.map(m => m.permissionId),
-          )
-          .concat(permissionsWithoutRoles.map(el => el.permissionId)),
-      ),
+      [
+        ...permissionsByRoles,
+        ...permissionsWithoutRoles,
+        ...permissionsFullAccessRoles,
+      ],
     );
+
+    const permissionsPairs: Array<KeyValuePair<string, string[]>> = permissions.map(permission => [permission, [] as string[]]);
+    const permissionsWithMeta = R.fromPairs(permissionsPairs);
+
+    rawPermissions
+      .forEach(rawPermission =>
+        rawPermission.role.rolesToPermissionRoles.forEach(link => {
+          permissionsWithMeta[link.permissionId] = R.uniq([
+            ...permissionsWithMeta[link.permissionId],
+            link.roleId,
+          ]);
+        }),
+      );
+
+    const permissionsToPairs = R.toPairs(permissionsWithMeta);
+
+    return permissionsToPairs.map(permissionsToPair => ({
+      permissionId: permissionsToPair[0],
+      byRoles: permissionsToPair[1],
+      byFullAccessRoles: fullAccessRoles.map(r => r.id),
+      directly: Boolean(permissionsWithoutRoles.find(el => el === permissionsToPair[0])),
+    }));
+  };
+
+  const getPermissionsOfManager = async (managerId: number) => {
+    const ctx = getCtx();
+
+    const permissions = await ctx.profile.getPermissionsOfManagerWithMeta(managerId);
     log.info('permissions');
     log.info(permissions);
-    log.info(`permissions count: ${permissions.length}`);
-    log.info(permissions.filter(p => p.includes('sub')));
 
-    return permissions;
+    return R.uniq(permissions.map(el => el.permissionId));
   };
 
   const getPermissions = async () => {
@@ -69,8 +105,20 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
     return getPermissionsOfManager(managerId);
   };
 
+  const getPermissionsWithMeta = async () => {
+    const managerId = getCtx().getManagerId();
+
+    if (!managerId) {
+      throw new Error('Current manager is unknown');
+    }
+
+    return getPermissionsOfManagerWithMeta(managerId);
+  };
+
   return {
     getPermissions,
     getPermissionsOfManager,
+    getPermissionsWithMeta,
+    getPermissionsOfManagerWithMeta,
   };
 };

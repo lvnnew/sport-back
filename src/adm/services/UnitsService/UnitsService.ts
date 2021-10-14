@@ -142,6 +142,9 @@ export const getUnitsService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
+    if (!result) {
+      throw new Error('There is no such entity');
+    }
 
     // update search. earlier we does not have id
     await getCtx().prisma.unit.update({
@@ -162,10 +165,6 @@ export const getUnitsService = (getCtx: () => Context) => {
     });
 
     await afterCreate(getCtx, result as Unit);
-
-    if (!result) {
-      throw new Error('There is no such entity');
-    }
 
     return result as Unit;
   };
@@ -241,12 +240,11 @@ export const getUnitsService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
-
-    await afterUpdate(getCtx, result as Unit);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterUpdate(getCtx, result as Unit);
 
     return result as Unit;
   };
@@ -351,11 +349,11 @@ export const getUnitsService = (getCtx: () => Context) => {
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
-    await afterDelete(getCtx, entity);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterDelete(getCtx, entity);
 
     return true;
   };

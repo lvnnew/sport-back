@@ -207,6 +207,8 @@ export type Query = {
   allPermissions?: Maybe<Array<Maybe<Permission>>>;
   _allPermissionsMeta?: Maybe<ListMetadata>;
   getPermissions: Array<Scalars['String']>;
+  getPermissionsWithMeta: Array<Maybe<PermissionsWithMeta>>;
+  getPermissionsOfManagerWithMeta: Array<Maybe<PermissionsWithMeta>>;
   Role?: Maybe<Role>;
   allRoles?: Maybe<Array<Maybe<Role>>>;
   _allRolesMeta?: Maybe<ListMetadata>;
@@ -414,6 +416,11 @@ export type Query_AllPermissionsMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<PermissionFilter>;
+};
+
+
+export type QueryGetPermissionsOfManagerWithMetaArgs = {
+  managerId: Scalars['Int'];
 };
 
 
@@ -1076,6 +1083,13 @@ export type PermissionFilter = {
   title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export type PermissionsWithMeta = {
+  __typename?: 'PermissionsWithMeta';
+  permissionId: Scalars['String'];
+  byRoles: Array<Maybe<Scalars['String']>>;
+  directly: Scalars['Boolean'];
+};
+
 export type Role = {
   __typename?: 'Role';
   id: Scalars['ID'];
@@ -1330,6 +1344,7 @@ export type ResolversTypes = {
   ManagersToRoleFilter: ManagersToRoleFilter;
   Permission: ResolverTypeWrapper<Permission>;
   PermissionFilter: PermissionFilter;
+  PermissionsWithMeta: ResolverTypeWrapper<PermissionsWithMeta>;
   Role: ResolverTypeWrapper<Role>;
   RoleFilter: RoleFilter;
   RolesToPermission: ResolverTypeWrapper<RolesToPermission>;
@@ -1423,6 +1438,7 @@ export type ResolversParentTypes = {
   ManagersToRoleFilter: ManagersToRoleFilter;
   Permission: Permission;
   PermissionFilter: PermissionFilter;
+  PermissionsWithMeta: PermissionsWithMeta;
   Role: Role;
   RoleFilter: RoleFilter;
   RolesToPermission: RolesToPermission;
@@ -1688,6 +1704,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allPermissions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Permission']>>>, ParentType, ContextType, RequireFields<QueryAllPermissionsArgs, never>>;
   _allPermissionsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllPermissionsMetaArgs, never>>;
   getPermissions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getPermissionsWithMeta?: Resolver<Array<Maybe<ResolversTypes['PermissionsWithMeta']>>, ParentType, ContextType>;
+  getPermissionsOfManagerWithMeta?: Resolver<Array<Maybe<ResolversTypes['PermissionsWithMeta']>>, ParentType, ContextType, RequireFields<QueryGetPermissionsOfManagerWithMetaArgs, 'managerId'>>;
   Role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
   allRoles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, RequireFields<QueryAllRolesArgs, never>>;
   _allRolesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllRolesMetaArgs, never>>;
@@ -1828,6 +1846,13 @@ export type PermissionResolvers<ContextType = any, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type PermissionsWithMetaResolvers<ContextType = any, ParentType extends ResolversParentTypes['PermissionsWithMeta'] = ResolversParentTypes['PermissionsWithMeta']> = {
+  permissionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  byRoles?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  directly?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type RoleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Role'] = ResolversParentTypes['Role']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -1935,6 +1960,7 @@ export type Resolvers<ContextType = any> = {
   ManagersToPermission?: ManagersToPermissionResolvers<ContextType>;
   ManagersToRole?: ManagersToRoleResolvers<ContextType>;
   Permission?: PermissionResolvers<ContextType>;
+  PermissionsWithMeta?: PermissionsWithMetaResolvers<ContextType>;
   Role?: RoleResolvers<ContextType>;
   RolesToPermission?: RolesToPermissionResolvers<ContextType>;
   Stat?: StatResolvers<ContextType>;

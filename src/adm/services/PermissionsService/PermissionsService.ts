@@ -141,6 +141,9 @@ export const getPermissionsService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
+    if (!result) {
+      throw new Error('There is no such entity');
+    }
 
     // update search. earlier we does not have id
     await getCtx().prisma.permission.update({
@@ -160,10 +163,6 @@ export const getPermissionsService = (getCtx: () => Context) => {
     });
 
     await afterCreate(getCtx, result as Permission);
-
-    if (!result) {
-      throw new Error('There is no such entity');
-    }
 
     return result as Permission;
   };
@@ -237,12 +236,11 @@ export const getPermissionsService = (getCtx: () => Context) => {
     ];
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
-
-    await afterUpdate(getCtx, result as Permission);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterUpdate(getCtx, result as Permission);
 
     return result as Permission;
   };
@@ -345,11 +343,11 @@ export const getPermissionsService = (getCtx: () => Context) => {
 
     const [result] = await getCtx().prisma.$transaction(operations as any);
 
-    await afterDelete(getCtx, entity);
-
     if (!result) {
       throw new Error('There is no such entity');
     }
+
+    await afterDelete(getCtx, entity);
 
     return true;
   };
