@@ -20,7 +20,7 @@ import {
 import express, {Request, RequestHandler, Response} from 'express';
 import cors from 'cors';
 import passport from 'passport';
-import {json} from 'body-parser';
+import {json, raw} from 'body-parser';
 import restRouter from './rest/restRouter';
 import helmet from 'helmet';
 import {collectDefaultMetrics, register} from 'prom-client';
@@ -45,7 +45,8 @@ initAppPassport();
 initAdmPassport();
 
 app.use(cors());
-app.use(json({limit: '50mb'}) as RequestHandler);
+app.use(raw({limit: '50mb'}) as RequestHandler);
+app.use(json({limit: '1mb'}) as RequestHandler);
 app.use(
   helmet(
     {contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false},
