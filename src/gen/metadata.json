@@ -1310,7 +1310,11 @@
      "category": "scalar"
     }
    ],
-   "uniqueConstraints": [],
+   "uniqueConstraints": [
+    [
+     "email"
+    ]
+   ],
    "deletable": false,
    "editable": true,
    "materialUiIcon": "Brightness1Outlined",
