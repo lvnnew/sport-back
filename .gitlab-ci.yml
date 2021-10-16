@@ -160,6 +160,7 @@ deploy-prod-workers:
 .deploy-dev:
   extends: .deploy
   variables:
+    ENV: "stage"
     DEV: "true"
     HOST: "making.ventures"
     TAG: ":latest"
