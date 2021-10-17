@@ -21,7 +21,7 @@ kind: Deployment
 metadata:
   name: agr-back
 spec:
-  replicas: {{ .Values.app.replicas }}
+  replicas: {{ $.Values.app.replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -40,42 +40,42 @@ spec:
     {{- end }}
       containers:
       - name: agr-back
-        image: {{ .Values.dockerRegistry }}/agr-back{{ .Values.app.tag }}
+        image: {{ $.Values.dockerRegistry }}/agr-back{{ $.Values.app.tag }}
         ports:
         - name: main-port
           containerPort: 3000
         imagePullPolicy: Always
         env:
         - name: RANDOM
-          value: {{ .Values.random | quote }}
+          value: {{ $.Values.random | quote }}
         - name: ENV
-          value: '{{ .Values.global.env }}'
+          value: '{{ $.Values.global.env }}'
         - name: APOLLO_KEY
-          value: {{ .Values.apollo.key | quote }}
+          value: {{ $.Values.apollo.key | quote }}
         - name: ADM_JWT_SECRET
-          value: {{ .Values.adm.jwt.secret | quote }}
+          value: {{ $.Values.adm.jwt.secret | quote }}
         - name: APP_JWT_SECRET
-          value: {{ .Values.app.jwt.secret | quote }}
+          value: {{ $.Values.app.jwt.secret | quote }}
         - name: APP_NAME
-          value: {{ .Values.appName | quote }}
+          value: {{ $.Values.appName | quote }}
         - name: APP_TITLE
-          value: {{ .Values.appTitle | quote }}
+          value: {{ $.Values.appTitle | quote }}
         - name: DATABASE_URI
-          value: {{ .Values.database.uri | quote }}
+          value: {{ $.Values.database.uri | quote }}
         - name: S3_ACCESS_KEY_ID
-          value: {{ .Values.s3.accessKeyId | quote }}
+          value: {{ $.Values.s3.accessKeyId | quote }}
         - name: S3_SECRET_ACCESS_KEY
-          value: {{ .Values.s3.secretAccessKey | quote }}
+          value: {{ $.Values.s3.secretAccessKey | quote }}
         - name: SMTP_FROM
-          value: {{ .Values.smtp.from | quote }}
+          value: {{ $.Values.smtp.from | quote }}
         - name: SMTP_HOST
-          value: {{ .Values.smtp.host | quote }}
+          value: {{ $.Values.smtp.host | quote }}
         - name: SMTP_PASS
-          value: {{ .Values.smtp.pass | quote }}
+          value: {{ $.Values.smtp.pass | quote }}
         - name: SMTP_PORT
-          value: {{ .Values.smtp.port | quote }}
+          value: {{ $.Values.smtp.port | quote }}
         - name: SMTP_USER
-          value: {{ .Values.smtp.user | quote }}
+          value: {{ $.Values.smtp.user | quote }}
 
         livenessProbe:
           httpGet:

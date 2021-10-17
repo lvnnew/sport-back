@@ -20,7 +20,7 @@ variables:
   VERBOSE: 'true'
   RELEASE: $CI_COMMIT_SHORT_SHA
   KUBECONFIG: /etc/deploy/config
-  APPNAME: back
+  CHART_NAME: back
 
 check:
   stage: check
@@ -120,7 +120,7 @@ deploy-prod-workers:
   variables:
     DEPLOY_KIND: "back"
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
-    APPNAME: workers
+    APP_NAME: workers
     BACK_ENABLED: "false"
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
@@ -149,7 +149,7 @@ deploy-prod-workers:
     - .deploy-worker
   variables:
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
-    APPNAME: workers
+    APP_NAME: workers
     BACK_ENABLED: "false"
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
@@ -229,7 +229,7 @@ deploy-prod-workers:
 
     - helm upgrade
       --install
-      --wait ${NAMESPACE}-${APPNAME} chart
+      --wait ${NAMESPACE}-${CHART_NAME} chart
       --timeout 3600s
       -f chart/values_${ENV}.yaml
       --set "global.clusterName=${CLUSTER_NAME}"
