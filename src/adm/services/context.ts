@@ -7,6 +7,7 @@ import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
+import {AuditLogsService, getAuditLogsService} from './AuditLogsService/AuditLogsService';
 import {DelegationsService, getDelegationsService} from './DelegationsService/DelegationsService';
 import {FilesService, getFilesService} from './FilesService/FilesService';
 import {LanguagesService, getLanguagesService} from './LanguagesService/LanguagesService';
@@ -27,6 +28,7 @@ import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
 export interface BaseServices {
   appLogins: AppLoginsService;
+  auditLogs: AuditLogsService;
   delegations: DelegationsService;
   files: FilesService;
   languages: LanguagesService;
@@ -91,6 +93,7 @@ export const createBaseContext = async (): Promise<BaseContext> => {
 
 export const getBaseServices = (getContext: () => Context): BaseServices => ({
   appLogins: getAppLoginsService(getContext),
+  auditLogs: getAuditLogsService(getContext),
   delegations: getDelegationsService(getContext),
   files: getFilesService(getContext),
   languages: getLanguagesService(getContext),

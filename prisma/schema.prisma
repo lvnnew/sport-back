@@ -7,6 +7,25 @@ datasource db {
   url      = env("DATABASE_URI")
 }
 
+model AuditLog {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	date	DateTime	@db.Date
+	title	String
+	entityType	String
+	entityId	String
+	action	String
+	managerId	Int?
+	manager	Manager?	@relation("From-AuditLog.manager", fields: [managerId], references: [id])
+	userId	Int?
+	user	User?	@relation("From-AuditLog.user", fields: [userId], references: [id])
+	foreign	Boolean?
+	foreignEntityType	String?
+	foreignEntityId	String?
+	actionData	String?
+}
+
+
 model Delegation {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -63,6 +82,7 @@ model Manager {
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
 	headOfUnit	Boolean
 	active	Boolean
+	auditLogManagers	AuditLog[]	@relation("From-AuditLog.manager")
 	delegationFroms	Delegation[]	@relation("From-Delegation.from")
 	delegationTos	Delegation[]	@relation("From-Delegation.to")
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
@@ -167,8 +187,10 @@ model Unit {
 model User {
 	id	Int	@default(autoincrement())	@id
 	search	String?
+	title	String?
 	lastname	String
 	firstname	String
 	email	String
 	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
+	auditLogUsers	AuditLog[]	@relation("From-AuditLog.user")
 }

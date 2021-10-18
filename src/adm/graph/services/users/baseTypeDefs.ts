@@ -5,6 +5,7 @@ import {gql} from 'apollo-server';
 export default gql`
 type User {
   id: Int!
+  title: String
   lastname: String!
   firstname: String!
   email: String!
@@ -14,6 +15,8 @@ input UserFilter {
   q: String
   ids: [Int]
   id: Int
+  title: String
+  title_in: [String]
   lastname: String
   lastname_in: [String]
   firstname: String
@@ -33,8 +36,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(lastname: String!, firstname: String!, email: String!): User
-  updateUser(id: Int!, lastname: String!, firstname: String!, email: String!): User
+  createUser(title: String, lastname: String!, firstname: String!, email: String!): User
+  updateUser(id: Int!, title: String, lastname: String!, firstname: String!, email: String!): User
   removeUser(id: Int!): Boolean
 }
 

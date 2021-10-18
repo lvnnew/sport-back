@@ -181,6 +181,9 @@ export type Query = {
   AppLogin?: Maybe<AppLogin>;
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
+  AuditLog?: Maybe<AuditLog>;
+  allAuditLogs?: Maybe<Array<Maybe<AuditLog>>>;
+  _allAuditLogsMeta?: Maybe<ListMetadata>;
   Delegation?: Maybe<Delegation>;
   allDelegations?: Maybe<Array<Maybe<Delegation>>>;
   _allDelegationsMeta?: Maybe<ListMetadata>;
@@ -248,6 +251,27 @@ export type Query_AllAppLoginsMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<AppLoginFilter>;
+};
+
+
+export type QueryAuditLogArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllAuditLogsArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  sortField?: Maybe<Scalars['String']>;
+  sortOrder?: Maybe<Scalars['String']>;
+  filter?: Maybe<AuditLogFilter>;
+};
+
+
+export type Query_AllAuditLogsMetaArgs = {
+  page?: Maybe<Scalars['Int']>;
+  perPage?: Maybe<Scalars['Int']>;
+  filter?: Maybe<AuditLogFilter>;
 };
 
 
@@ -554,6 +578,9 @@ export type Mutation = {
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<Scalars['Boolean']>;
+  createAuditLog?: Maybe<AuditLog>;
+  updateAuditLog?: Maybe<AuditLog>;
+  removeAuditLog?: Maybe<Scalars['Boolean']>;
   createDelegation?: Maybe<Delegation>;
   updateDelegation?: Maybe<Delegation>;
   removeDelegation?: Maybe<Scalars['Boolean']>;
@@ -616,6 +643,42 @@ export type MutationUpdateAppLoginArgs = {
 
 
 export type MutationRemoveAppLoginArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateAuditLogArgs = {
+  date: Scalars['Date'];
+  title: Scalars['String'];
+  entityType: Scalars['String'];
+  entityId: Scalars['String'];
+  action: Scalars['String'];
+  managerId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
+  foreign?: Maybe<Scalars['Boolean']>;
+  foreignEntityType?: Maybe<Scalars['String']>;
+  foreignEntityId?: Maybe<Scalars['String']>;
+  actionData?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateAuditLogArgs = {
+  id: Scalars['Int'];
+  date: Scalars['Date'];
+  title: Scalars['String'];
+  entityType: Scalars['String'];
+  entityId: Scalars['String'];
+  action: Scalars['String'];
+  managerId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
+  foreign?: Maybe<Scalars['Boolean']>;
+  foreignEntityType?: Maybe<Scalars['String']>;
+  foreignEntityId?: Maybe<Scalars['String']>;
+  actionData?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveAuditLogArgs = {
   id: Scalars['Int'];
 };
 
@@ -887,6 +950,7 @@ export type MutationRemoveUnitArgs = {
 
 
 export type MutationCreateUserArgs = {
+  title?: Maybe<Scalars['String']>;
   lastname: Scalars['String'];
   firstname: Scalars['String'];
   email: Scalars['String'];
@@ -895,6 +959,7 @@ export type MutationCreateUserArgs = {
 
 export type MutationUpdateUserArgs = {
   id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
   lastname: Scalars['String'];
   firstname: Scalars['String'];
   email: Scalars['String'];
@@ -903,6 +968,52 @@ export type MutationUpdateUserArgs = {
 
 export type MutationRemoveUserArgs = {
   id: Scalars['Int'];
+};
+
+export type AuditLog = {
+  __typename?: 'AuditLog';
+  id: Scalars['Int'];
+  date: Scalars['Date'];
+  title: Scalars['String'];
+  entityType: Scalars['String'];
+  entityId: Scalars['String'];
+  action: Scalars['String'];
+  managerId?: Maybe<Scalars['Int']>;
+  userId?: Maybe<Scalars['Int']>;
+  foreign?: Maybe<Scalars['Boolean']>;
+  foreignEntityType?: Maybe<Scalars['String']>;
+  foreignEntityId?: Maybe<Scalars['String']>;
+  actionData?: Maybe<Scalars['String']>;
+};
+
+export type AuditLogFilter = {
+  q?: Maybe<Scalars['String']>;
+  ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  id?: Maybe<Scalars['Int']>;
+  date?: Maybe<Scalars['Date']>;
+  date_lte?: Maybe<Scalars['Date']>;
+  date_gte?: Maybe<Scalars['Date']>;
+  date_lt?: Maybe<Scalars['Date']>;
+  date_gt?: Maybe<Scalars['Date']>;
+  title?: Maybe<Scalars['String']>;
+  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  entityType?: Maybe<Scalars['String']>;
+  entityType_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  entityId?: Maybe<Scalars['String']>;
+  entityId_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  action?: Maybe<Scalars['String']>;
+  action_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  managerId?: Maybe<Scalars['Int']>;
+  managerId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  userId?: Maybe<Scalars['Int']>;
+  userId_in?: Maybe<Array<Maybe<Scalars['Int']>>>;
+  foreign?: Maybe<Scalars['Boolean']>;
+  foreignEntityType?: Maybe<Scalars['String']>;
+  foreignEntityType_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  foreignEntityId?: Maybe<Scalars['String']>;
+  foreignEntityId_in?: Maybe<Array<Maybe<Scalars['String']>>>;
+  actionData?: Maybe<Scalars['String']>;
+  actionData_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Delegation = {
@@ -1181,6 +1292,7 @@ export type UnitFilter = {
 export type User = {
   __typename?: 'User';
   id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
   lastname: Scalars['String'];
   firstname: Scalars['String'];
   email: Scalars['String'];
@@ -1190,6 +1302,8 @@ export type UserFilter = {
   q?: Maybe<Scalars['String']>;
   ids?: Maybe<Array<Maybe<Scalars['Int']>>>;
   id?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
+  title_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   lastname?: Maybe<Scalars['String']>;
   lastname_in?: Maybe<Array<Maybe<Scalars['String']>>>;
   firstname?: Maybe<Scalars['String']>;
@@ -1328,6 +1442,8 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  AuditLog: ResolverTypeWrapper<AuditLog>;
+  AuditLogFilter: AuditLogFilter;
   Delegation: ResolverTypeWrapper<Delegation>;
   DelegationFilter: DelegationFilter;
   File: ResolverTypeWrapper<File>;
@@ -1422,6 +1538,8 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
+  AuditLog: AuditLog;
+  AuditLogFilter: AuditLogFilter;
   Delegation: Delegation;
   DelegationFilter: DelegationFilter;
   File: File;
@@ -1678,6 +1796,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
+  AuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<QueryAuditLogArgs, 'id'>>;
+  allAuditLogs?: Resolver<Maybe<Array<Maybe<ResolversTypes['AuditLog']>>>, ParentType, ContextType, RequireFields<QueryAllAuditLogsArgs, never>>;
+  _allAuditLogsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAuditLogsMetaArgs, never>>;
   Delegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<QueryDelegationArgs, 'id'>>;
   allDelegations?: Resolver<Maybe<Array<Maybe<ResolversTypes['Delegation']>>>, ParentType, ContextType, RequireFields<QueryAllDelegationsArgs, never>>;
   _allDelegationsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllDelegationsMetaArgs, never>>;
@@ -1730,6 +1851,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
+  createAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogArgs, 'date' | 'title' | 'entityType' | 'entityId' | 'action'>>;
+  updateAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogArgs, 'id' | 'date' | 'title' | 'entityType' | 'entityId' | 'action'>>;
+  removeAuditLog?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveAuditLogArgs, 'id'>>;
   createDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationCreateDelegationArgs, 'fromId' | 'toId' | 'active'>>;
   updateDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationUpdateDelegationArgs, 'id' | 'fromId' | 'toId' | 'active'>>;
   removeDelegation?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveDelegationArgs, 'id'>>;
@@ -1773,6 +1897,22 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
   removeUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
+};
+
+export type AuditLogResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuditLog'] = ResolversParentTypes['AuditLog']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  entityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  action?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  managerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  foreign?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  foreignEntityType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  foreignEntityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  actionData?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type DelegationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Delegation'] = ResolversParentTypes['Delegation']> = {
@@ -1889,6 +2029,7 @@ export type UnitResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1952,6 +2093,7 @@ export type Resolvers<ContextType = any> = {
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  AuditLog?: AuditLogResolvers<ContextType>;
   Delegation?: DelegationResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   Language?: LanguageResolvers<ContextType>;
