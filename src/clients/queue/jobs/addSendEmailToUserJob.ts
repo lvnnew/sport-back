@@ -12,7 +12,9 @@ export const addSendEmailToUserJob = async (ctx: Context, userId: number, {templ
 
   await addSendEmailJob(
     {
-      to: user.email,
+      message: {
+        to: user.email,
+      },
       template,
       locals: {
         ...user,

@@ -1,33 +1,83 @@
 import {log} from '../../../log';
-import {whitelistedEmail} from '../../emaiSender';
+import {EmailOptions, whitelistedEmail} from '../../emaiSender';
 import {getQueue} from '../getQueue';
 import {Job} from './Job';
-
-export type EmailTemplate = 'hello'
-  | 'newRegistration'
-  | 'transitionFromOldSystem'
-  | 'passwordChange'
-  | 'restorePassword'
-  | 'resetPassword';
+import {MessageTemplate} from '../../../types/enums';
+import '../../../utils/polyfills/BigInt';
 
 export type SendEmailLocals = Record<string, any>;
 
-export interface AddSendEmailJobArgs {
-  to: string;
-  template: EmailTemplate;
-  locals: SendEmailLocals;
+export interface AddSendEmailJobArgs extends EmailOptions {
+  template: MessageTemplate;
+  locals?: SendEmailLocals;
 }
 
-export const addSendEmailJob = async ({to, template, locals}: AddSendEmailJobArgs) => {
+// export const g = {
+//   template: 'changeLevel',
+//   locals: {
+//     id: '9000059390',
+//     search: '9000059390 aliev tofik individual old tofik aliev (ca2761585) male 75488 1500 76988 0',
+//     lastname: 'ALIEV',
+//     firstname: 'TOFIK',
+//     memberTypeId: 'individual',
+//     enrolDate: '2012-03-01T00:00:00.000Z',
+//     registrationSourceId: 'old',
+//     initialsId: null,
+//     title: 'TOFIK ALIEV (CA2761585)',
+//     genderId: 'male',
+//     contactPreferenceId: null,
+//     birthDay: '1965-11-17T00:00:00.000Z',
+//     newMember: false,
+//     levelId: 'premium',
+//     totalBonusMilesReceived: 1500,
+//     totalMilesReceived: 76988,
+//     totalQualificationMilesReceived: 75488,
+//     availableMiles: 0,
+//     milesForNextLevel: 179512,
+//     milesPercentForNextLevel: 71.8048,
+//     statusId: 'expired',
+//     usedMiles: -76988,
+//     nextLevelId: 'silver',
+//     lastFlightDate: '2016-07-22T00:00:00.000Z',
+//     nationalityId: null,
+//     languageId: 'russian',
+//     activitiesParsed: false,
+//     additionalSearch: null,
+//     oldTotalBaseMiles: 75488,
+//     oldTotalBonusMiles: 1500,
+//     oldTotalExpiredMiles: 76988,
+//     oldTotalUsedMiles: 0,
+//     balancesDiffers: null,
+//     newLevel: {
+//       id: 'premium',
+//       search: 'premium premium 5000',
+//       title: 'Premium',
+//       miles: 5000,
+//     },
+//   },
+//   message: {
+//     to: 'habib200465@mail.ru',
+//   },
+// };
+
+export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
   log.info('addSendEmailJob');
+  log.info('args');
+
+  // log.info(args);
   const queue = await getQueue();
 
   await queue.addJob(
     Job.SendEmail,
     {
-      to: whitelistedEmail(to),
-      template,
-      locals,
+      template: args.template,
+      lang: args.lang,
+      locals: args.locals,
+      files: args.files,
+      message: {
+        ...args.message,
+        to: whitelistedEmail(args.message?.to ? args.message.to.toString() : ''),
+      },
     },
   );
 };

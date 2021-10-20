@@ -2,6 +2,7 @@ import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
 import {Context} from '../../../adm/services/context';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
+import {MessageTemplate} from '../../../types/enums';
 
 export interface NewRegistrationEmailLocals extends SendEmailLocals {
   password: string;
@@ -19,7 +20,7 @@ export const addSendNewRegistrationEmailJob = async (ctx: Context, userId: numbe
     userId,
     {
       locals,
-      template: 'newRegistration',
+      template: MessageTemplate.NewRegistration,
     },
   );
 };

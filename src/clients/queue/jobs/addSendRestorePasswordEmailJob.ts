@@ -2,6 +2,7 @@ import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
 import {Context} from '../../../adm/services/context';
+import {MessageTemplate} from '../../../types/enums';
 
 export interface RestorePasswordEmailLocals extends SendEmailLocals {
   password: string;
@@ -19,7 +20,7 @@ export const addSendRestorePasswordEmailJob = async (ctx: Context, userId: numbe
     userId,
     {
       locals,
-      template: 'restorePassword',
+      template: MessageTemplate.RestorePassword,
     },
   );
 };

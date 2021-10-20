@@ -2,6 +2,7 @@ import {log} from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
 import {Context} from '../../../adm/services/context';
+import {MessageTemplate} from '../../../types/enums';
 
 export interface PasswordChangeEmaiLocals extends SendEmailLocals {
   password: string;
@@ -18,7 +19,7 @@ export const addSendPasswordChangeEmailJob = async (ctx: Context, userId: number
     ctx,
     userId,
     {
-      template: 'passwordChange',
+      template: MessageTemplate.PasswordChange,
       locals,
     },
   );

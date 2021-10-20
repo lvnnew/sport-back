@@ -15,7 +15,9 @@ export const addSendEmailToManagerJob = async (ctx: Context, adminId: number, {t
 
   await addSendEmailJob(
     {
-      to: manager.email,
+      message: {
+        to: manager.email,
+      },
       template,
       locals: {
         ...manager,

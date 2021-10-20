@@ -15,6 +15,7 @@ import {ManagerLoginsService, getManagerLoginsService} from './ManagerLoginsServ
 import {ManagersService, getManagersService} from './ManagersService/ManagersService';
 import {ManagersToPermissionsService, getManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
 import {ManagersToRolesService, getManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
+import {MessageTemplatesService, getMessageTemplatesService} from './MessageTemplatesService/MessageTemplatesService';
 import {PermissionsService, getPermissionsService} from './PermissionsService/PermissionsService';
 import {RolesService, getRolesService} from './RolesService/RolesService';
 import {RolesToPermissionsService, getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
@@ -36,6 +37,7 @@ export interface BaseServices {
   managers: ManagersService;
   managersToPermissions: ManagersToPermissionsService;
   managersToRoles: ManagersToRolesService;
+  messageTemplates: MessageTemplatesService;
   permissions: PermissionsService;
   roles: RolesService;
   rolesToPermissions: RolesToPermissionsService;
@@ -101,6 +103,7 @@ export const getBaseServices = (getContext: () => Context): BaseServices => ({
   managers: getManagersService(getContext),
   managersToPermissions: getManagersToPermissionsService(getContext),
   managersToRoles: getManagersToRolesService(getContext),
+  messageTemplates: getMessageTemplatesService(getContext),
   permissions: getPermissionsService(getContext),
   roles: getRolesService(getContext),
   rolesToPermissions: getRolesToPermissionsService(getContext),
