@@ -30,12 +30,16 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
     ...flatWhere,
   };
 
-  if (Object.keys(filter).includes('q')) {
+  if (Object.keys(filter).includes('q') && (filter as any).q.trim()) {
+    const searcQuery = (filter as any).q.trim().toLowerCase() as string;
+    const searchKeys = searcQuery.split(' ').map(k => k.trim()).filter(k => k);
     result = {
       ...result,
-      search: {
-        contains: (filter as any).q.toLowerCase(),
-      },
+      AND: searchKeys.map(searchKey => ({
+        search: {
+          contains: searchKey,
+        },
+      })),
     };
   }
 

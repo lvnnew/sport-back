@@ -228,9 +228,32 @@ describe('toPrismaWhere', () => {
     expect(
       toPrismaWhere({q: 'bob'}),
     ).toEqual({
-      search: {
-        contains: 'bob',
-      },
+      AND: [
+        {
+          search: {
+            contains: 'bob',
+          },
+        },
+      ],
+    });
+  });
+
+  it('splits search to keys', () => {
+    expect(
+      toPrismaWhere({q: 'bob jey'}),
+    ).toEqual({
+      AND: [
+        {
+          search: {
+            contains: 'bob',
+          },
+        },
+        {
+          search: {
+            contains: 'jey',
+          },
+        },
+      ],
     });
   });
 });
