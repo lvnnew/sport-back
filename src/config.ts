@@ -9,7 +9,7 @@ nconf
   .file({file: './config/default.json'})
   .file({file: `./config/${process.env.ENV || 'dev'}.json`});
 
-const getFromNconf = (name: string) => nconf.get(constantCase(name)) || nconf.get(name) || '';
+export const getFromNconf = (name: string) => nconf.get(constantCase(name)) || nconf.get(name) || '';
 
 const envConfig = {
   admJwtSecret: getFromNconf('adm.jwt.secret'),
@@ -17,6 +17,8 @@ const envConfig = {
   appName: getFromNconf('appName'),
   appTitle: getFromNconf('appTitle'),
   databaseUri: getFromNconf('database.uri'),
+  logsFormat: getFromNconf('logs.format'),
+  lokiUrl: getFromNconf('loki.url'),
   s3AccessKeyId: getFromNconf('s3.accessKeyId'),
   s3SecretAccessKey: getFromNconf('s3.secretAccessKey'),
   smtpFrom: getFromNconf('smtp.from'),

@@ -62,6 +62,10 @@ spec:
           value: {{ $.Values.apollo.key | quote }}
         - name: DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
+        - name: LOGS_FORMAT
+          value: {{ $.Values.logs.format | quote }}
+        - name: LOKI_URL
+          value: {{ $.Values.loki.url | quote }}
 
         - name: APP_URI
           value: {{ $.Values.app.prefix }}.{{ $.Values.ingress.host }}

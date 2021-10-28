@@ -62,6 +62,10 @@ spec:
           value: {{ $.Values.appTitle | quote }}
         - name: DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
+        - name: LOGS_FORMAT
+          value: {{ $.Values.logs.format | quote }}
+        - name: LOKI_URL
+          value: {{ $.Values.loki.url | quote }}
         - name: S3_ACCESS_KEY_ID
           value: {{ $.Values.s3.accessKeyId | quote }}
         - name: S3_SECRET_ACCESS_KEY

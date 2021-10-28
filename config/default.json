@@ -4,6 +4,8 @@
   "appName": "",
   "appTitle": "Agro Platform",
   "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
+  "logs.format": "plain",
+  "loki.url": "",
   "s3.accessKeyId": "",
   "s3.secretAccessKey": "",
   "smtp.from": "",

@@ -166,6 +166,26 @@
    "name": "database.uri"
   },
   {
+   "needFor": "ФОрмат логов (plain | json)",
+   "default": "plain",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "logs.format"
+  },
+  {
+   "needFor": "Урл для доступа в Loki. Используется для запроса бизнес-логов",
+   "default": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "loki.url"
+  },
+  {
    "needFor": "Идентификатор доступа для авторизации в S3",
    "default": "",
    "scopes": [
