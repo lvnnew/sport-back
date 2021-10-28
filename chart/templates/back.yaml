@@ -29,6 +29,9 @@ spec:
   selector:
     matchLabels:
       app: agr-back
+      clusterName: {{ $.Values.global.clusterName }}
+      env: {{ $.Values.global.env }}
+      deployKind: {{ $.Values.global.deployKind }}
   template:
     metadata:
       labels:

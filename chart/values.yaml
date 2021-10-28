@@ -1,7 +1,9 @@
 
 # DO NOT EDIT! THIS IS GENERATED FILE
 global:
-  env: canary
+  env: noName
+  clusterName: noName
+  deployKind: noName
   imagePullPolicy: Always
 
 dev: false
