@@ -1,8 +1,10 @@
 {
   "adm.jwt.secret": "admSecret",
+  "admin.recaptcha.secretKey": "",
   "app.jwt.secret": "appSecret",
   "appName": "",
   "appTitle": "Agro Platform",
+  "customer.recaptcha.secretKey": "",
   "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
   "logs.format": "plain",
   "loki.url": "",

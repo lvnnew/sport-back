@@ -76,12 +76,6 @@
   },
   {
    "projectCategory": "back",
-   "name": "ts-node",
-   "command": "ts-node --files",
-   "needFor": "Запуска typescript скрипта"
-  },
-  {
-   "projectCategory": "back",
    "name": "dev",
    "command": "ts-node-dev --files src/index.ts",
    "needFor": "Запуска преокта в режиме разработки"
@@ -126,6 +120,24 @@
    "name": "adm.jwt.secret"
   },
   {
+   "needFor": "Публичный токен рекапчи приложения админки",
+   "default": "",
+   "scopes": [
+    "admin-app"
+   ],
+   "name": "admin.recaptcha.publicKey"
+  },
+  {
+   "needFor": "Секретный токен рекапчи приложения админки",
+   "default": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "admin.recaptcha.secretKey"
+  },
+  {
    "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
    "default": "appSecret",
    "scopes": [
@@ -154,6 +166,24 @@
     "telegramBot"
    ],
    "name": "appTitle"
+  },
+  {
+   "needFor": "Публичный токен рекапчи приложения пользователя",
+   "default": "",
+   "scopes": [
+    "cutomer-app"
+   ],
+   "name": "customer.recaptcha.publicKey"
+  },
+  {
+   "needFor": "Секретный токен рекапчи приложения пользователя",
+   "default": "",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "name": "customer.recaptcha.secretKey"
   },
   {
    "needFor": "Строка подключения к основной базе данных",

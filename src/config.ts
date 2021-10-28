@@ -13,9 +13,11 @@ export const getFromNconf = (name: string) => nconf.get(constantCase(name)) || n
 
 const envConfig = {
   admJwtSecret: getFromNconf('adm.jwt.secret'),
+  adminRecaptchaSecretKey: getFromNconf('admin.recaptcha.secretKey'),
   appJwtSecret: getFromNconf('app.jwt.secret'),
   appName: getFromNconf('appName'),
   appTitle: getFromNconf('appTitle'),
+  customerRecaptchaSecretKey: getFromNconf('customer.recaptcha.secretKey'),
   databaseUri: getFromNconf('database.uri'),
   logsFormat: getFromNconf('logs.format'),
   lokiUrl: getFromNconf('loki.url'),

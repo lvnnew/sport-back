@@ -15,19 +15,21 @@ If both files exists they will be merged. `${ENV}.json` takes precedence.
 
 ## Configuration variables
 
-| Key in file        | Environment          | Description                                                   |
-| ------------------ | -------------------- | ------------------------------------------------------------- |
-| adm.jwt.secret     | ADM_JWT_SECRET       | Секрет для подписи JWT-токенов приложения админки             |
-| app.jwt.secret     | APP_JWT_SECRET       | Секрет для подписи JWT-токенов приложения пользователей       |
-| appName            | APP_NAME             | Техническое название приложения                               |
-| appTitle           | APP_TITLE            | Человеческое название приложения                              |
-| database.uri       | DATABASE_URI         | Строка подключения к основной базе данных                     |
-| logs.format        | LOGS_FORMAT          | ФОрмат логов (plain | json)                                   |
-| loki.url           | LOKI_URL             | Урл для доступа в Loki. Используется для запроса бизнес-логов |
-| s3.accessKeyId     | S3_ACCESS_KEY_ID     | Идентификатор доступа для авторизации в S3                    |
-| s3.secretAccessKey | S3_SECRET_ACCESS_KEY | Секретный ключ для авторизации в S3                           |
-| smtp.from          | SMTP_FROM            | Почтовый адрес, от имени которого следует отправлять письма   |
-| smtp.host          | SMTP_HOST            | Хост почтового сервера                                        |
-| smtp.pass          | SMTP_PASS            | Пароль пользователя для авторизации на почтовом сервере       |
-| smtp.port          | SMTP_PORT            | Порт почтового сервера                                        |
-| smtp.user          | SMTP_USER            | Имя пользователя для авторизации на почтовом сервере          |
+| Key in file                  | Environment                   | Description                                                   |
+| ---------------------------- | ----------------------------- | ------------------------------------------------------------- |
+| adm.jwt.secret               | ADM_JWT_SECRET                | Секрет для подписи JWT-токенов приложения админки             |
+| admin.recaptcha.secretKey    | ADMIN_RECAPTCHA_SECRET_KEY    | Секретный токен рекапчи приложения админки                    |
+| app.jwt.secret               | APP_JWT_SECRET                | Секрет для подписи JWT-токенов приложения пользователей       |
+| appName                      | APP_NAME                      | Техническое название приложения                               |
+| appTitle                     | APP_TITLE                     | Человеческое название приложения                              |
+| customer.recaptcha.secretKey | CUSTOMER_RECAPTCHA_SECRET_KEY | Секретный токен рекапчи приложения пользователя               |
+| database.uri                 | DATABASE_URI                  | Строка подключения к основной базе данных                     |
+| logs.format                  | LOGS_FORMAT                   | ФОрмат логов (plain | json)                                   |
+| loki.url                     | LOKI_URL                      | Урл для доступа в Loki. Используется для запроса бизнес-логов |
+| s3.accessKeyId               | S3_ACCESS_KEY_ID              | Идентификатор доступа для авторизации в S3                    |
+| s3.secretAccessKey           | S3_SECRET_ACCESS_KEY          | Секретный ключ для авторизации в S3                           |
+| smtp.from                    | SMTP_FROM                     | Почтовый адрес, от имени которого следует отправлять письма   |
+| smtp.host                    | SMTP_HOST                     | Хост почтового сервера                                        |
+| smtp.pass                    | SMTP_PASS                     | Пароль пользователя для авторизации на почтовом сервере       |
+| smtp.port                    | SMTP_PORT                     | Порт почтового сервера                                        |
+| smtp.user                    | SMTP_USER                     | Имя пользователя для авторизации на почтовом сервере          |

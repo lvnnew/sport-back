@@ -57,12 +57,16 @@ spec:
           value: {{ $.Values.apollo.key | quote }}
         - name: ADM_JWT_SECRET
           value: {{ $.Values.adm.jwt.secret | quote }}
+        - name: ADMIN_RECAPTCHA_SECRET_KEY
+          value: {{ $.Values.admin.recaptcha.secretKey | quote }}
         - name: APP_JWT_SECRET
           value: {{ $.Values.app.jwt.secret | quote }}
         - name: APP_NAME
           value: {{ $.Values.appName | quote }}
         - name: APP_TITLE
           value: {{ $.Values.appTitle | quote }}
+        - name: CUSTOMER_RECAPTCHA_SECRET_KEY
+          value: {{ $.Values.customer.recaptcha.secretKey | quote }}
         - name: DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
         - name: LOGS_FORMAT

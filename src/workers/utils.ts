@@ -15,7 +15,7 @@ export const constructCron = (
   name: string,
   identifier: string,
   pattern: string,
-  queued = true,
+  queued = false,
 ): CronItem => ({
   task: name,
   pattern,
@@ -27,16 +27,16 @@ export const constructCron = (
   identifier,
 });
 
-export const hourlyCron = (name: string, queued = true): CronItem =>
+export const hourlyCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}Hourly`, getHourlyCronPattern(), queued);
 
-export const fiveMinsCron = (name: string, queued = true): CronItem =>
+export const fiveMinsCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}FiveMins`, getFiveMinsCronPattern(), queued);
 
-export const oneMinCron = (name: string, queued = true): CronItem =>
+export const oneMinCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}OneMin`, getOneMinCronPattern(), queued);
 
-export const onceInSixHoursCron = (name: string, queued = true): CronItem =>
+export const onceInSixHoursCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}OnceInSixHours`, getSixHoursCronPattern(), queued);
 
 export const getQueueJobs = <T extends Record<string, any>>(jobs: T) => R.fromPairs(

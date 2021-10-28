@@ -163,9 +163,11 @@ deploy-prod-workers:
     HOST: "making.ventures"
     TAG: ":latest"
     ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
+    ADMIN_RECAPTCHA_SECRET_KEY: ${DEV_ADMIN_RECAPTCHA_SECRET_KEY}
     APP_JWT_SECRET: ${DEV_APP_JWT_SECRET}
     APP_NAME: ${DEV_APP_NAME}
     APP_TITLE: ${DEV_APP_TITLE}
+    CUSTOMER_RECAPTCHA_SECRET_KEY: ${DEV_CUSTOMER_RECAPTCHA_SECRET_KEY}
     DATABASE_URI: ${DEV_DATABASE_URI}
     LOGS_FORMAT: ${DEV_LOGS_FORMAT}
     LOKI_URL: ${DEV_LOKI_URL}
@@ -189,9 +191,11 @@ deploy-prod-workers:
     HOST: "making.ventures"
     TAG: ":release"
     ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
+    ADMIN_RECAPTCHA_SECRET_KEY: ${PROD_ADMIN_RECAPTCHA_SECRET_KEY}
     APP_JWT_SECRET: ${PROD_APP_JWT_SECRET}
     APP_NAME: ${PROD_APP_NAME}
     APP_TITLE: ${PROD_APP_TITLE}
+    CUSTOMER_RECAPTCHA_SECRET_KEY: ${PROD_CUSTOMER_RECAPTCHA_SECRET_KEY}
     DATABASE_URI: ${PROD_DATABASE_URI}
     LOGS_FORMAT: ${PROD_LOGS_FORMAT}
     LOKI_URL: ${PROD_LOKI_URL}
@@ -248,9 +252,11 @@ deploy-prod-workers:
       --set "bot.enabled=${BOT_ENABLED}"
       --set "ingress.rootEnabled=${ROOT_ENABLED}"
       --set "adm.jwt.secret=${ADM_JWT_SECRET}"
+      --set "admin.recaptcha.secretKey=${ADMIN_RECAPTCHA_SECRET_KEY}"
       --set "app.jwt.secret=${APP_JWT_SECRET}"
       --set "appName=${APP_NAME}"
       --set "appTitle=${APP_TITLE}"
+      --set "customer.recaptcha.secretKey=${CUSTOMER_RECAPTCHA_SECRET_KEY}"
       --set "database.uri=${DATABASE_URI}"
       --set "logs.format=${LOGS_FORMAT}"
       --set "loki.url=${LOKI_URL}"
