@@ -7,7 +7,7 @@ import {log} from '../log';
 const jobSummary = new Summary({
   name: 'job_summary',
   help: 'job_summary',
-  labelNames: ['appName', 'job', 'status', 'queue'],
+  labelNames: ['appName', 'jobName', 'status', 'queue'],
 });
 
 export const jobsFromFunctions = (
@@ -18,7 +18,7 @@ export const jobsFromFunctions = (
       const {appName} = await getConfig();
       const end = jobSummary.startTimer({
         appName,
-        job: helpers.job.task_identifier,
+        jobName: helpers.job.task_identifier,
         queue: helpers.job.queue_name || undefined,
       });
       try {

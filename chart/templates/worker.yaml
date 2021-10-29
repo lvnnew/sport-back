@@ -10,6 +10,10 @@ metadata:
   name: agr-{{ .name  }}-worker
   labels:
     app: agr-{{ .name  }}-worker
+    projectName: {{ $.Values.global.projectName }}
+    clusterName: {{ $.Values.global.clusterName }}
+    env: {{ $.Values.global.env }}
+    deployKind: {{ $.Values.global.deployKind }}
   annotations:
     prometheus.io/scrape: 'true'
 spec:
@@ -38,9 +42,9 @@ spec:
     metadata:
       labels:
         app: agr-{{ .name  }}-worker
-        clusterName: '{{ $.Values.global.clusterName }}'
-        env: '{{ $.Values.global.env }}'
-        deployKind: '{{ $.Values.global.deployKind }}'
+        clusterName: {{ $.Values.global.clusterName }}
+        env: {{ $.Values.global.env }}
+        deployKind: {{ $.Values.global.deployKind }}
     spec:
     {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:

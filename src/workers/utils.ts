@@ -7,6 +7,8 @@ export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * *
 
 export const getFiveMinsCronPattern = () => '*/5 * * * *';
 
+export const getTenMinsCronPattern = () => '*/5 * * * *';
+
 export const getOneMinCronPattern = () => '* * * * *';
 
 export const getSixHoursCronPattern = () => '0 */6 * * *';
@@ -32,6 +34,9 @@ export const hourlyCron = (name: string, queued = false): CronItem =>
 
 export const fiveMinsCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}FiveMins`, getFiveMinsCronPattern(), queued);
+
+export const tenMinsCron = (name: string, queued = false): CronItem =>
+  constructCron(name, `${name}TenMins`, getTenMinsCronPattern(), queued);
 
 export const oneMinCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}OneMin`, getOneMinCronPattern(), queued);
