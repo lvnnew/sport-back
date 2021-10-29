@@ -2,6 +2,8 @@ import {getQueue} from '../clients/queue/getQueue';
 import {CronItem} from 'graphile-worker';
 import {Job} from '../clients/queue/jobs/Job';
 import * as R from 'ramda';
+import {log} from '../log';
+import {Logger, LogScope} from 'graphile-worker/dist/logger';
 
 export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * * * *`;
 
@@ -56,3 +58,15 @@ export const getQueueJobs = <T extends Record<string, any>>(jobs: T) => R.fromPa
     }],
   ),
 ) as T;
+
+function logFactory(scope: LogScope) {
+  return (level: any, message: any, meta: any) => {
+    log[level]({
+      message,
+      scope,
+      meta,
+    });
+  };
+}
+
+export const graphileLogger = new Logger(logFactory);
