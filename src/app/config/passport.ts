@@ -27,7 +27,6 @@ passport.use(
           email,
         });
         await ctx.sendingEmails.sendEmailOnNewRegistration(user.id, password);
-        log.info();
         await ctx.appLogins.create({
           login: user.id.toString(),
           passwordHash: hashedPassword,
@@ -69,7 +68,6 @@ passport.use(
           numbers: true,
         });
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-        log.info();
         await ctx.prisma.appLogin.update({
           where: {
             id: login.id,

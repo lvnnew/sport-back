@@ -61,11 +61,12 @@ export const getQueueJobs = <T extends Record<string, any>>(jobs: T) => R.fromPa
 
 function logFactory(scope: LogScope) {
   return (level: any, message: any, meta: any) => {
-    log[level]({
-      message,
-      scope,
-      meta,
-    });
+    log[level](
+      message, {
+        scope,
+        meta,
+      },
+    );
   };
 }
 

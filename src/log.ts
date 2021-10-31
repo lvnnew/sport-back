@@ -1,8 +1,12 @@
-import {Logger} from 'tslog';
+import winston from 'winston';
 import {getFromNconf} from './config';
 
-export const log = new Logger({
-  maskValuesOfKeys: [],
-  name: 'adm-graph-server',
-  type: getFromNconf('logs.format') === 'json' ? 'json' : 'pretty',
+export const log = winston.createLogger({
+  defaultMeta: {
+    loggerName: 'adm-graph-server',
+  },
+  format: getFromNconf('logs.format') === 'json' ? winston.format.json() : winston.format.cli(),
+  transports: [
+    new winston.transports.Console(),
+  ],
 });

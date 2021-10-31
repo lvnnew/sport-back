@@ -67,6 +67,12 @@ export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
   // log.info(args);
   const queue = await getQueue();
 
+  const to = whitelistedEmail(args.message?.to ? args.message.to.toString() : '');
+
+  if (!to) {
+    throw new Error(`Email you wish to send to should be provided. Computed email: "${to}", original: "${args.message?.to}"`);
+  }
+
   await queue.addJob(
     Job.SendEmail,
     {
@@ -76,7 +82,7 @@ export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
       files: args.files,
       message: {
         ...args.message,
-        to: whitelistedEmail(args.message?.to ? args.message.to.toString() : ''),
+        to,
       },
     },
   );

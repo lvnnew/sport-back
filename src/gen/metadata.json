@@ -1,3111 +1,3111 @@
 {
- "name": "agr",
- "prefix": "agr",
- "needFor": "notSet",
- "deployEnvironments": [
-  {
-   "name": "stage",
-   "clusterName": "stage"
-  },
-  {
-   "name": "prod",
-   "clusterName": "stage"
-  }
- ],
- "glossary": [],
- "commands": [
-  {
-   "projectCategory": "back",
-   "name": "build",
-   "command": "(rm -rf dist || true) && tsc",
-   "needFor": "Сборки проекта"
-  },
-  {
-   "projectCategory": "back",
-   "name": "prisma:migrate",
-   "command": "DATABASE_URI=$GOS_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
-   "needFor": "Создания новой миграции базы данных"
-  },
-  {
-   "projectCategory": "back",
-   "name": "dev:stage",
-   "command": "cross-env ENV=stage yarn dev",
-   "needFor": "Запуска преокта в режиме разработки с использование stage базы данных"
-  },
-  {
-   "projectCategory": "back",
-   "name": "start",
-   "command": "cross-env NODE_ENV=production node --unhandled-rejections=strict dist/index.js",
-   "needFor": "Запуска собранного проекта"
-  },
-  {
-   "projectCategory": "back",
-   "name": "lint",
-   "command": "eslint ./src/**.ts",
-   "needFor": "Проверки проекта линтером"
-  },
-  {
-   "projectCategory": "back",
-   "name": "gen",
-   "command": "graphql-codegen --config codegen.yml",
-   "needFor": "Генерации typescript-типов на основе graphql-типов"
-  },
-  {
-   "projectCategory": "back",
-   "name": "test",
-   "command": "jest --maxWorkers 8",
-   "needFor": "Запуска тестов"
-  },
-  {
-   "projectCategory": "back",
-   "name": "prisma",
-   "command": "prisma",
-   "needFor": "Запуска cli призмы из зависимостей проекта"
-  },
-  {
-   "projectCategory": "back",
-   "name": "prisma:gen",
-   "command": "prisma generate",
-   "needFor": "Генерации prisma-клиента"
-  },
-  {
-   "projectCategory": "back",
-   "name": "prisma:deploy",
-   "command": "prisma migrate deploy --preview-feature",
-   "needFor": "Мигрирования базы данных"
-  },
-  {
-   "projectCategory": "back",
-   "name": "dev",
-   "command": "ts-node-dev --files src/index.ts",
-   "needFor": "Запуска преокта в режиме разработки"
-  },
-  {
-   "projectCategory": "back",
-   "name": "ts-node:withContext",
-   "command": "yarn ts-node ./src/init/wrap.ts",
-   "needFor": "Запуска typescript скрипта, требующего для работы контекст"
-  },
-  {
-   "projectCategory": "back",
-   "name": "init",
-   "command": "yarn ts-node src/init/baseInit.ts",
-   "needFor": "Инициализации базы данных"
-  },
-  {
-   "projectCategory": "back",
-   "name": "init:dev",
-   "command": "yarn ts-node src/init/initDev.ts",
-   "needFor": "Инициализации базы данных для разработчика или тестировщика"
-  },
-  {
-   "projectCategory": "back",
-   "name": "init:permissions",
-   "command": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
-   "needFor": "Инициализации системы ролевой модели"
-  }
- ],
- "telegramBots": [
-  "hello"
- ],
- "configVars": [
-  {
-   "needFor": "Секрет для подписи JWT-токенов приложения админки",
-   "default": "admSecret",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "adm.jwt.secret"
-  },
-  {
-   "needFor": "Публичный токен рекапчи приложения админки",
-   "default": "",
-   "scopes": [
-    "admin-app"
-   ],
-   "name": "admin.recaptcha.publicKey"
-  },
-  {
-   "needFor": "Секретный токен рекапчи приложения админки",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "admin.recaptcha.secretKey"
-  },
-  {
-   "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
-   "default": "appSecret",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "app.jwt.secret"
-  },
-  {
-   "needFor": "Техническое название приложения",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "appName"
-  },
-  {
-   "needFor": "Человеческое название приложения",
-   "default": "Agro Platform",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "appTitle"
-  },
-  {
-   "needFor": "Публичный токен рекапчи приложения пользователя",
-   "default": "",
-   "scopes": [
-    "cutomer-app"
-   ],
-   "name": "customer.recaptcha.publicKey"
-  },
-  {
-   "needFor": "Секретный токен рекапчи приложения пользователя",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "customer.recaptcha.secretKey"
-  },
-  {
-   "needFor": "Строка подключения к основной базе данных",
-   "default": "postgresql://fake:fake@127.0.0.1:5432",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "database.uri"
-  },
-  {
-   "needFor": "ФОрмат логов (plain | json)",
-   "default": "plain",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "logs.format"
-  },
-  {
-   "needFor": "Урл для доступа в Loki. Используется для запроса бизнес-логов",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "loki.url"
-  },
-  {
-   "needFor": "Идентификатор доступа для авторизации в S3",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "s3.accessKeyId"
-  },
-  {
-   "needFor": "Секретный ключ для авторизации в S3",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "s3.secretAccessKey"
-  },
-  {
-   "needFor": "Почтовый адрес, от имени которого следует отправлять письма",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "smtp.from"
-  },
-  {
-   "needFor": "Хост почтового сервера",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "smtp.host"
-  },
-  {
-   "needFor": "Пароль пользователя для авторизации на почтовом сервере",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "smtp.pass"
-  },
-  {
-   "needFor": "Порт почтового сервера",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "smtp.port"
-  },
-  {
-   "needFor": "Имя пользователя для авторизации на почтовом сервере",
-   "default": "",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "name": "smtp.user"
-  }
- ],
  "catalogs": [
   {
-   "type": "catalog",
-   "name": "appLogins",
-   "title": {
-    "en": "Logins of usual (not admins) users"
+   "deletable": false,
+   "editable": true,
+   "fields": [
+    {
+     "autoGenerated": true,
+     "category": "id",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "login",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "passwordHash",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "users",
+     "hidden": false,
+     "name": "userId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "id"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": true,
+        "name": "search"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "login"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "passwordHash"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "userId"
+       }
+      ]
+     }
+    }
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [
+    {
+     "category": "link",
+     "externalEntity": "users",
+     "hidden": false,
+     "name": "userId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "appLogins",
    "needFor": {
     "en": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Logins of usual (not admins) users"
+   },
    "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
-   },
-   "linkFields": [
-    {
-     "name": "userId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "users",
-     "category": "link"
-    }
-   ],
-   "keyField": {
-    "needFor": "",
     "hidden": false,
     "name": "id",
+    "needFor": "",
     "required": true,
     "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
     "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": true,
-     "category": "id",
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "login",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "passwordHash",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "userId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "users",
-     "category": "link"
-    }
-   ],
+   "type": "catalog",
    "uniqueConstraints": [
     [
      "login"
     ]
-   ],
+   ]
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": true,
+     "category": "id",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "date",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "date",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "entityType",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "entityId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "action",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "managerId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "users",
+     "hidden": false,
+     "name": "userId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "foreign",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "foreignEntityType",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "foreignEntityId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "actionData",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "login",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "date"
        },
        {
-        "name": "passwordHash",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "title"
        },
        {
-        "name": "userId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "entityType"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "entityId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "action"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "managerId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "userId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "foreign"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "foreignEntityType"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "foreignEntityId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "actionData"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "auditLogs",
-   "title": {
-    "en": "Audit"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "managerId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "users",
+     "hidden": false,
+     "name": "userId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "auditLogs",
    "needFor": {
     "en": "Аудит системы"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Audit"
+   },
    "titleField": {
+    "category": "scalar",
+    "hidden": false,
     "name": "title",
+    "needFor": "",
     "required": true,
     "requiredOnInput": true,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
     "searchable": true,
     "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [
-    {
-     "name": "managerId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    },
-    {
-     "name": "userId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "users",
-     "category": "link"
-    }
-   ],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
     "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "updatableByUser": true
    },
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
+   "deletable": false,
+   "editable": true,
    "fields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
      "autoGenerated": true,
      "category": "id",
      "constantOnCreate": false,
      "constantOnUpdate": false,
-     "type": "int"
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
+     "category": "scalar",
      "defaultValueExpression": "''",
      "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
      "searchable": false,
      "type": "string",
-     "category": "scalar"
+     "updatable": true,
+     "updatableByUser": false
     },
     {
-     "name": "date",
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "fromId",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "toId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
      "constantOnCreate": false,
      "constantOnUpdate": false,
+     "hidden": false,
+     "name": "expiresAt",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
      "type": "date",
-     "category": "scalar"
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "title",
+     "category": "scalar",
+     "hidden": false,
+     "name": "active",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "entityType",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "entityId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "action",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "managerId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    },
-    {
-     "name": "userId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "users",
-     "category": "link"
-    },
-    {
-     "name": "foreign",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": false,
      "type": "bool",
-     "category": "scalar"
-    },
-    {
-     "name": "foreignEntityType",
-     "required": false,
-     "requiredOnInput": null,
      "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "foreignEntityId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "actionData",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
+     "updatableByUser": true
     }
    ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "date",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "fromId"
        },
        {
-        "name": "title",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "toId"
        },
        {
-        "name": "entityType",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "expiresAt"
        },
        {
-        "name": "entityId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "action",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "managerId",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "userId",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "foreign",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "foreignEntityType",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "foreignEntityId",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "actionData",
-        "hidden": false,
-        "alwaysOn": false
+        "name": "active"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "delegations",
-   "title": {
-    "en": "Delegations"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "fromId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "toId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "delegations",
    "needFor": {
     "en": "Делегирование прав между пользователями"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Delegations"
+   },
    "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
-   },
-   "linkFields": [
-    {
-     "name": "fromId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    },
-    {
-     "name": "toId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    }
-   ],
-   "keyField": {
-    "needFor": "",
     "hidden": false,
     "name": "id",
+    "needFor": "",
     "required": true,
     "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
     "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
+   "deletable": false,
+   "editable": true,
    "fields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
      "autoGenerated": true,
      "category": "id",
      "constantOnCreate": false,
      "constantOnUpdate": false,
-     "type": "int"
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
+     "category": "scalar",
      "defaultValueExpression": "''",
      "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
      "searchable": false,
      "type": "string",
-     "category": "scalar"
+     "updatable": true,
+     "updatableByUser": false
     },
     {
-     "name": "fromId",
+     "category": "scalar",
+     "hidden": false,
+     "name": "originalName",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "toId",
+     "category": "scalar",
+     "hidden": false,
+     "name": "url",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "expiresAt",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
+     "category": "scalar",
      "hidden": false,
-     "searchable": true,
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "date",
-     "category": "scalar"
-    },
-    {
-     "name": "active",
+     "name": "mimetype",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
      "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
      "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
+     "name": "s3Key",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "eTag",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "fromId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "originalName"
        },
        {
-        "name": "toId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "url"
        },
        {
-        "name": "expiresAt",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "mimetype"
        },
        {
-        "name": "active",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "s3Key"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "eTag"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
+   },
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
    "name": "files",
+   "needFor": {},
+   "singleKey": true,
    "title": {
     "en": "Files"
    },
-   "singleKey": true,
-   "needFor": {},
    "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
     "hidden": false,
     "name": "id",
+    "needFor": "",
     "required": true,
     "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
     "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": true,
-     "category": "id",
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "originalName",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "url",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "mimetype",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "s3Key",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "eTag",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": false,
+     "category": "id",
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "originalName",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "url",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "mimetype",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "s3Key",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "eTag",
-        "hidden": false,
-        "alwaysOn": false
+        "name": "title"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
+   },
+   "keyField": {
+    "autoGenerated": false,
+    "category": "id",
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
    "name": "languages",
+   "needFor": {},
+   "singleKey": true,
    "title": {
     "en": "Languages"
    },
-   "singleKey": true,
-   "needFor": {},
    "titleField": {
+    "category": "scalar",
+    "hidden": false,
     "name": "title",
+    "needFor": "",
     "required": false,
     "requiredOnInput": null,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
     "searchable": true,
     "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
     "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": false,
-    "category": "id",
-    "type": "string"
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": false,
-     "category": "id",
-     "type": "string"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": true,
+     "category": "id",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "login",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "passwordHash",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "role",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "emailVerified",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "initialPasswordChanged",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "locked",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "managerId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "title",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "login"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "passwordHash"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "role"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "emailVerified"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "initialPasswordChanged"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "locked"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "managerId"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "managerLogins",
-   "title": {
-    "en": "Manager logins"
    },
-   "singleKey": true,
-   "needFor": {
-    "en": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
-   },
-   "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
+   "keyField": {
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
    "linkFields": [
     {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
      "name": "managerId",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "managerLogins",
+   "needFor": {
+    "en": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
+   },
+   "singleKey": true,
+   "title": {
+    "en": "Manager logins"
+   },
+   "titleField": {
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": true,
-     "category": "id",
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "login",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "passwordHash",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "role",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "emailVerified",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
-    },
-    {
-     "name": "initialPasswordChanged",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
-    },
-    {
-     "name": "locked",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
-    },
-    {
-     "name": "managerId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    }
-   ],
+   "type": "catalog",
    "uniqueConstraints": [
     [
      "login"
     ]
-   ],
+   ]
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": true,
+     "category": "id",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "lastName",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "firstName",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "languages",
+     "hidden": false,
+     "name": "languageId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "email",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "telegramLogin",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "units",
+     "hidden": false,
+     "name": "unitId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "headOfUnit",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "active",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "login",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "title"
        },
        {
-        "name": "passwordHash",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "lastName"
        },
        {
-        "name": "role",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "firstName"
        },
        {
-        "name": "emailVerified",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "languageId"
        },
        {
-        "name": "initialPasswordChanged",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "email"
        },
        {
-        "name": "locked",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "telegramLogin"
        },
        {
-        "name": "managerId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "unitId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "headOfUnit"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "active"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "managers",
-   "title": {
-    "en": "Manager"
    },
-   "singleKey": true,
-   "needFor": {
-    "en": "Менеджерские (административные) аккаунты"
-   },
-   "titleField": {
-    "name": "title",
-    "required": false,
-    "requiredOnInput": null,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
-    "searchable": true,
-    "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [
-    {
-     "name": "languageId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "externalEntity": "languages",
-     "category": "link"
-    },
-    {
-     "name": "unitId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "units",
-     "category": "link"
-    }
-   ],
    "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
-   "fields": [
+   "linkFields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": true,
-     "category": "id",
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "lastName",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "firstName",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "languageId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
+     "category": "link",
      "externalEntity": "languages",
-     "category": "link"
-    },
-    {
-     "name": "email",
+     "hidden": false,
+     "name": "languageId",
+     "needFor": "",
      "required": false,
      "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "telegramLogin",
-     "required": false,
-     "requiredOnInput": null,
      "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
+     "updatableByUser": true
     },
     {
+     "category": "link",
+     "externalEntity": "units",
+     "hidden": false,
      "name": "unitId",
+     "needFor": "",
      "required": false,
      "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "int",
-     "externalEntity": "units",
-     "category": "link"
-    },
-    {
-     "name": "headOfUnit",
-     "required": true,
-     "requiredOnInput": true,
      "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
-    },
-    {
-     "name": "active",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
+     "updatableByUser": true
     }
    ],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "managers",
+   "needFor": {
+    "en": "Менеджерские (административные) аккаунты"
+   },
+   "singleKey": true,
+   "title": {
+    "en": "Manager"
+   },
+   "titleField": {
+    "category": "scalar",
+    "hidden": false,
+    "name": "title",
+    "needFor": "",
+    "required": false,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "type": "catalog",
    "uniqueConstraints": [
     [
      "email"
     ]
-   ],
+   ]
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": true,
+     "category": "id",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "managerId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "permissions",
+     "hidden": false,
+     "name": "permissionId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "title",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "managerId"
        },
        {
-        "name": "lastName",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "firstName",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "languageId",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "email",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "telegramLogin",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "unitId",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "headOfUnit",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "active",
-        "hidden": false,
-        "alwaysOn": false
+        "name": "permissionId"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "managersToPermissions",
-   "title": {
-    "en": "Managers To Permissions"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "managerId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "permissions",
+     "hidden": false,
+     "name": "permissionId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "managersToPermissions",
    "needFor": {
     "en": "Соединение, которым менеджерам назначаются пермишны в обход ролей"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Managers To Permissions"
+   },
    "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
-   },
-   "linkFields": [
-    {
-     "name": "managerId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    },
-    {
-     "name": "permissionId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "externalEntity": "permissions",
-     "category": "link"
-    }
-   ],
-   "keyField": {
-    "needFor": "",
     "hidden": false,
     "name": "id",
+    "needFor": "",
     "required": true,
     "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
     "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
+   "deletable": false,
+   "editable": true,
    "fields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
      "autoGenerated": true,
      "category": "id",
      "constantOnCreate": false,
      "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "managerId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
      "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
      "searchable": true,
      "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "permissionId",
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
+     "name": "managerId",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
+     "searchable": true,
+     "type": "int",
      "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "roles",
      "hidden": false,
+     "name": "roleId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
      "searchable": true,
      "type": "string",
-     "externalEntity": "permissions",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "managerId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "managerId"
        },
        {
-        "name": "permissionId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "roleId"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "managersToRoles",
-   "title": {
-    "en": "Managers To Roles"
    },
-   "singleKey": true,
-   "needFor": {
-    "en": "Соединение, которым менеджерам назначаются роли"
-   },
-   "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
+   "keyField": {
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
    "linkFields": [
     {
+     "category": "link",
+     "externalEntity": "managers",
+     "hidden": false,
      "name": "managerId",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
     },
     {
+     "category": "link",
+     "externalEntity": "roles",
+     "hidden": false,
      "name": "roleId",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "string",
-     "externalEntity": "roles",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "managersToRoles",
+   "needFor": {
+    "en": "Соединение, которым менеджерам назначаются роли"
+   },
+   "singleKey": true,
+   "title": {
+    "en": "Managers To Roles"
+   },
+   "titleField": {
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": true,
-     "category": "id",
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "managerId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "int",
-     "externalEntity": "managers",
-     "category": "link"
-    },
-    {
-     "name": "roleId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "externalEntity": "roles",
-     "category": "link"
-    }
-   ],
+   "type": "catalog",
    "uniqueConstraints": [
     [
      "managerId",
      "roleId"
     ]
-   ],
+   ]
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": false,
+     "category": "id",
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "secretData",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "managerId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "title"
        },
        {
-        "name": "roleId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "secretData"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "messageTemplates",
-   "title": {
-    "en": "Message templates"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": false,
+    "category": "id",
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "messageTemplates",
    "needFor": {
     "en": "Шаблоны сообщений"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Message templates"
+   },
    "titleField": {
+    "category": "scalar",
+    "hidden": false,
     "name": "title",
+    "needFor": "",
     "required": true,
     "requiredOnInput": true,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
     "searchable": true,
     "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
     "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": false,
-    "category": "id",
-    "type": "string"
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": false,
-     "category": "id",
-     "type": "string"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "secretData",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": false,
+     "category": "id",
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "title",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "secretData",
-        "hidden": false,
-        "alwaysOn": false
+        "name": "title"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "permissions",
-   "title": {
-    "en": "Permissions"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": false,
+    "category": "id",
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "permissions",
    "needFor": {
     "en": "Разрешение на совершение той или иной операции"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Permissions"
+   },
    "titleField": {
+    "category": "scalar",
+    "hidden": false,
     "name": "title",
+    "needFor": "",
     "required": false,
     "requiredOnInput": null,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
     "searchable": true,
     "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
     "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": false,
-    "category": "id",
-    "type": "string"
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": false,
-     "category": "id",
-     "type": "string"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": false,
+     "category": "id",
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "hasFullAccess",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": false,
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "title",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "title"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "hasFullAccess"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "roles",
-   "title": {
-    "en": "Roles"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": false,
+    "category": "id",
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "roles",
    "needFor": {
     "en": "Роли, определющие права на те или иные операции"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Roles"
+   },
    "titleField": {
+    "category": "scalar",
+    "hidden": false,
     "name": "title",
+    "needFor": "",
     "required": false,
     "requiredOnInput": null,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
     "searchable": true,
     "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
     "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": false,
-    "category": "id",
-    "type": "string"
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": false,
-     "category": "id",
-     "type": "string"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "hasFullAccess",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": false,
-     "type": "bool",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
-   "forms": {
-    "listForm": {
-     "filter": {
-      "fields": [
-       {
-        "name": "id",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "search",
-        "hidden": true,
-        "alwaysOn": false
-       },
-       {
-        "name": "title",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "hasFullAccess",
-        "hidden": false,
-        "alwaysOn": false
-       }
-      ]
-     }
-    }
-   }
+   "type": "catalog",
+   "uniqueConstraints": []
   },
   {
-   "type": "catalog",
-   "name": "rolesToPermissions",
-   "title": {
-    "en": "Roles To Permissions"
-   },
-   "singleKey": true,
-   "needFor": {
-    "en": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
-   },
-   "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
-   },
-   "linkFields": [
-    {
-     "name": "roleId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "externalEntity": "roles",
-     "category": "link"
-    },
-    {
-     "name": "permissionId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "externalEntity": "permissions",
-     "category": "link"
-    }
-   ],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
-   },
+   "deletable": false,
+   "editable": true,
    "fields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
      "autoGenerated": true,
      "category": "id",
      "constantOnCreate": false,
      "constantOnUpdate": false,
-     "type": "int"
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
+     "category": "scalar",
      "defaultValueExpression": "''",
      "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
      "searchable": false,
      "type": "string",
-     "category": "scalar"
+     "updatable": true,
+     "updatableByUser": false
     },
     {
-     "name": "roleId",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
+     "category": "link",
      "externalEntity": "roles",
-     "category": "link"
-    },
-    {
-     "name": "permissionId",
+     "hidden": false,
+     "name": "roleId",
+     "needFor": "",
      "required": true,
      "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
      "externalEntity": "permissions",
-     "category": "link"
+     "hidden": false,
+     "name": "permissionId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
+   "forms": {
+    "listForm": {
+     "filter": {
+      "fields": [
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "id"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": true,
+        "name": "search"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "roleId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "permissionId"
+       }
+      ]
+     }
+    }
+   },
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [
+    {
+     "category": "link",
+     "externalEntity": "roles",
+     "hidden": false,
+     "name": "roleId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "permissions",
+     "hidden": false,
+     "name": "permissionId",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "rolesToPermissions",
+   "needFor": {
+    "en": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
+   },
+   "singleKey": true,
+   "title": {
+    "en": "Roles To Permissions"
+   },
+   "titleField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "type": "catalog",
    "uniqueConstraints": [
     [
      "roleId",
      "permissionId"
     ]
-   ],
+   ]
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": false,
+     "category": "id",
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "updated",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "datetime",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "helloCount",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "roleId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "updated"
        },
        {
-        "name": "permissionId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "helloCount"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "stats",
-   "title": {
-    "en": "Stats"
    },
-   "singleKey": true,
+   "keyField": {
+    "autoGenerated": false,
+    "category": "id",
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "stats",
    "needFor": {
     "en": "Статистика"
    },
+   "singleKey": true,
+   "title": {
+    "en": "Stats"
+   },
    "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": false,
     "category": "id",
-    "type": "string"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
     "hidden": false,
     "name": "id",
+    "needFor": "",
     "required": true,
     "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
     "searchable": true,
-    "autoGenerated": false,
-    "category": "id",
-    "type": "string"
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": false,
-     "category": "id",
-     "type": "string"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "updated",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "datetime",
-     "category": "scalar"
-    },
-    {
-     "name": "helloCount",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
    "deletable": false,
    "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
+   "fields": [
+    {
+     "autoGenerated": true,
+     "category": "id",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "comment",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    }
+   ],
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "updated",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "helloCount",
-        "hidden": false,
-        "alwaysOn": false
+        "name": "comment"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
+   },
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
    "name": "tags",
+   "needFor": {},
+   "singleKey": true,
    "title": {
     "en": "Tags"
    },
-   "singleKey": true,
-   "needFor": {},
    "titleField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
     "autoGenerated": true,
     "category": "id",
     "constantOnCreate": false,
     "constantOnUpdate": false,
-    "type": "int"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
     "hidden": false,
     "name": "id",
+    "needFor": "",
     "required": true,
     "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
     "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
+   "deletable": false,
+   "editable": true,
    "fields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
      "autoGenerated": true,
      "category": "id",
      "constantOnCreate": false,
      "constantOnUpdate": false,
-     "type": "int"
+     "hidden": false,
+     "name": "id",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     },
     {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
+     "category": "scalar",
      "defaultValueExpression": "''",
      "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
      "searchable": false,
      "type": "string",
-     "category": "scalar"
+     "updatable": true,
+     "updatableByUser": false
     },
     {
-     "name": "comment",
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
      "required": false,
      "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "string",
-     "category": "scalar"
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "externalEntity": "units",
+     "hidden": false,
+     "name": "parentId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "comment",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "title"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "parentId"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
-   "name": "units",
-   "title": {
-    "en": "Units"
    },
-   "singleKey": true,
-   "needFor": {},
-   "titleField": {
-    "name": "title",
-    "required": false,
-    "requiredOnInput": null,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
     "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
     "searchable": true,
-    "type": "string",
-    "category": "scalar"
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
    },
    "linkFields": [
     {
+     "category": "link",
+     "externalEntity": "units",
+     "hidden": false,
      "name": "parentId",
+     "needFor": "",
      "required": false,
      "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
      "searchable": true,
      "type": "int",
-     "externalEntity": "units",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
-    "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "units",
+   "needFor": {},
+   "singleKey": true,
+   "title": {
+    "en": "Units"
    },
+   "titleField": {
+    "category": "scalar",
+    "hidden": false,
+    "name": "title",
+    "needFor": "",
+    "required": false,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "string",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "type": "catalog",
+   "uniqueConstraints": []
+  },
+  {
+   "deletable": false,
+   "editable": true,
    "fields": [
     {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
      "autoGenerated": true,
      "category": "id",
      "constantOnCreate": false,
      "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
      "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "parentId",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
+     "name": "id",
      "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
+     "required": true,
+     "requiredOnInput": null,
      "searchable": true,
      "type": "int",
-     "externalEntity": "units",
-     "category": "link"
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "defaultValueExpression": "''",
+     "hidden": true,
+     "name": "search",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": false,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": false
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "title",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "lastname",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "firstname",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "email",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
    "forms": {
     "listForm": {
      "filter": {
       "fields": [
        {
-        "name": "id",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "id"
        },
        {
-        "name": "search",
+        "alwaysOn": false,
         "hidden": true,
-        "alwaysOn": false
+        "name": "search"
        },
        {
-        "name": "title",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "title"
        },
        {
-        "name": "parentId",
+        "alwaysOn": false,
         "hidden": false,
-        "alwaysOn": false
+        "name": "lastname"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "firstname"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "email"
        }
       ]
      }
     }
-   }
-  },
-  {
-   "type": "catalog",
+   },
+   "keyField": {
+    "autoGenerated": true,
+    "category": "id",
+    "constantOnCreate": false,
+    "constantOnUpdate": false,
+    "hidden": false,
+    "name": "id",
+    "needFor": "",
+    "required": true,
+    "requiredOnInput": null,
+    "searchable": true,
+    "type": "int",
+    "updatable": true,
+    "updatableByUser": true
+   },
+   "linkFields": [],
+   "materialUiIcon": "Brightness1Outlined",
    "name": "users",
+   "needFor": {},
+   "singleKey": true,
    "title": {
     "en": "Users"
    },
-   "singleKey": true,
-   "needFor": {},
    "titleField": {
+    "category": "scalar",
+    "hidden": false,
     "name": "title",
+    "needFor": "",
     "required": false,
     "requiredOnInput": null,
-    "updatable": true,
-    "needFor": "",
-    "updatableByUser": true,
-    "hidden": false,
     "searchable": true,
     "type": "string",
-    "category": "scalar"
-   },
-   "linkFields": [],
-   "keyField": {
-    "needFor": "",
-    "hidden": false,
-    "name": "id",
-    "required": true,
-    "requiredOnInput": null,
     "updatable": true,
-    "updatableByUser": true,
-    "searchable": true,
-    "autoGenerated": true,
-    "category": "id",
-    "constantOnCreate": false,
-    "constantOnUpdate": false,
-    "type": "int"
+    "updatableByUser": true
    },
-   "fields": [
-    {
-     "needFor": "",
-     "hidden": false,
-     "name": "id",
-     "required": true,
-     "requiredOnInput": null,
-     "updatable": true,
-     "updatableByUser": true,
-     "searchable": true,
-     "autoGenerated": true,
-     "category": "id",
-     "constantOnCreate": false,
-     "constantOnUpdate": false,
-     "type": "int"
-    },
-    {
-     "name": "search",
-     "required": false,
-     "requiredOnInput": false,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": false,
-     "defaultValueExpression": "''",
-     "hidden": true,
-     "searchable": false,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "title",
-     "required": false,
-     "requiredOnInput": null,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "lastname",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "firstname",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    },
-    {
-     "name": "email",
-     "required": true,
-     "requiredOnInput": true,
-     "updatable": true,
-     "needFor": "",
-     "updatableByUser": true,
-     "hidden": false,
-     "searchable": true,
-     "type": "string",
-     "category": "scalar"
-    }
-   ],
-   "uniqueConstraints": [],
-   "deletable": false,
-   "editable": true,
-   "materialUiIcon": "Brightness1Outlined",
-   "forms": {
-    "listForm": {
-     "filter": {
-      "fields": [
-       {
-        "name": "id",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "search",
-        "hidden": true,
-        "alwaysOn": false
-       },
-       {
-        "name": "title",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "lastname",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "firstname",
-        "hidden": false,
-        "alwaysOn": false
-       },
-       {
-        "name": "email",
-        "hidden": false,
-        "alwaysOn": false
-       }
-      ]
-     }
-    }
-   }
+   "type": "catalog",
+   "uniqueConstraints": []
+  }
+ ],
+ "commands": [
+  {
+   "command": "(rm -rf dist || true) && tsc",
+   "name": "build",
+   "needFor": "Сборки проекта",
+   "projectCategory": "back"
+  },
+  {
+   "command": "DATABASE_URI=$GOS_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
+   "name": "prisma:migrate",
+   "needFor": "Создания новой миграции базы данных",
+   "projectCategory": "back"
+  },
+  {
+   "command": "cross-env ENV=stage yarn dev",
+   "name": "dev:stage",
+   "needFor": "Запуска преокта в режиме разработки с использование stage базы данных",
+   "projectCategory": "back"
+  },
+  {
+   "command": "cross-env NODE_ENV=production node --unhandled-rejections=strict dist/index.js",
+   "name": "start",
+   "needFor": "Запуска собранного проекта",
+   "projectCategory": "back"
+  },
+  {
+   "command": "eslint ./src/**.ts",
+   "name": "lint",
+   "needFor": "Проверки проекта линтером",
+   "projectCategory": "back"
+  },
+  {
+   "command": "graphql-codegen --config codegen.yml",
+   "name": "gen",
+   "needFor": "Генерации typescript-типов на основе graphql-типов",
+   "projectCategory": "back"
+  },
+  {
+   "command": "jest --maxWorkers 8",
+   "name": "test",
+   "needFor": "Запуска тестов",
+   "projectCategory": "back"
+  },
+  {
+   "command": "prisma",
+   "name": "prisma",
+   "needFor": "Запуска cli призмы из зависимостей проекта",
+   "projectCategory": "back"
+  },
+  {
+   "command": "prisma generate",
+   "name": "prisma:gen",
+   "needFor": "Генерации prisma-клиента",
+   "projectCategory": "back"
+  },
+  {
+   "command": "prisma migrate deploy --preview-feature",
+   "name": "prisma:deploy",
+   "needFor": "Мигрирования базы данных",
+   "projectCategory": "back"
+  },
+  {
+   "command": "ts-node-dev --files src/index.ts",
+   "name": "dev",
+   "needFor": "Запуска преокта в режиме разработки",
+   "projectCategory": "back"
+  },
+  {
+   "command": "yarn ts-node ./src/init/wrap.ts",
+   "name": "ts-node:withContext",
+   "needFor": "Запуска typescript скрипта, требующего для работы контекст",
+   "projectCategory": "back"
+  },
+  {
+   "command": "yarn ts-node src/init/baseInit.ts",
+   "name": "init",
+   "needFor": "Инициализации базы данных",
+   "projectCategory": "back"
+  },
+  {
+   "command": "yarn ts-node src/init/initDev.ts",
+   "name": "init:dev",
+   "needFor": "Инициализации базы данных для разработчика или тестировщика",
+   "projectCategory": "back"
+  },
+  {
+   "command": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
+   "name": "init:permissions",
+   "needFor": "Инициализации системы ролевой модели",
+   "projectCategory": "back"
+  }
+ ],
+ "configVars": [
+  {
+   "default": "admSecret",
+   "name": "adm.jwt.secret",
+   "needFor": "Секрет для подписи JWT-токенов приложения админки",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "admin.recaptcha.publicKey",
+   "needFor": "Публичный токен рекапчи приложения админки",
+   "scopes": [
+    "admin-app"
+   ]
+  },
+  {
+   "default": "",
+   "name": "admin.recaptcha.secretKey",
+   "needFor": "Секретный токен рекапчи приложения админки",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "appSecret",
+   "name": "app.jwt.secret",
+   "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "appName",
+   "needFor": "Техническое название приложения",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "Agro Platform",
+   "name": "appTitle",
+   "needFor": "Человеческое название приложения",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "customer.recaptcha.publicKey",
+   "needFor": "Публичный токен рекапчи приложения пользователя",
+   "scopes": [
+    "cutomer-app"
+   ]
+  },
+  {
+   "default": "",
+   "name": "customer.recaptcha.secretKey",
+   "needFor": "Секретный токен рекапчи приложения пользователя",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "postgresql://fake:fake@127.0.0.1:5432",
+   "name": "database.uri",
+   "needFor": "Строка подключения к основной базе данных",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "plain",
+   "name": "logs.format",
+   "needFor": "ФОрмат логов (plain | json)",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "loki.url",
+   "needFor": "Урл для доступа в Loki. Используется для запроса бизнес-логов",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "s3.accessKeyId",
+   "needFor": "Идентификатор доступа для авторизации в S3",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "s3.secretAccessKey",
+   "needFor": "Секретный ключ для авторизации в S3",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "smtp.from",
+   "needFor": "Почтовый адрес, от имени которого следует отправлять письма",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "smtp.host",
+   "needFor": "Хост почтового сервера",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "smtp.pass",
+   "needFor": "Пароль пользователя для авторизации на почтовом сервере",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "smtp.port",
+   "needFor": "Порт почтового сервера",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "smtp.user",
+   "needFor": "Имя пользователя для авторизации на почтовом сервере",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  }
+ ],
+ "defaultLanguage": "en",
+ "deployEnvironments": [
+  {
+   "clusterName": "stage",
+   "name": "stage"
+  },
+  {
+   "clusterName": "stage",
+   "name": "prod"
   }
  ],
  "documents": [],
+ "glossary": [],
  "infoRegistries": [],
- "sumRegistries": [],
  "languages": [
   "en"
  ],
- "defaultLanguage": "en",
+ "name": "agr",
+ "needFor": "notSet",
+ "prefix": "agr",
  "reports": [],
- "restApis": []
+ "restApis": [],
+ "sumRegistries": [],
+ "telegramBots": [
+  "hello"
+ ]
 }
