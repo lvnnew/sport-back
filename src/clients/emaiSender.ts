@@ -120,13 +120,18 @@ export const getEmailSender = async () => {
       log.info('attachments');
       log.info(attachments);
 
+      const to = whitelistedEmail(options.message?.to?.toString() || '').toLowerCase();
+      if (!to) {
+        throw new Error('Email you wish to send to should be provided');
+      }
+
       const interceptedOptions = {
         ...options,
         template: options.template && options.lang ? `${options.template}${sentenceCase(options.lang)}` : options.template,
         message: {
           ...options.message,
           attachments,
-          to: whitelistedEmail(options.message?.to?.toString() || ''),
+          to,
         },
       };
       log.info(options);

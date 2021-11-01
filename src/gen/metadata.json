@@ -3107,5 +3107,27 @@
  "sumRegistries": [],
  "telegramBots": [
   "hello"
+ ],
+ "workers": [
+  {
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "emails",
+   "needFor": {
+    "en": "Для отправки почты"
+   },
+   "title": {
+    "en": "Отправка почты"
+   }
+  },
+  {
+   "materialUiIcon": "Brightness1Outlined",
+   "name": "general",
+   "needFor": {
+    "en": "Для выполнения тасков общего назначения"
+   },
+   "title": {
+    "en": "Таски общего назначения"
+   }
+  }
  ]
 }

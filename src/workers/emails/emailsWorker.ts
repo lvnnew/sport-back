@@ -1,18 +1,18 @@
-/* eslint-disable promise/prefer-await-to-callbacks */
-import {log} from '../log';
+import {log} from '../../log';
 import exitHook from 'exit-hook';
 import express, {Request, Response} from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
-import {run, parseCronItems} from 'graphile-worker';
-import {getConfig} from '../config';
-import {generalJobs} from './generalJobs';
-import {generalCronJobs} from './generalCronJobs';
-import {closeCtx} from '../adm/services/context';
-import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
-import {jobsFromFunctions} from '../jobs/jobsFromFunctions';
-import {graphileLogger} from './utils';
+import {run} from 'graphile-worker';
+import {getConfig} from '../../config';
+import {emailsJobs} from './emailsJobs';
+import {closeCtx} from '../../adm/services/context';
+import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
+import {jobsFromFunctions} from '../../jobs/jobsFromFunctions';
+import {graphileLogger} from '../utils';
+import '../../utils/polyfills/BigInt';
 
-// yarn ts-node src/workers/generalWorker.ts
+// yarn ts-node src/workers/emails/emailsWorker.ts
+// ENV=stage yarn ts-node src/workers/emails/emailsWorker.ts
 
 exitHook(async () => {
   await closeCtx();
@@ -37,32 +37,31 @@ app.get('/metrics', async (_req, res) => {
   }
 });
 
-const startExpress = async () => {
-  const port = 3000;
-  app.listen({port}, () => {
-    log.info(`🚀 Server ready at http://localhost:${port}`);
-  });
-};
+// const startExpress = async () => {
+//   const port = 3000;
+//   app.listen({port}, () => {
+//     log.info(`🚀 Server ready at http://localhost:${port}`);
+//   });
+// };
 
-startExpress()
-  .catch(error => log.error(error));
+// startExpress()
+//   .catch(error => log.error(error));
 
-const generalWorker = async (appName = 'someBack_generalWorker') => {
+const emailsWorker = async (appName = 'someBack_emailsWorker') => {
   const config = await getConfig();
   const runner = await run({
     connectionString: addParamsToDatabaseUri(config.databaseUri, {
       application_name: appName,
       ...(process.env.NODE_ENV === 'production' ? {} : {connection_limit: '1'}),
     }),
-    concurrency: 3,
+    concurrency: 1,
     noHandleSignals: false,
     pollInterval: 1000,
-    taskList: jobsFromFunctions(generalJobs),
-    parsedCronItems: parseCronItems(generalCronJobs),
+    taskList: jobsFromFunctions(emailsJobs),
     logger: graphileLogger,
   });
   log.info('start');
   await runner.promise;
 };
 
-generalWorker();
+emailsWorker();

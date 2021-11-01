@@ -55,8 +55,10 @@ worker:
     cpu: "1"
 
 workers:
+  - name: emails
+    file: dist/workers/emails/emailsWorker.js
   - name: general
-    file: dist/workers/generalWorker.js
+    file: dist/workers/general/generalWorker.js
 
 bot:
   enabled: false
