@@ -10,7 +10,7 @@ const jobSummary = new Summary({
   labelNames: ['appName', 'jobName', 'status', 'queue'],
 });
 
-export const jobsFromFunctions = (
+const jobsFromFunctions = (
   fns: Record<string, (payload: any, helpers: JobHelpers) => Promise<void>>,
 ) => fromPairs(
   toPairs(fns).map(([name, handler]) => {
@@ -40,3 +40,5 @@ export const jobsFromFunctions = (
     return [name, overridedHandler];
   }),
 );
+
+export default jobsFromFunctions;

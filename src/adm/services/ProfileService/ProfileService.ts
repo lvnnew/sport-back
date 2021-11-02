@@ -3,7 +3,6 @@ import {Context} from '../context';
 
 import {PermissionsWithMeta} from '../../../generated/graphql';
 import {KeyValuePair} from 'ramda';
-import {log} from '../../../log';
 
 export const BASE_MILES_TO_RECEIVE_FOR_FLIGHT = 1000;
 export const BASE_MILES_TO_UPGRADE_CLASS = 1000;
@@ -89,8 +88,6 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
     const ctx = getCtx();
 
     const permissions = await ctx.profile.getPermissionsOfManagerWithMeta(managerId);
-    log.info('permissions');
-    log.info(permissions);
 
     return R.uniq(permissions.map(el => el.permissionId));
   };

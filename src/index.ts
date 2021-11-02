@@ -76,6 +76,9 @@ app.get('/metrics', async (_req, res) => {
 
 app.use('/rest', restRouter);
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = (_arg: any) => {};
+
 const start = async () => {
   const baseContext = await getOrCreateBaseContext();
   const context = await getOrCreateContext();
@@ -109,21 +112,26 @@ const start = async () => {
           resolutionContext.operation.selectionSet.selections.forEach((selection: SelectionNode) => {
             if (selection.kind === 'Field') {
               const {name: {value: operationName}} = selection;
-              log.info(typeof getManagerId);
-              log.info(getManagerId());
+              noop(operationName);
+              noop(getManagerId);
+              noop(flattenGraphqlToPermission);
+              noop(AuthenticationError);
+
+              // log.info(typeof getManagerId);
+              // log.info(getManagerId());
 
               // log.info(getManagerPermissions());
 
               // log.info(Object.keys(context));
 
-              log.info(operationName);
-              log.info(`operationName: ${operationName}`);
+              // log.info(operationName);
+              // log.info(`operationName: ${operationName}`);
 
-              const permission = flattenGraphqlToPermission[operationName];
-              log.info(`permission: ${permission}`);
-              log.info(`allActionSources: ${flattenGraphqlToPermission.allActionSources}`);
+              // const permission = flattenGraphqlToPermission[operationName];
+              // log.info(`permission: ${permission}`);
+              // log.info(`allActionSources: ${flattenGraphqlToPermission.allActionSources}`);
 
-              log.info(typeof AuthenticationError);
+              // log.info(typeof AuthenticationError);
 
               // if (!permission) {
               //   throw new AuthenticationError(`There is no permission for "${operationName}"`);

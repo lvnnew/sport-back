@@ -7,7 +7,7 @@ import {getConfig} from '../../config';
 import {emailsJobs} from './emailsJobs';
 import {closeCtx} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
-import {jobsFromFunctions} from '../../jobs/jobsFromFunctions';
+import jobsFromFunctions from '../../jobs/jobsFromFunctions';
 import {graphileLogger} from '../utils';
 import '../../utils/polyfills/BigInt';
 
