@@ -1,13 +1,19 @@
 import {constantCase} from 'change-case';
 import nconf from 'nconf';
+import {existsSync} from 'fs';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 nconf
   .argv()
   .env()
-  .file({file: './config/default.json'})
-  .file({file: `./config/${process.env.ENV || 'dev'}.json`});
+  .file({file: './config/default.json'});
+
+const file = `./config/${process.env.ENV || 'dev'}.json`;
+
+if (existsSync(file)) {
+  nconf.file({file});
+}
 
 export const getFromNconf = (name: string) => nconf.get(constantCase(name)) || nconf.get(name) || '';
 
