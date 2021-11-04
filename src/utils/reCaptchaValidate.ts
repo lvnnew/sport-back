@@ -7,7 +7,7 @@ interface reCaptchaResponse {
   score: number;
 }
 
-async function reCaptchaValidate(token: string): Promise<boolean> {
+async function reCaptchaValidate(token: string): Promise<{validated: boolean; score: number;}> {
   const {customerRecaptchaSecretKey} = await getConfig();
 
   try {
@@ -16,12 +16,19 @@ async function reCaptchaValidate(token: string): Promise<boolean> {
     );
 
     log.info(res.data);
+    const score = res.data.success && res.data.score || 0;
 
-    return res.data.success && res.data.score >= 0.9;
+    return {
+      validated: score >= 0.7,
+      score,
+    };
   } catch (error) {
     log.info(error);
 
-    return false;
+    return {
+      validated: false,
+      score: 0,
+    };
   }
 }
 

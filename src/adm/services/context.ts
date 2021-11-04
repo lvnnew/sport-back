@@ -6,6 +6,8 @@ import {getPostgres} from '../../clients/postgres';
 import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
+import {Logger} from 'winston';
+import {log} from '../../log';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
 import {AuditLogsService, getAuditLogsService} from './AuditLogsService/AuditLogsService';
 import {DelegationsService, getDelegationsService} from './DelegationsService/DelegationsService';
@@ -54,6 +56,7 @@ export type BaseContext = {
   knex: Knex;
   postgres: Client;
   worker: WorkerUtils;
+  log: Logger;
   close: () => Promise<void>;
 };
 
@@ -89,6 +92,7 @@ export const createBaseContext = async (): Promise<BaseContext> => {
     knex,
     postgres,
     worker,
+    log,
     close,
   };
 };
