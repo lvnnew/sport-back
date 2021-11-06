@@ -25,11 +25,13 @@ import {StatsService, getStatsService} from './StatsService/StatsService';
 import {TagsService, getTagsService} from './TagsService/TagsService';
 import {UnitsService, getUnitsService} from './UnitsService/UnitsService';
 import {UsersService, getUsersService} from './UsersService/UsersService';
+import {HelpService, getHelpService} from './HelpService/HelpService';
 import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 export interface BaseServices {
+  help: HelpService;
   appLogins: AppLoginsService;
   auditLogs: AuditLogsService;
   delegations: DelegationsService;
@@ -98,6 +100,7 @@ export const createBaseContext = async (): Promise<BaseContext> => {
 };
 
 export const getBaseServices = (getContext: () => Context): BaseServices => ({
+  help: getHelpService(),
   appLogins: getAppLoginsService(getContext),
   auditLogs: getAuditLogsService(getContext),
   delegations: getDelegationsService(getContext),

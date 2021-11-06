@@ -190,6 +190,7 @@ export type Query = {
   File?: Maybe<File>;
   allFiles?: Maybe<Array<Maybe<File>>>;
   _allFilesMeta?: Maybe<ListMetadata>;
+  getHelp: Scalars['String'];
   Language?: Maybe<Language>;
   allLanguages?: Maybe<Array<Maybe<Language>>>;
   _allLanguagesMeta?: Maybe<ListMetadata>;
@@ -317,6 +318,11 @@ export type Query_AllFilesMetaArgs = {
   page?: Maybe<Scalars['Int']>;
   perPage?: Maybe<Scalars['Int']>;
   filter?: Maybe<FileFilter>;
+};
+
+
+export type QueryGetHelpArgs = {
+  entityType: EntityType;
 };
 
 
@@ -1113,6 +1119,26 @@ export type FileFilter = {
   eTag_in?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
+export enum EntityType {
+  AppLogins = 'appLogins',
+  AuditLogs = 'auditLogs',
+  Delegations = 'delegations',
+  Files = 'files',
+  Languages = 'languages',
+  ManagerLogins = 'managerLogins',
+  Managers = 'managers',
+  ManagersToPermissions = 'managersToPermissions',
+  ManagersToRoles = 'managersToRoles',
+  MessageTemplates = 'messageTemplates',
+  Permissions = 'permissions',
+  Roles = 'roles',
+  RolesToPermissions = 'rolesToPermissions',
+  Stats = 'stats',
+  Tags = 'tags',
+  Units = 'units',
+  Users = 'users'
+}
+
 export type Language = {
   __typename?: 'Language';
   id: Scalars['ID'];
@@ -1510,6 +1536,7 @@ export type ResolversTypes = {
   DelegationFilter: DelegationFilter;
   File: ResolverTypeWrapper<File>;
   FileFilter: FileFilter;
+  EntityType: EntityType;
   Language: ResolverTypeWrapper<Language>;
   LanguageFilter: LanguageFilter;
   ManagerLogin: ResolverTypeWrapper<ManagerLogin>;
@@ -1871,6 +1898,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
   allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, RequireFields<QueryAllFilesArgs, never>>;
   _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllFilesMetaArgs, never>>;
+  getHelp?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<QueryGetHelpArgs, 'entityType'>>;
   Language?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<QueryLanguageArgs, 'id'>>;
   allLanguages?: Resolver<Maybe<Array<Maybe<ResolversTypes['Language']>>>, ParentType, ContextType, RequireFields<QueryAllLanguagesArgs, never>>;
   _allLanguagesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllLanguagesMetaArgs, never>>;

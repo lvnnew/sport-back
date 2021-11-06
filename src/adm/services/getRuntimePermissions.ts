@@ -16,7 +16,7 @@ export const getRuntimeServicePermissions = (): RuntimePermission[] => {
   return R.flatten(
     R.toPairs(services)
       .map(
-        ([service, value]) => R.toPairs(value).map(([method]) => ({
+        ([service, value]) => R.toPairs(value).map(([method]: R.KeyValuePair<string, any>) => ({
           id: `${service}.${method}`,
           service,
           name: method,

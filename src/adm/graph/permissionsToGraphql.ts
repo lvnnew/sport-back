@@ -2,6 +2,7 @@ import * as R from 'ramda';
 import {additionalServicesPermissionToGraphql} from './additionalServicesPermissionToGraphql';
 import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
 import {Services} from '../services/context';
+import helpPermissionToGraphql from './services/help/permissionsToGraphql';
 import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
 import auditLogsPermissionToGraphql from './services/auditLogs/permissionsToGraphql';
 import delegationsPermissionToGraphql from './services/delegations/permissionsToGraphql';
@@ -32,6 +33,7 @@ export type PermissionToGraphql <T = any> = Record<
 
 export const permissionsToGraphql: Partial<Record<keyof Services, Partial<PermissionToGraphql>>> = {
   ...additionalServicesPermissionToGraphql,
+  help: helpPermissionToGraphql,
   appLogins: appLoginsPermissionToGraphql,
   auditLogs: auditLogsPermissionToGraphql,
   delegations: delegationsPermissionToGraphql,
