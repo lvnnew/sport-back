@@ -13,7 +13,7 @@ cache:
   paths:
     - .cache
     - .cache_images
-    - node_modules
+    # - node_modules
 
 variables:
   REPO_NAME: $CI_PROJECT_NAME
