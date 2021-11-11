@@ -10,6 +10,8 @@ import {Logger} from 'winston';
 import {log} from '../../log';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
 import {AuditLogsService, getAuditLogsService} from './AuditLogsService/AuditLogsService';
+import {AutogenerationHistoryEntriesService, getAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
+import {AutogenerationRulesService, getAutogenerationRulesService} from './AutogenerationRulesService/AutogenerationRulesService';
 import {DelegationsService, getDelegationsService} from './DelegationsService/DelegationsService';
 import {FilesService, getFilesService} from './FilesService/FilesService';
 import {LanguagesService, getLanguagesService} from './LanguagesService/LanguagesService';
@@ -34,6 +36,8 @@ export interface BaseServices {
   help: HelpService;
   appLogins: AppLoginsService;
   auditLogs: AuditLogsService;
+  autogenerationHistoryEntries: AutogenerationHistoryEntriesService;
+  autogenerationRules: AutogenerationRulesService;
   delegations: DelegationsService;
   files: FilesService;
   languages: LanguagesService;
@@ -103,6 +107,8 @@ export const getBaseServices = (getContext: () => Context): BaseServices => ({
   help: getHelpService(),
   appLogins: getAppLoginsService(getContext),
   auditLogs: getAuditLogsService(getContext),
+  autogenerationHistoryEntries: getAutogenerationHistoryEntriesService(getContext),
+  autogenerationRules: getAutogenerationRulesService(getContext),
   delegations: getDelegationsService(getContext),
   files: getFilesService(getContext),
   languages: getLanguagesService(getContext),

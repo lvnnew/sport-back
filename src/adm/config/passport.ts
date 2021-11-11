@@ -6,7 +6,6 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import {log} from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {getOrCreateContext} from '../services/context';
-import * as R from 'ramda';
 import LRUCache from 'lru-cache';
 
 const cache = new LRUCache({
@@ -17,28 +16,7 @@ const cache = new LRUCache({
 const getPermissions = async (managerId: number) => {
   if (!cache.has(managerId)) {
     const ctx = await getOrCreateContext();
-    const permissionsRaw = await ctx.prisma.managersToRole.findMany({
-      where: {
-        managerId,
-      },
-      include: {
-        role: {
-          include: {
-            rolesToPermissionRoles: {
-              select: {
-                permissionId: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    const permissions = R.uniq(
-      R.flatten(
-        permissionsRaw.map(managersToRole => managersToRole.role.rolesToPermissionRoles.map(link => link.permissionId)),
-      ),
-    );
+    const permissions = await ctx.profile.getPermissionsOfManager(managerId);
 
     cache.set(managerId, permissions);
   }

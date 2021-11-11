@@ -5,6 +5,8 @@ import {Services} from '../services/context';
 import helpPermissionToGraphql from './services/help/permissionsToGraphql';
 import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
 import auditLogsPermissionToGraphql from './services/auditLogs/permissionsToGraphql';
+import autogenerationHistoryEntriesPermissionToGraphql from './services/autogenerationHistoryEntries/permissionsToGraphql';
+import autogenerationRulesPermissionToGraphql from './services/autogenerationRules/permissionsToGraphql';
 import delegationsPermissionToGraphql from './services/delegations/permissionsToGraphql';
 import filesPermissionToGraphql from './services/files/permissionsToGraphql';
 import languagesPermissionToGraphql from './services/languages/permissionsToGraphql';
@@ -36,6 +38,8 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   help: helpPermissionToGraphql,
   appLogins: appLoginsPermissionToGraphql,
   auditLogs: auditLogsPermissionToGraphql,
+  autogenerationHistoryEntries: autogenerationHistoryEntriesPermissionToGraphql,
+  autogenerationRules: autogenerationRulesPermissionToGraphql,
   delegations: delegationsPermissionToGraphql,
   files: filesPermissionToGraphql,
   languages: languagesPermissionToGraphql,

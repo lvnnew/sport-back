@@ -26,6 +26,34 @@ model AuditLog {
 }
 
 
+model AutogenerationHistoryEntry {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	date	DateTime	@db.Date
+	originalEntityType	String
+	originalEntityId	String
+	autogenerationRuleId	String
+	autogenerationRule	AutogenerationRule	@relation("From-AutogenerationHistoryEntry.autogenerationRule", fields: [autogenerationRuleId], references: [id])
+	version	DateTime	@db.Date
+	errorOccurred	Boolean
+	error	String?
+}
+
+
+model AutogenerationRule {
+	id	String	@id
+	search	String?
+	title	String
+	version	DateTime?	@db.Date
+	originalEntityType	String
+	generatingEntityType	String
+	originalEntityFilter	String
+	generatingEntityConstructionRules	String
+	ignoreVersionOnHistory	Boolean
+	autogenerationHistoryEntryAutogenerationRules	AutogenerationHistoryEntry[]	@relation("From-AutogenerationHistoryEntry.autogenerationRule")
+}
+
+
 model Delegation {
 	id	Int	@default(autoincrement())	@id
 	search	String?

@@ -4,6 +4,8 @@ export default gql`
 enum EntityType {
   appLogins
   auditLogs
+  autogenerationHistoryEntries
+  autogenerationRules
   delegations
   files
   languages
