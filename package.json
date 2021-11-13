@@ -28,7 +28,7 @@
     "prisma": "prisma",
     "ts-node:withContext": "ts-node ./src/init/wrap.ts",
     "init": "ts-node src/init/baseInit.ts",
-    "init:permissions": "ts-node:withContext src/init/permissions/initPermissions.ts",
+    "init:permissions": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
     "init:dev": "ts-node src/init/initDev.ts"
   },
   "jest": {

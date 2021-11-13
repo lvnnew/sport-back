@@ -1,6 +1,5 @@
 import * as R from 'ramda';
 import {Context} from '../context';
-
 import {PermissionsWithMeta} from '../../../generated/graphql';
 import {KeyValuePair} from 'ramda';
 
@@ -38,6 +37,7 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
 
     const roles = rawPermissions
       .map(m => m.role);
+
     const fullAccessRoles = roles.filter(r => r.hasFullAccess);
 
     const permissionsByRoles = R.flatten(
