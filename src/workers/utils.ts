@@ -15,6 +15,8 @@ export const getOneMinCronPattern = () => '* * * * *';
 
 export const getSixHoursCronPattern = () => '0 */6 * * *';
 
+export const getTwiceADayCronPattern = () => '0 */12 * * *';
+
 export const constructCron = (
   name: string,
   identifier: string,
@@ -45,6 +47,9 @@ export const oneMinCron = (name: string, queued = false): CronItem =>
 
 export const onceInSixHoursCron = (name: string, queued = false): CronItem =>
   constructCron(name, `${name}OnceInSixHours`, getSixHoursCronPattern(), queued);
+
+export const twiceADayPatternCron = (name: string, queued = false): CronItem =>
+  constructCron(name, `${name}TwiceADay`, getTwiceADayCronPattern(), queued);
 
 export const getQueueJobs = <T extends Record<string, any>>(jobs: T) => R.fromPairs(
   R.toPairs(

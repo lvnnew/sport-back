@@ -9,7 +9,7 @@ type Manager {
   lastName: String!
   firstName: String!
   languageId: String
-  email: String
+  email: String!
   telegramLogin: String
   unitId: Int
   headOfUnit: Boolean!
@@ -49,8 +49,8 @@ type Query {
 }
 
 type Mutation {
-  createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!): Manager
-  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!): Manager
+  createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String!, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!): Manager
+  updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String!, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!): Manager
   removeManager(id: Int!): Boolean
 }
 

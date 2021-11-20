@@ -104,7 +104,7 @@ model Manager {
 	firstName	String
 	languageId	String?
 	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
-	email	String?
+	email	String
 	telegramLogin	String?
 	unitId	Int?
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])

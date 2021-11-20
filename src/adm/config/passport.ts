@@ -39,6 +39,7 @@ passport.use(
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
         const manager = await ctx.managers.create({
+          email,
           lastName: '',
           firstName: email,
           active: true,

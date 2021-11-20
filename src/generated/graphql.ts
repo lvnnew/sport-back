@@ -923,7 +923,7 @@ export type MutationCreateManagerArgs = {
   lastName: Scalars['String'];
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   telegramLogin?: Maybe<Scalars['String']>;
   unitId?: Maybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
@@ -937,7 +937,7 @@ export type MutationUpdateManagerArgs = {
   lastName: Scalars['String'];
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   telegramLogin?: Maybe<Scalars['String']>;
   unitId?: Maybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
@@ -1373,7 +1373,7 @@ export type Manager = {
   lastName: Scalars['String'];
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   telegramLogin?: Maybe<Scalars['String']>;
   unitId?: Maybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
@@ -2167,8 +2167,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   removeManagerLogin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
-  createManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationCreateManagerArgs, 'lastName' | 'firstName' | 'headOfUnit' | 'active'>>;
-  updateManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationUpdateManagerArgs, 'id' | 'lastName' | 'firstName' | 'headOfUnit' | 'active'>>;
+  createManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationCreateManagerArgs, 'lastName' | 'firstName' | 'email' | 'headOfUnit' | 'active'>>;
+  updateManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationUpdateManagerArgs, 'id' | 'lastName' | 'firstName' | 'email' | 'headOfUnit' | 'active'>>;
   removeManager?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveManagerArgs, 'id'>>;
   createManagersToPermission?: Resolver<Maybe<ResolversTypes['ManagersToPermission']>, ParentType, ContextType, RequireFields<MutationCreateManagersToPermissionArgs, 'managerId' | 'permissionId'>>;
   updateManagersToPermission?: Resolver<Maybe<ResolversTypes['ManagersToPermission']>, ParentType, ContextType, RequireFields<MutationUpdateManagersToPermissionArgs, 'id' | 'managerId' | 'permissionId'>>;
@@ -2286,7 +2286,7 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   languageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   telegramLogin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   unitId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   headOfUnit?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

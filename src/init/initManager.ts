@@ -28,6 +28,7 @@ export const initManager = async (
       firstName,
     },
     {
+      email,
       lastName,
       firstName,
       active: true,
