@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/making.ventures/images/prisma-cli AS builder
+FROM registry.gitlab.com/making.ventures/images/node-with-tools AS builder
 
 RUN mkdir /app
 WORKDIR /app

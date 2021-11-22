@@ -11,7 +11,7 @@ const wrap = async () => {
 
   const ctx = await getOrCreateContext();
 
-  const needRunFile = process.argv.filter((arg) => !~arg.indexOf('/node_modules/.bin/ts-node') && !~arg.indexOf('src/init/wrap.ts'));
+  const needRunFile = process.argv.filter((arg) => !~arg.indexOf('/node_modules/ts-node/dist/bin') && !~arg.indexOf('src/init/wrap.ts'));
 
   for (const file of needRunFile) {
     try {

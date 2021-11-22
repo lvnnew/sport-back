@@ -6,7 +6,7 @@ import {collectDefaultMetrics, register} from 'prom-client';
 import {closeCtx} from '../adm/services/context';
 import '../utils/polyfills/BigInt';
 
-// yarn src/bots/helloBot.ts
+// yarn ts-node src/bots/helloBot.ts
 
 exitHook(async () => {
   await closeCtx();

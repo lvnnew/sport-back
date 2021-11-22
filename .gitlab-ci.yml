@@ -1,4 +1,4 @@
-image: node:14
+image: node:16
 
 # DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -24,7 +24,7 @@ variables:
 
 check:
   stage: check
-  image: registry.gitlab.com/making.ventures/images/prisma-cli
+  image: registry.gitlab.com/making.ventures/images/node-with-tools
   before_script:
     - yarn
   script:
