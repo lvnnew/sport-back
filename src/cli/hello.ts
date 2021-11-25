@@ -1,4 +1,4 @@
-import {log} from '../log';
+import log from '../log';
 
 // yarn ts-node src/cli/hello.ts
 

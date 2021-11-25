@@ -1,4 +1,4 @@
-import {log} from '../../../log';
+import log from '../../../log';
 import {getQueue} from '../getQueue';
 
 export type SendEmailLocals = Record<string, any>;

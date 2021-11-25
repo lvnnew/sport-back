@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import jwtSecret from '../config/jwtConfig';
 import {NextFunction, Request, Response} from 'express';
-import {log} from '../../log';
+import log from '../../log';
 
 export const loginUser = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('login', async (error, user, info) => {

@@ -1,4 +1,4 @@
-import {log} from '../log';
+import log from '../log';
 
 const hello = async (payload: {name: string}) => {
   const {name} = payload;

@@ -1,5 +1,5 @@
 import {Context} from '../../../adm/services/context';
-import {log} from '../../../log';
+import log from '../../../log';
 import {addSendEmailJob, AddSendEmailJobArgs} from './addSendEmailJob';
 
 export const addSendEmailToUserJob = async (ctx: Context, userId: number, {template, locals}: Omit<AddSendEmailJobArgs, 'to'>) => {

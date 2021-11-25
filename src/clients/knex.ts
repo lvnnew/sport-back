@@ -1,6 +1,6 @@
 import {getConfig} from '../config';
 import knex, {Knex} from 'knex';
-import {log} from '../log';
+import log from '../log';
 import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
 
 // DO NOT EDIT! THIS IS GENERATED FILE

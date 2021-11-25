@@ -1,5 +1,5 @@
 import {getOrCreateContext} from '../adm/services/context';
-import {log} from '../log';
+import log from '../log';
 import {getQueue} from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 

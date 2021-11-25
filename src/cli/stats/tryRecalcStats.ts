@@ -1,5 +1,5 @@
 import {getOrCreateContext} from '../../adm/services/context';
-import {log} from '../../log';
+import log from '../../log';
 
 // yarn ts-node src/cli/stats/tryRecalcStats.ts
 

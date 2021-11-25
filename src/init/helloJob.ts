@@ -1,4 +1,4 @@
-import {log} from '../log';
+import log from '../log';
 import {generalJobsByQueue} from '../workers/general/generalJobs';
 
 // yarn ts-node src/cli/helloJob.ts

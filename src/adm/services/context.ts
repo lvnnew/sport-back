@@ -7,7 +7,8 @@ import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
 import {getQueue} from '../../clients/queue/getQueue';
 import {Logger} from 'winston';
-import {log} from '../../log';
+import log from '../../log';
+import {onStart} from '../../systemHooks';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
 import {AuditLogsService, getAuditLogsService} from './AuditLogsService/AuditLogsService';
 import {AutogenerationHistoryEntriesService, getAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
@@ -167,6 +168,7 @@ export const getCtx = (): Context => {
 
 export const getOrCreateContext = async (): Promise<Context> => {
   if (!context) {
+    onStart();
     const baseContext = await getOrCreateBaseContext();
     context = createContext(baseContext, getCtx);
   }

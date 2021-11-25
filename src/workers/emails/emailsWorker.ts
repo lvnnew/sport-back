@@ -1,4 +1,4 @@
-import {log} from '../../log';
+import log from '../../log';
 import exitHook from 'exit-hook';
 import express, {Request, Response} from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
@@ -9,7 +9,6 @@ import {closeCtx} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
 import jobsFromFunctions from '../../jobs/jobsFromFunctions';
 import {graphileLogger} from '../utils';
-import '../../utils/polyfills/BigInt';
 
 // yarn ts-node src/workers/emails/emailsWorker.ts
 // ENV=stage yarn ts-node src/workers/emails/emailsWorker.ts

@@ -2,7 +2,7 @@
 import {initRoles} from './initRoles';
 import {Context} from '../../adm/services/context';
 import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
-import {log} from '../../log';
+import log from '../../log';
 
 // yarn init:permissions
 // ENV=stage yarn init:permissions

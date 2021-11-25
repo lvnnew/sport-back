@@ -1,6 +1,6 @@
 import {Response} from 'express';
 import {getOrCreateContext} from '../../adm/services/context';
-import {log} from '../../log';
+import log from '../../log';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 import {getCurrentUser} from './getCurrentUser';
 

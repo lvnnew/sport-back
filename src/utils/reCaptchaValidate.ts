@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {log} from '../log';
+import log from '../log';
 import {getConfig} from '../config';
 
 interface reCaptchaResponse {

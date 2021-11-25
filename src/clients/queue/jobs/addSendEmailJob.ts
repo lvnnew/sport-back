@@ -1,9 +1,8 @@
-import {log} from '../../../log';
+import log from '../../../log';
 import {EmailOptions, whitelistedEmail} from '../../emaiSender';
 import {getQueue} from '../getQueue';
 import {Job} from './Job';
 import {MessageTemplate} from '../../../types/enums';
-import '../../../utils/polyfills/BigInt';
 
 export type SendEmailLocals = Record<string, any>;
 

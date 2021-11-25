@@ -3,7 +3,7 @@ import passport from 'passport';
 import jwtSecret from './jwtConfig';
 import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
-import {log} from '../../log';
+import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {getOrCreateContext} from '../../adm/services/context';
 import generator from 'generate-password';

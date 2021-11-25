@@ -2,7 +2,7 @@ import {addSendNewRegistrationEmailJob} from '../../../clients/queue/jobs/addSen
 import {addSendPasswordChangeEmailJob} from '../../../clients/queue/jobs/addSendPasswordChangeEmailJob';
 import {addSendResetPasswordEmailJob} from '../../../clients/queue/jobs/addSendResetPasswordEmailJob';
 import {addSendRestorePasswordEmailJob} from '../../../clients/queue/jobs/addSendRestorePasswordEmailJob';
-import {log} from '../../../log';
+import log from '../../../log';
 import {Context} from '../context';
 
 export interface SendingEmailsService {

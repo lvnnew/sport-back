@@ -1,6 +1,6 @@
 import {PrismaClient} from '@prisma/client';
 import {getConfig} from '../config';
-import {log} from '../log';
+import log from '../log';
 import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
 
 // DO NOT EDIT! THIS IS GENERATED FILE

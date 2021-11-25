@@ -8,7 +8,7 @@ import {
 import {
   SelectionNode,
 } from 'graphql';
-import {log} from './log';
+import log from './log';
 import schema from './graph/schema';
 import {
   getOrCreateBaseContext,
@@ -30,7 +30,6 @@ import appAuthRouter from './app/authRouter';
 import admAuthRouter from './adm/authRouter';
 import getAppServer from './app/getAppServer';
 import {graphqlUploadExpress} from 'graphql-upload';
-import './utils/polyfills/BigInt';
 import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE

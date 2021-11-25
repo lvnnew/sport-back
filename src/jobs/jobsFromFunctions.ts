@@ -2,7 +2,7 @@ import {fromPairs, toPairs} from 'ramda';
 import {Summary} from 'prom-client';
 import {JobHelpers} from 'graphile-worker';
 import {getConfig} from '../config';
-import {log} from '../log';
+import log from '../log';
 
 const jobSummary = new Summary({
   name: 'job_summary',

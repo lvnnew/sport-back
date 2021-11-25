@@ -1,7 +1,7 @@
 import winston, {format} from 'winston';
 import {getFromNconf} from './config';
 
-export const log = winston.createLogger({
+const log = winston.createLogger({
   defaultMeta: {
     loggerName: 'adm-graph-server',
   },
@@ -13,3 +13,5 @@ export const log = winston.createLogger({
     new winston.transports.Console(),
   ],
 });
+
+export default log;

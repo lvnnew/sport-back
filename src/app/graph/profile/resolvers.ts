@@ -1,5 +1,5 @@
 import {Context} from '../../../adm/services/context';
-import {log} from '../../../log';
+import log from '../../../log';
 
 const resolvers = {
   Query: {

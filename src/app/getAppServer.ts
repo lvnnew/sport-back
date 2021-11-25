@@ -3,7 +3,7 @@ import typeDefs from './graph/typeDefs';
 import resolvers from './graph/resolvers';
 import {BaseContext, getOrCreateUsersAwareContext} from '../adm/services/context';
 
-// import {log} from '../log';
+// import log from '../log';
 
 const getAppServer = (baseContext: BaseContext) => new ApolloServer({
   context: ({req}) => {

@@ -2,7 +2,7 @@ import {sentenceCase} from 'change-case';
 import Email from 'email-templates';
 import {getOrCreateContext} from '../adm/services/context';
 import {getConfig} from '../config';
-import {log} from '../log';
+import log from '../log';
 import {Language} from '../types/enums';
 import {File} from '../generated/graphql';
 

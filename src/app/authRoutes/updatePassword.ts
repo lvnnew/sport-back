@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import {Response} from 'express';
-import {log} from '../../log';
+import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 import {getOrCreateContext} from '../../adm/services/context';

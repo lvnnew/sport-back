@@ -2,7 +2,7 @@ import {getQueue} from '../clients/queue/getQueue';
 import {CronItem} from 'graphile-worker';
 import {Job} from '../clients/queue/jobs/Job';
 import * as R from 'ramda';
-import {log} from '../log';
+import log from '../log';
 import {Logger, LogScope} from 'graphile-worker/dist/logger';
 
 export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * * * *`;
