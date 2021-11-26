@@ -14,6 +14,9 @@ module.exports = {
     'eslint:recommended',
   ],
   rules: {
+    'mocha/no-global-tests': 'off',
+    'jest/require-top-level-describe': 'off',
+    'unicorn/no-array-for-each': 'off',
     'canonical/id-match': 'off',
     'canonical/filename-match-exported': 'off',
     'canonical/filename-match-regex': 'off',

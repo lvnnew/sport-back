@@ -1,3 +1,4 @@
+/* eslint-disable @babel/no-invalid-this */
 import {types} from 'pg';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -12,8 +13,8 @@ export const onStart = () => {
   // To serialze BigInt as string in json
   if (typeof BigInt.prototype.toJSON !== 'function') {
     // eslint-disable-next-line no-extend-native
-    BigInt.prototype.toJSON = function() {
+    BigInt.prototype.toJSON = function(this: any) {
       return this.toString();
-    };
+    } as any;
   }
 };
