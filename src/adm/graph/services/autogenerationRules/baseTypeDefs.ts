@@ -56,5 +56,4 @@ type Mutation {
   updateAutogenerationRule(id: ID!, title: String!, version: Date, originalEntityType: String!, generatingEntityType: String!, originalEntityFilter: String!, generatingEntityConstructionRules: String!, ignoreVersionOnHistory: Boolean!): AutogenerationRule
   removeAutogenerationRule(id: ID!): Boolean
 }
-
 `;

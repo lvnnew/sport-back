@@ -40,5 +40,4 @@ type Mutation {
   updateUser(id: Int!, title: String, lastname: String!, firstname: String!, email: String!): User
   removeUser(id: Int!): Boolean
 }
-
 `;

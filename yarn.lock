@@ -2812,7 +2812,7 @@
   resolved "https://registry.npmjs.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
 
-"@types/ramda@^0.27.51":
+"@types/ramda@^0.27.52":
   version "0.27.52"
   resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.27.52.tgz#867c41c24563e610f6ee27e7ae278772729bb88e"
   integrity sha512-7wB3lv+fk4acUc8o2518OgzngeKDC+QQk7hdBoQF8sKoieorG8LxNaDMmr/hT7SALSYRXr/nHkrGu+rBACvGUA==
@@ -5642,7 +5642,7 @@ eslint-config-airbnb@^19.0.1:
     object.assign "^4.1.2"
     object.entries "^1.1.5"
 
-eslint-config-canonical@^32.42.0:
+eslint-config-canonical@^32.43.0:
   version "32.43.0"
   resolved "https://registry.yarnpkg.com/eslint-config-canonical/-/eslint-config-canonical-32.43.0.tgz#abcc8d2a8fab63cc2838850cea1969960334626e"
   integrity sha512-kJUWQE6AHd/vMETZ3m6bq9Wkl3Ww761Rw062pF/WxykmsxcUmfih/7ilMpTQhhbkQh+f4ysXZJsyb2bDxUPhWQ==

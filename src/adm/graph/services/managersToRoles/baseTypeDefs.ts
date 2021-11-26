@@ -34,5 +34,4 @@ type Mutation {
   updateManagersToRole(id: Int!, managerId: Int!, roleId: String!): ManagersToRole
   removeManagersToRole(id: Int!): Boolean
 }
-
 `;

@@ -14,6 +14,11 @@ module.exports = {
     'eslint:recommended',
   ],
   rules: {
+    'canonical/id-match': 'off',
+    'canonical/filename-match-exported': 'off',
+    'canonical/filename-match-regex': 'off',
+    'unicorn/no-array-reduce': 'off',
+    'canonical/sort-keys': 'off',
     'max-len': [
       'error',
       140,
@@ -112,6 +117,6 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
   ignorePatterns: ['node_modules/', '**/generated/'],
+  plugins: ['react', '@typescript-eslint'],
 };

@@ -68,5 +68,4 @@ type Mutation {
   updateAuditLog(id: Int!, date: Date!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
   removeAuditLog(id: Int!): Boolean
 }
-
 `;

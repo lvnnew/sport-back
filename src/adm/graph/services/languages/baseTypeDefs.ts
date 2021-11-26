@@ -31,5 +31,4 @@ type Mutation {
   updateLanguage(id: ID!, title: String): Language
   removeLanguage(id: ID!): Boolean
 }
-
 `;

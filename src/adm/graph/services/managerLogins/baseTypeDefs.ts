@@ -46,5 +46,4 @@ type Mutation {
   updateManagerLogin(id: Int!, login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
   removeManagerLogin(id: Int!): Boolean
 }
-
 `;

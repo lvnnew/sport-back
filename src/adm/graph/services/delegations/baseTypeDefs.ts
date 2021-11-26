@@ -47,5 +47,4 @@ type Mutation {
   updateDelegation(id: Int!, fromId: Int!, toId: Int!, expiresAt: Date, active: Boolean!): Delegation
   removeDelegation(id: Int!): Boolean
 }
-
 `;

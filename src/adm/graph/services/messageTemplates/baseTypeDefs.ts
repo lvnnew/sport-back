@@ -33,5 +33,4 @@ type Mutation {
   updateMessageTemplate(id: ID!, title: String!, secretData: Boolean!): MessageTemplate
   removeMessageTemplate(id: ID!): Boolean
 }
-
 `;

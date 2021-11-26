@@ -53,5 +53,4 @@ type Mutation {
   updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String!, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!): Manager
   removeManager(id: Int!): Boolean
 }
-
 `;

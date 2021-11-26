@@ -34,5 +34,4 @@ type Mutation {
   updateRolesToPermission(id: Int!, roleId: String!, permissionId: String!): RolesToPermission
   removeRolesToPermission(id: Int!): Boolean
 }
-
 `;

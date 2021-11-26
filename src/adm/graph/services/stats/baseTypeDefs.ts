@@ -46,5 +46,4 @@ type Mutation {
   updateStat(id: ID!, updated: DateTime, helloCount: Int): Stat
   removeStat(id: ID!): Boolean
 }
-
 `;

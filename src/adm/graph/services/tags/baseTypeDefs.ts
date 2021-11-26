@@ -31,5 +31,4 @@ type Mutation {
   updateTag(id: Int!, comment: String): Tag
   removeTag(id: Int!): Boolean
 }
-
 `;

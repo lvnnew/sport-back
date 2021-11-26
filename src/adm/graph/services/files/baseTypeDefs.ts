@@ -43,5 +43,4 @@ type Mutation {
   updateFile(id: Int!, originalName: String!, url: String!, mimetype: String!, s3Key: String!, eTag: String!): File
   removeFile(id: Int!): Boolean
 }
-
 `;

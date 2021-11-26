@@ -31,5 +31,4 @@ type Mutation {
   updatePermission(id: ID!, title: String): Permission
   removePermission(id: ID!): Boolean
 }
-
 `;

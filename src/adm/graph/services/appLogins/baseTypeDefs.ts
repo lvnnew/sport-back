@@ -37,5 +37,4 @@ type Mutation {
   updateAppLogin(id: Int!, login: String!, passwordHash: String!, userId: Int!): AppLogin
   removeAppLogin(id: Int!): Boolean
 }
-
 `;

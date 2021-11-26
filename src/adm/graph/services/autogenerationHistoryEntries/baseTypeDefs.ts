@@ -59,5 +59,4 @@ type Mutation {
   updateAutogenerationHistoryEntry(id: Int!, date: Date!, originalEntityType: String!, originalEntityId: String!, autogenerationRuleId: String!, version: Date!, errorOccurred: Boolean!, error: String): AutogenerationHistoryEntry
   removeAutogenerationHistoryEntry(id: Int!): Boolean
 }
-
 `;

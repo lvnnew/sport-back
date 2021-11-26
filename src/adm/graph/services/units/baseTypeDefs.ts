@@ -34,5 +34,4 @@ type Mutation {
   updateUnit(id: Int!, title: String, parentId: Int): Unit
   removeUnit(id: Int!): Boolean
 }
-
 `;

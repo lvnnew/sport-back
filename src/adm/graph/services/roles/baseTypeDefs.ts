@@ -33,5 +33,4 @@ type Mutation {
   updateRole(id: ID!, title: String, hasFullAccess: Boolean): Role
   removeRole(id: ID!): Boolean
 }
-
 `;
