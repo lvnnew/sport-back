@@ -140,7 +140,7 @@
     "@types/passport-local": "^1.0.34",
     "@types/pg": "^8.6.1",
     "@types/pluralize": "^0.0.29",
-    "@types/ramda": "^0.27.52",
+    "@types/ramda": "^0.27.53",
     "@types/readline-sync": "^1.4.4",
     "@types/tmp": "^0.2.2",
     "@types/uuid": "^8.3.3",

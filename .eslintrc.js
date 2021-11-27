@@ -14,6 +14,7 @@ module.exports = {
     'eslint:recommended',
   ],
   rules: {
+    'jest/consistent-test-it': 'off',
     'mocha/no-global-tests': 'off',
     'jest/require-top-level-describe': 'off',
     'unicorn/no-array-for-each': 'off',
