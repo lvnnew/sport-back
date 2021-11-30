@@ -50,7 +50,7 @@ export interface BaseManagersToRolesMethods {
   ) =>
     Promise<ManagersToRole>;
   delete: (params: MutationRemoveManagersToRoleArgs) =>
-    Promise<boolean>;
+    Promise<ManagersToRole>;
 }
 
 export type ManagersToRolesService = BaseManagersToRolesMethods & AdditionalManagersToRolesMethods;
@@ -329,7 +329,7 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveManagersToRoleArgs,
-  ): Promise<boolean> => {
+  ): Promise<ManagersToRole> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -355,7 +355,7 @@ export const getManagersToRolesService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseManagersToRolesMethods = {

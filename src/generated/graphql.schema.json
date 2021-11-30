@@ -4048,8 +4048,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "AppLogin",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4423,8 +4423,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "AuditLog",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4710,8 +4710,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "AutogenerationHistoryEntry",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5013,8 +5013,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "AutogenerationRule",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5204,8 +5204,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Delegation",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5435,8 +5435,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "File",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5546,8 +5546,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Language",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5841,8 +5841,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "ManagerLogin",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6168,8 +6168,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Manager",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6303,8 +6303,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "ManagersToPermission",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6438,8 +6438,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "ManagersToRole",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6589,8 +6589,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "MessageTemplate",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6700,8 +6700,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Permission",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6835,8 +6835,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Role",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6970,8 +6970,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "RolesToPermission",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7117,8 +7117,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Stat",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7212,8 +7212,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Tag",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7331,8 +7331,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "Unit",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7522,8 +7522,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
+              "kind": "OBJECT",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,

@@ -50,7 +50,7 @@ export interface BaseLanguagesMethods {
   ) =>
     Promise<Language>;
   delete: (params: MutationRemoveLanguageArgs) =>
-    Promise<boolean>;
+    Promise<Language>;
 }
 
 export type LanguagesService = BaseLanguagesMethods & AdditionalLanguagesMethods;
@@ -323,7 +323,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveLanguageArgs,
-  ): Promise<boolean> => {
+  ): Promise<Language> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -349,7 +349,7 @@ export const getLanguagesService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseLanguagesMethods = {

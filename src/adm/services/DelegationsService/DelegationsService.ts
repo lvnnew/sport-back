@@ -54,7 +54,7 @@ export interface BaseDelegationsMethods {
   ) =>
     Promise<Delegation>;
   delete: (params: MutationRemoveDelegationArgs) =>
-    Promise<boolean>;
+    Promise<Delegation>;
 }
 
 export type DelegationsService = BaseDelegationsMethods & AdditionalDelegationsMethods;
@@ -375,7 +375,7 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveDelegationArgs,
-  ): Promise<boolean> => {
+  ): Promise<Delegation> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -401,7 +401,7 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseDelegationsMethods = {

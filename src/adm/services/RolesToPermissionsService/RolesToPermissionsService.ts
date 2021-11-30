@@ -50,7 +50,7 @@ export interface BaseRolesToPermissionsMethods {
   ) =>
     Promise<RolesToPermission>;
   delete: (params: MutationRemoveRolesToPermissionArgs) =>
-    Promise<boolean>;
+    Promise<RolesToPermission>;
 }
 
 export type RolesToPermissionsService = BaseRolesToPermissionsMethods & AdditionalRolesToPermissionsMethods;
@@ -329,7 +329,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveRolesToPermissionArgs,
-  ): Promise<boolean> => {
+  ): Promise<RolesToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -355,7 +355,7 @@ export const getRolesToPermissionsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseRolesToPermissionsMethods = {

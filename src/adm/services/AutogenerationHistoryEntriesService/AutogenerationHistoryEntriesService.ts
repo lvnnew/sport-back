@@ -54,7 +54,7 @@ export interface BaseAutogenerationHistoryEntriesMethods {
   ) =>
     Promise<AutogenerationHistoryEntry>;
   delete: (params: MutationRemoveAutogenerationHistoryEntryArgs) =>
-    Promise<boolean>;
+    Promise<AutogenerationHistoryEntry>;
 }
 
 export type AutogenerationHistoryEntriesService = BaseAutogenerationHistoryEntriesMethods & AdditionalAutogenerationHistoryEntriesMethods;
@@ -393,7 +393,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
 
   const del = async (
     params: MutationRemoveAutogenerationHistoryEntryArgs,
-  ): Promise<boolean> => {
+  ): Promise<AutogenerationHistoryEntry> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -419,7 +419,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseAutogenerationHistoryEntriesMethods = {

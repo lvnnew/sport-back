@@ -50,7 +50,7 @@ export interface BaseMessageTemplatesMethods {
   ) =>
     Promise<MessageTemplate>;
   delete: (params: MutationRemoveMessageTemplateArgs) =>
-    Promise<boolean>;
+    Promise<MessageTemplate>;
 }
 
 export type MessageTemplatesService = BaseMessageTemplatesMethods & AdditionalMessageTemplatesMethods;
@@ -323,7 +323,7 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveMessageTemplateArgs,
-  ): Promise<boolean> => {
+  ): Promise<MessageTemplate> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -349,7 +349,7 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseMessageTemplatesMethods = {

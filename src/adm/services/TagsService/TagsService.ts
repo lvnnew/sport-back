@@ -50,7 +50,7 @@ export interface BaseTagsMethods {
   ) =>
     Promise<Tag>;
   delete: (params: MutationRemoveTagArgs) =>
-    Promise<boolean>;
+    Promise<Tag>;
 }
 
 export type TagsService = BaseTagsMethods & AdditionalTagsMethods;
@@ -323,7 +323,7 @@ export const getTagsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveTagArgs,
-  ): Promise<boolean> => {
+  ): Promise<Tag> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -349,7 +349,7 @@ export const getTagsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseTagsMethods = {

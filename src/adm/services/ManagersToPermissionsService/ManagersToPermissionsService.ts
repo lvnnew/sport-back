@@ -50,7 +50,7 @@ export interface BaseManagersToPermissionsMethods {
   ) =>
     Promise<ManagersToPermission>;
   delete: (params: MutationRemoveManagersToPermissionArgs) =>
-    Promise<boolean>;
+    Promise<ManagersToPermission>;
 }
 
 export type ManagersToPermissionsService = BaseManagersToPermissionsMethods & AdditionalManagersToPermissionsMethods;
@@ -329,7 +329,7 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveManagersToPermissionArgs,
-  ): Promise<boolean> => {
+  ): Promise<ManagersToPermission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -355,7 +355,7 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseManagersToPermissionsMethods = {

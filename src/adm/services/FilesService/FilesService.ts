@@ -50,7 +50,7 @@ export interface BaseFilesMethods {
   ) =>
     Promise<File>;
   delete: (params: MutationRemoveFileArgs) =>
-    Promise<boolean>;
+    Promise<File>;
 }
 
 export type FilesService = BaseFilesMethods & AdditionalFilesMethods;
@@ -347,7 +347,7 @@ export const getFilesService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveFileArgs,
-  ): Promise<boolean> => {
+  ): Promise<File> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -373,7 +373,7 @@ export const getFilesService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseFilesMethods = {

@@ -50,7 +50,7 @@ export interface BaseUnitsMethods {
   ) =>
     Promise<Unit>;
   delete: (params: MutationRemoveUnitArgs) =>
-    Promise<boolean>;
+    Promise<Unit>;
 }
 
 export type UnitsService = BaseUnitsMethods & AdditionalUnitsMethods;
@@ -329,7 +329,7 @@ export const getUnitsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveUnitArgs,
-  ): Promise<boolean> => {
+  ): Promise<Unit> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -355,7 +355,7 @@ export const getUnitsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseUnitsMethods = {

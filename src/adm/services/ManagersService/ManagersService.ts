@@ -50,7 +50,7 @@ export interface BaseManagersMethods {
   ) =>
     Promise<Manager>;
   delete: (params: MutationRemoveManagerArgs) =>
-    Promise<boolean>;
+    Promise<Manager>;
 }
 
 export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
@@ -359,7 +359,7 @@ export const getManagersService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveManagerArgs,
-  ): Promise<boolean> => {
+  ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -385,7 +385,7 @@ export const getManagersService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseManagersMethods = {

@@ -34,6 +34,7 @@ const jobsFromFunctions = (
         );
         throw error;
       }
+
       end({status: 'success'});
     };
 

@@ -50,7 +50,7 @@ export interface BaseAppLoginsMethods {
   ) =>
     Promise<AppLogin>;
   delete: (params: MutationRemoveAppLoginArgs) =>
-    Promise<boolean>;
+    Promise<AppLogin>;
 }
 
 export type AppLoginsService = BaseAppLoginsMethods & AdditionalAppLoginsMethods;
@@ -335,7 +335,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveAppLoginArgs,
-  ): Promise<boolean> => {
+  ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -361,7 +361,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseAppLoginsMethods = {

@@ -54,7 +54,7 @@ export interface BaseAuditLogsMethods {
   ) =>
     Promise<AuditLog>;
   delete: (params: MutationRemoveAuditLogArgs) =>
-    Promise<boolean>;
+    Promise<AuditLog>;
 }
 
 export type AuditLogsService = BaseAuditLogsMethods & AdditionalAuditLogsMethods;
@@ -417,7 +417,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveAuditLogArgs,
-  ): Promise<boolean> => {
+  ): Promise<AuditLog> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -443,7 +443,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseAuditLogsMethods = {

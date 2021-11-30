@@ -50,7 +50,7 @@ export interface BaseManagerLoginsMethods {
   ) =>
     Promise<ManagerLogin>;
   delete: (params: MutationRemoveManagerLoginArgs) =>
-    Promise<boolean>;
+    Promise<ManagerLogin>;
 }
 
 export type ManagerLoginsService = BaseManagerLoginsMethods & AdditionalManagerLoginsMethods;
@@ -341,7 +341,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveManagerLoginArgs,
-  ): Promise<boolean> => {
+  ): Promise<ManagerLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -367,7 +367,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseManagerLoginsMethods = {

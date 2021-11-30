@@ -54,7 +54,7 @@ export interface BaseStatsMethods {
   ) =>
     Promise<Stat>;
   delete: (params: MutationRemoveStatArgs) =>
-    Promise<boolean>;
+    Promise<Stat>;
 }
 
 export type StatsService = BaseStatsMethods & AdditionalStatsMethods;
@@ -369,7 +369,7 @@ export const getStatsService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveStatArgs,
-  ): Promise<boolean> => {
+  ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -395,7 +395,7 @@ export const getStatsService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseStatsMethods = {

@@ -54,7 +54,7 @@ export interface BaseAutogenerationRulesMethods {
   ) =>
     Promise<AutogenerationRule>;
   delete: (params: MutationRemoveAutogenerationRuleArgs) =>
-    Promise<boolean>;
+    Promise<AutogenerationRule>;
 }
 
 export type AutogenerationRulesService = BaseAutogenerationRulesMethods & AdditionalAutogenerationRulesMethods;
@@ -393,7 +393,7 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveAutogenerationRuleArgs,
-  ): Promise<boolean> => {
+  ): Promise<AutogenerationRule> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -419,7 +419,7 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseAutogenerationRulesMethods = {

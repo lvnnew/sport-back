@@ -50,7 +50,7 @@ export interface BaseUsersMethods {
   ) =>
     Promise<User>;
   delete: (params: MutationRemoveUserArgs) =>
-    Promise<boolean>;
+    Promise<User>;
 }
 
 export type UsersService = BaseUsersMethods & AdditionalUsersMethods;
@@ -341,7 +341,7 @@ export const getUsersService = (getCtx: () => Context) => {
 
   const del = async (
     params: MutationRemoveUserArgs,
-  ): Promise<boolean> => {
+  ): Promise<User> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -367,7 +367,7 @@ export const getUsersService = (getCtx: () => Context) => {
 
     await afterDelete(getCtx, entity);
 
-    return true;
+    return entity;
   };
 
   const baseMethods: BaseUsersMethods = {
