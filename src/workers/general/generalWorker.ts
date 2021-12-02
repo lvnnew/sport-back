@@ -1,4 +1,3 @@
-/* eslint-disable promise/prefer-await-to-callbacks */
 import log from '../../log';
 import exitHook from 'exit-hook';
 import express, {Request, Response} from 'express';
