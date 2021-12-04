@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createMessageTemplate: (_, params: MutationCreateMessageTemplateArgs, {context}: {context: Context}) =>
-      context.messageTemplates.create(params),
+      context.messageTemplates.create(params, true),
     updateMessageTemplate: (_, params: MutationUpdateMessageTemplateArgs, {context}: {context: Context}) =>
-      context.messageTemplates.update(params),
+      context.messageTemplates.update(params, true),
     removeMessageTemplate: (_, params: MutationRemoveMessageTemplateArgs, {context}: {context: Context}) =>
       context.messageTemplates.delete(params),
   },

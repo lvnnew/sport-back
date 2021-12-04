@@ -36,17 +36,18 @@ export interface BaseManagerLoginsMethods {
     Promise<number>;
   meta: (params?: Query_AllManagerLoginsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagerLoginArgs) =>
+  create: (data: MutationCreateManagerLoginArgs, byUser?: boolean) =>
     Promise<ManagerLogin>;
-  createMany: (data: MutationCreateManagerLoginArgs[]) =>
+  createMany: (data: MutationCreateManagerLoginArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerLoginArgs) =>
+  update: ({id, ...rest}: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
     Promise<ManagerLogin>;
-  upsert: (data: MutationUpdateManagerLoginArgs) =>
+  upsert: (data: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
     Promise<ManagerLogin>;
   upsertAdvanced: (
     filter: ManagerLoginFilter,
     data: MutationCreateManagerLoginArgs,
+    byUser?: boolean,
   ) =>
     Promise<ManagerLogin>;
   delete: (params: MutationRemoveManagerLoginArgs) =>
@@ -110,12 +111,22 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateManagerLoginArgs,
+    byUser = false,
   ): Promise<ManagerLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.managerLogin.create({
       data: R.mergeDeepLeft(
@@ -130,7 +141,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                   'passwordHash',
                   'role',
                   'managerId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -175,13 +186,23 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateManagerLoginArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.managerLogin.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -211,12 +232,23 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateManagerLoginArgs,
+    byUser = false,
   ): Promise<ManagerLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -233,7 +265,7 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                   'passwordHash',
                   'role',
                   'managerId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -259,15 +291,30 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateManagerLoginArgs,
+    byUser = false,
   ): Promise<ManagerLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.managerLogin.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -278,13 +325,13 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                 'passwordHash',
                 'role',
                 'managerId',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -295,12 +342,12 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
                 'passwordHash',
                 'role',
                 'managerId',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -312,9 +359,26 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: ManagerLoginFilter,
     data: MutationCreateManagerLoginArgs,
+    byUser = false,
   ): Promise<ManagerLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -324,18 +388,19 @@ export const getManagerLoginsService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

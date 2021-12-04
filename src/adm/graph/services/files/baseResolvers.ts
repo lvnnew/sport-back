@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createFile: (_, params: MutationCreateFileArgs, {context}: {context: Context}) =>
-      context.files.create(params),
+      context.files.create(params, true),
     updateFile: (_, params: MutationUpdateFileArgs, {context}: {context: Context}) =>
-      context.files.update(params),
+      context.files.update(params, true),
     removeFile: (_, params: MutationRemoveFileArgs, {context}: {context: Context}) =>
       context.files.delete(params),
   },

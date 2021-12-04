@@ -36,17 +36,18 @@ export interface BasePermissionsMethods {
     Promise<number>;
   meta: (params?: Query_AllPermissionsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreatePermissionArgs) =>
+  create: (data: MutationCreatePermissionArgs, byUser?: boolean) =>
     Promise<Permission>;
-  createMany: (data: MutationCreatePermissionArgs[]) =>
+  createMany: (data: MutationCreatePermissionArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdatePermissionArgs) =>
+  update: ({id, ...rest}: MutationUpdatePermissionArgs, byUser?: boolean) =>
     Promise<Permission>;
-  upsert: (data: MutationUpdatePermissionArgs) =>
+  upsert: (data: MutationUpdatePermissionArgs, byUser?: boolean) =>
     Promise<Permission>;
   upsertAdvanced: (
     filter: PermissionFilter,
     data: MutationCreatePermissionArgs,
+    byUser?: boolean,
   ) =>
     Promise<Permission>;
   delete: (params: MutationRemovePermissionArgs) =>
@@ -110,12 +111,22 @@ export const getPermissionsService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreatePermissionArgs,
+    byUser = false,
   ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.permission.create({
       data: R.mergeDeepLeft(
@@ -127,7 +138,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'title',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -169,13 +180,23 @@ export const getPermissionsService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreatePermissionArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.permission.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -202,12 +223,23 @@ export const getPermissionsService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdatePermissionArgs,
+    byUser = false,
   ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -221,7 +253,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'title',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -247,15 +279,30 @@ export const getPermissionsService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdatePermissionArgs,
+    byUser = false,
   ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.permission.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -263,13 +310,13 @@ export const getPermissionsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'title',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -277,12 +324,12 @@ export const getPermissionsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'title',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -294,9 +341,26 @@ export const getPermissionsService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: PermissionFilter,
     data: MutationCreatePermissionArgs,
+    byUser = false,
   ): Promise<Permission> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -306,18 +370,19 @@ export const getPermissionsService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

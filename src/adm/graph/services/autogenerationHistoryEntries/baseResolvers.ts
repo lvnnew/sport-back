@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createAutogenerationHistoryEntry: (_, params: MutationCreateAutogenerationHistoryEntryArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.create(params),
+      context.autogenerationHistoryEntries.create(params, true),
     updateAutogenerationHistoryEntry: (_, params: MutationUpdateAutogenerationHistoryEntryArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.update(params),
+      context.autogenerationHistoryEntries.update(params, true),
     removeAutogenerationHistoryEntry: (_, params: MutationRemoveAutogenerationHistoryEntryArgs, {context}: {context: Context}) =>
       context.autogenerationHistoryEntries.delete(params),
   },

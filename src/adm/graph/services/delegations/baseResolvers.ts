@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createDelegation: (_, params: MutationCreateDelegationArgs, {context}: {context: Context}) =>
-      context.delegations.create(params),
+      context.delegations.create(params, true),
     updateDelegation: (_, params: MutationUpdateDelegationArgs, {context}: {context: Context}) =>
-      context.delegations.update(params),
+      context.delegations.update(params, true),
     removeDelegation: (_, params: MutationRemoveDelegationArgs, {context}: {context: Context}) =>
       context.delegations.delete(params),
   },

@@ -36,17 +36,18 @@ export interface BaseAppLoginsMethods {
     Promise<number>;
   meta: (params?: Query_AllAppLoginsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAppLoginArgs) =>
+  create: (data: MutationCreateAppLoginArgs, byUser?: boolean) =>
     Promise<AppLogin>;
-  createMany: (data: MutationCreateAppLoginArgs[]) =>
+  createMany: (data: MutationCreateAppLoginArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAppLoginArgs) =>
+  update: ({id, ...rest}: MutationUpdateAppLoginArgs, byUser?: boolean) =>
     Promise<AppLogin>;
-  upsert: (data: MutationUpdateAppLoginArgs) =>
+  upsert: (data: MutationUpdateAppLoginArgs, byUser?: boolean) =>
     Promise<AppLogin>;
   upsertAdvanced: (
     filter: AppLoginFilter,
     data: MutationCreateAppLoginArgs,
+    byUser?: boolean,
   ) =>
     Promise<AppLogin>;
   delete: (params: MutationRemoveAppLoginArgs) =>
@@ -110,12 +111,22 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateAppLoginArgs,
+    byUser = false,
   ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.appLogin.create({
       data: R.mergeDeepLeft(
@@ -129,7 +140,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                   'login',
                   'passwordHash',
                   'userId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -173,13 +184,23 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateAppLoginArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.appLogin.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -208,12 +229,23 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateAppLoginArgs,
+    byUser = false,
   ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -229,7 +261,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                   'login',
                   'passwordHash',
                   'userId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -255,15 +287,30 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateAppLoginArgs,
+    byUser = false,
   ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.appLogin.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -273,13 +320,13 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                 'login',
                 'passwordHash',
                 'userId',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -289,12 +336,12 @@ export const getAppLoginsService = (getCtx: () => Context) => {
                 'login',
                 'passwordHash',
                 'userId',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -306,9 +353,26 @@ export const getAppLoginsService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: AppLoginFilter,
     data: MutationCreateAppLoginArgs,
+    byUser = false,
   ): Promise<AppLogin> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -318,18 +382,19 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

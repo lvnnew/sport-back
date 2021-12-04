@@ -36,17 +36,18 @@ export interface BaseManagersMethods {
     Promise<number>;
   meta: (params?: Query_AllManagersMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagerArgs) =>
+  create: (data: MutationCreateManagerArgs, byUser?: boolean) =>
     Promise<Manager>;
-  createMany: (data: MutationCreateManagerArgs[]) =>
+  createMany: (data: MutationCreateManagerArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerArgs) =>
+  update: ({id, ...rest}: MutationUpdateManagerArgs, byUser?: boolean) =>
     Promise<Manager>;
-  upsert: (data: MutationUpdateManagerArgs) =>
+  upsert: (data: MutationUpdateManagerArgs, byUser?: boolean) =>
     Promise<Manager>;
   upsertAdvanced: (
     filter: ManagerFilter,
     data: MutationCreateManagerArgs,
+    byUser?: boolean,
   ) =>
     Promise<Manager>;
   delete: (params: MutationRemoveManagerArgs) =>
@@ -110,12 +111,22 @@ export const getManagersService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateManagerArgs,
+    byUser = false,
   ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.manager.create({
       data: R.mergeDeepLeft(
@@ -133,7 +144,7 @@ export const getManagersService = (getCtx: () => Context) => {
                   'email',
                   'telegramLogin',
                   'unitId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -181,13 +192,23 @@ export const getManagersService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateManagerArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.manager.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -220,12 +241,23 @@ export const getManagersService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateManagerArgs,
+    byUser = false,
   ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -245,7 +277,7 @@ export const getManagersService = (getCtx: () => Context) => {
                   'email',
                   'telegramLogin',
                   'unitId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -271,15 +303,30 @@ export const getManagersService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateManagerArgs,
+    byUser = false,
   ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.manager.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -293,13 +340,13 @@ export const getManagersService = (getCtx: () => Context) => {
                 'email',
                 'telegramLogin',
                 'unitId',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -313,12 +360,12 @@ export const getManagersService = (getCtx: () => Context) => {
                 'email',
                 'telegramLogin',
                 'unitId',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -330,9 +377,26 @@ export const getManagersService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: ManagerFilter,
     data: MutationCreateManagerArgs,
+    byUser = false,
   ): Promise<Manager> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -342,18 +406,19 @@ export const getManagersService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

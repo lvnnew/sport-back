@@ -40,17 +40,18 @@ export interface BaseDelegationsMethods {
     Promise<number>;
   meta: (params?: Query_AllDelegationsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateDelegationArgs) =>
+  create: (data: MutationCreateDelegationArgs, byUser?: boolean) =>
     Promise<Delegation>;
-  createMany: (data: MutationCreateDelegationArgs[]) =>
+  createMany: (data: MutationCreateDelegationArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateDelegationArgs) =>
+  update: ({id, ...rest}: MutationUpdateDelegationArgs, byUser?: boolean) =>
     Promise<Delegation>;
-  upsert: (data: MutationUpdateDelegationArgs) =>
+  upsert: (data: MutationUpdateDelegationArgs, byUser?: boolean) =>
     Promise<Delegation>;
   upsertAdvanced: (
     filter: DelegationFilter,
     data: MutationCreateDelegationArgs,
+    byUser?: boolean,
   ) =>
     Promise<Delegation>;
   delete: (params: MutationRemoveDelegationArgs) =>
@@ -114,12 +115,22 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateDelegationArgs,
+    byUser = false,
   ): Promise<Delegation> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.delegation.create({
       data: R.mergeDeepLeft(
@@ -132,14 +143,14 @@ export const getDelegationsService = (getCtx: () => Context) => {
                   'id',
                   'fromId',
                   'toId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
               .toPairs(
                 R.pick([
                   'expiresAt',
-                ], data),
+                ], processedData),
               )
               .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
@@ -189,13 +200,23 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateDelegationArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.delegation.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -230,12 +251,23 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateDelegationArgs,
+    byUser = false,
   ): Promise<Delegation> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -250,14 +282,14 @@ export const getDelegationsService = (getCtx: () => Context) => {
                   'id',
                   'fromId',
                   'toId',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
               .toPairs(
                 R.pick([
                   'expiresAt',
-                ], data),
+                ], processedData),
               )
               .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
@@ -283,15 +315,30 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateDelegationArgs,
+    byUser = false,
   ): Promise<Delegation> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.delegation.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -300,20 +347,20 @@ export const getDelegationsService = (getCtx: () => Context) => {
                 'id',
                 'fromId',
                 'toId',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'expiresAt',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -322,19 +369,19 @@ export const getDelegationsService = (getCtx: () => Context) => {
                 'id',
                 'fromId',
                 'toId',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'expiresAt',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -346,9 +393,26 @@ export const getDelegationsService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: DelegationFilter,
     data: MutationCreateDelegationArgs,
+    byUser = false,
   ): Promise<Delegation> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -358,18 +422,19 @@ export const getDelegationsService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

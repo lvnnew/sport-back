@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createUnit: (_, params: MutationCreateUnitArgs, {context}: {context: Context}) =>
-      context.units.create(params),
+      context.units.create(params, true),
     updateUnit: (_, params: MutationUpdateUnitArgs, {context}: {context: Context}) =>
-      context.units.update(params),
+      context.units.update(params, true),
     removeUnit: (_, params: MutationRemoveUnitArgs, {context}: {context: Context}) =>
       context.units.delete(params),
   },

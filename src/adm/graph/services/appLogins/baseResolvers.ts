@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createAppLogin: (_, params: MutationCreateAppLoginArgs, {context}: {context: Context}) =>
-      context.appLogins.create(params),
+      context.appLogins.create(params, true),
     updateAppLogin: (_, params: MutationUpdateAppLoginArgs, {context}: {context: Context}) =>
-      context.appLogins.update(params),
+      context.appLogins.update(params, true),
     removeAppLogin: (_, params: MutationRemoveAppLoginArgs, {context}: {context: Context}) =>
       context.appLogins.delete(params),
   },

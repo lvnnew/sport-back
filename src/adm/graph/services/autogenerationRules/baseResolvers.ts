@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createAutogenerationRule: (_, params: MutationCreateAutogenerationRuleArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.create(params),
+      context.autogenerationRules.create(params, true),
     updateAutogenerationRule: (_, params: MutationUpdateAutogenerationRuleArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.update(params),
+      context.autogenerationRules.update(params, true),
     removeAutogenerationRule: (_, params: MutationRemoveAutogenerationRuleArgs, {context}: {context: Context}) =>
       context.autogenerationRules.delete(params),
   },

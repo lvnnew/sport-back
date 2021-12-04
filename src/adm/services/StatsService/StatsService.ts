@@ -40,17 +40,18 @@ export interface BaseStatsMethods {
     Promise<number>;
   meta: (params?: Query_AllStatsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateStatArgs) =>
+  create: (data: MutationCreateStatArgs, byUser?: boolean) =>
     Promise<Stat>;
-  createMany: (data: MutationCreateStatArgs[]) =>
+  createMany: (data: MutationCreateStatArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateStatArgs) =>
+  update: ({id, ...rest}: MutationUpdateStatArgs, byUser?: boolean) =>
     Promise<Stat>;
-  upsert: (data: MutationUpdateStatArgs) =>
+  upsert: (data: MutationUpdateStatArgs, byUser?: boolean) =>
     Promise<Stat>;
   upsertAdvanced: (
     filter: StatFilter,
     data: MutationCreateStatArgs,
+    byUser?: boolean,
   ) =>
     Promise<Stat>;
   delete: (params: MutationRemoveStatArgs) =>
@@ -114,12 +115,22 @@ export const getStatsService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateStatArgs,
+    byUser = false,
   ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.stat.create({
       data: R.mergeDeepLeft(
@@ -131,14 +142,14 @@ export const getStatsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'helloCount',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
               .toPairs(
                 R.pick([
                   'updated',
-                ], data),
+                ], processedData),
               )
               .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
@@ -187,13 +198,23 @@ export const getStatsService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateStatArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.stat.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -227,12 +248,23 @@ export const getStatsService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateStatArgs,
+    byUser = false,
   ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -246,14 +278,14 @@ export const getStatsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'helloCount',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
               .toPairs(
                 R.pick([
                   'updated',
-                ], data),
+                ], processedData),
               )
               .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
@@ -279,15 +311,30 @@ export const getStatsService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateStatArgs,
+    byUser = false,
   ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.stat.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -295,20 +342,20 @@ export const getStatsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'helloCount',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'updated',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -316,19 +363,19 @@ export const getStatsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'helloCount',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'updated',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -340,9 +387,26 @@ export const getStatsService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: StatFilter,
     data: MutationCreateStatArgs,
+    byUser = false,
   ): Promise<Stat> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -352,18 +416,19 @@ export const getStatsService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

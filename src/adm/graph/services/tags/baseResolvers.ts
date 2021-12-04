@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createTag: (_, params: MutationCreateTagArgs, {context}: {context: Context}) =>
-      context.tags.create(params),
+      context.tags.create(params, true),
     updateTag: (_, params: MutationUpdateTagArgs, {context}: {context: Context}) =>
-      context.tags.update(params),
+      context.tags.update(params, true),
     removeTag: (_, params: MutationRemoveTagArgs, {context}: {context: Context}) =>
       context.tags.delete(params),
   },

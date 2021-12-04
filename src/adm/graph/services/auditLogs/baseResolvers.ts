@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createAuditLog: (_, params: MutationCreateAuditLogArgs, {context}: {context: Context}) =>
-      context.auditLogs.create(params),
+      context.auditLogs.create(params, true),
     updateAuditLog: (_, params: MutationUpdateAuditLogArgs, {context}: {context: Context}) =>
-      context.auditLogs.update(params),
+      context.auditLogs.update(params, true),
     removeAuditLog: (_, params: MutationRemoveAuditLogArgs, {context}: {context: Context}) =>
       context.auditLogs.delete(params),
   },

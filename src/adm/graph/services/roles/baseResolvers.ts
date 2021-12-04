@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createRole: (_, params: MutationCreateRoleArgs, {context}: {context: Context}) =>
-      context.roles.create(params),
+      context.roles.create(params, true),
     updateRole: (_, params: MutationUpdateRoleArgs, {context}: {context: Context}) =>
-      context.roles.update(params),
+      context.roles.update(params, true),
     removeRole: (_, params: MutationRemoveRoleArgs, {context}: {context: Context}) =>
       context.roles.delete(params),
   },

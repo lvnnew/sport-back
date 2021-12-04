@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createPermission: (_, params: MutationCreatePermissionArgs, {context}: {context: Context}) =>
-      context.permissions.create(params),
+      context.permissions.create(params, true),
     updatePermission: (_, params: MutationUpdatePermissionArgs, {context}: {context: Context}) =>
-      context.permissions.update(params),
+      context.permissions.update(params, true),
     removePermission: (_, params: MutationRemovePermissionArgs, {context}: {context: Context}) =>
       context.permissions.delete(params),
   },

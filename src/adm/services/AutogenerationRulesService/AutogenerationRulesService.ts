@@ -40,17 +40,18 @@ export interface BaseAutogenerationRulesMethods {
     Promise<number>;
   meta: (params?: Query_AllAutogenerationRulesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAutogenerationRuleArgs) =>
+  create: (data: MutationCreateAutogenerationRuleArgs, byUser?: boolean) =>
     Promise<AutogenerationRule>;
-  createMany: (data: MutationCreateAutogenerationRuleArgs[]) =>
+  createMany: (data: MutationCreateAutogenerationRuleArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAutogenerationRuleArgs) =>
+  update: ({id, ...rest}: MutationUpdateAutogenerationRuleArgs, byUser?: boolean) =>
     Promise<AutogenerationRule>;
-  upsert: (data: MutationUpdateAutogenerationRuleArgs) =>
+  upsert: (data: MutationUpdateAutogenerationRuleArgs, byUser?: boolean) =>
     Promise<AutogenerationRule>;
   upsertAdvanced: (
     filter: AutogenerationRuleFilter,
     data: MutationCreateAutogenerationRuleArgs,
+    byUser?: boolean,
   ) =>
     Promise<AutogenerationRule>;
   delete: (params: MutationRemoveAutogenerationRuleArgs) =>
@@ -114,12 +115,22 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateAutogenerationRuleArgs,
+    byUser = false,
   ): Promise<AutogenerationRule> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.autogenerationRule.create({
       data: R.mergeDeepLeft(
@@ -135,14 +146,14 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
                   'generatingEntityType',
                   'originalEntityFilter',
                   'generatingEntityConstructionRules',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
               .toPairs(
                 R.pick([
                   'version',
-                ], data),
+                ], processedData),
               )
               .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
@@ -195,13 +206,23 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateAutogenerationRuleArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.autogenerationRule.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -239,12 +260,23 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateAutogenerationRuleArgs,
+    byUser = false,
   ): Promise<AutogenerationRule> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -262,14 +294,14 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
                   'generatingEntityType',
                   'originalEntityFilter',
                   'generatingEntityConstructionRules',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
             ...R
               .toPairs(
                 R.pick([
                   'version',
-                ], data),
+                ], processedData),
               )
               .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
@@ -295,15 +327,30 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateAutogenerationRuleArgs,
+    byUser = false,
   ): Promise<AutogenerationRule> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.autogenerationRule.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -315,20 +362,20 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
                 'generatingEntityType',
                 'originalEntityFilter',
                 'generatingEntityConstructionRules',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'version',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -340,19 +387,19 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
                 'generatingEntityType',
                 'originalEntityFilter',
                 'generatingEntityConstructionRules',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'version',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -364,9 +411,26 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: AutogenerationRuleFilter,
     data: MutationCreateAutogenerationRuleArgs,
+    byUser = false,
   ): Promise<AutogenerationRule> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -376,18 +440,19 @@ export const getAutogenerationRulesService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 

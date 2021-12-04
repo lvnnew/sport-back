@@ -21,9 +21,9 @@ const queryResolvers: Resolvers = {
   },
   Mutation: {
     createLanguage: (_, params: MutationCreateLanguageArgs, {context}: {context: Context}) =>
-      context.languages.create(params),
+      context.languages.create(params, true),
     updateLanguage: (_, params: MutationUpdateLanguageArgs, {context}: {context: Context}) =>
-      context.languages.update(params),
+      context.languages.update(params, true),
     removeLanguage: (_, params: MutationRemoveLanguageArgs, {context}: {context: Context}) =>
       context.languages.delete(params),
   },

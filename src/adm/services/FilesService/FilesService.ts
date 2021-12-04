@@ -36,17 +36,18 @@ export interface BaseFilesMethods {
     Promise<number>;
   meta: (params?: Query_AllFilesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateFileArgs) =>
+  create: (data: MutationCreateFileArgs, byUser?: boolean) =>
     Promise<File>;
-  createMany: (data: MutationCreateFileArgs[]) =>
+  createMany: (data: MutationCreateFileArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateFileArgs) =>
+  update: ({id, ...rest}: MutationUpdateFileArgs, byUser?: boolean) =>
     Promise<File>;
-  upsert: (data: MutationUpdateFileArgs) =>
+  upsert: (data: MutationUpdateFileArgs, byUser?: boolean) =>
     Promise<File>;
   upsertAdvanced: (
     filter: FileFilter,
     data: MutationCreateFileArgs,
+    byUser?: boolean,
   ) =>
     Promise<File>;
   delete: (params: MutationRemoveFileArgs) =>
@@ -110,12 +111,22 @@ export const getFilesService = (getCtx: () => Context) => {
 
   const create = async (
     data: MutationCreateFileArgs,
+    byUser = false,
   ): Promise<File> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeCreate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.mergeDeepLeft(
+        {},
+        processedData,
+      );
+    }
+
+    processedData = await beforeCreate(getCtx, data);
 
     const createOperation = getCtx().prisma.file.create({
       data: R.mergeDeepLeft(
@@ -131,7 +142,7 @@ export const getFilesService = (getCtx: () => Context) => {
                   'mimetype',
                   's3Key',
                   'eTag',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -177,13 +188,23 @@ export const getFilesService = (getCtx: () => Context) => {
 
   const createMany = async (
     entries: MutationCreateFileArgs[],
+    byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
+    let processedData = entries;
+
+    if (byUser) {
+      processedData = processedData.map(data => R.mergeDeepLeft(
+        {},
+        data,
+      ));
+    }
+
     const result = await getCtx().prisma.file.createMany({
-      data: entries.map(data => R.mergeDeepLeft(
+      data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
           search: [
@@ -214,12 +235,23 @@ export const getFilesService = (getCtx: () => Context) => {
 
   const update = async (
     data: MutationUpdateFileArgs,
+    byUser = false,
   ): Promise<File> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const processedData = await beforeUpdate(getCtx, data);
+    let processedData = data;
+
+    if (byUser) {
+      processedData = R.omit(
+        [
+        ],
+        processedData,
+      );
+    }
+
+    processedData = await beforeUpdate(getCtx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -237,7 +269,7 @@ export const getFilesService = (getCtx: () => Context) => {
                   'mimetype',
                   's3Key',
                   'eTag',
-                ], data),
+                ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
@@ -263,15 +295,30 @@ export const getFilesService = (getCtx: () => Context) => {
 
   const upsert = async (
     data: MutationUpdateFileArgs,
+    byUser = false,
   ): Promise<File> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const {id, ...rest} = data;
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
+    }
 
     const result = await getCtx().prisma.file.upsert({create: R.mergeDeepLeft(
-      data,
+      processedDataToCreate,
       {
         search: [
           ...R
@@ -283,13 +330,13 @@ export const getFilesService = (getCtx: () => Context) => {
                 'mimetype',
                 's3Key',
                 'eTag',
-              ], data),
+              ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      rest,
+      processedDataToUpdate,
       {
         search: [
           ...R
@@ -301,12 +348,12 @@ export const getFilesService = (getCtx: () => Context) => {
                 'mimetype',
                 's3Key',
                 'eTag',
-              ], data),
+              ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
-    ), where: {id}});
+    ), where: {id: data.id}});
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -318,9 +365,26 @@ export const getFilesService = (getCtx: () => Context) => {
   const upsertAdvanced = async (
     filter: FileFilter,
     data: MutationCreateFileArgs,
+    byUser = false,
   ): Promise<File> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
+    }
+
+    let processedDataToCreate = data;
+    let processedDataToUpdate = data;
+
+    if (byUser) {
+      processedDataToCreate = R.mergeDeepLeft(
+        {},
+        processedDataToCreate,
+      );
+
+      processedDataToUpdate = R.omit(
+        [
+        ],
+        processedDataToUpdate,
+      );
     }
 
     const cnt = await count({filter});
@@ -330,18 +394,19 @@ export const getFilesService = (getCtx: () => Context) => {
     }
 
     if (cnt === 0) {
-      return create(data);
+      return create(processedDataToCreate, false);
     } else {
       const current = await findOne({filter});
 
       if (!current) {
-        return create(data);
+        return create(processedDataToCreate, false);
       }
 
       return update({
-        ...data,
+        ...processedDataToUpdate,
         id: current.id,
-      });
+      },
+      false);
     }
   };
 
