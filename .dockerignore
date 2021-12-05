@@ -6,12 +6,13 @@ dist/
 **/charts
 **/.next
 **/.api
-**/lib
 **/dist
 *Dockerfile*
 yarn-error.log
 **/*.md
 **/*.sh
+
+!**/docs/**/*.md
 
 .env
 *.env
