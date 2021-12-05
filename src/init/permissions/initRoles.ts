@@ -1,5 +1,4 @@
-import * as R from 'ramda';
-import {getBaseServices, Context} from '../../adm/services/context';
+import {Context} from '../../adm/services/context';
 import {Role} from '../../types/enums';
 
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
@@ -9,21 +8,21 @@ import {Role} from '../../types/enums';
 export const initRoles = async (ctx: Context) => {
   // const allPermissions = getRuntimePermissions();
 
-  const services = getBaseServices(() => {
-    throw new Error('Not supposed to be called');
-  });
+  // const services = getBaseServices(() => {
+  //   throw new Error('Not supposed to be called');
+  // });
 
-  const serviceNames = Object.keys(services);
+  // const serviceNames = Object.keys(services);
 
-  const readPermissionNames = [
-    'get',
-    'all',
-    'meta',
-  ];
+  // const readPermissionNames = [
+  //   'get',
+  //   'all',
+  //   'meta',
+  // ];
 
-  const getReadPermissionsOnService = (service: string) => readPermissionNames.map(permission => `${service}.${permission}`);
+  // const getReadPermissionsOnService = (service: string) => readPermissionNames.map(permission => `${service}.${permission}`);
 
-  const readPermissions = R.flatten(serviceNames.map(service => getReadPermissionsOnService(service)));
+  // const readPermissions = R.flatten(serviceNames.map(service => getReadPermissionsOnService(service)));
 
   await ctx.roles.upsert({
     id: Role.Admin,
@@ -31,15 +30,15 @@ export const initRoles = async (ctx: Context) => {
     hasFullAccess: true,
   });
 
-  const manager = await ctx.roles.upsert({
+  await ctx.roles.upsert({
     id: Role.Manager,
     title: 'Manager',
     hasFullAccess: false,
   });
-  await ctx.rolesToPermissions.createMany(readPermissions.map(p => ({
-    roleId: manager.id,
-    permissionId: p,
-  })));
+  // await ctx.rolesToPermissions.createMany(readPermissions.map(p => ({
+  //   roleId: manager.id,
+  //   permissionId: p,
+  // })));
 
   // const getAllServicePermissions = (serviceName: string) => allPermissions.filter(({service}) => service === serviceName);
 

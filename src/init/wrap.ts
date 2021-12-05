@@ -1,21 +1,22 @@
 import {getOrCreateContext} from '../adm/services/context';
 import log from '../log';
-import {getQueue} from '../clients/queue/getQueue';
 import {join} from 'path';
 
 const wrap = async () => {
   log.info('start');
 
-  const queue = await getQueue();
-  await queue.migrate();
-
   const ctx = await getOrCreateContext();
 
-  const needRunFile = process.argv.filter((arg) => !~arg.indexOf('/node_modules/ts-node/dist/bin') && !~arg.indexOf('src/init/wrap.ts'));
+  const needRunFile = process.argv.filter((arg) =>
+    !arg.includes('/node_modules/ts-node/dist/bin') &&
+    !arg.includes('/node_modules/.bin/ts-node') &&
+    !arg.includes('src/init/wrap.ts'),
+  );
 
   for (const file of needRunFile) {
     try {
-      const res = await import(join(process.cwd(), file));
+      const path = join(process.cwd(), file);
+      const res = await import(path);
       for (const [name, method] of Object.entries(res)) {
         if (typeof method === 'function') {
           try {
