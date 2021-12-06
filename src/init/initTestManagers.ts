@@ -3,7 +3,7 @@ import {Role} from '../types/enums';
 import {initManager} from './initManager';
 
 // yarn ts-node:withContext  src/init/initTestManagers.ts
-// ENV=stage yarn ts-node:withContext  src/init/initTestManagers.ts
+// ENV=dev yarn ts-node:withContext  src/init/initTestManagers.ts
 
 const testManagers = [
   {

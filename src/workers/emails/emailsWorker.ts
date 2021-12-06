@@ -11,7 +11,7 @@ import jobsFromFunctions from '../../jobs/jobsFromFunctions';
 import {graphileLogger} from '../utils';
 
 // yarn ts-node src/workers/emails/emailsWorker.ts
-// ENV=stage yarn ts-node src/workers/emails/emailsWorker.ts
+// ENV=dev yarn ts-node src/workers/emails/emailsWorker.ts
 
 exitHook(async () => {
   await closeCtx();

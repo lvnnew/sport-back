@@ -3266,7 +3266,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "cross-env ENV=stage yarn dev",
+   "command": "cross-env ENV=dev yarn dev",
    "name": "dev:stage",
    "needFor": "Запуска преокта в режиме разработки с использование stage базы данных",
    "projectCategory": "back"
