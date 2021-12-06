@@ -52,7 +52,7 @@ worker:
     cpu: "0.15"
   limits:
     memory: "256Mi"
-    cpu: "0.3"
+    cpu: "0.15"
 
 workers:
   - name: emails
@@ -68,7 +68,7 @@ bot:
     cpu: "0.15"
   limits:
     memory: "256Mi"
-    cpu: "0.3"
+    cpu: "0.15"
 
 bots:
   - name: hello
