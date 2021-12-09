@@ -48,11 +48,11 @@ worker:
   enabled: false
   replicas: 1
   requests:
-    memory: "128Mi"
-    cpu: "0.15"
+    memory: "64Mi"
+    cpu: "0.01"
   limits:
-    memory: "256Mi"
-    cpu: "0.15"
+    memory: "64Mi"
+    cpu: "0.01"
 
 workers:
   - name: emails
