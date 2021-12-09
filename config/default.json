@@ -3,7 +3,7 @@
   "admin.recaptcha.secretKey": "",
   "app.jwt.secret": "appSecret",
   "appName": "",
-  "appTitle": "Mtbaseo Platform",
+  "appTitle": "Meta Template Base",
   "customer.recaptcha.secretKey": "",
   "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
   "logs.format": "plain",

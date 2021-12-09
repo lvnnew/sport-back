@@ -20,7 +20,7 @@ variables:
   VERBOSE: 'true'
   RELEASE: $CI_COMMIT_SHORT_SHA
   KUBECONFIG: /etc/deploy/config
-  PROJECT_NAME: agr
+  PROJECT_NAME: mtbase
 
 check:
   stage: check

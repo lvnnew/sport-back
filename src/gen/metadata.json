@@ -3394,7 +3394,7 @@
    ]
   },
   {
-   "default": "Mtbaseo Platform",
+   "default": "Meta Template Base",
    "name": "appTitle",
    "needFor": "Человеческое название приложения",
    "scopes": [
