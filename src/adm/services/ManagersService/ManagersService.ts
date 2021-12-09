@@ -251,8 +251,7 @@ export const getManagersService = (getCtx: () => Context) => {
 
     if (byUser) {
       processedData = R.omit(
-        [
-        ],
+        [],
         processedData,
       );
     }
@@ -319,8 +318,7 @@ export const getManagersService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }
@@ -393,8 +391,7 @@ export const getManagersService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }

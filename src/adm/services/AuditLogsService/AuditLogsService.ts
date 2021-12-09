@@ -282,8 +282,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
 
     if (byUser) {
       processedData = R.omit(
-        [
-        ],
+        [],
         processedData,
       );
     }
@@ -359,8 +358,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }
@@ -451,8 +449,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }

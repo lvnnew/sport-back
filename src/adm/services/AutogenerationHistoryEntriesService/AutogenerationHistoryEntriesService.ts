@@ -270,8 +270,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
 
     if (byUser) {
       processedData = R.omit(
-        [
-        ],
+        [],
         processedData,
       );
     }
@@ -343,8 +342,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }
@@ -427,8 +425,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }

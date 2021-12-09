@@ -233,8 +233,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
 
     if (byUser) {
       processedData = R.omit(
-        [
-        ],
+        [],
         processedData,
       );
     }
@@ -295,8 +294,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }
@@ -357,8 +355,7 @@ export const getPermissionsService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }

@@ -233,8 +233,7 @@ export const getTagsService = (getCtx: () => Context) => {
 
     if (byUser) {
       processedData = R.omit(
-        [
-        ],
+        [],
         processedData,
       );
     }
@@ -295,8 +294,7 @@ export const getTagsService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }
@@ -357,8 +355,7 @@ export const getTagsService = (getCtx: () => Context) => {
       );
 
       processedDataToUpdate = R.omit(
-        [
-        ],
+        [],
         processedDataToUpdate,
       );
     }
