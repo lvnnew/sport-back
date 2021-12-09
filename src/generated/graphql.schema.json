@@ -61,7 +61,7 @@
       {
         "kind": "SCALAR",
         "name": "Duration",
-        "description": "A string representing a duration conforming to the ISO8601 standard,\nsuch as: P1W1DT13H23M34S\nP is the duration designator (for period) placed at the start of the duration representation.\nY is the year designator that follows the value for the number of years.\nM is the month designator that follows the value for the number of months.\nW is the week designator that follows the value for the number of weeks.\nD is the day designator that follows the value for the number of days.\nT is the time designator that precedes the time components of the representation.\nH is the hour designator that follows the value for the number of hours.\nM is the minute designator that follows the value for the number of minutes.\nS is the second designator that follows the value for the number of seconds.\n\nNote the time designator, T, that precedes the time value.\n\nMatches moment.js, Luxon and DateFns implementations\n,/. is valid for decimal places and +/- is a valid prefix",
+        "description": "\n    A string representing a duration conforming to the ISO8601 standard,\n    such as: P1W1DT13H23M34S\n    P is the duration designator (for period) placed at the start of the duration representation.\n    Y is the year designator that follows the value for the number of years.\n    M is the month designator that follows the value for the number of months.\n    W is the week designator that follows the value for the number of weeks.\n    D is the day designator that follows the value for the number of days.\n    T is the time designator that precedes the time components of the representation.\n    H is the hour designator that follows the value for the number of hours.\n    M is the minute designator that follows the value for the number of minutes.\n    S is the second designator that follows the value for the number of seconds.\n\n    Note the time designator, T, that precedes the time value.\n\n    Matches moment.js, Luxon and DateFns implementations\n    ,/. is valid for decimal places and +/- is a valid prefix\n  ",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -71,7 +71,7 @@
       {
         "kind": "SCALAR",
         "name": "ISO8601Duration",
-        "description": "A string representing a duration conforming to the ISO8601 standard,\nsuch as: P1W1DT13H23M34S\nP is the duration designator (for period) placed at the start of the duration representation.\nY is the year designator that follows the value for the number of years.\nM is the month designator that follows the value for the number of months.\nW is the week designator that follows the value for the number of weeks.\nD is the day designator that follows the value for the number of days.\nT is the time designator that precedes the time components of the representation.\nH is the hour designator that follows the value for the number of hours.\nM is the minute designator that follows the value for the number of minutes.\nS is the second designator that follows the value for the number of seconds.\n\nNote the time designator, T, that precedes the time value.\n\nMatches moment.js, Luxon and DateFns implementations\n,/. is valid for decimal places and +/- is a valid prefix",
+        "description": "\n    A string representing a duration conforming to the ISO8601 standard,\n    such as: P1W1DT13H23M34S\n    P is the duration designator (for period) placed at the start of the duration representation.\n    Y is the year designator that follows the value for the number of years.\n    M is the month designator that follows the value for the number of months.\n    W is the week designator that follows the value for the number of weeks.\n    D is the day designator that follows the value for the number of days.\n    T is the time designator that precedes the time components of the representation.\n    H is the hour designator that follows the value for the number of hours.\n    M is the minute designator that follows the value for the number of minutes.\n    S is the second designator that follows the value for the number of seconds.\n\n    Note the time designator, T, that precedes the time value.\n\n    Matches moment.js, Luxon and DateFns implementations\n    ,/. is valid for decimal places and +/- is a valid prefix\n  ",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -13225,7 +13225,7 @@
       },
       {
         "name": "specifiedBy",
-        "description": "Exposes a URL that specifies the behaviour of this scalar.",
+        "description": "Exposes a URL that specifies the behavior of this scalar.",
         "isRepeatable": false,
         "locations": [
           "SCALAR"
@@ -13233,7 +13233,7 @@
         "args": [
           {
             "name": "url",
-            "description": "The URL that specifies the behaviour of this scalar.",
+            "description": "The URL that specifies the behavior of this scalar.",
             "type": {
               "kind": "NON_NULL",
               "name": null,
