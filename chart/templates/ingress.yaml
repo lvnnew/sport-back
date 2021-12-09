@@ -5,9 +5,9 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
- name: agr-back
+ name: mtbase-back
  labels:
-    app: agr-back
+    app: mtbase-back
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -25,14 +25,14 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: agr-back
+              serviceName: mtbase-back
               servicePort: 3000
     {{ end }}
     - host: {{ $.Values.ingress.domain }}.{{ $.Values.global.env }}.apps.{{ $.Values.global.clusterName }}.{{ $.Values.ingress.host }}
       http:
         paths:
           - backend:
-              serviceName: agr-back
+              serviceName: mtbase-back
               servicePort: 3000
   tls:
   - hosts:

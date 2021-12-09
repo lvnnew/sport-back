@@ -231,7 +231,7 @@ deploy-prod-workers:
     - mkdir -p /etc/deploy
     - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
   script:
-    - NAMESPACE=${NAMESPACE:-"agr-${ENV}"}
+    - NAMESPACE=${NAMESPACE:-"mtbase-${ENV}"}
     - echo NAMESPACE ${NAMESPACE}
 
     - helm upgrade

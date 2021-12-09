@@ -8,7 +8,7 @@ global:
 
 dev: false
 
-dockerRegistry: registry.gitlab.com/agro-sys
+dockerRegistry: registry.gitlab.com/mtbase
 
 app:
   tag: :master
@@ -89,7 +89,7 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
   host: "apps.making.ventures"
   letsencryptCert: true
-  domain: "agr-ep"
+  domain: "mtbase-ep"
 
 resources:
   {}

@@ -3394,7 +3394,7 @@
    ]
   },
   {
-   "default": "Agro Platform",
+   "default": "Mtbaseo Platform",
    "name": "appTitle",
    "needFor": "Человеческое название приложения",
    "scopes": [
@@ -3539,9 +3539,9 @@
  "languages": [
   "en"
  ],
- "name": "agr",
+ "name": "mtbase",
  "needFor": "notSet",
- "prefix": "agr",
+ "prefix": "mtbase",
  "reports": [],
  "restApis": [],
  "sumRegistries": [],

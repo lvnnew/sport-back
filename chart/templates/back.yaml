@@ -5,9 +5,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: agr-back
+  name: mtbase-back
   labels:
-    app: agr-back
+    app: mtbase-back
     projectName: {{ $.Values.global.projectName }}
     clusterName: {{ $.Values.global.clusterName }}
     env: {{ $.Values.global.env }}
@@ -18,12 +18,12 @@ spec:
   ports:
   - port: 3000
   selector:
-    app: agr-back
+    app: mtbase-back
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: agr-back
+  name: mtbase-back
 spec:
   replicas: {{ $.Values.app.replicas }}
   strategy:
@@ -32,11 +32,11 @@ spec:
       maxSurge: 3
   selector:
     matchLabels:
-      app: agr-back
+      app: mtbase-back
   template:
     metadata:
       labels:
-        app: agr-back
+        app: mtbase-back
         projectName: {{ $.Values.global.projectName }}
         clusterName: {{ $.Values.global.clusterName }}
         env: {{ $.Values.global.env }}
@@ -47,8 +47,8 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       containers:
-      - name: agr-back
-        image: {{ $.Values.dockerRegistry }}/agr-back{{ $.Values.app.tag }}
+      - name: mtbase-back
+        image: {{ $.Values.dockerRegistry }}/mtbase-back{{ $.Values.app.tag }}
         ports:
         - name: main-port
           containerPort: 3000
