@@ -206,7 +206,7 @@
      "required": true,
      "requiredOnInput": true,
      "searchable": true,
-     "type": "date",
+     "type": "datetime",
      "updatable": true,
      "updatableByUser": true
     },
@@ -515,7 +515,7 @@
      "required": true,
      "requiredOnInput": true,
      "searchable": true,
-     "type": "date",
+     "type": "datetime",
      "updatable": true,
      "updatableByUser": true
     },

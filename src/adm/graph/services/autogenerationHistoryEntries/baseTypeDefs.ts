@@ -5,7 +5,7 @@ import {gql} from 'apollo-server';
 export default gql`
   type AutogenerationHistoryEntry {
     id: Int!
-    date: Date!
+    date: DateTime!
     originalEntityType: String!
     originalEntityId: String!
     autogenerationRuleId: String!
@@ -13,6 +13,11 @@ export default gql`
     errorOccurred: Boolean!
     error: String
   }
+
+  """
+  A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the 'date-time' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+  """
+  scalar DateTime
 
   """
   A date string, such as 2007-12-03, compliant with the 'full-date' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
@@ -23,11 +28,11 @@ export default gql`
     q: String
     ids: [Int]
     id: Int
-    date: Date
-    date_lte: Date
-    date_gte: Date
-    date_lt: Date
-    date_gt: Date
+    date: DateTime
+    date_lte: DateTime
+    date_gte: DateTime
+    date_lt: DateTime
+    date_gt: DateTime
     originalEntityType: String
     originalEntityType_in: [String]
     originalEntityId: String
@@ -55,8 +60,8 @@ export default gql`
   }
 
   type Mutation {
-    createAutogenerationHistoryEntry(date: Date!, originalEntityType: String!, originalEntityId: String!, autogenerationRuleId: String!, version: Date!, errorOccurred: Boolean!, error: String): AutogenerationHistoryEntry
-    updateAutogenerationHistoryEntry(id: Int!, date: Date!, originalEntityType: String!, originalEntityId: String!, autogenerationRuleId: String!, version: Date!, errorOccurred: Boolean!, error: String): AutogenerationHistoryEntry
+    createAutogenerationHistoryEntry(date: DateTime!, originalEntityType: String!, originalEntityId: String!, autogenerationRuleId: String!, version: Date!, errorOccurred: Boolean!, error: String): AutogenerationHistoryEntry
+    updateAutogenerationHistoryEntry(id: Int!, date: DateTime!, originalEntityType: String!, originalEntityId: String!, autogenerationRuleId: String!, version: Date!, errorOccurred: Boolean!, error: String): AutogenerationHistoryEntry
     removeAutogenerationHistoryEntry(id: Int!): AutogenerationHistoryEntry
   }
 `;

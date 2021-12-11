@@ -742,7 +742,7 @@ export type MutationRemoveAppLoginArgs = {
 
 
 export type MutationCreateAuditLogArgs = {
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   title: Scalars['String'];
   entityType: Scalars['String'];
   entityId: Scalars['String'];
@@ -758,7 +758,7 @@ export type MutationCreateAuditLogArgs = {
 
 export type MutationUpdateAuditLogArgs = {
   id: Scalars['Int'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   title: Scalars['String'];
   entityType: Scalars['String'];
   entityId: Scalars['String'];
@@ -778,7 +778,7 @@ export type MutationRemoveAuditLogArgs = {
 
 
 export type MutationCreateAutogenerationHistoryEntryArgs = {
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   originalEntityType: Scalars['String'];
   originalEntityId: Scalars['String'];
   autogenerationRuleId: Scalars['String'];
@@ -790,7 +790,7 @@ export type MutationCreateAutogenerationHistoryEntryArgs = {
 
 export type MutationUpdateAutogenerationHistoryEntryArgs = {
   id: Scalars['Int'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   originalEntityType: Scalars['String'];
   originalEntityId: Scalars['String'];
   autogenerationRuleId: Scalars['String'];
@@ -1143,7 +1143,7 @@ export type MutationRemoveUserArgs = {
 export type AuditLog = {
   __typename?: 'AuditLog';
   id: Scalars['Int'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   title: Scalars['String'];
   entityType: Scalars['String'];
   entityId: Scalars['String'];
@@ -1160,11 +1160,11 @@ export type AuditLogFilter = {
   q?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   id?: InputMaybe<Scalars['Int']>;
-  date?: InputMaybe<Scalars['Date']>;
-  date_lte?: InputMaybe<Scalars['Date']>;
-  date_gte?: InputMaybe<Scalars['Date']>;
-  date_lt?: InputMaybe<Scalars['Date']>;
-  date_gt?: InputMaybe<Scalars['Date']>;
+  date?: InputMaybe<Scalars['DateTime']>;
+  date_lte?: InputMaybe<Scalars['DateTime']>;
+  date_gte?: InputMaybe<Scalars['DateTime']>;
+  date_lt?: InputMaybe<Scalars['DateTime']>;
+  date_gt?: InputMaybe<Scalars['DateTime']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entityType?: InputMaybe<Scalars['String']>;
@@ -1189,7 +1189,7 @@ export type AuditLogFilter = {
 export type AutogenerationHistoryEntry = {
   __typename?: 'AutogenerationHistoryEntry';
   id: Scalars['Int'];
-  date: Scalars['Date'];
+  date: Scalars['DateTime'];
   originalEntityType: Scalars['String'];
   originalEntityId: Scalars['String'];
   autogenerationRuleId: Scalars['String'];
@@ -1202,11 +1202,11 @@ export type AutogenerationHistoryEntryFilter = {
   q?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   id?: InputMaybe<Scalars['Int']>;
-  date?: InputMaybe<Scalars['Date']>;
-  date_lte?: InputMaybe<Scalars['Date']>;
-  date_gte?: InputMaybe<Scalars['Date']>;
-  date_lt?: InputMaybe<Scalars['Date']>;
-  date_gt?: InputMaybe<Scalars['Date']>;
+  date?: InputMaybe<Scalars['DateTime']>;
+  date_lte?: InputMaybe<Scalars['DateTime']>;
+  date_gte?: InputMaybe<Scalars['DateTime']>;
+  date_lt?: InputMaybe<Scalars['DateTime']>;
+  date_gt?: InputMaybe<Scalars['DateTime']>;
   originalEntityType?: InputMaybe<Scalars['String']>;
   originalEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   originalEntityId?: InputMaybe<Scalars['String']>;
@@ -2218,7 +2218,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type AuditLogResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuditLog'] = ResolversParentTypes['AuditLog']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   entityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -2234,7 +2234,7 @@ export type AuditLogResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type AutogenerationHistoryEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['AutogenerationHistoryEntry'] = ResolversParentTypes['AutogenerationHistoryEntry']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   originalEntityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   originalEntityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   autogenerationRuleId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

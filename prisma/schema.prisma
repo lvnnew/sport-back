@@ -10,7 +10,7 @@ datasource db {
 model AuditLog {
 	id	Int	@default(autoincrement())	@id
 	search	String?
-	date	DateTime	@db.Date
+	date	DateTime
 	title	String
 	entityType	String
 	entityId	String
@@ -29,7 +29,7 @@ model AuditLog {
 model AutogenerationHistoryEntry {
 	id	Int	@default(autoincrement())	@id
 	search	String?
-	date	DateTime	@db.Date
+	date	DateTime
 	originalEntityType	String
 	originalEntityId	String
 	autogenerationRuleId	String

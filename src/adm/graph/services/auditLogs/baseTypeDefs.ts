@@ -5,7 +5,7 @@ import {gql} from 'apollo-server';
 export default gql`
   type AuditLog {
     id: Int!
-    date: Date!
+    date: DateTime!
     title: String!
     entityType: String!
     entityId: String!
@@ -19,19 +19,19 @@ export default gql`
   }
 
   """
-  A date string, such as 2007-12-03, compliant with the 'full-date' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+  A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the 'date-time' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
   """
-  scalar Date
+  scalar DateTime
 
   input AuditLogFilter {
     q: String
     ids: [Int]
     id: Int
-    date: Date
-    date_lte: Date
-    date_gte: Date
-    date_lt: Date
-    date_gt: Date
+    date: DateTime
+    date_lte: DateTime
+    date_gte: DateTime
+    date_lt: DateTime
+    date_gt: DateTime
     title: String
     title_in: [String]
     entityType: String
@@ -64,8 +64,8 @@ export default gql`
   }
 
   type Mutation {
-    createAuditLog(date: Date!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
-    updateAuditLog(id: Int!, date: Date!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
+    createAuditLog(date: DateTime!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
+    updateAuditLog(id: Int!, date: DateTime!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
     removeAuditLog(id: Int!): AuditLog
   }
 `;
