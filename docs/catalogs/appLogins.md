@@ -1,5 +1,5 @@
 
-# Logins of usual (not admins) users
+# User' logins
 
 Need for: Аккаунты (информация по логинам) обычных пользователей (не админов)
 
