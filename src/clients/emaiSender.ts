@@ -117,6 +117,7 @@ export const getEmailSender = async () => {
           });
         }
       }
+
       log.info('attachments');
       log.info(attachments);
 
@@ -140,10 +141,12 @@ export const getEmailSender = async () => {
       if (!templateId) {
         throw new Error('Template should be set');
       }
+
       const template = await ctx.messageTemplates.get(templateId);
       if (!template) {
         throw new Error(`There is no template with "${templateId}" id`);
       }
+
       await rawSender.send(interceptedOptions);
 
       // try {
