@@ -131,7 +131,7 @@
     "@types/mocha": "^9.0.0",
     "@types/multer": "^1.4.7",
     "@types/nconf": "^0.10.1",
-    "@types/node": "^16.11.12",
+    "@types/node": "^17.0.0",
     "@types/passport": "^1.0.7",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
