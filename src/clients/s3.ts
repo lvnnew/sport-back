@@ -90,7 +90,7 @@ export const createS3Putter = (bucket: string) => async (file: string, path: str
   const fileContent = fs.readFileSync(file);
 
   await new Promise<void>((resolve, reject) => {
-    s3.putObject(
+    s3.upload(
       {
         Body: fileContent,
         Bucket: bucket,
@@ -115,7 +115,7 @@ export const createS3PutterWithoutFileSaving = (bucket: string) => async (file: 
   const fileContent = fs.readFileSync(file);
 
   await new Promise<void>((resolve, reject) => {
-    s3.putObject(
+    s3.upload(
       {
         Body: fileContent,
         Bucket: bucket,
@@ -147,7 +147,7 @@ export const createS3JsonPutter = (bucket: string) => async (id: string, data: R
   });
 
   await new Promise<void>((resolve, reject) => {
-    s3.putObject(
+    s3.upload(
       {
         Body: JSON.stringify(data),
         Bucket: bucket,
