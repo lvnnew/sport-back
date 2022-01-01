@@ -170,7 +170,7 @@ export const getEmailSender = async () => {
       //   log.error(error);
       // }
 
-      log.info('sended');
+      log.info('sent');
     };
 
     emailSender = {

@@ -4,7 +4,7 @@ import express, {Request, Response} from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {run, parseCronItems} from 'graphile-worker';
 import {getConfig} from '../../config';
-import {generalJobs} from './generalJobs';
+import generalJobs from './generalJobs';
 import {generalCronJobs} from './generalCronJobs';
 import {closeCtx} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';

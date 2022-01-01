@@ -4,7 +4,7 @@ import express, {Request, Response} from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {run} from 'graphile-worker';
 import {getConfig} from '../../config';
-import {emailsJobs} from './emailsJobs';
+import emailsJobs from './emailsJobs';
 import {closeCtx} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
 import jobsFromFunctions from '../../jobs/jobsFromFunctions';
