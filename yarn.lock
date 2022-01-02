@@ -2465,10 +2465,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/graphql-upload@^8.0.7":
-  version "8.0.7"
-  resolved "https://registry.yarnpkg.com/@types/graphql-upload/-/graphql-upload-8.0.7.tgz#71dd5d4a8d9ddb598df91298d6e98a943061b255"
-  integrity sha512-uXhInuUY/W6n9a+PdCt9vcZ7z2m+NzByBJFvvDM+46pljqEwXXnIAjsEI1Dka2FKRTGthetm/imN//RhtEEYSA==
+"@types/graphql-upload@^8.0.8":
+  version "8.0.8"
+  resolved "https://registry.yarnpkg.com/@types/graphql-upload/-/graphql-upload-8.0.8.tgz#694473dda78bc3309908a24f128d66f4a48a80a0"
+  integrity sha512-jrAJGnfK4qqRlKoofK14mGsYF/k21q3Q3Kl2aYDjUBEVSFtnM61NcvV6eMSjFnrXYe5FetWINpTtEcSNzbvNMQ==
   dependencies:
     "@types/express" "*"
     "@types/fs-capacitor" "*"
@@ -2624,10 +2624,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^17.0.5":
-  version "17.0.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.5.tgz#57ca67ec4e57ad9e4ef5a6bab48a15387a1c83e0"
-  integrity sha512-w3mrvNXLeDYV1GKTZorGJQivK6XLCoGwpnyJFbJVK/aTBQUxOCaa/GlFAAN3OTDFcb7h5tiFG+YXCO2By+riZw==
+"@types/node@^17.0.6":
+  version "17.0.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.6.tgz#cc1589c9ee853b389e67e8fb4384e0f250a139b9"
+  integrity sha512-+XBAjfZmmivILUzO0HwBJoYkAyyySSLg5KCGBDFLomJo0sV6szvVLAf4ANZZ0pfWzgEds5KmGLG9D5hfEqOhaA==
 
 "@types/nodemailer@*":
   version "6.4.4"
