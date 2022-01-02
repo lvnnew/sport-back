@@ -85,6 +85,17 @@ model Language {
 }
 
 
+model AppLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	userId	Int
+	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
+	@@unique([login])
+}
+
+
 model ManagerLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -206,17 +217,6 @@ model Unit {
 	parent	Unit?	@relation("From-Unit.parent", fields: [parentId], references: [id])
 	managerUnits	Manager[]	@relation("From-Manager.unit")
 	unitParents	Unit[]	@relation("From-Unit.parent")
-}
-
-
-model AppLogin {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	login	String
-	passwordHash	String
-	userId	Int
-	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
-	@@unique([login])
 }
 
 
