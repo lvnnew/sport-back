@@ -55,10 +55,6 @@ worker:
     cpu: "0.01"
 
 workers:
-  - name: emails
-    file: dist/workers/emails/emailsWorker.js
-  - name: general
-    file: dist/workers/general/generalWorker.js
 
 bot:
   enabled: false
@@ -71,8 +67,6 @@ bot:
     cpu: "0.15"
 
 bots:
-  - name: hello
-    file: dist/bots/helloBot.js
 
 apollo:
   key: ''
