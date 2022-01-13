@@ -10,6 +10,7 @@ import {Logger} from 'winston';
 import log from '../../log';
 import {onStart} from '../../systemHooks';
 import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
+import {AuditLogActionTypesService, getAuditLogActionTypesService} from './AuditLogActionTypesService/AuditLogActionTypesService';
 import {AuditLogsService, getAuditLogsService} from './AuditLogsService/AuditLogsService';
 import {AutogenerationHistoryEntriesService, getAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
 import {AutogenerationRulesService, getAutogenerationRulesService} from './AutogenerationRulesService/AutogenerationRulesService';
@@ -36,6 +37,7 @@ import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
 export interface BaseServices {
   help: HelpService;
   appLogins: AppLoginsService;
+  auditLogActionTypes: AuditLogActionTypesService;
   auditLogs: AuditLogsService;
   autogenerationHistoryEntries: AutogenerationHistoryEntriesService;
   autogenerationRules: AutogenerationRulesService;
@@ -107,6 +109,7 @@ export const createBaseContext = async (): Promise<BaseContext> => {
 export const getBaseServices = (getContext: () => Context): BaseServices => ({
   help: getHelpService(),
   appLogins: getAppLoginsService(getContext),
+  auditLogActionTypes: getAuditLogActionTypesService(getContext),
   auditLogs: getAuditLogsService(getContext),
   autogenerationHistoryEntries: getAutogenerationHistoryEntriesService(getContext),
   autogenerationRules: getAutogenerationRulesService(getContext),

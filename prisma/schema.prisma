@@ -14,7 +14,8 @@ model AuditLog {
 	title	String
 	entityType	String
 	entityId	String
-	action	String
+	actionTypeId	String
+	actionType	AuditLogActionType	@relation("From-AuditLog.actionType", fields: [actionTypeId], references: [id])
 	managerId	Int?
 	manager	Manager?	@relation("From-AuditLog.manager", fields: [managerId], references: [id])
 	userId	Int?
@@ -23,6 +24,14 @@ model AuditLog {
 	foreignEntityType	String?
 	foreignEntityId	String?
 	actionData	String?
+}
+
+
+model AuditLogActionType {
+	id	String	@id
+	search	String?
+	title	String?
+	auditLogActionTypes	AuditLog[]	@relation("From-AuditLog.actionType")
 }
 
 

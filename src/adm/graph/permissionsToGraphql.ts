@@ -4,6 +4,7 @@ import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
 import {Services} from '../services/context';
 import helpPermissionToGraphql from './services/help/permissionsToGraphql';
 import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
+import auditLogActionTypesPermissionToGraphql from './services/auditLogActionTypes/permissionsToGraphql';
 import auditLogsPermissionToGraphql from './services/auditLogs/permissionsToGraphql';
 import autogenerationHistoryEntriesPermissionToGraphql from './services/autogenerationHistoryEntries/permissionsToGraphql';
 import autogenerationRulesPermissionToGraphql from './services/autogenerationRules/permissionsToGraphql';
@@ -37,6 +38,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   ...additionalServicesPermissionToGraphql,
   help: helpPermissionToGraphql,
   appLogins: appLoginsPermissionToGraphql,
+  auditLogActionTypes: auditLogActionTypesPermissionToGraphql,
   auditLogs: auditLogsPermissionToGraphql,
   autogenerationHistoryEntries: autogenerationHistoryEntriesPermissionToGraphql,
   autogenerationRules: autogenerationRulesPermissionToGraphql,

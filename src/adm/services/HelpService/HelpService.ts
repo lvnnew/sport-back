@@ -6,6 +6,7 @@ export interface HelpService {
 
 const infoFilesForService = {
   appLogins: 'docs/catalogs/appLogins.md',
+  auditLogActionTypes: 'docs/catalogs/auditLogActionTypes.md',
   auditLogs: 'docs/catalogs/auditLogs.md',
   autogenerationHistoryEntries: 'docs/catalogs/autogenerationHistoryEntries.md',
   autogenerationRules: 'docs/catalogs/autogenerationRules.md',

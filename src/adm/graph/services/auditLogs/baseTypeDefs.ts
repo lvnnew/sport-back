@@ -9,7 +9,7 @@ export default gql`
     title: String!
     entityType: String!
     entityId: String!
-    action: String!
+    actionTypeId: String!
     managerId: Int
     userId: Int
     foreign: Boolean
@@ -38,8 +38,8 @@ export default gql`
     entityType_in: [String]
     entityId: String
     entityId_in: [String]
-    action: String
-    action_in: [String]
+    actionTypeId: String
+    actionTypeId_in: [String]
     managerId: Int
     managerId_in: [Int]
     userId: Int
@@ -64,8 +64,8 @@ export default gql`
   }
 
   type Mutation {
-    createAuditLog(date: DateTime!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
-    updateAuditLog(id: Int!, date: DateTime!, title: String!, entityType: String!, entityId: String!, action: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
+    createAuditLog(date: DateTime!, title: String!, entityType: String!, entityId: String!, actionTypeId: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
+    updateAuditLog(id: Int!, date: DateTime!, title: String!, entityType: String!, entityId: String!, actionTypeId: String!, managerId: Int, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
     removeAuditLog(id: Int!): AuditLog
   }
 `;

@@ -188,6 +188,9 @@ export type Query = {
   AppLogin?: Maybe<AppLogin>;
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
+  AuditLogActionType?: Maybe<AuditLogActionType>;
+  allAuditLogActionTypes?: Maybe<Array<Maybe<AuditLogActionType>>>;
+  _allAuditLogActionTypesMeta?: Maybe<ListMetadata>;
   AuditLog?: Maybe<AuditLog>;
   allAuditLogs?: Maybe<Array<Maybe<AuditLog>>>;
   _allAuditLogsMeta?: Maybe<ListMetadata>;
@@ -268,6 +271,27 @@ export type Query_AllAppLoginsMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<AppLoginFilter>;
+};
+
+
+export type QueryAuditLogActionTypeArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllAuditLogActionTypesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<AuditLogActionTypeFilter>;
+};
+
+
+export type Query_AllAuditLogActionTypesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<AuditLogActionTypeFilter>;
 };
 
 
@@ -663,6 +687,9 @@ export type Mutation = {
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<AppLogin>;
+  createAuditLogActionType?: Maybe<AuditLogActionType>;
+  updateAuditLogActionType?: Maybe<AuditLogActionType>;
+  removeAuditLogActionType?: Maybe<AuditLogActionType>;
   createAuditLog?: Maybe<AuditLog>;
   updateAuditLog?: Maybe<AuditLog>;
   removeAuditLog?: Maybe<AuditLog>;
@@ -741,12 +768,29 @@ export type MutationRemoveAppLoginArgs = {
 };
 
 
+export type MutationCreateAuditLogActionTypeArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateAuditLogActionTypeArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveAuditLogActionTypeArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationCreateAuditLogArgs = {
   date: Scalars['DateTime'];
   title: Scalars['String'];
   entityType: Scalars['String'];
   entityId: Scalars['String'];
-  action: Scalars['String'];
+  actionTypeId: Scalars['String'];
   managerId?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['Int']>;
   foreign?: InputMaybe<Scalars['Boolean']>;
@@ -762,7 +806,7 @@ export type MutationUpdateAuditLogArgs = {
   title: Scalars['String'];
   entityType: Scalars['String'];
   entityId: Scalars['String'];
-  action: Scalars['String'];
+  actionTypeId: Scalars['String'];
   managerId?: InputMaybe<Scalars['Int']>;
   userId?: InputMaybe<Scalars['Int']>;
   foreign?: InputMaybe<Scalars['Boolean']>;
@@ -1140,6 +1184,20 @@ export type MutationRemoveUserArgs = {
   id: Scalars['Int'];
 };
 
+export type AuditLogActionType = {
+  __typename?: 'AuditLogActionType';
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type AuditLogActionTypeFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type AuditLog = {
   __typename?: 'AuditLog';
   id: Scalars['Int'];
@@ -1147,7 +1205,7 @@ export type AuditLog = {
   title: Scalars['String'];
   entityType: Scalars['String'];
   entityId: Scalars['String'];
-  action: Scalars['String'];
+  actionTypeId: Scalars['String'];
   managerId?: Maybe<Scalars['Int']>;
   userId?: Maybe<Scalars['Int']>;
   foreign?: Maybe<Scalars['Boolean']>;
@@ -1171,8 +1229,8 @@ export type AuditLogFilter = {
   entityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entityId?: InputMaybe<Scalars['String']>;
   entityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  action?: InputMaybe<Scalars['String']>;
-  action_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  actionTypeId?: InputMaybe<Scalars['String']>;
+  actionTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   userId?: InputMaybe<Scalars['Int']>;
@@ -1310,6 +1368,7 @@ export type FileFilter = {
 
 export enum EntityType {
   AppLogins = 'appLogins',
+  AuditLogActionTypes = 'auditLogActionTypes',
   AuditLogs = 'auditLogs',
   AutogenerationHistoryEntries = 'autogenerationHistoryEntries',
   AutogenerationRules = 'autogenerationRules',
@@ -1722,6 +1781,8 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  AuditLogActionType: ResolverTypeWrapper<AuditLogActionType>;
+  AuditLogActionTypeFilter: AuditLogActionTypeFilter;
   AuditLog: ResolverTypeWrapper<AuditLog>;
   AuditLogFilter: AuditLogFilter;
   AutogenerationHistoryEntry: ResolverTypeWrapper<AutogenerationHistoryEntry>;
@@ -1826,6 +1887,8 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
+  AuditLogActionType: AuditLogActionType;
+  AuditLogActionTypeFilter: AuditLogActionTypeFilter;
   AuditLog: AuditLog;
   AuditLogFilter: AuditLogFilter;
   AutogenerationHistoryEntry: AutogenerationHistoryEntry;
@@ -2094,6 +2157,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
+  AuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<QueryAuditLogActionTypeArgs, 'id'>>;
+  allAuditLogActionTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['AuditLogActionType']>>>, ParentType, ContextType, RequireFields<QueryAllAuditLogActionTypesArgs, never>>;
+  _allAuditLogActionTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAuditLogActionTypesMetaArgs, never>>;
   AuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<QueryAuditLogArgs, 'id'>>;
   allAuditLogs?: Resolver<Maybe<Array<Maybe<ResolversTypes['AuditLog']>>>, ParentType, ContextType, RequireFields<QueryAllAuditLogsArgs, never>>;
   _allAuditLogsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAuditLogsMetaArgs, never>>;
@@ -2159,8 +2225,11 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
-  createAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogArgs, 'date' | 'title' | 'entityType' | 'entityId' | 'action'>>;
-  updateAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogArgs, 'id' | 'date' | 'title' | 'entityType' | 'entityId' | 'action'>>;
+  createAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogActionTypeArgs, 'id'>>;
+  updateAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogActionTypeArgs, 'id'>>;
+  removeAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationRemoveAuditLogActionTypeArgs, 'id'>>;
+  createAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogArgs, 'date' | 'title' | 'entityType' | 'entityId' | 'actionTypeId'>>;
+  updateAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogArgs, 'id' | 'date' | 'title' | 'entityType' | 'entityId' | 'actionTypeId'>>;
   removeAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationRemoveAuditLogArgs, 'id'>>;
   createAutogenerationHistoryEntry?: Resolver<Maybe<ResolversTypes['AutogenerationHistoryEntry']>, ParentType, ContextType, RequireFields<MutationCreateAutogenerationHistoryEntryArgs, 'date' | 'originalEntityType' | 'originalEntityId' | 'autogenerationRuleId' | 'version' | 'errorOccurred'>>;
   updateAutogenerationHistoryEntry?: Resolver<Maybe<ResolversTypes['AutogenerationHistoryEntry']>, ParentType, ContextType, RequireFields<MutationUpdateAutogenerationHistoryEntryArgs, 'id' | 'date' | 'originalEntityType' | 'originalEntityId' | 'autogenerationRuleId' | 'version' | 'errorOccurred'>>;
@@ -2216,13 +2285,19 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   removeUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
 };
 
+export type AuditLogActionTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuditLogActionType'] = ResolversParentTypes['AuditLogActionType']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type AuditLogResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuditLog'] = ResolversParentTypes['AuditLog']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   entityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  action?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  actionTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   managerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   foreign?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -2442,6 +2517,7 @@ export type Resolvers<ContextType = any> = {
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  AuditLogActionType?: AuditLogActionTypeResolvers<ContextType>;
   AuditLog?: AuditLogResolvers<ContextType>;
   AutogenerationHistoryEntry?: AutogenerationHistoryEntryResolvers<ContextType>;
   AutogenerationRule?: AutogenerationRuleResolvers<ContextType>;

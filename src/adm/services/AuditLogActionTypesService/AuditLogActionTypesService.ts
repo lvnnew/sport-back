@@ -1,18 +1,18 @@
 import {
   ListMetadata,
-  MutationCreateAuditLogArgs,
-  MutationUpdateAuditLogArgs,
-  MutationRemoveAuditLogArgs,
-  QueryAllAuditLogsArgs,
-  Query_AllAuditLogsMetaArgs,
-  AuditLog,
-  AuditLogFilter,
+  MutationCreateAuditLogActionTypeArgs,
+  MutationUpdateAuditLogActionTypeArgs,
+  MutationRemoveAuditLogActionTypeArgs,
+  QueryAllAuditLogActionTypesArgs,
+  Query_AllAuditLogActionTypesMetaArgs,
+  AuditLogActionType,
+  AuditLogActionTypeFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../context';
 import {Prisma} from '@prisma/client';
-import {AdditionalAuditLogsMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalAuditLogActionTypesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
 import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
 import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
@@ -22,89 +22,85 @@ import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import * as R from 'ramda';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-export interface BaseAuditLogsMethods {
-  get: (id: number) =>
-    Promise<AuditLog | null>;
-  all: (params?: QueryAllAuditLogsArgs) =>
-    Promise<AuditLog[]>;
-  findOne: (params?: QueryAllAuditLogsArgs) =>
-    Promise<AuditLog | null>;
-  count: (params?: Query_AllAuditLogsMetaArgs) =>
+export interface BaseAuditLogActionTypesMethods {
+  get: (id: string) =>
+    Promise<AuditLogActionType | null>;
+  all: (params?: QueryAllAuditLogActionTypesArgs) =>
+    Promise<AuditLogActionType[]>;
+  findOne: (params?: QueryAllAuditLogActionTypesArgs) =>
+    Promise<AuditLogActionType | null>;
+  count: (params?: Query_AllAuditLogActionTypesMetaArgs) =>
     Promise<number>;
-  meta: (params?: Query_AllAuditLogsMetaArgs) =>
+  meta: (params?: Query_AllAuditLogActionTypesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAuditLogArgs, byUser?: boolean) =>
-    Promise<AuditLog>;
-  createMany: (data: MutationCreateAuditLogArgs[], byUser?: boolean) =>
+  create: (data: MutationCreateAuditLogActionTypeArgs, byUser?: boolean) =>
+    Promise<AuditLogActionType>;
+  createMany: (data: MutationCreateAuditLogActionTypeArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAuditLogArgs, byUser?: boolean) =>
-    Promise<AuditLog>;
-  upsert: (data: MutationUpdateAuditLogArgs, byUser?: boolean) =>
-    Promise<AuditLog>;
+  update: ({id, ...rest}: MutationUpdateAuditLogActionTypeArgs, byUser?: boolean) =>
+    Promise<AuditLogActionType>;
+  upsert: (data: MutationUpdateAuditLogActionTypeArgs, byUser?: boolean) =>
+    Promise<AuditLogActionType>;
   upsertAdvanced: (
-    filter: AuditLogFilter,
-    data: MutationCreateAuditLogArgs,
+    filter: AuditLogActionTypeFilter,
+    data: MutationCreateAuditLogActionTypeArgs,
     byUser?: boolean,
   ) =>
-    Promise<AuditLog>;
-  delete: (params: MutationRemoveAuditLogArgs) =>
-    Promise<AuditLog>;
+    Promise<AuditLogActionType>;
+  delete: (params: MutationRemoveAuditLogActionTypeArgs) =>
+    Promise<AuditLogActionType>;
 }
 
-export type AuditLogsService = BaseAuditLogsMethods & AdditionalAuditLogsMethods;
+export type AuditLogActionTypesService = BaseAuditLogActionTypesMethods & AdditionalAuditLogActionTypesMethods;
 
-export const getAuditLogsService = (getCtx: () => Context) => {
+export const getAuditLogActionTypesService = (getCtx: () => Context) => {
   const get = async (
-    id: number,
-  ): Promise<AuditLog | null> => {
+    id: string,
+  ): Promise<AuditLogActionType | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.auditLog.findUnique({where: {id}});
+    return getCtx().prisma.auditLogActionType.findUnique({where: {id}});
   };
 
   const all = async (
-    params: QueryAllAuditLogsArgs = {},
-  ): Promise<AuditLog[]> => {
+    params: QueryAllAuditLogActionTypesArgs = {},
+  ): Promise<AuditLogActionType[]> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.auditLog.findMany(
+    return getCtx().prisma.auditLogActionType.findMany(
       toPrismaRequest(params, {noId: true}),
-    ) as unknown as Promise<AuditLog[]>;
+    ) as unknown as Promise<AuditLogActionType[]>;
   };
 
   const findOne = async (
-    params: QueryAllAuditLogsArgs = {},
-  ): Promise<AuditLog | null> => {
+    params: QueryAllAuditLogActionTypesArgs = {},
+  ): Promise<AuditLogActionType | null> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.auditLog.findFirst(toPrismaRequest(params, {noId: true}));
+    return getCtx().prisma.auditLogActionType.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
-    params: Query_AllAuditLogsMetaArgs = {},
+    params: Query_AllAuditLogActionTypesMetaArgs = {},
   ): Promise<number> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    return getCtx().prisma.auditLog.count(toPrismaTotalRequest(params));
+    return getCtx().prisma.auditLogActionType.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
-    params: Query_AllAuditLogsMetaArgs = {},
+    params: Query_AllAuditLogActionTypesMetaArgs = {},
   ): Promise<ListMetadata> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
@@ -114,9 +110,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
   };
 
   const create = async (
-    data: MutationCreateAuditLogArgs,
+    data: MutationCreateAuditLogActionTypeArgs,
     byUser = false,
-  ): Promise<AuditLog> => {
+  ): Promise<AuditLogActionType> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -132,7 +128,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
 
     processedData = await beforeCreate(getCtx, data);
 
-    const createOperation = getCtx().prisma.auditLog.create({
+    const createOperation = getCtx().prisma.auditLogActionType.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -142,24 +138,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'entityType',
-                  'entityId',
-                  'actionTypeId',
-                  'managerId',
-                  'userId',
-                  'foreignEntityType',
-                  'foreignEntityId',
-                  'actionData',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'date',
-                ], processedData),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
       ),
@@ -176,7 +157,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.auditLog.update({
+    await getCtx().prisma.auditLogActionType.update({
       where: {id: result.id},
       data: {
         search: [
@@ -185,35 +166,20 @@ export const getAuditLogsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'title',
-                'entityType',
-                'entityId',
-                'actionTypeId',
-                'managerId',
-                'userId',
-                'foreignEntityType',
-                'foreignEntityId',
-                'actionData',
               ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'date',
-              ], result),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     });
 
-    await afterCreate(getCtx, result as AuditLog);
+    await afterCreate(getCtx, result as AuditLogActionType);
 
-    return result as AuditLog;
+    return result as AuditLogActionType;
   };
 
   const createMany = async (
-    entries: MutationCreateAuditLogArgs[],
+    entries: MutationCreateAuditLogActionTypeArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     if (!getCtx()) {
@@ -229,7 +195,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.auditLog.createMany({
+    const result = await getCtx().prisma.auditLogActionType.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -239,24 +205,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'entityType',
-                  'entityId',
-                  'actionTypeId',
-                  'managerId',
-                  'userId',
-                  'foreignEntityType',
-                  'foreignEntityId',
-                  'actionData',
                 ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'date',
-                ], data),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
       )),
@@ -271,9 +222,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAuditLogArgs,
+    data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
-  ): Promise<AuditLog> => {
+  ): Promise<AuditLogActionType> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -291,7 +242,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.auditLog.update({
+    const updateOperation = getCtx().prisma.auditLogActionType.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -301,24 +252,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'entityType',
-                  'entityId',
-                  'actionTypeId',
-                  'managerId',
-                  'userId',
-                  'foreignEntityType',
-                  'foreignEntityId',
-                  'actionData',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'date',
-                ], processedData),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
           ].join(' '),
         },
       ),
@@ -335,15 +271,15 @@ export const getAuditLogsService = (getCtx: () => Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as AuditLog);
+    await afterUpdate(getCtx, result as AuditLogActionType);
 
-    return result as AuditLog;
+    return result as AuditLogActionType;
   };
 
   const upsert = async (
-    data: MutationUpdateAuditLogArgs,
+    data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
-  ): Promise<AuditLog> => {
+  ): Promise<AuditLogActionType> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -363,7 +299,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.auditLog.upsert({create: R.mergeDeepLeft(
+    const result = await getCtx().prisma.auditLogActionType.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -372,24 +308,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'title',
-                'entityType',
-                'entityId',
-                'actionTypeId',
-                'managerId',
-                'userId',
-                'foreignEntityType',
-                'foreignEntityId',
-                'actionData',
               ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'date',
-              ], processedDataToCreate),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
@@ -401,24 +322,9 @@ export const getAuditLogsService = (getCtx: () => Context) => {
               R.pick([
                 'id',
                 'title',
-                'entityType',
-                'entityId',
-                'actionTypeId',
-                'managerId',
-                'userId',
-                'foreignEntityType',
-                'foreignEntityId',
-                'actionData',
               ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'date',
-              ], processedDataToUpdate),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), where: {id: data.id}});
@@ -431,10 +337,10 @@ export const getAuditLogsService = (getCtx: () => Context) => {
   };
 
   const upsertAdvanced = async (
-    filter: AuditLogFilter,
-    data: MutationCreateAuditLogArgs,
+    filter: AuditLogActionTypeFilter,
+    data: MutationCreateAuditLogActionTypeArgs,
     byUser = false,
-  ): Promise<AuditLog> => {
+  ): Promise<AuditLogActionType> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
@@ -478,13 +384,13 @@ export const getAuditLogsService = (getCtx: () => Context) => {
   };
 
   const del = async (
-    params: MutationRemoveAuditLogArgs,
-  ): Promise<AuditLog> => {
+    params: MutationRemoveAuditLogActionTypeArgs,
+  ): Promise<AuditLogActionType> => {
     if (!getCtx()) {
       throw new Error('Context is not initialised');
     }
 
-    const deleteOperation = getCtx().prisma.auditLog.delete({where: {id: params.id}});
+    const deleteOperation = getCtx().prisma.auditLogActionType.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
@@ -508,7 +414,7 @@ export const getAuditLogsService = (getCtx: () => Context) => {
     return entity;
   };
 
-  const baseMethods: BaseAuditLogsMethods = {
+  const baseMethods: BaseAuditLogActionTypesMethods = {
     get,
     all,
     findOne,
