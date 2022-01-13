@@ -1,6 +1,7 @@
 {
  "catalogs": [
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -216,6 +217,7 @@
    ]
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -358,6 +360,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -792,6 +795,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1099,6 +1103,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1376,6 +1381,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1632,6 +1638,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1865,6 +1872,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1999,6 +2007,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2306,6 +2315,7 @@
    ]
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2676,6 +2686,7 @@
    ]
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2884,6 +2895,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3097,6 +3109,7 @@
    ]
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3257,6 +3270,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3394,6 +3408,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3554,6 +3569,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3767,6 +3783,7 @@
    ]
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3931,6 +3948,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -4072,6 +4090,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -4254,6 +4273,7 @@
    "uniqueConstraints": []
   },
   {
+   "auditable": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
