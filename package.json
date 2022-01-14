@@ -51,7 +51,7 @@
     "apollo-server-caching": "^3.3.0",
     "apollo-server-express": "^3.6.1",
     "apollo-server-plugin-base": "^3.5.0",
-    "aws-sdk": "^2.1056.0",
+    "aws-sdk": "^2.1057.0",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.1",
