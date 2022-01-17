@@ -49,10 +49,10 @@ worker:
   replicas: 1
   requests:
     memory: "64Mi"
-    cpu: "0.01"
+    cpu: "0.25"
   limits:
     memory: "64Mi"
-    cpu: "0.01"
+    cpu: "0.15"
 
 workers:
 
