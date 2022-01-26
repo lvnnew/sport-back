@@ -79,11 +79,11 @@ spec:
 
         resources:
           requests:
-            memory: {{ $.Values.worker.requests.memory }}
-            cpu: {{ $.Values.worker.requests.cpu }}
+            memory: {{ (default $.Values.worker.requests .requests).memory }}
+            cpu: {{ (default $.Values.worker.requests .requests).cpu }}
           limits:
-            memory: {{ $.Values.worker.limits.memory }}
-            cpu: {{ $.Values.worker.limits.cpu }}
+            memory: {{ (default $.Values.worker.limits .limits).memory }}
+            cpu: {{ (default $.Values.worker.limits .limits).cpu }}
 
         securityContext:
           runAsNonRoot: true
