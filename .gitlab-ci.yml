@@ -84,22 +84,6 @@ deploy-prod-back:
     ENV: "prod"
     CLUSTER_NAME: "stage01"
 
-
-deploy-stage-workers:
-  extends: .deploy-dev-workers
-  stage: deploy-stage
-  variables:
-    ENV: "stage"
-    CLUSTER_NAME: "workers-stage01"
-
-deploy-prod-workers:
-  extends: .deploy-prod-workers
-  stage: deploy-prod
-  variables:
-    ENV: "prod"
-    CLUSTER_NAME: "workers-stage01"
-
-
 .deploy-dev-back:
   extends:
     - .deploy-dev
