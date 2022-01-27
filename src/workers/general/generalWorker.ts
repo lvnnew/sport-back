@@ -48,6 +48,10 @@ startExpress()
 
 const generalWorker = async (appName = 'someBack_generalWorker') => {
   const config = await getConfig();
+  if (!config.databaseUri) {
+    throw new Error('Database Uri is not provided');
+  }
+
   const runner = await run({
     connectionString: addParamsToDatabaseUri(config.databaseUri, {
       application_name: appName,

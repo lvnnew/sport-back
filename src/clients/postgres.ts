@@ -9,6 +9,9 @@ let postgresInstance: Client | null = null;
 export const getPostgres = async (appName = 'someBack_Knex') => {
   if (!postgresInstance) {
     const {databaseUri} = await getConfig();
+    if (!databaseUri) {
+      throw new Error('Database Uri is not provided');
+    }
 
     const url = addParamsToDatabaseUri(databaseUri, {
       application_name: appName,

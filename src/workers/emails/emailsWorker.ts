@@ -48,6 +48,10 @@ app.get('/metrics', async (_req, res) => {
 
 const emailsWorker = async (appName = 'someBack_emailsWorker') => {
   const config = await getConfig();
+  if (!config.databaseUri) {
+    throw new Error('Database Uri is not provided');
+  }
+
   const runner = await run({
     connectionString: addParamsToDatabaseUri(config.databaseUri, {
       application_name: appName,

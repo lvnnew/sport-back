@@ -65,6 +65,9 @@ export const whitelistedEmail = (email: string) => {
 export const getEmailSender = async () => {
   if (!emailSender) {
     const config = await getConfig();
+    if (!config.smtpHost || !config.smtpPort || !config.smtpUser || !config.smtpPass) {
+      throw new Error('smtp creads is not provided');
+    }
 
     const rawSender = new Email({
       message: {

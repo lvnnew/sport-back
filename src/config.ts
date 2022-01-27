@@ -15,7 +15,7 @@ if (existsSync(file)) {
   nconf.file({file});
 }
 
-export const getFromNconf = (name: string) => nconf.get(constantCase(name)) || nconf.get(name) || '';
+export const getFromNconf = (name: string): string | undefined => nconf.get(constantCase(name)) || nconf.get(name) || '';
 
 const envConfig = {
   admJwtSecret: getFromNconf('adm.jwt.secret'),
