@@ -82,18 +82,23 @@ export type GetCtx = () => Context;
 let context: Context | null = null;
 
 export const createBaseContext = async (): Promise<BaseContext> => {
-  const prisma = await getPrisma();
-
-  const knex = await getKnex();
-
-  const postgres = await getPostgres();
-
-  const worker = await getQueue();
+  const [
+    prisma,
+    knex,
+    postgres,
+    worker,
+  ] = await Promise.all([
+    getPrisma(),
+    getKnex(),
+    getPostgres(),
+    getQueue(),
+  ]);
 
   const close = async () => {
     await prisma.$disconnect();
     await knex.destroy();
     await postgres.end();
+    context = null;
   };
 
   return {
@@ -155,7 +160,12 @@ export const createUserAwareContext = (context: Context, userId: number): Contex
 
 export const getOrCreateBaseContext = async (): Promise<BaseContext> => {
   if (!baseContext) {
-    baseContext = await createBaseContext();
+    const created = await createBaseContext();
+    if (baseContext) {
+      created.close();
+    } else {
+      baseContext = created;
+    }
   }
 
   return baseContext;
@@ -173,7 +183,13 @@ export const getOrCreateContext = async (): Promise<Context> => {
   if (!context) {
     onStart();
     const baseContext = await getOrCreateBaseContext();
-    context = createContext(baseContext, getCtx);
+
+    const created = await createContext(baseContext, getCtx);
+    if (context) {
+      created.close();
+    } else {
+      context = created;
+    }
   }
 
   return context;
