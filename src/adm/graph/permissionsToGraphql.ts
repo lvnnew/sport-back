@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import {additionalServicesPermissionToGraphql} from './additionalServicesPermissionToGraphql';
 import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
-import {Services} from '../services/context';
+import {Services} from '../services/types';
 import helpPermissionToGraphql from './services/help/permissionsToGraphql';
 import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
 import auditLogActionTypesPermissionToGraphql from './services/auditLogActionTypes/permissionsToGraphql';

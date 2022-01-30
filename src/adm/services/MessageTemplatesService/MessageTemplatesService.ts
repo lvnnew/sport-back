@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalMessageTemplatesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -56,25 +56,17 @@ export interface BaseMessageTemplatesMethods {
 
 export type MessageTemplatesService = BaseMessageTemplatesMethods & AdditionalMessageTemplatesMethods;
 
-export const getMessageTemplatesService = (getCtx: () => Context) => {
+export const getMessageTemplatesService = (ctx: Context) => {
   const get = async (
     id: string,
   ): Promise<MessageTemplate | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.messageTemplate.findUnique({where: {id}});
+    return ctx.prisma.messageTemplate.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.messageTemplate.findMany(
+    return ctx.prisma.messageTemplate.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<MessageTemplate[]>;
   };
@@ -82,30 +74,18 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
   const findOne = async (
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.messageTemplate.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllMessageTemplatesMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.messageTemplate.count(toPrismaTotalRequest(params));
+    return ctx.prisma.messageTemplate.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllMessageTemplatesMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -113,10 +93,6 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
     data: MutationCreateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -126,9 +102,9 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.messageTemplate.create({
+    const createOperation = ctx.prisma.messageTemplate.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -148,16 +124,16 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.messageTemplate.update({
+    await ctx.prisma.messageTemplate.update({
       where: {id: result.id},
       data: {
         search: [
@@ -173,7 +149,7 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as MessageTemplate);
+    await afterCreate(ctx, result as MessageTemplate);
 
     return result as MessageTemplate;
   };
@@ -182,10 +158,6 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
     entries: MutationCreateMessageTemplateArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -195,7 +167,7 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.messageTemplate.createMany({
+    const result = await ctx.prisma.messageTemplate.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -225,10 +197,6 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
     data: MutationUpdateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -238,11 +206,11 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.messageTemplate.update({
+    const updateOperation = ctx.prisma.messageTemplate.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -263,15 +231,15 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as MessageTemplate);
+    await afterUpdate(ctx, result as MessageTemplate);
 
     return result as MessageTemplate;
   };
@@ -280,10 +248,6 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
     data: MutationUpdateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -299,7 +263,7 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.messageTemplate.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.messageTemplate.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -341,10 +305,6 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
     data: MutationCreateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -386,15 +346,11 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
   const del = async (
     params: MutationRemoveMessageTemplateArgs,
   ): Promise<MessageTemplate> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.messageTemplate.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.messageTemplate.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -403,13 +359,13 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -428,7 +384,7 @@ export const getMessageTemplatesService = (getCtx: () => Context) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

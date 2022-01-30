@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import {initRoles} from './initRoles';
-import {Context} from '../../adm/services/context';
+import {Context} from '../../adm/services/types';
 import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 import log from '../../log';
 
@@ -13,12 +13,13 @@ export const initPermissions = async (ctx: Context) => {
   await initRoles(ctx);
 };
 
+
 export const initPermissionsItself = async (ctx: Context) => {
-  const runtimePermissions = getRuntimePermissions();
+  const runtimePermissions = getRuntimePermissions(ctx);
 
   log.info(runtimePermissions.map(p => p.id));
 
-  await ctx.permissions.createMany(runtimePermissions.map(p => ({
+  await ctx.service('permissions').createMany(runtimePermissions.map(p => ({
     id: p.id,
     title: p.id,
   })));

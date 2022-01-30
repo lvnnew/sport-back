@@ -6,26 +6,26 @@ import {
   MutationUpdateAutogenerationHistoryEntryArgs,
   MutationRemoveAutogenerationHistoryEntryArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     AutogenerationHistoryEntry: (_, {id}, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.get(id),
+      context.service('autogenerationHistoryEntries').get(id),
     allAutogenerationHistoryEntries: (_, params: QueryAllAutogenerationHistoryEntriesArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.all(params),
+      context.service('autogenerationHistoryEntries').all(params),
     _allAutogenerationHistoryEntriesMeta: (_, params: Query_AllAutogenerationHistoryEntriesMetaArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.meta(params),
+      context.service('autogenerationHistoryEntries').meta(params),
   },
   Mutation: {
     createAutogenerationHistoryEntry: (_, params: MutationCreateAutogenerationHistoryEntryArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.create(params, true),
+      context.service('autogenerationHistoryEntries').create(params, true),
     updateAutogenerationHistoryEntry: (_, params: MutationUpdateAutogenerationHistoryEntryArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.update(params, true),
+      context.service('autogenerationHistoryEntries').update(params, true),
     removeAutogenerationHistoryEntry: (_, params: MutationRemoveAutogenerationHistoryEntryArgs, {context}: {context: Context}) =>
-      context.autogenerationHistoryEntries.delete(params),
+      context.service('autogenerationHistoryEntries').delete(params),
   },
 };
 

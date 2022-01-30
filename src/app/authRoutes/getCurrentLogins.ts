@@ -1,4 +1,4 @@
-import {Context} from '../../adm/services/context';
+import {Context} from '../../adm/services/types';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 
 export const getCurrentLogins = async (ctx: Context, req: AuthenticatedRequest) => {
@@ -6,7 +6,7 @@ export const getCurrentLogins = async (ctx: Context, req: AuthenticatedRequest) 
     throw new Error('There is no user payload in request');
   }
 
-  const logins = await ctx.appLogins.all({filter: {userId: req.user.id}});
+  const logins = await ctx.service('appLogins').all({filter: {userId: req.user.id}});
   if (logins.length === 0) {
     throw new Error('Login not found');
   }

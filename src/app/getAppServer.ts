@@ -1,25 +1,21 @@
 import {ApolloServer} from 'apollo-server-express';
 import typeDefs from './graph/typeDefs';
 import resolvers from './graph/resolvers';
-import {BaseContext, getOrCreateUsersAwareContext} from '../adm/services/context';
+import {сreateUsersAwareContext} from '../adm/services/context';
+import defaultContainer from '../adm/services/defaultContainer';
 
-// import log from '../log';
+const getAppServer = () => new ApolloServer({
+  context: async ({req}) => {
+    const context = await сreateUsersAwareContext(
+      {
+        userId: (req.user as any).id,
+        managerId: null,
+      },
+      defaultContainer,
+    );
+    context.service('profile').setUserId((req.user as any).id);
 
-const getAppServer = (baseContext: BaseContext) => new ApolloServer({
-  context: ({req}) => {
-    // log.info(`req.user: ${req.user}`);
-    // log.info(`req.user.id: ${(req.user as any).id}`);
-    // log.info(req.user);
-    // log.info((req.user as any).id);
-
-    return {
-      context: getOrCreateUsersAwareContext(
-        baseContext,
-        {
-          userId: (req.user as any).id,
-        },
-      ),
-    };
+    return {context};
   },
   introspection: true,
   resolvers,
@@ -27,4 +23,3 @@ const getAppServer = (baseContext: BaseContext) => new ApolloServer({
 });
 
 export default getAppServer;
-

@@ -1,12 +1,12 @@
 import {Response} from 'express';
-import {getOrCreateContext} from '../../adm/services/context';
+import {createContext} from '../../adm/services/context';
 import log from '../../log';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 
 export const updateUser = async (req: AuthenticatedRequest, res: Response) => {
   if (req.user) {
-    const ctx = await getOrCreateContext();
-    await ctx.users.update({
+    const ctx = await createContext();
+    await ctx.service('users').update({
       id: req.user.id,
       firstname: req.body.firstname,
       lastname: req.body.lastname,

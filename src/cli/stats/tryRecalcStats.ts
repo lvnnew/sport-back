@@ -1,4 +1,4 @@
-import {getOrCreateContext} from '../../adm/services/context';
+import {createContext} from '../../adm/services/context';
 import log from '../../log';
 
 // yarn ts-node src/cli/stats/tryRecalcStats.ts
@@ -6,9 +6,9 @@ import log from '../../log';
 const app = async () => {
   log.info('start');
 
-  const ctx = await getOrCreateContext();
+  const ctx = await createContext();
 
-  log.info(await ctx.stats.recalculate());
+  log.info(await ctx.service('stats').recalculate());
 
   await ctx.close();
 

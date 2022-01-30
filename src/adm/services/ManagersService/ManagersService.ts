@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalManagersMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -56,25 +56,17 @@ export interface BaseManagersMethods {
 
 export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
 
-export const getManagersService = (getCtx: () => Context) => {
+export const getManagersService = (ctx: Context) => {
   const get = async (
     id: number,
   ): Promise<Manager | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.manager.findUnique({where: {id}});
+    return ctx.prisma.manager.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllManagersArgs = {},
   ): Promise<Manager[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.manager.findMany(
+    return ctx.prisma.manager.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<Manager[]>;
   };
@@ -82,30 +74,18 @@ export const getManagersService = (getCtx: () => Context) => {
   const findOne = async (
     params: QueryAllManagersArgs = {},
   ): Promise<Manager | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.manager.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.manager.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllManagersMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.manager.count(toPrismaTotalRequest(params));
+    return ctx.prisma.manager.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllManagersMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -113,10 +93,6 @@ export const getManagersService = (getCtx: () => Context) => {
     data: MutationCreateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -126,9 +102,9 @@ export const getManagersService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.manager.create({
+    const createOperation = ctx.prisma.manager.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -154,16 +130,16 @@ export const getManagersService = (getCtx: () => Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.manager.update({
+    await ctx.prisma.manager.update({
       where: {id: result.id},
       data: {
         search: [
@@ -185,7 +161,7 @@ export const getManagersService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as Manager);
+    await afterCreate(ctx, result as Manager);
 
     return result as Manager;
   };
@@ -194,10 +170,6 @@ export const getManagersService = (getCtx: () => Context) => {
     entries: MutationCreateManagerArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -207,7 +179,7 @@ export const getManagersService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.manager.createMany({
+    const result = await ctx.prisma.manager.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -243,10 +215,6 @@ export const getManagersService = (getCtx: () => Context) => {
     data: MutationUpdateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -256,11 +224,11 @@ export const getManagersService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.manager.update({
+    const updateOperation = ctx.prisma.manager.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -287,15 +255,15 @@ export const getManagersService = (getCtx: () => Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as Manager);
+    await afterUpdate(ctx, result as Manager);
 
     return result as Manager;
   };
@@ -304,10 +272,6 @@ export const getManagersService = (getCtx: () => Context) => {
     data: MutationUpdateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -323,7 +287,7 @@ export const getManagersService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.manager.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.manager.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -377,10 +341,6 @@ export const getManagersService = (getCtx: () => Context) => {
     data: MutationCreateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -422,15 +382,11 @@ export const getManagersService = (getCtx: () => Context) => {
   const del = async (
     params: MutationRemoveManagerArgs,
   ): Promise<Manager> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.manager.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.manager.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -439,13 +395,13 @@ export const getManagersService = (getCtx: () => Context) => {
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -464,7 +420,7 @@ export const getManagersService = (getCtx: () => Context) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

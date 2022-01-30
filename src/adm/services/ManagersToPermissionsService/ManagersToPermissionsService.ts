@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalManagersToPermissionsMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -56,25 +56,17 @@ export interface BaseManagersToPermissionsMethods {
 
 export type ManagersToPermissionsService = BaseManagersToPermissionsMethods & AdditionalManagersToPermissionsMethods;
 
-export const getManagersToPermissionsService = (getCtx: () => Context) => {
+export const getManagersToPermissionsService = (ctx: Context) => {
   const get = async (
     id: number,
   ): Promise<ManagersToPermission | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.managersToPermission.findUnique({where: {id}});
+    return ctx.prisma.managersToPermission.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllManagersToPermissionsArgs = {},
   ): Promise<ManagersToPermission[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.managersToPermission.findMany(
+    return ctx.prisma.managersToPermission.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<ManagersToPermission[]>;
   };
@@ -82,30 +74,18 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
   const findOne = async (
     params: QueryAllManagersToPermissionsArgs = {},
   ): Promise<ManagersToPermission | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.managersToPermission.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.managersToPermission.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllManagersToPermissionsMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.managersToPermission.count(toPrismaTotalRequest(params));
+    return ctx.prisma.managersToPermission.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllManagersToPermissionsMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -113,10 +93,6 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
     data: MutationCreateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -126,9 +102,9 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.managersToPermission.create({
+    const createOperation = ctx.prisma.managersToPermission.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -149,16 +125,16 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.managersToPermission.update({
+    await ctx.prisma.managersToPermission.update({
       where: {id: result.id},
       data: {
         search: [
@@ -175,7 +151,7 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as ManagersToPermission);
+    await afterCreate(ctx, result as ManagersToPermission);
 
     return result as ManagersToPermission;
   };
@@ -184,10 +160,6 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
     entries: MutationCreateManagersToPermissionArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -197,7 +169,7 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.managersToPermission.createMany({
+    const result = await ctx.prisma.managersToPermission.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -228,10 +200,6 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
     data: MutationUpdateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -241,11 +209,11 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.managersToPermission.update({
+    const updateOperation = ctx.prisma.managersToPermission.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -267,15 +235,15 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as ManagersToPermission);
+    await afterUpdate(ctx, result as ManagersToPermission);
 
     return result as ManagersToPermission;
   };
@@ -284,10 +252,6 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
     data: MutationUpdateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -303,7 +267,7 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.managersToPermission.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.managersToPermission.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -347,10 +311,6 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
     data: MutationCreateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -392,15 +352,11 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
   const del = async (
     params: MutationRemoveManagersToPermissionArgs,
   ): Promise<ManagersToPermission> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.managersToPermission.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.managersToPermission.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -409,13 +365,13 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -434,7 +390,7 @@ export const getManagersToPermissionsService = (getCtx: () => Context) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

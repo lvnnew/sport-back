@@ -1,9 +1,9 @@
 import {
   MutationUpdateManagersToRoleArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../context';
+import {Context} from '../../types';
 
 export const additionalOperationsOnUpdate = (
-  _getCtx: () => Context,
+  _ctx: Context,
   _data: MutationUpdateManagersToRoleArgs,
 ) => [];

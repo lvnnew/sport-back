@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseUnitsMethods} from './UnitsService';
 
 export interface AdditionalUnitsMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseUnitsMethods): AdditionalUnitsMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseUnitsMethods): AdditionalUnitsMethods => ({});

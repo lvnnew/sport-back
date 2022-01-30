@@ -1,11 +1,11 @@
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 import log from '../log';
 import {join} from 'path';
 
 const wrap = async () => {
   log.info('start');
 
-  const ctx = await getOrCreateContext();
+  const ctx = await createContext();
 
   const needRunFile = process.argv.filter((arg) =>
     !arg.includes('/node_modules/ts-node/dist/bin') &&

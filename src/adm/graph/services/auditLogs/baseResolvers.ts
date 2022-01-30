@@ -6,26 +6,26 @@ import {
   MutationUpdateAuditLogArgs,
   MutationRemoveAuditLogArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     AuditLog: (_, {id}, {context}: {context: Context}) =>
-      context.auditLogs.get(id),
+      context.service('auditLogs').get(id),
     allAuditLogs: (_, params: QueryAllAuditLogsArgs, {context}: {context: Context}) =>
-      context.auditLogs.all(params),
+      context.service('auditLogs').all(params),
     _allAuditLogsMeta: (_, params: Query_AllAuditLogsMetaArgs, {context}: {context: Context}) =>
-      context.auditLogs.meta(params),
+      context.service('auditLogs').meta(params),
   },
   Mutation: {
     createAuditLog: (_, params: MutationCreateAuditLogArgs, {context}: {context: Context}) =>
-      context.auditLogs.create(params, true),
+      context.service('auditLogs').create(params, true),
     updateAuditLog: (_, params: MutationUpdateAuditLogArgs, {context}: {context: Context}) =>
-      context.auditLogs.update(params, true),
+      context.service('auditLogs').update(params, true),
     removeAuditLog: (_, params: MutationRemoveAuditLogArgs, {context}: {context: Context}) =>
-      context.auditLogs.delete(params),
+      context.service('auditLogs').delete(params),
   },
 };
 

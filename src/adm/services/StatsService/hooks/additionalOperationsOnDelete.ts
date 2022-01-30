@@ -1,9 +1,9 @@
 import {
   MutationRemoveStatArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../context';
+import {Context} from '../../types';
 
 export const additionalOperationsOnDelete = (
-  _getCtx: () => Context,
+  _ctx: Context,
   _data: MutationRemoveStatArgs,
 ) => [];

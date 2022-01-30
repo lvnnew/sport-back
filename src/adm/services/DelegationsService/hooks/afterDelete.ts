@@ -2,9 +2,9 @@
 import {
   Delegation,
 } from '../../../../generated/graphql';
-import {Context} from '../../context';
+import {Context} from '../../types';
 
 export const afterDelete = async (
-  _getCtx: () => Context,
+  _ctx: Context,
   _data: Delegation,
 ): Promise<void> => {};

@@ -1,4 +1,4 @@
-import {Context} from '../../../adm/services/context';
+import {Context} from '../../../adm/services/types';
 import log from '../../../log';
 
 const resolvers = {
@@ -11,7 +11,7 @@ const resolvers = {
         throw new Error('Unauthorised 123');
       }
       const {context} = ctx;
-      const user = await context.users.get(ctx.user.id);
+      const user = await context.service('users').get(ctx.user.id);
       if (!user) {
         throw new Error('There is no user with "userId" id');
       }

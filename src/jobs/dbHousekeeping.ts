@@ -1,7 +1,7 @@
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 
 const dbHousekeeping = async () => {
-  const ctx = await getOrCreateContext();
+  const ctx = await createContext();
 
   await ctx.knex.raw('VACUUM ANALYZE');
 };

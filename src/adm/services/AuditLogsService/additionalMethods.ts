@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseAuditLogsMethods} from './AuditLogsService';
 
 export interface AdditionalAuditLogsMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseAuditLogsMethods): AdditionalAuditLogsMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseAuditLogsMethods): AdditionalAuditLogsMethods => ({});

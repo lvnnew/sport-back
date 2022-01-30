@@ -6,7 +6,7 @@ import {run, parseCronItems} from 'graphile-worker';
 import {getConfig} from '../../config';
 import generalJobs from './generalJobs';
 import {generalCronJobs} from './generalCronJobs';
-import {closeCtx} from '../../adm/services/context';
+import {createContext} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
 import jobsFromFunctions from '../../jobs/jobsFromFunctions';
 import {graphileLogger} from '../utils';
@@ -14,7 +14,7 @@ import {graphileLogger} from '../utils';
 // yarn ts-node src/workers/general/generalWorker.ts
 
 exitHook(async () => {
-  await closeCtx();
+  createContext().then(ctx => ctx.close());
 });
 
 const app = express();

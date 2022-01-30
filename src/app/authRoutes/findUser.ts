@@ -1,5 +1,5 @@
 import {Response} from 'express';
-import {getOrCreateContext} from '../../adm/services/context';
+import {createContext} from '../../adm/services/context';
 import log from '../../log';
 import {AuthenticatedRequest} from '../../types/AuthenticatedRequest';
 import {getCurrentUser} from './getCurrentUser';
@@ -7,7 +7,7 @@ import {getCurrentUser} from './getCurrentUser';
 export const findUser = async (req: AuthenticatedRequest, res: Response) => {
   log.info(req.user);
   if (req.user) {
-    const ctx = await getOrCreateContext();
+    const ctx = await createContext();
     const user = await getCurrentUser(ctx, req);
     if (!user) {
       throw new Error('User not found');

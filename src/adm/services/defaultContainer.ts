@@ -1,0 +1,26 @@
+import 'reflect-metadata';
+import {PrismaClient} from '@prisma/client';
+import {WorkerUtils} from 'graphile-worker';
+import {Container} from 'inversify';
+import {Knex} from 'knex';
+import {Client} from 'pg';
+import {getPrisma} from '../../clients/getPrisma';
+import {getKnex} from '../../clients/knex';
+import {getPostgres} from '../../clients/postgres';
+import {getQueue} from '../../clients/queue/getQueue';
+
+const defaultContainer = new Container({defaultScope: 'Singleton'});
+
+defaultContainer.bind<PrismaClient>('Prisma')
+  .toDynamicValue(() => getPrisma())
+  .onDeactivation((prisma: PrismaClient) => prisma.$disconnect());
+defaultContainer.bind<Knex>('Knex')
+  .toDynamicValue(() => getKnex())
+  .onDeactivation((knex: Knex) => knex.destroy());
+defaultContainer.bind<Client>('Postgres')
+  .toDynamicValue(() => getPostgres())
+  .onDeactivation((postgres: Client) => postgres.end());
+defaultContainer.bind<WorkerUtils>('Queue')
+  .toDynamicValue(() => getQueue());
+
+export default defaultContainer;

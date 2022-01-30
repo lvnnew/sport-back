@@ -11,12 +11,10 @@ import {
 import log from './log';
 import schema from './graph/schema';
 import {
-  getOrCreateBaseContext,
-  getOrCreateUsersAwareContext,
-  getOrCreateContext,
-  closeCtx,
-  Context,
+  createContext,
+  сreateUsersAwareContext,
 } from './adm/services/context';
+import {Context} from './adm/services/types';
 import express, {Request, RequestHandler, Response} from 'express';
 import cors from 'cors';
 import passport from 'passport';
@@ -31,11 +29,12 @@ import admAuthRouter from './adm/authRouter';
 import getAppServer from './app/getAppServer';
 import {graphqlUploadExpress} from 'graphql-upload';
 import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
+import defaultContainer from './adm/services/defaultContainer';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 exitHook(async () => {
-  await closeCtx();
+  createContext().then(ctx => ctx.close());
 });
 
 const app = express();
@@ -79,13 +78,12 @@ app.use('/rest', restRouter);
 const noop = (_arg: any) => {};
 
 const start = async () => {
-  const baseContext = await getOrCreateBaseContext();
-  const context = await getOrCreateContext();
+  const context = await createContext(defaultContainer);
 
   app.use('/app/graph', passport.authenticate('appJwt', {session: false}));
   app.use('/app/graph', graphqlUploadExpress({maxFiles: 10, maxFileSize: 50 * 1024 * 1024}) as RequestHandler);
 
-  const appServer = getAppServer(baseContext);
+  const appServer = getAppServer();
   await appServer.start();
   appServer.applyMiddleware({app, path: '/app/graph'});
 
@@ -106,13 +104,14 @@ const start = async () => {
         didResolveOperation: async (
           resolutionContext: GraphQLRequestContextDidResolveOperation<{context: Context}>,
         ) => {
-          const {getManagerId} = context;
+          // const {getManagerId} = context;
 
           resolutionContext.operation.selectionSet.selections.forEach((selection: SelectionNode) => {
             if (selection.kind === 'Field') {
               const {name: {value: operationName}} = selection;
               noop(operationName);
-              noop(getManagerId);
+              noop(typeof context);
+              // noop(getManagerId);
               noop(flattenGraphqlToPermission);
               noop(AuthenticationError);
 
@@ -151,22 +150,15 @@ const start = async () => {
   };
 
   const server = new ApolloServer({
-    context: ({req}) => {
-      // log.info('req.user');
-      // log.info(req.user);
-
-      return ({
-        context: {
-          ...getOrCreateUsersAwareContext(
-            baseContext,
-            {
-              managerId: (req.user as any).id,
-              managerPermissions: (req.user as any).permissions,
-            },
-          ),
+    context: async ({req}) => ({
+      context: await сreateUsersAwareContext(
+        {
+          userId: null,
+          managerId: (req.user as any).id,
         },
-      });
-    },
+        defaultContainer,
+      ),
+    }),
     introspection: true,
     plugins: [authPlugin as any],
     schema,
@@ -178,7 +170,7 @@ const start = async () => {
   await server.start();
   server.applyMiddleware({app, path: admGraphPath});
 
-  context.stats.updateGauges();
+  context.service('stats').updateGauges();
 
   const port = 3000;
   app.listen({port}, () => {
@@ -190,6 +182,5 @@ try {
   start();
 } catch (error: any) {
   log.error(error);
-} finally {
-  closeCtx();
+  createContext().then(ctx => ctx.close());
 }

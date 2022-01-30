@@ -3,12 +3,12 @@ import log from '../log';
 import exitHook from 'exit-hook';
 import express, {Request, Response} from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
-import {closeCtx} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 
 // yarn ts-node src/bots/helloBot.ts
 
 exitHook(async () => {
-  await closeCtx();
+  createContext().then(ctx => ctx.close());
 });
 
 const app = express();

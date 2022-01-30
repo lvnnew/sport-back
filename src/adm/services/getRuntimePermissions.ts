@@ -1,6 +1,7 @@
 import * as R from 'ramda';
-import {getBaseServices} from './context';
-import {getAdditionalServices} from './AdditionalServices';
+import {baseServiceConstrictors} from './serviceConstrictors';
+import additionalServiceConstrictors from './additionalServiceConstrictors';
+import {Context} from './types';
 
 export interface RuntimePermission {
   id: string;
@@ -8,10 +9,11 @@ export interface RuntimePermission {
   name: string;
 }
 
-export const getRuntimeServicePermissions = (): RuntimePermission[] => {
-  const services = getBaseServices(() => {
-    throw new Error('Not supposed to be called');
-  });
+export const getRuntimeServicePermissions = (ctx: Context): RuntimePermission[] => {
+  const services = R.fromPairs(
+    R.toPairs(baseServiceConstrictors)
+      .map(([name, constructor]) => [name, constructor(ctx)]),
+  );
 
   return R.flatten(
     R.toPairs(services)
@@ -25,10 +27,11 @@ export const getRuntimeServicePermissions = (): RuntimePermission[] => {
   );
 };
 
-export const getAdditionalPermissions = (): RuntimePermission[] => {
-  const services = getAdditionalServices(() => {
-    throw new Error('Not supposed to be called');
-  });
+export const getAdditionalPermissions = (ctx: Context): RuntimePermission[] => {
+  const services = R.fromPairs(
+    R.toPairs(additionalServiceConstrictors)
+      .map(([name, constructor]) => [name, constructor(ctx)]),
+  );
 
   return R.flatten(
     R.toPairs(services)
@@ -42,7 +45,7 @@ export const getAdditionalPermissions = (): RuntimePermission[] => {
   );
 };
 
-export const getRuntimePermissions = (): RuntimePermission[] => [
-  ...getRuntimeServicePermissions(),
-  ...getAdditionalPermissions(),
+export const getRuntimePermissions = (ctx: Context): RuntimePermission[] => [
+  ...getRuntimeServicePermissions(ctx),
+  ...getAdditionalPermissions(ctx),
 ];

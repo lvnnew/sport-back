@@ -6,26 +6,26 @@ import {
   MutationUpdateAppLoginArgs,
   MutationRemoveAppLoginArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     AppLogin: (_, {id}, {context}: {context: Context}) =>
-      context.appLogins.get(id),
+      context.service('appLogins').get(id),
     allAppLogins: (_, params: QueryAllAppLoginsArgs, {context}: {context: Context}) =>
-      context.appLogins.all(params),
+      context.service('appLogins').all(params),
     _allAppLoginsMeta: (_, params: Query_AllAppLoginsMetaArgs, {context}: {context: Context}) =>
-      context.appLogins.meta(params),
+      context.service('appLogins').meta(params),
   },
   Mutation: {
     createAppLogin: (_, params: MutationCreateAppLoginArgs, {context}: {context: Context}) =>
-      context.appLogins.create(params, true),
+      context.service('appLogins').create(params, true),
     updateAppLogin: (_, params: MutationUpdateAppLoginArgs, {context}: {context: Context}) =>
-      context.appLogins.update(params, true),
+      context.service('appLogins').update(params, true),
     removeAppLogin: (_, params: MutationRemoveAppLoginArgs, {context}: {context: Context}) =>
-      context.appLogins.delete(params),
+      context.service('appLogins').delete(params),
   },
 };
 

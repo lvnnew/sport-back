@@ -2,16 +2,16 @@ import {
   Resolvers,
   QueryGetPermissionsOfManagerWithMetaArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 const queryResolvers: Resolvers = {
   Query: {
-    getPermissions: (_, __, {context}: {context: Context}) =>
-      context.profile.getPermissions(),
+    getManagerPermissions: (_, __, {context}: {context: Context}) =>
+      context.service('profile').getManagerPermissions(),
     getPermissionsWithMeta: (_, __, {context}: {context: Context}) =>
-      context.profile.getPermissionsWithMeta(),
+      context.service('profile').getPermissionsWithMeta(),
     getPermissionsOfManagerWithMeta: (_, params: QueryGetPermissionsOfManagerWithMetaArgs, {context}: {context: Context}) =>
-      context.profile.getPermissionsOfManagerWithMeta(params.managerId),
+      context.service('profile').getPermissionsOfManagerWithMeta(params.managerId),
   },
 };
 

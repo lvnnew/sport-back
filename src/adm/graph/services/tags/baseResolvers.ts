@@ -6,26 +6,26 @@ import {
   MutationUpdateTagArgs,
   MutationRemoveTagArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     Tag: (_, {id}, {context}: {context: Context}) =>
-      context.tags.get(id),
+      context.service('tags').get(id),
     allTags: (_, params: QueryAllTagsArgs, {context}: {context: Context}) =>
-      context.tags.all(params),
+      context.service('tags').all(params),
     _allTagsMeta: (_, params: Query_AllTagsMetaArgs, {context}: {context: Context}) =>
-      context.tags.meta(params),
+      context.service('tags').meta(params),
   },
   Mutation: {
     createTag: (_, params: MutationCreateTagArgs, {context}: {context: Context}) =>
-      context.tags.create(params, true),
+      context.service('tags').create(params, true),
     updateTag: (_, params: MutationUpdateTagArgs, {context}: {context: Context}) =>
-      context.tags.update(params, true),
+      context.service('tags').update(params, true),
     removeTag: (_, params: MutationRemoveTagArgs, {context}: {context: Context}) =>
-      context.tags.delete(params),
+      context.service('tags').delete(params),
   },
 };
 

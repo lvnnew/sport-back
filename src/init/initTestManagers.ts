@@ -1,4 +1,4 @@
-import {Context} from '../adm/services/context';
+import {Context} from '../adm/services/types';
 import {Role} from '../types/enums';
 import {initManager} from './initManager';
 

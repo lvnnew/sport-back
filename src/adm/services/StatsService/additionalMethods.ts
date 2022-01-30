@@ -1,4 +1,4 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseStatsMethods} from './StatsService';
 import {MutationUpdateStatArgs, Stat} from '../../../generated/graphql';
 import {Gauge} from 'prom-client';
@@ -15,27 +15,21 @@ const gauge = new Gauge({
   labelNames: ['label'],
 });
 
-export const getAdditionalMethods = (getCtx: () => Context, _baseMethods: BaseStatsMethods): AdditionalStatsMethods => {
-  const recalculate = async () => {
-    const ctx = getCtx();
-
-    const stats: MutationUpdateStatArgs = {
+export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseStatsMethods): AdditionalStatsMethods => {
+  const recalculate = async () => {    const stats: MutationUpdateStatArgs = {
       id: 'stats',
       updated: new Date(),
       helloCount: 0,
     };
 
-    await ctx.stats.upsert(stats);
+    await ctx.service('stats').upsert(stats);
 
     await updateGauges();
 
     return stats;
   };
 
-  const updateGauges = async () => {
-    const ctx = getCtx();
-
-    const stats = await ctx.stats.get('stats');
+  const updateGauges = async () => {    const stats = await ctx.service('stats').get('stats');
 
     if (!stats) {
       return;

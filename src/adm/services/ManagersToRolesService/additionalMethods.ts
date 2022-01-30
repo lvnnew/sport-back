@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseManagersToRolesMethods} from './ManagersToRolesService';
 
 export interface AdditionalManagersToRolesMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseManagersToRolesMethods): AdditionalManagersToRolesMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseManagersToRolesMethods): AdditionalManagersToRolesMethods => ({});

@@ -6,26 +6,26 @@ import {
   MutationUpdateRolesToPermissionArgs,
   MutationRemoveRolesToPermissionArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     RolesToPermission: (_, {id}, {context}: {context: Context}) =>
-      context.rolesToPermissions.get(id),
+      context.service('rolesToPermissions').get(id),
     allRolesToPermissions: (_, params: QueryAllRolesToPermissionsArgs, {context}: {context: Context}) =>
-      context.rolesToPermissions.all(params),
+      context.service('rolesToPermissions').all(params),
     _allRolesToPermissionsMeta: (_, params: Query_AllRolesToPermissionsMetaArgs, {context}: {context: Context}) =>
-      context.rolesToPermissions.meta(params),
+      context.service('rolesToPermissions').meta(params),
   },
   Mutation: {
     createRolesToPermission: (_, params: MutationCreateRolesToPermissionArgs, {context}: {context: Context}) =>
-      context.rolesToPermissions.create(params, true),
+      context.service('rolesToPermissions').create(params, true),
     updateRolesToPermission: (_, params: MutationUpdateRolesToPermissionArgs, {context}: {context: Context}) =>
-      context.rolesToPermissions.update(params, true),
+      context.service('rolesToPermissions').update(params, true),
     removeRolesToPermission: (_, params: MutationRemoveRolesToPermissionArgs, {context}: {context: Context}) =>
-      context.rolesToPermissions.delete(params),
+      context.service('rolesToPermissions').delete(params),
   },
 };
 

@@ -1,11 +1,11 @@
-import {Context} from '../../../adm/services/context';
+import {Context} from '../../../adm/services/types';
 import log from '../../../log';
 import {addSendEmailJob, AddSendEmailJobArgs} from './addSendEmailJob';
 
 export const addSendEmailToManagerJob = async (ctx: Context, adminId: number, {template, locals}: Omit<AddSendEmailJobArgs, 'to'>) => {
   log.info('addSendEmailToManagerJob');
 
-  const manager = await ctx.managers.get(adminId);
+  const manager = await ctx.service('managers').get(adminId);
   if (!manager) {
     throw new Error(`There is no admin with id "${adminId}"`);
   }

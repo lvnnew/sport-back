@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseTagsMethods} from './TagsService';
 
 export interface AdditionalTagsMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseTagsMethods): AdditionalTagsMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseTagsMethods): AdditionalTagsMethods => ({});

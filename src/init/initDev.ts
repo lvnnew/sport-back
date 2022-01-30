@@ -1,4 +1,4 @@
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 import log from '../log';
 import {getQueue} from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
@@ -21,7 +21,7 @@ const app = async () => {
   const queue = await getQueue();
   await queue.migrate();
 
-  const ctx = await getOrCreateContext();
+  const ctx = await createContext();
 
   await initTestManagers(ctx);
 

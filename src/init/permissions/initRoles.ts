@@ -1,4 +1,4 @@
-import {Context} from '../../adm/services/context';
+import {Context} from '../../adm/services/types';
 import {Role} from '../../types/enums';
 
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
@@ -6,7 +6,7 @@ import {Role} from '../../types/enums';
 // ENV=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 export const initRoles = async (ctx: Context) => {
-  // const allPermissions = getRuntimePermissions();
+  // const allPermissions = getRuntimePermissions(await createContext());
 
   // const services = getBaseServices(() => {
   //   throw new Error('Not supposed to be called');
@@ -24,25 +24,25 @@ export const initRoles = async (ctx: Context) => {
 
   // const readPermissions = R.flatten(serviceNames.map(service => getReadPermissionsOnService(service)));
 
-  await ctx.roles.upsert({
+  await ctx.service('roles').upsert({
     id: Role.Admin,
     title: 'Admin',
     hasFullAccess: true,
   });
 
-  await ctx.roles.upsert({
+  await ctx.service('roles').upsert({
     id: Role.Manager,
     title: 'Manager',
     hasFullAccess: false,
   });
-  // await ctx.rolesToPermissions.createMany(readPermissions.map(p => ({
+  // await ctx.service('rolesToPermissions').createMany(readPermissions.map(p => ({
   //   roleId: manager.id,
   //   permissionId: p,
   // })));
 
   // const getAllServicePermissions = (serviceName: string) => allPermissions.filter(({service}) => service === serviceName);
 
-  // const addAllServicePermissions = (roleId: string, serviceName: string) => ctx.rolesToPermissions.createMany(
+  // const addAllServicePermissions = (roleId: string, serviceName: string) => ctx.service('rolesToPermissions').createMany(
   //   getAllServicePermissions(serviceName)
   //     .map(p => ({
   //       roleId,

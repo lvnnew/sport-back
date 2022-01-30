@@ -1,4 +1,4 @@
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 import log from '../log';
 
 // yarn ts-node src/cli/tryPrisma.ts
@@ -6,7 +6,7 @@ import log from '../log';
 const app = async () => {
   log.info('start');
 
-  const ctx = await getOrCreateContext();
+  const ctx = await createContext();
 
   log.info(
     await ctx.prisma.manager.findMany({take: 3}),

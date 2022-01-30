@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseUsersMethods} from './UsersService';
 
 export interface AdditionalUsersMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseUsersMethods): AdditionalUsersMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseUsersMethods): AdditionalUsersMethods => ({});

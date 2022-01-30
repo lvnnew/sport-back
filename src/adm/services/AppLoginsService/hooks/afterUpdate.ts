@@ -2,9 +2,9 @@
 import {
   AppLogin,
 } from '../../../../generated/graphql';
-import {Context} from '../../context';
+import {Context} from '../../types';
 
 export const afterUpdate = async (
-  _getCtx: () => Context,
+  _ctx: Context,
   _data: AppLogin,
 ): Promise<void> => {};

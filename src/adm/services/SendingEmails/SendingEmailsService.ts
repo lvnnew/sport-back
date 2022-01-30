@@ -2,8 +2,7 @@ import {addSendNewRegistrationEmailJob} from '../../../clients/queue/jobs/addSen
 import {addSendPasswordChangeEmailJob} from '../../../clients/queue/jobs/addSendPasswordChangeEmailJob';
 import {addSendResetPasswordEmailJob} from '../../../clients/queue/jobs/addSendResetPasswordEmailJob';
 import {addSendRestorePasswordEmailJob} from '../../../clients/queue/jobs/addSendRestorePasswordEmailJob';
-import log from '../../../log';
-import {Context} from '../context';
+import {Context} from '../types';
 
 export interface SendingEmailsService {
   sendEmailOnNewRegistration: (memberId: number, password: string) => Promise<void>;
@@ -12,11 +11,8 @@ export interface SendingEmailsService {
   sendEmailOnResetPassword: (memberId: number, password: string) => Promise<void>;
 }
 
-export const getSendingEmailsService = (getCtx: () => Context): SendingEmailsService => {
+export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
   const sendEmailOnNewRegistration = async (memberId: number, password: string) => {
-    log.info(`sendEmailOnNewRegistration, memberId: "${memberId}"`);
-
-    const ctx = await getCtx();
 
     await addSendNewRegistrationEmailJob(
       ctx,
@@ -29,9 +25,6 @@ export const getSendingEmailsService = (getCtx: () => Context): SendingEmailsSer
   };
 
   const sendEmailOnRestorePassword = async (memberId: number, password: string) => {
-    log.info(`sendEmailOnNewRegistration, memberId: "${memberId}"`);
-
-    const ctx = await getCtx();
 
     await addSendRestorePasswordEmailJob(
       ctx,
@@ -44,9 +37,6 @@ export const getSendingEmailsService = (getCtx: () => Context): SendingEmailsSer
   };
 
   const sendEmailOnPasswordChange = async (memberId: number, password: string) => {
-    log.info(`sendEmailOnPasswordChange, memberId: "${memberId}"`);
-
-    const ctx = await getCtx();
 
     await addSendPasswordChangeEmailJob(
       ctx,
@@ -59,9 +49,6 @@ export const getSendingEmailsService = (getCtx: () => Context): SendingEmailsSer
   };
 
   const sendEmailOnResetPassword = async (memberId: number, password: string) => {
-    log.info(`sendEmailOnNewRegistration, memberId: "${memberId}"`);
-
-    const ctx = await getCtx();
 
     await addSendResetPasswordEmailJob(
       ctx,

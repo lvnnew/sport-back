@@ -5,7 +5,7 @@ import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
-import {getOrCreateContext} from '../services/context';
+import {createContext} from '../services/context';
 import LRUCache from 'lru-cache';
 
 const cache = new LRUCache({
@@ -15,8 +15,8 @@ const cache = new LRUCache({
 
 const getPermissions = async (managerId: number) => {
   if (!cache.has(managerId)) {
-    const ctx = await getOrCreateContext();
-    const permissions = await ctx.profile.getPermissionsOfManager(managerId);
+    const ctx = await createContext();
+    const permissions = await ctx.service('profile').getPermissionsOfManager(managerId);
 
     cache.set(managerId, permissions);
   }
@@ -35,10 +35,10 @@ passport.use(
     },
     async (_, email, password, done) => {
       try {
-        const ctx = await getOrCreateContext();
+        const ctx = await createContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
-        const manager = await ctx.managers.create({
+        const manager = await ctx.service('managers').create({
           email,
           lastName: '',
           firstName: email,
@@ -46,7 +46,7 @@ passport.use(
           headOfUnit: false,
         });
 
-        await ctx.managerLogins.create({
+        await ctx.service('managerLogins').create({
           login: email,
           passwordHash: hashedPassword,
           role: '',
@@ -80,8 +80,8 @@ passport.use(
       try {
         log.info(`email: ${email}`);
 
-        const ctx = await getOrCreateContext();
-        const login = await ctx.managerLogins.findOne({filter: {login: email}});
+        const ctx = await createContext();
+        const login = await ctx.service('managerLogins').findOne({filter: {login: email}});
 
         if (!login) {
           return done(null, false, {message: 'bad login'});
@@ -96,7 +96,7 @@ passport.use(
 
         log.info('user found & password match');
 
-        const manager = await ctx.managers.get(login.managerId);
+        const manager = await ctx.service('managers').get(login.managerId);
         if (!manager) {
           return done(null, false, {message: `There is no manager with "${login.managerId}" id`});
         }

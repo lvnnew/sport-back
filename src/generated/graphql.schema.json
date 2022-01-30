@@ -3012,7 +3012,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getPermissions",
+            "name": "getManagerPermissions",
             "description": null,
             "args": [],
             "type": {

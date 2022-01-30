@@ -6,26 +6,26 @@ import {
   MutationUpdateMessageTemplateArgs,
   MutationRemoveMessageTemplateArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     MessageTemplate: (_, {id}, {context}: {context: Context}) =>
-      context.messageTemplates.get(id),
+      context.service('messageTemplates').get(id),
     allMessageTemplates: (_, params: QueryAllMessageTemplatesArgs, {context}: {context: Context}) =>
-      context.messageTemplates.all(params),
+      context.service('messageTemplates').all(params),
     _allMessageTemplatesMeta: (_, params: Query_AllMessageTemplatesMetaArgs, {context}: {context: Context}) =>
-      context.messageTemplates.meta(params),
+      context.service('messageTemplates').meta(params),
   },
   Mutation: {
     createMessageTemplate: (_, params: MutationCreateMessageTemplateArgs, {context}: {context: Context}) =>
-      context.messageTemplates.create(params, true),
+      context.service('messageTemplates').create(params, true),
     updateMessageTemplate: (_, params: MutationUpdateMessageTemplateArgs, {context}: {context: Context}) =>
-      context.messageTemplates.update(params, true),
+      context.service('messageTemplates').update(params, true),
     removeMessageTemplate: (_, params: MutationRemoveMessageTemplateArgs, {context}: {context: Context}) =>
-      context.messageTemplates.delete(params),
+      context.service('messageTemplates').delete(params),
   },
 };
 

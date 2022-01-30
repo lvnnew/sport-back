@@ -1,8 +1,8 @@
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 
 const recalculateStats = async () => {
-  const ctx = await getOrCreateContext();
-  await ctx.stats.recalculate();
+  const ctx = await createContext();
+  await ctx.service('stats').recalculate();
 };
 
 export default recalculateStats;

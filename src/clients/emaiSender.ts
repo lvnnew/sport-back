@@ -1,10 +1,10 @@
 import {sentenceCase} from 'change-case';
 import Email from 'email-templates';
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 import {getConfig} from '../config';
 import log from '../log';
-import {Language} from '../types/enums';
 import {File} from '../generated/graphql';
+import Language from '../types/Language';
 
 export interface EmailFile {
   name: string;
@@ -12,7 +12,7 @@ export interface EmailFile {
   mimetype: string;
 }
 
-export interface EmailOptions extends Email.EmailOptions{
+export interface EmailOptions extends Email.EmailOptions {
   lang?: Language;
   files?: EmailFile[];
 }
@@ -88,28 +88,10 @@ export const getEmailSender = async () => {
         },
       },
     });
-    log.info({
-      message: {
-        from: config.smtpFrom,
-      },
-      send: true,
-      transport: {
-        host: config.smtpHost,
-        port: Number.parseInt(config.smtpPort, 10),
-        secure: false, // upgrade later with STARTTLS
-        auth: {
-          user: config.smtpUser,
-        },
-        tls: {
-          // do not fail on invalid certs
-          rejectUnauthorized: false,
-        },
-      },
-    });
 
     const send = async (options: EmailOptions) => {
       const attachments = [];
-      const ctx = await getOrCreateContext();
+      const ctx = await createContext();
 
       if (options.files) {
         for (const file of options.files) {
@@ -145,7 +127,7 @@ export const getEmailSender = async () => {
         throw new Error('Template should be set');
       }
 
-      const template = await ctx.messageTemplates.get(templateId);
+      const template = await ctx.service('messageTemplates').get(templateId);
       if (!template) {
         throw new Error(`There is no template with "${templateId}" id`);
       }
@@ -154,12 +136,12 @@ export const getEmailSender = async () => {
 
       // try {
       //   if (!template.secretData && templateId !== MessageTemplate.Custom) {
-      //     const emails = await ctx.emails.all({
+      //     const emails = await ctx.service('emails').all({
       //       filter: {
       //         email: interceptedOptions.message.to,
       //       },
       //     });
-      //     await ctx.messages.createMany(emails.map(e => ({
+      //     await ctx.service('messages').createMany(emails.map(e => ({
       //       memberId: e.memberId,
       //       subject: sent.originalMessage.subject,
       //       message: sent.originalMessage.text,

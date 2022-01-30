@@ -5,7 +5,7 @@ import {collectDefaultMetrics, register} from 'prom-client';
 import {run} from 'graphile-worker';
 import {getConfig} from '../../config';
 import emailsJobs from './emailsJobs';
-import {closeCtx} from '../../adm/services/context';
+import {createContext} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
 import jobsFromFunctions from '../../jobs/jobsFromFunctions';
 import {graphileLogger} from '../utils';
@@ -14,7 +14,7 @@ import {graphileLogger} from '../utils';
 // ENV=dev yarn ts-node src/workers/emails/emailsWorker.ts
 
 exitHook(async () => {
-  await closeCtx();
+  createContext().then(ctx => ctx.close());
 });
 
 const app = express();

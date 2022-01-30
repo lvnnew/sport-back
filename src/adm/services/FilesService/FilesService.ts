@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalFilesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -56,25 +56,17 @@ export interface BaseFilesMethods {
 
 export type FilesService = BaseFilesMethods & AdditionalFilesMethods;
 
-export const getFilesService = (getCtx: () => Context) => {
+export const getFilesService = (ctx: Context) => {
   const get = async (
     id: number,
   ): Promise<File | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.file.findUnique({where: {id}});
+    return ctx.prisma.file.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllFilesArgs = {},
   ): Promise<File[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.file.findMany(
+    return ctx.prisma.file.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<File[]>;
   };
@@ -82,30 +74,18 @@ export const getFilesService = (getCtx: () => Context) => {
   const findOne = async (
     params: QueryAllFilesArgs = {},
   ): Promise<File | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.file.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.file.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllFilesMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.file.count(toPrismaTotalRequest(params));
+    return ctx.prisma.file.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllFilesMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -113,10 +93,6 @@ export const getFilesService = (getCtx: () => Context) => {
     data: MutationCreateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -126,9 +102,9 @@ export const getFilesService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.file.create({
+    const createOperation = ctx.prisma.file.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -152,16 +128,16 @@ export const getFilesService = (getCtx: () => Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.file.update({
+    await ctx.prisma.file.update({
       where: {id: result.id},
       data: {
         search: [
@@ -181,7 +157,7 @@ export const getFilesService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as File);
+    await afterCreate(ctx, result as File);
 
     return result as File;
   };
@@ -190,10 +166,6 @@ export const getFilesService = (getCtx: () => Context) => {
     entries: MutationCreateFileArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -203,7 +175,7 @@ export const getFilesService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.file.createMany({
+    const result = await ctx.prisma.file.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -237,10 +209,6 @@ export const getFilesService = (getCtx: () => Context) => {
     data: MutationUpdateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -250,11 +218,11 @@ export const getFilesService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.file.update({
+    const updateOperation = ctx.prisma.file.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -279,15 +247,15 @@ export const getFilesService = (getCtx: () => Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as File);
+    await afterUpdate(ctx, result as File);
 
     return result as File;
   };
@@ -296,10 +264,6 @@ export const getFilesService = (getCtx: () => Context) => {
     data: MutationUpdateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -315,7 +279,7 @@ export const getFilesService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.file.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.file.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -365,10 +329,6 @@ export const getFilesService = (getCtx: () => Context) => {
     data: MutationCreateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -410,15 +370,11 @@ export const getFilesService = (getCtx: () => Context) => {
   const del = async (
     params: MutationRemoveFileArgs,
   ): Promise<File> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.file.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.file.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -427,13 +383,13 @@ export const getFilesService = (getCtx: () => Context) => {
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -452,7 +408,7 @@ export const getFilesService = (getCtx: () => Context) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

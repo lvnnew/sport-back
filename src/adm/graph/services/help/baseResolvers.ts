@@ -3,12 +3,12 @@ import {
   QueryGetHelpArgs,
 } from '../../../../generated/graphql';
 
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 const queryResolvers: Resolvers = {
   Query: {
     getHelp: (_, params: QueryGetHelpArgs, {context}: {context: Context}) =>
-      context.help.getHelp(params.entityType),
+      context.service('help').getHelp(params.entityType),
   },
 };
 

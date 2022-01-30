@@ -1,9 +1,9 @@
 import {
   MutationCreateRoleArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../context';
+import {Context} from '../../types';
 
 export const additionalOperationsOnCreate = (
-  _getCtx: () => Context,
+  _ctx: Context,
   _data: MutationCreateRoleArgs,
 ) => [];

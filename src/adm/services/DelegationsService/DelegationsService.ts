@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalDelegationsMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -60,25 +60,17 @@ export interface BaseDelegationsMethods {
 
 export type DelegationsService = BaseDelegationsMethods & AdditionalDelegationsMethods;
 
-export const getDelegationsService = (getCtx: () => Context) => {
+export const getDelegationsService = (ctx: Context) => {
   const get = async (
     id: number,
   ): Promise<Delegation | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.delegation.findUnique({where: {id}});
+    return ctx.prisma.delegation.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllDelegationsArgs = {},
   ): Promise<Delegation[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.delegation.findMany(
+    return ctx.prisma.delegation.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<Delegation[]>;
   };
@@ -86,30 +78,18 @@ export const getDelegationsService = (getCtx: () => Context) => {
   const findOne = async (
     params: QueryAllDelegationsArgs = {},
   ): Promise<Delegation | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.delegation.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.delegation.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllDelegationsMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.delegation.count(toPrismaTotalRequest(params));
+    return ctx.prisma.delegation.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllDelegationsMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -117,10 +97,6 @@ export const getDelegationsService = (getCtx: () => Context) => {
     data: MutationCreateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -130,9 +106,9 @@ export const getDelegationsService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.delegation.create({
+    const createOperation = ctx.prisma.delegation.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -160,16 +136,16 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.delegation.update({
+    await ctx.prisma.delegation.update({
       where: {id: result.id},
       data: {
         search: [
@@ -193,7 +169,7 @@ export const getDelegationsService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as Delegation);
+    await afterCreate(ctx, result as Delegation);
 
     return result as Delegation;
   };
@@ -202,10 +178,6 @@ export const getDelegationsService = (getCtx: () => Context) => {
     entries: MutationCreateDelegationArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -215,7 +187,7 @@ export const getDelegationsService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.delegation.createMany({
+    const result = await ctx.prisma.delegation.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -253,10 +225,6 @@ export const getDelegationsService = (getCtx: () => Context) => {
     data: MutationUpdateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -266,11 +234,11 @@ export const getDelegationsService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.delegation.update({
+    const updateOperation = ctx.prisma.delegation.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -299,15 +267,15 @@ export const getDelegationsService = (getCtx: () => Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as Delegation);
+    await afterUpdate(ctx, result as Delegation);
 
     return result as Delegation;
   };
@@ -316,10 +284,6 @@ export const getDelegationsService = (getCtx: () => Context) => {
     data: MutationUpdateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -335,7 +299,7 @@ export const getDelegationsService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.delegation.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.delegation.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -393,10 +357,6 @@ export const getDelegationsService = (getCtx: () => Context) => {
     data: MutationCreateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -438,15 +398,11 @@ export const getDelegationsService = (getCtx: () => Context) => {
   const del = async (
     params: MutationRemoveDelegationArgs,
   ): Promise<Delegation> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.delegation.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.delegation.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -455,13 +411,13 @@ export const getDelegationsService = (getCtx: () => Context) => {
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -480,7 +436,7 @@ export const getDelegationsService = (getCtx: () => Context) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

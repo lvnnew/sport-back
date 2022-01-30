@@ -6,26 +6,26 @@ import {
   MutationUpdateAutogenerationRuleArgs,
   MutationRemoveAutogenerationRuleArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     AutogenerationRule: (_, {id}, {context}: {context: Context}) =>
-      context.autogenerationRules.get(id),
+      context.service('autogenerationRules').get(id),
     allAutogenerationRules: (_, params: QueryAllAutogenerationRulesArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.all(params),
+      context.service('autogenerationRules').all(params),
     _allAutogenerationRulesMeta: (_, params: Query_AllAutogenerationRulesMetaArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.meta(params),
+      context.service('autogenerationRules').meta(params),
   },
   Mutation: {
     createAutogenerationRule: (_, params: MutationCreateAutogenerationRuleArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.create(params, true),
+      context.service('autogenerationRules').create(params, true),
     updateAutogenerationRule: (_, params: MutationUpdateAutogenerationRuleArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.update(params, true),
+      context.service('autogenerationRules').update(params, true),
     removeAutogenerationRule: (_, params: MutationRemoveAutogenerationRuleArgs, {context}: {context: Context}) =>
-      context.autogenerationRules.delete(params),
+      context.service('autogenerationRules').delete(params),
   },
 };
 

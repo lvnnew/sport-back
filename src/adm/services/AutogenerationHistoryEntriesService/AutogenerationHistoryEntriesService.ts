@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalAutogenerationHistoryEntriesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -60,25 +60,17 @@ export interface BaseAutogenerationHistoryEntriesMethods {
 
 export type AutogenerationHistoryEntriesService = BaseAutogenerationHistoryEntriesMethods & AdditionalAutogenerationHistoryEntriesMethods;
 
-export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) => {
+export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   const get = async (
     id: number,
   ): Promise<AutogenerationHistoryEntry | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.autogenerationHistoryEntry.findUnique({where: {id}});
+    return ctx.prisma.autogenerationHistoryEntry.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.autogenerationHistoryEntry.findMany(
+    return ctx.prisma.autogenerationHistoryEntry.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<AutogenerationHistoryEntry[]>;
   };
@@ -86,30 +78,18 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
   const findOne = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllAutogenerationHistoryEntriesMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.autogenerationHistoryEntry.count(toPrismaTotalRequest(params));
+    return ctx.prisma.autogenerationHistoryEntry.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllAutogenerationHistoryEntriesMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -117,10 +97,6 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
     data: MutationCreateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -130,9 +106,9 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.autogenerationHistoryEntry.create({
+    const createOperation = ctx.prisma.autogenerationHistoryEntry.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -163,16 +139,16 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.autogenerationHistoryEntry.update({
+    await ctx.prisma.autogenerationHistoryEntry.update({
       where: {id: result.id},
       data: {
         search: [
@@ -199,7 +175,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       },
     });
 
-    await afterCreate(getCtx, result as AutogenerationHistoryEntry);
+    await afterCreate(ctx, result as AutogenerationHistoryEntry);
 
     return result as AutogenerationHistoryEntry;
   };
@@ -208,10 +184,6 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
     entries: MutationCreateAutogenerationHistoryEntryArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -221,7 +193,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       ));
     }
 
-    const result = await getCtx().prisma.autogenerationHistoryEntry.createMany({
+    const result = await ctx.prisma.autogenerationHistoryEntry.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -262,10 +234,6 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
     data: MutationUpdateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -275,11 +243,11 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.autogenerationHistoryEntry.update({
+    const updateOperation = ctx.prisma.autogenerationHistoryEntry.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -311,15 +279,15 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as AutogenerationHistoryEntry);
+    await afterUpdate(ctx, result as AutogenerationHistoryEntry);
 
     return result as AutogenerationHistoryEntry;
   };
@@ -328,10 +296,6 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
     data: MutationUpdateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -347,7 +311,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       );
     }
 
-    const result = await getCtx().prisma.autogenerationHistoryEntry.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.autogenerationHistoryEntry.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -411,10 +375,6 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
     data: MutationCreateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -456,15 +416,11 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
   const del = async (
     params: MutationRemoveAutogenerationHistoryEntryArgs,
   ): Promise<AutogenerationHistoryEntry> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.autogenerationHistoryEntry.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.autogenerationHistoryEntry.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -473,13 +429,13 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -498,7 +454,7 @@ export const getAutogenerationHistoryEntriesService = (getCtx: () => Context) =>
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

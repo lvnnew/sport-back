@@ -1,4 +1,4 @@
-import {getOrCreateContext} from '../adm/services/context';
+import {createContext} from '../adm/services/context';
 import log from '../log';
 import {getQueue} from '../clients/queue/getQueue';
 import {initPermissions} from './permissions/initPermissions';
@@ -15,13 +15,13 @@ const app = async () => {
   const queue = await getQueue();
   await queue.migrate();
 
-  const ctx = await getOrCreateContext();
+  const ctx = await createContext();
 
   // Permissions
   await initPermissions(ctx);
   await initRoles(ctx);
 
-  await ctx.stats.recalculate();
+  await ctx.service('stats').recalculate();
 
   await ctx.close();
 

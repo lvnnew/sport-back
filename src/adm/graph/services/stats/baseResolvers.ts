@@ -6,26 +6,26 @@ import {
   MutationUpdateStatArgs,
   MutationRemoveStatArgs,
 } from '../../../../generated/graphql';
-import {Context} from '../../../services/context';
+import {Context} from '../../../services/types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const queryResolvers: Resolvers = {
   Query: {
     Stat: (_, {id}, {context}: {context: Context}) =>
-      context.stats.get(id),
+      context.service('stats').get(id),
     allStats: (_, params: QueryAllStatsArgs, {context}: {context: Context}) =>
-      context.stats.all(params),
+      context.service('stats').all(params),
     _allStatsMeta: (_, params: Query_AllStatsMetaArgs, {context}: {context: Context}) =>
-      context.stats.meta(params),
+      context.service('stats').meta(params),
   },
   Mutation: {
     createStat: (_, params: MutationCreateStatArgs, {context}: {context: Context}) =>
-      context.stats.create(params, true),
+      context.service('stats').create(params, true),
     updateStat: (_, params: MutationUpdateStatArgs, {context}: {context: Context}) =>
-      context.stats.update(params, true),
+      context.service('stats').update(params, true),
     removeStat: (_, params: MutationRemoveStatArgs, {context}: {context: Context}) =>
-      context.stats.delete(params),
+      context.service('stats').delete(params),
   },
 };
 

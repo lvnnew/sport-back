@@ -5,7 +5,7 @@ import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
-import {getOrCreateContext} from '../../adm/services/context';
+import {createContext} from '../../adm/services/context';
 import generator from 'generate-password';
 
 passport.use(
@@ -19,15 +19,15 @@ passport.use(
     },
     async (req, email, password, done) => {
       try {
-        const ctx = await getOrCreateContext();
+        const ctx = await createContext();
         const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-        const user = await ctx.users.create({
+        const user = await ctx.service('users').create({
           firstname: req.body.firstname,
           lastname: req.body.lastname,
           email,
         });
-        await ctx.sendingEmails.sendEmailOnNewRegistration(user.id, password);
-        await ctx.appLogins.create({
+        await ctx.service('sendingEmails').sendEmailOnNewRegistration(user.id, password);
+        await ctx.service('appLogins').create({
           login: user.id.toString(),
           passwordHash: hashedPassword,
           userId: user.id,
@@ -55,10 +55,10 @@ passport.use(
       try {
         log.info(`email: ${email}`);
 
-        const ctx = await getOrCreateContext();
+        const ctx = await createContext();
 
         // Check there is no yet login for this user
-        const login = await ctx.appLogins.findOne({filter: {login: email}});
+        const login = await ctx.service('appLogins').findOne({filter: {login: email}});
         if (!login) {
           return done(new Error(`There is no login for user with "${email}" email`), null);
         }
@@ -76,7 +76,7 @@ passport.use(
             passwordHash: hashedPassword,
           },
         });
-        await ctx.sendingEmails.sendEmailOnRestorePassword(login.userId, password);
+        await ctx.service('sendingEmails').sendEmailOnRestorePassword(login.userId, password);
         log.info('password restored');
 
         return done(null, {id: login.userId});
@@ -108,8 +108,8 @@ passport.use(
 
         // const preparedCardNumber = prepareCardNumber(cardNumber);
         // log.info(`preparedCardNumber: ${preparedCardNumber}`);
-        const ctx = await getOrCreateContext();
-        const login = await ctx.appLogins.findOne({filter: {login: email}});
+        const ctx = await createContext();
+        const login = await ctx.service('appLogins').findOne({filter: {login: email}});
 
         if (!login) {
           return done(null, false, {message: 'bad cardNumber'});

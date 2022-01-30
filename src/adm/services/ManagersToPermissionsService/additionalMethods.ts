@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseManagersToPermissionsMethods} from './ManagersToPermissionsService';
 
 export interface AdditionalManagersToPermissionsMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseManagersToPermissionsMethods): AdditionalManagersToPermissionsMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseManagersToPermissionsMethods): AdditionalManagersToPermissionsMethods => ({});

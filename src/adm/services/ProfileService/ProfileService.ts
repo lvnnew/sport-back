@@ -1,7 +1,9 @@
 import * as R from 'ramda';
-import {Context} from '../context';
 import {PermissionsWithMeta} from '../../../generated/graphql';
 import {KeyValuePair} from 'ramda';
+import log from '../../../log';
+import {PrismaClient} from '@prisma/client';
+import {Context} from '../types';
 
 export const BASE_MILES_TO_RECEIVE_FOR_FLIGHT = 1000;
 export const BASE_MILES_TO_UPGRADE_CLASS = 1000;
@@ -9,16 +11,40 @@ export const BASE_MILES_TO_REWARD_FLIGHT = 1000;
 
 export interface ProfileService {
   getPermissionsOfManager: (managerId: number) => Promise<string[]>;
-  getPermissions: () => Promise<string[]>;
+  getManagerPermissions: () => Promise<string[]>;
   getPermissionsOfManagerWithMeta: (managerId: number) => Promise<PermissionsWithMeta[]>;
   getPermissionsWithMeta: () => Promise<PermissionsWithMeta[]>;
+
+  getUserId: () => bigint | null,
+  getManagerId: () => number | null,
+  setUserId: (userId: bigint) => void,
+  setManagerId: (managerId: number) => void,
 }
 
-export const getProfileService = (getCtx: () => Context): ProfileService => {
-  const getPermissionsOfManagerWithMeta = async (managerId: number) => {
-    const ctx = await getCtx();
+export type UserData = {
+  userId: bigint | null,
+  managerId: number | null,
+}
 
-    const rawPermissions = await ctx.prisma.managersToRole.findMany({
+export const getProfileService = (ctx: Context): ProfileService => {
+  let userId: bigint | null = null;
+  let managerId: number | null = null;
+
+  const getUserId = () => userId;
+  const getManagerId = () => managerId;
+
+  const setUserId = (newUserId: bigint) => {
+    userId = newUserId;
+  };
+
+  const setManagerId = (newManagerId: number) => {
+    managerId = newManagerId;
+  };
+
+  const getPermissionsOfManagerWithMeta = async (managerId: number) => {
+    const prisma = await ctx.container.getAsync('Prisma') as PrismaClient;
+
+    const rawPermissions = await prisma.managersToRole.findMany({
       where: {
         managerId,
       },
@@ -48,9 +74,9 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
         ),
     );
 
-    const permissionsFullAccessRoles = fullAccessRoles.length > 0 ? (await ctx.permissions.all()).map(p => p.id) : [];
+    const permissionsFullAccessRoles = fullAccessRoles.length > 0 ? (await ctx.service('permissions').all()).map(p => p.id) : [];
 
-    const managersToPermissions = await ctx.managersToPermissions.all({filter: {managerId}});
+    const managersToPermissions = await ctx.service('managersToPermissions').all({filter: {managerId}});
     const permissionsWithoutRoles = managersToPermissions.map(el => el.permissionId);
 
     const permissions = R.uniq(
@@ -80,42 +106,49 @@ export const getProfileService = (getCtx: () => Context): ProfileService => {
       permissionId: permissionsToPair[0],
       byRoles: permissionsToPair[1],
       byFullAccessRoles: fullAccessRoles.map(r => r.id),
-      directly: Boolean(permissionsWithoutRoles.find(el => el === permissionsToPair[0])),
+      directly: Boolean(permissionsWithoutRoles.includes(permissionsToPair[0])),
     }));
   };
 
   const getPermissionsOfManager = async (managerId: number) => {
-    const ctx = getCtx();
-
-    const permissions = await ctx.profile.getPermissionsOfManagerWithMeta(managerId);
+    const permissions = await ctx.service('profile').getPermissionsOfManagerWithMeta(managerId);
 
     return R.uniq(permissions.map(el => el.permissionId));
   };
 
-  const getPermissions = async () => {
-    const managerId = getCtx().getManagerId();
+  const getManagerPermissions = async () => {
+    log.info('getPermissions');
+    // const managerId = ctx.service('profile').getManagerId();
+    // const managerId = ctx.container.get('managerId') as number;
+    // const managerId = getManagerId();
 
     if (!managerId) {
-      throw new Error('Current manager is unknown');
+      log.error('getPermissions Current manager is unknown');
+      throw new Error('getPermissions Current manager is unknown');
     }
 
     return getPermissionsOfManager(managerId);
   };
 
   const getPermissionsWithMeta = async () => {
-    const managerId = getCtx().getManagerId();
+    log.info('getPermissionsWithMeta');
+    const managerId = getManagerId();
 
     if (!managerId) {
-      throw new Error('Current manager is unknown');
+      throw new Error('getPermissionsWithMeta Current manager is unknown');
     }
 
     return getPermissionsOfManagerWithMeta(managerId);
   };
 
   return {
-    getPermissions,
     getPermissionsOfManager,
     getPermissionsWithMeta,
     getPermissionsOfManagerWithMeta,
+    getUserId,
+    getManagerId,
+    getManagerPermissions,
+    setUserId,
+    setManagerId,
   };
 };

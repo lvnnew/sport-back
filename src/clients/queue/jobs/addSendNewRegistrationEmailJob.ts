@@ -1,6 +1,6 @@
 import log from '../../../log';
 import {SendEmailLocals} from './addSendEmailJob';
-import {Context} from '../../../adm/services/context';
+import {Context} from '../../../adm/services/types';
 import {addSendEmailToUserJob} from './addSendEmailToUserJob';
 import {MessageTemplate} from '../../../types/enums';
 

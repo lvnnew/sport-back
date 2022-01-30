@@ -10,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {Context} from '../context';
+import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalAppLoginsMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
@@ -56,25 +56,17 @@ export interface BaseAppLoginsMethods {
 
 export type AppLoginsService = BaseAppLoginsMethods & AdditionalAppLoginsMethods;
 
-export const getAppLoginsService = (getCtx: () => Context) => {
+export const getAppLoginsService = (ctx: Context) => {
   const get = async (
     id: number,
   ): Promise<AppLogin | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.appLogin.findUnique({where: {id}});
+    return ctx.prisma.appLogin.findUnique({where: {id}});
   };
 
   const all = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin[]> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.appLogin.findMany(
+    return ctx.prisma.appLogin.findMany(
       toPrismaRequest(params, {noId: true}),
     ) as unknown as Promise<AppLogin[]>;
   };
@@ -82,30 +74,18 @@ export const getAppLoginsService = (getCtx: () => Context) => {
   const findOne = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin | null> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.appLogin.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.appLogin.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
     params: Query_AllAppLoginsMetaArgs = {},
   ): Promise<number> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    return getCtx().prisma.appLogin.count(toPrismaTotalRequest(params));
+    return ctx.prisma.appLogin.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
     params: Query_AllAppLoginsMetaArgs = {},
   ): Promise<ListMetadata> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     return count(params).then(count => ({count}));
   };
 
@@ -113,10 +93,6 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     data: MutationCreateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -126,9 +102,9 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeCreate(getCtx, data);
+    processedData = await beforeCreate(ctx, data);
 
-    const createOperation = getCtx().prisma.appLogin.create({
+    const createOperation = ctx.prisma.appLogin.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -150,16 +126,16 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(getCtx, processedData)),
+      ...(await additionalOperationsOnCreate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     // update search. earlier we does not have id
-    await getCtx().prisma.appLogin.update({
+    await ctx.prisma.appLogin.update({
       where: {id: result.id},
       data: {
         search: [
@@ -177,7 +153,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       },
     });
 
-    await afterCreate(getCtx, result as AppLogin);
+    await afterCreate(ctx, result as AppLogin);
 
     return result as AppLogin;
   };
@@ -186,10 +162,6 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     entries: MutationCreateAppLoginArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = entries;
 
     if (byUser) {
@@ -199,7 +171,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       ));
     }
 
-    const result = await getCtx().prisma.appLogin.createMany({
+    const result = await ctx.prisma.appLogin.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -231,10 +203,6 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     data: MutationUpdateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedData = data;
 
     if (byUser) {
@@ -244,11 +212,11 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       );
     }
 
-    processedData = await beforeUpdate(getCtx, processedData);
+    processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = getCtx().prisma.appLogin.update({
+    const updateOperation = ctx.prisma.appLogin.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -271,15 +239,15 @@ export const getAppLoginsService = (getCtx: () => Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(getCtx, processedData)),
+      ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(getCtx, result as AppLogin);
+    await afterUpdate(ctx, result as AppLogin);
 
     return result as AppLogin;
   };
@@ -288,10 +256,6 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     data: MutationUpdateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -307,7 +271,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       );
     }
 
-    const result = await getCtx().prisma.appLogin.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.appLogin.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -353,10 +317,6 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     data: MutationCreateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -398,15 +358,11 @@ export const getAppLoginsService = (getCtx: () => Context) => {
   const del = async (
     params: MutationRemoveAppLoginArgs,
   ): Promise<AppLogin> => {
-    if (!getCtx()) {
-      throw new Error('Context is not initialised');
-    }
-
-    const deleteOperation = getCtx().prisma.appLogin.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.appLogin.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(getCtx, params)),
+      ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -415,13 +371,13 @@ export const getAppLoginsService = (getCtx: () => Context) => {
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await getCtx().prisma.$transaction(operations as any);
+    const [result] = await ctx.prisma.$transaction(operations as any);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(getCtx, entity);
+    await afterDelete(ctx, entity);
 
     return entity;
   };
@@ -440,7 +396,7 @@ export const getAppLoginsService = (getCtx: () => Context) => {
     delete: del,
   };
 
-  const additionalMethods = getAdditionalMethods(getCtx, baseMethods);
+  const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
   return {
     ...baseMethods,

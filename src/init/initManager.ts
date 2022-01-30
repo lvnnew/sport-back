@@ -1,4 +1,4 @@
-import {Context} from '../adm/services/context';
+import {Context} from '../adm/services/types';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';
 import {Role} from '../types/enums';
@@ -22,7 +22,7 @@ export const initManager = async (
 ) => {
   const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
-  const manager = await ctx.managers.upsertAdvanced(
+  const manager = await ctx.service('managers').upsertAdvanced(
     {
       lastName,
       firstName,
@@ -36,7 +36,7 @@ export const initManager = async (
     },
   );
 
-  await ctx.managerLogins.upsertAdvanced(
+  await ctx.service('managerLogins').upsertAdvanced(
     {
       login: email,
     },
@@ -51,7 +51,7 @@ export const initManager = async (
     },
   );
 
-  await ctx.managersToRoles.createMany(roles.map(roleId => ({
+  await ctx.service('managersToRoles').createMany(roles.map(roleId => ({
     managerId: manager.id,
     roleId,
   })));

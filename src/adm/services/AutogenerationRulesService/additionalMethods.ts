@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseAutogenerationRulesMethods} from './AutogenerationRulesService';
 
 export interface AdditionalAutogenerationRulesMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseAutogenerationRulesMethods): AdditionalAutogenerationRulesMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseAutogenerationRulesMethods): AdditionalAutogenerationRulesMethods => ({});

@@ -1,153 +1,42 @@
-import {getPrisma} from '../../clients/getPrisma';
-import {PrismaClient} from '@prisma/client';
-import {getKnex} from '../../clients/knex';
-import {Knex} from 'knex';
-import {getPostgres} from '../../clients/postgres';
-import {Client} from 'pg';
-import {WorkerUtils} from 'graphile-worker';
-import {getQueue} from '../../clients/queue/getQueue';
-import {Logger} from 'winston';
 import log from '../../log';
-import {onStart} from '../../systemHooks';
-import {AppLoginsService, getAppLoginsService} from './AppLoginsService/AppLoginsService';
-import {AuditLogActionTypesService, getAuditLogActionTypesService} from './AuditLogActionTypesService/AuditLogActionTypesService';
-import {AuditLogsService, getAuditLogsService} from './AuditLogsService/AuditLogsService';
-import {AutogenerationHistoryEntriesService, getAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
-import {AutogenerationRulesService, getAutogenerationRulesService} from './AutogenerationRulesService/AutogenerationRulesService';
-import {DelegationsService, getDelegationsService} from './DelegationsService/DelegationsService';
-import {FilesService, getFilesService} from './FilesService/FilesService';
-import {LanguagesService, getLanguagesService} from './LanguagesService/LanguagesService';
-import {ManagerLoginsService, getManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService';
-import {ManagersService, getManagersService} from './ManagersService/ManagersService';
-import {ManagersToPermissionsService, getManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
-import {ManagersToRolesService, getManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
-import {MessageTemplatesService, getMessageTemplatesService} from './MessageTemplatesService/MessageTemplatesService';
-import {PermissionsService, getPermissionsService} from './PermissionsService/PermissionsService';
-import {RolesService, getRolesService} from './RolesService/RolesService';
-import {RolesToPermissionsService, getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
-import {StatsService, getStatsService} from './StatsService/StatsService';
-import {TagsService, getTagsService} from './TagsService/TagsService';
-import {UnitsService, getUnitsService} from './UnitsService/UnitsService';
-import {UsersService, getUsersService} from './UsersService/UsersService';
-import {HelpService, getHelpService} from './HelpService/HelpService';
-import {AdditionalServices, getAdditionalServices} from './AdditionalServices';
+import defaultContainer from './defaultContainer';
+import {getProfileService, ProfileService, UserData} from './ProfileService/ProfileService';
+import {interfaces} from 'inversify/lib/interfaces/interfaces';
+import serviceConstrictors from './serviceConstrictors';
+import {Context, Services} from './types';
+import * as R from 'ramda';
 
-// DO NOT EDIT! THIS IS GENERATED FILE
-
-export interface BaseServices {
-  help: HelpService;
-  appLogins: AppLoginsService;
-  auditLogActionTypes: AuditLogActionTypesService;
-  auditLogs: AuditLogsService;
-  autogenerationHistoryEntries: AutogenerationHistoryEntriesService;
-  autogenerationRules: AutogenerationRulesService;
-  delegations: DelegationsService;
-  files: FilesService;
-  languages: LanguagesService;
-  managerLogins: ManagerLoginsService;
-  managers: ManagersService;
-  managersToPermissions: ManagersToPermissionsService;
-  managersToRoles: ManagersToRolesService;
-  messageTemplates: MessageTemplatesService;
-  permissions: PermissionsService;
-  roles: RolesService;
-  rolesToPermissions: RolesToPermissionsService;
-  stats: StatsService;
-  tags: TagsService;
-  units: UnitsService;
-  users: UsersService;
-}
-
-export type Services = BaseServices & AdditionalServices;
-
-export type BaseContext = {
-  prisma: PrismaClient;
-  knex: Knex;
-  postgres: Client;
-  worker: WorkerUtils;
-  log: Logger;
-  close: () => Promise<void>;
-};
-
-export type Context = BaseContext & Services & {
-  getUserId: () => number | null;
-  getManagerId: () => number | null;
-  getManagerPermissions: () => string[];
-};
-
-let baseContext: BaseContext | null = null;
-
-export type GetCtx = () => Context;
-
-let context: Context | null = null;
-
-export const createBaseContext = async (): Promise<BaseContext> => {
-  const [
-    prisma,
-    knex,
-    postgres,
-    worker,
-  ] = await Promise.all([
-    getPrisma(),
-    getKnex(),
-    getPostgres(),
-    getQueue(),
-  ]);
-
+export const createContext = async (container: interfaces.Container = defaultContainer): Promise<Context> => {
   const close = async () => {
-    await prisma.$disconnect();
-    await knex.destroy();
-    await postgres.end();
-    context = null;
+    await Promise.all([
+      container.unbindAsync('Prisma'),
+      container.unbindAsync('Knex'),
+      container.unbindAsync('Postgres'),
+    ]);
   };
 
-  return {
-    prisma,
-    knex,
-    postgres,
-    worker,
+  const context: Context = {
+    prisma: await container.getAsync('Prisma'),
+    knex: await container.getAsync('Knex'),
+    postgres: await container.getAsync('Postgres'),
+    worker: await container.getAsync('Queue'),
     log,
     close,
+    service: (name: keyof Services) => container.get(name),
+    container,
   };
+
+  const pairs = R.toPairs(serviceConstrictors);
+
+  for (const [name, constructor] of pairs) {
+    if (!container.isBound(name)) {
+      container.bind(name)
+        .toConstantValue(constructor(context));
+    }
+  }
+
+  return context;
 };
-
-export const getBaseServices = (getContext: () => Context): BaseServices => ({
-  help: getHelpService(),
-  appLogins: getAppLoginsService(getContext),
-  auditLogActionTypes: getAuditLogActionTypesService(getContext),
-  auditLogs: getAuditLogsService(getContext),
-  autogenerationHistoryEntries: getAutogenerationHistoryEntriesService(getContext),
-  autogenerationRules: getAutogenerationRulesService(getContext),
-  delegations: getDelegationsService(getContext),
-  files: getFilesService(getContext),
-  languages: getLanguagesService(getContext),
-  managerLogins: getManagerLoginsService(getContext),
-  managers: getManagersService(getContext),
-  managersToPermissions: getManagersToPermissionsService(getContext),
-  managersToRoles: getManagersToRolesService(getContext),
-  messageTemplates: getMessageTemplatesService(getContext),
-  permissions: getPermissionsService(getContext),
-  roles: getRolesService(getContext),
-  rolesToPermissions: getRolesToPermissionsService(getContext),
-  stats: getStatsService(getContext),
-  tags: getTagsService(getContext),
-  units: getUnitsService(getContext),
-  users: getUsersService(getContext),
-});
-
-export const getServices = (getContext: () => Context): Services => ({
-  ...getBaseServices(getContext),
-  ...getAdditionalServices(getContext),
-});
-
-export const createContext = (baseContext: BaseContext, getContext: () => Context): Context => ({
-  ...baseContext,
-  ...getServices(getContext),
-
-  getUserId: () => null,
-  getManagerId: () => null,
-  getManagerPermissions: () => [],
-});
 
 export const createUserAwareContext = (context: Context, userId: number): Context => {
   const Context = {
@@ -158,76 +47,29 @@ export const createUserAwareContext = (context: Context, userId: number): Contex
   return Context;
 };
 
-export const getOrCreateBaseContext = async (): Promise<BaseContext> => {
-  if (!baseContext) {
-    const created = await createBaseContext();
-    if (baseContext) {
-      created.close();
-    } else {
-      baseContext = created;
-    }
+export const сreateUsersAwareContext = async (
+  {userId, managerId}: UserData,
+  container: interfaces.Container = defaultContainer,
+): Promise<Context> => {
+  const child = container.createChild();
+
+  const created = await createContext(child);
+
+  const profile = getProfileService(created);
+
+  if (userId) {
+    profile.setUserId(userId);
   }
 
-  return baseContext;
-};
-
-export const getCtx = (): Context => {
-  if (!context) {
-    throw new Error('Context is not initialised');
+  if (managerId) {
+    profile.setManagerId(managerId);
   }
 
-  return context;
-};
-
-export const getOrCreateContext = async (): Promise<Context> => {
-  if (!context) {
-    onStart();
-    const baseContext = await getOrCreateBaseContext();
-
-    const created = await createContext(baseContext, getCtx);
-    if (context) {
-      created.close();
-    } else {
-      context = created;
-    }
-  }
-
-  return context;
-};
-
-export const getOrCreateUsersAwareContext = (
-  baseContext: BaseContext,
-  users: {
-    userId?: number;
-    managerId?: number;
-    managerPermissions?: string[];
-  },
-): Context => {
-  const getUserId = () => users.userId || null;
-  const getManagerId = () => users.managerId || null;
-  const getManagerPermissions = () => users.managerPermissions || [];
-
-  const userAwareContextGetter = () => {
-    const context = getCtx();
-
-    return {
-      ...context,
-      getUserId,
-      getManagerId,
-      getManagerPermissions,
-    };
-  };
+  child.bind<ProfileService>('profile')
+    .toConstantValue(profile);
 
   return {
-    ...createContext(baseContext, userAwareContextGetter),
-    getUserId,
-    getManagerId,
-    getManagerPermissions,
+    ...created,
+    container: child,
   };
-};
-
-export const closeCtx = async () => {
-  if (baseContext) {
-    await baseContext.close();
-  }
 };

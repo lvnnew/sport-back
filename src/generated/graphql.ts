@@ -229,7 +229,7 @@ export type Query = {
   Permission?: Maybe<Permission>;
   allPermissions?: Maybe<Array<Maybe<Permission>>>;
   _allPermissionsMeta?: Maybe<ListMetadata>;
-  getPermissions: Array<Scalars['String']>;
+  getManagerPermissions: Array<Scalars['String']>;
   getPermissionsWithMeta: Array<Maybe<PermissionsWithMeta>>;
   getPermissionsOfManagerWithMeta: Array<Maybe<PermissionsWithMeta>>;
   Role?: Maybe<Role>;
@@ -2198,7 +2198,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Permission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<QueryPermissionArgs, 'id'>>;
   allPermissions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Permission']>>>, ParentType, ContextType, RequireFields<QueryAllPermissionsArgs, never>>;
   _allPermissionsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllPermissionsMetaArgs, never>>;
-  getPermissions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getManagerPermissions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   getPermissionsWithMeta?: Resolver<Array<Maybe<ResolversTypes['PermissionsWithMeta']>>, ParentType, ContextType>;
   getPermissionsOfManagerWithMeta?: Resolver<Array<Maybe<ResolversTypes['PermissionsWithMeta']>>, ParentType, ContextType, RequireFields<QueryGetPermissionsOfManagerWithMetaArgs, 'managerId'>>;
   Role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;

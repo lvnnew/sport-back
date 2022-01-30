@@ -1,6 +1,6 @@
-import {Context} from '../context';
+import {Context} from '../types';
 import {BaseFilesMethods} from './FilesService';
 
 export interface AdditionalFilesMethods {}
 
-export const getAdditionalMethods = (_getCtx: () => Context, _baseMethods: BaseFilesMethods): AdditionalFilesMethods => ({});
+export const getAdditionalMethods = (_ctx: Context, _baseMethods: BaseFilesMethods): AdditionalFilesMethods => ({});
