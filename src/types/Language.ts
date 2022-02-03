@@ -1,7 +1,8 @@
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 enum Language {
   Ru = 'ru',
   En = 'en',
-  Uz = 'uz',
 }
 
 export default Language;

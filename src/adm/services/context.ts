@@ -5,6 +5,7 @@ import {interfaces} from 'inversify/lib/interfaces/interfaces';
 import serviceConstrictors from './serviceConstrictors';
 import {Context, Services} from './types';
 import * as R from 'ramda';
+import {onStart} from '../../systemHooks';
 
 export const createContext = async (container: interfaces.Container = defaultContainer): Promise<Context> => {
   const close = async () => {
@@ -34,6 +35,8 @@ export const createContext = async (container: interfaces.Container = defaultCon
         .toConstantValue(constructor(context));
     }
   }
+
+  onStart();
 
   return context;
 };

@@ -1550,7 +1550,16 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "languages",
    "needFor": {},
-   "predefinedElements": [],
+   "predefinedElements": [
+    {
+     "id": "ru",
+     "title": "Russian"
+    },
+    {
+     "id": "en",
+     "title": "English"
+    }
+   ],
    "singleKey": true,
    "title": {
     "en": "Languages"
