@@ -21,9 +21,12 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
+
+const forbiddenForUserFields: string[] = [];
 
 export interface BaseAuditLogActionTypesMethods {
   get: (id: string) =>
@@ -57,6 +60,11 @@ export interface BaseAuditLogActionTypesMethods {
 export type AuditLogActionTypesService = BaseAuditLogActionTypesMethods & AdditionalAuditLogActionTypesMethods;
 
 export const getAuditLogActionTypesService = (ctx: Context) => {
+  const augmentDataFromDb = getAugmenterByDataFromDb(
+    ctx.prisma.auditLogActionType.findUnique,
+    forbiddenForUserFields,
+  );
+
   const get = async (
     id: string,
   ): Promise<AuditLogActionType | null> => {
@@ -200,10 +208,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     let processedData = data;
 
     if (byUser) {
-      processedData = R.omit(
-        [],
-        processedData,
-      );
+      processedData = await augmentDataFromDb(processedData);
     }
 
     processedData = await beforeUpdate(ctx, processedData);
@@ -257,10 +262,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
         processedDataToCreate,
       );
 
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
+      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
     const result = await ctx.prisma.auditLogActionType.upsert({create: R.mergeDeepLeft(

@@ -21,9 +21,12 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
+
+const forbiddenForUserFields: string[] = [];
 
 export interface BaseUnitsMethods {
   get: (id: number) =>
@@ -57,6 +60,11 @@ export interface BaseUnitsMethods {
 export type UnitsService = BaseUnitsMethods & AdditionalUnitsMethods;
 
 export const getUnitsService = (ctx: Context) => {
+  const augmentDataFromDb = getAugmenterByDataFromDb(
+    ctx.prisma.unit.findUnique,
+    forbiddenForUserFields,
+  );
+
   const get = async (
     id: number,
   ): Promise<Unit | null> => {
@@ -203,10 +211,7 @@ export const getUnitsService = (ctx: Context) => {
     let processedData = data;
 
     if (byUser) {
-      processedData = R.omit(
-        [],
-        processedData,
-      );
+      processedData = await augmentDataFromDb(processedData);
     }
 
     processedData = await beforeUpdate(ctx, processedData);
@@ -261,10 +266,7 @@ export const getUnitsService = (ctx: Context) => {
         processedDataToCreate,
       );
 
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
+      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
     const result = await ctx.prisma.unit.upsert({create: R.mergeDeepLeft(

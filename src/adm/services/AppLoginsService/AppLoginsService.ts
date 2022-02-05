@@ -21,9 +21,12 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
+
+const forbiddenForUserFields: string[] = [];
 
 export interface BaseAppLoginsMethods {
   get: (id: number) =>
@@ -57,6 +60,11 @@ export interface BaseAppLoginsMethods {
 export type AppLoginsService = BaseAppLoginsMethods & AdditionalAppLoginsMethods;
 
 export const getAppLoginsService = (ctx: Context) => {
+  const augmentDataFromDb = getAugmenterByDataFromDb(
+    ctx.prisma.appLogin.findUnique,
+    forbiddenForUserFields,
+  );
+
   const get = async (
     id: number,
   ): Promise<AppLogin | null> => {
@@ -206,10 +214,7 @@ export const getAppLoginsService = (ctx: Context) => {
     let processedData = data;
 
     if (byUser) {
-      processedData = R.omit(
-        [],
-        processedData,
-      );
+      processedData = await augmentDataFromDb(processedData);
     }
 
     processedData = await beforeUpdate(ctx, processedData);
@@ -265,10 +270,7 @@ export const getAppLoginsService = (ctx: Context) => {
         processedDataToCreate,
       );
 
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
+      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
     const result = await ctx.prisma.appLogin.upsert({create: R.mergeDeepLeft(

@@ -21,9 +21,12 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
+
+const forbiddenForUserFields: string[] = [];
 
 export interface BaseMessageTemplatesMethods {
   get: (id: string) =>
@@ -57,6 +60,11 @@ export interface BaseMessageTemplatesMethods {
 export type MessageTemplatesService = BaseMessageTemplatesMethods & AdditionalMessageTemplatesMethods;
 
 export const getMessageTemplatesService = (ctx: Context) => {
+  const augmentDataFromDb = getAugmenterByDataFromDb(
+    ctx.prisma.messageTemplate.findUnique,
+    forbiddenForUserFields,
+  );
+
   const get = async (
     id: string,
   ): Promise<MessageTemplate | null> => {
@@ -200,10 +208,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     let processedData = data;
 
     if (byUser) {
-      processedData = R.omit(
-        [],
-        processedData,
-      );
+      processedData = await augmentDataFromDb(processedData);
     }
 
     processedData = await beforeUpdate(ctx, processedData);
@@ -257,10 +262,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
         processedDataToCreate,
       );
 
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
+      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
     const result = await ctx.prisma.messageTemplate.upsert({create: R.mergeDeepLeft(

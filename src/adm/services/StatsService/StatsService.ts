@@ -21,6 +21,7 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -28,6 +29,8 @@ import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 // DO NOT EDIT! THIS IS GENERATED FILE
+
+const forbiddenForUserFields: string[] = [];
 
 export interface BaseStatsMethods {
   get: (id: string) =>
@@ -61,6 +64,11 @@ export interface BaseStatsMethods {
 export type StatsService = BaseStatsMethods & AdditionalStatsMethods;
 
 export const getStatsService = (ctx: Context) => {
+  const augmentDataFromDb = getAugmenterByDataFromDb(
+    ctx.prisma.stat.findUnique,
+    forbiddenForUserFields,
+  );
+
   const get = async (
     id: string,
   ): Promise<Stat | null> => {
@@ -225,10 +233,7 @@ export const getStatsService = (ctx: Context) => {
     let processedData = data;
 
     if (byUser) {
-      processedData = R.omit(
-        [],
-        processedData,
-      );
+      processedData = await augmentDataFromDb(processedData);
     }
 
     processedData = await beforeUpdate(ctx, processedData);
@@ -289,10 +294,7 @@ export const getStatsService = (ctx: Context) => {
         processedDataToCreate,
       );
 
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
+      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
     const result = await ctx.prisma.stat.upsert({create: R.mergeDeepLeft(
