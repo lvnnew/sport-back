@@ -23,13 +23,13 @@ export const destroyRefreshToken = async (token: string) => {
   }
 };
 
-export const checkAndDestroyRefreshToken = async (memberId: bigint, token: string, ignoreExpiration = false): Promise<boolean> => {
+export const checkAndDestroyRefreshToken = async (userId: number, token: string, ignoreExpiration = false): Promise<boolean> => {
   const ctx = await createContext();
 
   const dbToken = await ctx.service('appRefreshTokens').findOne({
     filter: {
       token,
-      memberId,
+      userId,
     },
   });
 
@@ -46,7 +46,7 @@ export const checkAndDestroyRefreshToken = async (memberId: bigint, token: strin
   return true;
 };
 
-export const makeTokens = async (memberId: bigint): Promise<AuthTokens> => {
+export const makeTokens = async (userId: number): Promise<AuthTokens> => {
   const {appJwtSecret} = await getConfig();
   if (!appJwtSecret) {
     throw new Error('appJwtSecret not proovided');
@@ -54,7 +54,7 @@ export const makeTokens = async (memberId: bigint): Promise<AuthTokens> => {
 
   const ctx = await createContext();
 
-  const token = jwt.sign({id: memberId}, appJwtSecret, {
+  const token = jwt.sign({id: userId}, appJwtSecret, {
     expiresIn: TOKEN_EXPIRES_IN,
   });
 
@@ -63,7 +63,7 @@ export const makeTokens = async (memberId: bigint): Promise<AuthTokens> => {
   ctx.service('appRefreshTokens').create({
     create: new Date(),
     token: refreshToken,
-    memberId,
+    userId,
   });
 
   return {
@@ -72,7 +72,7 @@ export const makeTokens = async (memberId: bigint): Promise<AuthTokens> => {
   };
 };
 
-export const getJWTMemberIdOffExpiration = async (jwtToken?: string): Promise<bigint | undefined> => {
+export const getJWTMemberIdOffExpiration = async (jwtToken?: string): Promise<number | undefined> => {
   if (jwtToken) {
     const {appJwtSecret} = await getConfig();
     if (!appJwtSecret) {
@@ -83,7 +83,7 @@ export const getJWTMemberIdOffExpiration = async (jwtToken?: string): Promise<bi
 
     // Todo: check when jwtPayload type is string, I could not check
     if (typeof jwtPayload === 'object' && jwtPayload.id) {
-      return BigInt(jwtPayload.id);
+      return Number(jwtPayload.id);
     }
 
     throw new Error('Token without id');
