@@ -5,7 +5,9 @@ export interface HelpService {
 }
 
 const infoFilesForService = {
+  admRefreshTokens: 'docs/catalogs/admRefreshTokens.md',
   appLogins: 'docs/catalogs/appLogins.md',
+  appRefreshTokens: 'docs/catalogs/appRefreshTokens.md',
   auditLogActionTypes: 'docs/catalogs/auditLogActionTypes.md',
   auditLogs: 'docs/catalogs/auditLogs.md',
   autogenerationHistoryEntries: 'docs/catalogs/autogenerationHistoryEntries.md',

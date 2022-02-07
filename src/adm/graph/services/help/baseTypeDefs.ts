@@ -2,7 +2,9 @@ import {gql} from 'apollo-server';
 
 export default gql`
   enum EntityType {
+    admRefreshTokens
     appLogins
+    appRefreshTokens
     auditLogActionTypes
     auditLogs
     autogenerationHistoryEntries

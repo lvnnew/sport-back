@@ -16,6 +16,7 @@ export const refresh: RequestHandler<any, AuthTokens | { message: string } | { t
       res.status(400).send({message: 'Tokens is required'});
       return;
     }
+
     const memberId = await getJWTMemberIdOffExpiration(token);
     if (memberId && await checkAndDestroyRefreshToken(memberId, refreshToken)) {
       const tokens = await makeTokens(memberId);

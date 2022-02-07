@@ -3,7 +3,9 @@ import {additionalServicesPermissionToGraphql} from './additionalServicesPermiss
 import {MutationResolvers, QueryResolvers} from '../../generated/graphql';
 import {Services} from '../services/types';
 import helpPermissionToGraphql from './services/help/permissionsToGraphql';
+import admRefreshTokensPermissionToGraphql from './services/admRefreshTokens/permissionsToGraphql';
 import appLoginsPermissionToGraphql from './services/appLogins/permissionsToGraphql';
+import appRefreshTokensPermissionToGraphql from './services/appRefreshTokens/permissionsToGraphql';
 import auditLogActionTypesPermissionToGraphql from './services/auditLogActionTypes/permissionsToGraphql';
 import auditLogsPermissionToGraphql from './services/auditLogs/permissionsToGraphql';
 import autogenerationHistoryEntriesPermissionToGraphql from './services/autogenerationHistoryEntries/permissionsToGraphql';
@@ -37,7 +39,9 @@ export type PermissionToGraphql <T = any> = Record<
 export const permissionsToGraphql: Partial<Record<keyof Services, Partial<PermissionToGraphql>>> = {
   ...additionalServicesPermissionToGraphql,
   help: helpPermissionToGraphql,
+  admRefreshTokens: admRefreshTokensPermissionToGraphql,
   appLogins: appLoginsPermissionToGraphql,
+  appRefreshTokens: appRefreshTokensPermissionToGraphql,
   auditLogActionTypes: auditLogActionTypesPermissionToGraphql,
   auditLogs: auditLogsPermissionToGraphql,
   autogenerationHistoryEntries: autogenerationHistoryEntriesPermissionToGraphql,

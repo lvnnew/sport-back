@@ -7,6 +7,16 @@ datasource db {
   url      = env("DATABASE_URI")
 }
 
+model AppRefreshToken {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	create	DateTime
+	userId	Int
+	user	User	@relation("From-AppRefreshToken.user", fields: [userId], references: [id])
+	token	String
+}
+
+
 model AuditLog {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -134,6 +144,7 @@ model Manager {
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
 	headOfUnit	Boolean
 	active	Boolean
+	admRefreshTokenManagers	AdmRefreshToken[]	@relation("From-AdmRefreshToken.manager")
 	auditLogManagers	AuditLog[]	@relation("From-AuditLog.manager")
 	delegationFroms	Delegation[]	@relation("From-Delegation.from")
 	delegationTos	Delegation[]	@relation("From-Delegation.to")
@@ -218,6 +229,16 @@ model Tag {
 }
 
 
+model AdmRefreshToken {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	create	DateTime
+	managerId	Int
+	manager	Manager	@relation("From-AdmRefreshToken.manager", fields: [managerId], references: [id])
+	token	String
+}
+
+
 model Unit {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -237,5 +258,6 @@ model User {
 	firstname	String
 	email	String
 	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
+	appRefreshTokenUsers	AppRefreshToken[]	@relation("From-AppRefreshToken.user")
 	auditLogUsers	AuditLog[]	@relation("From-AuditLog.user")
 }

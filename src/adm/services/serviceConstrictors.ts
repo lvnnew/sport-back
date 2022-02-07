@@ -1,4 +1,6 @@
+import {getAdmRefreshTokensService} from './AdmRefreshTokensService/AdmRefreshTokensService';
 import {getAppLoginsService} from './AppLoginsService/AppLoginsService';
+import {getAppRefreshTokensService} from './AppRefreshTokensService/AppRefreshTokensService';
 import {getAuditLogActionTypesService} from './AuditLogActionTypesService/AuditLogActionTypesService';
 import {getAuditLogsService} from './AuditLogsService/AuditLogsService';
 import {getAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
@@ -26,7 +28,9 @@ import additionalServiceConstrictors from './additionalServiceConstrictors';
 
 export const baseServiceConstrictors: BaseServiceConstrictors = {
   help: getHelpService,
+  admRefreshTokens: getAdmRefreshTokensService,
   appLogins: getAppLoginsService,
+  appRefreshTokens: getAppRefreshTokensService,
   auditLogActionTypes: getAuditLogActionTypesService,
   auditLogs: getAuditLogsService,
   autogenerationHistoryEntries: getAutogenerationHistoryEntriesService,

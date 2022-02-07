@@ -1,4 +1,6 @@
+import {AdmRefreshTokensService} from './AdmRefreshTokensService/AdmRefreshTokensService';
 import {AppLoginsService} from './AppLoginsService/AppLoginsService';
+import {AppRefreshTokensService} from './AppRefreshTokensService/AppRefreshTokensService';
 import {AuditLogActionTypesService} from './AuditLogActionTypesService/AuditLogActionTypesService';
 import {AuditLogsService} from './AuditLogsService/AuditLogsService';
 import {AutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
@@ -24,7 +26,9 @@ import {HelpService} from './HelpService/HelpService';
 
 export interface BaseServices {
   help: HelpService;
+  admRefreshTokens: AdmRefreshTokensService;
   appLogins: AppLoginsService;
+  appRefreshTokens: AppRefreshTokensService;
   auditLogActionTypes: AuditLogActionTypesService;
   auditLogs: AuditLogsService;
   autogenerationHistoryEntries: AutogenerationHistoryEntriesService;

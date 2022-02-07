@@ -158,24 +158,27 @@ export type Scalars = {
   DID: any;
 };
 
-export type AppLogin = {
-  __typename?: 'AppLogin';
+export type AdmRefreshToken = {
+  __typename?: 'AdmRefreshToken';
   id: Scalars['Int'];
-  login: Scalars['String'];
-  passwordHash: Scalars['String'];
-  userId: Scalars['Int'];
+  create: Scalars['DateTime'];
+  managerId: Scalars['Int'];
+  token: Scalars['String'];
 };
 
-export type AppLoginFilter = {
+export type AdmRefreshTokenFilter = {
   q?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   id?: InputMaybe<Scalars['Int']>;
-  login?: InputMaybe<Scalars['String']>;
-  login_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  passwordHash?: InputMaybe<Scalars['String']>;
-  passwordHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  userId?: InputMaybe<Scalars['Int']>;
-  userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  create?: InputMaybe<Scalars['DateTime']>;
+  create_lte?: InputMaybe<Scalars['DateTime']>;
+  create_gte?: InputMaybe<Scalars['DateTime']>;
+  create_lt?: InputMaybe<Scalars['DateTime']>;
+  create_gt?: InputMaybe<Scalars['DateTime']>;
+  managerId?: InputMaybe<Scalars['Int']>;
+  managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  token?: InputMaybe<Scalars['String']>;
+  token_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ListMetadata = {
@@ -185,9 +188,15 @@ export type ListMetadata = {
 
 export type Query = {
   __typename?: 'Query';
+  AdmRefreshToken?: Maybe<AdmRefreshToken>;
+  allAdmRefreshTokens?: Maybe<Array<Maybe<AdmRefreshToken>>>;
+  _allAdmRefreshTokensMeta?: Maybe<ListMetadata>;
   AppLogin?: Maybe<AppLogin>;
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
+  AppRefreshToken?: Maybe<AppRefreshToken>;
+  allAppRefreshTokens?: Maybe<Array<Maybe<AppRefreshToken>>>;
+  _allAppRefreshTokensMeta?: Maybe<ListMetadata>;
   AuditLogActionType?: Maybe<AuditLogActionType>;
   allAuditLogActionTypes?: Maybe<Array<Maybe<AuditLogActionType>>>;
   _allAuditLogActionTypesMeta?: Maybe<ListMetadata>;
@@ -253,6 +262,27 @@ export type Query = {
 };
 
 
+export type QueryAdmRefreshTokenArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllAdmRefreshTokensArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<AdmRefreshTokenFilter>;
+};
+
+
+export type Query_AllAdmRefreshTokensMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<AdmRefreshTokenFilter>;
+};
+
+
 export type QueryAppLoginArgs = {
   id: Scalars['Int'];
 };
@@ -271,6 +301,27 @@ export type Query_AllAppLoginsMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<AppLoginFilter>;
+};
+
+
+export type QueryAppRefreshTokenArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllAppRefreshTokensArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<AppRefreshTokenFilter>;
+};
+
+
+export type Query_AllAppRefreshTokensMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<AppRefreshTokenFilter>;
 };
 
 
@@ -684,9 +735,15 @@ export type Query_AllUsersMetaArgs = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAdmRefreshToken?: Maybe<AdmRefreshToken>;
+  updateAdmRefreshToken?: Maybe<AdmRefreshToken>;
+  removeAdmRefreshToken?: Maybe<AdmRefreshToken>;
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<AppLogin>;
+  createAppRefreshToken?: Maybe<AppRefreshToken>;
+  updateAppRefreshToken?: Maybe<AppRefreshToken>;
+  removeAppRefreshToken?: Maybe<AppRefreshToken>;
   createAuditLogActionType?: Maybe<AuditLogActionType>;
   updateAuditLogActionType?: Maybe<AuditLogActionType>;
   removeAuditLogActionType?: Maybe<AuditLogActionType>;
@@ -748,6 +805,26 @@ export type Mutation = {
 };
 
 
+export type MutationCreateAdmRefreshTokenArgs = {
+  create: Scalars['DateTime'];
+  managerId: Scalars['Int'];
+  token: Scalars['String'];
+};
+
+
+export type MutationUpdateAdmRefreshTokenArgs = {
+  id: Scalars['Int'];
+  create: Scalars['DateTime'];
+  managerId: Scalars['Int'];
+  token: Scalars['String'];
+};
+
+
+export type MutationRemoveAdmRefreshTokenArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationCreateAppLoginArgs = {
   login: Scalars['String'];
   passwordHash: Scalars['String'];
@@ -764,6 +841,26 @@ export type MutationUpdateAppLoginArgs = {
 
 
 export type MutationRemoveAppLoginArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateAppRefreshTokenArgs = {
+  create: Scalars['DateTime'];
+  userId: Scalars['Int'];
+  token: Scalars['String'];
+};
+
+
+export type MutationUpdateAppRefreshTokenArgs = {
+  id: Scalars['Int'];
+  create: Scalars['DateTime'];
+  userId: Scalars['Int'];
+  token: Scalars['String'];
+};
+
+
+export type MutationRemoveAppRefreshTokenArgs = {
   id: Scalars['Int'];
 };
 
@@ -1184,6 +1281,49 @@ export type MutationRemoveUserArgs = {
   id: Scalars['Int'];
 };
 
+export type AppLogin = {
+  __typename?: 'AppLogin';
+  id: Scalars['Int'];
+  login: Scalars['String'];
+  passwordHash: Scalars['String'];
+  userId: Scalars['Int'];
+};
+
+export type AppLoginFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
+  login?: InputMaybe<Scalars['String']>;
+  login_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  passwordHash?: InputMaybe<Scalars['String']>;
+  passwordHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  userId?: InputMaybe<Scalars['Int']>;
+  userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type AppRefreshToken = {
+  __typename?: 'AppRefreshToken';
+  id: Scalars['Int'];
+  create: Scalars['DateTime'];
+  userId: Scalars['Int'];
+  token: Scalars['String'];
+};
+
+export type AppRefreshTokenFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
+  create?: InputMaybe<Scalars['DateTime']>;
+  create_lte?: InputMaybe<Scalars['DateTime']>;
+  create_gte?: InputMaybe<Scalars['DateTime']>;
+  create_lt?: InputMaybe<Scalars['DateTime']>;
+  create_gt?: InputMaybe<Scalars['DateTime']>;
+  userId?: InputMaybe<Scalars['Int']>;
+  userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  token?: InputMaybe<Scalars['String']>;
+  token_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type AuditLogActionType = {
   __typename?: 'AuditLogActionType';
   id: Scalars['ID'];
@@ -1367,7 +1507,9 @@ export type FileFilter = {
 };
 
 export enum EntityType {
+  AdmRefreshTokens = 'admRefreshTokens',
   AppLogins = 'appLogins',
+  AppRefreshTokens = 'appRefreshTokens',
   AuditLogActionTypes = 'auditLogActionTypes',
   AuditLogs = 'auditLogs',
   AutogenerationHistoryEntries = 'autogenerationHistoryEntries',
@@ -1772,15 +1914,19 @@ export type ResolversTypes = {
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
   Void: ResolverTypeWrapper<Scalars['Void']>;
   DID: ResolverTypeWrapper<Scalars['DID']>;
-  AppLogin: ResolverTypeWrapper<AppLogin>;
+  AdmRefreshToken: ResolverTypeWrapper<AdmRefreshToken>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  AppLoginFilter: AppLoginFilter;
+  AdmRefreshTokenFilter: AdmRefreshTokenFilter;
   ListMetadata: ResolverTypeWrapper<ListMetadata>;
   Query: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  AppLogin: ResolverTypeWrapper<AppLogin>;
+  AppLoginFilter: AppLoginFilter;
+  AppRefreshToken: ResolverTypeWrapper<AppRefreshToken>;
+  AppRefreshTokenFilter: AppRefreshTokenFilter;
   AuditLogActionType: ResolverTypeWrapper<AuditLogActionType>;
   AuditLogActionTypeFilter: AuditLogActionTypeFilter;
   AuditLog: ResolverTypeWrapper<AuditLog>;
@@ -1878,15 +2024,19 @@ export type ResolversParentTypes = {
   ObjectID: Scalars['ObjectID'];
   Void: Scalars['Void'];
   DID: Scalars['DID'];
-  AppLogin: AppLogin;
+  AdmRefreshToken: AdmRefreshToken;
   Int: Scalars['Int'];
   String: Scalars['String'];
-  AppLoginFilter: AppLoginFilter;
+  AdmRefreshTokenFilter: AdmRefreshTokenFilter;
   ListMetadata: ListMetadata;
   Query: {};
   ID: Scalars['ID'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
+  AppLogin: AppLogin;
+  AppLoginFilter: AppLoginFilter;
+  AppRefreshToken: AppRefreshToken;
+  AppRefreshTokenFilter: AppRefreshTokenFilter;
   AuditLogActionType: AuditLogActionType;
   AuditLogActionTypeFilter: AuditLogActionTypeFilter;
   AuditLog: AuditLog;
@@ -2140,11 +2290,11 @@ export interface DidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes[
   name: 'DID';
 }
 
-export type AppLoginResolvers<ContextType = any, ParentType extends ResolversParentTypes['AppLogin'] = ResolversParentTypes['AppLogin']> = {
+export type AdmRefreshTokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['AdmRefreshToken'] = ResolversParentTypes['AdmRefreshToken']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  passwordHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  create?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  managerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2154,9 +2304,15 @@ export type ListMetadataResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  AdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<QueryAdmRefreshTokenArgs, 'id'>>;
+  allAdmRefreshTokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdmRefreshToken']>>>, ParentType, ContextType, RequireFields<QueryAllAdmRefreshTokensArgs, never>>;
+  _allAdmRefreshTokensMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAdmRefreshTokensMetaArgs, never>>;
   AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, RequireFields<QueryAllAppLoginsArgs, never>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppLoginsMetaArgs, never>>;
+  AppRefreshToken?: Resolver<Maybe<ResolversTypes['AppRefreshToken']>, ParentType, ContextType, RequireFields<QueryAppRefreshTokenArgs, 'id'>>;
+  allAppRefreshTokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppRefreshToken']>>>, ParentType, ContextType, RequireFields<QueryAllAppRefreshTokensArgs, never>>;
+  _allAppRefreshTokensMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAppRefreshTokensMetaArgs, never>>;
   AuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<QueryAuditLogActionTypeArgs, 'id'>>;
   allAuditLogActionTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['AuditLogActionType']>>>, ParentType, ContextType, RequireFields<QueryAllAuditLogActionTypesArgs, never>>;
   _allAuditLogActionTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, RequireFields<Query_AllAuditLogActionTypesMetaArgs, never>>;
@@ -2222,9 +2378,15 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createAdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<MutationCreateAdmRefreshTokenArgs, 'create' | 'managerId' | 'token'>>;
+  updateAdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<MutationUpdateAdmRefreshTokenArgs, 'id' | 'create' | 'managerId' | 'token'>>;
+  removeAdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<MutationRemoveAdmRefreshTokenArgs, 'id'>>;
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
+  createAppRefreshToken?: Resolver<Maybe<ResolversTypes['AppRefreshToken']>, ParentType, ContextType, RequireFields<MutationCreateAppRefreshTokenArgs, 'create' | 'userId' | 'token'>>;
+  updateAppRefreshToken?: Resolver<Maybe<ResolversTypes['AppRefreshToken']>, ParentType, ContextType, RequireFields<MutationUpdateAppRefreshTokenArgs, 'id' | 'create' | 'userId' | 'token'>>;
+  removeAppRefreshToken?: Resolver<Maybe<ResolversTypes['AppRefreshToken']>, ParentType, ContextType, RequireFields<MutationRemoveAppRefreshTokenArgs, 'id'>>;
   createAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogActionTypeArgs, 'id'>>;
   updateAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogActionTypeArgs, 'id'>>;
   removeAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationRemoveAuditLogActionTypeArgs, 'id'>>;
@@ -2283,6 +2445,22 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
   removeUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
+};
+
+export type AppLoginResolvers<ContextType = any, ParentType extends ResolversParentTypes['AppLogin'] = ResolversParentTypes['AppLogin']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  passwordHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AppRefreshTokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['AppRefreshToken'] = ResolversParentTypes['AppRefreshToken']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  create?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AuditLogActionTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuditLogActionType'] = ResolversParentTypes['AuditLogActionType']> = {
@@ -2513,10 +2691,12 @@ export type Resolvers<ContextType = any> = {
   ObjectID?: GraphQLScalarType;
   Void?: GraphQLScalarType;
   DID?: GraphQLScalarType;
-  AppLogin?: AppLoginResolvers<ContextType>;
+  AdmRefreshToken?: AdmRefreshTokenResolvers<ContextType>;
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  AppLogin?: AppLoginResolvers<ContextType>;
+  AppRefreshToken?: AppRefreshTokenResolvers<ContextType>;
   AuditLogActionType?: AuditLogActionTypeResolvers<ContextType>;
   AuditLog?: AuditLogResolvers<ContextType>;
   AutogenerationHistoryEntry?: AutogenerationHistoryEntryResolvers<ContextType>;
