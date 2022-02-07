@@ -66,6 +66,7 @@
     "email-templates": "^8.0.8",
     "exit-hook": "2.2.1",
     "express": "^4.17.2",
+    "express-rate-limit": "^6.2.0",
     "faker": "^6.6.6",
     "fs-extra": "^10.0.0",
     "fs-jetpack": "^4.3.1",
