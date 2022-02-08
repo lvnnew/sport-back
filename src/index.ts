@@ -15,7 +15,7 @@ import {
   сreateUsersAwareContext,
 } from './adm/services/context';
 import {Context} from './adm/services/types';
-import express, {Request, RequestHandler, Response} from 'express';
+import express, {RequestHandler} from 'express';
 import cors from 'cors';
 import passport from 'passport';
 import {json, raw} from 'body-parser';
@@ -30,6 +30,7 @@ import getAppServer from './app/getAppServer';
 import {graphqlUploadExpress} from 'graphql-upload';
 import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 import defaultContainer from './adm/services/defaultContainer';
+import healthRouter from './rest/healthRouter';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -55,12 +56,6 @@ app.use(passport.initialize() as RequestHandler);
 app.use('/app/rest', appAuthRouter);
 app.use('/adm/rest', admAuthRouter);
 
-app.get('/health', (_: Request, res: Response) => {
-  res
-    .status(200)
-    .send({message: 'Ok'});
-});
-
 collectDefaultMetrics();
 
 app.get('/metrics', async (_req, res) => {
@@ -73,6 +68,8 @@ app.get('/metrics', async (_req, res) => {
 });
 
 app.use('/rest', restRouter);
+
+app.use('/health', healthRouter);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = (_arg: any) => {};

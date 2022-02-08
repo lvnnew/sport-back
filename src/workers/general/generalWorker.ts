@@ -1,6 +1,6 @@
 import log from '../../log';
 import exitHook from 'exit-hook';
-import express, {Request, Response} from 'express';
+import express from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {run, parseCronItems} from 'graphile-worker';
 import {getConfig} from '../../config';
@@ -10,6 +10,7 @@ import {createContext} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
 import jobsFromFunctions from '../../jobs/jobsFromFunctions';
 import {graphileLogger} from '../utils';
+import healthRouter from '../../rest/healthRouter';
 
 // yarn ts-node src/workers/general/generalWorker.ts
 
@@ -19,11 +20,7 @@ exitHook(async () => {
 
 const app = express();
 
-app.get('/health', (_: Request, res: Response) => {
-  res
-    .status(200)
-    .send({message: 'Ok'});
-});
+app.use('/health', healthRouter);
 
 collectDefaultMetrics();
 

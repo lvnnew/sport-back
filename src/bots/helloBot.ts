@@ -1,9 +1,9 @@
-/* eslint-disable promise/prefer-await-to-callbacks */
 import log from '../log';
 import exitHook from 'exit-hook';
-import express, {Request, Response} from 'express';
+import express from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {createContext} from '../adm/services/context';
+import healthRouter from '../rest/healthRouter';
 
 // yarn ts-node src/bots/helloBot.ts
 
@@ -13,11 +13,7 @@ exitHook(async () => {
 
 const app = express();
 
-app.get('/health', (_: Request, res: Response) => {
-  res
-    .status(200)
-    .send({message: 'Ok'});
-});
+app.use('/health', healthRouter);
 
 collectDefaultMetrics();
 
