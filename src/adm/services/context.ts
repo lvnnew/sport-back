@@ -32,7 +32,11 @@ export const createContext = async (container: interfaces.Container = defaultCon
   for (const [name, constructor] of pairs) {
     if (!container.isBound(name)) {
       container.bind(name)
-        .toConstantValue(constructor(context));
+        .toDynamicValue((ctx) => constructor({
+          ...context,
+          container: ctx.container,
+          service: (name: keyof Services) => ctx.container.get(name),
+        }));
     }
   }
 
