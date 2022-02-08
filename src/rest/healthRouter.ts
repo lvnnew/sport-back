@@ -28,6 +28,17 @@ healthRouter.get('/', async (_: Request, res: Response) => {
     return;
   }
 
+  // check by prisma
+  const prismaResult = await ctx.prisma.manager.count();
+  log.info('prismaResult');
+  log.info(`prismaResult: ${prismaResult}`);
+  if (!(prismaResult >= 0)) {
+    res
+      .status(500)
+      .send({message: 'Can not request bd by prisma'});
+    return;
+  }
+
   res
     .status(200)
     .send({message: 'Ok'});
