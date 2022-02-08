@@ -10,7 +10,7 @@ import LRUCache from 'lru-cache';
 
 const cache = new LRUCache({
   max: 500,
-  maxAge: 1000 * 60 * 60,
+  ttl: 1000 * 60 * 60,
 });
 
 const getPermissions = async (managerId: number) => {
