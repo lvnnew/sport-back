@@ -24,37 +24,39 @@ export const constructCron = (
   identifier: string,
   pattern: string,
   queued = false,
+  priority = 0, // jobs with a numerically smaller priority are run first
 ): CronItem => ({
   task: name,
   pattern,
   options: {
     queueName: queued ? name : undefined,
     backfillPeriod: 0,
+    priority,
   },
   payload: {},
   identifier,
 });
 
-export const hourlyCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}Hourly`, getHourlyCronPattern(), queued);
+export const hourlyCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}Hourly`, getHourlyCronPattern(), queued, priority);
 
-export const fiveMinsCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}FiveMins`, getFiveMinsCronPattern(), queued);
+export const fiveMinsCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}FiveMins`, getFiveMinsCronPattern(), queued, priority);
 
-export const tenMinsCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}TenMins`, getTenMinsCronPattern(), queued);
+export const tenMinsCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}TenMins`, getTenMinsCronPattern(), queued, priority);
 
-export const oneMinCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}OneMin`, getOneMinCronPattern(), queued);
+export const oneMinCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}OneMin`, getOneMinCronPattern(), queued, priority);
 
-export const onceInSixHoursCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}OnceInSixHours`, getSixHoursCronPattern(), queued);
+export const onceInSixHoursCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}OnceInSixHours`, getSixHoursCronPattern(), queued, priority);
 
-export const twiceADayPatternCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}TwiceADay`, getTwiceADayCronPattern(), queued);
+export const twiceADayPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}TwiceADay`, getTwiceADayCronPattern(), queued, priority);
 
-export const onceADayPatternCron = (name: string, queued = false): CronItem =>
-  constructCron(name, `${name}OnceADay`, getOnceADayCronPattern(), queued);
+export const onceADayPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(name, `${name}OnceADay`, getOnceADayCronPattern(), queued, priority);
 
 export const getQueueJobs = <T extends Record<string, any>>(jobs: T) => R.fromPairs(
   R.toPairs(
