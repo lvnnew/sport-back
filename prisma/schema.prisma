@@ -181,6 +181,17 @@ model MessageTemplate {
 	search	String?
 	title	String
 	secretData	Boolean
+	messageTypeId	String?
+	messageType	MessageType?	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
+}
+
+
+model MessageType {
+	id	String	@id
+	search	String?
+	title	String
+	description	String?
+	messageTemplateMessageTypes	MessageTemplate[]	@relation("From-MessageTemplate.messageType")
 }
 
 

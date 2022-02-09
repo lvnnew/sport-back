@@ -18,6 +18,7 @@ import managersPermissionToGraphql from './services/managers/permissionsToGraphq
 import managersToPermissionsPermissionToGraphql from './services/managersToPermissions/permissionsToGraphql';
 import managersToRolesPermissionToGraphql from './services/managersToRoles/permissionsToGraphql';
 import messageTemplatesPermissionToGraphql from './services/messageTemplates/permissionsToGraphql';
+import messageTypesPermissionToGraphql from './services/messageTypes/permissionsToGraphql';
 import permissionsPermissionToGraphql from './services/permissions/permissionsToGraphql';
 import rolesPermissionToGraphql from './services/roles/permissionsToGraphql';
 import rolesToPermissionsPermissionToGraphql from './services/rolesToPermissions/permissionsToGraphql';
@@ -54,6 +55,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   managersToPermissions: managersToPermissionsPermissionToGraphql,
   managersToRoles: managersToRolesPermissionToGraphql,
   messageTemplates: messageTemplatesPermissionToGraphql,
+  messageTypes: messageTypesPermissionToGraphql,
   permissions: permissionsPermissionToGraphql,
   roles: rolesPermissionToGraphql,
   rolesToPermissions: rolesToPermissionsPermissionToGraphql,

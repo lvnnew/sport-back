@@ -13,6 +13,7 @@ import {getManagersService} from './ManagersService/ManagersService';
 import {getManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
 import {getManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
 import {getMessageTemplatesService} from './MessageTemplatesService/MessageTemplatesService';
+import {getMessageTypesService} from './MessageTypesService/MessageTypesService';
 import {getPermissionsService} from './PermissionsService/PermissionsService';
 import {getRolesService} from './RolesService/RolesService';
 import {getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
@@ -43,6 +44,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   managersToPermissions: getManagersToPermissionsService,
   managersToRoles: getManagersToRolesService,
   messageTemplates: getMessageTemplatesService,
+  messageTypes: getMessageTypesService,
   permissions: getPermissionsService,
   roles: getRolesService,
   rolesToPermissions: getRolesToPermissionsService,

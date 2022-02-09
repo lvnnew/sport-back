@@ -17,6 +17,7 @@ export default gql`
     managersToPermissions
     managersToRoles
     messageTemplates
+    messageTypes
     permissions
     roles
     rolesToPermissions

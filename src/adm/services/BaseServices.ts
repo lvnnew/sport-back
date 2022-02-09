@@ -13,6 +13,7 @@ import {ManagersService} from './ManagersService/ManagersService';
 import {ManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
 import {ManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
 import {MessageTemplatesService} from './MessageTemplatesService/MessageTemplatesService';
+import {MessageTypesService} from './MessageTypesService/MessageTypesService';
 import {PermissionsService} from './PermissionsService/PermissionsService';
 import {RolesService} from './RolesService/RolesService';
 import {RolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
@@ -41,6 +42,7 @@ export interface BaseServices {
   managersToPermissions: ManagersToPermissionsService;
   managersToRoles: ManagersToRolesService;
   messageTemplates: MessageTemplatesService;
+  messageTypes: MessageTypesService;
   permissions: PermissionsService;
   roles: RolesService;
   rolesToPermissions: RolesToPermissionsService;

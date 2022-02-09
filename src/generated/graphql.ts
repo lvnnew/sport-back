@@ -234,6 +234,9 @@ export type Query = {
   MessageTemplate?: Maybe<MessageTemplate>;
   allMessageTemplates?: Maybe<Array<Maybe<MessageTemplate>>>;
   _allMessageTemplatesMeta?: Maybe<ListMetadata>;
+  MessageType?: Maybe<MessageType>;
+  allMessageTypes?: Maybe<Array<Maybe<MessageType>>>;
+  _allMessageTypesMeta?: Maybe<ListMetadata>;
   Meta?: Maybe<Scalars['JSONObject']>;
   Permission?: Maybe<Permission>;
   allPermissions?: Maybe<Array<Maybe<Permission>>>;
@@ -582,6 +585,27 @@ export type Query_AllMessageTemplatesMetaArgs = {
 };
 
 
+export type QueryMessageTypeArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllMessageTypesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<MessageTypeFilter>;
+};
+
+
+export type Query_AllMessageTypesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<MessageTypeFilter>;
+};
+
+
 export type QueryPermissionArgs = {
   id: Scalars['ID'];
 };
@@ -780,6 +804,9 @@ export type Mutation = {
   createMessageTemplate?: Maybe<MessageTemplate>;
   updateMessageTemplate?: Maybe<MessageTemplate>;
   removeMessageTemplate?: Maybe<MessageTemplate>;
+  createMessageType?: Maybe<MessageType>;
+  updateMessageType?: Maybe<MessageType>;
+  removeMessageType?: Maybe<MessageType>;
   createPermission?: Maybe<Permission>;
   updatePermission?: Maybe<Permission>;
   removePermission?: Maybe<Permission>;
@@ -1138,6 +1165,7 @@ export type MutationCreateMessageTemplateArgs = {
   id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
+  messageTypeId?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -1145,10 +1173,30 @@ export type MutationUpdateMessageTemplateArgs = {
   id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
+  messageTypeId?: InputMaybe<Scalars['String']>;
 };
 
 
 export type MutationRemoveMessageTemplateArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreateMessageTypeArgs = {
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateMessageTypeArgs = {
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveMessageTypeArgs = {
   id: Scalars['ID'];
 };
 
@@ -1522,6 +1570,7 @@ export enum EntityType {
   ManagersToPermissions = 'managersToPermissions',
   ManagersToRoles = 'managersToRoles',
   MessageTemplates = 'messageTemplates',
+  MessageTypes = 'messageTypes',
   Permissions = 'permissions',
   Roles = 'roles',
   RolesToPermissions = 'rolesToPermissions',
@@ -1649,6 +1698,7 @@ export type MessageTemplate = {
   id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
+  messageTypeId?: Maybe<Scalars['String']>;
 };
 
 export type MessageTemplateFilter = {
@@ -1658,6 +1708,25 @@ export type MessageTemplateFilter = {
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   secretData?: InputMaybe<Scalars['Boolean']>;
+  messageTypeId?: InputMaybe<Scalars['String']>;
+  messageTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type MessageType = {
+  __typename?: 'MessageType';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+};
+
+export type MessageTypeFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description?: InputMaybe<Scalars['String']>;
+  description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Permission = {
@@ -1952,6 +2021,8 @@ export type ResolversTypes = {
   ManagersToRoleFilter: ManagersToRoleFilter;
   MessageTemplate: ResolverTypeWrapper<MessageTemplate>;
   MessageTemplateFilter: MessageTemplateFilter;
+  MessageType: ResolverTypeWrapper<MessageType>;
+  MessageTypeFilter: MessageTypeFilter;
   Permission: ResolverTypeWrapper<Permission>;
   PermissionFilter: PermissionFilter;
   PermissionsWithMeta: ResolverTypeWrapper<PermissionsWithMeta>;
@@ -2061,6 +2132,8 @@ export type ResolversParentTypes = {
   ManagersToRoleFilter: ManagersToRoleFilter;
   MessageTemplate: MessageTemplate;
   MessageTemplateFilter: MessageTemplateFilter;
+  MessageType: MessageType;
+  MessageTypeFilter: MessageTypeFilter;
   Permission: Permission;
   PermissionFilter: PermissionFilter;
   PermissionsWithMeta: PermissionsWithMeta;
@@ -2350,6 +2423,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   MessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<QueryMessageTemplateArgs, 'id'>>;
   allMessageTemplates?: Resolver<Maybe<Array<Maybe<ResolversTypes['MessageTemplate']>>>, ParentType, ContextType, Partial<QueryAllMessageTemplatesArgs>>;
   _allMessageTemplatesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMessageTemplatesMetaArgs>>;
+  MessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<QueryMessageTypeArgs, 'id'>>;
+  allMessageTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['MessageType']>>>, ParentType, ContextType, Partial<QueryAllMessageTypesArgs>>;
+  _allMessageTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMessageTypesMetaArgs>>;
   Meta?: Resolver<Maybe<ResolversTypes['JSONObject']>, ParentType, ContextType>;
   Permission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<QueryPermissionArgs, 'id'>>;
   allPermissions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Permission']>>>, ParentType, ContextType, Partial<QueryAllPermissionsArgs>>;
@@ -2423,6 +2499,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationCreateMessageTemplateArgs, 'id' | 'title' | 'secretData'>>;
   updateMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTemplateArgs, 'id' | 'title' | 'secretData'>>;
   removeMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationRemoveMessageTemplateArgs, 'id'>>;
+  createMessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<MutationCreateMessageTypeArgs, 'id' | 'title'>>;
+  updateMessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTypeArgs, 'id' | 'title'>>;
+  removeMessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<MutationRemoveMessageTypeArgs, 'id'>>;
   createPermission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<MutationCreatePermissionArgs, 'id'>>;
   updatePermission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<MutationUpdatePermissionArgs, 'id'>>;
   removePermission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<MutationRemovePermissionArgs, 'id'>>;
@@ -2578,6 +2657,14 @@ export type MessageTemplateResolvers<ContextType = any, ParentType extends Resol
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   secretData?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  messageTypeId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MessageTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['MessageType'] = ResolversParentTypes['MessageType']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2709,6 +2796,7 @@ export type Resolvers<ContextType = any> = {
   ManagersToPermission?: ManagersToPermissionResolvers<ContextType>;
   ManagersToRole?: ManagersToRoleResolvers<ContextType>;
   MessageTemplate?: MessageTemplateResolvers<ContextType>;
+  MessageType?: MessageTypeResolvers<ContextType>;
   Permission?: PermissionResolvers<ContextType>;
   PermissionsWithMeta?: PermissionsWithMetaResolvers<ContextType>;
   Role?: RoleResolvers<ContextType>;

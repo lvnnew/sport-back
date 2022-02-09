@@ -20,6 +20,7 @@ const infoFilesForService = {
   managersToPermissions: 'docs/catalogs/managersToPermissions.md',
   managersToRoles: 'docs/catalogs/managersToRoles.md',
   messageTemplates: 'docs/catalogs/messageTemplates.md',
+  messageTypes: 'docs/catalogs/messageTypes.md',
   permissions: 'docs/catalogs/permissions.md',
   roles: 'docs/catalogs/roles.md',
   rolesToPermissions: 'docs/catalogs/rolesToPermissions.md',

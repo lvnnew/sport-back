@@ -1,18 +1,18 @@
 import {
   ListMetadata,
-  MutationCreateMessageTemplateArgs,
-  MutationUpdateMessageTemplateArgs,
-  MutationRemoveMessageTemplateArgs,
-  QueryAllMessageTemplatesArgs,
-  Query_AllMessageTemplatesMetaArgs,
-  MessageTemplate,
-  MessageTemplateFilter,
+  MutationCreateMessageTypeArgs,
+  MutationUpdateMessageTypeArgs,
+  MutationRemoveMessageTypeArgs,
+  QueryAllMessageTypesArgs,
+  Query_AllMessageTypesMetaArgs,
+  MessageType,
+  MessageTypeFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
-import {AdditionalMessageTemplatesMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalMessageTypesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
 import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
 import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
@@ -28,79 +28,79 @@ import * as R from 'ramda';
 
 const forbiddenForUserFields: string[] = [];
 
-export interface BaseMessageTemplatesMethods {
+export interface BaseMessageTypesMethods {
   get: (id: string) =>
-    Promise<MessageTemplate | null>;
-  all: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate[]>;
-  findOne: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate | null>;
-  count: (params?: Query_AllMessageTemplatesMetaArgs) =>
+    Promise<MessageType | null>;
+  all: (params?: QueryAllMessageTypesArgs) =>
+    Promise<MessageType[]>;
+  findOne: (params?: QueryAllMessageTypesArgs) =>
+    Promise<MessageType | null>;
+  count: (params?: Query_AllMessageTypesMetaArgs) =>
     Promise<number>;
-  meta: (params?: Query_AllMessageTemplatesMetaArgs) =>
+  meta: (params?: Query_AllMessageTypesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateMessageTemplateArgs, byUser?: boolean) =>
-    Promise<MessageTemplate>;
-  createMany: (data: MutationCreateMessageTemplateArgs[], byUser?: boolean) =>
+  create: (data: MutationCreateMessageTypeArgs, byUser?: boolean) =>
+    Promise<MessageType>;
+  createMany: (data: MutationCreateMessageTypeArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateMessageTemplateArgs, byUser?: boolean) =>
-    Promise<MessageTemplate>;
-  upsert: (data: MutationUpdateMessageTemplateArgs, byUser?: boolean) =>
-    Promise<MessageTemplate>;
+  update: ({id, ...rest}: MutationUpdateMessageTypeArgs, byUser?: boolean) =>
+    Promise<MessageType>;
+  upsert: (data: MutationUpdateMessageTypeArgs, byUser?: boolean) =>
+    Promise<MessageType>;
   upsertAdvanced: (
-    filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgs,
+    filter: MessageTypeFilter,
+    data: MutationCreateMessageTypeArgs,
     byUser?: boolean,
   ) =>
-    Promise<MessageTemplate>;
-  delete: (params: MutationRemoveMessageTemplateArgs) =>
-    Promise<MessageTemplate>;
+    Promise<MessageType>;
+  delete: (params: MutationRemoveMessageTypeArgs) =>
+    Promise<MessageType>;
 }
 
-export type MessageTemplatesService = BaseMessageTemplatesMethods & AdditionalMessageTemplatesMethods;
+export type MessageTypesService = BaseMessageTypesMethods & AdditionalMessageTypesMethods;
 
-export const getMessageTemplatesService = (ctx: Context) => {
+export const getMessageTypesService = (ctx: Context) => {
   const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.messageTemplate.findUnique,
+    ctx.prisma.messageType.findUnique,
     forbiddenForUserFields,
   );
 
   const get = async (
     id: string,
-  ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findUnique({where: {id}});
+  ): Promise<MessageType | null> => {
+    return ctx.prisma.messageType.findUnique({where: {id}});
   };
 
   const all = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate[]> => {
-    return ctx.prisma.messageTemplate.findMany(
+    params: QueryAllMessageTypesArgs = {},
+  ): Promise<MessageType[]> => {
+    return ctx.prisma.messageType.findMany(
       toPrismaRequest(params, {noId: true}),
-    ) as unknown as Promise<MessageTemplate[]>;
+    ) as unknown as Promise<MessageType[]>;
   };
 
   const findOne = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(params, {noId: true}));
+    params: QueryAllMessageTypesArgs = {},
+  ): Promise<MessageType | null> => {
+    return ctx.prisma.messageType.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
-    params: Query_AllMessageTemplatesMetaArgs = {},
+    params: Query_AllMessageTypesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.messageTemplate.count(toPrismaTotalRequest(params));
+    return ctx.prisma.messageType.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
-    params: Query_AllMessageTemplatesMetaArgs = {},
+    params: Query_AllMessageTypesMetaArgs = {},
   ): Promise<ListMetadata> => {
     return count(params).then(count => ({count}));
   };
 
   const create = async (
-    data: MutationCreateMessageTemplateArgs,
+    data: MutationCreateMessageTypeArgs,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MessageType> => {
     let processedData = data;
 
     if (byUser) {
@@ -112,7 +112,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
     processedData = await beforeCreate(ctx, data);
 
-    const createOperation = ctx.prisma.messageTemplate.create({
+    const createOperation = ctx.prisma.messageType.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -122,7 +122,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'messageTypeId',
+                  'description',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -142,7 +142,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     }
 
     // update search. earlier we does not have id
-    await ctx.prisma.messageTemplate.update({
+    await ctx.prisma.messageType.update({
       where: {id: result.id},
       data: {
         search: [
@@ -151,7 +151,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'messageTypeId',
+                'description',
               ], result),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -159,13 +159,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
       },
     });
 
-    await afterCreate(ctx, result as MessageTemplate);
+    await afterCreate(ctx, result as MessageType);
 
-    return result as MessageTemplate;
+    return result as MessageType;
   };
 
   const createMany = async (
-    entries: MutationCreateMessageTemplateArgs[],
+    entries: MutationCreateMessageTypeArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     let processedData = entries;
@@ -177,7 +177,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
       ));
     }
 
-    const result = await ctx.prisma.messageTemplate.createMany({
+    const result = await ctx.prisma.messageType.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -187,7 +187,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'messageTypeId',
+                  'description',
                 ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -205,9 +205,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateMessageTemplateArgs,
+    data: MutationUpdateMessageTypeArgs,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MessageType> => {
     let processedData = data;
 
     if (byUser) {
@@ -218,7 +218,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = ctx.prisma.messageTemplate.update({
+    const updateOperation = ctx.prisma.messageType.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -228,7 +228,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'messageTypeId',
+                  'description',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -248,15 +248,15 @@ export const getMessageTemplatesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as MessageTemplate);
+    await afterUpdate(ctx, result as MessageType);
 
-    return result as MessageTemplate;
+    return result as MessageType;
   };
 
   const upsert = async (
-    data: MutationUpdateMessageTemplateArgs,
+    data: MutationUpdateMessageTypeArgs,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MessageType> => {
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -269,7 +269,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
       processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
-    const result = await ctx.prisma.messageTemplate.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.messageType.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -278,7 +278,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'messageTypeId',
+                'description',
               ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -293,7 +293,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'messageTypeId',
+                'description',
               ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -309,10 +309,10 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const upsertAdvanced = async (
-    filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgs,
+    filter: MessageTypeFilter,
+    data: MutationCreateMessageTypeArgs,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MessageType> => {
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -352,9 +352,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const del = async (
-    params: MutationRemoveMessageTemplateArgs,
-  ): Promise<MessageTemplate> => {
-    const deleteOperation = ctx.prisma.messageTemplate.delete({where: {id: params.id}});
+    params: MutationRemoveMessageTypeArgs,
+  ): Promise<MessageType> => {
+    const deleteOperation = ctx.prisma.messageType.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
@@ -378,7 +378,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     return entity;
   };
 
-  const baseMethods: BaseMessageTemplatesMethods = {
+  const baseMethods: BaseMessageTypesMethods = {
     get,
     all,
     findOne,
