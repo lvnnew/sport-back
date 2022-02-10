@@ -36,7 +36,8 @@ export const createContext = async (container: interfaces.Container = defaultCon
           ...context,
           container: ctx.container,
           service: (name: keyof Services) => ctx.container.get(name),
-        }));
+        }))
+        .inTransientScope();
     }
   }
 
