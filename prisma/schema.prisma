@@ -181,7 +181,7 @@ model MessageTemplate {
 	search	String?
 	title	String
 	secretData	Boolean
-	messageTypeId	String	@default("plain")
+	messageTypeId	String
 	messageType	MessageType	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
 }
 
