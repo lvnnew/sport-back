@@ -1165,7 +1165,7 @@ export type MutationCreateMessageTemplateArgs = {
   id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
-  messageTypeId?: InputMaybe<Scalars['String']>;
+  messageTypeId: Scalars['String'];
 };
 
 
@@ -1173,7 +1173,7 @@ export type MutationUpdateMessageTemplateArgs = {
   id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
-  messageTypeId?: InputMaybe<Scalars['String']>;
+  messageTypeId: Scalars['String'];
 };
 
 
@@ -1698,7 +1698,7 @@ export type MessageTemplate = {
   id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
-  messageTypeId?: Maybe<Scalars['String']>;
+  messageTypeId: Scalars['String'];
 };
 
 export type MessageTemplateFilter = {
@@ -2496,8 +2496,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationCreateManagersToRoleArgs, 'managerId' | 'roleId'>>;
   updateManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationUpdateManagersToRoleArgs, 'id' | 'managerId' | 'roleId'>>;
   removeManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationRemoveManagersToRoleArgs, 'id'>>;
-  createMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationCreateMessageTemplateArgs, 'id' | 'title' | 'secretData'>>;
-  updateMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTemplateArgs, 'id' | 'title' | 'secretData'>>;
+  createMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationCreateMessageTemplateArgs, 'id' | 'title' | 'secretData' | 'messageTypeId'>>;
+  updateMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTemplateArgs, 'id' | 'title' | 'secretData' | 'messageTypeId'>>;
   removeMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationRemoveMessageTemplateArgs, 'id'>>;
   createMessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<MutationCreateMessageTypeArgs, 'id' | 'title'>>;
   updateMessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTypeArgs, 'id' | 'title'>>;
@@ -2657,7 +2657,7 @@ export type MessageTemplateResolvers<ContextType = any, ParentType extends Resol
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   secretData?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  messageTypeId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  messageTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

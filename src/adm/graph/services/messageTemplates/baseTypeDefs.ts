@@ -7,7 +7,7 @@ export default gql`
     id: ID!
     title: String!
     secretData: Boolean!
-    messageTypeId: String
+    messageTypeId: String!
   }
 
   input MessageTemplateFilter {
@@ -32,8 +32,8 @@ export default gql`
   }
 
   type Mutation {
-    createMessageTemplate(id: ID!, title: String!, secretData: Boolean!, messageTypeId: String): MessageTemplate
-    updateMessageTemplate(id: ID!, title: String!, secretData: Boolean!, messageTypeId: String): MessageTemplate
+    createMessageTemplate(id: ID!, title: String!, secretData: Boolean!, messageTypeId: String!): MessageTemplate
+    updateMessageTemplate(id: ID!, title: String!, secretData: Boolean!, messageTypeId: String!): MessageTemplate
     removeMessageTemplate(id: ID!): MessageTemplate
   }
 `;
