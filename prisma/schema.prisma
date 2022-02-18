@@ -22,7 +22,8 @@ model AuditLog {
 	search	String?
 	date	DateTime
 	title	String
-	entityType	String
+	entityTypeId	String
+	entityType	Entity	@relation("From-AuditLog.entityType", fields: [entityTypeId], references: [id])
 	entityId	String
 	actionTypeId	String
 	actionType	AuditLogActionType	@relation("From-AuditLog.actionType", fields: [actionTypeId], references: [id])
@@ -82,6 +83,14 @@ model Delegation {
 	to	Manager	@relation("From-Delegation.to", fields: [toId], references: [id])
 	expiresAt	DateTime?	@db.Date
 	active	Boolean
+}
+
+
+model Entity {
+	id	String	@id
+	search	String?
+	title	String?
+	auditLogEntityTypes	AuditLog[]	@relation("From-AuditLog.entityType")
 }
 
 

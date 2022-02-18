@@ -23,6 +23,8 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
+import AuditLogActionType from '../../../types/AuditLogActionType';
+import Entity from '../../../types/Entity';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -141,25 +143,38 @@ export const getManagersToRolesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
+    await Promise.all([
     // update search. earlier we does not have id
-    await ctx.prisma.managersToRole.update({
-      where: {id: result.id},
-      data: {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'managerId',
-                'roleId',
-              ], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    });
-
-    await afterCreate(ctx, result as ManagersToRole);
+      ctx.prisma.managersToRole.update({
+        where: {id: result.id},
+        data: {
+          search: [
+            ...R
+              .toPairs(
+                R.pick([
+                  'id',
+                  'managerId',
+                  'roleId',
+                ], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ].join(' '),
+        },
+      }),
+      ctx.prisma.auditLog.create({
+        data: {
+          date: new Date(),
+          title: 'Managers to roles create',
+          entityTypeId: Entity.ManagersToRole,
+          entityId: result.id.toString(),
+          actionTypeId: AuditLogActionType.Create,
+          actionData: JSON.stringify(data),
+          managerId: ctx.service('profile').getManagerId(),
+          userId: ctx.service('profile').getUserId(),
+        },
+      }),
+      afterCreate(ctx, result as ManagersToRole),
+    ]);
 
     return result as ManagersToRole;
   };
@@ -238,8 +253,22 @@ export const getManagersToRolesService = (ctx: Context) => {
       where: {id},
     });
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Managers to roles update',
+        entityTypeId: Entity.ManagersToRole,
+        entityId: data.id.toString(),
+        actionTypeId: AuditLogActionType.Update,
+        actionData: JSON.stringify(data),
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       updateOperation,
+      auditOperation,
       ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
@@ -356,8 +385,21 @@ export const getManagersToRolesService = (ctx: Context) => {
   ): Promise<ManagersToRole> => {
     const deleteOperation = ctx.prisma.managersToRole.delete({where: {id: params.id}});
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Managers to roles delete',
+        entityTypeId: Entity.ManagersToRole,
+        entityId: params.id.toString(),
+        actionTypeId: AuditLogActionType.Delete,
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       deleteOperation,
+      auditOperation,
       ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 

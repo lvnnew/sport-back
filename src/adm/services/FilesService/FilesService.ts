@@ -23,6 +23,8 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
+import AuditLogActionType from '../../../types/AuditLogActionType';
+import Entity from '../../../types/Entity';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -144,28 +146,41 @@ export const getFilesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
+    await Promise.all([
     // update search. earlier we does not have id
-    await ctx.prisma.file.update({
-      where: {id: result.id},
-      data: {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'originalName',
-                'url',
-                'mimetype',
-                's3Key',
-                'eTag',
-              ], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    });
-
-    await afterCreate(ctx, result as File);
+      ctx.prisma.file.update({
+        where: {id: result.id},
+        data: {
+          search: [
+            ...R
+              .toPairs(
+                R.pick([
+                  'id',
+                  'originalName',
+                  'url',
+                  'mimetype',
+                  's3Key',
+                  'eTag',
+                ], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ].join(' '),
+        },
+      }),
+      ctx.prisma.auditLog.create({
+        data: {
+          date: new Date(),
+          title: 'Files create',
+          entityTypeId: Entity.File,
+          entityId: result.id.toString(),
+          actionTypeId: AuditLogActionType.Create,
+          actionData: JSON.stringify(data),
+          managerId: ctx.service('profile').getManagerId(),
+          userId: ctx.service('profile').getUserId(),
+        },
+      }),
+      afterCreate(ctx, result as File),
+    ]);
 
     return result as File;
   };
@@ -250,8 +265,22 @@ export const getFilesService = (ctx: Context) => {
       where: {id},
     });
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Files update',
+        entityTypeId: Entity.File,
+        entityId: data.id.toString(),
+        actionTypeId: AuditLogActionType.Update,
+        actionData: JSON.stringify(data),
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       updateOperation,
+      auditOperation,
       ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
@@ -374,8 +403,21 @@ export const getFilesService = (ctx: Context) => {
   ): Promise<File> => {
     const deleteOperation = ctx.prisma.file.delete({where: {id: params.id}});
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Files delete',
+        entityTypeId: Entity.File,
+        entityId: params.id.toString(),
+        actionTypeId: AuditLogActionType.Delete,
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       deleteOperation,
+      auditOperation,
       ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 

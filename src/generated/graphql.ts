@@ -212,6 +212,9 @@ export type Query = {
   Delegation?: Maybe<Delegation>;
   allDelegations?: Maybe<Array<Maybe<Delegation>>>;
   _allDelegationsMeta?: Maybe<ListMetadata>;
+  Entity?: Maybe<Entity>;
+  allEntities?: Maybe<Array<Maybe<Entity>>>;
+  _allEntitiesMeta?: Maybe<ListMetadata>;
   File?: Maybe<File>;
   allFiles?: Maybe<Array<Maybe<File>>>;
   _allFilesMeta?: Maybe<ListMetadata>;
@@ -430,6 +433,27 @@ export type Query_AllDelegationsMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<DelegationFilter>;
+};
+
+
+export type QueryEntityArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllEntitiesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<EntityFilter>;
+};
+
+
+export type Query_AllEntitiesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<EntityFilter>;
 };
 
 
@@ -783,6 +807,9 @@ export type Mutation = {
   createDelegation?: Maybe<Delegation>;
   updateDelegation?: Maybe<Delegation>;
   removeDelegation?: Maybe<Delegation>;
+  createEntity?: Maybe<Entity>;
+  updateEntity?: Maybe<Entity>;
+  removeEntity?: Maybe<Entity>;
   createFile?: Maybe<File>;
   updateFile?: Maybe<File>;
   removeFile?: Maybe<File>;
@@ -912,7 +939,7 @@ export type MutationRemoveAuditLogActionTypeArgs = {
 export type MutationCreateAuditLogArgs = {
   date: Scalars['DateTime'];
   title: Scalars['String'];
-  entityType: Scalars['String'];
+  entityTypeId: Scalars['String'];
   entityId: Scalars['String'];
   actionTypeId: Scalars['String'];
   managerId?: InputMaybe<Scalars['Int']>;
@@ -928,7 +955,7 @@ export type MutationUpdateAuditLogArgs = {
   id: Scalars['Int'];
   date: Scalars['DateTime'];
   title: Scalars['String'];
-  entityType: Scalars['String'];
+  entityTypeId: Scalars['String'];
   entityId: Scalars['String'];
   actionTypeId: Scalars['String'];
   managerId?: InputMaybe<Scalars['Int']>;
@@ -1021,6 +1048,23 @@ export type MutationUpdateDelegationArgs = {
 
 export type MutationRemoveDelegationArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationCreateEntityArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateEntityArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveEntityArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -1391,7 +1435,7 @@ export type AuditLog = {
   id: Scalars['Int'];
   date: Scalars['DateTime'];
   title: Scalars['String'];
-  entityType: Scalars['String'];
+  entityTypeId: Scalars['String'];
   entityId: Scalars['String'];
   actionTypeId: Scalars['String'];
   managerId?: Maybe<Scalars['Int']>;
@@ -1413,8 +1457,8 @@ export type AuditLogFilter = {
   date_gt?: InputMaybe<Scalars['DateTime']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  entityType?: InputMaybe<Scalars['String']>;
-  entityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entityTypeId?: InputMaybe<Scalars['String']>;
+  entityTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entityId?: InputMaybe<Scalars['String']>;
   entityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   actionTypeId?: InputMaybe<Scalars['String']>;
@@ -1528,6 +1572,20 @@ export type DelegationFilter = {
   active?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type Entity = {
+  __typename?: 'Entity';
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type EntityFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type File = {
   __typename?: 'File';
   id: Scalars['Int'];
@@ -1563,6 +1621,7 @@ export enum EntityType {
   AutogenerationHistoryEntries = 'autogenerationHistoryEntries',
   AutogenerationRules = 'autogenerationRules',
   Delegations = 'delegations',
+  Entities = 'entities',
   Files = 'files',
   Languages = 'languages',
   ManagerLogins = 'managerLogins',
@@ -2006,6 +2065,8 @@ export type ResolversTypes = {
   AutogenerationRuleFilter: AutogenerationRuleFilter;
   Delegation: ResolverTypeWrapper<Delegation>;
   DelegationFilter: DelegationFilter;
+  Entity: ResolverTypeWrapper<Entity>;
+  EntityFilter: EntityFilter;
   File: ResolverTypeWrapper<File>;
   FileFilter: FileFilter;
   EntityType: EntityType;
@@ -2118,6 +2179,8 @@ export type ResolversParentTypes = {
   AutogenerationRuleFilter: AutogenerationRuleFilter;
   Delegation: Delegation;
   DelegationFilter: DelegationFilter;
+  Entity: Entity;
+  EntityFilter: EntityFilter;
   File: File;
   FileFilter: FileFilter;
   Language: Language;
@@ -2401,6 +2464,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Delegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<QueryDelegationArgs, 'id'>>;
   allDelegations?: Resolver<Maybe<Array<Maybe<ResolversTypes['Delegation']>>>, ParentType, ContextType, Partial<QueryAllDelegationsArgs>>;
   _allDelegationsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllDelegationsMetaArgs>>;
+  Entity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<QueryEntityArgs, 'id'>>;
+  allEntities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Entity']>>>, ParentType, ContextType, Partial<QueryAllEntitiesArgs>>;
+  _allEntitiesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllEntitiesMetaArgs>>;
   File?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<QueryFileArgs, 'id'>>;
   allFiles?: Resolver<Maybe<Array<Maybe<ResolversTypes['File']>>>, ParentType, ContextType, Partial<QueryAllFilesArgs>>;
   _allFilesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllFilesMetaArgs>>;
@@ -2466,8 +2532,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogActionTypeArgs, 'id'>>;
   updateAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogActionTypeArgs, 'id'>>;
   removeAuditLogActionType?: Resolver<Maybe<ResolversTypes['AuditLogActionType']>, ParentType, ContextType, RequireFields<MutationRemoveAuditLogActionTypeArgs, 'id'>>;
-  createAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogArgs, 'date' | 'title' | 'entityType' | 'entityId' | 'actionTypeId'>>;
-  updateAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogArgs, 'id' | 'date' | 'title' | 'entityType' | 'entityId' | 'actionTypeId'>>;
+  createAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationCreateAuditLogArgs, 'date' | 'title' | 'entityTypeId' | 'entityId' | 'actionTypeId'>>;
+  updateAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationUpdateAuditLogArgs, 'id' | 'date' | 'title' | 'entityTypeId' | 'entityId' | 'actionTypeId'>>;
   removeAuditLog?: Resolver<Maybe<ResolversTypes['AuditLog']>, ParentType, ContextType, RequireFields<MutationRemoveAuditLogArgs, 'id'>>;
   createAutogenerationHistoryEntry?: Resolver<Maybe<ResolversTypes['AutogenerationHistoryEntry']>, ParentType, ContextType, RequireFields<MutationCreateAutogenerationHistoryEntryArgs, 'date' | 'originalEntityType' | 'originalEntityId' | 'autogenerationRuleId' | 'version' | 'errorOccurred'>>;
   updateAutogenerationHistoryEntry?: Resolver<Maybe<ResolversTypes['AutogenerationHistoryEntry']>, ParentType, ContextType, RequireFields<MutationUpdateAutogenerationHistoryEntryArgs, 'id' | 'date' | 'originalEntityType' | 'originalEntityId' | 'autogenerationRuleId' | 'version' | 'errorOccurred'>>;
@@ -2478,6 +2544,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationCreateDelegationArgs, 'fromId' | 'toId' | 'active'>>;
   updateDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationUpdateDelegationArgs, 'id' | 'fromId' | 'toId' | 'active'>>;
   removeDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationRemoveDelegationArgs, 'id'>>;
+  createEntity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<MutationCreateEntityArgs, 'id'>>;
+  updateEntity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<MutationUpdateEntityArgs, 'id'>>;
+  removeEntity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<MutationRemoveEntityArgs, 'id'>>;
   createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   removeFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
@@ -2552,7 +2621,7 @@ export type AuditLogResolvers<ContextType = any, ParentType extends ResolversPar
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  entityType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  entityTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   actionTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   managerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -2594,6 +2663,12 @@ export type DelegationResolvers<ContextType = any, ParentType extends ResolversP
   toId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   expiresAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EntityResolvers<ContextType = any, ParentType extends ResolversParentTypes['Entity'] = ResolversParentTypes['Entity']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2789,6 +2864,7 @@ export type Resolvers<ContextType = any> = {
   AutogenerationHistoryEntry?: AutogenerationHistoryEntryResolvers<ContextType>;
   AutogenerationRule?: AutogenerationRuleResolvers<ContextType>;
   Delegation?: DelegationResolvers<ContextType>;
+  Entity?: EntityResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   Language?: LanguageResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;

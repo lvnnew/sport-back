@@ -15,25 +15,25 @@ export interface ProfileService {
   getPermissionsOfManagerWithMeta: (managerId: number) => Promise<PermissionsWithMeta[]>;
   getPermissionsWithMeta: () => Promise<PermissionsWithMeta[]>;
 
-  getUserId: () => bigint | null,
+  getUserId: () => number | null,
   getManagerId: () => number | null,
-  setUserId: (userId: bigint) => void,
+  setUserId: (userId: number) => void,
   setManagerId: (managerId: number) => void,
 }
 
 export type UserData = {
-  userId: bigint | null,
+  userId: number | null,
   managerId: number | null,
 }
 
 export const getProfileService = (ctx: Context): ProfileService => {
-  let userId: bigint | null = null;
+  let userId: number | null = null;
   let managerId: number | null = null;
 
   const getUserId = () => userId;
   const getManagerId = () => managerId;
 
-  const setUserId = (newUserId: bigint) => {
+  const setUserId = (newUserId: number) => {
     userId = newUserId;
   };
 

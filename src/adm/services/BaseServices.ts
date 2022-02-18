@@ -6,6 +6,7 @@ import {AuditLogsService} from './AuditLogsService/AuditLogsService';
 import {AutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
 import {AutogenerationRulesService} from './AutogenerationRulesService/AutogenerationRulesService';
 import {DelegationsService} from './DelegationsService/DelegationsService';
+import {EntitiesService} from './EntitiesService/EntitiesService';
 import {FilesService} from './FilesService/FilesService';
 import {LanguagesService} from './LanguagesService/LanguagesService';
 import {ManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService';
@@ -35,6 +36,7 @@ export interface BaseServices {
   autogenerationHistoryEntries: AutogenerationHistoryEntriesService;
   autogenerationRules: AutogenerationRulesService;
   delegations: DelegationsService;
+  entities: EntitiesService;
   files: FilesService;
   languages: LanguagesService;
   managerLogins: ManagerLoginsService;

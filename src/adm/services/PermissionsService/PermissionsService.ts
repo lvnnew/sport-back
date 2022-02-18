@@ -23,6 +23,8 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
+import AuditLogActionType from '../../../types/AuditLogActionType';
+import Entity from '../../../types/Entity';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -140,24 +142,37 @@ export const getPermissionsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
+    await Promise.all([
     // update search. earlier we does not have id
-    await ctx.prisma.permission.update({
-      where: {id: result.id},
-      data: {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-              ], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    });
-
-    await afterCreate(ctx, result as Permission);
+      ctx.prisma.permission.update({
+        where: {id: result.id},
+        data: {
+          search: [
+            ...R
+              .toPairs(
+                R.pick([
+                  'id',
+                  'title',
+                ], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+          ].join(' '),
+        },
+      }),
+      ctx.prisma.auditLog.create({
+        data: {
+          date: new Date(),
+          title: 'Permissions create',
+          entityTypeId: Entity.Permission,
+          entityId: result.id.toString(),
+          actionTypeId: AuditLogActionType.Create,
+          actionData: JSON.stringify(data),
+          managerId: ctx.service('profile').getManagerId(),
+          userId: ctx.service('profile').getUserId(),
+        },
+      }),
+      afterCreate(ctx, result as Permission),
+    ]);
 
     return result as Permission;
   };
@@ -234,8 +249,22 @@ export const getPermissionsService = (ctx: Context) => {
       where: {id},
     });
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Permissions update',
+        entityTypeId: Entity.Permission,
+        entityId: data.id.toString(),
+        actionTypeId: AuditLogActionType.Update,
+        actionData: JSON.stringify(data),
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       updateOperation,
+      auditOperation,
       ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
@@ -350,8 +379,21 @@ export const getPermissionsService = (ctx: Context) => {
   ): Promise<Permission> => {
     const deleteOperation = ctx.prisma.permission.delete({where: {id: params.id}});
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Permissions delete',
+        entityTypeId: Entity.Permission,
+        entityId: params.id.toString(),
+        actionTypeId: AuditLogActionType.Delete,
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       deleteOperation,
+      auditOperation,
       ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 

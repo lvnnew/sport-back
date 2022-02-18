@@ -1,7 +1,9 @@
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 enum AuditLogActionType {
-  NewEntityData = 'newEntityData',
+  Create = 'create',
+  Update = 'update',
+  Delete = 'delete',
 }
 
 export default AuditLogActionType;

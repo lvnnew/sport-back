@@ -10,6 +10,7 @@ export default gql`
     autogenerationHistoryEntries
     autogenerationRules
     delegations
+    entities
     files
     languages
     managerLogins

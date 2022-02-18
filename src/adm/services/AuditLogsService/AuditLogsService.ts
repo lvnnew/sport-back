@@ -126,7 +126,7 @@ export const getAuditLogsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'entityType',
+                  'entityTypeId',
                   'entityId',
                   'actionTypeId',
                   'managerId',
@@ -159,39 +159,40 @@ export const getAuditLogsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
+    await Promise.all([
     // update search. earlier we does not have id
-    await ctx.prisma.auditLog.update({
-      where: {id: result.id},
-      data: {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-                'entityType',
-                'entityId',
-                'actionTypeId',
-                'managerId',
-                'userId',
-                'foreignEntityType',
-                'foreignEntityId',
-                'actionData',
-              ], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'date',
-              ], result),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
-    });
-
-    await afterCreate(ctx, result as AuditLog);
+      ctx.prisma.auditLog.update({
+        where: {id: result.id},
+        data: {
+          search: [
+            ...R
+              .toPairs(
+                R.pick([
+                  'id',
+                  'title',
+                  'entityTypeId',
+                  'entityId',
+                  'actionTypeId',
+                  'managerId',
+                  'userId',
+                  'foreignEntityType',
+                  'foreignEntityId',
+                  'actionData',
+                ], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+              .toPairs(
+                R.pick([
+                  'date',
+                ], result),
+              )
+              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
+        },
+      }),
+      afterCreate(ctx, result as AuditLog),
+    ]);
 
     return result as AuditLog;
   };
@@ -219,7 +220,7 @@ export const getAuditLogsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'entityType',
+                  'entityTypeId',
                   'entityId',
                   'actionTypeId',
                   'managerId',
@@ -274,7 +275,7 @@ export const getAuditLogsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'entityType',
+                  'entityTypeId',
                   'entityId',
                   'actionTypeId',
                   'managerId',
@@ -338,7 +339,7 @@ export const getAuditLogsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'entityType',
+                'entityTypeId',
                 'entityId',
                 'actionTypeId',
                 'managerId',
@@ -367,7 +368,7 @@ export const getAuditLogsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'entityType',
+                'entityTypeId',
                 'entityId',
                 'actionTypeId',
                 'managerId',

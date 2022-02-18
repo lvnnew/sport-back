@@ -6,6 +6,7 @@ import {getAuditLogsService} from './AuditLogsService/AuditLogsService';
 import {getAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AutogenerationHistoryEntriesService';
 import {getAutogenerationRulesService} from './AutogenerationRulesService/AutogenerationRulesService';
 import {getDelegationsService} from './DelegationsService/DelegationsService';
+import {getEntitiesService} from './EntitiesService/EntitiesService';
 import {getFilesService} from './FilesService/FilesService';
 import {getLanguagesService} from './LanguagesService/LanguagesService';
 import {getManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService';
@@ -37,6 +38,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   autogenerationHistoryEntries: getAutogenerationHistoryEntriesService,
   autogenerationRules: getAutogenerationRulesService,
   delegations: getDelegationsService,
+  entities: getEntitiesService,
   files: getFilesService,
   languages: getLanguagesService,
   managerLogins: getManagerLoginsService,

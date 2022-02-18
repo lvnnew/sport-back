@@ -1,18 +1,18 @@
 import {
   ListMetadata,
-  MutationCreateManagerLoginArgs,
-  MutationUpdateManagerLoginArgs,
-  MutationRemoveManagerLoginArgs,
-  QueryAllManagerLoginsArgs,
-  Query_AllManagerLoginsMetaArgs,
-  ManagerLogin,
-  ManagerLoginFilter,
+  MutationCreateEntityArgs,
+  MutationUpdateEntityArgs,
+  MutationRemoveEntityArgs,
+  QueryAllEntitiesArgs,
+  Query_AllEntitiesMetaArgs,
+  Entity,
+  EntityFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
-import {AdditionalManagerLoginsMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalEntitiesMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
 import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
 import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
@@ -23,86 +23,84 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
-import Entity from '../../../types/Entity';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export interface BaseManagerLoginsMethods {
-  get: (id: number) =>
-    Promise<ManagerLogin | null>;
-  all: (params?: QueryAllManagerLoginsArgs) =>
-    Promise<ManagerLogin[]>;
-  findOne: (params?: QueryAllManagerLoginsArgs) =>
-    Promise<ManagerLogin | null>;
-  count: (params?: Query_AllManagerLoginsMetaArgs) =>
+export interface BaseEntitiesMethods {
+  get: (id: string) =>
+    Promise<Entity | null>;
+  all: (params?: QueryAllEntitiesArgs) =>
+    Promise<Entity[]>;
+  findOne: (params?: QueryAllEntitiesArgs) =>
+    Promise<Entity | null>;
+  count: (params?: Query_AllEntitiesMetaArgs) =>
     Promise<number>;
-  meta: (params?: Query_AllManagerLoginsMetaArgs) =>
+  meta: (params?: Query_AllEntitiesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagerLoginArgs, byUser?: boolean) =>
-    Promise<ManagerLogin>;
-  createMany: (data: MutationCreateManagerLoginArgs[], byUser?: boolean) =>
+  create: (data: MutationCreateEntityArgs, byUser?: boolean) =>
+    Promise<Entity>;
+  createMany: (data: MutationCreateEntityArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
-    Promise<ManagerLogin>;
-  upsert: (data: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
-    Promise<ManagerLogin>;
+  update: ({id, ...rest}: MutationUpdateEntityArgs, byUser?: boolean) =>
+    Promise<Entity>;
+  upsert: (data: MutationUpdateEntityArgs, byUser?: boolean) =>
+    Promise<Entity>;
   upsertAdvanced: (
-    filter: ManagerLoginFilter,
-    data: MutationCreateManagerLoginArgs,
+    filter: EntityFilter,
+    data: MutationCreateEntityArgs,
     byUser?: boolean,
   ) =>
-    Promise<ManagerLogin>;
-  delete: (params: MutationRemoveManagerLoginArgs) =>
-    Promise<ManagerLogin>;
+    Promise<Entity>;
+  delete: (params: MutationRemoveEntityArgs) =>
+    Promise<Entity>;
 }
 
-export type ManagerLoginsService = BaseManagerLoginsMethods & AdditionalManagerLoginsMethods;
+export type EntitiesService = BaseEntitiesMethods & AdditionalEntitiesMethods;
 
-export const getManagerLoginsService = (ctx: Context) => {
+export const getEntitiesService = (ctx: Context) => {
   const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.managerLogin.findUnique,
+    ctx.prisma.entity.findUnique,
     forbiddenForUserFields,
   );
 
   const get = async (
-    id: number,
-  ): Promise<ManagerLogin | null> => {
-    return ctx.prisma.managerLogin.findUnique({where: {id}});
+    id: string,
+  ): Promise<Entity | null> => {
+    return ctx.prisma.entity.findUnique({where: {id}});
   };
 
   const all = async (
-    params: QueryAllManagerLoginsArgs = {},
-  ): Promise<ManagerLogin[]> => {
-    return ctx.prisma.managerLogin.findMany(
+    params: QueryAllEntitiesArgs = {},
+  ): Promise<Entity[]> => {
+    return ctx.prisma.entity.findMany(
       toPrismaRequest(params, {noId: true}),
-    ) as unknown as Promise<ManagerLogin[]>;
+    ) as unknown as Promise<Entity[]>;
   };
 
   const findOne = async (
-    params: QueryAllManagerLoginsArgs = {},
-  ): Promise<ManagerLogin | null> => {
-    return ctx.prisma.managerLogin.findFirst(toPrismaRequest(params, {noId: true}));
+    params: QueryAllEntitiesArgs = {},
+  ): Promise<Entity | null> => {
+    return ctx.prisma.entity.findFirst(toPrismaRequest(params, {noId: true}));
   };
 
   const count = async (
-    params: Query_AllManagerLoginsMetaArgs = {},
+    params: Query_AllEntitiesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.managerLogin.count(toPrismaTotalRequest(params));
+    return ctx.prisma.entity.count(toPrismaTotalRequest(params));
   };
 
   const meta = async (
-    params: Query_AllManagerLoginsMetaArgs = {},
+    params: Query_AllEntitiesMetaArgs = {},
   ): Promise<ListMetadata> => {
     return count(params).then(count => ({count}));
   };
 
   const create = async (
-    data: MutationCreateManagerLoginArgs,
+    data: MutationCreateEntityArgs,
     byUser = false,
-  ): Promise<ManagerLogin> => {
+  ): Promise<Entity> => {
     let processedData = data;
 
     if (byUser) {
@@ -114,7 +112,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
     processedData = await beforeCreate(ctx, data);
 
-    const createOperation = ctx.prisma.managerLogin.create({
+    const createOperation = ctx.prisma.entity.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -123,10 +121,7 @@ export const getManagerLoginsService = (ctx: Context) => {
               .toPairs(
                 R.pick([
                   'id',
-                  'login',
-                  'passwordHash',
-                  'role',
-                  'managerId',
+                  'title',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -147,7 +142,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
     await Promise.all([
     // update search. earlier we does not have id
-      ctx.prisma.managerLogin.update({
+      ctx.prisma.entity.update({
         where: {id: result.id},
         data: {
           search: [
@@ -155,36 +150,21 @@ export const getManagerLoginsService = (ctx: Context) => {
               .toPairs(
                 R.pick([
                   'id',
-                  'login',
-                  'passwordHash',
-                  'role',
-                  'managerId',
+                  'title',
                 ], result),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ].join(' '),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Manager logins create',
-          entityTypeId: Entity.ManagerLogin,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
-      }),
-      afterCreate(ctx, result as ManagerLogin),
+      afterCreate(ctx, result as Entity),
     ]);
 
-    return result as ManagerLogin;
+    return result as Entity;
   };
 
   const createMany = async (
-    entries: MutationCreateManagerLoginArgs[],
+    entries: MutationCreateEntityArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     let processedData = entries;
@@ -196,7 +176,7 @@ export const getManagerLoginsService = (ctx: Context) => {
       ));
     }
 
-    const result = await ctx.prisma.managerLogin.createMany({
+    const result = await ctx.prisma.entity.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -205,10 +185,7 @@ export const getManagerLoginsService = (ctx: Context) => {
               .toPairs(
                 R.pick([
                   'id',
-                  'login',
-                  'passwordHash',
-                  'role',
-                  'managerId',
+                  'title',
                 ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -226,9 +203,9 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateManagerLoginArgs,
+    data: MutationUpdateEntityArgs,
     byUser = false,
-  ): Promise<ManagerLogin> => {
+  ): Promise<Entity> => {
     let processedData = data;
 
     if (byUser) {
@@ -239,7 +216,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = ctx.prisma.managerLogin.update({
+    const updateOperation = ctx.prisma.entity.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -248,10 +225,7 @@ export const getManagerLoginsService = (ctx: Context) => {
               .toPairs(
                 R.pick([
                   'id',
-                  'login',
-                  'passwordHash',
-                  'role',
-                  'managerId',
+                  'title',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -261,22 +235,8 @@ export const getManagerLoginsService = (ctx: Context) => {
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Manager logins update',
-        entityTypeId: Entity.ManagerLogin,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
-    });
-
     const operations = [
       updateOperation,
-      auditOperation,
       ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
@@ -285,15 +245,15 @@ export const getManagerLoginsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as ManagerLogin);
+    await afterUpdate(ctx, result as Entity);
 
-    return result as ManagerLogin;
+    return result as Entity;
   };
 
   const upsert = async (
-    data: MutationUpdateManagerLoginArgs,
+    data: MutationUpdateEntityArgs,
     byUser = false,
-  ): Promise<ManagerLogin> => {
+  ): Promise<Entity> => {
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -306,7 +266,7 @@ export const getManagerLoginsService = (ctx: Context) => {
       processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
     }
 
-    const result = await ctx.prisma.managerLogin.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.entity.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
       {
         search: [
@@ -314,10 +274,7 @@ export const getManagerLoginsService = (ctx: Context) => {
             .toPairs(
               R.pick([
                 'id',
-                'login',
-                'passwordHash',
-                'role',
-                'managerId',
+                'title',
               ], processedDataToCreate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -331,10 +288,7 @@ export const getManagerLoginsService = (ctx: Context) => {
             .toPairs(
               R.pick([
                 'id',
-                'login',
-                'passwordHash',
-                'role',
-                'managerId',
+                'title',
               ], processedDataToUpdate),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -350,10 +304,10 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const upsertAdvanced = async (
-    filter: ManagerLoginFilter,
-    data: MutationCreateManagerLoginArgs,
+    filter: EntityFilter,
+    data: MutationCreateEntityArgs,
     byUser = false,
-  ): Promise<ManagerLogin> => {
+  ): Promise<Entity> => {
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -393,25 +347,12 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const del = async (
-    params: MutationRemoveManagerLoginArgs,
-  ): Promise<ManagerLogin> => {
-    const deleteOperation = ctx.prisma.managerLogin.delete({where: {id: params.id}});
-
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Manager logins delete',
-        entityTypeId: Entity.ManagerLogin,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
-    });
+    params: MutationRemoveEntityArgs,
+  ): Promise<Entity> => {
+    const deleteOperation = ctx.prisma.entity.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      auditOperation,
       ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
@@ -432,7 +373,7 @@ export const getManagerLoginsService = (ctx: Context) => {
     return entity;
   };
 
-  const baseMethods: BaseManagerLoginsMethods = {
+  const baseMethods: BaseEntitiesMethods = {
     get,
     all,
     findOne,

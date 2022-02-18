@@ -23,6 +23,8 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
+import AuditLogActionType from '../../../types/AuditLogActionType';
+import Entity from '../../../types/Entity';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -155,35 +157,48 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
+    await Promise.all([
     // update search. earlier we does not have id
-    await ctx.prisma.autogenerationHistoryEntry.update({
-      where: {id: result.id},
-      data: {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'originalEntityType',
-                'originalEntityId',
-                'autogenerationRuleId',
-                'error',
-              ], result),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'date',
-                'version',
-              ], result),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
-    });
-
-    await afterCreate(ctx, result as AutogenerationHistoryEntry);
+      ctx.prisma.autogenerationHistoryEntry.update({
+        where: {id: result.id},
+        data: {
+          search: [
+            ...R
+              .toPairs(
+                R.pick([
+                  'id',
+                  'originalEntityType',
+                  'originalEntityId',
+                  'autogenerationRuleId',
+                  'error',
+                ], result),
+              )
+              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
+            ...R
+              .toPairs(
+                R.pick([
+                  'date',
+                  'version',
+                ], result),
+              )
+              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
+          ].join(' '),
+        },
+      }),
+      ctx.prisma.auditLog.create({
+        data: {
+          date: new Date(),
+          title: 'Autogeneration history entries create',
+          entityTypeId: Entity.AutogenerationHistoryEntry,
+          entityId: result.id.toString(),
+          actionTypeId: AuditLogActionType.Create,
+          actionData: JSON.stringify(data),
+          managerId: ctx.service('profile').getManagerId(),
+          userId: ctx.service('profile').getUserId(),
+        },
+      }),
+      afterCreate(ctx, result as AutogenerationHistoryEntry),
+    ]);
 
     return result as AutogenerationHistoryEntry;
   };
@@ -282,8 +297,22 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
       where: {id},
     });
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Autogeneration history entries update',
+        entityTypeId: Entity.AutogenerationHistoryEntry,
+        entityId: data.id.toString(),
+        actionTypeId: AuditLogActionType.Update,
+        actionData: JSON.stringify(data),
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       updateOperation,
+      auditOperation,
       ...(await additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
@@ -420,8 +449,21 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   ): Promise<AutogenerationHistoryEntry> => {
     const deleteOperation = ctx.prisma.autogenerationHistoryEntry.delete({where: {id: params.id}});
 
+    const auditOperation = ctx.prisma.auditLog.create({
+      data: {
+        date: new Date(),
+        title: 'Autogeneration history entries delete',
+        entityTypeId: Entity.AutogenerationHistoryEntry,
+        entityId: params.id.toString(),
+        actionTypeId: AuditLogActionType.Delete,
+        managerId: ctx.service('profile').getManagerId(),
+        userId: ctx.service('profile').getUserId(),
+      },
+    });
+
     const operations = [
       deleteOperation,
+      auditOperation,
       ...(await additionalOperationsOnDelete(ctx, params)),
     ];
 
