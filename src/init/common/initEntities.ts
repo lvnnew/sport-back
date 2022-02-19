@@ -3,7 +3,7 @@ import Entity from '../../types/Entity';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const initEntity = async (ctx: Context) => {
+const initEntities = async (ctx: Context) => {
   await ctx.service('entities').upsert({
     id: Entity.AdmRefreshToken,
     title: 'Adm refresh tokens',
@@ -102,4 +102,4 @@ const initEntity = async (ctx: Context) => {
   });
 };
 
-export default initEntity;
+export default initEntities;
