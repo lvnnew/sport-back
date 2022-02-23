@@ -22,6 +22,7 @@ healthRouter.get('/', async (_: Request, res: Response) => {
   log.info('knexResult');
   log.info(JSON.stringify(knexResult.rows[0].check));
   if (!knexResult || !knexResult.rows || knexResult.rows.length !== 1 || knexResult.rows[0].check !== 1) {
+    log.error('Can not request bd by knex');
     res
       .status(500)
       .send({message: 'Can not request bd by knex'});
@@ -33,6 +34,7 @@ healthRouter.get('/', async (_: Request, res: Response) => {
   log.info('prismaResult');
   log.info(`prismaResult: ${prismaResult}`);
   if (!(prismaResult >= 0)) {
+    log.error('Can not request bd by prisma');
     res
       .status(500)
       .send({message: 'Can not request bd by prisma'});

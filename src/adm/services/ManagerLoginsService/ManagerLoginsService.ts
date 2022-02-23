@@ -9,7 +9,6 @@ import {
   ManagerLoginFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
-import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalManagerLoginsMethods, getAdditionalMethods} from './additionalMethods';
@@ -25,6 +24,7 @@ import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
+import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 

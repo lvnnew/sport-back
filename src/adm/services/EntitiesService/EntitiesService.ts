@@ -9,7 +9,6 @@ import {
   EntityFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
-import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalEntitiesMethods, getAdditionalMethods} from './additionalMethods';
@@ -23,6 +22,7 @@ import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
+import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
