@@ -281,7 +281,9 @@ export const getAppLoginsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as AppLogin);
+    await Promise.all([
+      afterUpdate(ctx, result as AppLogin),
+    ]);
 
     return result as AppLogin;
   };

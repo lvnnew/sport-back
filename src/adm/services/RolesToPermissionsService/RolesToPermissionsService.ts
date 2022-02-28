@@ -277,7 +277,9 @@ export const getRolesToPermissionsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as RolesToPermission);
+    await Promise.all([
+      afterUpdate(ctx, result as RolesToPermission),
+    ]);
 
     return result as RolesToPermission;
   };

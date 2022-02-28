@@ -297,7 +297,9 @@ export const getManagersService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as Manager);
+    await Promise.all([
+      afterUpdate(ctx, result as Manager),
+    ]);
 
     return result as Manager;
   };

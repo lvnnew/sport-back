@@ -277,7 +277,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as MessageTemplate);
+    await Promise.all([
+      afterUpdate(ctx, result as MessageTemplate),
+    ]);
 
     return result as MessageTemplate;
   };

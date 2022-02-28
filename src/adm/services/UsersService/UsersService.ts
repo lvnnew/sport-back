@@ -285,7 +285,9 @@ export const getUsersService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as User);
+    await Promise.all([
+      afterUpdate(ctx, result as User),
+    ]);
 
     return result as User;
   };

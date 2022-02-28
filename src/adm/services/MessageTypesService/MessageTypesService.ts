@@ -277,7 +277,9 @@ export const getMessageTypesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as MessageType);
+    await Promise.all([
+      afterUpdate(ctx, result as MessageType),
+    ]);
 
     return result as MessageType;
   };

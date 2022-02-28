@@ -273,7 +273,9 @@ export const getLanguagesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as Language);
+    await Promise.all([
+      afterUpdate(ctx, result as Language),
+    ]);
 
     return result as Language;
   };

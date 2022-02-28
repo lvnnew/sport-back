@@ -285,7 +285,9 @@ export const getManagerLoginsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as ManagerLogin);
+    await Promise.all([
+      afterUpdate(ctx, result as ManagerLogin),
+    ]);
 
     return result as ManagerLogin;
   };

@@ -305,7 +305,9 @@ export const getStatsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as Stat);
+    await Promise.all([
+      afterUpdate(ctx, result as Stat),
+    ]);
 
     return result as Stat;
   };

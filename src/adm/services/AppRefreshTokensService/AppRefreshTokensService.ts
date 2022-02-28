@@ -309,7 +309,9 @@ export const getAppRefreshTokensService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as AppRefreshToken);
+    await Promise.all([
+      afterUpdate(ctx, result as AppRefreshToken),
+    ]);
 
     return result as AppRefreshToken;
   };

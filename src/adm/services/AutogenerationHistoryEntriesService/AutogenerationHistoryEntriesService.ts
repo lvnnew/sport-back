@@ -321,7 +321,9 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as AutogenerationHistoryEntry);
+    await Promise.all([
+      afterUpdate(ctx, result as AutogenerationHistoryEntry),
+    ]);
 
     return result as AutogenerationHistoryEntry;
   };

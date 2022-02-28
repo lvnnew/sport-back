@@ -277,7 +277,9 @@ export const getUnitsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as Unit);
+    await Promise.all([
+      afterUpdate(ctx, result as Unit),
+    ]);
 
     return result as Unit;
   };

@@ -309,7 +309,9 @@ export const getDelegationsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as Delegation);
+    await Promise.all([
+      afterUpdate(ctx, result as Delegation),
+    ]);
 
     return result as Delegation;
   };

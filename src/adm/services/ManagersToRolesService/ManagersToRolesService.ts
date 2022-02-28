@@ -277,7 +277,9 @@ export const getManagersToRolesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as ManagersToRole);
+    await Promise.all([
+      afterUpdate(ctx, result as ManagersToRole),
+    ]);
 
     return result as ManagersToRole;
   };

@@ -15,6 +15,7 @@ const healthRouter: Router = express.Router();
 healthRouter.use(limiter);
 
 healthRouter.get('/', async (_: Request, res: Response) => {
+  log.info('health');
   const ctx = await createContext();
 
   // check by Knex

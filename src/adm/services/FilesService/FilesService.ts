@@ -289,7 +289,9 @@ export const getFilesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterUpdate(ctx, result as File);
+    await Promise.all([
+      afterUpdate(ctx, result as File),
+    ]);
 
     return result as File;
   };
