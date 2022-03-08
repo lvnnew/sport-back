@@ -539,6 +539,46 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "CountryCode",
+        "description": "A country code as defined by ISO 3166-1 alpha-2",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Locale",
+        "description": "The locale in the format of a BCP 47 (RFC 5646) standard string",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "RoutingNumber",
+        "description": "In the US, an ABA routing transit number (`ABA RTN`) is a nine-digit code to identify the financial institution.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "AccountNumber",
+        "description": "Banking account number is a string of 5 to 17 alphanumeric values for representing an generic account number",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "AdmRefreshToken",
         "description": null,

@@ -156,6 +156,14 @@ export type Scalars = {
   Void: any;
   /** A field whose value conforms to the standard DID format as specified in did-core: https://www.w3.org/TR/did-core/. */
   DID: any;
+  /** A country code as defined by ISO 3166-1 alpha-2 */
+  CountryCode: any;
+  /** The locale in the format of a BCP 47 (RFC 5646) standard string */
+  Locale: any;
+  /** In the US, an ABA routing transit number (`ABA RTN`) is a nine-digit code to identify the financial institution. */
+  RoutingNumber: any;
+  /** Banking account number is a string of 5 to 17 alphanumeric values for representing an generic account number */
+  AccountNumber: any;
 };
 
 export type AdmRefreshToken = {
@@ -2042,6 +2050,10 @@ export type ResolversTypes = {
   ObjectID: ResolverTypeWrapper<Scalars['ObjectID']>;
   Void: ResolverTypeWrapper<Scalars['Void']>;
   DID: ResolverTypeWrapper<Scalars['DID']>;
+  CountryCode: ResolverTypeWrapper<Scalars['CountryCode']>;
+  Locale: ResolverTypeWrapper<Scalars['Locale']>;
+  RoutingNumber: ResolverTypeWrapper<Scalars['RoutingNumber']>;
+  AccountNumber: ResolverTypeWrapper<Scalars['AccountNumber']>;
   AdmRefreshToken: ResolverTypeWrapper<AdmRefreshToken>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -2156,6 +2168,10 @@ export type ResolversParentTypes = {
   ObjectID: Scalars['ObjectID'];
   Void: Scalars['Void'];
   DID: Scalars['DID'];
+  CountryCode: Scalars['CountryCode'];
+  Locale: Scalars['Locale'];
+  RoutingNumber: Scalars['RoutingNumber'];
+  AccountNumber: Scalars['AccountNumber'];
   AdmRefreshToken: AdmRefreshToken;
   Int: Scalars['Int'];
   String: Scalars['String'];
@@ -2424,6 +2440,22 @@ export interface VoidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 
 export interface DidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DID'], any> {
   name: 'DID';
+}
+
+export interface CountryCodeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['CountryCode'], any> {
+  name: 'CountryCode';
+}
+
+export interface LocaleScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Locale'], any> {
+  name: 'Locale';
+}
+
+export interface RoutingNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['RoutingNumber'], any> {
+  name: 'RoutingNumber';
+}
+
+export interface AccountNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['AccountNumber'], any> {
+  name: 'AccountNumber';
 }
 
 export type AdmRefreshTokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['AdmRefreshToken'] = ResolversParentTypes['AdmRefreshToken']> = {
@@ -2853,6 +2885,10 @@ export type Resolvers<ContextType = any> = {
   ObjectID?: GraphQLScalarType;
   Void?: GraphQLScalarType;
   DID?: GraphQLScalarType;
+  CountryCode?: GraphQLScalarType;
+  Locale?: GraphQLScalarType;
+  RoutingNumber?: GraphQLScalarType;
+  AccountNumber?: GraphQLScalarType;
   AdmRefreshToken?: AdmRefreshTokenResolvers<ContextType>;
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
