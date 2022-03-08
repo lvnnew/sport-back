@@ -81,14 +81,14 @@ export const getDelegationsService = (ctx: Context) => {
     params: QueryAllDelegationsArgs = {},
   ): Promise<Delegation[]> => {
     return ctx.prisma.delegation.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Delegation[]>;
   };
 
   const findOne = async (
     params: QueryAllDelegationsArgs = {},
   ): Promise<Delegation | null> => {
-    return ctx.prisma.delegation.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.delegation.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

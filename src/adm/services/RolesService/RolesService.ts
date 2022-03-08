@@ -77,14 +77,14 @@ export const getRolesService = (ctx: Context) => {
     params: QueryAllRolesArgs = {},
   ): Promise<Role[]> => {
     return ctx.prisma.role.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Role[]>;
   };
 
   const findOne = async (
     params: QueryAllRolesArgs = {},
   ): Promise<Role | null> => {
-    return ctx.prisma.role.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.role.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

@@ -79,14 +79,14 @@ export const getAuditLogsService = (ctx: Context) => {
     params: QueryAllAuditLogsArgs = {},
   ): Promise<AuditLog[]> => {
     return ctx.prisma.auditLog.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<AuditLog[]>;
   };
 
   const findOne = async (
     params: QueryAllAuditLogsArgs = {},
   ): Promise<AuditLog | null> => {
-    return ctx.prisma.auditLog.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.auditLog.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

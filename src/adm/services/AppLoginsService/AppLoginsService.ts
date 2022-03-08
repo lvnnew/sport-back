@@ -77,14 +77,14 @@ export const getAppLoginsService = (ctx: Context) => {
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin[]> => {
     return ctx.prisma.appLogin.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<AppLogin[]>;
   };
 
   const findOne = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin | null> => {
-    return ctx.prisma.appLogin.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.appLogin.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

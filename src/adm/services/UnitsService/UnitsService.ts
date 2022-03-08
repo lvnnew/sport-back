@@ -77,14 +77,14 @@ export const getUnitsService = (ctx: Context) => {
     params: QueryAllUnitsArgs = {},
   ): Promise<Unit[]> => {
     return ctx.prisma.unit.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Unit[]>;
   };
 
   const findOne = async (
     params: QueryAllUnitsArgs = {},
   ): Promise<Unit | null> => {
-    return ctx.prisma.unit.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.unit.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

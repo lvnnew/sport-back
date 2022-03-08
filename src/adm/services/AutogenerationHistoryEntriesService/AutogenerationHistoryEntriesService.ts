@@ -81,14 +81,14 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry[]> => {
     return ctx.prisma.autogenerationHistoryEntry.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<AutogenerationHistoryEntry[]>;
   };
 
   const findOne = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry | null> => {
-    return ctx.prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

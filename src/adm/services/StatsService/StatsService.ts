@@ -81,14 +81,14 @@ export const getStatsService = (ctx: Context) => {
     params: QueryAllStatsArgs = {},
   ): Promise<Stat[]> => {
     return ctx.prisma.stat.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Stat[]>;
   };
 
   const findOne = async (
     params: QueryAllStatsArgs = {},
   ): Promise<Stat | null> => {
-    return ctx.prisma.stat.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.stat.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

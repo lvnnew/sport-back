@@ -81,14 +81,14 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     params: QueryAllAppRefreshTokensArgs = {},
   ): Promise<AppRefreshToken[]> => {
     return ctx.prisma.appRefreshToken.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<AppRefreshToken[]>;
   };
 
   const findOne = async (
     params: QueryAllAppRefreshTokensArgs = {},
   ): Promise<AppRefreshToken | null> => {
-    return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

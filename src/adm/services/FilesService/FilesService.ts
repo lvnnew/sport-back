@@ -77,14 +77,14 @@ export const getFilesService = (ctx: Context) => {
     params: QueryAllFilesArgs = {},
   ): Promise<File[]> => {
     return ctx.prisma.file.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<File[]>;
   };
 
   const findOne = async (
     params: QueryAllFilesArgs = {},
   ): Promise<File | null> => {
-    return ctx.prisma.file.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.file.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

@@ -77,14 +77,14 @@ export const getPermissionsService = (ctx: Context) => {
     params: QueryAllPermissionsArgs = {},
   ): Promise<Permission[]> => {
     return ctx.prisma.permission.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Permission[]>;
   };
 
   const findOne = async (
     params: QueryAllPermissionsArgs = {},
   ): Promise<Permission | null> => {
-    return ctx.prisma.permission.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.permission.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

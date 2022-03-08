@@ -77,14 +77,14 @@ export const getUsersService = (ctx: Context) => {
     params: QueryAllUsersArgs = {},
   ): Promise<User[]> => {
     return ctx.prisma.user.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<User[]>;
   };
 
   const findOne = async (
     params: QueryAllUsersArgs = {},
   ): Promise<User | null> => {
-    return ctx.prisma.user.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.user.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

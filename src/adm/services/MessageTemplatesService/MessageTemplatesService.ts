@@ -77,14 +77,14 @@ export const getMessageTemplatesService = (ctx: Context) => {
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate[]> => {
     return ctx.prisma.messageTemplate.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<MessageTemplate[]>;
   };
 
   const findOne = async (
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

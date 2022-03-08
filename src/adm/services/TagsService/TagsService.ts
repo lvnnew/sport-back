@@ -77,14 +77,14 @@ export const getTagsService = (ctx: Context) => {
     params: QueryAllTagsArgs = {},
   ): Promise<Tag[]> => {
     return ctx.prisma.tag.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Tag[]>;
   };
 
   const findOne = async (
     params: QueryAllTagsArgs = {},
   ): Promise<Tag | null> => {
-    return ctx.prisma.tag.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.tag.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

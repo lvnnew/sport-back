@@ -81,14 +81,14 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     params: QueryAllAutogenerationRulesArgs = {},
   ): Promise<AutogenerationRule[]> => {
     return ctx.prisma.autogenerationRule.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<AutogenerationRule[]>;
   };
 
   const findOne = async (
     params: QueryAllAutogenerationRulesArgs = {},
   ): Promise<AutogenerationRule | null> => {
-    return ctx.prisma.autogenerationRule.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.autogenerationRule.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

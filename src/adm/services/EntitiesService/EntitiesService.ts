@@ -75,14 +75,14 @@ export const getEntitiesService = (ctx: Context) => {
     params: QueryAllEntitiesArgs = {},
   ): Promise<Entity[]> => {
     return ctx.prisma.entity.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Entity[]>;
   };
 
   const findOne = async (
     params: QueryAllEntitiesArgs = {},
   ): Promise<Entity | null> => {
-    return ctx.prisma.entity.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.entity.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

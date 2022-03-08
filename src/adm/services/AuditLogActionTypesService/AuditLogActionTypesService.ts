@@ -75,14 +75,14 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     params: QueryAllAuditLogActionTypesArgs = {},
   ): Promise<AuditLogActionType[]> => {
     return ctx.prisma.auditLogActionType.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<AuditLogActionType[]>;
   };
 
   const findOne = async (
     params: QueryAllAuditLogActionTypesArgs = {},
   ): Promise<AuditLogActionType | null> => {
-    return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

@@ -77,14 +77,14 @@ export const getMessageTypesService = (ctx: Context) => {
     params: QueryAllMessageTypesArgs = {},
   ): Promise<MessageType[]> => {
     return ctx.prisma.messageType.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<MessageType[]>;
   };
 
   const findOne = async (
     params: QueryAllMessageTypesArgs = {},
   ): Promise<MessageType | null> => {
-    return ctx.prisma.messageType.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.messageType.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (

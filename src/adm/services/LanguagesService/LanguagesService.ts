@@ -77,14 +77,14 @@ export const getLanguagesService = (ctx: Context) => {
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language[]> => {
     return ctx.prisma.language.findMany(
-      toPrismaRequest(params, {noId: true}),
+      toPrismaRequest(params, {noId: false}),
     ) as unknown as Promise<Language[]>;
   };
 
   const findOne = async (
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language | null> => {
-    return ctx.prisma.language.findFirst(toPrismaRequest(params, {noId: true}));
+    return ctx.prisma.language.findFirst(toPrismaRequest(params, {noId: false}));
   };
 
   const count = async (
