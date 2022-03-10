@@ -28,6 +28,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateEntityArgs = MutationUpdateEntityArgs;
+export type StrictCreateEntityArgs = MutationCreateEntityArgs;
+
 export interface BaseEntitiesMethods {
   get: (id: string) =>
     Promise<Entity | null>;
@@ -206,11 +209,12 @@ export const getEntitiesService = (ctx: Context) => {
     data: MutationUpdateEntityArgs,
     byUser = false,
   ): Promise<Entity> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateEntityArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

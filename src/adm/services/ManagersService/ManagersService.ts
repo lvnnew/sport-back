@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateManagerArgs = MutationUpdateManagerArgs;
+export type StrictCreateManagerArgs = MutationCreateManagerArgs;
+
 export interface BaseManagersMethods {
   get: (id: number) =>
     Promise<Manager | null>;
@@ -238,11 +241,12 @@ export const getManagersService = (ctx: Context) => {
     data: MutationUpdateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateManagerArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

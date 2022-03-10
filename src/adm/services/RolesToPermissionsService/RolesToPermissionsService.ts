@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateRolesToPermissionArgs = MutationUpdateRolesToPermissionArgs;
+export type StrictCreateRolesToPermissionArgs = MutationCreateRolesToPermissionArgs;
+
 export interface BaseRolesToPermissionsMethods {
   get: (id: number) =>
     Promise<RolesToPermission | null>;
@@ -223,11 +226,12 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     data: MutationUpdateRolesToPermissionArgs,
     byUser = false,
   ): Promise<RolesToPermission> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateRolesToPermissionArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

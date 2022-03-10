@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateMessageTemplateArgs = MutationUpdateMessageTemplateArgs;
+export type StrictCreateMessageTemplateArgs = MutationCreateMessageTemplateArgs;
+
 export interface BaseMessageTemplatesMethods {
   get: (id: string) =>
     Promise<MessageTemplate | null>;
@@ -223,11 +226,12 @@ export const getMessageTemplatesService = (ctx: Context) => {
     data: MutationUpdateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateMessageTemplateArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

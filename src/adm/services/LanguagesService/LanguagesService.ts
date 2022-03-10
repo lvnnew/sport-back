@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateLanguageArgs = MutationUpdateLanguageArgs;
+export type StrictCreateLanguageArgs = MutationCreateLanguageArgs;
+
 export interface BaseLanguagesMethods {
   get: (id: string) =>
     Promise<Language | null>;
@@ -220,11 +223,12 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationUpdateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateLanguageArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

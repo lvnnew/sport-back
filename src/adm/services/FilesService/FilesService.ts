@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateFileArgs = MutationUpdateFileArgs;
+export type StrictCreateFileArgs = MutationCreateFileArgs;
+
 export interface BaseFilesMethods {
   get: (id: number) =>
     Promise<File | null>;
@@ -232,11 +235,12 @@ export const getFilesService = (ctx: Context) => {
     data: MutationUpdateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateFileArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

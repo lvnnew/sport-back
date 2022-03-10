@@ -34,6 +34,9 @@ dayjs.extend(utc);
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateAutogenerationHistoryEntryArgs = MutationUpdateAutogenerationHistoryEntryArgs;
+export type StrictCreateAutogenerationHistoryEntryArgs = MutationCreateAutogenerationHistoryEntryArgs;
+
 export interface BaseAutogenerationHistoryEntriesMethods {
   get: (id: number) =>
     Promise<AutogenerationHistoryEntry | null>;
@@ -257,11 +260,12 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     data: MutationUpdateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateAutogenerationHistoryEntryArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

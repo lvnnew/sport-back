@@ -34,6 +34,9 @@ dayjs.extend(utc);
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateStatArgs = MutationUpdateStatArgs;
+export type StrictCreateStatArgs = MutationCreateStatArgs;
+
 export interface BaseStatsMethods {
   get: (id: string) =>
     Promise<Stat | null>;
@@ -245,11 +248,12 @@ export const getStatsService = (ctx: Context) => {
     data: MutationUpdateStatArgs,
     byUser = false,
   ): Promise<Stat> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateStatArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

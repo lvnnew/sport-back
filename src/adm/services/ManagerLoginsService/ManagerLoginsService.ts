@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateManagerLoginArgs = MutationUpdateManagerLoginArgs;
+export type StrictCreateManagerLoginArgs = MutationCreateManagerLoginArgs;
+
 export interface BaseManagerLoginsMethods {
   get: (id: number) =>
     Promise<ManagerLogin | null>;
@@ -229,11 +232,12 @@ export const getManagerLoginsService = (ctx: Context) => {
     data: MutationUpdateManagerLoginArgs,
     byUser = false,
   ): Promise<ManagerLogin> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateManagerLoginArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

@@ -34,6 +34,9 @@ dayjs.extend(utc);
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateAutogenerationRuleArgs = MutationUpdateAutogenerationRuleArgs;
+export type StrictCreateAutogenerationRuleArgs = MutationCreateAutogenerationRuleArgs;
+
 export interface BaseAutogenerationRulesMethods {
   get: (id: string) =>
     Promise<AutogenerationRule | null>;
@@ -257,11 +260,12 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     data: MutationUpdateAutogenerationRuleArgs,
     byUser = false,
   ): Promise<AutogenerationRule> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateAutogenerationRuleArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

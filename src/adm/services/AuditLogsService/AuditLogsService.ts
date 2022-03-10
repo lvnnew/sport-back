@@ -32,6 +32,9 @@ dayjs.extend(utc);
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateAuditLogArgs = MutationUpdateAuditLogArgs;
+export type StrictCreateAuditLogArgs = MutationCreateAuditLogArgs;
+
 export interface BaseAuditLogsMethods {
   get: (id: number) =>
     Promise<AuditLog | null>;
@@ -255,11 +258,12 @@ export const getAuditLogsService = (ctx: Context) => {
     data: MutationUpdateAuditLogArgs,
     byUser = false,
   ): Promise<AuditLog> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateAuditLogArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

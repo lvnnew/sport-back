@@ -34,6 +34,9 @@ dayjs.extend(utc);
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateDelegationArgs = MutationUpdateDelegationArgs;
+export type StrictCreateDelegationArgs = MutationCreateDelegationArgs;
+
 export interface BaseDelegationsMethods {
   get: (id: number) =>
     Promise<Delegation | null>;
@@ -248,11 +251,12 @@ export const getDelegationsService = (ctx: Context) => {
     data: MutationUpdateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateDelegationArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

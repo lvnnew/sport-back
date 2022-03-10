@@ -28,6 +28,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateAuditLogActionTypeArgs = MutationUpdateAuditLogActionTypeArgs;
+export type StrictCreateAuditLogActionTypeArgs = MutationCreateAuditLogActionTypeArgs;
+
 export interface BaseAuditLogActionTypesMethods {
   get: (id: string) =>
     Promise<AuditLogActionType | null>;
@@ -206,11 +209,12 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateAuditLogActionTypeArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

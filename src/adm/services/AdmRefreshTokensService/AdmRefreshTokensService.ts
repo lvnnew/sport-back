@@ -34,6 +34,9 @@ dayjs.extend(utc);
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateAdmRefreshTokenArgs = MutationUpdateAdmRefreshTokenArgs;
+export type StrictCreateAdmRefreshTokenArgs = MutationCreateAdmRefreshTokenArgs;
+
 export interface BaseAdmRefreshTokensMethods {
   get: (id: number) =>
     Promise<AdmRefreshToken | null>;
@@ -248,11 +251,12 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     data: MutationUpdateAdmRefreshTokenArgs,
     byUser = false,
   ): Promise<AdmRefreshToken> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateAdmRefreshTokenArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

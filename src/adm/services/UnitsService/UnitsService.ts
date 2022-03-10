@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateUnitArgs = MutationUpdateUnitArgs;
+export type StrictCreateUnitArgs = MutationCreateUnitArgs;
+
 export interface BaseUnitsMethods {
   get: (id: number) =>
     Promise<Unit | null>;
@@ -223,11 +226,12 @@ export const getUnitsService = (ctx: Context) => {
     data: MutationUpdateUnitArgs,
     byUser = false,
   ): Promise<Unit> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateUnitArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 

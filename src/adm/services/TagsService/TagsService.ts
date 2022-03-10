@@ -30,6 +30,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
+export type StrictUpdateTagArgs = MutationUpdateTagArgs;
+export type StrictCreateTagArgs = MutationCreateTagArgs;
+
 export interface BaseTagsMethods {
   get: (id: number) =>
     Promise<Tag | null>;
@@ -220,11 +223,12 @@ export const getTagsService = (ctx: Context) => {
     data: MutationUpdateTagArgs,
     byUser = false,
   ): Promise<Tag> => {
-    let processedData = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedData = await augmentDataFromDb(processedData);
-    }
+    let processedData = byUser ? augmented : {
+      ...augmented,
+      ...data,
+    } as StrictUpdateTagArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 
