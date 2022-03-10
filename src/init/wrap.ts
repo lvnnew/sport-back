@@ -10,7 +10,10 @@ const wrap = async () => {
   const needRunFile = process.argv.filter((arg) =>
     !arg.includes('/node_modules/ts-node/dist/bin') &&
     !arg.includes('/node_modules/.bin/ts-node') &&
-    !arg.includes('src/init/wrap.ts'),
+    !arg.includes('src/init/wrap.ts') &&
+    !arg.includes('\\node_modules\\ts-node\\dist\\bin') &&
+    !arg.includes('\\node_modules\\.bin\\ts-node') &&
+    !arg.includes('src\\init\\wrap.ts'),
   );
 
   for (const file of needRunFile) {
