@@ -8,6 +8,16 @@ export enum Language {
   English = 'en',
 }
 
+export enum RegistrarType {
+}
+
+export enum AppErrorCode {
+  Unauthenticated = 'unauthenticated',
+  BadCardNumber = 'badCardNumber',
+  PasswordsDoNotMatch = 'passwordsDoNotMatch',
+  ErrorOccurred = 'errorOccurred',
+}
+
 export enum MessageTemplate {
   Hello = 'hello',
   Custom = 'custom',

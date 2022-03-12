@@ -1,8 +1,8 @@
-/* eslint-disable promise/prefer-await-to-callbacks */
 import passport from 'passport';
 import {NextFunction, Request, Response} from 'express';
 import jwtSecret from '../config/jwtConfig';
 import jwt from 'jsonwebtoken';
+import {AppErrorCode} from '../../types/enums';
 import log from '../../log';
 
 export const register = (req: Request, res: Response, next: NextFunction) => {
@@ -10,11 +10,12 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
     if (error) {
       log.error(error);
       res.status(400).send({
-        message: error.message,
+        message: AppErrorCode.ErrorOccurred,
       });
 
       return;
     }
+
     if (info) {
       log.error(info.message);
       res.status(403).send(info.message);

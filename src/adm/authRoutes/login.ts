@@ -1,8 +1,8 @@
-/* eslint-disable promise/prefer-await-to-callbacks */
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
 import jwtSecret from '../config/jwtConfig';
 import {NextFunction, Request, Response} from 'express';
+import {AppErrorCode} from '../../types/enums';
 import log from '../../log';
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
@@ -11,11 +11,12 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
     if (error) {
       log.error(error);
       res.status(400).send({
-        message: error.message,
+        message: AppErrorCode.ErrorOccurred,
       });
 
       return;
     }
+
     if (info) {
       log.error(info.message);
       if (info.message === 'bad cardNumber') {
