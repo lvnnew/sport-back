@@ -1,15 +1,24 @@
 import {expect} from 'jest-without-globals';
 import {createContext} from '../adm/services/context';
+import {Context} from '../adm/services/types';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
+dayjs.extend(utc);
+
 // ENV=test yarn test --testPathPattern tags
 
-dayjs.extend(utc);
+let ctx: Context = null as any;
+beforeAll(async () => {
+  ctx = await createContext();
+});
+afterAll(async () => {
+  await ctx.close();
+});
 
 describe('tags', () => {
   it('creates', async () => {
-    const ctx = await createContext();
+    ctx = await createContext();
     const tag = await ctx.service('tags').create({
       comment: 'some tag',
     });

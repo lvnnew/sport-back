@@ -21,6 +21,7 @@ defaultContainer.bind<Client>('Postgres')
   .toDynamicValue(() => getPostgres())
   .onDeactivation((postgres: Client) => postgres.end());
 defaultContainer.bind<WorkerUtils>('Queue')
-  .toDynamicValue(() => getQueue());
+  .toDynamicValue(() => getQueue())
+  .onDeactivation((queue: WorkerUtils) => queue.release());
 
 export default defaultContainer;
