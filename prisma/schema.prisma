@@ -217,8 +217,8 @@ model Role {
 	id	String	@id
 	search	String?
 	title	String?
-	hasAllPermissions	Boolean?	@default(false)
-	allTenantsAvailable	Boolean	@default(false)
+	hasAllPermissions	Boolean
+	allTenantsAvailable	Boolean
 	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
 	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
 }

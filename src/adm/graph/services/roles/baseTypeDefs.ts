@@ -6,7 +6,7 @@ export default gql`
   type Role {
     id: ID!
     title: String
-    hasAllPermissions: Boolean
+    hasAllPermissions: Boolean!
     allTenantsAvailable: Boolean!
   }
 
@@ -31,8 +31,8 @@ export default gql`
   }
 
   type Mutation {
-    createRole(id: ID!, title: String, hasAllPermissions: Boolean, allTenantsAvailable: Boolean!): Role
-    updateRole(id: ID!, title: String, hasAllPermissions: Boolean, allTenantsAvailable: Boolean!): Role
+    createRole(id: ID!, title: String, hasAllPermissions: Boolean!, allTenantsAvailable: Boolean!): Role
+    updateRole(id: ID!, title: String, hasAllPermissions: Boolean!, allTenantsAvailable: Boolean!): Role
     removeRole(id: ID!): Role
   }
 `;
