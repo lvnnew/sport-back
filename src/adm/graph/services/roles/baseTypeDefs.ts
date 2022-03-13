@@ -6,7 +6,8 @@ export default gql`
   type Role {
     id: ID!
     title: String
-    hasFullAccess: Boolean
+    hasAllPermissions: Boolean
+    allTenantsAvailable: Boolean!
   }
 
   input RoleFilter {
@@ -15,7 +16,8 @@ export default gql`
     id: ID
     title: String
     title_in: [String]
-    hasFullAccess: Boolean
+    hasAllPermissions: Boolean
+    allTenantsAvailable: Boolean
   }
 
   type ListMetadata {
@@ -29,8 +31,8 @@ export default gql`
   }
 
   type Mutation {
-    createRole(id: ID!, title: String, hasFullAccess: Boolean): Role
-    updateRole(id: ID!, title: String, hasFullAccess: Boolean): Role
+    createRole(id: ID!, title: String, hasAllPermissions: Boolean, allTenantsAvailable: Boolean!): Role
+    updateRole(id: ID!, title: String, hasAllPermissions: Boolean, allTenantsAvailable: Boolean!): Role
     removeRole(id: ID!): Role
   }
 `;

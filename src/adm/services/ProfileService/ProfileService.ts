@@ -64,7 +64,7 @@ export const getProfileService = (ctx: Context): ProfileService => {
     const roles = rawPermissions
       .map(m => m.role);
 
-    const fullAccessRoles = roles.filter(r => r.hasFullAccess);
+    const fullAccessRoles = roles.filter(r => r.hasAllPermissions);
 
     const permissionsByRoles = R.flatten(
       rawPermissions

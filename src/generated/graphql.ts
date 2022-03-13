@@ -1273,14 +1273,16 @@ export type MutationRemovePermissionArgs = {
 export type MutationCreateRoleArgs = {
   id: Scalars['ID'];
   title?: InputMaybe<Scalars['String']>;
-  hasFullAccess?: InputMaybe<Scalars['Boolean']>;
+  hasAllPermissions?: InputMaybe<Scalars['Boolean']>;
+  allTenantsAvailable: Scalars['Boolean'];
 };
 
 
 export type MutationUpdateRoleArgs = {
   id: Scalars['ID'];
   title?: InputMaybe<Scalars['String']>;
-  hasFullAccess?: InputMaybe<Scalars['Boolean']>;
+  hasAllPermissions?: InputMaybe<Scalars['Boolean']>;
+  allTenantsAvailable: Scalars['Boolean'];
 };
 
 
@@ -1821,7 +1823,8 @@ export type Role = {
   __typename?: 'Role';
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
-  hasFullAccess?: Maybe<Scalars['Boolean']>;
+  hasAllPermissions?: Maybe<Scalars['Boolean']>;
+  allTenantsAvailable: Scalars['Boolean'];
 };
 
 export type RoleFilter = {
@@ -1830,7 +1833,8 @@ export type RoleFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  hasFullAccess?: InputMaybe<Scalars['Boolean']>;
+  hasAllPermissions?: InputMaybe<Scalars['Boolean']>;
+  allTenantsAvailable?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type RolesToPermission = {
@@ -2606,8 +2610,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createPermission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<MutationCreatePermissionArgs, 'id'>>;
   updatePermission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<MutationUpdatePermissionArgs, 'id'>>;
   removePermission?: Resolver<Maybe<ResolversTypes['Permission']>, ParentType, ContextType, RequireFields<MutationRemovePermissionArgs, 'id'>>;
-  createRole?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<MutationCreateRoleArgs, 'id'>>;
-  updateRole?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<MutationUpdateRoleArgs, 'id'>>;
+  createRole?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<MutationCreateRoleArgs, 'id' | 'allTenantsAvailable'>>;
+  updateRole?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<MutationUpdateRoleArgs, 'id' | 'allTenantsAvailable'>>;
   removeRole?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<MutationRemoveRoleArgs, 'id'>>;
   createRolesToPermission?: Resolver<Maybe<ResolversTypes['RolesToPermission']>, ParentType, ContextType, RequireFields<MutationCreateRolesToPermissionArgs, 'roleId' | 'permissionId'>>;
   updateRolesToPermission?: Resolver<Maybe<ResolversTypes['RolesToPermission']>, ParentType, ContextType, RequireFields<MutationUpdateRolesToPermissionArgs, 'id' | 'roleId' | 'permissionId'>>;
@@ -2791,7 +2795,8 @@ export type PermissionsWithMetaResolvers<ContextType = any, ParentType extends R
 export type RoleResolvers<ContextType = any, ParentType extends ResolversParentTypes['Role'] = ResolversParentTypes['Role']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  hasFullAccess?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  hasAllPermissions?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  allTenantsAvailable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

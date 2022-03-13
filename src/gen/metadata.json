@@ -3270,7 +3270,7 @@
     {
      "category": "scalar",
      "hidden": false,
-     "name": "hasFullAccess",
+     "name": "hasAllPermissions",
      "needFor": "",
      "required": false,
      "requiredOnInput": null,
@@ -3279,7 +3279,25 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "hasFullAccess"
+      "en": "hasAllPermissions"
+     },
+     "type": "bool",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "allTenantsAvailable",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": false,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInList": true,
+     "title": {
+      "en": "allTenantsAvailable"
      },
      "type": "bool",
      "updatable": true,
@@ -3308,7 +3326,12 @@
        {
         "alwaysOn": false,
         "hidden": false,
-        "name": "hasFullAccess"
+        "name": "hasAllPermissions"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "allTenantsAvailable"
        }
       ]
      }

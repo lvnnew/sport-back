@@ -27,13 +27,15 @@ export const initRoles = async (ctx: Context) => {
   await ctx.service('roles').upsert({
     id: Role.Admin,
     title: 'Admin',
-    hasFullAccess: true,
+    hasAllPermissions: true,
+    allTenantsAvailable: true,
   });
 
   await ctx.service('roles').upsert({
     id: Role.Manager,
     title: 'Manager',
-    hasFullAccess: false,
+    hasAllPermissions: false,
+    allTenantsAvailable: false,
   });
   // await ctx.service('rolesToPermissions').createMany(readPermissions.map(p => ({
   //   roleId: manager.id,
