@@ -288,17 +288,13 @@ export const getRolesService = (ctx: Context) => {
     data: MutationUpdateRoleArgs,
     byUser = false,
   ): Promise<Role> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateRoleArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateRoleArgs;
 
     const result = await ctx.prisma.role.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

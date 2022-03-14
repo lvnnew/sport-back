@@ -304,17 +304,13 @@ export const getFilesService = (ctx: Context) => {
     data: MutationUpdateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateFileArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateFileArgs;
 
     const result = await ctx.prisma.file.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

@@ -292,17 +292,13 @@ export const getUnitsService = (ctx: Context) => {
     data: MutationUpdateUnitArgs,
     byUser = false,
   ): Promise<Unit> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateUnitArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateUnitArgs;
 
     const result = await ctx.prisma.unit.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

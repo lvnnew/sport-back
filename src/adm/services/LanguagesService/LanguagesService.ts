@@ -288,17 +288,13 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationUpdateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateLanguageArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateLanguageArgs;
 
     const result = await ctx.prisma.language.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

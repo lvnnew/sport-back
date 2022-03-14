@@ -292,17 +292,13 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationUpdateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagersToRoleArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateManagersToRoleArgs;
 
     const result = await ctx.prisma.managersToRole.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

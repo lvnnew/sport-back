@@ -320,17 +320,13 @@ export const getStatsService = (ctx: Context) => {
     data: MutationUpdateStatArgs,
     byUser = false,
   ): Promise<Stat> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateStatArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateStatArgs;
 
     const result = await ctx.prisma.stat.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

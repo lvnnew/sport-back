@@ -296,17 +296,13 @@ export const getAppLoginsService = (ctx: Context) => {
     data: MutationUpdateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAppLoginArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateAppLoginArgs;
 
     const result = await ctx.prisma.appLogin.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

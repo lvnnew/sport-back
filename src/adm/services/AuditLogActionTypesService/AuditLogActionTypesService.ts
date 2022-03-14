@@ -260,17 +260,13 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAuditLogActionTypeArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateAuditLogActionTypeArgs;
 
     const result = await ctx.prisma.auditLogActionType.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

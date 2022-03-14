@@ -312,17 +312,13 @@ export const getManagersService = (ctx: Context) => {
     data: MutationUpdateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagerArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateManagerArgs;
 
     const result = await ctx.prisma.manager.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

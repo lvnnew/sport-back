@@ -292,17 +292,13 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationUpdateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateMessageTypeArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateMessageTypeArgs;
 
     const result = await ctx.prisma.messageType.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

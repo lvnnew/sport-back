@@ -324,17 +324,13 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     data: MutationUpdateAdmRefreshTokenArgs,
     byUser = false,
   ): Promise<AdmRefreshToken> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAdmRefreshTokenArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateAdmRefreshTokenArgs;
 
     const result = await ctx.prisma.admRefreshToken.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

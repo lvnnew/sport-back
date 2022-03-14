@@ -324,17 +324,13 @@ export const getAuditLogsService = (ctx: Context) => {
     data: MutationUpdateAuditLogArgs,
     byUser = false,
   ): Promise<AuditLog> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAuditLogArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateAuditLogArgs;
 
     const result = await ctx.prisma.auditLog.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

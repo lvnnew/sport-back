@@ -260,17 +260,13 @@ export const getEntitiesService = (ctx: Context) => {
     data: MutationUpdateEntityArgs,
     byUser = false,
   ): Promise<Entity> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateEntityArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateEntityArgs;
 
     const result = await ctx.prisma.entity.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

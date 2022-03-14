@@ -336,17 +336,13 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     data: MutationUpdateAutogenerationRuleArgs,
     byUser = false,
   ): Promise<AutogenerationRule> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAutogenerationRuleArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateAutogenerationRuleArgs;
 
     const result = await ctx.prisma.autogenerationRule.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

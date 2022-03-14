@@ -292,17 +292,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
     data: MutationUpdateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateMessageTemplateArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateMessageTemplateArgs;
 
     const result = await ctx.prisma.messageTemplate.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

@@ -292,17 +292,13 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     data: MutationUpdateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagersToPermissionArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateManagersToPermissionArgs;
 
     const result = await ctx.prisma.managersToPermission.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

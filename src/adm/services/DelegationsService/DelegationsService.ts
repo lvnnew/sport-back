@@ -324,17 +324,13 @@ export const getDelegationsService = (ctx: Context) => {
     data: MutationUpdateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateDelegationArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateDelegationArgs;
 
     const result = await ctx.prisma.delegation.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,

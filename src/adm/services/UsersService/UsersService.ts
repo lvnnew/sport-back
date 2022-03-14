@@ -300,17 +300,13 @@ export const getUsersService = (ctx: Context) => {
     data: MutationUpdateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
+    const augmented = await augmentDataFromDb(data);
 
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = await augmentDataFromDb(processedDataToUpdate);
-    }
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateUserArgs;
+    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+      {},
+      data,
+    ) : data as StrictCreateUserArgs;
 
     const result = await ctx.prisma.user.upsert({create: R.mergeDeepLeft(
       processedDataToCreate,
