@@ -92,8 +92,8 @@ describe('toPrismaWhere', () => {
   });
 
   it('converts filter with in condition', () => {
-    const str1 = 'str';
-    const str2 = 'str';
+    const str1 = 'str1';
+    const str2 = 'str2';
     expect(
       toPrismaWhere({str_in: [str1, str2]}),
     ).toEqual({
@@ -102,6 +102,28 @@ describe('toPrismaWhere', () => {
           str: {
             in: [str1, str2],
           },
+        },
+      ],
+    });
+  });
+
+  it('converts filter with in condition with null value', () => {
+    const str1 = 'str1';
+    const str2 = 'str2';
+    const strNull = null;
+    expect(
+      toPrismaWhere({str_in: [str1, str2, strNull]}),
+    ).toEqual({
+      AND: [
+        {
+          OR: [
+            {
+              str: {in: [str1, str2]},
+            },
+            {
+              str: strNull,
+            },
+          ],
         },
       ],
     });
