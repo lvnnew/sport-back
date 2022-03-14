@@ -59,7 +59,16 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
         } else if (key.includes('_gt')) {
           return [key.replace(/(_gt)$/u, ''), {gt: value}];
         } else if (key.includes('_in')) {
-          return [key.replace(/(_in)$/u, ''), {in: value}];
+          const clearedKey = key.replace(/(_in)$/u, '');
+          const values = value as unknown as any[];
+          const hasNullValue = values.includes(null);
+
+          if (hasNullValue) {
+            const valuesWithoutNull = values.filter(el => el !== null);
+            return ['OR', [{[clearedKey]: {in: valuesWithoutNull}}, {[clearedKey]: null}]];
+          } else {
+            return [clearedKey, {in: value}];
+          }
         }
 
         throw new Error(`Unknown AND filter, key: "${key}"`);
