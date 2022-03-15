@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getPermissionsService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: string,
-  ): Promise<Permission | null> => {
-    return ctx.prisma.permission.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllPermissionsArgs = {},
   ): Promise<Permission[]> => {
     return ctx.prisma.permission.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<Permission[]>;
   };
 
   const findOne = async (
     params: QueryAllPermissionsArgs = {},
   ): Promise<Permission | null> => {
-    return ctx.prisma.permission.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.permission.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: string,
+  ): Promise<Permission | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllPermissionsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.permission.count(toPrismaTotalRequest(params));
+    return ctx.prisma.permission.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -296,8 +299,10 @@ export const getPermissionsService = (ctx: Context) => {
       data,
     ) : data as StrictCreatePermissionArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.permission.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -305,13 +310,13 @@ export const getPermissionsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -319,7 +324,7 @@ export const getPermissionsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -379,6 +384,8 @@ export const getPermissionsService = (ctx: Context) => {
   const del = async (
     params: MutationRemovePermissionArgs,
   ): Promise<Permission> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.permission.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

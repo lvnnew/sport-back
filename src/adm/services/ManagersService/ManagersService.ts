@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getManagersService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<Manager | null> => {
-    return ctx.prisma.manager.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllManagersArgs = {},
   ): Promise<Manager[]> => {
     return ctx.prisma.manager.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<Manager[]>;
   };
 
   const findOne = async (
     params: QueryAllManagersArgs = {},
   ): Promise<Manager | null> => {
-    return ctx.prisma.manager.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.manager.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<Manager | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllManagersMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.manager.count(toPrismaTotalRequest(params));
+    return ctx.prisma.manager.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -320,8 +323,10 @@ export const getManagersService = (ctx: Context) => {
       data,
     ) : data as StrictCreateManagerArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.manager.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -335,13 +340,13 @@ export const getManagersService = (ctx: Context) => {
                 'email',
                 'telegramLogin',
                 'unitId',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -355,7 +360,7 @@ export const getManagersService = (ctx: Context) => {
                 'email',
                 'telegramLogin',
                 'unitId',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -415,6 +420,8 @@ export const getManagersService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveManagerArgs,
   ): Promise<Manager> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.manager.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

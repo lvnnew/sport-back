@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getAppLoginsService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<AppLogin | null> => {
-    return ctx.prisma.appLogin.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin[]> => {
     return ctx.prisma.appLogin.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<AppLogin[]>;
   };
 
   const findOne = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin | null> => {
-    return ctx.prisma.appLogin.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.appLogin.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<AppLogin | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllAppLoginsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.appLogin.count(toPrismaTotalRequest(params));
+    return ctx.prisma.appLogin.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -304,8 +307,10 @@ export const getAppLoginsService = (ctx: Context) => {
       data,
     ) : data as StrictCreateAppLoginArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.appLogin.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -315,13 +320,13 @@ export const getAppLoginsService = (ctx: Context) => {
                 'login',
                 'passwordHash',
                 'userId',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -331,7 +336,7 @@ export const getAppLoginsService = (ctx: Context) => {
                 'login',
                 'passwordHash',
                 'userId',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -391,6 +396,8 @@ export const getAppLoginsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAppLoginArgs,
   ): Promise<AppLogin> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.appLogin.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

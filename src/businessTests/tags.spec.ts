@@ -18,7 +18,6 @@ afterAll(async () => {
 
 describe('tags', () => {
   it('creates', async () => {
-    ctx = await createContext();
     const tag = await ctx.service('tags').create({
       comment: 'some tag',
     });

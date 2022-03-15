@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getMessageTypesService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: string,
-  ): Promise<MessageType | null> => {
-    return ctx.prisma.messageType.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllMessageTypesArgs = {},
   ): Promise<MessageType[]> => {
     return ctx.prisma.messageType.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<MessageType[]>;
   };
 
   const findOne = async (
     params: QueryAllMessageTypesArgs = {},
   ): Promise<MessageType | null> => {
-    return ctx.prisma.messageType.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.messageType.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: string,
+  ): Promise<MessageType | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllMessageTypesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.messageType.count(toPrismaTotalRequest(params));
+    return ctx.prisma.messageType.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -300,8 +303,10 @@ export const getMessageTypesService = (ctx: Context) => {
       data,
     ) : data as StrictCreateMessageTypeArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.messageType.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -310,13 +315,13 @@ export const getMessageTypesService = (ctx: Context) => {
                 'id',
                 'title',
                 'description',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -325,7 +330,7 @@ export const getMessageTypesService = (ctx: Context) => {
                 'id',
                 'title',
                 'description',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -385,6 +390,8 @@ export const getMessageTypesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveMessageTypeArgs,
   ): Promise<MessageType> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.messageType.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

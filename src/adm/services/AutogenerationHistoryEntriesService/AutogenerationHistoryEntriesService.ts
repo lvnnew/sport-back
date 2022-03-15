@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -74,30 +77,30 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<AutogenerationHistoryEntry | null> => {
-    return ctx.prisma.autogenerationHistoryEntry.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry[]> => {
     return ctx.prisma.autogenerationHistoryEntry.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<AutogenerationHistoryEntry[]>;
   };
 
   const findOne = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry | null> => {
-    return ctx.prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<AutogenerationHistoryEntry | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllAutogenerationHistoryEntriesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.autogenerationHistoryEntry.count(toPrismaTotalRequest(params));
+    return ctx.prisma.autogenerationHistoryEntry.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -344,8 +347,10 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
       data,
     ) : data as StrictCreateAutogenerationHistoryEntryArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.autogenerationHistoryEntry.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -356,7 +361,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
                 'originalEntityId',
                 'autogenerationRuleId',
                 'error',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
@@ -364,13 +369,13 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
               R.pick([
                 'date',
                 'version',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -381,7 +386,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
                 'originalEntityId',
                 'autogenerationRuleId',
                 'error',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
@@ -389,7 +394,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
               R.pick([
                 'date',
                 'version',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
@@ -449,6 +454,8 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAutogenerationHistoryEntryArgs,
   ): Promise<AutogenerationHistoryEntry> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.autogenerationHistoryEntry.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

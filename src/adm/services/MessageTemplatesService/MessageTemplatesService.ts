@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getMessageTemplatesService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: string,
-  ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate[]> => {
     return ctx.prisma.messageTemplate.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<MessageTemplate[]>;
   };
 
   const findOne = async (
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: string,
+  ): Promise<MessageTemplate | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllMessageTemplatesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.messageTemplate.count(toPrismaTotalRequest(params));
+    return ctx.prisma.messageTemplate.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -300,8 +303,10 @@ export const getMessageTemplatesService = (ctx: Context) => {
       data,
     ) : data as StrictCreateMessageTemplateArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.messageTemplate.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -310,13 +315,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
                 'id',
                 'title',
                 'messageTypeId',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -325,7 +330,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
                 'id',
                 'title',
                 'messageTypeId',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -385,6 +390,8 @@ export const getMessageTemplatesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveMessageTemplateArgs,
   ): Promise<MessageTemplate> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.messageTemplate.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

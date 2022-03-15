@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
@@ -72,30 +75,30 @@ export const getAuditLogsService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<AuditLog | null> => {
-    return ctx.prisma.auditLog.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllAuditLogsArgs = {},
   ): Promise<AuditLog[]> => {
     return ctx.prisma.auditLog.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<AuditLog[]>;
   };
 
   const findOne = async (
     params: QueryAllAuditLogsArgs = {},
   ): Promise<AuditLog | null> => {
-    return ctx.prisma.auditLog.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.auditLog.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<AuditLog | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllAuditLogsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.auditLog.count(toPrismaTotalRequest(params));
+    return ctx.prisma.auditLog.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -332,8 +335,10 @@ export const getAuditLogsService = (ctx: Context) => {
       data,
     ) : data as StrictCreateAuditLogArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.auditLog.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -349,20 +354,20 @@ export const getAuditLogsService = (ctx: Context) => {
                 'foreignEntityType',
                 'foreignEntityId',
                 'actionData',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'date',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -378,14 +383,14 @@ export const getAuditLogsService = (ctx: Context) => {
                 'foreignEntityType',
                 'foreignEntityId',
                 'actionData',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'date',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
@@ -445,6 +450,8 @@ export const getAuditLogsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAuditLogArgs,
   ): Promise<AuditLog> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.auditLog.delete({where: {id: params.id}});
 
     const operations = [

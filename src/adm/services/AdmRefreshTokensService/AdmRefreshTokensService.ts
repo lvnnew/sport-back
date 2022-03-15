@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -74,30 +77,30 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<AdmRefreshToken | null> => {
-    return ctx.prisma.admRefreshToken.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllAdmRefreshTokensArgs = {},
   ): Promise<AdmRefreshToken[]> => {
     return ctx.prisma.admRefreshToken.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<AdmRefreshToken[]>;
   };
 
   const findOne = async (
     params: QueryAllAdmRefreshTokensArgs = {},
   ): Promise<AdmRefreshToken | null> => {
-    return ctx.prisma.admRefreshToken.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.admRefreshToken.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<AdmRefreshToken | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllAdmRefreshTokensMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.admRefreshToken.count(toPrismaTotalRequest(params));
+    return ctx.prisma.admRefreshToken.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -332,8 +335,10 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
       data,
     ) : data as StrictCreateAdmRefreshTokenArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.admRefreshToken.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -342,20 +347,20 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
                 'id',
                 'managerId',
                 'token',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'create',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -364,14 +369,14 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
                 'id',
                 'managerId',
                 'token',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'create',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
@@ -431,6 +436,8 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAdmRefreshTokenArgs,
   ): Promise<AdmRefreshToken> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.admRefreshToken.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

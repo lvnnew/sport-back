@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -74,30 +77,30 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: string,
-  ): Promise<AutogenerationRule | null> => {
-    return ctx.prisma.autogenerationRule.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllAutogenerationRulesArgs = {},
   ): Promise<AutogenerationRule[]> => {
     return ctx.prisma.autogenerationRule.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<AutogenerationRule[]>;
   };
 
   const findOne = async (
     params: QueryAllAutogenerationRulesArgs = {},
   ): Promise<AutogenerationRule | null> => {
-    return ctx.prisma.autogenerationRule.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.autogenerationRule.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: string,
+  ): Promise<AutogenerationRule | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllAutogenerationRulesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.autogenerationRule.count(toPrismaTotalRequest(params));
+    return ctx.prisma.autogenerationRule.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -344,8 +347,10 @@ export const getAutogenerationRulesService = (ctx: Context) => {
       data,
     ) : data as StrictCreateAutogenerationRuleArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.autogenerationRule.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -357,20 +362,20 @@ export const getAutogenerationRulesService = (ctx: Context) => {
                 'generatingEntityType',
                 'originalEntityFilter',
                 'generatingEntityConstructionRules',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'version',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -382,14 +387,14 @@ export const getAutogenerationRulesService = (ctx: Context) => {
                 'generatingEntityType',
                 'originalEntityFilter',
                 'generatingEntityConstructionRules',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'version',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
@@ -449,6 +454,8 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAutogenerationRuleArgs,
   ): Promise<AutogenerationRule> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.autogenerationRule.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

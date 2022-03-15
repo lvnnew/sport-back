@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -74,30 +77,30 @@ export const getStatsService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: string,
-  ): Promise<Stat | null> => {
-    return ctx.prisma.stat.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllStatsArgs = {},
   ): Promise<Stat[]> => {
     return ctx.prisma.stat.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<Stat[]>;
   };
 
   const findOne = async (
     params: QueryAllStatsArgs = {},
   ): Promise<Stat | null> => {
-    return ctx.prisma.stat.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.stat.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: string,
+  ): Promise<Stat | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllStatsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.stat.count(toPrismaTotalRequest(params));
+    return ctx.prisma.stat.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -328,8 +331,10 @@ export const getStatsService = (ctx: Context) => {
       data,
     ) : data as StrictCreateStatArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.stat.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -337,20 +342,20 @@ export const getStatsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'helloCount',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'updated',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -358,14 +363,14 @@ export const getStatsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'helloCount',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'updated',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
@@ -425,6 +430,8 @@ export const getStatsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveStatArgs,
   ): Promise<Stat> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.stat.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

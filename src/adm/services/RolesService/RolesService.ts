@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getRolesService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: string,
-  ): Promise<Role | null> => {
-    return ctx.prisma.role.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllRolesArgs = {},
   ): Promise<Role[]> => {
     return ctx.prisma.role.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<Role[]>;
   };
 
   const findOne = async (
     params: QueryAllRolesArgs = {},
   ): Promise<Role | null> => {
-    return ctx.prisma.role.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.role.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: string,
+  ): Promise<Role | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllRolesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.role.count(toPrismaTotalRequest(params));
+    return ctx.prisma.role.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -296,8 +299,10 @@ export const getRolesService = (ctx: Context) => {
       data,
     ) : data as StrictCreateRoleArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.role.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -305,13 +310,13 @@ export const getRolesService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -319,7 +324,7 @@ export const getRolesService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -379,6 +384,8 @@ export const getRolesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveRoleArgs,
   ): Promise<Role> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.role.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

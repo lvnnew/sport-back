@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getTagsService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<Tag | null> => {
-    return ctx.prisma.tag.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllTagsArgs = {},
   ): Promise<Tag[]> => {
     return ctx.prisma.tag.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<Tag[]>;
   };
 
   const findOne = async (
     params: QueryAllTagsArgs = {},
   ): Promise<Tag | null> => {
-    return ctx.prisma.tag.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.tag.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<Tag | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllTagsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.tag.count(toPrismaTotalRequest(params));
+    return ctx.prisma.tag.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -296,8 +299,10 @@ export const getTagsService = (ctx: Context) => {
       data,
     ) : data as StrictCreateTagArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.tag.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -305,13 +310,13 @@ export const getTagsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'comment',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -319,7 +324,7 @@ export const getTagsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'comment',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -379,6 +384,8 @@ export const getTagsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveTagArgs,
   ): Promise<Tag> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.tag.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

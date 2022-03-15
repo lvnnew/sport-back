@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -74,30 +77,30 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<AppRefreshToken | null> => {
-    return ctx.prisma.appRefreshToken.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllAppRefreshTokensArgs = {},
   ): Promise<AppRefreshToken[]> => {
     return ctx.prisma.appRefreshToken.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<AppRefreshToken[]>;
   };
 
   const findOne = async (
     params: QueryAllAppRefreshTokensArgs = {},
   ): Promise<AppRefreshToken | null> => {
-    return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<AppRefreshToken | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllAppRefreshTokensMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.appRefreshToken.count(toPrismaTotalRequest(params));
+    return ctx.prisma.appRefreshToken.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -332,8 +335,10 @@ export const getAppRefreshTokensService = (ctx: Context) => {
       data,
     ) : data as StrictCreateAppRefreshTokenArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.appRefreshToken.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -342,20 +347,20 @@ export const getAppRefreshTokensService = (ctx: Context) => {
                 'id',
                 'userId',
                 'token',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'create',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -364,14 +369,14 @@ export const getAppRefreshTokensService = (ctx: Context) => {
                 'id',
                 'userId',
                 'token',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
           ...R
             .toPairs(
               R.pick([
                 'create',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
         ].join(' '),
@@ -431,6 +436,8 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAppRefreshTokenArgs,
   ): Promise<AppRefreshToken> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.appRefreshToken.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({

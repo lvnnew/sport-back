@@ -20,6 +20,9 @@ import {beforeUpdate} from './hooks/beforeUpdate';
 import {afterCreate} from './hooks/afterCreate';
 import {afterUpdate} from './hooks/afterUpdate';
 import {afterDelete} from './hooks/afterDelete';
+import {beforeDelete} from './hooks/beforeDelete';
+import {beforeUpsert} from './hooks/beforeUpsert';
+import {changeListFilter} from './hooks/changeListFilter';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -70,30 +73,30 @@ export const getFilesService = (ctx: Context) => {
     forbiddenForUserFields,
   );
 
-  const get = async (
-    id: number,
-  ): Promise<File | null> => {
-    return ctx.prisma.file.findUnique({where: {id}});
-  };
-
   const all = async (
     params: QueryAllFilesArgs = {},
   ): Promise<File[]> => {
     return ctx.prisma.file.findMany(
-      toPrismaRequest(params, {noId: false}),
+      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
     ) as unknown as Promise<File[]>;
   };
 
   const findOne = async (
     params: QueryAllFilesArgs = {},
   ): Promise<File | null> => {
-    return ctx.prisma.file.findFirst(toPrismaRequest(params, {noId: false}));
+    return ctx.prisma.file.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+  };
+
+  const get = async (
+    id: number,
+  ): Promise<File | null> => {
+    return findOne({filter: {id}});
   };
 
   const count = async (
     params: Query_AllFilesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.file.count(toPrismaTotalRequest(params));
+    return ctx.prisma.file.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
@@ -312,8 +315,10 @@ export const getFilesService = (ctx: Context) => {
       data,
     ) : data as StrictCreateFileArgs;
 
+    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+
     const result = await ctx.prisma.file.upsert({create: R.mergeDeepLeft(
-      processedDataToCreate,
+      createData,
       {
         search: [
           ...R
@@ -325,13 +330,13 @@ export const getFilesService = (ctx: Context) => {
                 'mimetype',
                 's3Key',
                 'eTag',
-              ], processedDataToCreate),
+              ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
       },
     ), update: R.mergeDeepLeft(
-      processedDataToUpdate,
+      updateData,
       {
         search: [
           ...R
@@ -343,7 +348,7 @@ export const getFilesService = (ctx: Context) => {
                 'mimetype',
                 's3Key',
                 'eTag',
-              ], processedDataToUpdate),
+              ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
         ].join(' '),
@@ -403,6 +408,8 @@ export const getFilesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveFileArgs,
   ): Promise<File> => {
+    await beforeDelete(ctx, params);
+
     const deleteOperation = ctx.prisma.file.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({
