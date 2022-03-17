@@ -1,5 +1,5 @@
 
-# Message templates
+# Шаблоны сообщений
 
 Need for: Шаблоны сообщений
 

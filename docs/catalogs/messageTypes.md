@@ -1,5 +1,5 @@
 
-# Message types
+# Типы сообщений
 
 Need for: Типы сообщений
 

@@ -143,14 +143,14 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "admRefreshTokens",
    "needFor": {
-    "en": "Хранилище рефреш токенов для админа"
+    "ru": "Хранилище рефреш токенов для админа"
    },
    "predefinedElements": [],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Ui refresh tokens"
+    "ru": "Ui refresh tokens"
    },
    "titleField": "id",
    "type": "catalog",
@@ -297,7 +297,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "appLogins",
    "needFor": {
-    "en": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
+    "ru": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -458,14 +458,14 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "appRefreshTokens",
    "needFor": {
-    "en": "Хранилище рефреш токенов для app"
+    "ru": "Хранилище рефреш токенов для app"
    },
    "predefinedElements": [],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "App refresh tokens"
+    "ru": "App refresh tokens"
    },
    "titleField": "id",
    "type": "catalog",
@@ -562,7 +562,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "auditLogActionTypes",
    "needFor": {
-    "en": "Учета типов событий аудита"
+    "ru": "Учета типов событий аудита"
    },
    "predefinedElements": [
     {
@@ -922,7 +922,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "auditLogs",
    "needFor": {
-    "en": "Аудит системы"
+    "ru": "Аудит системы"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -1173,7 +1173,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "autogenerationHistoryEntries",
    "needFor": {
-    "en": "История применения правил автогенерации к сущностям"
+    "ru": "История применения правил автогенерации к сущностям"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -1418,7 +1418,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "autogenerationRules",
    "needFor": {
-    "en": "Правила автогенерации сущностей"
+    "ru": "Правила автогенерации сущностей"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -1600,7 +1600,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "delegations",
    "needFor": {
-    "en": "Делегирование прав между пользователями"
+    "ru": "Делегирование прав между пользователями"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -1705,7 +1705,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "entities",
    "needFor": {
-    "en": "Список всех сущностей проекта"
+    "ru": "Список всех сущностей проекта"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -1909,7 +1909,7 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Files"
+    "ru": "Files"
    },
    "titleField": "id",
    "type": "catalog",
@@ -2020,7 +2020,7 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Languages"
+    "ru": "Languages"
    },
    "titleField": "title",
    "type": "catalog",
@@ -2259,7 +2259,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "managerLogins",
    "needFor": {
-    "en": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
+    "ru": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -2558,7 +2558,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "managers",
    "needFor": {
-    "en": "Менеджерские (административные) аккаунты"
+    "ru": "Менеджерские (административные) аккаунты"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -2696,7 +2696,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "managersToPermissions",
    "needFor": {
-    "en": "Соединение, которым менеджерам назначаются пермишны в обход ролей"
+    "ru": "Соединение, которым менеджерам назначаются пермишны в обход ролей"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -2830,7 +2830,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "managersToRoles",
    "needFor": {
-    "en": "Соединение, которым менеджерам назначаются роли"
+    "ru": "Соединение, которым менеджерам назначаются роли"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -2988,7 +2988,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "messageTemplates",
    "needFor": {
-    "en": "Шаблоны сообщений"
+    "ru": "Шаблоны сообщений"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -3116,7 +3116,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "messageTypes",
    "needFor": {
-    "en": "Типы сообщений"
+    "ru": "Типы сообщений"
    },
    "predefinedElements": [
     {
@@ -3226,7 +3226,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "permissions",
    "needFor": {
-    "en": "Разрешение на совершение той или иной операции"
+    "ru": "Разрешение на совершение той или иной операции"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -3377,7 +3377,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "roles",
    "needFor": {
-    "en": "Роли, определющие права на те или иные операции"
+    "ru": "Роли, определющие права на те или иные операции"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -3511,7 +3511,7 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "rolesToPermissions",
    "needFor": {
-    "en": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
+    "ru": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
    },
    "predefinedElements": [],
    "singleKey": true,
@@ -3648,14 +3648,14 @@
    "materialUiIcon": "Brightness1Outlined",
    "name": "stats",
    "needFor": {
-    "en": "Статистика"
+    "ru": "Статистика"
    },
    "predefinedElements": [],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Stats"
+    "ru": "Stats"
    },
    "titleField": "id",
    "type": "catalog",
@@ -3759,7 +3759,7 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Tags"
+    "ru": "Tags"
    },
    "titleField": "id",
    "type": "catalog",
@@ -3888,7 +3888,7 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Units"
+    "ru": "Units"
    },
    "titleField": "title",
    "type": "catalog",
@@ -4339,7 +4339,7 @@
    ]
   }
  ],
- "defaultLanguage": "en",
+ "defaultLanguage": "ru",
  "deployEnvironments": [
   {
    "clusterName": "stage",
@@ -4354,7 +4354,8 @@
  "glossary": [],
  "infoRegistries": [],
  "languages": [
-  "en"
+  "en",
+  "ru"
  ],
  "name": "mtbase",
  "needFor": "notSet",

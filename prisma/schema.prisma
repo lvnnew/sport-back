@@ -17,83 +17,6 @@ model AppRefreshToken {
 }
 
 
-model AuditLog {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	date	DateTime
-	title	String
-	entityTypeId	String
-	entityType	Entity	@relation("From-AuditLog.entityType", fields: [entityTypeId], references: [id])
-	entityId	String
-	actionTypeId	String
-	actionType	AuditLogActionType	@relation("From-AuditLog.actionType", fields: [actionTypeId], references: [id])
-	managerId	Int?
-	manager	Manager?	@relation("From-AuditLog.manager", fields: [managerId], references: [id])
-	userId	Int?
-	user	User?	@relation("From-AuditLog.user", fields: [userId], references: [id])
-	foreign	Boolean?
-	foreignEntityType	String?
-	foreignEntityId	String?
-	actionData	String?
-}
-
-
-model AuditLogActionType {
-	id	String	@id
-	search	String?
-	title	String?
-	auditLogActionTypes	AuditLog[]	@relation("From-AuditLog.actionType")
-}
-
-
-model AutogenerationHistoryEntry {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	date	DateTime
-	originalEntityType	String
-	originalEntityId	String
-	autogenerationRuleId	String
-	autogenerationRule	AutogenerationRule	@relation("From-AutogenerationHistoryEntry.autogenerationRule", fields: [autogenerationRuleId], references: [id])
-	version	DateTime	@db.Date
-	errorOccurred	Boolean
-	error	String?
-}
-
-
-model AutogenerationRule {
-	id	String	@id
-	search	String?
-	title	String
-	version	DateTime?	@db.Date
-	originalEntityType	String
-	generatingEntityType	String
-	originalEntityFilter	String
-	generatingEntityConstructionRules	String
-	ignoreVersionOnHistory	Boolean
-	autogenerationHistoryEntryAutogenerationRules	AutogenerationHistoryEntry[]	@relation("From-AutogenerationHistoryEntry.autogenerationRule")
-}
-
-
-model Delegation {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	fromId	Int
-	from	Manager	@relation("From-Delegation.from", fields: [fromId], references: [id])
-	toId	Int
-	to	Manager	@relation("From-Delegation.to", fields: [toId], references: [id])
-	expiresAt	DateTime?	@db.Date
-	active	Boolean
-}
-
-
-model Entity {
-	id	String	@id
-	search	String?
-	title	String?
-	auditLogEntityTypes	AuditLog[]	@relation("From-AuditLog.entityType")
-}
-
-
 model File {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -110,128 +33,6 @@ model Language {
 	search	String?
 	title	String?
 	managerLanguages	Manager[]	@relation("From-Manager.language")
-}
-
-
-model AppLogin {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	login	String
-	passwordHash	String
-	userId	Int
-	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
-	@@unique([login])
-}
-
-
-model ManagerLogin {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	login	String
-	passwordHash	String
-	role	String
-	emailVerified	Boolean
-	initialPasswordChanged	Boolean
-	locked	Boolean
-	managerId	Int
-	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
-	@@unique([login])
-}
-
-
-model Manager {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	title	String?
-	lastName	String
-	firstName	String
-	languageId	String?
-	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
-	email	String
-	telegramLogin	String?
-	unitId	Int?
-	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
-	headOfUnit	Boolean
-	active	Boolean
-	admRefreshTokenManagers	AdmRefreshToken[]	@relation("From-AdmRefreshToken.manager")
-	auditLogManagers	AuditLog[]	@relation("From-AuditLog.manager")
-	delegationFroms	Delegation[]	@relation("From-Delegation.from")
-	delegationTos	Delegation[]	@relation("From-Delegation.to")
-	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
-	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
-	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
-	@@unique([email])
-}
-
-
-model ManagersToPermission {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	managerId	Int
-	manager	Manager	@relation("From-ManagersToPermission.manager", fields: [managerId], references: [id])
-	permissionId	String
-	permission	Permission	@relation("From-ManagersToPermission.permission", fields: [permissionId], references: [id])
-}
-
-
-model ManagersToRole {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	managerId	Int
-	manager	Manager	@relation("From-ManagersToRole.manager", fields: [managerId], references: [id])
-	roleId	String
-	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
-	@@unique([managerId, roleId])
-}
-
-
-model MessageTemplate {
-	id	String	@id
-	search	String?
-	title	String
-	secretData	Boolean
-	messageTypeId	String
-	messageType	MessageType	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
-}
-
-
-model MessageType {
-	id	String	@id
-	search	String?
-	title	String
-	description	String?
-	messageTemplateMessageTypes	MessageTemplate[]	@relation("From-MessageTemplate.messageType")
-}
-
-
-model Permission {
-	id	String	@id
-	search	String?
-	title	String?
-	managersToPermissionPermissions	ManagersToPermission[]	@relation("From-ManagersToPermission.permission")
-	rolesToPermissionPermissions	RolesToPermission[]	@relation("From-RolesToPermission.permission")
-}
-
-
-model Role {
-	id	String	@id
-	search	String?
-	title	String?
-	hasAllPermissions	Boolean
-	allTenantsAvailable	Boolean
-	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
-	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
-}
-
-
-model RolesToPermission {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	roleId	String
-	role	Role	@relation("From-RolesToPermission.role", fields: [roleId], references: [id])
-	permissionId	String
-	permission	Permission	@relation("From-RolesToPermission.permission", fields: [permissionId], references: [id])
-	@@unique([roleId, permissionId])
 }
 
 
@@ -271,6 +72,104 @@ model Unit {
 }
 
 
+model AuditLog {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	date	DateTime
+	title	String
+	entityTypeId	String
+	entityType	Entity	@relation("From-AuditLog.entityType", fields: [entityTypeId], references: [id])
+	entityId	String
+	actionTypeId	String
+	actionType	AuditLogActionType	@relation("From-AuditLog.actionType", fields: [actionTypeId], references: [id])
+	managerId	Int?
+	manager	Manager?	@relation("From-AuditLog.manager", fields: [managerId], references: [id])
+	userId	Int?
+	user	User?	@relation("From-AuditLog.user", fields: [userId], references: [id])
+	foreign	Boolean?
+	foreignEntityType	String?
+	foreignEntityId	String?
+	actionData	String?
+}
+
+
+model Delegation {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	fromId	Int
+	from	Manager	@relation("From-Delegation.from", fields: [fromId], references: [id])
+	toId	Int
+	to	Manager	@relation("From-Delegation.to", fields: [toId], references: [id])
+	expiresAt	DateTime?	@db.Date
+	active	Boolean
+}
+
+
+model AutogenerationHistoryEntry {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	date	DateTime
+	originalEntityType	String
+	originalEntityId	String
+	autogenerationRuleId	String
+	autogenerationRule	AutogenerationRule	@relation("From-AutogenerationHistoryEntry.autogenerationRule", fields: [autogenerationRuleId], references: [id])
+	version	DateTime	@db.Date
+	errorOccurred	Boolean
+	error	String?
+}
+
+
+model ManagerLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	role	String
+	emailVerified	Boolean
+	initialPasswordChanged	Boolean
+	locked	Boolean
+	managerId	Int
+	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
+	@@unique([login])
+}
+
+
+model AppLogin {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	userId	Int
+	user	User	@relation("From-AppLogin.user", fields: [userId], references: [id])
+	@@unique([login])
+}
+
+
+model Manager {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String?
+	lastName	String
+	firstName	String
+	languageId	String?
+	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
+	email	String
+	telegramLogin	String?
+	unitId	Int?
+	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
+	headOfUnit	Boolean
+	active	Boolean
+	admRefreshTokenManagers	AdmRefreshToken[]	@relation("From-AdmRefreshToken.manager")
+	auditLogManagers	AuditLog[]	@relation("From-AuditLog.manager")
+	delegationFroms	Delegation[]	@relation("From-Delegation.from")
+	delegationTos	Delegation[]	@relation("From-Delegation.to")
+	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
+	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
+	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
+	@@unique([email])
+}
+
+
 model User {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -281,4 +180,105 @@ model User {
 	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
 	appRefreshTokenUsers	AppRefreshToken[]	@relation("From-AppRefreshToken.user")
 	auditLogUsers	AuditLog[]	@relation("From-AuditLog.user")
+}
+
+
+model AutogenerationRule {
+	id	String	@id
+	search	String?
+	title	String
+	version	DateTime?	@db.Date
+	originalEntityType	String
+	generatingEntityType	String
+	originalEntityFilter	String
+	generatingEntityConstructionRules	String
+	ignoreVersionOnHistory	Boolean
+	autogenerationHistoryEntryAutogenerationRules	AutogenerationHistoryEntry[]	@relation("From-AutogenerationHistoryEntry.autogenerationRule")
+}
+
+
+model Permission {
+	id	String	@id
+	search	String?
+	title	String?
+	managersToPermissionPermissions	ManagersToPermission[]	@relation("From-ManagersToPermission.permission")
+	rolesToPermissionPermissions	RolesToPermission[]	@relation("From-RolesToPermission.permission")
+}
+
+
+model ManagersToPermission {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	managerId	Int
+	manager	Manager	@relation("From-ManagersToPermission.manager", fields: [managerId], references: [id])
+	permissionId	String
+	permission	Permission	@relation("From-ManagersToPermission.permission", fields: [permissionId], references: [id])
+}
+
+
+model RolesToPermission {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	roleId	String
+	role	Role	@relation("From-RolesToPermission.role", fields: [roleId], references: [id])
+	permissionId	String
+	permission	Permission	@relation("From-RolesToPermission.permission", fields: [permissionId], references: [id])
+	@@unique([roleId, permissionId])
+}
+
+
+model Role {
+	id	String	@id
+	search	String?
+	title	String?
+	hasAllPermissions	Boolean
+	allTenantsAvailable	Boolean
+	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
+	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
+}
+
+
+model ManagersToRole {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	managerId	Int
+	manager	Manager	@relation("From-ManagersToRole.manager", fields: [managerId], references: [id])
+	roleId	String
+	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
+	@@unique([managerId, roleId])
+}
+
+
+model Entity {
+	id	String	@id
+	search	String?
+	title	String?
+	auditLogEntityTypes	AuditLog[]	@relation("From-AuditLog.entityType")
+}
+
+
+model AuditLogActionType {
+	id	String	@id
+	search	String?
+	title	String?
+	auditLogActionTypes	AuditLog[]	@relation("From-AuditLog.actionType")
+}
+
+
+model MessageType {
+	id	String	@id
+	search	String?
+	title	String
+	description	String?
+	messageTemplateMessageTypes	MessageTemplate[]	@relation("From-MessageTemplate.messageType")
+}
+
+
+model MessageTemplate {
+	id	String	@id
+	search	String?
+	title	String
+	secretData	Boolean
+	messageTypeId	String
+	messageType	MessageType	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
 }
