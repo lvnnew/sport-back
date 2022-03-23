@@ -7,8 +7,7 @@ import {getConfig} from '../../config';
 import emailsJobs from './emailsJobs';
 import {createContext} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
-import jobsFromFunctions from '../../jobs/jobsFromFunctions';
-import {graphileLogger} from '../utils';
+import {jobsFromFunctions, graphileLogger} from '../utils';
 import healthRouter from '../../rest/healthRouter';
 
 // yarn ts-node src/workers/emails/emailsWorker.ts

@@ -27,6 +27,7 @@ const infoFilesForService = {
   rolesToPermissions: 'docs/catalogs/rolesToPermissions.md',
   stats: 'docs/catalogs/stats.md',
   tags: 'docs/catalogs/tags.md',
+  tenants: 'docs/catalogs/tenants.md',
   units: 'docs/catalogs/units.md',
   users: 'docs/catalogs/users.md',
 };

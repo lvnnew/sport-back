@@ -1,6 +1,6 @@
-import hello from '../../jobs/hello';
-import recalculateStats from '../../jobs/recalculateStats';
-import dbHousekeeping from '../../jobs/dbHousekeeping';
+import hello from './jobs/hello';
+import recalculateStats from './jobs/recalculateStats';
+import dbHousekeeping from './jobs/dbHousekeeping';
 import {getQueueJobs} from '../utils';
 
 const generalJobs = {

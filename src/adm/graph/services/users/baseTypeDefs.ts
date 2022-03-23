@@ -9,6 +9,7 @@ export default gql`
     lastname: String!
     firstname: String!
     email: String!
+    tenantId: Int
   }
 
   input UserFilter {
@@ -23,6 +24,8 @@ export default gql`
     firstname_in: [String]
     email: String
     email_in: [String]
+    tenantId: Int
+    tenantId_in: [Int]
   }
 
   type ListMetadata {
@@ -36,8 +39,8 @@ export default gql`
   }
 
   type Mutation {
-    createUser(title: String, lastname: String!, firstname: String!, email: String!): User
-    updateUser(id: Int!, title: String, lastname: String!, firstname: String!, email: String!): User
+    createUser(title: String, lastname: String!, firstname: String!, email: String!, tenantId: Int): User
+    updateUser(id: Int!, title: String, lastname: String!, firstname: String!, email: String!, tenantId: Int): User
     removeUser(id: Int!): User
   }
 `;

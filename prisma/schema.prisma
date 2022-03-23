@@ -154,9 +154,13 @@ model Manager {
 	languageId	String?
 	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
 	email	String
+	phone	String?
+	photo	String?
 	telegramLogin	String?
 	unitId	Int?
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
+	tenantId	Int?
+	tenant	Tenant?	@relation("From-Manager.tenant", fields: [tenantId], references: [id])
 	headOfUnit	Boolean
 	active	Boolean
 	admRefreshTokenManagers	AdmRefreshToken[]	@relation("From-AdmRefreshToken.manager")
@@ -177,6 +181,8 @@ model User {
 	lastname	String
 	firstname	String
 	email	String
+	tenantId	Int?
+	tenant	Tenant?	@relation("From-User.tenant", fields: [tenantId], references: [id])
 	appLoginUsers	AppLogin[]	@relation("From-AppLogin.user")
 	appRefreshTokenUsers	AppRefreshToken[]	@relation("From-AppRefreshToken.user")
 	auditLogUsers	AuditLog[]	@relation("From-AuditLog.user")
@@ -254,6 +260,15 @@ model Entity {
 	search	String?
 	title	String?
 	auditLogEntityTypes	AuditLog[]	@relation("From-AuditLog.entityType")
+}
+
+
+model Tenant {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String?
+	managerTenants	Manager[]	@relation("From-Manager.tenant")
+	userTenants	User[]	@relation("From-User.tenant")
 }
 
 

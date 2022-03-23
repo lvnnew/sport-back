@@ -20,6 +20,7 @@ import {RolesService} from './RolesService/RolesService';
 import {RolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
 import {StatsService} from './StatsService/StatsService';
 import {TagsService} from './TagsService/TagsService';
+import {TenantsService} from './TenantsService/TenantsService';
 import {UnitsService} from './UnitsService/UnitsService';
 import {UsersService} from './UsersService/UsersService';
 import {HelpService} from './HelpService/HelpService';
@@ -50,6 +51,7 @@ export interface BaseServices {
   rolesToPermissions: RolesToPermissionsService;
   stats: StatsService;
   tags: TagsService;
+  tenants: TenantsService;
   units: UnitsService;
   users: UsersService;
 }

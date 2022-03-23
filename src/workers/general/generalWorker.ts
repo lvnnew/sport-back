@@ -8,8 +8,7 @@ import generalJobs from './generalJobs';
 import {generalCronJobs} from './generalCronJobs';
 import {createContext} from '../../adm/services/context';
 import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
-import jobsFromFunctions from '../../jobs/jobsFromFunctions';
-import {graphileLogger} from '../utils';
+import {jobsFromFunctions, graphileLogger} from '../utils';
 import healthRouter from '../../rest/healthRouter';
 
 // yarn ts-node src/workers/general/generalWorker.ts

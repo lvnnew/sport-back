@@ -267,6 +267,9 @@ export type Query = {
   Tag?: Maybe<Tag>;
   allTags?: Maybe<Array<Maybe<Tag>>>;
   _allTagsMeta?: Maybe<ListMetadata>;
+  Tenant?: Maybe<Tenant>;
+  allTenants?: Maybe<Array<Maybe<Tenant>>>;
+  _allTenantsMeta?: Maybe<ListMetadata>;
   Unit?: Maybe<Unit>;
   allUnits?: Maybe<Array<Maybe<Unit>>>;
   _allUnitsMeta?: Maybe<ListMetadata>;
@@ -748,6 +751,27 @@ export type Query_AllTagsMetaArgs = {
 };
 
 
+export type QueryTenantArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllTenantsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<TenantFilter>;
+};
+
+
+export type Query_AllTenantsMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<TenantFilter>;
+};
+
+
 export type QueryUnitArgs = {
   id: Scalars['Int'];
 };
@@ -858,6 +882,9 @@ export type Mutation = {
   createTag?: Maybe<Tag>;
   updateTag?: Maybe<Tag>;
   removeTag?: Maybe<Tag>;
+  createTenant?: Maybe<Tenant>;
+  updateTenant?: Maybe<Tenant>;
+  removeTenant?: Maybe<Tenant>;
   createUnit?: Maybe<Unit>;
   updateUnit?: Maybe<Unit>;
   removeUnit?: Maybe<Unit>;
@@ -1151,8 +1178,11 @@ export type MutationCreateManagerArgs = {
   firstName: Scalars['String'];
   languageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   unitId?: InputMaybe<Scalars['Int']>;
+  tenantId?: InputMaybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
   active: Scalars['Boolean'];
 };
@@ -1165,8 +1195,11 @@ export type MutationUpdateManagerArgs = {
   firstName: Scalars['String'];
   languageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   unitId?: InputMaybe<Scalars['Int']>;
+  tenantId?: InputMaybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
   active: Scalars['Boolean'];
 };
@@ -1344,6 +1377,22 @@ export type MutationRemoveTagArgs = {
 };
 
 
+export type MutationCreateTenantArgs = {
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateTenantArgs = {
+  id: Scalars['Int'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveTenantArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationCreateUnitArgs = {
   title?: InputMaybe<Scalars['String']>;
   parentId?: InputMaybe<Scalars['Int']>;
@@ -1367,6 +1416,7 @@ export type MutationCreateUserArgs = {
   lastname: Scalars['String'];
   firstname: Scalars['String'];
   email: Scalars['String'];
+  tenantId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1376,6 +1426,7 @@ export type MutationUpdateUserArgs = {
   lastname: Scalars['String'];
   firstname: Scalars['String'];
   email: Scalars['String'];
+  tenantId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1645,6 +1696,7 @@ export enum EntityType {
   RolesToPermissions = 'rolesToPermissions',
   Stats = 'stats',
   Tags = 'tags',
+  Tenants = 'tenants',
   Units = 'units',
   Users = 'users'
 }
@@ -1700,8 +1752,11 @@ export type Manager = {
   firstName: Scalars['String'];
   languageId?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  phone?: Maybe<Scalars['String']>;
+  photo?: Maybe<Scalars['String']>;
   telegramLogin?: Maybe<Scalars['String']>;
   unitId?: Maybe<Scalars['Int']>;
+  tenantId?: Maybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
   active: Scalars['Boolean'];
 };
@@ -1720,10 +1775,16 @@ export type ManagerFilter = {
   languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   email?: InputMaybe<Scalars['String']>;
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  phone?: InputMaybe<Scalars['String']>;
+  phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  photo?: InputMaybe<Scalars['String']>;
+  photo_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   telegramLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   unitId?: InputMaybe<Scalars['Int']>;
   unitId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  tenantId?: InputMaybe<Scalars['Int']>;
+  tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   headOfUnit?: InputMaybe<Scalars['Boolean']>;
   active?: InputMaybe<Scalars['Boolean']>;
 };
@@ -1892,6 +1953,20 @@ export type TagFilter = {
   comment_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type Tenant = {
+  __typename?: 'Tenant';
+  id: Scalars['Int'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type TenantFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type Unit = {
   __typename?: 'Unit';
   id: Scalars['Int'];
@@ -1916,6 +1991,7 @@ export type User = {
   lastname: Scalars['String'];
   firstname: Scalars['String'];
   email: Scalars['String'];
+  tenantId?: Maybe<Scalars['Int']>;
 };
 
 export type UserFilter = {
@@ -1930,6 +2006,8 @@ export type UserFilter = {
   firstname_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   email?: InputMaybe<Scalars['String']>;
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  tenantId?: InputMaybe<Scalars['Int']>;
+  tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 
@@ -2111,6 +2189,8 @@ export type ResolversTypes = {
   StatFilter: StatFilter;
   Tag: ResolverTypeWrapper<Tag>;
   TagFilter: TagFilter;
+  Tenant: ResolverTypeWrapper<Tenant>;
+  TenantFilter: TenantFilter;
   Unit: ResolverTypeWrapper<Unit>;
   UnitFilter: UnitFilter;
   User: ResolverTypeWrapper<User>;
@@ -2228,6 +2308,8 @@ export type ResolversParentTypes = {
   StatFilter: StatFilter;
   Tag: Tag;
   TagFilter: TagFilter;
+  Tenant: Tenant;
+  TenantFilter: TenantFilter;
   Unit: Unit;
   UnitFilter: UnitFilter;
   User: User;
@@ -2547,6 +2629,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
   allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, Partial<QueryAllTagsArgs>>;
   _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllTagsMetaArgs>>;
+  Tenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<QueryTenantArgs, 'id'>>;
+  allTenants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tenant']>>>, ParentType, ContextType, Partial<QueryAllTenantsArgs>>;
+  _allTenantsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllTenantsMetaArgs>>;
   Unit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<QueryUnitArgs, 'id'>>;
   allUnits?: Resolver<Maybe<Array<Maybe<ResolversTypes['Unit']>>>, ParentType, ContextType, Partial<QueryAllUnitsArgs>>;
   _allUnitsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllUnitsMetaArgs>>;
@@ -2623,6 +2708,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, Partial<MutationCreateTagArgs>>;
   updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
   removeTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
+  createTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, Partial<MutationCreateTenantArgs>>;
+  updateTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationUpdateTenantArgs, 'id'>>;
+  removeTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationRemoveTenantArgs, 'id'>>;
   createUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, Partial<MutationCreateUnitArgs>>;
   updateUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationUpdateUnitArgs, 'id'>>;
   removeUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationRemoveUnitArgs, 'id'>>;
@@ -2743,8 +2831,11 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   languageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   telegramLogin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   unitId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  tenantId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   headOfUnit?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -2820,6 +2911,12 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type TenantResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tenant'] = ResolversParentTypes['Tenant']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -2833,6 +2930,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   lastname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstname?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  tenantId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -2920,6 +3018,7 @@ export type Resolvers<ContextType = any> = {
   RolesToPermission?: RolesToPermissionResolvers<ContextType>;
   Stat?: StatResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
+  Tenant?: TenantResolvers<ContextType>;
   Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };

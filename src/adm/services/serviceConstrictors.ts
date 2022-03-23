@@ -20,6 +20,7 @@ import {getRolesService} from './RolesService/RolesService';
 import {getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
 import {getStatsService} from './StatsService/StatsService';
 import {getTagsService} from './TagsService/TagsService';
+import {getTenantsService} from './TenantsService/TenantsService';
 import {getUnitsService} from './UnitsService/UnitsService';
 import {getUsersService} from './UsersService/UsersService';
 import {getHelpService} from './HelpService/HelpService';
@@ -52,6 +53,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   rolesToPermissions: getRolesToPermissionsService,
   stats: getStatsService,
   tags: getTagsService,
+  tenants: getTenantsService,
   units: getUnitsService,
   users: getUsersService,
 };

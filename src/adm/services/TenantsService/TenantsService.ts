@@ -1,17 +1,17 @@
 import {
   ListMetadata,
-  MutationCreateManagerArgs,
-  MutationUpdateManagerArgs,
-  MutationRemoveManagerArgs,
-  QueryAllManagersArgs,
-  Query_AllManagersMetaArgs,
-  Manager,
-  ManagerFilter,
+  MutationCreateTenantArgs,
+  MutationUpdateTenantArgs,
+  MutationRemoveTenantArgs,
+  QueryAllTenantsArgs,
+  Query_AllTenantsMetaArgs,
+  Tenant,
+  TenantFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
-import {AdditionalManagersMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalTenantsMethods, getAdditionalMethods} from './additionalMethods';
 import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
 import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
 import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
@@ -33,82 +33,82 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateManagerArgs = MutationUpdateManagerArgs;
-export type StrictCreateManagerArgs = MutationCreateManagerArgs;
+export type StrictUpdateTenantArgs = MutationUpdateTenantArgs;
+export type StrictCreateTenantArgs = MutationCreateTenantArgs;
 
-export interface BaseManagersMethods {
+export interface BaseTenantsMethods {
   get: (id: number) =>
-    Promise<Manager | null>;
-  all: (params?: QueryAllManagersArgs) =>
-    Promise<Manager[]>;
-  findOne: (params?: QueryAllManagersArgs) =>
-    Promise<Manager | null>;
-  count: (params?: Query_AllManagersMetaArgs) =>
+    Promise<Tenant | null>;
+  all: (params?: QueryAllTenantsArgs) =>
+    Promise<Tenant[]>;
+  findOne: (params?: QueryAllTenantsArgs) =>
+    Promise<Tenant | null>;
+  count: (params?: Query_AllTenantsMetaArgs) =>
     Promise<number>;
-  meta: (params?: Query_AllManagersMetaArgs) =>
+  meta: (params?: Query_AllTenantsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagerArgs, byUser?: boolean) =>
-    Promise<Manager>;
-  createMany: (data: MutationCreateManagerArgs[], byUser?: boolean) =>
+  create: (data: MutationCreateTenantArgs, byUser?: boolean) =>
+    Promise<Tenant>;
+  createMany: (data: MutationCreateTenantArgs[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerArgs, byUser?: boolean) =>
-    Promise<Manager>;
-  upsert: (data: MutationUpdateManagerArgs, byUser?: boolean) =>
-    Promise<Manager>;
+  update: ({id, ...rest}: MutationUpdateTenantArgs, byUser?: boolean) =>
+    Promise<Tenant>;
+  upsert: (data: MutationUpdateTenantArgs, byUser?: boolean) =>
+    Promise<Tenant>;
   upsertAdvanced: (
-    filter: ManagerFilter,
-    data: MutationCreateManagerArgs,
+    filter: TenantFilter,
+    data: MutationCreateTenantArgs,
     byUser?: boolean,
   ) =>
-    Promise<Manager>;
-  delete: (params: MutationRemoveManagerArgs) =>
-    Promise<Manager>;
+    Promise<Tenant>;
+  delete: (params: MutationRemoveTenantArgs) =>
+    Promise<Tenant>;
 }
 
-export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
+export type TenantsService = BaseTenantsMethods & AdditionalTenantsMethods;
 
-export const getManagersService = (ctx: Context) => {
+export const getTenantsService = (ctx: Context) => {
   const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.manager.findUnique,
+    ctx.prisma.tenant.findUnique,
     forbiddenForUserFields,
   );
 
   const all = async (
-    params: QueryAllManagersArgs = {},
-  ): Promise<Manager[]> => {
-    return ctx.prisma.manager.findMany(
+    params: QueryAllTenantsArgs = {},
+  ): Promise<Tenant[]> => {
+    return ctx.prisma.tenant.findMany(
       toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
-    ) as unknown as Promise<Manager[]>;
+    ) as unknown as Promise<Tenant[]>;
   };
 
   const findOne = async (
-    params: QueryAllManagersArgs = {},
-  ): Promise<Manager | null> => {
-    return ctx.prisma.manager.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    params: QueryAllTenantsArgs = {},
+  ): Promise<Tenant | null> => {
+    return ctx.prisma.tenant.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
   };
 
   const get = async (
     id: number,
-  ): Promise<Manager | null> => {
+  ): Promise<Tenant | null> => {
     return findOne({filter: {id}});
   };
 
   const count = async (
-    params: Query_AllManagersMetaArgs = {},
+    params: Query_AllTenantsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.manager.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.tenant.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
   };
 
   const meta = async (
-    params: Query_AllManagersMetaArgs = {},
+    params: Query_AllTenantsMetaArgs = {},
   ): Promise<ListMetadata> => {
     return count(params).then(count => ({count}));
   };
 
   const create = async (
-    data: MutationCreateManagerArgs,
+    data: MutationCreateTenantArgs,
     byUser = false,
-  ): Promise<Manager> => {
+  ): Promise<Tenant> => {
     let processedData = data;
 
     if (byUser) {
@@ -120,7 +120,7 @@ export const getManagersService = (ctx: Context) => {
 
     processedData = await beforeCreate(ctx, data);
 
-    const createOperation = ctx.prisma.manager.create({
+    const createOperation = ctx.prisma.tenant.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -130,15 +130,6 @@ export const getManagersService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'lastName',
-                  'firstName',
-                  'languageId',
-                  'email',
-                  'phone',
-                  'photo',
-                  'telegramLogin',
-                  'unitId',
-                  'tenantId',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -159,7 +150,7 @@ export const getManagersService = (ctx: Context) => {
 
     await Promise.all([
     // update search. earlier we does not have id
-      ctx.prisma.manager.update({
+      ctx.prisma.tenant.update({
         where: {id: result.id},
         data: {
           search: [
@@ -168,15 +159,6 @@ export const getManagersService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'lastName',
-                  'firstName',
-                  'languageId',
-                  'email',
-                  'phone',
-                  'photo',
-                  'telegramLogin',
-                  'unitId',
-                  'tenantId',
                 ], result),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -186,8 +168,8 @@ export const getManagersService = (ctx: Context) => {
       ctx.prisma.auditLog.create({
         data: {
           date: new Date(),
-          title: 'Managers create',
-          entityTypeId: Entity.Manager,
+          title: 'Tenants create',
+          entityTypeId: Entity.Tenant,
           entityId: result.id.toString(),
           actionTypeId: AuditLogActionType.Create,
           actionData: JSON.stringify(data),
@@ -195,14 +177,14 @@ export const getManagersService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as Manager),
+      afterCreate(ctx, result as Tenant),
     ]);
 
-    return result as Manager;
+    return result as Tenant;
   };
 
   const createMany = async (
-    entries: MutationCreateManagerArgs[],
+    entries: MutationCreateTenantArgs[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     let processedData = entries;
@@ -214,7 +196,7 @@ export const getManagersService = (ctx: Context) => {
       ));
     }
 
-    const result = await ctx.prisma.manager.createMany({
+    const result = await ctx.prisma.tenant.createMany({
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
@@ -224,15 +206,6 @@ export const getManagersService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'lastName',
-                  'firstName',
-                  'languageId',
-                  'email',
-                  'phone',
-                  'photo',
-                  'telegramLogin',
-                  'unitId',
-                  'tenantId',
                 ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -250,21 +223,21 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateManagerArgs,
+    data: MutationUpdateTenantArgs,
     byUser = false,
-  ): Promise<Manager> => {
+  ): Promise<Tenant> => {
     const augmented = await augmentDataFromDb(data);
 
     let processedData = byUser ? augmented : {
       ...augmented,
       ...data,
-    } as StrictUpdateManagerArgs;
+    } as StrictUpdateTenantArgs;
 
     processedData = await beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = ctx.prisma.manager.update({
+    const updateOperation = ctx.prisma.tenant.update({
       data: R.mergeDeepLeft(
         rest,
         {
@@ -274,15 +247,6 @@ export const getManagersService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
-                  'lastName',
-                  'firstName',
-                  'languageId',
-                  'email',
-                  'phone',
-                  'photo',
-                  'telegramLogin',
-                  'unitId',
-                  'tenantId',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -295,8 +259,8 @@ export const getManagersService = (ctx: Context) => {
     const auditOperation = ctx.prisma.auditLog.create({
       data: {
         date: new Date(),
-        title: 'Managers update',
-        entityTypeId: Entity.Manager,
+        title: 'Tenants update',
+        entityTypeId: Entity.Tenant,
         entityId: data.id.toString(),
         actionTypeId: AuditLogActionType.Update,
         actionData: JSON.stringify(data),
@@ -317,27 +281,27 @@ export const getManagersService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as Manager),
+      afterUpdate(ctx, result as Tenant),
     ]);
 
-    return result as Manager;
+    return result as Tenant;
   };
 
   const upsert = async (
-    data: MutationUpdateManagerArgs,
+    data: MutationUpdateTenantArgs,
     byUser = false,
-  ): Promise<Manager> => {
+  ): Promise<Tenant> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagerArgs;
+    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateTenantArgs;
     const processedDataToCreate = byUser ? R.mergeDeepLeft(
       {},
       data,
-    ) : data as StrictCreateManagerArgs;
+    ) : data as StrictCreateTenantArgs;
 
     const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
 
-    const result = await ctx.prisma.manager.upsert({create: R.mergeDeepLeft(
+    const result = await ctx.prisma.tenant.upsert({create: R.mergeDeepLeft(
       createData,
       {
         search: [
@@ -346,15 +310,6 @@ export const getManagersService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'lastName',
-                'firstName',
-                'languageId',
-                'email',
-                'phone',
-                'photo',
-                'telegramLogin',
-                'unitId',
-                'tenantId',
               ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -369,15 +324,6 @@ export const getManagersService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
-                'lastName',
-                'firstName',
-                'languageId',
-                'email',
-                'phone',
-                'photo',
-                'telegramLogin',
-                'unitId',
-                'tenantId',
               ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -393,10 +339,10 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const upsertAdvanced = async (
-    filter: ManagerFilter,
-    data: MutationCreateManagerArgs,
+    filter: TenantFilter,
+    data: MutationCreateTenantArgs,
     byUser = false,
-  ): Promise<Manager> => {
+  ): Promise<Tenant> => {
     let processedDataToCreate = data;
     let processedDataToUpdate = data;
 
@@ -436,17 +382,17 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const del = async (
-    params: MutationRemoveManagerArgs,
-  ): Promise<Manager> => {
+    params: MutationRemoveTenantArgs,
+  ): Promise<Tenant> => {
     await beforeDelete(ctx, params);
 
-    const deleteOperation = ctx.prisma.manager.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.tenant.delete({where: {id: params.id}});
 
     const auditOperation = ctx.prisma.auditLog.create({
       data: {
         date: new Date(),
-        title: 'Managers delete',
-        entityTypeId: Entity.Manager,
+        title: 'Tenants delete',
+        entityTypeId: Entity.Tenant,
         entityId: params.id.toString(),
         actionTypeId: AuditLogActionType.Delete,
         managerId: ctx.service('profile').getManagerId(),
@@ -477,7 +423,7 @@ export const getManagersService = (ctx: Context) => {
     return entity;
   };
 
-  const baseMethods: BaseManagersMethods = {
+  const baseMethods: BaseTenantsMethods = {
     get,
     all,
     findOne,

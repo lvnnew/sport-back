@@ -24,6 +24,7 @@ export default gql`
     rolesToPermissions
     stats
     tags
+    tenants
     units
     users
   }

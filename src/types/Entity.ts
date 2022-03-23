@@ -23,6 +23,7 @@ enum Entity {
   RolesToPermission = 'rolesToPermission',
   Stat = 'stat',
   Tag = 'tag',
+  Tenant = 'tenant',
   Unit = 'unit',
   User = 'user',
 }

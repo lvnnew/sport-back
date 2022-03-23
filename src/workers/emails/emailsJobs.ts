@@ -1,4 +1,4 @@
-import sendEmail from '../../jobs/sendEmail';
+import sendEmail from './jobs/sendEmail';
 import {getQueueJobs} from '../utils';
 
 const emailsJobs = {

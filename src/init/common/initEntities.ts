@@ -93,6 +93,10 @@ const initEntities = async (ctx: Context) => {
     title: 'Tags',
   });
   await ctx.service('entities').upsert({
+    id: Entity.Tenant,
+    title: 'Tenants',
+  });
+  await ctx.service('entities').upsert({
     id: Entity.Unit,
     title: 'Units',
   });

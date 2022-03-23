@@ -25,6 +25,7 @@ import rolesPermissionToGraphql from './services/roles/permissionsToGraphql';
 import rolesToPermissionsPermissionToGraphql from './services/rolesToPermissions/permissionsToGraphql';
 import statsPermissionToGraphql from './services/stats/permissionsToGraphql';
 import tagsPermissionToGraphql from './services/tags/permissionsToGraphql';
+import tenantsPermissionToGraphql from './services/tenants/permissionsToGraphql';
 import unitsPermissionToGraphql from './services/units/permissionsToGraphql';
 import usersPermissionToGraphql from './services/users/permissionsToGraphql';
 
@@ -63,6 +64,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   rolesToPermissions: rolesToPermissionsPermissionToGraphql,
   stats: statsPermissionToGraphql,
   tags: tagsPermissionToGraphql,
+  tenants: tenantsPermissionToGraphql,
   units: unitsPermissionToGraphql,
   users: usersPermissionToGraphql,
 };

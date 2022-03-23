@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import LRUCache from 'lru-cache';
 import {PermissionsWithMeta} from '../../../generated/graphql';
 import {KeyValuePair} from 'ramda';
 import log from '../../../log';
@@ -19,12 +20,20 @@ export interface ProfileService {
   getManagerId: () => number | null,
   setUserId: (userId: number) => void,
   setManagerId: (managerId: number) => void,
+  getAllowedTenantIds: () => Promise<number[]>;
 }
 
 export type UserData = {
   userId: number | null,
   managerId: number | null,
 }
+
+const opt = {
+  max: 500,
+  ttl: 1000 * 60, // 1 min
+};
+const managersTenantIdsCache = new LRUCache(opt);
+const usersTenantIdsCache = new LRUCache(opt);
 
 export const getProfileService = (ctx: Context): ProfileService => {
   let userId: number | null = null;
@@ -141,6 +150,37 @@ export const getProfileService = (ctx: Context): ProfileService => {
     return getPermissionsOfManagerWithMeta(managerId);
   };
 
+  const getAllowedTenantIds = async (): Promise<number[]> => {
+    const managerId = ctx.service('profile').getManagerId();
+    let res: number[] = [];
+    if (managerId) {
+      if (managersTenantIdsCache.has(managerId)) {
+        return managersTenantIdsCache.get(managerId);
+      }
+
+      const manager = await ctx.prisma.manager.findFirst({where: {id: managerId}});
+      if (manager && manager.tenantId) {
+        res = [manager.tenantId];
+        managersTenantIdsCache.set(managerId, res);
+      }
+    } else {
+      const userId = ctx.service('profile').getUserId();
+      if (userId) {
+        if (usersTenantIdsCache.has(userId)) {
+          return usersTenantIdsCache.get(userId);
+        }
+
+        const user = await ctx.prisma.user.findFirst({where: {id: userId}});
+        if (user && user.tenantId) {
+          res = [user.tenantId];
+          usersTenantIdsCache.set(userId, res);
+        }
+      }
+    }
+
+    return res;
+  };
+
   return {
     getPermissionsOfManager,
     getPermissionsWithMeta,
@@ -150,5 +190,6 @@ export const getProfileService = (ctx: Context): ProfileService => {
     getManagerPermissions,
     setUserId,
     setManagerId,
+    getAllowedTenantIds,
   };
 };
