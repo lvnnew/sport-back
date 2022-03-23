@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateManagerLoginArgs, StrictCreateManagerLoginArgs} from '../ManagerLoginsService';
 
+type Data = {createData: StrictCreateManagerLoginArgs, updateData: StrictUpdateManagerLoginArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateManagerLoginArgs,
-  updateData: StrictUpdateManagerLoginArgs,
-): Promise<{createData: StrictCreateManagerLoginArgs, updateData: StrictUpdateManagerLoginArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };

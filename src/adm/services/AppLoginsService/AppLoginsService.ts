@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalAppLoginsMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -65,9 +57,29 @@ export interface BaseAppLoginsMethods {
     Promise<AppLogin>;
 }
 
-export type AppLoginsService = BaseAppLoginsMethods & AdditionalAppLoginsMethods;
+export type AppLoginsService = BaseAppLoginsMethods
+  & AdditionalAppLoginsMethods
+  & HooksAddType<
+    AppLogin,
+    QueryAllAppLoginsArgs,
+    MutationCreateAppLoginArgs,
+    MutationUpdateAppLoginArgs,
+    MutationRemoveAppLoginArgs,
+    StrictCreateAppLoginArgs,
+    StrictUpdateAppLoginArgs
+  >;
 
 export const getAppLoginsService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    AppLogin,
+    QueryAllAppLoginsArgs,
+    MutationCreateAppLoginArgs,
+    MutationUpdateAppLoginArgs,
+    MutationRemoveAppLoginArgs,
+    StrictCreateAppLoginArgs,
+    StrictUpdateAppLoginArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.appLogin.findUnique,
     forbiddenForUserFields,
@@ -77,14 +89,14 @@ export const getAppLoginsService = (ctx: Context) => {
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin[]> => {
     return ctx.prisma.appLogin.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<AppLogin[]>;
   };
 
   const findOne = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin | null> => {
-    return ctx.prisma.appLogin.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.appLogin.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -96,7 +108,7 @@ export const getAppLoginsService = (ctx: Context) => {
   const count = async (
     params: Query_AllAppLoginsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.appLogin.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.appLogin.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -118,7 +130,7 @@ export const getAppLoginsService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.appLogin.create({
       data: R.mergeDeepLeft(
@@ -142,7 +154,7 @@ export const getAppLoginsService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -181,7 +193,7 @@ export const getAppLoginsService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as AppLogin),
+      runHooks.afterCreate(ctx, result as AppLogin),
     ]);
 
     return result as AppLogin;
@@ -239,7 +251,7 @@ export const getAppLoginsService = (ctx: Context) => {
       ...data,
     } as StrictUpdateAppLoginArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -280,7 +292,7 @@ export const getAppLoginsService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -289,7 +301,7 @@ export const getAppLoginsService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as AppLogin),
+      runHooks.afterUpdate(ctx, result as AppLogin),
     ]);
 
     return result as AppLogin;
@@ -301,13 +313,15 @@ export const getAppLoginsService = (ctx: Context) => {
   ): Promise<AppLogin> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAppLoginArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateAppLoginArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateAppLoginArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.appLogin.upsert({create: R.mergeDeepLeft(
       createData,
@@ -396,7 +410,7 @@ export const getAppLoginsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAppLoginArgs,
   ): Promise<AppLogin> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.appLogin.delete({where: {id: params.id}});
 
@@ -415,7 +429,7 @@ export const getAppLoginsService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -430,7 +444,7 @@ export const getAppLoginsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -451,8 +465,14 @@ export const getAppLoginsService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: AppLoginsService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalManagersToPermissionsMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -65,9 +57,29 @@ export interface BaseManagersToPermissionsMethods {
     Promise<ManagersToPermission>;
 }
 
-export type ManagersToPermissionsService = BaseManagersToPermissionsMethods & AdditionalManagersToPermissionsMethods;
+export type ManagersToPermissionsService = BaseManagersToPermissionsMethods
+  & AdditionalManagersToPermissionsMethods
+  & HooksAddType<
+    ManagersToPermission,
+    QueryAllManagersToPermissionsArgs,
+    MutationCreateManagersToPermissionArgs,
+    MutationUpdateManagersToPermissionArgs,
+    MutationRemoveManagersToPermissionArgs,
+    StrictCreateManagersToPermissionArgs,
+    StrictUpdateManagersToPermissionArgs
+  >;
 
 export const getManagersToPermissionsService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    ManagersToPermission,
+    QueryAllManagersToPermissionsArgs,
+    MutationCreateManagersToPermissionArgs,
+    MutationUpdateManagersToPermissionArgs,
+    MutationRemoveManagersToPermissionArgs,
+    StrictCreateManagersToPermissionArgs,
+    StrictUpdateManagersToPermissionArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.managersToPermission.findUnique,
     forbiddenForUserFields,
@@ -77,14 +89,14 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     params: QueryAllManagersToPermissionsArgs = {},
   ): Promise<ManagersToPermission[]> => {
     return ctx.prisma.managersToPermission.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<ManagersToPermission[]>;
   };
 
   const findOne = async (
     params: QueryAllManagersToPermissionsArgs = {},
   ): Promise<ManagersToPermission | null> => {
-    return ctx.prisma.managersToPermission.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.managersToPermission.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -96,7 +108,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   const count = async (
     params: Query_AllManagersToPermissionsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.managersToPermission.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.managersToPermission.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -118,7 +130,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.managersToPermission.create({
       data: R.mergeDeepLeft(
@@ -141,7 +153,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -179,7 +191,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as ManagersToPermission),
+      runHooks.afterCreate(ctx, result as ManagersToPermission),
     ]);
 
     return result as ManagersToPermission;
@@ -236,7 +248,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
       ...data,
     } as StrictUpdateManagersToPermissionArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -276,7 +288,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -285,7 +297,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as ManagersToPermission),
+      runHooks.afterUpdate(ctx, result as ManagersToPermission),
     ]);
 
     return result as ManagersToPermission;
@@ -297,13 +309,15 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   ): Promise<ManagersToPermission> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagersToPermissionArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateManagersToPermissionArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagersToPermissionArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.managersToPermission.upsert({create: R.mergeDeepLeft(
       createData,
@@ -390,7 +404,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveManagersToPermissionArgs,
   ): Promise<ManagersToPermission> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.managersToPermission.delete({where: {id: params.id}});
 
@@ -409,7 +423,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -424,7 +438,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -445,8 +459,14 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: ManagersToPermissionsService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalAdmRefreshTokensMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -69,9 +61,29 @@ export interface BaseAdmRefreshTokensMethods {
     Promise<AdmRefreshToken>;
 }
 
-export type AdmRefreshTokensService = BaseAdmRefreshTokensMethods & AdditionalAdmRefreshTokensMethods;
+export type AdmRefreshTokensService = BaseAdmRefreshTokensMethods
+  & AdditionalAdmRefreshTokensMethods
+  & HooksAddType<
+    AdmRefreshToken,
+    QueryAllAdmRefreshTokensArgs,
+    MutationCreateAdmRefreshTokenArgs,
+    MutationUpdateAdmRefreshTokenArgs,
+    MutationRemoveAdmRefreshTokenArgs,
+    StrictCreateAdmRefreshTokenArgs,
+    StrictUpdateAdmRefreshTokenArgs
+  >;
 
 export const getAdmRefreshTokensService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    AdmRefreshToken,
+    QueryAllAdmRefreshTokensArgs,
+    MutationCreateAdmRefreshTokenArgs,
+    MutationUpdateAdmRefreshTokenArgs,
+    MutationRemoveAdmRefreshTokenArgs,
+    StrictCreateAdmRefreshTokenArgs,
+    StrictUpdateAdmRefreshTokenArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.admRefreshToken.findUnique,
     forbiddenForUserFields,
@@ -81,14 +93,14 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     params: QueryAllAdmRefreshTokensArgs = {},
   ): Promise<AdmRefreshToken[]> => {
     return ctx.prisma.admRefreshToken.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<AdmRefreshToken[]>;
   };
 
   const findOne = async (
     params: QueryAllAdmRefreshTokensArgs = {},
   ): Promise<AdmRefreshToken | null> => {
-    return ctx.prisma.admRefreshToken.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.admRefreshToken.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -100,7 +112,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   const count = async (
     params: Query_AllAdmRefreshTokensMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.admRefreshToken.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.admRefreshToken.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -122,7 +134,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.admRefreshToken.create({
       data: R.mergeDeepLeft(
@@ -152,7 +164,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -197,7 +209,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as AdmRefreshToken),
+      runHooks.afterCreate(ctx, result as AdmRefreshToken),
     ]);
 
     return result as AdmRefreshToken;
@@ -261,7 +273,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
       ...data,
     } as StrictUpdateAdmRefreshTokenArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -308,7 +320,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -317,7 +329,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as AdmRefreshToken),
+      runHooks.afterUpdate(ctx, result as AdmRefreshToken),
     ]);
 
     return result as AdmRefreshToken;
@@ -329,13 +341,15 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   ): Promise<AdmRefreshToken> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAdmRefreshTokenArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateAdmRefreshTokenArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateAdmRefreshTokenArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.admRefreshToken.upsert({create: R.mergeDeepLeft(
       createData,
@@ -436,7 +450,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAdmRefreshTokenArgs,
   ): Promise<AdmRefreshToken> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.admRefreshToken.delete({where: {id: params.id}});
 
@@ -455,7 +469,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -470,7 +484,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -491,8 +505,14 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: AdmRefreshTokensService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

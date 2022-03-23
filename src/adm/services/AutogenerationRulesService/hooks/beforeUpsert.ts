@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateAutogenerationRuleArgs, StrictCreateAutogenerationRuleArgs} from '../AutogenerationRulesService';
 
+type Data = {createData: StrictCreateAutogenerationRuleArgs, updateData: StrictUpdateAutogenerationRuleArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateAutogenerationRuleArgs,
-  updateData: StrictUpdateAutogenerationRuleArgs,
-): Promise<{createData: StrictCreateAutogenerationRuleArgs, updateData: StrictUpdateAutogenerationRuleArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };

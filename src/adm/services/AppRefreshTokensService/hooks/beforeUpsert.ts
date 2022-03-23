@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateAppRefreshTokenArgs, StrictCreateAppRefreshTokenArgs} from '../AppRefreshTokensService';
 
+type Data = {createData: StrictCreateAppRefreshTokenArgs, updateData: StrictUpdateAppRefreshTokenArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateAppRefreshTokenArgs,
-  updateData: StrictUpdateAppRefreshTokenArgs,
-): Promise<{createData: StrictCreateAppRefreshTokenArgs, updateData: StrictUpdateAppRefreshTokenArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };

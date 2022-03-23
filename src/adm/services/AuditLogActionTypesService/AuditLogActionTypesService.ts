@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalAuditLogActionTypesMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
@@ -63,9 +55,29 @@ export interface BaseAuditLogActionTypesMethods {
     Promise<AuditLogActionType>;
 }
 
-export type AuditLogActionTypesService = BaseAuditLogActionTypesMethods & AdditionalAuditLogActionTypesMethods;
+export type AuditLogActionTypesService = BaseAuditLogActionTypesMethods
+  & AdditionalAuditLogActionTypesMethods
+  & HooksAddType<
+    AuditLogActionType,
+    QueryAllAuditLogActionTypesArgs,
+    MutationCreateAuditLogActionTypeArgs,
+    MutationUpdateAuditLogActionTypeArgs,
+    MutationRemoveAuditLogActionTypeArgs,
+    StrictCreateAuditLogActionTypeArgs,
+    StrictUpdateAuditLogActionTypeArgs
+  >;
 
 export const getAuditLogActionTypesService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    AuditLogActionType,
+    QueryAllAuditLogActionTypesArgs,
+    MutationCreateAuditLogActionTypeArgs,
+    MutationUpdateAuditLogActionTypeArgs,
+    MutationRemoveAuditLogActionTypeArgs,
+    StrictCreateAuditLogActionTypeArgs,
+    StrictUpdateAuditLogActionTypeArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.auditLogActionType.findUnique,
     forbiddenForUserFields,
@@ -75,14 +87,14 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     params: QueryAllAuditLogActionTypesArgs = {},
   ): Promise<AuditLogActionType[]> => {
     return ctx.prisma.auditLogActionType.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<AuditLogActionType[]>;
   };
 
   const findOne = async (
     params: QueryAllAuditLogActionTypesArgs = {},
   ): Promise<AuditLogActionType | null> => {
-    return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -94,7 +106,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   const count = async (
     params: Query_AllAuditLogActionTypesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.auditLogActionType.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.auditLogActionType.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -116,7 +128,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.auditLogActionType.create({
       data: R.mergeDeepLeft(
@@ -138,7 +150,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -163,7 +175,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
           ].join(' '),
         },
       }),
-      afterCreate(ctx, result as AuditLogActionType),
+      runHooks.afterCreate(ctx, result as AuditLogActionType),
     ]);
 
     return result as AuditLogActionType;
@@ -219,7 +231,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
       ...data,
     } as StrictUpdateAuditLogActionTypeArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -244,7 +256,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
     const operations = [
       updateOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -253,7 +265,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as AuditLogActionType),
+      runHooks.afterUpdate(ctx, result as AuditLogActionType),
     ]);
 
     return result as AuditLogActionType;
@@ -265,13 +277,15 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   ): Promise<AuditLogActionType> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateAuditLogActionTypeArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateAuditLogActionTypeArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateAuditLogActionTypeArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.auditLogActionType.upsert({create: R.mergeDeepLeft(
       createData,
@@ -356,13 +370,13 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveAuditLogActionTypeArgs,
   ): Promise<AuditLogActionType> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.auditLogActionType.delete({where: {id: params.id}});
 
     const operations = [
       deleteOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -377,7 +391,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -398,8 +412,14 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: AuditLogActionTypesService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalLanguagesMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -65,9 +57,29 @@ export interface BaseLanguagesMethods {
     Promise<Language>;
 }
 
-export type LanguagesService = BaseLanguagesMethods & AdditionalLanguagesMethods;
+export type LanguagesService = BaseLanguagesMethods
+  & AdditionalLanguagesMethods
+  & HooksAddType<
+    Language,
+    QueryAllLanguagesArgs,
+    MutationCreateLanguageArgs,
+    MutationUpdateLanguageArgs,
+    MutationRemoveLanguageArgs,
+    StrictCreateLanguageArgs,
+    StrictUpdateLanguageArgs
+  >;
 
 export const getLanguagesService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    Language,
+    QueryAllLanguagesArgs,
+    MutationCreateLanguageArgs,
+    MutationUpdateLanguageArgs,
+    MutationRemoveLanguageArgs,
+    StrictCreateLanguageArgs,
+    StrictUpdateLanguageArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.language.findUnique,
     forbiddenForUserFields,
@@ -77,14 +89,14 @@ export const getLanguagesService = (ctx: Context) => {
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language[]> => {
     return ctx.prisma.language.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<Language[]>;
   };
 
   const findOne = async (
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language | null> => {
-    return ctx.prisma.language.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.language.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -96,7 +108,7 @@ export const getLanguagesService = (ctx: Context) => {
   const count = async (
     params: Query_AllLanguagesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.language.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.language.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -118,7 +130,7 @@ export const getLanguagesService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.language.create({
       data: R.mergeDeepLeft(
@@ -140,7 +152,7 @@ export const getLanguagesService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -177,7 +189,7 @@ export const getLanguagesService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as Language),
+      runHooks.afterCreate(ctx, result as Language),
     ]);
 
     return result as Language;
@@ -233,7 +245,7 @@ export const getLanguagesService = (ctx: Context) => {
       ...data,
     } as StrictUpdateLanguageArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -272,7 +284,7 @@ export const getLanguagesService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -281,7 +293,7 @@ export const getLanguagesService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as Language),
+      runHooks.afterUpdate(ctx, result as Language),
     ]);
 
     return result as Language;
@@ -293,13 +305,15 @@ export const getLanguagesService = (ctx: Context) => {
   ): Promise<Language> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateLanguageArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateLanguageArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateLanguageArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.language.upsert({create: R.mergeDeepLeft(
       createData,
@@ -384,7 +398,7 @@ export const getLanguagesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveLanguageArgs,
   ): Promise<Language> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.language.delete({where: {id: params.id}});
 
@@ -403,7 +417,7 @@ export const getLanguagesService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -418,7 +432,7 @@ export const getLanguagesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -439,8 +453,14 @@ export const getLanguagesService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: LanguagesService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

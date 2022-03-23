@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalRolesMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -65,9 +57,29 @@ export interface BaseRolesMethods {
     Promise<Role>;
 }
 
-export type RolesService = BaseRolesMethods & AdditionalRolesMethods;
+export type RolesService = BaseRolesMethods
+  & AdditionalRolesMethods
+  & HooksAddType<
+    Role,
+    QueryAllRolesArgs,
+    MutationCreateRoleArgs,
+    MutationUpdateRoleArgs,
+    MutationRemoveRoleArgs,
+    StrictCreateRoleArgs,
+    StrictUpdateRoleArgs
+  >;
 
 export const getRolesService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    Role,
+    QueryAllRolesArgs,
+    MutationCreateRoleArgs,
+    MutationUpdateRoleArgs,
+    MutationRemoveRoleArgs,
+    StrictCreateRoleArgs,
+    StrictUpdateRoleArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.role.findUnique,
     forbiddenForUserFields,
@@ -77,14 +89,14 @@ export const getRolesService = (ctx: Context) => {
     params: QueryAllRolesArgs = {},
   ): Promise<Role[]> => {
     return ctx.prisma.role.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<Role[]>;
   };
 
   const findOne = async (
     params: QueryAllRolesArgs = {},
   ): Promise<Role | null> => {
-    return ctx.prisma.role.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.role.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -96,7 +108,7 @@ export const getRolesService = (ctx: Context) => {
   const count = async (
     params: Query_AllRolesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.role.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.role.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -118,7 +130,7 @@ export const getRolesService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.role.create({
       data: R.mergeDeepLeft(
@@ -140,7 +152,7 @@ export const getRolesService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -177,7 +189,7 @@ export const getRolesService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as Role),
+      runHooks.afterCreate(ctx, result as Role),
     ]);
 
     return result as Role;
@@ -233,7 +245,7 @@ export const getRolesService = (ctx: Context) => {
       ...data,
     } as StrictUpdateRoleArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -272,7 +284,7 @@ export const getRolesService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -281,7 +293,7 @@ export const getRolesService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as Role),
+      runHooks.afterUpdate(ctx, result as Role),
     ]);
 
     return result as Role;
@@ -293,13 +305,15 @@ export const getRolesService = (ctx: Context) => {
   ): Promise<Role> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateRoleArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateRoleArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateRoleArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.role.upsert({create: R.mergeDeepLeft(
       createData,
@@ -384,7 +398,7 @@ export const getRolesService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveRoleArgs,
   ): Promise<Role> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.role.delete({where: {id: params.id}});
 
@@ -403,7 +417,7 @@ export const getRolesService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -418,7 +432,7 @@ export const getRolesService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -439,8 +453,14 @@ export const getRolesService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: RolesService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

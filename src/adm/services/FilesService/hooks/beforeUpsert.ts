@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateFileArgs, StrictCreateFileArgs} from '../FilesService';
 
+type Data = {createData: StrictCreateFileArgs, updateData: StrictUpdateFileArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateFileArgs,
-  updateData: StrictUpdateFileArgs,
-): Promise<{createData: StrictCreateFileArgs, updateData: StrictUpdateFileArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };

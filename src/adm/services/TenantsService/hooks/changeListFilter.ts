@@ -2,8 +2,8 @@ import {Context} from '../../types';
 import {QueryAllTenantsArgs} from '../../../../generated/graphql';
 
 export const changeListFilter = async <T extends QueryAllTenantsArgs = QueryAllTenantsArgs>(
-  args: T,
   _ctx: Context,
+  args: T,
 ): Promise<T> => {
   return args;
 };

@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalManagersMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -65,9 +57,29 @@ export interface BaseManagersMethods {
     Promise<Manager>;
 }
 
-export type ManagersService = BaseManagersMethods & AdditionalManagersMethods;
+export type ManagersService = BaseManagersMethods
+  & AdditionalManagersMethods
+  & HooksAddType<
+    Manager,
+    QueryAllManagersArgs,
+    MutationCreateManagerArgs,
+    MutationUpdateManagerArgs,
+    MutationRemoveManagerArgs,
+    StrictCreateManagerArgs,
+    StrictUpdateManagerArgs
+  >;
 
 export const getManagersService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    Manager,
+    QueryAllManagersArgs,
+    MutationCreateManagerArgs,
+    MutationUpdateManagerArgs,
+    MutationRemoveManagerArgs,
+    StrictCreateManagerArgs,
+    StrictUpdateManagerArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.manager.findUnique,
     forbiddenForUserFields,
@@ -77,14 +89,14 @@ export const getManagersService = (ctx: Context) => {
     params: QueryAllManagersArgs = {},
   ): Promise<Manager[]> => {
     return ctx.prisma.manager.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<Manager[]>;
   };
 
   const findOne = async (
     params: QueryAllManagersArgs = {},
   ): Promise<Manager | null> => {
-    return ctx.prisma.manager.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.manager.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -96,7 +108,7 @@ export const getManagersService = (ctx: Context) => {
   const count = async (
     params: Query_AllManagersMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.manager.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.manager.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -118,7 +130,7 @@ export const getManagersService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.manager.create({
       data: R.mergeDeepLeft(
@@ -149,7 +161,7 @@ export const getManagersService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -195,7 +207,7 @@ export const getManagersService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as Manager),
+      runHooks.afterCreate(ctx, result as Manager),
     ]);
 
     return result as Manager;
@@ -260,7 +272,7 @@ export const getManagersService = (ctx: Context) => {
       ...data,
     } as StrictUpdateManagerArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -308,7 +320,7 @@ export const getManagersService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -317,7 +329,7 @@ export const getManagersService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as Manager),
+      runHooks.afterUpdate(ctx, result as Manager),
     ]);
 
     return result as Manager;
@@ -329,13 +341,15 @@ export const getManagersService = (ctx: Context) => {
   ): Promise<Manager> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagerArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateManagerArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagerArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.manager.upsert({create: R.mergeDeepLeft(
       createData,
@@ -438,7 +452,7 @@ export const getManagersService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveManagerArgs,
   ): Promise<Manager> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.manager.delete({where: {id: params.id}});
 
@@ -457,7 +471,7 @@ export const getManagersService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -472,7 +486,7 @@ export const getManagersService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -493,8 +507,14 @@ export const getManagersService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: ManagersService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

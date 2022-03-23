@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateMessageTemplateArgs, StrictCreateMessageTemplateArgs} from '../MessageTemplatesService';
 
+type Data = {createData: StrictCreateMessageTemplateArgs, updateData: StrictUpdateMessageTemplateArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateMessageTemplateArgs,
-  updateData: StrictUpdateMessageTemplateArgs,
-): Promise<{createData: StrictCreateMessageTemplateArgs, updateData: StrictUpdateMessageTemplateArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };

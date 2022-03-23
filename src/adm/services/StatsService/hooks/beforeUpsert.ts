@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateStatArgs, StrictCreateStatArgs} from '../StatsService';
 
+type Data = {createData: StrictCreateStatArgs, updateData: StrictUpdateStatArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateStatArgs,
-  updateData: StrictUpdateStatArgs,
-): Promise<{createData: StrictCreateStatArgs, updateData: StrictUpdateStatArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };

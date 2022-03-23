@@ -12,17 +12,9 @@ import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
 import {AdditionalTagsMethods, getAdditionalMethods} from './additionalMethods';
-import {additionalOperationsOnCreate} from './hooks/additionalOperationsOnCreate';
-import {additionalOperationsOnUpdate} from './hooks/additionalOperationsOnUpdate';
-import {additionalOperationsOnDelete} from './hooks/additionalOperationsOnDelete';
-import {beforeCreate} from './hooks/beforeCreate';
-import {beforeUpdate} from './hooks/beforeUpdate';
-import {afterCreate} from './hooks/afterCreate';
-import {afterUpdate} from './hooks/afterUpdate';
-import {afterDelete} from './hooks/afterDelete';
-import {beforeDelete} from './hooks/beforeDelete';
-import {beforeUpsert} from './hooks/beforeUpsert';
-import {changeListFilter} from './hooks/changeListFilter';
+import initUserHooks from './initUserHooks';
+import initBuiltInHooks from './initBuiltInHooks';
+import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import AuditLogActionType from '../../../types/AuditLogActionType';
@@ -65,9 +57,29 @@ export interface BaseTagsMethods {
     Promise<Tag>;
 }
 
-export type TagsService = BaseTagsMethods & AdditionalTagsMethods;
+export type TagsService = BaseTagsMethods
+  & AdditionalTagsMethods
+  & HooksAddType<
+    Tag,
+    QueryAllTagsArgs,
+    MutationCreateTagArgs,
+    MutationUpdateTagArgs,
+    MutationRemoveTagArgs,
+    StrictCreateTagArgs,
+    StrictUpdateTagArgs
+  >;
 
 export const getTagsService = (ctx: Context) => {
+  const {hooksAdd, runHooks} = getHooksUtils<
+    Tag,
+    QueryAllTagsArgs,
+    MutationCreateTagArgs,
+    MutationUpdateTagArgs,
+    MutationRemoveTagArgs,
+    StrictCreateTagArgs,
+    StrictUpdateTagArgs
+  >();
+
   const augmentDataFromDb = getAugmenterByDataFromDb(
     ctx.prisma.tag.findUnique,
     forbiddenForUserFields,
@@ -77,14 +89,14 @@ export const getTagsService = (ctx: Context) => {
     params: QueryAllTagsArgs = {},
   ): Promise<Tag[]> => {
     return ctx.prisma.tag.findMany(
-      toPrismaRequest(await changeListFilter(params, ctx), {noId: false}),
+      toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
     ) as unknown as Promise<Tag[]>;
   };
 
   const findOne = async (
     params: QueryAllTagsArgs = {},
   ): Promise<Tag | null> => {
-    return ctx.prisma.tag.findFirst(toPrismaRequest(await changeListFilter(params, ctx), {noId: false}));
+    return ctx.prisma.tag.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
   };
 
   const get = async (
@@ -96,7 +108,7 @@ export const getTagsService = (ctx: Context) => {
   const count = async (
     params: Query_AllTagsMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.tag.count(toPrismaTotalRequest(await changeListFilter(params, ctx)));
+    return ctx.prisma.tag.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
@@ -118,7 +130,7 @@ export const getTagsService = (ctx: Context) => {
       );
     }
 
-    processedData = await beforeCreate(ctx, data);
+    processedData = await runHooks.beforeCreate(ctx, data);
 
     const createOperation = ctx.prisma.tag.create({
       data: R.mergeDeepLeft(
@@ -140,7 +152,7 @@ export const getTagsService = (ctx: Context) => {
 
     const operations = [
       createOperation,
-      ...(await additionalOperationsOnCreate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnCreate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -177,7 +189,7 @@ export const getTagsService = (ctx: Context) => {
           userId: ctx.service('profile').getUserId(),
         },
       }),
-      afterCreate(ctx, result as Tag),
+      runHooks.afterCreate(ctx, result as Tag),
     ]);
 
     return result as Tag;
@@ -233,7 +245,7 @@ export const getTagsService = (ctx: Context) => {
       ...data,
     } as StrictUpdateTagArgs;
 
-    processedData = await beforeUpdate(ctx, processedData);
+    processedData = await runHooks.beforeUpdate(ctx, processedData);
 
     const {id, ...rest} = processedData;
 
@@ -272,7 +284,7 @@ export const getTagsService = (ctx: Context) => {
     const operations = [
       updateOperation,
       auditOperation,
-      ...(await additionalOperationsOnUpdate(ctx, processedData)),
+      ...(await runHooks.additionalOperationsOnUpdate(ctx, processedData)),
     ];
 
     const [result] = await ctx.prisma.$transaction(operations as any);
@@ -281,7 +293,7 @@ export const getTagsService = (ctx: Context) => {
     }
 
     await Promise.all([
-      afterUpdate(ctx, result as Tag),
+      runHooks.afterUpdate(ctx, result as Tag),
     ]);
 
     return result as Tag;
@@ -293,13 +305,15 @@ export const getTagsService = (ctx: Context) => {
   ): Promise<Tag> => {
     const augmented = await augmentDataFromDb(data);
 
-    const processedDataToUpdate = byUser ? augmented : {...augmented, ...data} as StrictUpdateTagArgs;
-    const processedDataToCreate = byUser ? R.mergeDeepLeft(
+    let createData = byUser ? R.mergeDeepLeft(
       {},
       data,
     ) : data as StrictCreateTagArgs;
+    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateTagArgs;
 
-    const {createData, updateData} = await beforeUpsert(ctx, processedDataToCreate, processedDataToUpdate);
+    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
+    createData = handledData.createData;
+    updateData = handledData.updateData;
 
     const result = await ctx.prisma.tag.upsert({create: R.mergeDeepLeft(
       createData,
@@ -384,7 +398,7 @@ export const getTagsService = (ctx: Context) => {
   const del = async (
     params: MutationRemoveTagArgs,
   ): Promise<Tag> => {
-    await beforeDelete(ctx, params);
+    await runHooks.beforeDelete(ctx, params);
 
     const deleteOperation = ctx.prisma.tag.delete({where: {id: params.id}});
 
@@ -403,7 +417,7 @@ export const getTagsService = (ctx: Context) => {
     const operations = [
       deleteOperation,
       auditOperation,
-      ...(await additionalOperationsOnDelete(ctx, params)),
+      ...(await runHooks.additionalOperationsOnDelete(ctx, params)),
     ];
 
     const entity = await get(params.id);
@@ -418,7 +432,7 @@ export const getTagsService = (ctx: Context) => {
       throw new Error('There is no such entity');
     }
 
-    await afterDelete(ctx, entity);
+    await runHooks.afterDelete(ctx, entity);
 
     return entity;
   };
@@ -439,8 +453,14 @@ export const getTagsService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  return {
+  const service: TagsService = {
     ...baseMethods,
     ...additionalMethods,
+    hooksAdd,
   };
+
+  initBuiltInHooks(service);
+  initUserHooks(service);
+
+  return service;
 };

@@ -1,10 +1,11 @@
 import {Context} from '../../types';
 import {StrictUpdateRolesToPermissionArgs, StrictCreateRolesToPermissionArgs} from '../RolesToPermissionsService';
 
+type Data = {createData: StrictCreateRolesToPermissionArgs, updateData: StrictUpdateRolesToPermissionArgs};
+
 export const beforeUpsert = async (
   _ctx: Context,
-  createData: StrictCreateRolesToPermissionArgs,
-  updateData: StrictUpdateRolesToPermissionArgs,
-): Promise<{createData: StrictCreateRolesToPermissionArgs, updateData: StrictUpdateRolesToPermissionArgs}> => {
+  {createData, updateData}: Data,
+): Promise<Data> => {
   return {createData, updateData};
 };
