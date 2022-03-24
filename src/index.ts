@@ -12,7 +12,7 @@ import log from './log';
 import schema from './graph/schema';
 import {
   createContext,
-  сreateUsersAwareContext,
+  createUsersAwareContext,
 } from './adm/services/context';
 import {Context} from './adm/services/types';
 import express, {RequestHandler} from 'express';
@@ -148,7 +148,7 @@ const start = async () => {
 
   const server = new ApolloServer({
     context: async ({req}) => ({
-      context: await сreateUsersAwareContext(
+      context: await createUsersAwareContext(
         {
           userId: null,
           managerId: (req.user as any).id,

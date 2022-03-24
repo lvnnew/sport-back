@@ -55,7 +55,7 @@ export const createUserAwareContext = (context: Context, userId: number): Contex
   return Context;
 };
 
-export const сreateUsersAwareContext = async (
+export const createUsersAwareContext = async (
   {userId, managerId}: UserData,
   container: interfaces.Container = defaultContainer,
 ): Promise<Context> => {
