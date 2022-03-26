@@ -23,7 +23,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -42,7 +42,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -62,7 +62,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Create"
+      "ru": "Create"
      },
      "type": "datetime",
      "updatable": true,
@@ -82,7 +82,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Manager id"
+      "ru": "Manager id"
      },
      "type": "int",
      "updatable": true,
@@ -100,7 +100,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Token"
+      "ru": "Token"
      },
      "type": "string",
      "updatable": true,
@@ -180,7 +180,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -199,7 +199,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -217,7 +217,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Login"
+      "ru": "Login"
      },
      "type": "string",
      "updatable": true,
@@ -235,7 +235,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Password hash"
+      "ru": "Password hash"
      },
      "type": "string",
      "updatable": true,
@@ -255,7 +255,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "User id"
+      "ru": "User id"
      },
      "type": "int",
      "updatable": true,
@@ -340,7 +340,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -359,7 +359,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -379,7 +379,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Create"
+      "ru": "Create"
      },
      "type": "datetime",
      "updatable": true,
@@ -399,7 +399,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "User id"
+      "ru": "User id"
      },
      "type": "int",
      "updatable": true,
@@ -417,7 +417,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Token"
+      "ru": "Token"
      },
      "type": "string",
      "updatable": true,
@@ -494,7 +494,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -513,7 +513,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -531,7 +531,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -615,7 +615,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -634,7 +634,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -654,7 +654,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Date"
+      "ru": "Date"
      },
      "type": "datetime",
      "updatable": true,
@@ -672,7 +672,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -692,7 +692,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Entity type id"
+      "ru": "Entity type id"
      },
      "type": "string",
      "updatable": true,
@@ -710,7 +710,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Entity id"
+      "ru": "Entity id"
      },
      "type": "string",
      "updatable": true,
@@ -730,7 +730,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Action type id"
+      "ru": "Action type id"
      },
      "type": "string",
      "updatable": true,
@@ -750,7 +750,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Manager id"
+      "ru": "Manager id"
      },
      "type": "int",
      "updatable": true,
@@ -770,7 +770,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "User id"
+      "ru": "User id"
      },
      "type": "int",
      "updatable": true,
@@ -788,7 +788,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Foreign"
+      "ru": "Foreign"
      },
      "type": "bool",
      "updatable": true,
@@ -806,7 +806,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Foreign entity type"
+      "ru": "Foreign entity type"
      },
      "type": "string",
      "updatable": true,
@@ -824,7 +824,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Foreign entity id"
+      "ru": "Foreign entity id"
      },
      "type": "string",
      "updatable": true,
@@ -842,7 +842,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Action data"
+      "ru": "Action data"
      },
      "type": "string",
      "updatable": true,
@@ -963,7 +963,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -982,7 +982,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -1002,7 +1002,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Дату проверки"
+      "ru": "Дату проверки"
      },
      "type": "datetime",
      "updatable": true,
@@ -1020,7 +1020,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Тип сущности, на которой запускалось правило"
+      "ru": "Тип сущности, на которой запускалось правило"
      },
      "type": "string",
      "updatable": true,
@@ -1038,7 +1038,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Идентификатор сущности, на котором запускалось правило"
+      "ru": "Идентификатор сущности, на котором запускалось правило"
      },
      "type": "string",
      "updatable": true,
@@ -1058,7 +1058,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Правило автогенерации, которое запускалось"
+      "ru": "Правило автогенерации, которое запускалось"
      },
      "type": "string",
      "updatable": true,
@@ -1078,7 +1078,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Версия запускаемого правила"
+      "ru": "Версия запускаемого правила"
      },
      "type": "date",
      "updatable": true,
@@ -1096,7 +1096,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Произошла ли ошибка"
+      "ru": "Произошла ли ошибка"
      },
      "type": "bool",
      "updatable": true,
@@ -1114,7 +1114,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Текст ошибки"
+      "ru": "Текст ошибки"
      },
      "type": "string",
      "updatable": true,
@@ -1212,7 +1212,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -1231,7 +1231,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -1249,7 +1249,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Название правила"
+      "ru": "Название правила"
      },
      "type": "string",
      "updatable": true,
@@ -1269,7 +1269,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Дата последнего изменения правила"
+      "ru": "Дата последнего изменения правила"
      },
      "type": "date",
      "updatable": true,
@@ -1287,7 +1287,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "На основе какой сущности производится генерация"
+      "ru": "На основе какой сущности производится генерация"
      },
      "type": "string",
      "updatable": true,
@@ -1305,7 +1305,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Какую сущность генерируем"
+      "ru": "Какую сущность генерируем"
      },
      "type": "string",
      "updatable": true,
@@ -1323,7 +1323,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Объект с информацией, как отобрать среди первоначальных сущностей те, по которым следует произвести генерацию"
+      "ru": "Объект с информацией, как отобрать среди первоначальных сущностей те, по которым следует произвести генерацию"
      },
      "type": "string",
      "updatable": true,
@@ -1341,7 +1341,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Объект с информацией, как заполнить поля генерируемой сущности. На основе полей исходной сущности, констант или выражений"
+      "ru": "Объект с информацией, как заполнить поля генерируемой сущности. На основе полей исходной сущности, констант или выражений"
      },
      "type": "string",
      "updatable": true,
@@ -1359,7 +1359,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Нужно ли учитывать версию при поиске сущностей ещё не обработанных правилом"
+      "ru": "Нужно ли учитывать версию при поиске сущностей ещё не обработанных правилом"
      },
      "type": "bool",
      "updatable": true,
@@ -1460,7 +1460,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -1479,7 +1479,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -1499,7 +1499,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "From id"
+      "ru": "From id"
      },
      "type": "int",
      "updatable": true,
@@ -1519,7 +1519,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "To id"
+      "ru": "To id"
      },
      "type": "int",
      "updatable": true,
@@ -1539,7 +1539,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Expires at"
+      "ru": "Expires at"
      },
      "type": "date",
      "updatable": true,
@@ -1557,7 +1557,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Active"
+      "ru": "Active"
      },
      "type": "bool",
      "updatable": true,
@@ -1640,7 +1640,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -1659,7 +1659,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -1677,7 +1677,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -1748,7 +1748,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -1767,7 +1767,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -1785,7 +1785,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Original name"
+      "ru": "Original name"
      },
      "type": "string",
      "updatable": true,
@@ -1803,7 +1803,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Url"
+      "ru": "Url"
      },
      "type": "string",
      "updatable": true,
@@ -1821,7 +1821,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Mimetype"
+      "ru": "Mimetype"
      },
      "type": "string",
      "updatable": true,
@@ -1839,7 +1839,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "S3 key"
+      "ru": "S3 key"
      },
      "type": "string",
      "updatable": true,
@@ -1857,7 +1857,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "E tag"
+      "ru": "E tag"
      },
      "type": "string",
      "updatable": true,
@@ -1942,7 +1942,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -1961,7 +1961,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -1979,7 +1979,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -2056,7 +2056,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -2075,7 +2075,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -2093,7 +2093,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Login"
+      "ru": "Login"
      },
      "type": "string",
      "updatable": true,
@@ -2111,7 +2111,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Password hash"
+      "ru": "Password hash"
      },
      "type": "string",
      "updatable": true,
@@ -2129,7 +2129,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Role"
+      "ru": "Role"
      },
      "type": "string",
      "updatable": true,
@@ -2147,7 +2147,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Email verified"
+      "ru": "Email verified"
      },
      "type": "bool",
      "updatable": true,
@@ -2165,7 +2165,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Initial password changed"
+      "ru": "Initial password changed"
      },
      "type": "bool",
      "updatable": true,
@@ -2183,7 +2183,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Locked"
+      "ru": "Locked"
      },
      "type": "bool",
      "updatable": true,
@@ -2203,7 +2203,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Manager id"
+      "ru": "Manager id"
      },
      "type": "int",
      "updatable": true,
@@ -2308,7 +2308,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -2327,7 +2327,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -2345,7 +2345,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -2363,7 +2363,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Last name"
+      "ru": "Last name"
      },
      "type": "string",
      "updatable": true,
@@ -2381,7 +2381,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "First name"
+      "ru": "First name"
      },
      "type": "string",
      "updatable": true,
@@ -2401,7 +2401,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Language id"
+      "ru": "Language id"
      },
      "type": "string",
      "updatable": true,
@@ -2419,7 +2419,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Email"
+      "ru": "Email"
      },
      "type": "string",
      "updatable": true,
@@ -2437,7 +2437,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Phone"
+      "ru": "Phone"
      },
      "type": "string",
      "updatable": true,
@@ -2455,7 +2455,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Photo"
+      "ru": "Photo"
      },
      "type": "string",
      "updatable": true,
@@ -2473,7 +2473,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Telegram login"
+      "ru": "Telegram login"
      },
      "type": "string",
      "updatable": true,
@@ -2493,7 +2493,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Unit id"
+      "ru": "Unit id"
      },
      "type": "int",
      "updatable": true,
@@ -2513,7 +2513,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Tenant id"
+      "ru": "Tenant id"
      },
      "type": "int",
      "updatable": true,
@@ -2531,7 +2531,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Head of unit"
+      "ru": "Head of unit"
      },
      "type": "bool",
      "updatable": true,
@@ -2549,7 +2549,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Active"
+      "ru": "Active"
      },
      "type": "bool",
      "updatable": true,
@@ -2679,7 +2679,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -2698,7 +2698,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -2718,7 +2718,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Manager id"
+      "ru": "Manager id"
      },
      "type": "int",
      "updatable": true,
@@ -2738,7 +2738,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Permission id"
+      "ru": "Permission id"
      },
      "type": "string",
      "updatable": true,
@@ -2814,7 +2814,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -2833,7 +2833,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -2853,7 +2853,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Manager id"
+      "ru": "Manager id"
      },
      "type": "int",
      "updatable": true,
@@ -2873,7 +2873,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Role id"
+      "ru": "Role id"
      },
      "type": "string",
      "updatable": true,
@@ -2951,7 +2951,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -2970,7 +2970,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -2988,7 +2988,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -3006,7 +3006,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Secret data"
+      "ru": "Secret data"
      },
      "type": "bool",
      "updatable": true,
@@ -3026,7 +3026,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Message type id"
+      "ru": "Message type id"
      },
      "type": "string",
      "updatable": true,
@@ -3104,7 +3104,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -3123,7 +3123,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3141,7 +3141,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -3159,7 +3159,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Description"
+      "ru": "Description"
      },
      "type": "string",
      "updatable": true,
@@ -3237,7 +3237,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -3256,7 +3256,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3274,7 +3274,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -3342,7 +3342,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -3361,7 +3361,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3379,7 +3379,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -3397,7 +3397,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Has all permissions"
+      "ru": "Has all permissions"
      },
      "type": "bool",
      "updatable": true,
@@ -3415,7 +3415,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "All tenants available"
+      "ru": "All tenants available"
      },
      "type": "bool",
      "updatable": true,
@@ -3496,7 +3496,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -3515,7 +3515,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3535,7 +3535,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Role id"
+      "ru": "Role id"
      },
      "type": "string",
      "updatable": true,
@@ -3555,7 +3555,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Permission id"
+      "ru": "Permission id"
      },
      "type": "string",
      "updatable": true,
@@ -3633,7 +3633,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "string",
      "updatable": true,
@@ -3652,7 +3652,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3672,7 +3672,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Updated"
+      "ru": "Updated"
      },
      "type": "datetime",
      "updatable": true,
@@ -3692,7 +3692,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Hello count"
+      "ru": "Hello count"
      },
      "type": "int",
      "updatable": true,
@@ -3767,7 +3767,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -3786,7 +3786,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3804,7 +3804,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Comment"
+      "ru": "Comment"
      },
      "type": "string",
      "updatable": true,
@@ -3872,7 +3872,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -3891,7 +3891,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -3909,7 +3909,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -3978,7 +3978,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -3997,7 +3997,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -4015,7 +4015,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -4035,7 +4035,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Parent id"
+      "ru": "Parent id"
      },
      "type": "int",
      "updatable": true,
@@ -4108,7 +4108,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Id"
+      "ru": "Id"
      },
      "type": "int",
      "updatable": true,
@@ -4127,7 +4127,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Search"
+      "ru": "Search"
      },
      "type": "string",
      "updatable": true,
@@ -4145,7 +4145,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Title"
+      "ru": "Title"
      },
      "type": "string",
      "updatable": true,
@@ -4163,7 +4163,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Lastname"
+      "ru": "Lastname"
      },
      "type": "string",
      "updatable": true,
@@ -4181,7 +4181,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Firstname"
+      "ru": "Firstname"
      },
      "type": "string",
      "updatable": true,
@@ -4199,7 +4199,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Email"
+      "ru": "Email"
      },
      "type": "string",
      "updatable": true,
@@ -4220,7 +4220,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "en": "Tenant id"
+      "ru": "Tenant id"
      },
      "type": "int",
      "updatable": true,
