@@ -23,7 +23,9 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const forbiddenForUserFields: string[] = [];
+const forbiddenForUserFields: string[] = [
+  'tenantId',
+];
 
 export type StrictUpdateManagerArgs = MutationUpdateManagerArgs;
 export type StrictCreateManagerArgs = MutationCreateManagerArgs;
@@ -125,7 +127,9 @@ export const getManagersService = (ctx: Context) => {
 
     if (byUser) {
       processedData = R.mergeDeepLeft(
-        {},
+        {
+          tenantId: R.defaultTo(1, processedData.tenantId) as any,
+        },
         processedData,
       );
     }
@@ -136,6 +140,7 @@ export const getManagersService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         processedData,
         {
+          tenantId: R.defaultTo(1, processedData.tenantId) as any,
           search: [
             ...R
               .toPairs(
@@ -174,6 +179,7 @@ export const getManagersService = (ctx: Context) => {
       ctx.prisma.manager.update({
         where: {id: result.id},
         data: {
+          tenantId: R.defaultTo(1, result.tenantId) as any,
           search: [
             ...R
               .toPairs(
@@ -221,7 +227,9 @@ export const getManagersService = (ctx: Context) => {
 
     if (byUser) {
       processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
+        {
+          tenantId: R.defaultTo(1, data.tenantId) as any,
+        },
         data,
       ));
     }
@@ -230,6 +238,7 @@ export const getManagersService = (ctx: Context) => {
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
+          tenantId: R.defaultTo(1, data.tenantId) as any,
           search: [
             ...R
               .toPairs(
@@ -342,7 +351,9 @@ export const getManagersService = (ctx: Context) => {
     const augmented = await augmentDataFromDb(data);
 
     let createData = byUser ? R.mergeDeepLeft(
-      {},
+      {
+        tenantId: R.defaultTo(1, data.tenantId) as any,
+      },
       data,
     ) : data as StrictCreateManagerArgs;
     let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagerArgs;
@@ -354,6 +365,7 @@ export const getManagersService = (ctx: Context) => {
     const result = await ctx.prisma.manager.upsert({create: R.mergeDeepLeft(
       createData,
       {
+        tenantId: R.defaultTo(1, createData.tenantId) as any,
         search: [
           ...R
             .toPairs(
@@ -416,12 +428,16 @@ export const getManagersService = (ctx: Context) => {
 
     if (byUser) {
       processedDataToCreate = R.mergeDeepLeft(
-        {},
+        {
+          tenantId: R.defaultTo(1, processedDataToCreate.tenantId) as any,
+        },
         processedDataToCreate,
       );
 
       processedDataToUpdate = R.omit(
-        [],
+        [
+          'tenantId',
+        ],
         processedDataToUpdate,
       );
     }

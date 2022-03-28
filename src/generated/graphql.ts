@@ -1182,9 +1182,9 @@ export type MutationCreateManagerArgs = {
   photo?: InputMaybe<Scalars['String']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   unitId?: InputMaybe<Scalars['Int']>;
-  tenantId?: InputMaybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
   active: Scalars['Boolean'];
+  tenantId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1199,9 +1199,9 @@ export type MutationUpdateManagerArgs = {
   photo?: InputMaybe<Scalars['String']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   unitId?: InputMaybe<Scalars['Int']>;
-  tenantId?: InputMaybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
   active: Scalars['Boolean'];
+  tenantId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1756,9 +1756,9 @@ export type Manager = {
   photo?: Maybe<Scalars['String']>;
   telegramLogin?: Maybe<Scalars['String']>;
   unitId?: Maybe<Scalars['Int']>;
-  tenantId?: Maybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
   active: Scalars['Boolean'];
+  tenantId?: Maybe<Scalars['Int']>;
 };
 
 export type ManagerFilter = {
@@ -1783,10 +1783,10 @@ export type ManagerFilter = {
   telegramLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   unitId?: InputMaybe<Scalars['Int']>;
   unitId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
-  tenantId?: InputMaybe<Scalars['Int']>;
-  tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   headOfUnit?: InputMaybe<Scalars['Boolean']>;
   active?: InputMaybe<Scalars['Boolean']>;
+  tenantId?: InputMaybe<Scalars['Int']>;
+  tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type ManagersToPermission = {
@@ -2835,9 +2835,9 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   telegramLogin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   unitId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  tenantId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   headOfUnit?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  tenantId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

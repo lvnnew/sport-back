@@ -159,10 +159,10 @@ model Manager {
 	telegramLogin	String?
 	unitId	Int?
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])
-	tenantId	Int?
-	tenant	Tenant?	@relation("From-Manager.tenant", fields: [tenantId], references: [id])
 	headOfUnit	Boolean
 	active	Boolean
+	tenantId	Int?
+	tenant	Tenant?	@relation("From-Manager.tenant", fields: [tenantId], references: [id])
 	admRefreshTokenManagers	AdmRefreshToken[]	@relation("From-AdmRefreshToken.manager")
 	auditLogManagers	AuditLog[]	@relation("From-AuditLog.manager")
 	delegationFroms	Delegation[]	@relation("From-Delegation.from")

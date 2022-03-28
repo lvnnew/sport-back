@@ -2512,26 +2512,6 @@
      "updatableByUser": true
     },
     {
-     "category": "link",
-     "externalEntity": "tenants",
-     "hidden": false,
-     "linkCategory": "entity",
-     "name": "tenantId",
-     "needFor": "",
-     "required": false,
-     "requiredOnInput": null,
-     "searchable": true,
-     "showInCreate": true,
-     "showInEdit": true,
-     "showInList": true,
-     "title": {
-      "ru": "Tenant"
-     },
-     "type": "int",
-     "updatable": true,
-     "updatableByUser": true
-    },
-    {
      "category": "scalar",
      "hidden": false,
      "name": "headOfUnit",
@@ -2566,6 +2546,27 @@
      "type": "bool",
      "updatable": true,
      "updatableByUser": true
+    },
+    {
+     "category": "link",
+     "defaultValueExpression": "1",
+     "externalEntity": "tenants",
+     "hidden": false,
+     "linkCategory": "entity",
+     "name": "tenantId",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": false,
+     "searchable": true,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInList": true,
+     "title": {
+      "ru": "Tenant"
+     },
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": false
     }
    ],
    "forms": {
@@ -2630,17 +2631,17 @@
        {
         "alwaysOn": false,
         "hidden": false,
-        "name": "tenantId"
-       },
-       {
-        "alwaysOn": false,
-        "hidden": false,
         "name": "headOfUnit"
        },
        {
         "alwaysOn": false,
         "hidden": false,
         "name": "active"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "tenantId"
        }
       ]
      }
@@ -2648,7 +2649,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
-   "multitenancy": "none",
+   "multitenancy": "optional",
    "name": "managers",
    "needFor": {
     "ru": "Менеджерские (административные) аккаунты"
@@ -4296,7 +4297,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
-   "multitenancy": "none",
+   "multitenancy": "optional",
    "name": "users",
    "needFor": {},
    "predefinedElements": [],

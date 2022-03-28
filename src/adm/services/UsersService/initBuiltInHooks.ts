@@ -1,8 +1,13 @@
 import {UsersService} from './UsersService';
+import {beforeUpdate, beforeUpsert, beforeDelete, changeListFilter} from './hooks/tenantIdRequiredHooks';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const initBuiltInHooks = (_service: UsersService) => {};
+const initBuiltInHooks = ({hooksAdd}: UsersService) => {
+  hooksAdd.beforeUpdate(beforeUpdate);
+  hooksAdd.beforeUpsert(beforeUpsert);
+  hooksAdd.beforeDelete(beforeDelete);
+  hooksAdd.changeListFilter(changeListFilter);
+};
 
 export default initBuiltInHooks;
