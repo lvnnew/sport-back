@@ -82,7 +82,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Manager id"
+      "ru": "Manager"
      },
      "type": "int",
      "updatable": true,
@@ -142,6 +142,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "admRefreshTokens",
    "needFor": {
     "ru": "Хранилище рефреш токенов для админа"
@@ -255,7 +256,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "User id"
+      "ru": "User"
      },
      "type": "int",
      "updatable": true,
@@ -297,6 +298,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "appLogins",
    "needFor": {
     "ru": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
@@ -399,7 +401,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "User id"
+      "ru": "User"
      },
      "type": "int",
      "updatable": true,
@@ -459,6 +461,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "appRefreshTokens",
    "needFor": {
     "ru": "Хранилище рефреш токенов для app"
@@ -563,6 +566,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "auditLogActionTypes",
    "needFor": {
     "ru": "Учета типов событий аудита"
@@ -692,7 +696,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Entity type id"
+      "ru": "Entity type"
      },
      "type": "string",
      "updatable": true,
@@ -710,7 +714,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Entity id"
+      "ru": "Entity"
      },
      "type": "string",
      "updatable": true,
@@ -730,7 +734,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Action type id"
+      "ru": "Action type"
      },
      "type": "string",
      "updatable": true,
@@ -750,7 +754,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Manager id"
+      "ru": "Manager"
      },
      "type": "int",
      "updatable": true,
@@ -770,7 +774,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "User id"
+      "ru": "User"
      },
      "type": "int",
      "updatable": true,
@@ -824,7 +828,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Foreign entity id"
+      "ru": "Foreign entity"
      },
      "type": "string",
      "updatable": true,
@@ -924,6 +928,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "auditLogs",
    "needFor": {
     "ru": "Аудит системы"
@@ -1176,6 +1181,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "autogenerationHistoryEntries",
    "needFor": {
     "ru": "История применения правил автогенерации к сущностям"
@@ -1421,6 +1427,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "autogenerationRules",
    "needFor": {
     "ru": "Правила автогенерации сущностей"
@@ -1499,7 +1506,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "From id"
+      "ru": "From"
      },
      "type": "int",
      "updatable": true,
@@ -1519,7 +1526,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "To id"
+      "ru": "To"
      },
      "type": "int",
      "updatable": true,
@@ -1604,6 +1611,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "delegations",
    "needFor": {
     "ru": "Делегирование прав между пользователями"
@@ -1709,6 +1717,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "entities",
    "needFor": {
     "ru": "Список всех сущностей проекта"
@@ -1909,6 +1918,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "files",
    "needFor": {},
    "predefinedElements": [],
@@ -2011,6 +2021,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "languages",
    "needFor": {},
    "predefinedElements": [
@@ -2203,7 +2214,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Manager id"
+      "ru": "Manager"
      },
      "type": "int",
      "updatable": true,
@@ -2265,6 +2276,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "managerLogins",
    "needFor": {
     "ru": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
@@ -2401,7 +2413,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Language id"
+      "ru": "Language"
      },
      "type": "string",
      "updatable": true,
@@ -2493,7 +2505,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Unit id"
+      "ru": "Unit"
      },
      "type": "int",
      "updatable": true,
@@ -2513,7 +2525,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Tenant id"
+      "ru": "Tenant"
      },
      "type": "int",
      "updatable": true,
@@ -2636,6 +2648,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "managers",
    "needFor": {
     "ru": "Менеджерские (административные) аккаунты"
@@ -2718,7 +2731,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Manager id"
+      "ru": "Manager"
      },
      "type": "int",
      "updatable": true,
@@ -2738,7 +2751,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Permission id"
+      "ru": "Permission"
      },
      "type": "string",
      "updatable": true,
@@ -2775,6 +2788,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "managersToPermissions",
    "needFor": {
     "ru": "Соединение, которым менеджерам назначаются пермишны в обход ролей"
@@ -2853,7 +2867,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Manager id"
+      "ru": "Manager"
      },
      "type": "int",
      "updatable": true,
@@ -2873,7 +2887,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Role id"
+      "ru": "Role"
      },
      "type": "string",
      "updatable": true,
@@ -2910,6 +2924,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "managersToRoles",
    "needFor": {
     "ru": "Соединение, которым менеджерам назначаются роли"
@@ -3026,7 +3041,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Message type id"
+      "ru": "Message type"
      },
      "type": "string",
      "updatable": true,
@@ -3068,6 +3083,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "messageTemplates",
    "needFor": {
     "ru": "Шаблоны сообщений"
@@ -3196,6 +3212,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "messageTypes",
    "needFor": {
     "ru": "Типы сообщений"
@@ -3306,6 +3323,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "permissions",
    "needFor": {
     "ru": "Разрешение на совершение той или иной операции"
@@ -3457,6 +3475,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "roles",
    "needFor": {
     "ru": "Роли, определющие права на те или иные операции"
@@ -3535,7 +3554,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Role id"
+      "ru": "Role"
      },
      "type": "string",
      "updatable": true,
@@ -3555,7 +3574,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Permission id"
+      "ru": "Permission"
      },
      "type": "string",
      "updatable": true,
@@ -3592,6 +3611,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "rolesToPermissions",
    "needFor": {
     "ru": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
@@ -3729,6 +3749,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "stats",
    "needFor": {
     "ru": "Статистика"
@@ -3836,6 +3857,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "tags",
    "needFor": {},
    "predefinedElements": [],
@@ -3941,6 +3963,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "tenants",
    "needFor": {},
    "predefinedElements": [],
@@ -4035,7 +4058,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Parent id"
+      "ru": "Parent"
      },
      "type": "int",
      "updatable": true,
@@ -4072,6 +4095,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "units",
    "needFor": {},
    "predefinedElements": [],
@@ -4220,7 +4244,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Tenant id"
+      "ru": "Tenant"
      },
      "type": "int",
      "updatable": true,
@@ -4272,6 +4296,7 @@
    },
    "keyField": "id",
    "materialUiIcon": "Brightness1Outlined",
+   "multitenancy": "none",
    "name": "users",
    "needFor": {},
    "predefinedElements": [],
