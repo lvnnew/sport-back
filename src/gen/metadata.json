@@ -696,7 +696,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Entity type"
+      "ru": "Сущность"
      },
      "type": "string",
      "updatable": true,
@@ -714,7 +714,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Entity"
+      "ru": "ID сущности"
      },
      "type": "string",
      "updatable": true,
@@ -734,7 +734,7 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Action type"
+      "ru": "Тип операции"
      },
      "type": "string",
      "updatable": true,
