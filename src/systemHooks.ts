@@ -19,9 +19,9 @@ export const onStart = () => {
   types.setTypeParser(types.builtins.INT8, (val) => Number.parseInt(val, 10));
 
   // To serialze BigInt as string in json
-  if (typeof BigInt.prototype.toJSON !== 'function') {
+  if (typeof (BigInt as any).prototype.toJSON !== 'function') {
     // eslint-disable-next-line no-extend-native
-    BigInt.prototype.toJSON = function(this: any) {
+    (BigInt as any).prototype.toJSON = function(this: any) {
       return this.toString();
     } as any;
   }
