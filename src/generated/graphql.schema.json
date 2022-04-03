@@ -50,6 +50,16 @@
       },
       {
         "kind": "SCALAR",
+        "name": "TimeZone",
+        "description": "A field whose value exists in the standard IANA Time Zone Database: https://www.iana.org/time-zones",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
         "name": "UtcOffset",
         "description": "A field whose value is a UTC Offset: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones",
         "fields": null,

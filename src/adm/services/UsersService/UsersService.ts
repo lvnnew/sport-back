@@ -23,9 +23,7 @@ import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const forbiddenForUserFields: string[] = [
-  'tenantId',
-];
+const forbiddenForUserFields: string[] = [];
 
 export type StrictUpdateUserArgs = MutationUpdateUserArgs;
 export type StrictCreateUserArgs = MutationCreateUserArgs;
@@ -127,9 +125,7 @@ export const getUsersService = (ctx: Context) => {
 
     if (byUser) {
       processedData = R.mergeDeepLeft(
-        {
-          tenantId: R.defaultTo(1, processedData.tenantId) as any,
-        },
+        {},
         processedData,
       );
     }
@@ -140,7 +136,6 @@ export const getUsersService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         processedData,
         {
-          tenantId: R.defaultTo(1, processedData.tenantId) as any,
           search: [
             ...R
               .toPairs(
@@ -174,7 +169,6 @@ export const getUsersService = (ctx: Context) => {
       ctx.prisma.user.update({
         where: {id: result.id},
         data: {
-          tenantId: R.defaultTo(1, result.tenantId) as any,
           search: [
             ...R
               .toPairs(
@@ -217,9 +211,7 @@ export const getUsersService = (ctx: Context) => {
 
     if (byUser) {
       processedData = processedData.map(data => R.mergeDeepLeft(
-        {
-          tenantId: R.defaultTo(1, data.tenantId) as any,
-        },
+        {},
         data,
       ));
     }
@@ -228,7 +220,6 @@ export const getUsersService = (ctx: Context) => {
       data: processedData.map(data => R.mergeDeepLeft(
         data,
         {
-          tenantId: R.defaultTo(1, data.tenantId) as any,
           search: [
             ...R
               .toPairs(
@@ -331,9 +322,7 @@ export const getUsersService = (ctx: Context) => {
     const augmented = await augmentDataFromDb(data);
 
     let createData = byUser ? R.mergeDeepLeft(
-      {
-        tenantId: R.defaultTo(1, data.tenantId) as any,
-      },
+      {},
       data,
     ) : data as StrictCreateUserArgs;
     let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateUserArgs;
@@ -345,7 +334,6 @@ export const getUsersService = (ctx: Context) => {
     const result = await ctx.prisma.user.upsert({create: R.mergeDeepLeft(
       createData,
       {
-        tenantId: R.defaultTo(1, createData.tenantId) as any,
         search: [
           ...R
             .toPairs(
@@ -398,9 +386,7 @@ export const getUsersService = (ctx: Context) => {
 
     if (byUser) {
       processedDataToCreate = R.mergeDeepLeft(
-        {
-          tenantId: R.defaultTo(1, processedDataToCreate.tenantId) as any,
-        },
+        {},
         processedDataToCreate,
       );
 

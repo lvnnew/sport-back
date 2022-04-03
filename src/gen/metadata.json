@@ -2549,7 +2549,7 @@
     },
     {
      "category": "link",
-     "defaultValueExpression": "1",
+     "defaultValueExpression": "undefined",
      "externalEntity": "tenants",
      "hidden": false,
      "linkCategory": "entity",
@@ -4232,7 +4232,7 @@
     },
     {
      "category": "link",
-     "defaultValueExpression": "1",
+     "defaultValueExpression": "undefined",
      "externalEntity": "tenants",
      "hidden": false,
      "linkCategory": "entity",

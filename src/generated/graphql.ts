@@ -20,6 +20,8 @@ export type Scalars = {
   DateTime: any;
   /** The javascript `Date` as integer. Type represents date and time as number of milliseconds from start of UNIX epoch. */
   Timestamp: any;
+  /** A field whose value exists in the standard IANA Time Zone Database: https://www.iana.org/time-zones */
+  TimeZone: any;
   /** A field whose value is a UTC Offset: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones */
   UtcOffset: any;
   /**
@@ -2083,6 +2085,7 @@ export type ResolversTypes = {
   Time: ResolverTypeWrapper<Scalars['Time']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Timestamp: ResolverTypeWrapper<Scalars['Timestamp']>;
+  TimeZone: ResolverTypeWrapper<Scalars['TimeZone']>;
   UtcOffset: ResolverTypeWrapper<Scalars['UtcOffset']>;
   Duration: ResolverTypeWrapper<Scalars['Duration']>;
   ISO8601Duration: ResolverTypeWrapper<Scalars['ISO8601Duration']>;
@@ -2203,6 +2206,7 @@ export type ResolversParentTypes = {
   Time: Scalars['Time'];
   DateTime: Scalars['DateTime'];
   Timestamp: Scalars['Timestamp'];
+  TimeZone: Scalars['TimeZone'];
   UtcOffset: Scalars['UtcOffset'];
   Duration: Scalars['Duration'];
   ISO8601Duration: Scalars['ISO8601Duration'];
@@ -2330,6 +2334,10 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export interface TimestampScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Timestamp'], any> {
   name: 'Timestamp';
+}
+
+export interface TimeZoneScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['TimeZone'], any> {
+  name: 'TimeZone';
 }
 
 export interface UtcOffsetScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['UtcOffset'], any> {
@@ -2939,6 +2947,7 @@ export type Resolvers<ContextType = any> = {
   Time?: GraphQLScalarType;
   DateTime?: GraphQLScalarType;
   Timestamp?: GraphQLScalarType;
+  TimeZone?: GraphQLScalarType;
   UtcOffset?: GraphQLScalarType;
   Duration?: GraphQLScalarType;
   ISO8601Duration?: GraphQLScalarType;
