@@ -36,7 +36,7 @@ export const initManager = async (
     },
   );
 
-  await ctx.service('managerLogins').upsertAdvanced(
+  const managerLogin = await ctx.service('managerLogins').upsertAdvanced(
     {
       login: email,
     },
@@ -55,4 +55,9 @@ export const initManager = async (
     managerId: manager.id,
     roleId,
   })));
+
+  return {
+    manager,
+    managerLogin,
+  };
 };
