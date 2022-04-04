@@ -23,7 +23,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -184,7 +185,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -349,7 +351,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -508,7 +511,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -632,7 +636,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -991,7 +996,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -1247,7 +1253,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -1502,7 +1509,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -1687,7 +1695,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -1798,7 +1807,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -2000,7 +2010,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -2117,7 +2128,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -2375,7 +2387,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -2759,7 +2772,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -2898,7 +2912,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -3040,7 +3055,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -3198,7 +3214,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -3336,7 +3353,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -3445,7 +3463,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -3602,7 +3621,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -3744,7 +3764,8 @@
      "showInList": true,
      "stringType": "plain",
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "string",
      "updatable": true,
@@ -3880,7 +3901,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -3988,7 +4010,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -4097,7 +4120,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
@@ -4231,7 +4255,8 @@
      "showInEdit": true,
      "showInList": true,
      "title": {
-      "ru": "Id"
+      "en": "Id",
+      "ru": "Ид"
      },
      "type": "int",
      "updatable": true,
