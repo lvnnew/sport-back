@@ -1381,12 +1381,14 @@ export type MutationRemoveTagArgs = {
 
 export type MutationCreateTenantArgs = {
   title?: InputMaybe<Scalars['String']>;
+  utcOffset: Scalars['Int'];
 };
 
 
 export type MutationUpdateTenantArgs = {
   id: Scalars['Int'];
   title?: InputMaybe<Scalars['String']>;
+  utcOffset: Scalars['Int'];
 };
 
 
@@ -1959,6 +1961,7 @@ export type Tenant = {
   __typename?: 'Tenant';
   id: Scalars['Int'];
   title?: Maybe<Scalars['String']>;
+  utcOffset: Scalars['Int'];
 };
 
 export type TenantFilter = {
@@ -1967,6 +1970,12 @@ export type TenantFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  utcOffset?: InputMaybe<Scalars['Int']>;
+  utcOffset_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  utcOffset_lte?: InputMaybe<Scalars['Int']>;
+  utcOffset_gte?: InputMaybe<Scalars['Int']>;
+  utcOffset_lt?: InputMaybe<Scalars['Int']>;
+  utcOffset_gt?: InputMaybe<Scalars['Int']>;
 };
 
 export type Unit = {
@@ -2716,8 +2725,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, Partial<MutationCreateTagArgs>>;
   updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
   removeTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
-  createTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, Partial<MutationCreateTenantArgs>>;
-  updateTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationUpdateTenantArgs, 'id'>>;
+  createTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationCreateTenantArgs, 'utcOffset'>>;
+  updateTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationUpdateTenantArgs, 'id' | 'utcOffset'>>;
   removeTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationRemoveTenantArgs, 'id'>>;
   createUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, Partial<MutationCreateUnitArgs>>;
   updateUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationUpdateUnitArgs, 'id'>>;
@@ -2922,6 +2931,7 @@ export type TagResolvers<ContextType = any, ParentType extends ResolversParentTy
 export type TenantResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tenant'] = ResolversParentTypes['Tenant']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  utcOffset?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

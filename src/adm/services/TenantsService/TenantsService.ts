@@ -142,6 +142,7 @@ export const getTenantsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
+                  'utcOffset',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -171,6 +172,7 @@ export const getTenantsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
+                  'utcOffset',
                 ], result),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -218,6 +220,7 @@ export const getTenantsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
+                  'utcOffset',
                 ], data),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -259,6 +262,7 @@ export const getTenantsService = (ctx: Context) => {
                 R.pick([
                   'id',
                   'title',
+                  'utcOffset',
                 ], processedData),
               )
               .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -324,6 +328,7 @@ export const getTenantsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
+                'utcOffset',
               ], createData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
@@ -338,6 +343,7 @@ export const getTenantsService = (ctx: Context) => {
               R.pick([
                 'id',
                 'title',
+                'utcOffset',
               ], updateData),
             )
             .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),

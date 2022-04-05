@@ -6,6 +6,7 @@ export default gql`
   type Tenant {
     id: Int!
     title: String
+    utcOffset: Int!
   }
 
   input TenantFilter {
@@ -14,6 +15,12 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    utcOffset: Int
+    utcOffset_in: [Int]
+    utcOffset_lte: Int
+    utcOffset_gte: Int
+    utcOffset_lt: Int
+    utcOffset_gt: Int
   }
 
   type ListMetadata {
@@ -27,8 +34,8 @@ export default gql`
   }
 
   type Mutation {
-    createTenant(title: String): Tenant
-    updateTenant(id: Int!, title: String): Tenant
+    createTenant(title: String, utcOffset: Int!): Tenant
+    updateTenant(id: Int!, title: String, utcOffset: Int!): Tenant
     removeTenant(id: Int!): Tenant
   }
 `;

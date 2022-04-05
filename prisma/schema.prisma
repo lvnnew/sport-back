@@ -267,6 +267,7 @@ model Tenant {
 	id	Int	@default(autoincrement())	@id
 	search	String?
 	title	String?
+	utcOffset	Int	@default(0)
 	managerTenants	Manager[]	@relation("From-Manager.tenant")
 	userTenants	User[]	@relation("From-User.tenant")
 }

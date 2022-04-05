@@ -4078,6 +4078,27 @@
      "type": "string",
      "updatable": true,
      "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "constantOnCreate": false,
+     "constantOnUpdate": false,
+     "defaultDbValue": "0",
+     "hidden": false,
+     "name": "utcOffset",
+     "needFor": "",
+     "required": true,
+     "requiredOnInput": true,
+     "searchable": true,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInList": true,
+     "title": {
+      "ru": "Utc offset"
+     },
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
    "forms": {
@@ -4098,6 +4119,11 @@
         "alwaysOn": false,
         "hidden": false,
         "name": "title"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "utcOffset"
        }
       ]
      }
