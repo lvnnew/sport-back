@@ -37,6 +37,12 @@ deployment:
 
 back:
   enabled: true
+  requests:
+    memory: "128Mi"
+    cpu: "0.15"
+  limits:
+    memory: "256Mi"
+    cpu: "1"
 
 ingress:
   enabled: true
@@ -49,10 +55,10 @@ worker:
   replicas: 1
   requests:
     memory: "64Mi"
-    cpu: "0.5"
+    cpu: "0.15"
   limits:
     memory: "64Mi"
-    cpu: "0.5"
+    cpu: "0.15"
 
 workers:
 

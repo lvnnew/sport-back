@@ -118,11 +118,11 @@ spec:
 
         resources:
           requests:
-            memory: "384Mi"
-            cpu: "0.3"
+            memory: {{($.Values.back.requests.memory }}
+            cpu: {{ $.Values.back.requests.cpu }}
           limits:
-            memory: "384Mi"
-            cpu: "1"
+            memory: {{ $.Values.back.limits.memory }}
+            cpu: {{ $.Values.back.limits.cpu }}
 
         securityContext:
           runAsNonRoot: true
