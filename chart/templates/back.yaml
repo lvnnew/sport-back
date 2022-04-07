@@ -118,7 +118,7 @@ spec:
 
         resources:
           requests:
-            memory: {{($.Values.back.requests.memory }}
+            memory: {{ $.Values.back.requests.memory }}
             cpu: {{ $.Values.back.requests.cpu }}
           limits:
             memory: {{ $.Values.back.limits.memory }}
