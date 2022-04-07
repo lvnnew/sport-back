@@ -12,7 +12,7 @@ export type HooksUtilsType<
   SMU extends {} = MU, // strict mutation create entity arguments
   > = {
   changeListFilter: (ctx: Context, args: QA) => Promise<QA>;
-  beforeCreate: (ctx: Context, data: SMC) => Promise<SMC>;
+  beforeCreate: (ctx: Context, data: MC) => Promise<MC>;
   afterCreate: (ctx: Context, data: E) => Promise<void>;
   beforeUpdate: (ctx: Context, data: SMU) => Promise<SMU>;
   afterUpdate: (ctx: Context, data: E) => Promise<void>,
