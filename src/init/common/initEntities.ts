@@ -6,11 +6,11 @@ import Entity from '../../types/Entity';
 const initEntities = async (ctx: Context) => {
   await ctx.service('entities').upsert({
     id: Entity.AdmRefreshToken,
-    title: 'Adm refresh tokens',
+    title: 'Ui refresh tokens',
   });
   await ctx.service('entities').upsert({
     id: Entity.AppLogin,
-    title: 'App logins',
+    title: 'Логины пользователей',
   });
   await ctx.service('entities').upsert({
     id: Entity.AppRefreshToken,
@@ -18,27 +18,27 @@ const initEntities = async (ctx: Context) => {
   });
   await ctx.service('entities').upsert({
     id: Entity.AuditLogActionType,
-    title: 'Audit log action types',
+    title: 'Типы событий аудита',
   });
   await ctx.service('entities').upsert({
     id: Entity.AuditLog,
-    title: 'Audit logs',
+    title: 'Аудит',
   });
   await ctx.service('entities').upsert({
     id: Entity.AutogenerationHistoryEntry,
-    title: 'Autogeneration history entries',
+    title: 'История автогенерации',
   });
   await ctx.service('entities').upsert({
     id: Entity.AutogenerationRule,
-    title: 'Autogeneration rules',
+    title: 'Правила автогенерации',
   });
   await ctx.service('entities').upsert({
     id: Entity.Delegation,
-    title: 'Delegations',
+    title: 'Делегирование',
   });
   await ctx.service('entities').upsert({
     id: Entity.Entity,
-    title: 'Entities',
+    title: 'Сущности',
   });
   await ctx.service('entities').upsert({
     id: Entity.File,
@@ -50,39 +50,39 @@ const initEntities = async (ctx: Context) => {
   });
   await ctx.service('entities').upsert({
     id: Entity.ManagerLogin,
-    title: 'Manager logins',
+    title: 'Логины менеджеров',
   });
   await ctx.service('entities').upsert({
     id: Entity.Manager,
-    title: 'Managers',
+    title: 'Менеджеры',
   });
   await ctx.service('entities').upsert({
     id: Entity.ManagersToPermission,
-    title: 'Managers to permissions',
+    title: 'Разрешения менеджеров',
   });
   await ctx.service('entities').upsert({
     id: Entity.ManagersToRole,
-    title: 'Managers to roles',
+    title: 'Роли менеджеров',
   });
   await ctx.service('entities').upsert({
     id: Entity.MessageTemplate,
-    title: 'Message templates',
+    title: 'Шаблоны сообщений',
   });
   await ctx.service('entities').upsert({
     id: Entity.MessageType,
-    title: 'Message types',
+    title: 'Типы сообщений',
   });
   await ctx.service('entities').upsert({
     id: Entity.Permission,
-    title: 'Permissions',
+    title: 'Разрешения',
   });
   await ctx.service('entities').upsert({
     id: Entity.Role,
-    title: 'Roles',
+    title: 'Роли',
   });
   await ctx.service('entities').upsert({
     id: Entity.RolesToPermission,
-    title: 'Roles to permissions',
+    title: 'Разрешения ролей',
   });
   await ctx.service('entities').upsert({
     id: Entity.Stat,
@@ -94,7 +94,7 @@ const initEntities = async (ctx: Context) => {
   });
   await ctx.service('entities').upsert({
     id: Entity.Tenant,
-    title: 'Tenants',
+    title: 'Тенанты',
   });
   await ctx.service('entities').upsert({
     id: Entity.Unit,
@@ -102,7 +102,7 @@ const initEntities = async (ctx: Context) => {
   });
   await ctx.service('entities').upsert({
     id: Entity.User,
-    title: 'Users',
+    title: 'Пользователи',
   });
 };
 
