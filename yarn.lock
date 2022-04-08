@@ -4072,10 +4072,10 @@ autoprefixer@^9.7.3:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
-aws-sdk@^2.1109.0:
-  version "2.1109.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1109.0.tgz#1be11188303f6545891edb0f7facf295f3ff9a40"
-  integrity sha512-kcxDBPIpgN2mTgSxbbTPA5l63mCImDY+1YfZGAkZ9LIk+LYX3CPQC1vVP/iMrGioToB0KLSLechNuBif/6LXUA==
+aws-sdk@^2.1110.0:
+  version "2.1110.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1110.0.tgz#bb4fe12a7768957b8df275bcd5e4188f5b5a9393"
+  integrity sha512-qxHqzE2ikGNRzhajcmWIBuptML3LBwz9TMnS0jLQjXOP54fZYW6EEKy2Dy7MKjHKeo8QQy/EWtDdWfH9Fu5UIA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -9433,10 +9433,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lru-cache@^7.7.3:
-  version "7.7.3"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.7.3.tgz#98cd19eef89ce6a4a3c4502c17c833888677c252"
-  integrity sha512-WY9wjJNQt9+PZilnLbuFKM+SwDull9+6IAguOrarOMoOHTcJ9GnXSO11+Gw6c7xtDkBkthR57OZMtZKYr+1CEw==
+lru-cache@^7.8.0:
+  version "7.8.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.8.0.tgz#649aaeb294a56297b5cbc5d70f198dcc5ebe5747"
+  integrity sha512-AmXqneQZL3KZMIgBpaPTeI6pfwh+xQ2vutMsyqOu1TBdEXFZgpG/80wuJ531w2ZN7TI0/oc8CPxzh/DKQudZqg==
 
 lru-cache@~4.0.0:
   version "4.0.2"
