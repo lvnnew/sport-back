@@ -95,21 +95,21 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /health
+            path: /health?type=liveness
             port: main-port
           initialDelaySeconds: 60
           timeoutSeconds: 15
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /health
+            path: /health?type=readiness
             port: main-port
           initialDelaySeconds: 60
           timeoutSeconds: 15
           periodSeconds: 5
         startupProbe:
           httpGet:
-            path: /health
+            path: /health?type=startup
             port: main-port
           initialDelaySeconds: 60
           timeoutSeconds: 15
