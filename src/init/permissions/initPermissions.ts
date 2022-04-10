@@ -13,14 +13,23 @@ export const initPermissions = async (ctx: Context) => {
   await initRoles(ctx);
 };
 
-
 export const initPermissionsItself = async (ctx: Context) => {
   const runtimePermissions = getRuntimePermissions(ctx);
+  const runtimePermissionIds = runtimePermissions.map(p => p.id);
 
-  log.info(runtimePermissions.map(p => p.id));
+  const customPermissions = [
+    'dashboards.main',
+  ];
 
-  await ctx.service('permissions').createMany(runtimePermissions.map(p => ({
-    id: p.id,
-    title: p.id,
+  const permissions = [
+    ...runtimePermissionIds,
+    ...customPermissions,
+  ];
+
+  log.info(permissions);
+
+  await ctx.service('permissions').createMany(permissions.map(p => ({
+    id: p,
+    title: p,
   })));
 };
