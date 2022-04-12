@@ -1,9 +1,9 @@
 import {
-  MutationUpdateFileArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateFileArgs,
+} from '../FilesService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateFileArgs,
-): Promise<MutationUpdateFileArgs> => data;
+  data: StrictUpdateFileArgs,
+): Promise<StrictUpdateFileArgs> => data;

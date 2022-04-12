@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableAdmRefreshTokenKeys = never;
-export type AutoDefinableAdmRefreshTokenPart = MutationCreateAdmRefreshTokenArgs;
-export type MutationCreateAdmRefreshTokenArgsWithAutoDefinable = AutoDefinableAdmRefreshTokenPart & MutationCreateAdmRefreshTokenArgs;
-export type MutationCreateAdmRefreshTokenArgsWithoutAutoDefinable = Omit<MutationCreateAdmRefreshTokenArgs, AutoDefinableAdmRefreshTokenKeys>;
+export type ForbidenForUserAdmRefreshTokenKeys = never;
+export type RequiredDbNotUserAdmRefreshTokenKeys = never;
 
-export type StrictUpdateAdmRefreshTokenArgs = DefinedFieldsInRecord<MutationUpdateAdmRefreshTokenArgs, AutoDefinableAdmRefreshTokenKeys>;
-export type StrictCreateAdmRefreshTokenArgs = DefinedFieldsInRecord<MutationCreateAdmRefreshTokenArgs, AutoDefinableAdmRefreshTokenKeys>;
+export type AutodefinableAdmRefreshTokenPart = DefinedRecord<Pick<MutationCreateAdmRefreshTokenArgs, AutoDefinableAdmRefreshTokenKeys>>;
+
+export type ReliableAdmRefreshTokenCreateUserInput =
+  Omit<MutationCreateAdmRefreshTokenArgs, ForbidenForUserAdmRefreshTokenKeys>
+  & AutodefinableAdmRefreshTokenPart;
+
+export type AllowedAdmRefreshTokenForUserCreateInput = Omit<MutationCreateAdmRefreshTokenArgs, ForbidenForUserAdmRefreshTokenKeys>;
+
+export type StrictCreateAdmRefreshTokenArgs = DefinedFieldsInRecord<MutationCreateAdmRefreshTokenArgs, RequiredDbNotUserAdmRefreshTokenKeys> & AutodefinableAdmRefreshTokenPart;
+export type StrictUpdateAdmRefreshTokenArgs = DefinedFieldsInRecord<MutationUpdateAdmRefreshTokenArgs, RequiredDbNotUserAdmRefreshTokenKeys> & AutodefinableAdmRefreshTokenPart;
 
 export type StrictCreateAdmRefreshTokenArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAdmRefreshTokenArgs, AutoDefinableAdmRefreshTokenKeys>;
 
@@ -69,7 +76,7 @@ export type AdmRefreshTokensService = BaseAdmRefreshTokensMethods
   & HooksAddType<
     AdmRefreshToken,
     QueryAllAdmRefreshTokensArgs,
-    MutationCreateAdmRefreshTokenArgsWithAutoDefinable,
+    ReliableAdmRefreshTokenCreateUserInput,
     MutationUpdateAdmRefreshTokenArgs,
     MutationRemoveAdmRefreshTokenArgs,
     StrictCreateAdmRefreshTokenArgs,
@@ -90,7 +97,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     AdmRefreshToken,
     QueryAllAdmRefreshTokensArgs,
-    MutationCreateAdmRefreshTokenArgsWithAutoDefinable,
+    ReliableAdmRefreshTokenCreateUserInput,
     MutationUpdateAdmRefreshTokenArgs,
     MutationRemoveAdmRefreshTokenArgs,
     StrictCreateAdmRefreshTokenArgs,
@@ -99,7 +106,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllAdmRefreshTokensArgs = {},
@@ -163,15 +170,15 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     data: MutationCreateAdmRefreshTokenArgs,
     byUser = false,
   ): Promise<AdmRefreshToken> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateAdmRefreshTokenArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedAdmRefreshTokenForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateAdmRefreshTokenArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -217,14 +224,16 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     entries: StrictCreateAdmRefreshTokenArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateAdmRefreshTokenArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateAdmRefreshTokenArgs);
 
     const result = await ctx.prisma.admRefreshToken.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -249,7 +258,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   ): Promise<AdmRefreshToken> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -302,7 +311,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
   ): Promise<AdmRefreshToken> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -347,7 +356,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

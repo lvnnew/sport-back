@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableRoleKeys = never;
-export type AutoDefinableRolePart = MutationCreateRoleArgs;
-export type MutationCreateRoleArgsWithAutoDefinable = AutoDefinableRolePart & MutationCreateRoleArgs;
-export type MutationCreateRoleArgsWithoutAutoDefinable = Omit<MutationCreateRoleArgs, AutoDefinableRoleKeys>;
+export type ForbidenForUserRoleKeys = never;
+export type RequiredDbNotUserRoleKeys = never;
 
-export type StrictUpdateRoleArgs = DefinedFieldsInRecord<MutationUpdateRoleArgs, AutoDefinableRoleKeys>;
-export type StrictCreateRoleArgs = DefinedFieldsInRecord<MutationCreateRoleArgs, AutoDefinableRoleKeys>;
+export type AutodefinableRolePart = DefinedRecord<Pick<MutationCreateRoleArgs, AutoDefinableRoleKeys>>;
+
+export type ReliableRoleCreateUserInput =
+  Omit<MutationCreateRoleArgs, ForbidenForUserRoleKeys>
+  & AutodefinableRolePart;
+
+export type AllowedRoleForUserCreateInput = Omit<MutationCreateRoleArgs, ForbidenForUserRoleKeys>;
+
+export type StrictCreateRoleArgs = DefinedFieldsInRecord<MutationCreateRoleArgs, RequiredDbNotUserRoleKeys> & AutodefinableRolePart;
+export type StrictUpdateRoleArgs = DefinedFieldsInRecord<MutationUpdateRoleArgs, RequiredDbNotUserRoleKeys> & AutodefinableRolePart;
 
 export type StrictCreateRoleArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateRoleArgs, AutoDefinableRoleKeys>;
 
@@ -69,7 +76,7 @@ export type RolesService = BaseRolesMethods
   & HooksAddType<
     Role,
     QueryAllRolesArgs,
-    MutationCreateRoleArgsWithAutoDefinable,
+    ReliableRoleCreateUserInput,
     MutationUpdateRoleArgs,
     MutationRemoveRoleArgs,
     StrictCreateRoleArgs,
@@ -84,7 +91,7 @@ export const getRolesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Role,
     QueryAllRolesArgs,
-    MutationCreateRoleArgsWithAutoDefinable,
+    ReliableRoleCreateUserInput,
     MutationUpdateRoleArgs,
     MutationRemoveRoleArgs,
     StrictCreateRoleArgs,
@@ -93,7 +100,7 @@ export const getRolesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllRolesArgs = {},
@@ -157,15 +164,15 @@ export const getRolesService = (ctx: Context) => {
     data: MutationCreateRoleArgs,
     byUser = false,
   ): Promise<Role> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateRoleArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedRoleForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateRoleArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getRolesService = (ctx: Context) => {
     entries: StrictCreateRoleArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateRoleArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateRoleArgs);
 
     const result = await ctx.prisma.role.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getRolesService = (ctx: Context) => {
   ): Promise<Role> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getRolesService = (ctx: Context) => {
   ): Promise<Role> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getRolesService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

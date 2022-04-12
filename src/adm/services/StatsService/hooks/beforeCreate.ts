@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateStatArgsWithAutoDefinable} from '../StatsService';
+import {
+  ReliableStatCreateUserInput,
+  StrictCreateStatArgs,
+} from '../StatsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateStatArgsWithAutoDefinable,
-): Promise<MutationCreateStatArgsWithAutoDefinable> => data;
+  data: ReliableStatCreateUserInput,
+): Promise<StrictCreateStatArgs> => data;

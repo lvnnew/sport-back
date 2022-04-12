@@ -17,7 +17,7 @@ import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -25,12 +25,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableAuditLogKeys = never;
-export type AutoDefinableAuditLogPart = MutationCreateAuditLogArgs;
-export type MutationCreateAuditLogArgsWithAutoDefinable = AutoDefinableAuditLogPart & MutationCreateAuditLogArgs;
-export type MutationCreateAuditLogArgsWithoutAutoDefinable = Omit<MutationCreateAuditLogArgs, AutoDefinableAuditLogKeys>;
+export type ForbidenForUserAuditLogKeys = never;
+export type RequiredDbNotUserAuditLogKeys = never;
 
-export type StrictUpdateAuditLogArgs = DefinedFieldsInRecord<MutationUpdateAuditLogArgs, AutoDefinableAuditLogKeys>;
-export type StrictCreateAuditLogArgs = DefinedFieldsInRecord<MutationCreateAuditLogArgs, AutoDefinableAuditLogKeys>;
+export type AutodefinableAuditLogPart = DefinedRecord<Pick<MutationCreateAuditLogArgs, AutoDefinableAuditLogKeys>>;
+
+export type ReliableAuditLogCreateUserInput =
+  Omit<MutationCreateAuditLogArgs, ForbidenForUserAuditLogKeys>
+  & AutodefinableAuditLogPart;
+
+export type AllowedAuditLogForUserCreateInput = Omit<MutationCreateAuditLogArgs, ForbidenForUserAuditLogKeys>;
+
+export type StrictCreateAuditLogArgs = DefinedFieldsInRecord<MutationCreateAuditLogArgs, RequiredDbNotUserAuditLogKeys> & AutodefinableAuditLogPart;
+export type StrictUpdateAuditLogArgs = DefinedFieldsInRecord<MutationUpdateAuditLogArgs, RequiredDbNotUserAuditLogKeys> & AutodefinableAuditLogPart;
 
 export type StrictCreateAuditLogArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAuditLogArgs, AutoDefinableAuditLogKeys>;
 
@@ -68,7 +75,7 @@ export type AuditLogsService = BaseAuditLogsMethods
   & HooksAddType<
     AuditLog,
     QueryAllAuditLogsArgs,
-    MutationCreateAuditLogArgsWithAutoDefinable,
+    ReliableAuditLogCreateUserInput,
     MutationUpdateAuditLogArgs,
     MutationRemoveAuditLogArgs,
     StrictCreateAuditLogArgs,
@@ -96,7 +103,7 @@ export const getAuditLogsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     AuditLog,
     QueryAllAuditLogsArgs,
-    MutationCreateAuditLogArgsWithAutoDefinable,
+    ReliableAuditLogCreateUserInput,
     MutationUpdateAuditLogArgs,
     MutationRemoveAuditLogArgs,
     StrictCreateAuditLogArgs,
@@ -105,7 +112,7 @@ export const getAuditLogsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllAuditLogsArgs = {},
@@ -169,15 +176,15 @@ export const getAuditLogsService = (ctx: Context) => {
     data: MutationCreateAuditLogArgs,
     byUser = false,
   ): Promise<AuditLog> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateAuditLogArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedAuditLogForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateAuditLogArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -218,14 +225,16 @@ export const getAuditLogsService = (ctx: Context) => {
     entries: StrictCreateAuditLogArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateAuditLogArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateAuditLogArgs);
 
     const result = await ctx.prisma.auditLog.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -250,7 +259,7 @@ export const getAuditLogsService = (ctx: Context) => {
   ): Promise<AuditLog> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getAuditLogsService = (ctx: Context) => {
   ): Promise<AuditLog> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getAuditLogsService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

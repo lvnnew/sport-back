@@ -18,20 +18,29 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const forbiddenForUserFields: string[] = [];
+const forbiddenForUserFields: string[] = [
+  'tenantId',
+];
 
 export type AutoDefinableManagerKeys = never;
-export type AutoDefinableManagerPart = MutationCreateManagerArgs;
-export type MutationCreateManagerArgsWithAutoDefinable = AutoDefinableManagerPart & MutationCreateManagerArgs;
-export type MutationCreateManagerArgsWithoutAutoDefinable = Omit<MutationCreateManagerArgs, AutoDefinableManagerKeys>;
+export type ForbidenForUserManagerKeys = 'tenantId';
+export type RequiredDbNotUserManagerKeys = never;
 
-export type StrictUpdateManagerArgs = DefinedFieldsInRecord<MutationUpdateManagerArgs, AutoDefinableManagerKeys>;
-export type StrictCreateManagerArgs = DefinedFieldsInRecord<MutationCreateManagerArgs, AutoDefinableManagerKeys>;
+export type AutodefinableManagerPart = DefinedRecord<Pick<MutationCreateManagerArgs, AutoDefinableManagerKeys>>;
+
+export type ReliableManagerCreateUserInput =
+  Omit<MutationCreateManagerArgs, ForbidenForUserManagerKeys>
+  & AutodefinableManagerPart;
+
+export type AllowedManagerForUserCreateInput = Omit<MutationCreateManagerArgs, ForbidenForUserManagerKeys>;
+
+export type StrictCreateManagerArgs = DefinedFieldsInRecord<MutationCreateManagerArgs, RequiredDbNotUserManagerKeys> & AutodefinableManagerPart;
+export type StrictUpdateManagerArgs = DefinedFieldsInRecord<MutationUpdateManagerArgs, RequiredDbNotUserManagerKeys> & AutodefinableManagerPart;
 
 export type StrictCreateManagerArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagerArgs, AutoDefinableManagerKeys>;
 
@@ -69,7 +78,7 @@ export type ManagersService = BaseManagersMethods
   & HooksAddType<
     Manager,
     QueryAllManagersArgs,
-    MutationCreateManagerArgsWithAutoDefinable,
+    ReliableManagerCreateUserInput,
     MutationUpdateManagerArgs,
     MutationRemoveManagerArgs,
     StrictCreateManagerArgs,
@@ -84,7 +93,7 @@ export const getManagersService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Manager,
     QueryAllManagersArgs,
-    MutationCreateManagerArgsWithAutoDefinable,
+    ReliableManagerCreateUserInput,
     MutationUpdateManagerArgs,
     MutationRemoveManagerArgs,
     StrictCreateManagerArgs,
@@ -93,7 +102,7 @@ export const getManagersService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllManagersArgs = {},
@@ -157,15 +166,15 @@ export const getManagersService = (ctx: Context) => {
     data: MutationCreateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateManagerArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedManagerForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateManagerArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +220,16 @@ export const getManagersService = (ctx: Context) => {
     entries: StrictCreateManagerArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateManagerArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateManagerArgs);
 
     const result = await ctx.prisma.manager.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +254,7 @@ export const getManagersService = (ctx: Context) => {
   ): Promise<Manager> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +307,7 @@ export const getManagersService = (ctx: Context) => {
   ): Promise<Manager> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +352,7 @@ export const getManagersService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

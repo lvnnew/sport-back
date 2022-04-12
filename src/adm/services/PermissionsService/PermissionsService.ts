@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinablePermissionKeys = never;
-export type AutoDefinablePermissionPart = MutationCreatePermissionArgs;
-export type MutationCreatePermissionArgsWithAutoDefinable = AutoDefinablePermissionPart & MutationCreatePermissionArgs;
-export type MutationCreatePermissionArgsWithoutAutoDefinable = Omit<MutationCreatePermissionArgs, AutoDefinablePermissionKeys>;
+export type ForbidenForUserPermissionKeys = never;
+export type RequiredDbNotUserPermissionKeys = never;
 
-export type StrictUpdatePermissionArgs = DefinedFieldsInRecord<MutationUpdatePermissionArgs, AutoDefinablePermissionKeys>;
-export type StrictCreatePermissionArgs = DefinedFieldsInRecord<MutationCreatePermissionArgs, AutoDefinablePermissionKeys>;
+export type AutodefinablePermissionPart = DefinedRecord<Pick<MutationCreatePermissionArgs, AutoDefinablePermissionKeys>>;
+
+export type ReliablePermissionCreateUserInput =
+  Omit<MutationCreatePermissionArgs, ForbidenForUserPermissionKeys>
+  & AutodefinablePermissionPart;
+
+export type AllowedPermissionForUserCreateInput = Omit<MutationCreatePermissionArgs, ForbidenForUserPermissionKeys>;
+
+export type StrictCreatePermissionArgs = DefinedFieldsInRecord<MutationCreatePermissionArgs, RequiredDbNotUserPermissionKeys> & AutodefinablePermissionPart;
+export type StrictUpdatePermissionArgs = DefinedFieldsInRecord<MutationUpdatePermissionArgs, RequiredDbNotUserPermissionKeys> & AutodefinablePermissionPart;
 
 export type StrictCreatePermissionArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreatePermissionArgs, AutoDefinablePermissionKeys>;
 
@@ -69,7 +76,7 @@ export type PermissionsService = BasePermissionsMethods
   & HooksAddType<
     Permission,
     QueryAllPermissionsArgs,
-    MutationCreatePermissionArgsWithAutoDefinable,
+    ReliablePermissionCreateUserInput,
     MutationUpdatePermissionArgs,
     MutationRemovePermissionArgs,
     StrictCreatePermissionArgs,
@@ -84,7 +91,7 @@ export const getPermissionsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Permission,
     QueryAllPermissionsArgs,
-    MutationCreatePermissionArgsWithAutoDefinable,
+    ReliablePermissionCreateUserInput,
     MutationUpdatePermissionArgs,
     MutationRemovePermissionArgs,
     StrictCreatePermissionArgs,
@@ -93,7 +100,7 @@ export const getPermissionsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllPermissionsArgs = {},
@@ -157,15 +164,15 @@ export const getPermissionsService = (ctx: Context) => {
     data: MutationCreatePermissionArgs,
     byUser = false,
   ): Promise<Permission> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreatePermissionArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedPermissionForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreatePermissionArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getPermissionsService = (ctx: Context) => {
     entries: StrictCreatePermissionArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreatePermissionArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreatePermissionArgs);
 
     const result = await ctx.prisma.permission.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getPermissionsService = (ctx: Context) => {
   ): Promise<Permission> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getPermissionsService = (ctx: Context) => {
   ): Promise<Permission> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getPermissionsService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

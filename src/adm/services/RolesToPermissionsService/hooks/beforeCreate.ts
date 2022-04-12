@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateRolesToPermissionArgsWithAutoDefinable} from '../RolesToPermissionsService';
+import {
+  ReliableRolesToPermissionCreateUserInput,
+  StrictCreateRolesToPermissionArgs,
+} from '../RolesToPermissionsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateRolesToPermissionArgsWithAutoDefinable,
-): Promise<MutationCreateRolesToPermissionArgsWithAutoDefinable> => data;
+  data: ReliableRolesToPermissionCreateUserInput,
+): Promise<StrictCreateRolesToPermissionArgs> => data;

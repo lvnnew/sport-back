@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateTagArgsWithAutoDefinable} from '../TagsService';
+import {
+  ReliableTagCreateUserInput,
+  StrictCreateTagArgs,
+} from '../TagsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateTagArgsWithAutoDefinable,
-): Promise<MutationCreateTagArgsWithAutoDefinable> => data;
+  data: ReliableTagCreateUserInput,
+): Promise<StrictCreateTagArgs> => data;

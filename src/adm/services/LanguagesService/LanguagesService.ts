@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableLanguageKeys = never;
-export type AutoDefinableLanguagePart = MutationCreateLanguageArgs;
-export type MutationCreateLanguageArgsWithAutoDefinable = AutoDefinableLanguagePart & MutationCreateLanguageArgs;
-export type MutationCreateLanguageArgsWithoutAutoDefinable = Omit<MutationCreateLanguageArgs, AutoDefinableLanguageKeys>;
+export type ForbidenForUserLanguageKeys = never;
+export type RequiredDbNotUserLanguageKeys = never;
 
-export type StrictUpdateLanguageArgs = DefinedFieldsInRecord<MutationUpdateLanguageArgs, AutoDefinableLanguageKeys>;
-export type StrictCreateLanguageArgs = DefinedFieldsInRecord<MutationCreateLanguageArgs, AutoDefinableLanguageKeys>;
+export type AutodefinableLanguagePart = DefinedRecord<Pick<MutationCreateLanguageArgs, AutoDefinableLanguageKeys>>;
+
+export type ReliableLanguageCreateUserInput =
+  Omit<MutationCreateLanguageArgs, ForbidenForUserLanguageKeys>
+  & AutodefinableLanguagePart;
+
+export type AllowedLanguageForUserCreateInput = Omit<MutationCreateLanguageArgs, ForbidenForUserLanguageKeys>;
+
+export type StrictCreateLanguageArgs = DefinedFieldsInRecord<MutationCreateLanguageArgs, RequiredDbNotUserLanguageKeys> & AutodefinableLanguagePart;
+export type StrictUpdateLanguageArgs = DefinedFieldsInRecord<MutationUpdateLanguageArgs, RequiredDbNotUserLanguageKeys> & AutodefinableLanguagePart;
 
 export type StrictCreateLanguageArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateLanguageArgs, AutoDefinableLanguageKeys>;
 
@@ -69,7 +76,7 @@ export type LanguagesService = BaseLanguagesMethods
   & HooksAddType<
     Language,
     QueryAllLanguagesArgs,
-    MutationCreateLanguageArgsWithAutoDefinable,
+    ReliableLanguageCreateUserInput,
     MutationUpdateLanguageArgs,
     MutationRemoveLanguageArgs,
     StrictCreateLanguageArgs,
@@ -84,7 +91,7 @@ export const getLanguagesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Language,
     QueryAllLanguagesArgs,
-    MutationCreateLanguageArgsWithAutoDefinable,
+    ReliableLanguageCreateUserInput,
     MutationUpdateLanguageArgs,
     MutationRemoveLanguageArgs,
     StrictCreateLanguageArgs,
@@ -93,7 +100,7 @@ export const getLanguagesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllLanguagesArgs = {},
@@ -157,15 +164,15 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationCreateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateLanguageArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedLanguageForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateLanguageArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getLanguagesService = (ctx: Context) => {
     entries: StrictCreateLanguageArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateLanguageArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateLanguageArgs);
 
     const result = await ctx.prisma.language.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getLanguagesService = (ctx: Context) => {
   ): Promise<Language> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getLanguagesService = (ctx: Context) => {
   ): Promise<Language> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getLanguagesService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

@@ -1,9 +1,9 @@
 import {
-  MutationUpdateAdmRefreshTokenArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateAdmRefreshTokenArgs,
+} from '../AdmRefreshTokensService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateAdmRefreshTokenArgs,
-): Promise<MutationUpdateAdmRefreshTokenArgs> => data;
+  data: StrictUpdateAdmRefreshTokenArgs,
+): Promise<StrictUpdateAdmRefreshTokenArgs> => data;

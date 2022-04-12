@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateFileArgsWithAutoDefinable} from '../FilesService';
+import {
+  ReliableFileCreateUserInput,
+  StrictCreateFileArgs,
+} from '../FilesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateFileArgsWithAutoDefinable,
-): Promise<MutationCreateFileArgsWithAutoDefinable> => data;
+  data: ReliableFileCreateUserInput,
+): Promise<StrictCreateFileArgs> => data;

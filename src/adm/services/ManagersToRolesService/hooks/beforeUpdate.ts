@@ -1,9 +1,9 @@
 import {
-  MutationUpdateManagersToRoleArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateManagersToRoleArgs,
+} from '../ManagersToRolesService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateManagersToRoleArgs,
-): Promise<MutationUpdateManagersToRoleArgs> => data;
+  data: StrictUpdateManagersToRoleArgs,
+): Promise<StrictUpdateManagersToRoleArgs> => data;

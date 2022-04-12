@@ -1,9 +1,9 @@
 import {
-  MutationUpdateAutogenerationHistoryEntryArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateAutogenerationHistoryEntryArgs,
+} from '../AutogenerationHistoryEntriesService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateAutogenerationHistoryEntryArgs,
-): Promise<MutationUpdateAutogenerationHistoryEntryArgs> => data;
+  data: StrictUpdateAutogenerationHistoryEntryArgs,
+): Promise<StrictUpdateAutogenerationHistoryEntryArgs> => data;

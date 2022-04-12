@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableTenantKeys = never;
-export type AutoDefinableTenantPart = MutationCreateTenantArgs;
-export type MutationCreateTenantArgsWithAutoDefinable = AutoDefinableTenantPart & MutationCreateTenantArgs;
-export type MutationCreateTenantArgsWithoutAutoDefinable = Omit<MutationCreateTenantArgs, AutoDefinableTenantKeys>;
+export type ForbidenForUserTenantKeys = never;
+export type RequiredDbNotUserTenantKeys = never;
 
-export type StrictUpdateTenantArgs = DefinedFieldsInRecord<MutationUpdateTenantArgs, AutoDefinableTenantKeys>;
-export type StrictCreateTenantArgs = DefinedFieldsInRecord<MutationCreateTenantArgs, AutoDefinableTenantKeys>;
+export type AutodefinableTenantPart = DefinedRecord<Pick<MutationCreateTenantArgs, AutoDefinableTenantKeys>>;
+
+export type ReliableTenantCreateUserInput =
+  Omit<MutationCreateTenantArgs, ForbidenForUserTenantKeys>
+  & AutodefinableTenantPart;
+
+export type AllowedTenantForUserCreateInput = Omit<MutationCreateTenantArgs, ForbidenForUserTenantKeys>;
+
+export type StrictCreateTenantArgs = DefinedFieldsInRecord<MutationCreateTenantArgs, RequiredDbNotUserTenantKeys> & AutodefinableTenantPart;
+export type StrictUpdateTenantArgs = DefinedFieldsInRecord<MutationUpdateTenantArgs, RequiredDbNotUserTenantKeys> & AutodefinableTenantPart;
 
 export type StrictCreateTenantArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateTenantArgs, AutoDefinableTenantKeys>;
 
@@ -69,7 +76,7 @@ export type TenantsService = BaseTenantsMethods
   & HooksAddType<
     Tenant,
     QueryAllTenantsArgs,
-    MutationCreateTenantArgsWithAutoDefinable,
+    ReliableTenantCreateUserInput,
     MutationUpdateTenantArgs,
     MutationRemoveTenantArgs,
     StrictCreateTenantArgs,
@@ -84,7 +91,7 @@ export const getTenantsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Tenant,
     QueryAllTenantsArgs,
-    MutationCreateTenantArgsWithAutoDefinable,
+    ReliableTenantCreateUserInput,
     MutationUpdateTenantArgs,
     MutationRemoveTenantArgs,
     StrictCreateTenantArgs,
@@ -93,7 +100,7 @@ export const getTenantsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllTenantsArgs = {},
@@ -157,15 +164,15 @@ export const getTenantsService = (ctx: Context) => {
     data: MutationCreateTenantArgs,
     byUser = false,
   ): Promise<Tenant> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateTenantArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedTenantForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateTenantArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getTenantsService = (ctx: Context) => {
     entries: StrictCreateTenantArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateTenantArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateTenantArgs);
 
     const result = await ctx.prisma.tenant.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getTenantsService = (ctx: Context) => {
   ): Promise<Tenant> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getTenantsService = (ctx: Context) => {
   ): Promise<Tenant> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getTenantsService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

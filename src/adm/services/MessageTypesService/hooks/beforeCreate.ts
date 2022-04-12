@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateMessageTypeArgsWithAutoDefinable} from '../MessageTypesService';
+import {
+  ReliableMessageTypeCreateUserInput,
+  StrictCreateMessageTypeArgs,
+} from '../MessageTypesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateMessageTypeArgsWithAutoDefinable,
-): Promise<MutationCreateMessageTypeArgsWithAutoDefinable> => data;
+  data: ReliableMessageTypeCreateUserInput,
+): Promise<StrictCreateMessageTypeArgs> => data;

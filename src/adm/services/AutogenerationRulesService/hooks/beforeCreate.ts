@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateAutogenerationRuleArgsWithAutoDefinable} from '../AutogenerationRulesService';
+import {
+  ReliableAutogenerationRuleCreateUserInput,
+  StrictCreateAutogenerationRuleArgs,
+} from '../AutogenerationRulesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAutogenerationRuleArgsWithAutoDefinable,
-): Promise<MutationCreateAutogenerationRuleArgsWithAutoDefinable> => data;
+  data: ReliableAutogenerationRuleCreateUserInput,
+): Promise<StrictCreateAutogenerationRuleArgs> => data;

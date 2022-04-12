@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateAdmRefreshTokenArgsWithAutoDefinable} from '../AdmRefreshTokensService';
+import {
+  ReliableAdmRefreshTokenCreateUserInput,
+  StrictCreateAdmRefreshTokenArgs,
+} from '../AdmRefreshTokensService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAdmRefreshTokenArgsWithAutoDefinable,
-): Promise<MutationCreateAdmRefreshTokenArgsWithAutoDefinable> => data;
+  data: ReliableAdmRefreshTokenCreateUserInput,
+): Promise<StrictCreateAdmRefreshTokenArgs> => data;

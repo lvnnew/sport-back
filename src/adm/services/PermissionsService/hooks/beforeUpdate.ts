@@ -1,9 +1,9 @@
 import {
-  MutationUpdatePermissionArgs,
-} from '../../../../generated/graphql';
+  StrictUpdatePermissionArgs,
+} from '../PermissionsService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdatePermissionArgs,
-): Promise<MutationUpdatePermissionArgs> => data;
+  data: StrictUpdatePermissionArgs,
+): Promise<StrictUpdatePermissionArgs> => data;

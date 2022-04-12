@@ -1,9 +1,9 @@
 import {
-  MutationUpdateAuditLogArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateAuditLogArgs,
+} from '../AuditLogsService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateAuditLogArgs,
-): Promise<MutationUpdateAuditLogArgs> => data;
+  data: StrictUpdateAuditLogArgs,
+): Promise<StrictUpdateAuditLogArgs> => data;

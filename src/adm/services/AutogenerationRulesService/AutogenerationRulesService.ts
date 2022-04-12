@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableAutogenerationRuleKeys = never;
-export type AutoDefinableAutogenerationRulePart = MutationCreateAutogenerationRuleArgs;
-export type MutationCreateAutogenerationRuleArgsWithAutoDefinable = AutoDefinableAutogenerationRulePart & MutationCreateAutogenerationRuleArgs;
-export type MutationCreateAutogenerationRuleArgsWithoutAutoDefinable = Omit<MutationCreateAutogenerationRuleArgs, AutoDefinableAutogenerationRuleKeys>;
+export type ForbidenForUserAutogenerationRuleKeys = never;
+export type RequiredDbNotUserAutogenerationRuleKeys = never;
 
-export type StrictUpdateAutogenerationRuleArgs = DefinedFieldsInRecord<MutationUpdateAutogenerationRuleArgs, AutoDefinableAutogenerationRuleKeys>;
-export type StrictCreateAutogenerationRuleArgs = DefinedFieldsInRecord<MutationCreateAutogenerationRuleArgs, AutoDefinableAutogenerationRuleKeys>;
+export type AutodefinableAutogenerationRulePart = DefinedRecord<Pick<MutationCreateAutogenerationRuleArgs, AutoDefinableAutogenerationRuleKeys>>;
+
+export type ReliableAutogenerationRuleCreateUserInput =
+  Omit<MutationCreateAutogenerationRuleArgs, ForbidenForUserAutogenerationRuleKeys>
+  & AutodefinableAutogenerationRulePart;
+
+export type AllowedAutogenerationRuleForUserCreateInput = Omit<MutationCreateAutogenerationRuleArgs, ForbidenForUserAutogenerationRuleKeys>;
+
+export type StrictCreateAutogenerationRuleArgs = DefinedFieldsInRecord<MutationCreateAutogenerationRuleArgs, RequiredDbNotUserAutogenerationRuleKeys> & AutodefinableAutogenerationRulePart;
+export type StrictUpdateAutogenerationRuleArgs = DefinedFieldsInRecord<MutationUpdateAutogenerationRuleArgs, RequiredDbNotUserAutogenerationRuleKeys> & AutodefinableAutogenerationRulePart;
 
 export type StrictCreateAutogenerationRuleArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAutogenerationRuleArgs, AutoDefinableAutogenerationRuleKeys>;
 
@@ -69,7 +76,7 @@ export type AutogenerationRulesService = BaseAutogenerationRulesMethods
   & HooksAddType<
     AutogenerationRule,
     QueryAllAutogenerationRulesArgs,
-    MutationCreateAutogenerationRuleArgsWithAutoDefinable,
+    ReliableAutogenerationRuleCreateUserInput,
     MutationUpdateAutogenerationRuleArgs,
     MutationRemoveAutogenerationRuleArgs,
     StrictCreateAutogenerationRuleArgs,
@@ -93,7 +100,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     AutogenerationRule,
     QueryAllAutogenerationRulesArgs,
-    MutationCreateAutogenerationRuleArgsWithAutoDefinable,
+    ReliableAutogenerationRuleCreateUserInput,
     MutationUpdateAutogenerationRuleArgs,
     MutationRemoveAutogenerationRuleArgs,
     StrictCreateAutogenerationRuleArgs,
@@ -102,7 +109,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllAutogenerationRulesArgs = {},
@@ -166,15 +173,15 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     data: MutationCreateAutogenerationRuleArgs,
     byUser = false,
   ): Promise<AutogenerationRule> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateAutogenerationRuleArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedAutogenerationRuleForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateAutogenerationRuleArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -220,14 +227,16 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     entries: StrictCreateAutogenerationRuleArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateAutogenerationRuleArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateAutogenerationRuleArgs);
 
     const result = await ctx.prisma.autogenerationRule.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -252,7 +261,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   ): Promise<AutogenerationRule> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -305,7 +314,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   ): Promise<AutogenerationRule> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -350,7 +359,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

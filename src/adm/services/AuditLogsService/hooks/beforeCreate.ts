@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateAuditLogArgsWithAutoDefinable} from '../AuditLogsService';
+import {
+  ReliableAuditLogCreateUserInput,
+  StrictCreateAuditLogArgs,
+} from '../AuditLogsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAuditLogArgsWithAutoDefinable,
-): Promise<MutationCreateAuditLogArgsWithAutoDefinable> => data;
+  data: ReliableAuditLogCreateUserInput,
+): Promise<StrictCreateAuditLogArgs> => data;

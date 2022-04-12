@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableManagerLoginKeys = never;
-export type AutoDefinableManagerLoginPart = MutationCreateManagerLoginArgs;
-export type MutationCreateManagerLoginArgsWithAutoDefinable = AutoDefinableManagerLoginPart & MutationCreateManagerLoginArgs;
-export type MutationCreateManagerLoginArgsWithoutAutoDefinable = Omit<MutationCreateManagerLoginArgs, AutoDefinableManagerLoginKeys>;
+export type ForbidenForUserManagerLoginKeys = never;
+export type RequiredDbNotUserManagerLoginKeys = never;
 
-export type StrictUpdateManagerLoginArgs = DefinedFieldsInRecord<MutationUpdateManagerLoginArgs, AutoDefinableManagerLoginKeys>;
-export type StrictCreateManagerLoginArgs = DefinedFieldsInRecord<MutationCreateManagerLoginArgs, AutoDefinableManagerLoginKeys>;
+export type AutodefinableManagerLoginPart = DefinedRecord<Pick<MutationCreateManagerLoginArgs, AutoDefinableManagerLoginKeys>>;
+
+export type ReliableManagerLoginCreateUserInput =
+  Omit<MutationCreateManagerLoginArgs, ForbidenForUserManagerLoginKeys>
+  & AutodefinableManagerLoginPart;
+
+export type AllowedManagerLoginForUserCreateInput = Omit<MutationCreateManagerLoginArgs, ForbidenForUserManagerLoginKeys>;
+
+export type StrictCreateManagerLoginArgs = DefinedFieldsInRecord<MutationCreateManagerLoginArgs, RequiredDbNotUserManagerLoginKeys> & AutodefinableManagerLoginPart;
+export type StrictUpdateManagerLoginArgs = DefinedFieldsInRecord<MutationUpdateManagerLoginArgs, RequiredDbNotUserManagerLoginKeys> & AutodefinableManagerLoginPart;
 
 export type StrictCreateManagerLoginArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagerLoginArgs, AutoDefinableManagerLoginKeys>;
 
@@ -69,7 +76,7 @@ export type ManagerLoginsService = BaseManagerLoginsMethods
   & HooksAddType<
     ManagerLogin,
     QueryAllManagerLoginsArgs,
-    MutationCreateManagerLoginArgsWithAutoDefinable,
+    ReliableManagerLoginCreateUserInput,
     MutationUpdateManagerLoginArgs,
     MutationRemoveManagerLoginArgs,
     StrictCreateManagerLoginArgs,
@@ -84,7 +91,7 @@ export const getManagerLoginsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     ManagerLogin,
     QueryAllManagerLoginsArgs,
-    MutationCreateManagerLoginArgsWithAutoDefinable,
+    ReliableManagerLoginCreateUserInput,
     MutationUpdateManagerLoginArgs,
     MutationRemoveManagerLoginArgs,
     StrictCreateManagerLoginArgs,
@@ -93,7 +100,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllManagerLoginsArgs = {},
@@ -157,15 +164,15 @@ export const getManagerLoginsService = (ctx: Context) => {
     data: MutationCreateManagerLoginArgs,
     byUser = false,
   ): Promise<ManagerLogin> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateManagerLoginArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedManagerLoginForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateManagerLoginArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getManagerLoginsService = (ctx: Context) => {
     entries: StrictCreateManagerLoginArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateManagerLoginArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateManagerLoginArgs);
 
     const result = await ctx.prisma.managerLogin.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getManagerLoginsService = (ctx: Context) => {
   ): Promise<ManagerLogin> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getManagerLoginsService = (ctx: Context) => {
   ): Promise<ManagerLogin> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

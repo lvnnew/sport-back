@@ -21,6 +21,8 @@ export interface ProfileService {
   setUserId: (userId: number) => void,
   setManagerId: (managerId: number) => void,
   getAllowedTenantIds: () => Promise<number[]>;
+  getRequiredTenantId: () => Promise<number>;
+  getTenantId: () => Promise<number | null>;
 }
 
 export type UserData = {
@@ -181,6 +183,26 @@ export const getProfileService = (ctx: Context): ProfileService => {
     return res;
   };
 
+  const getRequiredTenantId = async (): Promise<number> => {
+    const allowed = await getAllowedTenantIds();
+
+    if (!allowed.length) {
+      throw new Error('There is no allowed tenants. Imposible to provide any.');
+    }
+
+    if (allowed.length > 1) {
+      throw new Error(`There is more then 1 tenant (${allowed.length}). Imposible to pick one.`);
+    }
+
+    return allowed[0];
+  };
+
+  const getTenantId = async (): Promise<number> => {
+    const allowed = await getAllowedTenantIds();
+
+    return allowed[0];
+  };
+
   return {
     getPermissionsOfManager,
     getPermissionsWithMeta,
@@ -191,5 +213,7 @@ export const getProfileService = (ctx: Context): ProfileService => {
     setUserId,
     setManagerId,
     getAllowedTenantIds,
+    getRequiredTenantId,
+    getTenantId,
   };
 };

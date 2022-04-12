@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateManagersToPermissionArgsWithAutoDefinable} from '../ManagersToPermissionsService';
+import {
+  ReliableManagersToPermissionCreateUserInput,
+  StrictCreateManagersToPermissionArgs,
+} from '../ManagersToPermissionsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateManagersToPermissionArgsWithAutoDefinable,
-): Promise<MutationCreateManagersToPermissionArgsWithAutoDefinable> => data;
+  data: ReliableManagersToPermissionCreateUserInput,
+): Promise<StrictCreateManagersToPermissionArgs> => data;

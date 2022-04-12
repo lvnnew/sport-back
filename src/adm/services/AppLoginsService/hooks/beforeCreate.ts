@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateAppLoginArgsWithAutoDefinable} from '../AppLoginsService';
+import {
+  ReliableAppLoginCreateUserInput,
+  StrictCreateAppLoginArgs,
+} from '../AppLoginsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAppLoginArgsWithAutoDefinable,
-): Promise<MutationCreateAppLoginArgsWithAutoDefinable> => data;
+  data: ReliableAppLoginCreateUserInput,
+): Promise<StrictCreateAppLoginArgs> => data;

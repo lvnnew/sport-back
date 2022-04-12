@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableManagersToPermissionKeys = never;
-export type AutoDefinableManagersToPermissionPart = MutationCreateManagersToPermissionArgs;
-export type MutationCreateManagersToPermissionArgsWithAutoDefinable = AutoDefinableManagersToPermissionPart & MutationCreateManagersToPermissionArgs;
-export type MutationCreateManagersToPermissionArgsWithoutAutoDefinable = Omit<MutationCreateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>;
+export type ForbidenForUserManagersToPermissionKeys = never;
+export type RequiredDbNotUserManagersToPermissionKeys = never;
 
-export type StrictUpdateManagersToPermissionArgs = DefinedFieldsInRecord<MutationUpdateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>;
-export type StrictCreateManagersToPermissionArgs = DefinedFieldsInRecord<MutationCreateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>;
+export type AutodefinableManagersToPermissionPart = DefinedRecord<Pick<MutationCreateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>>;
+
+export type ReliableManagersToPermissionCreateUserInput =
+  Omit<MutationCreateManagersToPermissionArgs, ForbidenForUserManagersToPermissionKeys>
+  & AutodefinableManagersToPermissionPart;
+
+export type AllowedManagersToPermissionForUserCreateInput = Omit<MutationCreateManagersToPermissionArgs, ForbidenForUserManagersToPermissionKeys>;
+
+export type StrictCreateManagersToPermissionArgs = DefinedFieldsInRecord<MutationCreateManagersToPermissionArgs, RequiredDbNotUserManagersToPermissionKeys> & AutodefinableManagersToPermissionPart;
+export type StrictUpdateManagersToPermissionArgs = DefinedFieldsInRecord<MutationUpdateManagersToPermissionArgs, RequiredDbNotUserManagersToPermissionKeys> & AutodefinableManagersToPermissionPart;
 
 export type StrictCreateManagersToPermissionArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>;
 
@@ -69,7 +76,7 @@ export type ManagersToPermissionsService = BaseManagersToPermissionsMethods
   & HooksAddType<
     ManagersToPermission,
     QueryAllManagersToPermissionsArgs,
-    MutationCreateManagersToPermissionArgsWithAutoDefinable,
+    ReliableManagersToPermissionCreateUserInput,
     MutationUpdateManagersToPermissionArgs,
     MutationRemoveManagersToPermissionArgs,
     StrictCreateManagersToPermissionArgs,
@@ -84,7 +91,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     ManagersToPermission,
     QueryAllManagersToPermissionsArgs,
-    MutationCreateManagersToPermissionArgsWithAutoDefinable,
+    ReliableManagersToPermissionCreateUserInput,
     MutationUpdateManagersToPermissionArgs,
     MutationRemoveManagersToPermissionArgs,
     StrictCreateManagersToPermissionArgs,
@@ -93,7 +100,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllManagersToPermissionsArgs = {},
@@ -157,15 +164,15 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     data: MutationCreateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateManagersToPermissionArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedManagersToPermissionForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateManagersToPermissionArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     entries: StrictCreateManagersToPermissionArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateManagersToPermissionArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateManagersToPermissionArgs);
 
     const result = await ctx.prisma.managersToPermission.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   ): Promise<ManagersToPermission> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   ): Promise<ManagersToPermission> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

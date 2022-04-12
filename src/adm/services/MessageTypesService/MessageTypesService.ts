@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableMessageTypeKeys = never;
-export type AutoDefinableMessageTypePart = MutationCreateMessageTypeArgs;
-export type MutationCreateMessageTypeArgsWithAutoDefinable = AutoDefinableMessageTypePart & MutationCreateMessageTypeArgs;
-export type MutationCreateMessageTypeArgsWithoutAutoDefinable = Omit<MutationCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
+export type ForbidenForUserMessageTypeKeys = never;
+export type RequiredDbNotUserMessageTypeKeys = never;
 
-export type StrictUpdateMessageTypeArgs = DefinedFieldsInRecord<MutationUpdateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
-export type StrictCreateMessageTypeArgs = DefinedFieldsInRecord<MutationCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
+export type AutodefinableMessageTypePart = DefinedRecord<Pick<MutationCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>>;
+
+export type ReliableMessageTypeCreateUserInput =
+  Omit<MutationCreateMessageTypeArgs, ForbidenForUserMessageTypeKeys>
+  & AutodefinableMessageTypePart;
+
+export type AllowedMessageTypeForUserCreateInput = Omit<MutationCreateMessageTypeArgs, ForbidenForUserMessageTypeKeys>;
+
+export type StrictCreateMessageTypeArgs = DefinedFieldsInRecord<MutationCreateMessageTypeArgs, RequiredDbNotUserMessageTypeKeys> & AutodefinableMessageTypePart;
+export type StrictUpdateMessageTypeArgs = DefinedFieldsInRecord<MutationUpdateMessageTypeArgs, RequiredDbNotUserMessageTypeKeys> & AutodefinableMessageTypePart;
 
 export type StrictCreateMessageTypeArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
 
@@ -69,7 +76,7 @@ export type MessageTypesService = BaseMessageTypesMethods
   & HooksAddType<
     MessageType,
     QueryAllMessageTypesArgs,
-    MutationCreateMessageTypeArgsWithAutoDefinable,
+    ReliableMessageTypeCreateUserInput,
     MutationUpdateMessageTypeArgs,
     MutationRemoveMessageTypeArgs,
     StrictCreateMessageTypeArgs,
@@ -84,7 +91,7 @@ export const getMessageTypesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     MessageType,
     QueryAllMessageTypesArgs,
-    MutationCreateMessageTypeArgsWithAutoDefinable,
+    ReliableMessageTypeCreateUserInput,
     MutationUpdateMessageTypeArgs,
     MutationRemoveMessageTypeArgs,
     StrictCreateMessageTypeArgs,
@@ -93,7 +100,7 @@ export const getMessageTypesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllMessageTypesArgs = {},
@@ -157,15 +164,15 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationCreateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateMessageTypeArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedMessageTypeForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateMessageTypeArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getMessageTypesService = (ctx: Context) => {
     entries: StrictCreateMessageTypeArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateMessageTypeArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateMessageTypeArgs);
 
     const result = await ctx.prisma.messageType.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getMessageTypesService = (ctx: Context) => {
   ): Promise<MessageType> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getMessageTypesService = (ctx: Context) => {
   ): Promise<MessageType> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getMessageTypesService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

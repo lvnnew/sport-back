@@ -1,9 +1,9 @@
 import {
-  MutationUpdateMessageTemplateArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateMessageTemplateArgs,
+} from '../MessageTemplatesService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateMessageTemplateArgs,
-): Promise<MutationUpdateMessageTemplateArgs> => data;
+  data: StrictUpdateMessageTemplateArgs,
+): Promise<StrictUpdateMessageTemplateArgs> => data;

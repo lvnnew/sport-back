@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableDelegationKeys = never;
-export type AutoDefinableDelegationPart = MutationCreateDelegationArgs;
-export type MutationCreateDelegationArgsWithAutoDefinable = AutoDefinableDelegationPart & MutationCreateDelegationArgs;
-export type MutationCreateDelegationArgsWithoutAutoDefinable = Omit<MutationCreateDelegationArgs, AutoDefinableDelegationKeys>;
+export type ForbidenForUserDelegationKeys = never;
+export type RequiredDbNotUserDelegationKeys = never;
 
-export type StrictUpdateDelegationArgs = DefinedFieldsInRecord<MutationUpdateDelegationArgs, AutoDefinableDelegationKeys>;
-export type StrictCreateDelegationArgs = DefinedFieldsInRecord<MutationCreateDelegationArgs, AutoDefinableDelegationKeys>;
+export type AutodefinableDelegationPart = DefinedRecord<Pick<MutationCreateDelegationArgs, AutoDefinableDelegationKeys>>;
+
+export type ReliableDelegationCreateUserInput =
+  Omit<MutationCreateDelegationArgs, ForbidenForUserDelegationKeys>
+  & AutodefinableDelegationPart;
+
+export type AllowedDelegationForUserCreateInput = Omit<MutationCreateDelegationArgs, ForbidenForUserDelegationKeys>;
+
+export type StrictCreateDelegationArgs = DefinedFieldsInRecord<MutationCreateDelegationArgs, RequiredDbNotUserDelegationKeys> & AutodefinableDelegationPart;
+export type StrictUpdateDelegationArgs = DefinedFieldsInRecord<MutationUpdateDelegationArgs, RequiredDbNotUserDelegationKeys> & AutodefinableDelegationPart;
 
 export type StrictCreateDelegationArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateDelegationArgs, AutoDefinableDelegationKeys>;
 
@@ -69,7 +76,7 @@ export type DelegationsService = BaseDelegationsMethods
   & HooksAddType<
     Delegation,
     QueryAllDelegationsArgs,
-    MutationCreateDelegationArgsWithAutoDefinable,
+    ReliableDelegationCreateUserInput,
     MutationUpdateDelegationArgs,
     MutationRemoveDelegationArgs,
     StrictCreateDelegationArgs,
@@ -90,7 +97,7 @@ export const getDelegationsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Delegation,
     QueryAllDelegationsArgs,
-    MutationCreateDelegationArgsWithAutoDefinable,
+    ReliableDelegationCreateUserInput,
     MutationUpdateDelegationArgs,
     MutationRemoveDelegationArgs,
     StrictCreateDelegationArgs,
@@ -99,7 +106,7 @@ export const getDelegationsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllDelegationsArgs = {},
@@ -163,15 +170,15 @@ export const getDelegationsService = (ctx: Context) => {
     data: MutationCreateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateDelegationArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedDelegationForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateDelegationArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -217,14 +224,16 @@ export const getDelegationsService = (ctx: Context) => {
     entries: StrictCreateDelegationArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateDelegationArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateDelegationArgs);
 
     const result = await ctx.prisma.delegation.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -249,7 +258,7 @@ export const getDelegationsService = (ctx: Context) => {
   ): Promise<Delegation> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -302,7 +311,7 @@ export const getDelegationsService = (ctx: Context) => {
   ): Promise<Delegation> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -347,7 +356,7 @@ export const getDelegationsService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user

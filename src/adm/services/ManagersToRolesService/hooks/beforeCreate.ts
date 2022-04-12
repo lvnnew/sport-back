@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateManagersToRoleArgsWithAutoDefinable} from '../ManagersToRolesService';
+import {
+  ReliableManagersToRoleCreateUserInput,
+  StrictCreateManagersToRoleArgs,
+} from '../ManagersToRolesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateManagersToRoleArgsWithAutoDefinable,
-): Promise<MutationCreateManagersToRoleArgsWithAutoDefinable> => data;
+  data: ReliableManagersToRoleCreateUserInput,
+): Promise<StrictCreateManagersToRoleArgs> => data;

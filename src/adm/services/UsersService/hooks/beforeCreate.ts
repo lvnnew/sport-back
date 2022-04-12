@@ -1,7 +1,10 @@
 import {Context} from '../../types';
-import {MutationCreateUserArgsWithAutoDefinable} from '../UsersService';
+import {
+  ReliableUserCreateUserInput,
+  StrictCreateUserArgs,
+} from '../UsersService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateUserArgsWithAutoDefinable,
-): Promise<MutationCreateUserArgsWithAutoDefinable> => data;
+  data: ReliableUserCreateUserInput,
+): Promise<StrictCreateUserArgs> => data;

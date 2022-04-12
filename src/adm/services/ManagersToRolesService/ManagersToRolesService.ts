@@ -18,7 +18,7 @@ import {getHooksUtils, HooksAddType} from '../getHooksUtils';
 import * as R from 'ramda';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -26,12 +26,19 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 const forbiddenForUserFields: string[] = [];
 
 export type AutoDefinableManagersToRoleKeys = never;
-export type AutoDefinableManagersToRolePart = MutationCreateManagersToRoleArgs;
-export type MutationCreateManagersToRoleArgsWithAutoDefinable = AutoDefinableManagersToRolePart & MutationCreateManagersToRoleArgs;
-export type MutationCreateManagersToRoleArgsWithoutAutoDefinable = Omit<MutationCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
+export type ForbidenForUserManagersToRoleKeys = never;
+export type RequiredDbNotUserManagersToRoleKeys = never;
 
-export type StrictUpdateManagersToRoleArgs = DefinedFieldsInRecord<MutationUpdateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
-export type StrictCreateManagersToRoleArgs = DefinedFieldsInRecord<MutationCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
+export type AutodefinableManagersToRolePart = DefinedRecord<Pick<MutationCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>>;
+
+export type ReliableManagersToRoleCreateUserInput =
+  Omit<MutationCreateManagersToRoleArgs, ForbidenForUserManagersToRoleKeys>
+  & AutodefinableManagersToRolePart;
+
+export type AllowedManagersToRoleForUserCreateInput = Omit<MutationCreateManagersToRoleArgs, ForbidenForUserManagersToRoleKeys>;
+
+export type StrictCreateManagersToRoleArgs = DefinedFieldsInRecord<MutationCreateManagersToRoleArgs, RequiredDbNotUserManagersToRoleKeys> & AutodefinableManagersToRolePart;
+export type StrictUpdateManagersToRoleArgs = DefinedFieldsInRecord<MutationUpdateManagersToRoleArgs, RequiredDbNotUserManagersToRoleKeys> & AutodefinableManagersToRolePart;
 
 export type StrictCreateManagersToRoleArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
 
@@ -69,7 +76,7 @@ export type ManagersToRolesService = BaseManagersToRolesMethods
   & HooksAddType<
     ManagersToRole,
     QueryAllManagersToRolesArgs,
-    MutationCreateManagersToRoleArgsWithAutoDefinable,
+    ReliableManagersToRoleCreateUserInput,
     MutationUpdateManagersToRoleArgs,
     MutationRemoveManagersToRoleArgs,
     StrictCreateManagersToRoleArgs,
@@ -84,7 +91,7 @@ export const getManagersToRolesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     ManagersToRole,
     QueryAllManagersToRolesArgs,
-    MutationCreateManagersToRoleArgsWithAutoDefinable,
+    ReliableManagersToRoleCreateUserInput,
     MutationUpdateManagersToRoleArgs,
     MutationRemoveManagersToRoleArgs,
     StrictCreateManagersToRoleArgs,
@@ -93,7 +100,7 @@ export const getManagersToRolesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = () => ({});
+  const getDefaultPart = async () => ({});
 
   const all = async (
     params: QueryAllManagersToRolesArgs = {},
@@ -157,15 +164,15 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationCreateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as MutationCreateManagersToRoleArgsWithoutAutoDefinable :
+      R.omit(forbiddenForUserFields, data) as AllowedManagersToRoleForUserCreateInput :
       data;
 
     // augment data by default fields
-    const augmented: MutationCreateManagersToRoleArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+    const augmented = R.mergeLeft(cleared, defaultPart);
 
     const processedData = await runHooks.beforeCreate(ctx, augmented);
 
@@ -211,14 +218,16 @@ export const getManagersToRolesService = (ctx: Context) => {
     entries: StrictCreateManagersToRoleArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
 
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // augment data by default fields
-    const augmentedData =
-      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateManagersToRoleArgsWithAutoDefinable);
+    const augmentedData = clearedData.map(data => R.mergeLeft(
+      data,
+      defaultPart,
+    ) as StrictCreateManagersToRoleArgs);
 
     const result = await ctx.prisma.managersToRole.createMany({
       data: augmentedData.map(data => R.mergeDeepLeft(
@@ -243,7 +252,7 @@ export const getManagersToRolesService = (ctx: Context) => {
   ): Promise<ManagersToRole> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -296,7 +305,7 @@ export const getManagersToRolesService = (ctx: Context) => {
   ): Promise<ManagersToRole> => {
     // Compose object for augmentation
     const dbVersion = await getRequired(data.id);
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
@@ -341,7 +350,7 @@ export const getManagersToRolesService = (ctx: Context) => {
 
     // Compose object for augmentation
     const dbVersion = await findRequired({filter});
-    const defaultPart = getDefaultPart();
+    const defaultPart = await getDefaultPart();
     const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
