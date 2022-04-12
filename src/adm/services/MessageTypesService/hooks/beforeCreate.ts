@@ -1,9 +1,7 @@
-import {
-  MutationCreateMessageTypeArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateMessageTypeArgsWithAutoDefinable} from '../MessageTypesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateMessageTypeArgs,
-): Promise<MutationCreateMessageTypeArgs> => data;
+  data: MutationCreateMessageTypeArgsWithAutoDefinable,
+): Promise<MutationCreateMessageTypeArgsWithAutoDefinable> => data;

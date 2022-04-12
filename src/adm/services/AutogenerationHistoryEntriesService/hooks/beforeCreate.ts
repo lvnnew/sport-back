@@ -1,9 +1,7 @@
-import {
-  MutationCreateAutogenerationHistoryEntryArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateAutogenerationHistoryEntryArgsWithAutoDefinable} from '../AutogenerationHistoryEntriesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAutogenerationHistoryEntryArgs,
-): Promise<MutationCreateAutogenerationHistoryEntryArgs> => data;
+  data: MutationCreateAutogenerationHistoryEntryArgsWithAutoDefinable,
+): Promise<MutationCreateAutogenerationHistoryEntryArgsWithAutoDefinable> => data;

@@ -15,22 +15,25 @@ import {AdditionalAppRefreshTokensMethods, getAdditionalMethods} from './additio
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateAppRefreshTokenArgs = MutationUpdateAppRefreshTokenArgs;
-export type StrictCreateAppRefreshTokenArgs = MutationCreateAppRefreshTokenArgs;
+export type AutoDefinableAppRefreshTokenKeys = never;
+export type AutoDefinableAppRefreshTokenPart = MutationCreateAppRefreshTokenArgs;
+export type MutationCreateAppRefreshTokenArgsWithAutoDefinable = AutoDefinableAppRefreshTokenPart & MutationCreateAppRefreshTokenArgs;
+export type MutationCreateAppRefreshTokenArgsWithoutAutoDefinable = Omit<MutationCreateAppRefreshTokenArgs, AutoDefinableAppRefreshTokenKeys>;
+
+export type StrictUpdateAppRefreshTokenArgs = DefinedFieldsInRecord<MutationUpdateAppRefreshTokenArgs, AutoDefinableAppRefreshTokenKeys>;
+export type StrictCreateAppRefreshTokenArgs = DefinedFieldsInRecord<MutationCreateAppRefreshTokenArgs, AutoDefinableAppRefreshTokenKeys>;
+
+export type StrictCreateAppRefreshTokenArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAppRefreshTokenArgs, AutoDefinableAppRefreshTokenKeys>;
 
 export interface BaseAppRefreshTokensMethods {
   get: (id: number) =>
@@ -45,7 +48,7 @@ export interface BaseAppRefreshTokensMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateAppRefreshTokenArgs, byUser?: boolean) =>
     Promise<AppRefreshToken>;
-  createMany: (data: MutationCreateAppRefreshTokenArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateAppRefreshTokenArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAppRefreshTokenArgs, byUser?: boolean) =>
     Promise<AppRefreshToken>;
@@ -66,28 +69,37 @@ export type AppRefreshTokensService = BaseAppRefreshTokensMethods
   & HooksAddType<
     AppRefreshToken,
     QueryAllAppRefreshTokensArgs,
-    MutationCreateAppRefreshTokenArgs,
+    MutationCreateAppRefreshTokenArgsWithAutoDefinable,
     MutationUpdateAppRefreshTokenArgs,
     MutationRemoveAppRefreshTokenArgs,
     StrictCreateAppRefreshTokenArgs,
     StrictUpdateAppRefreshTokenArgs
   >;
 
+const dateFieldsForSearch: string[] = [
+  'create',
+];
+
+const otherFieldsForSearch: string[] = [
+  'id',
+  'userId',
+  'token',
+];
+
 export const getAppRefreshTokensService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     AppRefreshToken,
     QueryAllAppRefreshTokensArgs,
-    MutationCreateAppRefreshTokenArgs,
+    MutationCreateAppRefreshTokenArgsWithAutoDefinable,
     MutationUpdateAppRefreshTokenArgs,
     MutationRemoveAppRefreshTokenArgs,
     StrictCreateAppRefreshTokenArgs,
     StrictUpdateAppRefreshTokenArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.appRefreshToken.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllAppRefreshTokensArgs = {},
@@ -100,13 +112,39 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllAppRefreshTokensArgs = {},
   ): Promise<AppRefreshToken | null> => {
-    return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllAppRefreshTokensArgs = {},
+  ): Promise<AppRefreshToken> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: number,
   ): Promise<AppRefreshToken | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: number,
+  ): Promise<AppRefreshToken> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -125,39 +163,23 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationCreateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateAppRefreshTokenArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateAppRefreshTokenArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.appRefreshToken.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'userId',
-                  'token',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'create',
-                ], processedData),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -173,41 +195,17 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.appRefreshToken.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'userId',
-                  'token',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'create',
-                ], result),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'App refresh tokens create',
-          entityTypeId: Entity.AppRefreshToken,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.AppRefreshToken,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as AppRefreshToken),
     ]);
@@ -216,40 +214,23 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateAppRefreshTokenArgs[],
+    entries: StrictCreateAppRefreshTokenArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateAppRefreshTokenArgsWithAutoDefinable);
 
     const result = await ctx.prisma.appRefreshToken.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'userId',
-                  'token',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'create',
-                ], data),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -266,14 +247,18 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationUpdateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateAppRefreshTokenArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -281,40 +266,16 @@ export const getAppRefreshTokensService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'userId',
-                  'token',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'create',
-                ], processedData),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'App refresh tokens update',
-        entityTypeId: Entity.AppRefreshToken,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.AppRefreshToken,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -339,63 +300,32 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationUpdateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateAppRefreshTokenArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateAppRefreshTokenArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.appRefreshToken.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'userId',
-                'token',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'create',
-              ], createData),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'userId',
-                'token',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'create',
-              ], updateData),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.appRefreshToken.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -409,41 +339,37 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationCreateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -454,16 +380,9 @@ export const getAppRefreshTokensService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.appRefreshToken.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'App refresh tokens delete',
-        entityTypeId: Entity.AppRefreshToken,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.AppRefreshToken,
+      entityId: params.id,
     });
 
     const operations = [

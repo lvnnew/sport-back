@@ -27,7 +27,7 @@ export const changeListFilter = async (
 
 type Data = {createData: StrictCreateManagerArgs, updateData: StrictUpdateManagerArgs};
 
-export const beforeUpsert = async (
+export const beforeUpsertStrict = async (
   ctx: Context,
   {createData, updateData}: Data,
 ): Promise<Data> => {

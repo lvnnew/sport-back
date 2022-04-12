@@ -15,18 +15,25 @@ import {AdditionalUsersMethods, getAdditionalMethods} from './additionalMethods'
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateUserArgs = MutationUpdateUserArgs;
-export type StrictCreateUserArgs = MutationCreateUserArgs;
+export type AutoDefinableUserKeys = never;
+export type AutoDefinableUserPart = MutationCreateUserArgs;
+export type MutationCreateUserArgsWithAutoDefinable = AutoDefinableUserPart & MutationCreateUserArgs;
+export type MutationCreateUserArgsWithoutAutoDefinable = Omit<MutationCreateUserArgs, AutoDefinableUserKeys>;
+
+export type StrictUpdateUserArgs = DefinedFieldsInRecord<MutationUpdateUserArgs, AutoDefinableUserKeys>;
+export type StrictCreateUserArgs = DefinedFieldsInRecord<MutationCreateUserArgs, AutoDefinableUserKeys>;
+
+export type StrictCreateUserArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateUserArgs, AutoDefinableUserKeys>;
 
 export interface BaseUsersMethods {
   get: (id: number) =>
@@ -41,7 +48,7 @@ export interface BaseUsersMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateUserArgs, byUser?: boolean) =>
     Promise<User>;
-  createMany: (data: MutationCreateUserArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateUserArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateUserArgs, byUser?: boolean) =>
     Promise<User>;
@@ -62,28 +69,31 @@ export type UsersService = BaseUsersMethods
   & HooksAddType<
     User,
     QueryAllUsersArgs,
-    MutationCreateUserArgs,
+    MutationCreateUserArgsWithAutoDefinable,
     MutationUpdateUserArgs,
     MutationRemoveUserArgs,
     StrictCreateUserArgs,
     StrictUpdateUserArgs
   >;
 
+const dateFieldsForSearch: string[] = [];
+
+const otherFieldsForSearch: string[] = [];
+
 export const getUsersService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     User,
     QueryAllUsersArgs,
-    MutationCreateUserArgs,
+    MutationCreateUserArgsWithAutoDefinable,
     MutationUpdateUserArgs,
     MutationRemoveUserArgs,
     StrictCreateUserArgs,
     StrictUpdateUserArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.user.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllUsersArgs = {},
@@ -96,13 +106,39 @@ export const getUsersService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllUsersArgs = {},
   ): Promise<User | null> => {
-    return ctx.prisma.user.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.user.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllUsersArgs = {},
+  ): Promise<User> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: number,
   ): Promise<User | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: number,
+  ): Promise<User> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -121,35 +157,23 @@ export const getUsersService = (ctx: Context) => {
     data: MutationCreateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateUserArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateUserArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.user.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'lastname',
-                  'firstname',
-                  'email',
-                  'tenantId',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -165,37 +189,17 @@ export const getUsersService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.user.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'lastname',
-                  'firstname',
-                  'email',
-                  'tenantId',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Users create',
-          entityTypeId: Entity.User,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.User,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as User),
     ]);
@@ -204,36 +208,23 @@ export const getUsersService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateUserArgs[],
+    entries: StrictCreateUserArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateUserArgsWithAutoDefinable);
 
     const result = await ctx.prisma.user.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'lastname',
-                  'firstname',
-                  'email',
-                  'tenantId',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -250,14 +241,18 @@ export const getUsersService = (ctx: Context) => {
     data: MutationUpdateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateUserArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateUserArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -265,36 +260,16 @@ export const getUsersService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'lastname',
-                  'firstname',
-                  'email',
-                  'tenantId',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Users update',
-        entityTypeId: Entity.User,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.User,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -319,55 +294,32 @@ export const getUsersService = (ctx: Context) => {
     data: MutationUpdateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateUserArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateUserArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateUserArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.user.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-                'lastname',
-                'firstname',
-                'email',
-                'tenantId',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-                'lastname',
-                'firstname',
-                'email',
-                'tenantId',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.user.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -381,43 +333,37 @@ export const getUsersService = (ctx: Context) => {
     data: MutationCreateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [
-          'tenantId',
-        ],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateUserArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -428,16 +374,9 @@ export const getUsersService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.user.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Users delete',
-        entityTypeId: Entity.User,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.User,
+      entityId: params.id,
     });
 
     const operations = [

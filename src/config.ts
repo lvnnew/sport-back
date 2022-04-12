@@ -25,6 +25,7 @@ const envConfig = {
   appTitle: getFromNconf('appTitle'),
   customerRecaptchaSecretKey: getFromNconf('customer.recaptcha.secretKey'),
   databaseUri: getFromNconf('database.uri'),
+  graphqlPlaygroundEnabled: getFromNconf('graphql.playground.enabled'),
   logsFormat: getFromNconf('logs.format'),
   lokiUrl: getFromNconf('loki.url'),
   s3AccessKeyId: getFromNconf('s3.accessKeyId'),

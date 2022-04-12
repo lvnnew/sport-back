@@ -15,22 +15,25 @@ import {AdditionalStatsMethods, getAdditionalMethods} from './additionalMethods'
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-
-dayjs.extend(utc);
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateStatArgs = MutationUpdateStatArgs;
-export type StrictCreateStatArgs = MutationCreateStatArgs;
+export type AutoDefinableStatKeys = never;
+export type AutoDefinableStatPart = MutationCreateStatArgs;
+export type MutationCreateStatArgsWithAutoDefinable = AutoDefinableStatPart & MutationCreateStatArgs;
+export type MutationCreateStatArgsWithoutAutoDefinable = Omit<MutationCreateStatArgs, AutoDefinableStatKeys>;
+
+export type StrictUpdateStatArgs = DefinedFieldsInRecord<MutationUpdateStatArgs, AutoDefinableStatKeys>;
+export type StrictCreateStatArgs = DefinedFieldsInRecord<MutationCreateStatArgs, AutoDefinableStatKeys>;
+
+export type StrictCreateStatArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateStatArgs, AutoDefinableStatKeys>;
 
 export interface BaseStatsMethods {
   get: (id: string) =>
@@ -45,7 +48,7 @@ export interface BaseStatsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateStatArgs, byUser?: boolean) =>
     Promise<Stat>;
-  createMany: (data: MutationCreateStatArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateStatArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateStatArgs, byUser?: boolean) =>
     Promise<Stat>;
@@ -66,28 +69,36 @@ export type StatsService = BaseStatsMethods
   & HooksAddType<
     Stat,
     QueryAllStatsArgs,
-    MutationCreateStatArgs,
+    MutationCreateStatArgsWithAutoDefinable,
     MutationUpdateStatArgs,
     MutationRemoveStatArgs,
     StrictCreateStatArgs,
     StrictUpdateStatArgs
   >;
 
+const dateFieldsForSearch: string[] = [
+  'updated',
+];
+
+const otherFieldsForSearch: string[] = [
+  'id',
+  'helloCount',
+];
+
 export const getStatsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Stat,
     QueryAllStatsArgs,
-    MutationCreateStatArgs,
+    MutationCreateStatArgsWithAutoDefinable,
     MutationUpdateStatArgs,
     MutationRemoveStatArgs,
     StrictCreateStatArgs,
     StrictUpdateStatArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.stat.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllStatsArgs = {},
@@ -100,13 +111,39 @@ export const getStatsService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllStatsArgs = {},
   ): Promise<Stat | null> => {
-    return ctx.prisma.stat.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.stat.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllStatsArgs = {},
+  ): Promise<Stat> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: string,
   ): Promise<Stat | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: string,
+  ): Promise<Stat> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -125,38 +162,23 @@ export const getStatsService = (ctx: Context) => {
     data: MutationCreateStatArgs,
     byUser = false,
   ): Promise<Stat> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateStatArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateStatArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.stat.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'helloCount',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'updated',
-                ], processedData),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -172,40 +194,17 @@ export const getStatsService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.stat.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'helloCount',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'updated',
-                ], result),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Stats create',
-          entityTypeId: Entity.Stat,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.Stat,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as Stat),
     ]);
@@ -214,39 +213,23 @@ export const getStatsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateStatArgs[],
+    entries: StrictCreateStatArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateStatArgsWithAutoDefinable);
 
     const result = await ctx.prisma.stat.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'helloCount',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'updated',
-                ], data),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -263,14 +246,18 @@ export const getStatsService = (ctx: Context) => {
     data: MutationUpdateStatArgs,
     byUser = false,
   ): Promise<Stat> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateStatArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateStatArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -278,39 +265,16 @@ export const getStatsService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'helloCount',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-            ...R
-              .toPairs(
-                R.pick([
-                  'updated',
-                ], processedData),
-              )
-              .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Stats update',
-        entityTypeId: Entity.Stat,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.Stat,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -335,61 +299,32 @@ export const getStatsService = (ctx: Context) => {
     data: MutationUpdateStatArgs,
     byUser = false,
   ): Promise<Stat> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateStatArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateStatArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateStatArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.stat.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'helloCount',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'updated',
-              ], createData),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'helloCount',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ...R
-            .toPairs(
-              R.pick([
-                'updated',
-              ], updateData),
-            )
-            .map((el) => dayjs(el[1] as Date).utc().format('DD.MM.YYYY') ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.stat.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -403,41 +338,37 @@ export const getStatsService = (ctx: Context) => {
     data: MutationCreateStatArgs,
     byUser = false,
   ): Promise<Stat> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateStatArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -448,16 +379,9 @@ export const getStatsService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.stat.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Stats delete',
-        entityTypeId: Entity.Stat,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.Stat,
+      entityId: params.id,
     });
 
     const operations = [

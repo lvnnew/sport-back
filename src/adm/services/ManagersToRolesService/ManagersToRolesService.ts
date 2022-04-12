@@ -15,18 +15,25 @@ import {AdditionalManagersToRolesMethods, getAdditionalMethods} from './addition
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateManagersToRoleArgs = MutationUpdateManagersToRoleArgs;
-export type StrictCreateManagersToRoleArgs = MutationCreateManagersToRoleArgs;
+export type AutoDefinableManagersToRoleKeys = never;
+export type AutoDefinableManagersToRolePart = MutationCreateManagersToRoleArgs;
+export type MutationCreateManagersToRoleArgsWithAutoDefinable = AutoDefinableManagersToRolePart & MutationCreateManagersToRoleArgs;
+export type MutationCreateManagersToRoleArgsWithoutAutoDefinable = Omit<MutationCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
+
+export type StrictUpdateManagersToRoleArgs = DefinedFieldsInRecord<MutationUpdateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
+export type StrictCreateManagersToRoleArgs = DefinedFieldsInRecord<MutationCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
+
+export type StrictCreateManagersToRoleArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
 
 export interface BaseManagersToRolesMethods {
   get: (id: number) =>
@@ -41,7 +48,7 @@ export interface BaseManagersToRolesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateManagersToRoleArgs, byUser?: boolean) =>
     Promise<ManagersToRole>;
-  createMany: (data: MutationCreateManagersToRoleArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateManagersToRoleArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagersToRoleArgs, byUser?: boolean) =>
     Promise<ManagersToRole>;
@@ -62,28 +69,31 @@ export type ManagersToRolesService = BaseManagersToRolesMethods
   & HooksAddType<
     ManagersToRole,
     QueryAllManagersToRolesArgs,
-    MutationCreateManagersToRoleArgs,
+    MutationCreateManagersToRoleArgsWithAutoDefinable,
     MutationUpdateManagersToRoleArgs,
     MutationRemoveManagersToRoleArgs,
     StrictCreateManagersToRoleArgs,
     StrictUpdateManagersToRoleArgs
   >;
 
+const dateFieldsForSearch: string[] = [];
+
+const otherFieldsForSearch: string[] = [];
+
 export const getManagersToRolesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     ManagersToRole,
     QueryAllManagersToRolesArgs,
-    MutationCreateManagersToRoleArgs,
+    MutationCreateManagersToRoleArgsWithAutoDefinable,
     MutationUpdateManagersToRoleArgs,
     MutationRemoveManagersToRoleArgs,
     StrictCreateManagersToRoleArgs,
     StrictUpdateManagersToRoleArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.managersToRole.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllManagersToRolesArgs = {},
@@ -96,13 +106,39 @@ export const getManagersToRolesService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllManagersToRolesArgs = {},
   ): Promise<ManagersToRole | null> => {
-    return ctx.prisma.managersToRole.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.managersToRole.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllManagersToRolesArgs = {},
+  ): Promise<ManagersToRole> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: number,
   ): Promise<ManagersToRole | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: number,
+  ): Promise<ManagersToRole> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -121,32 +157,23 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationCreateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateManagersToRoleArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateManagersToRoleArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.managersToRole.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'managerId',
-                  'roleId',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -162,34 +189,17 @@ export const getManagersToRolesService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.managersToRole.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'managerId',
-                  'roleId',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Managers to roles create',
-          entityTypeId: Entity.ManagersToRole,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.ManagersToRole,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as ManagersToRole),
     ]);
@@ -198,33 +208,23 @@ export const getManagersToRolesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateManagersToRoleArgs[],
+    entries: StrictCreateManagersToRoleArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateManagersToRoleArgsWithAutoDefinable);
 
     const result = await ctx.prisma.managersToRole.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'managerId',
-                  'roleId',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -241,14 +241,18 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationUpdateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateManagersToRoleArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -256,33 +260,16 @@ export const getManagersToRolesService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'managerId',
-                  'roleId',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Managers to roles update',
-        entityTypeId: Entity.ManagersToRole,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.ManagersToRole,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -307,49 +294,32 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationUpdateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateManagersToRoleArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateManagersToRoleArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.managersToRole.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'managerId',
-                'roleId',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'managerId',
-                'roleId',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.managersToRole.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -363,41 +333,37 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationCreateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -408,16 +374,9 @@ export const getManagersToRolesService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.managersToRole.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Managers to roles delete',
-        entityTypeId: Entity.ManagersToRole,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.ManagersToRole,
+      entityId: params.id,
     });
 
     const operations = [

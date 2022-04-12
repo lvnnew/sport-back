@@ -1,11 +1,11 @@
 import {UsersService} from './UsersService';
-import {beforeUpdate, beforeUpsert, beforeDelete, changeListFilter} from './hooks/tenantIdRequiredHooks';
+import {beforeUpdate, beforeUpsertStrict, beforeDelete, changeListFilter} from './hooks/tenantIdRequiredHooks';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const initBuiltInHooks = ({hooksAdd}: UsersService) => {
   hooksAdd.beforeUpdate(beforeUpdate);
-  hooksAdd.beforeUpsert(beforeUpsert);
+  hooksAdd.beforeUpsertStrict(beforeUpsertStrict);
   hooksAdd.beforeDelete(beforeDelete);
   hooksAdd.changeListFilter(changeListFilter);
 };

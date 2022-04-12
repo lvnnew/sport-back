@@ -74,6 +74,8 @@ spec:
           value: {{ $.Values.customer.recaptcha.secretKey | quote }}
         - name: DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
+        - name: GRAPHQL_PLAYGROUND_ENABLED
+          value: {{ $.Values.graphql.playground.enabled | quote }}
         - name: LOGS_FORMAT
           value: {{ $.Values.logs.format | quote }}
         - name: LOKI_URL

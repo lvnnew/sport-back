@@ -15,18 +15,25 @@ import {AdditionalRolesToPermissionsMethods, getAdditionalMethods} from './addit
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateRolesToPermissionArgs = MutationUpdateRolesToPermissionArgs;
-export type StrictCreateRolesToPermissionArgs = MutationCreateRolesToPermissionArgs;
+export type AutoDefinableRolesToPermissionKeys = never;
+export type AutoDefinableRolesToPermissionPart = MutationCreateRolesToPermissionArgs;
+export type MutationCreateRolesToPermissionArgsWithAutoDefinable = AutoDefinableRolesToPermissionPart & MutationCreateRolesToPermissionArgs;
+export type MutationCreateRolesToPermissionArgsWithoutAutoDefinable = Omit<MutationCreateRolesToPermissionArgs, AutoDefinableRolesToPermissionKeys>;
+
+export type StrictUpdateRolesToPermissionArgs = DefinedFieldsInRecord<MutationUpdateRolesToPermissionArgs, AutoDefinableRolesToPermissionKeys>;
+export type StrictCreateRolesToPermissionArgs = DefinedFieldsInRecord<MutationCreateRolesToPermissionArgs, AutoDefinableRolesToPermissionKeys>;
+
+export type StrictCreateRolesToPermissionArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateRolesToPermissionArgs, AutoDefinableRolesToPermissionKeys>;
 
 export interface BaseRolesToPermissionsMethods {
   get: (id: number) =>
@@ -41,7 +48,7 @@ export interface BaseRolesToPermissionsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateRolesToPermissionArgs, byUser?: boolean) =>
     Promise<RolesToPermission>;
-  createMany: (data: MutationCreateRolesToPermissionArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateRolesToPermissionArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateRolesToPermissionArgs, byUser?: boolean) =>
     Promise<RolesToPermission>;
@@ -62,28 +69,31 @@ export type RolesToPermissionsService = BaseRolesToPermissionsMethods
   & HooksAddType<
     RolesToPermission,
     QueryAllRolesToPermissionsArgs,
-    MutationCreateRolesToPermissionArgs,
+    MutationCreateRolesToPermissionArgsWithAutoDefinable,
     MutationUpdateRolesToPermissionArgs,
     MutationRemoveRolesToPermissionArgs,
     StrictCreateRolesToPermissionArgs,
     StrictUpdateRolesToPermissionArgs
   >;
 
+const dateFieldsForSearch: string[] = [];
+
+const otherFieldsForSearch: string[] = [];
+
 export const getRolesToPermissionsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     RolesToPermission,
     QueryAllRolesToPermissionsArgs,
-    MutationCreateRolesToPermissionArgs,
+    MutationCreateRolesToPermissionArgsWithAutoDefinable,
     MutationUpdateRolesToPermissionArgs,
     MutationRemoveRolesToPermissionArgs,
     StrictCreateRolesToPermissionArgs,
     StrictUpdateRolesToPermissionArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.rolesToPermission.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllRolesToPermissionsArgs = {},
@@ -96,13 +106,39 @@ export const getRolesToPermissionsService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllRolesToPermissionsArgs = {},
   ): Promise<RolesToPermission | null> => {
-    return ctx.prisma.rolesToPermission.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.rolesToPermission.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllRolesToPermissionsArgs = {},
+  ): Promise<RolesToPermission> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: number,
   ): Promise<RolesToPermission | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: number,
+  ): Promise<RolesToPermission> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -121,32 +157,23 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     data: MutationCreateRolesToPermissionArgs,
     byUser = false,
   ): Promise<RolesToPermission> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateRolesToPermissionArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateRolesToPermissionArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.rolesToPermission.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'roleId',
-                  'permissionId',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -162,34 +189,17 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.rolesToPermission.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'roleId',
-                  'permissionId',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Roles to permissions create',
-          entityTypeId: Entity.RolesToPermission,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.RolesToPermission,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as RolesToPermission),
     ]);
@@ -198,33 +208,23 @@ export const getRolesToPermissionsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateRolesToPermissionArgs[],
+    entries: StrictCreateRolesToPermissionArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateRolesToPermissionArgsWithAutoDefinable);
 
     const result = await ctx.prisma.rolesToPermission.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'roleId',
-                  'permissionId',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -241,14 +241,18 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     data: MutationUpdateRolesToPermissionArgs,
     byUser = false,
   ): Promise<RolesToPermission> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateRolesToPermissionArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateRolesToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -256,33 +260,16 @@ export const getRolesToPermissionsService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'roleId',
-                  'permissionId',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Roles to permissions update',
-        entityTypeId: Entity.RolesToPermission,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.RolesToPermission,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -307,49 +294,32 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     data: MutationUpdateRolesToPermissionArgs,
     byUser = false,
   ): Promise<RolesToPermission> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateRolesToPermissionArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateRolesToPermissionArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateRolesToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.rolesToPermission.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'roleId',
-                'permissionId',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'roleId',
-                'permissionId',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.rolesToPermission.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -363,41 +333,37 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     data: MutationCreateRolesToPermissionArgs,
     byUser = false,
   ): Promise<RolesToPermission> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateRolesToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -408,16 +374,9 @@ export const getRolesToPermissionsService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.rolesToPermission.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Roles to permissions delete',
-        entityTypeId: Entity.RolesToPermission,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.RolesToPermission,
+      entityId: params.id,
     });
 
     const operations = [

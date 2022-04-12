@@ -1,9 +1,7 @@
-import {
-  MutationCreateAutogenerationRuleArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateAutogenerationRuleArgsWithAutoDefinable} from '../AutogenerationRulesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAutogenerationRuleArgs,
-): Promise<MutationCreateAutogenerationRuleArgs> => data;
+  data: MutationCreateAutogenerationRuleArgsWithAutoDefinable,
+): Promise<MutationCreateAutogenerationRuleArgsWithAutoDefinable> => data;

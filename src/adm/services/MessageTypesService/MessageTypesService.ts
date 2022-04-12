@@ -15,18 +15,25 @@ import {AdditionalMessageTypesMethods, getAdditionalMethods} from './additionalM
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateMessageTypeArgs = MutationUpdateMessageTypeArgs;
-export type StrictCreateMessageTypeArgs = MutationCreateMessageTypeArgs;
+export type AutoDefinableMessageTypeKeys = never;
+export type AutoDefinableMessageTypePart = MutationCreateMessageTypeArgs;
+export type MutationCreateMessageTypeArgsWithAutoDefinable = AutoDefinableMessageTypePart & MutationCreateMessageTypeArgs;
+export type MutationCreateMessageTypeArgsWithoutAutoDefinable = Omit<MutationCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
+
+export type StrictUpdateMessageTypeArgs = DefinedFieldsInRecord<MutationUpdateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
+export type StrictCreateMessageTypeArgs = DefinedFieldsInRecord<MutationCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
+
+export type StrictCreateMessageTypeArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
 
 export interface BaseMessageTypesMethods {
   get: (id: string) =>
@@ -41,7 +48,7 @@ export interface BaseMessageTypesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateMessageTypeArgs, byUser?: boolean) =>
     Promise<MessageType>;
-  createMany: (data: MutationCreateMessageTypeArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateMessageTypeArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateMessageTypeArgs, byUser?: boolean) =>
     Promise<MessageType>;
@@ -62,28 +69,31 @@ export type MessageTypesService = BaseMessageTypesMethods
   & HooksAddType<
     MessageType,
     QueryAllMessageTypesArgs,
-    MutationCreateMessageTypeArgs,
+    MutationCreateMessageTypeArgsWithAutoDefinable,
     MutationUpdateMessageTypeArgs,
     MutationRemoveMessageTypeArgs,
     StrictCreateMessageTypeArgs,
     StrictUpdateMessageTypeArgs
   >;
 
+const dateFieldsForSearch: string[] = [];
+
+const otherFieldsForSearch: string[] = [];
+
 export const getMessageTypesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     MessageType,
     QueryAllMessageTypesArgs,
-    MutationCreateMessageTypeArgs,
+    MutationCreateMessageTypeArgsWithAutoDefinable,
     MutationUpdateMessageTypeArgs,
     MutationRemoveMessageTypeArgs,
     StrictCreateMessageTypeArgs,
     StrictUpdateMessageTypeArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.messageType.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllMessageTypesArgs = {},
@@ -96,13 +106,39 @@ export const getMessageTypesService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllMessageTypesArgs = {},
   ): Promise<MessageType | null> => {
-    return ctx.prisma.messageType.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.messageType.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllMessageTypesArgs = {},
+  ): Promise<MessageType> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: string,
   ): Promise<MessageType | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: string,
+  ): Promise<MessageType> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -121,32 +157,23 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationCreateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateMessageTypeArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateMessageTypeArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.messageType.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'description',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -162,34 +189,17 @@ export const getMessageTypesService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.messageType.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'description',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Message types create',
-          entityTypeId: Entity.MessageType,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.MessageType,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as MessageType),
     ]);
@@ -198,33 +208,23 @@ export const getMessageTypesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateMessageTypeArgs[],
+    entries: StrictCreateMessageTypeArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateMessageTypeArgsWithAutoDefinable);
 
     const result = await ctx.prisma.messageType.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'description',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -241,14 +241,18 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationUpdateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateMessageTypeArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -256,33 +260,16 @@ export const getMessageTypesService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                  'description',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Message types update',
-        entityTypeId: Entity.MessageType,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.MessageType,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -307,49 +294,32 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationUpdateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateMessageTypeArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateMessageTypeArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.messageType.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-                'description',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-                'description',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.messageType.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -363,41 +333,37 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationCreateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -408,16 +374,9 @@ export const getMessageTypesService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.messageType.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Message types delete',
-        entityTypeId: Entity.MessageType,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.MessageType,
+      entityId: params.id,
     });
 
     const operations = [

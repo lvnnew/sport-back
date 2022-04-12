@@ -1,9 +1,7 @@
-import {
-  MutationCreateAuditLogActionTypeArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateAuditLogActionTypeArgsWithAutoDefinable} from '../AuditLogActionTypesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAuditLogActionTypeArgs,
-): Promise<MutationCreateAuditLogActionTypeArgs> => data;
+  data: MutationCreateAuditLogActionTypeArgsWithAutoDefinable,
+): Promise<MutationCreateAuditLogActionTypeArgsWithAutoDefinable> => data;

@@ -1,9 +1,7 @@
-import {
-  MutationCreateManagersToPermissionArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateManagersToPermissionArgsWithAutoDefinable} from '../ManagersToPermissionsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateManagersToPermissionArgs,
-): Promise<MutationCreateManagersToPermissionArgs> => data;
+  data: MutationCreateManagersToPermissionArgsWithAutoDefinable,
+): Promise<MutationCreateManagersToPermissionArgsWithAutoDefinable> => data;

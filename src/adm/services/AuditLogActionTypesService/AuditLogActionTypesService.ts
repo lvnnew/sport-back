@@ -15,16 +15,24 @@ import {AdditionalAuditLogActionTypesMethods, getAdditionalMethods} from './addi
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateAuditLogActionTypeArgs = MutationUpdateAuditLogActionTypeArgs;
-export type StrictCreateAuditLogActionTypeArgs = MutationCreateAuditLogActionTypeArgs;
+export type AutoDefinableAuditLogActionTypeKeys = never;
+export type AutoDefinableAuditLogActionTypePart = MutationCreateAuditLogActionTypeArgs;
+export type MutationCreateAuditLogActionTypeArgsWithAutoDefinable = AutoDefinableAuditLogActionTypePart & MutationCreateAuditLogActionTypeArgs;
+export type MutationCreateAuditLogActionTypeArgsWithoutAutoDefinable = Omit<MutationCreateAuditLogActionTypeArgs, AutoDefinableAuditLogActionTypeKeys>;
+
+export type StrictUpdateAuditLogActionTypeArgs = DefinedFieldsInRecord<MutationUpdateAuditLogActionTypeArgs, AutoDefinableAuditLogActionTypeKeys>;
+export type StrictCreateAuditLogActionTypeArgs = DefinedFieldsInRecord<MutationCreateAuditLogActionTypeArgs, AutoDefinableAuditLogActionTypeKeys>;
+
+export type StrictCreateAuditLogActionTypeArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAuditLogActionTypeArgs, AutoDefinableAuditLogActionTypeKeys>;
 
 export interface BaseAuditLogActionTypesMethods {
   get: (id: string) =>
@@ -39,7 +47,7 @@ export interface BaseAuditLogActionTypesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateAuditLogActionTypeArgs, byUser?: boolean) =>
     Promise<AuditLogActionType>;
-  createMany: (data: MutationCreateAuditLogActionTypeArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateAuditLogActionTypeArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAuditLogActionTypeArgs, byUser?: boolean) =>
     Promise<AuditLogActionType>;
@@ -60,28 +68,31 @@ export type AuditLogActionTypesService = BaseAuditLogActionTypesMethods
   & HooksAddType<
     AuditLogActionType,
     QueryAllAuditLogActionTypesArgs,
-    MutationCreateAuditLogActionTypeArgs,
+    MutationCreateAuditLogActionTypeArgsWithAutoDefinable,
     MutationUpdateAuditLogActionTypeArgs,
     MutationRemoveAuditLogActionTypeArgs,
     StrictCreateAuditLogActionTypeArgs,
     StrictUpdateAuditLogActionTypeArgs
   >;
 
+const dateFieldsForSearch: string[] = [];
+
+const otherFieldsForSearch: string[] = [];
+
 export const getAuditLogActionTypesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     AuditLogActionType,
     QueryAllAuditLogActionTypesArgs,
-    MutationCreateAuditLogActionTypeArgs,
+    MutationCreateAuditLogActionTypeArgsWithAutoDefinable,
     MutationUpdateAuditLogActionTypeArgs,
     MutationRemoveAuditLogActionTypeArgs,
     StrictCreateAuditLogActionTypeArgs,
     StrictUpdateAuditLogActionTypeArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.auditLogActionType.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllAuditLogActionTypesArgs = {},
@@ -94,13 +105,39 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllAuditLogActionTypesArgs = {},
   ): Promise<AuditLogActionType | null> => {
-    return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllAuditLogActionTypesArgs = {},
+  ): Promise<AuditLogActionType> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: string,
   ): Promise<AuditLogActionType | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: string,
+  ): Promise<AuditLogActionType> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -119,31 +156,23 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationCreateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateAuditLogActionTypeArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateAuditLogActionTypeArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.auditLogActionType.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -159,20 +188,11 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.auditLogActionType.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
       runHooks.afterCreate(ctx, result as AuditLogActionType),
@@ -182,32 +202,23 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateAuditLogActionTypeArgs[],
+    entries: StrictCreateAuditLogActionTypeArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateAuditLogActionTypeArgsWithAutoDefinable);
 
     const result = await ctx.prisma.auditLogActionType.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -224,14 +235,18 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateAuditLogActionTypeArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -239,16 +254,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
@@ -275,47 +281,32 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateAuditLogActionTypeArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateAuditLogActionTypeArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.auditLogActionType.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.auditLogActionType.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -329,41 +320,37 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationCreateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 

@@ -31,6 +31,7 @@ import {graphqlUploadExpress} from 'graphql-upload';
 import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 import defaultContainer from './adm/services/defaultContainer';
 import healthRouter from './rest/healthRouter';
+import expressPlayground from 'graphql-playground-middleware-express';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -43,12 +44,18 @@ const app = express();
 initAppPassport();
 initAdmPassport();
 
+const production = process.env.NODE_ENV === 'production';
+log.info(`production: ${production}`);
+
 app.use(cors());
 app.use(raw({limit: '50mb'}) as RequestHandler);
 app.use(json({limit: '1mb'}) as RequestHandler);
 app.use(
   helmet(
-    {contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false},
+    {
+      contentSecurityPolicy: production ? undefined : false,
+      // crossOriginEmbedderPolicy: production ? undefined : false,
+    },
   ) as RequestHandler,
 );
 app.use(passport.initialize() as RequestHandler);
@@ -170,8 +177,21 @@ const start = async () => {
   context.service('stats').updateGauges();
 
   const port = 3000;
+  const graphEndpoint = `http://localhost:${port}${server.graphqlPath}`;
+
+  if (!production) {
+    app.get(
+      '/playground',
+      expressPlayground({
+        endpoint: graphEndpoint,
+      }),
+    );
+
+    log.info(`🚀 Qraphql playground at http://localhost:${port}/playground`);
+  }
+
   app.listen({port}, () => {
-    log.info(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
+    log.info(`🚀 Server ready at ${graphEndpoint}`);
   });
 };
 

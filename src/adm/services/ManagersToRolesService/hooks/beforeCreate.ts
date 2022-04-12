@@ -1,9 +1,7 @@
-import {
-  MutationCreateManagersToRoleArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateManagersToRoleArgsWithAutoDefinable} from '../ManagersToRolesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateManagersToRoleArgs,
-): Promise<MutationCreateManagersToRoleArgs> => data;
+  data: MutationCreateManagersToRoleArgsWithAutoDefinable,
+): Promise<MutationCreateManagersToRoleArgsWithAutoDefinable> => data;

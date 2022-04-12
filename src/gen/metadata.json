@@ -4683,9 +4683,19 @@
    ]
   },
   {
+   "default": "false",
+   "name": "graphql.playground.enabled",
+   "needFor": "Включение graphql playground (true | false)",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
    "default": "plain",
    "name": "logs.format",
-   "needFor": "ФОрмат логов (plain | json)",
+   "needFor": "Формат логов (plain | json)",
    "scopes": [
     "back",
     "worker",

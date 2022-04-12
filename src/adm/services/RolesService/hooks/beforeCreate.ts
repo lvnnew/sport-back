@@ -1,9 +1,7 @@
-import {
-  MutationCreateRoleArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateRoleArgsWithAutoDefinable} from '../RolesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateRoleArgs,
-): Promise<MutationCreateRoleArgs> => data;
+  data: MutationCreateRoleArgsWithAutoDefinable,
+): Promise<MutationCreateRoleArgsWithAutoDefinable> => data;

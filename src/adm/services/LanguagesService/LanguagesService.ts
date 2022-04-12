@@ -15,18 +15,25 @@ import {AdditionalLanguagesMethods, getAdditionalMethods} from './additionalMeth
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
-import getAugmenterByDataFromDb from '../utils/getAugmenterByDataFromDb';
 import * as R from 'ramda';
-import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {toPrismaTotalRequest} from '../../../utils/prisma/toPrismaTotalRequest';
+import {DefinedFieldsInRecord, PartialFieldsInRecord} from '../../../types/utils';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
 const forbiddenForUserFields: string[] = [];
 
-export type StrictUpdateLanguageArgs = MutationUpdateLanguageArgs;
-export type StrictCreateLanguageArgs = MutationCreateLanguageArgs;
+export type AutoDefinableLanguageKeys = never;
+export type AutoDefinableLanguagePart = MutationCreateLanguageArgs;
+export type MutationCreateLanguageArgsWithAutoDefinable = AutoDefinableLanguagePart & MutationCreateLanguageArgs;
+export type MutationCreateLanguageArgsWithoutAutoDefinable = Omit<MutationCreateLanguageArgs, AutoDefinableLanguageKeys>;
+
+export type StrictUpdateLanguageArgs = DefinedFieldsInRecord<MutationUpdateLanguageArgs, AutoDefinableLanguageKeys>;
+export type StrictCreateLanguageArgs = DefinedFieldsInRecord<MutationCreateLanguageArgs, AutoDefinableLanguageKeys>;
+
+export type StrictCreateLanguageArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateLanguageArgs, AutoDefinableLanguageKeys>;
 
 export interface BaseLanguagesMethods {
   get: (id: string) =>
@@ -41,7 +48,7 @@ export interface BaseLanguagesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateLanguageArgs, byUser?: boolean) =>
     Promise<Language>;
-  createMany: (data: MutationCreateLanguageArgs[], byUser?: boolean) =>
+  createMany: (data: StrictCreateLanguageArgsWithoutAutoDefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateLanguageArgs, byUser?: boolean) =>
     Promise<Language>;
@@ -62,28 +69,31 @@ export type LanguagesService = BaseLanguagesMethods
   & HooksAddType<
     Language,
     QueryAllLanguagesArgs,
-    MutationCreateLanguageArgs,
+    MutationCreateLanguageArgsWithAutoDefinable,
     MutationUpdateLanguageArgs,
     MutationRemoveLanguageArgs,
     StrictCreateLanguageArgs,
     StrictUpdateLanguageArgs
   >;
 
+const dateFieldsForSearch: string[] = [];
+
+const otherFieldsForSearch: string[] = [];
+
 export const getLanguagesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
     Language,
     QueryAllLanguagesArgs,
-    MutationCreateLanguageArgs,
+    MutationCreateLanguageArgsWithAutoDefinable,
     MutationUpdateLanguageArgs,
     MutationRemoveLanguageArgs,
     StrictCreateLanguageArgs,
     StrictUpdateLanguageArgs
   >();
 
-  const augmentDataFromDb = getAugmenterByDataFromDb(
-    ctx.prisma.language.findUnique,
-    forbiddenForUserFields,
-  );
+  const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
+  const getDefaultPart = () => ({});
 
   const all = async (
     params: QueryAllLanguagesArgs = {},
@@ -96,13 +106,39 @@ export const getLanguagesService = (ctx: Context) => {
   const findOne = async (
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language | null> => {
-    return ctx.prisma.language.findFirst(toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}));
+    return ctx.prisma.language.findFirst(toPrismaRequest(
+      await runHooks.changeListFilter(ctx, params), {noId: false}),
+    );
+  };
+
+  const findRequired = async (
+    params: QueryAllLanguagesArgs = {},
+  ): Promise<Language> => {
+    const found = await findOne(params);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
+    }
+
+    return found;
   };
 
   const get = async (
     id: string,
   ): Promise<Language | null> => {
     return findOne({filter: {id}});
+  };
+
+  const getRequired = async (
+    id: string,
+  ): Promise<Language> => {
+    const found = await get(id);
+
+    if (!found) {
+      throw new Error(`There is no entry with "${id}" id`);
+    }
+
+    return found;
   };
 
   const count = async (
@@ -121,31 +157,23 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationCreateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    let processedData = data;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = R.mergeDeepLeft(
-        {},
-        processedData,
-      );
-    }
+    // clear from fields forbidden for user
+    const cleared = byUser ?
+      R.omit(forbiddenForUserFields, data) as MutationCreateLanguageArgsWithoutAutoDefinable :
+      data;
 
-    processedData = await runHooks.beforeCreate(ctx, data);
+    // augment data by default fields
+    const augmented: MutationCreateLanguageArgsWithAutoDefinable = R.mergeLeft(cleared, defaultPart);
+
+    const processedData = await runHooks.beforeCreate(ctx, augmented);
 
     const createOperation = ctx.prisma.language.create({
       data: R.mergeDeepLeft(
         processedData,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
     });
@@ -161,33 +189,17 @@ export const getLanguagesService = (ctx: Context) => {
     }
 
     await Promise.all([
-    // update search. earlier we does not have id
+      // update search. earlier we does not have id
       ctx.prisma.language.update({
         where: {id: result.id},
         data: {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], result),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(result),
         },
       }),
-      ctx.prisma.auditLog.create({
-        data: {
-          date: new Date(),
-          title: 'Languages create',
-          entityTypeId: Entity.Language,
-          entityId: result.id.toString(),
-          actionTypeId: AuditLogActionType.Create,
-          actionData: JSON.stringify(data),
-          managerId: ctx.service('profile').getManagerId(),
-          userId: ctx.service('profile').getUserId(),
-        },
+      ctx.service('auditLogs').addCreateOperation({
+        entityTypeId: Entity.Language,
+        entityId: result.id,
+        actionData: data,
       }),
       runHooks.afterCreate(ctx, result as Language),
     ]);
@@ -196,32 +208,23 @@ export const getLanguagesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: MutationCreateLanguageArgs[],
+    entries: StrictCreateLanguageArgsWithoutAutoDefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    let processedData = entries;
+    const defaultPart = getDefaultPart();
 
-    if (byUser) {
-      processedData = processedData.map(data => R.mergeDeepLeft(
-        {},
-        data,
-      ));
-    }
+    // clear from fields forbidden for user
+    const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // augment data by default fields
+    const augmentedData =
+      clearedData.map(data => R.mergeLeft(data, defaultPart) as MutationCreateLanguageArgsWithAutoDefinable);
 
     const result = await ctx.prisma.language.createMany({
-      data: processedData.map(data => R.mergeDeepLeft(
+      data: augmentedData.map(data => R.mergeDeepLeft(
         data,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], data),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(data),
         },
       )),
       skipDuplicates: true,
@@ -238,14 +241,18 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationUpdateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let processedData = byUser ? augmented : {
-      ...augmented,
-      ...data,
-    } as StrictUpdateLanguageArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    processedData = await runHooks.beforeUpdate(ctx, processedData);
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
@@ -253,32 +260,16 @@ export const getLanguagesService = (ctx: Context) => {
       data: R.mergeDeepLeft(
         rest,
         {
-          search: [
-            ...R
-              .toPairs(
-                R.pick([
-                  'id',
-                  'title',
-                ], processedData),
-              )
-              .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-          ].join(' '),
+          search: getSearchString(processedData),
         },
       ),
       where: {id},
     });
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Languages update',
-        entityTypeId: Entity.Language,
-        entityId: data.id.toString(),
-        actionTypeId: AuditLogActionType.Update,
-        actionData: JSON.stringify(data),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addUpdateOperation({
+      entityTypeId: Entity.Language,
+      entityId: data.id,
+      actionData: data,
     });
 
     const operations = [
@@ -303,47 +294,32 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationUpdateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    const augmented = await augmentDataFromDb(data);
+    // Compose object for augmentation
+    const dbVersion = await getRequired(data.id);
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
-    let createData = byUser ? R.mergeDeepLeft(
-      {},
-      data,
-    ) : data as StrictCreateLanguageArgs;
-    let updateData = byUser ? augmented : {...augmented, ...data} as StrictUpdateLanguageArgs;
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    const handledData = await runHooks.beforeUpsert(ctx, {createData, updateData});
-    createData = handledData.createData;
-    updateData = handledData.updateData;
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(cleared, augmentationBase);
 
-    const result = await ctx.prisma.language.upsert({create: R.mergeDeepLeft(
-      createData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-              ], createData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), update: R.mergeDeepLeft(
-      updateData,
-      {
-        search: [
-          ...R
-            .toPairs(
-              R.pick([
-                'id',
-                'title',
-              ], updateData),
-            )
-            .map((el) => (el[1] as any)?.toString()?.toLowerCase() ?? ''),
-        ].join(' '),
-      },
-    ), where: {id: data.id}});
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
+    const result = await ctx.prisma.language.upsert({
+      create: createData,
+      update: updateData,
+      where: {id: data.id},
+    });
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -357,41 +333,37 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationCreateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    let processedDataToCreate = data;
-    let processedDataToUpdate = data;
-
-    if (byUser) {
-      processedDataToCreate = R.mergeDeepLeft(
-        {},
-        processedDataToCreate,
-      );
-
-      processedDataToUpdate = R.omit(
-        [],
-        processedDataToUpdate,
-      );
-    }
-
     const cnt = await count({filter});
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
     }
 
+    // Compose object for augmentation
+    const dbVersion = await findRequired({filter});
+    const defaultPart = getDefaultPart();
+    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+
+    // clear from fields forbidden for user
+    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
+
+    // augment data by default fields and fields from db
+    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(cleared, augmentationBase);
+
+    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
+    const createData = {
+      ...processedData.createData,
+      search: getSearchString(processedData.createData),
+    };
+    const updateData = {
+      ...processedData.updateData,
+      search: getSearchString(processedData.updateData),
+    };
+
     if (cnt === 0) {
-      return create(processedDataToCreate, false);
+      return create(createData, false);
     } else {
-      const current = await findOne({filter});
-
-      if (!current) {
-        return create(processedDataToCreate, false);
-      }
-
-      return update({
-        ...processedDataToUpdate,
-        id: current.id,
-      },
-      false);
+      return update({...updateData, id: dbVersion.id}, false);
     }
   };
 
@@ -402,16 +374,9 @@ export const getLanguagesService = (ctx: Context) => {
 
     const deleteOperation = ctx.prisma.language.delete({where: {id: params.id}});
 
-    const auditOperation = ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title: 'Languages delete',
-        entityTypeId: Entity.Language,
-        entityId: params.id.toString(),
-        actionTypeId: AuditLogActionType.Delete,
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
+    const auditOperation = ctx.service('auditLogs').addDeleteOperation({
+      entityTypeId: Entity.Language,
+      entityId: params.id,
     });
 
     const operations = [

@@ -1,9 +1,7 @@
-import {
-  MutationCreateTenantArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateTenantArgsWithAutoDefinable} from '../TenantsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateTenantArgs,
-): Promise<MutationCreateTenantArgs> => data;
+  data: MutationCreateTenantArgsWithAutoDefinable,
+): Promise<MutationCreateTenantArgsWithAutoDefinable> => data;

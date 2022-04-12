@@ -1,9 +1,7 @@
-import {
-  MutationCreateAppLoginArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateAppLoginArgsWithAutoDefinable} from '../AppLoginsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateAppLoginArgs,
-): Promise<MutationCreateAppLoginArgs> => data;
+  data: MutationCreateAppLoginArgsWithAutoDefinable,
+): Promise<MutationCreateAppLoginArgsWithAutoDefinable> => data;

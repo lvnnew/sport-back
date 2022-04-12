@@ -1,9 +1,7 @@
-import {
-  MutationCreateLanguageArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateLanguageArgsWithAutoDefinable} from '../LanguagesService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateLanguageArgs,
-): Promise<MutationCreateLanguageArgs> => data;
+  data: MutationCreateLanguageArgsWithAutoDefinable,
+): Promise<MutationCreateLanguageArgsWithAutoDefinable> => data;

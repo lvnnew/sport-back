@@ -4,7 +4,7 @@ import {
   QueryAllUsersArgs,
 } from '../../../../generated/graphql';
 import {
-  StrictCreateUserArgs,
+  MutationCreateUserArgsWithAutoDefinable,
   StrictUpdateUserArgs,
 } from '../UsersService';
 
@@ -25,9 +25,9 @@ export const changeListFilter = async (
   return args;
 };
 
-type Data = {createData: StrictCreateUserArgs, updateData: StrictUpdateUserArgs};
+type Data = {createData: MutationCreateUserArgsWithAutoDefinable, updateData: StrictUpdateUserArgs};
 
-export const beforeUpsert = async (
+export const beforeUpsertStrict = async (
   ctx: Context,
   {createData, updateData}: Data,
 ): Promise<Data> => {

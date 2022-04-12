@@ -1,9 +1,7 @@
-import {
-  MutationCreateDelegationArgs,
-} from '../../../../generated/graphql';
 import {Context} from '../../types';
+import {MutationCreateDelegationArgsWithAutoDefinable} from '../DelegationsService';
 
 export const beforeCreate = async (
   _ctx: Context,
-  data: MutationCreateDelegationArgs,
-): Promise<MutationCreateDelegationArgs> => data;
+  data: MutationCreateDelegationArgsWithAutoDefinable,
+): Promise<MutationCreateDelegationArgsWithAutoDefinable> => data;
