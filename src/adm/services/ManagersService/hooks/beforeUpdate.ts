@@ -1,12 +1,12 @@
 import {
-  MutationUpdateManagerArgs,
-} from '../../../../generated/graphql';
+  StrictUpdateManagerArgs,
+} from '../ManagersService';
 import {Context} from '../../types';
 
 export const beforeUpdate = async (
   _ctx: Context,
-  data: MutationUpdateManagerArgs,
-): Promise<MutationUpdateManagerArgs> => ({
+  data: StrictUpdateManagerArgs,
+): Promise<StrictUpdateManagerArgs> => ({
   title: `${data.firstName} ${data.lastName}`,
   ...data,
 });
