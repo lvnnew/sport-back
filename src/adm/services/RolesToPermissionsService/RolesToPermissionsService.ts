@@ -45,10 +45,14 @@ export type StrictCreateRolesToPermissionArgsWithoutAutoDefinable = PartialField
 export interface BaseRolesToPermissionsMethods {
   get: (id: number) =>
     Promise<RolesToPermission | null>;
+  getRequired: (id: number) =>
+    Promise<RolesToPermission>;
   all: (params?: QueryAllRolesToPermissionsArgs) =>
     Promise<RolesToPermission[]>;
   findOne: (params?: QueryAllRolesToPermissionsArgs) =>
     Promise<RolesToPermission | null>;
+  findOneRequired: (params?: QueryAllRolesToPermissionsArgs) =>
+    Promise<RolesToPermission>;
   count: (params?: Query_AllRolesToPermissionsMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllRolesToPermissionsMetaArgs) =>
@@ -118,7 +122,7 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllRolesToPermissionsArgs = {},
   ): Promise<RolesToPermission> => {
     const found = await findOne(params);
@@ -346,33 +350,11 @@ export const getRolesToPermissionsService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateRolesToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -413,8 +395,10 @@ export const getRolesToPermissionsService = (ctx: Context) => {
 
   const baseMethods: BaseRolesToPermissionsMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

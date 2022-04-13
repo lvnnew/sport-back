@@ -45,10 +45,14 @@ export type StrictCreateAutogenerationHistoryEntryArgsWithoutAutoDefinable = Par
 export interface BaseAutogenerationHistoryEntriesMethods {
   get: (id: number) =>
     Promise<AutogenerationHistoryEntry | null>;
+  getRequired: (id: number) =>
+    Promise<AutogenerationHistoryEntry>;
   all: (params?: QueryAllAutogenerationHistoryEntriesArgs) =>
     Promise<AutogenerationHistoryEntry[]>;
   findOne: (params?: QueryAllAutogenerationHistoryEntriesArgs) =>
     Promise<AutogenerationHistoryEntry | null>;
+  findOneRequired: (params?: QueryAllAutogenerationHistoryEntriesArgs) =>
+    Promise<AutogenerationHistoryEntry>;
   count: (params?: Query_AllAutogenerationHistoryEntriesMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllAutogenerationHistoryEntriesMetaArgs) =>
@@ -127,7 +131,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry> => {
     const found = await findOne(params);
@@ -355,33 +359,11 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAutogenerationHistoryEntryArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -422,8 +404,10 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
 
   const baseMethods: BaseAutogenerationHistoryEntriesMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

@@ -45,10 +45,14 @@ export type StrictCreateAdmRefreshTokenArgsWithoutAutoDefinable = PartialFieldsI
 export interface BaseAdmRefreshTokensMethods {
   get: (id: number) =>
     Promise<AdmRefreshToken | null>;
+  getRequired: (id: number) =>
+    Promise<AdmRefreshToken>;
   all: (params?: QueryAllAdmRefreshTokensArgs) =>
     Promise<AdmRefreshToken[]>;
   findOne: (params?: QueryAllAdmRefreshTokensArgs) =>
     Promise<AdmRefreshToken | null>;
+  findOneRequired: (params?: QueryAllAdmRefreshTokensArgs) =>
+    Promise<AdmRefreshToken>;
   count: (params?: Query_AllAdmRefreshTokensMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllAdmRefreshTokensMetaArgs) =>
@@ -124,7 +128,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllAdmRefreshTokensArgs = {},
   ): Promise<AdmRefreshToken> => {
     const found = await findOne(params);
@@ -352,33 +356,11 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAdmRefreshTokenArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -419,8 +401,10 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
   const baseMethods: BaseAdmRefreshTokensMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

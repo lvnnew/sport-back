@@ -45,10 +45,14 @@ export type StrictCreateManagersToPermissionArgsWithoutAutoDefinable = PartialFi
 export interface BaseManagersToPermissionsMethods {
   get: (id: number) =>
     Promise<ManagersToPermission | null>;
+  getRequired: (id: number) =>
+    Promise<ManagersToPermission>;
   all: (params?: QueryAllManagersToPermissionsArgs) =>
     Promise<ManagersToPermission[]>;
   findOne: (params?: QueryAllManagersToPermissionsArgs) =>
     Promise<ManagersToPermission | null>;
+  findOneRequired: (params?: QueryAllManagersToPermissionsArgs) =>
+    Promise<ManagersToPermission>;
   count: (params?: Query_AllManagersToPermissionsMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllManagersToPermissionsMetaArgs) =>
@@ -118,7 +122,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllManagersToPermissionsArgs = {},
   ): Promise<ManagersToPermission> => {
     const found = await findOne(params);
@@ -346,33 +350,11 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagersToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -413,8 +395,10 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
   const baseMethods: BaseManagersToPermissionsMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

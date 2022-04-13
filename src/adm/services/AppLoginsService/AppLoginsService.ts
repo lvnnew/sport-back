@@ -45,10 +45,14 @@ export type StrictCreateAppLoginArgsWithoutAutoDefinable = PartialFieldsInRecord
 export interface BaseAppLoginsMethods {
   get: (id: number) =>
     Promise<AppLogin | null>;
+  getRequired: (id: number) =>
+    Promise<AppLogin>;
   all: (params?: QueryAllAppLoginsArgs) =>
     Promise<AppLogin[]>;
   findOne: (params?: QueryAllAppLoginsArgs) =>
     Promise<AppLogin | null>;
+  findOneRequired: (params?: QueryAllAppLoginsArgs) =>
+    Promise<AppLogin>;
   count: (params?: Query_AllAppLoginsMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllAppLoginsMetaArgs) =>
@@ -118,7 +122,7 @@ export const getAppLoginsService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin> => {
     const found = await findOne(params);
@@ -346,33 +350,11 @@ export const getAppLoginsService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAppLoginArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -413,8 +395,10 @@ export const getAppLoginsService = (ctx: Context) => {
 
   const baseMethods: BaseAppLoginsMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

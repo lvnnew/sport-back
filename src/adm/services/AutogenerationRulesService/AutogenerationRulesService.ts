@@ -45,10 +45,14 @@ export type StrictCreateAutogenerationRuleArgsWithoutAutoDefinable = PartialFiel
 export interface BaseAutogenerationRulesMethods {
   get: (id: string) =>
     Promise<AutogenerationRule | null>;
+  getRequired: (id: string) =>
+    Promise<AutogenerationRule>;
   all: (params?: QueryAllAutogenerationRulesArgs) =>
     Promise<AutogenerationRule[]>;
   findOne: (params?: QueryAllAutogenerationRulesArgs) =>
     Promise<AutogenerationRule | null>;
+  findOneRequired: (params?: QueryAllAutogenerationRulesArgs) =>
+    Promise<AutogenerationRule>;
   count: (params?: Query_AllAutogenerationRulesMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllAutogenerationRulesMetaArgs) =>
@@ -127,7 +131,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllAutogenerationRulesArgs = {},
   ): Promise<AutogenerationRule> => {
     const found = await findOne(params);
@@ -355,33 +359,11 @@ export const getAutogenerationRulesService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAutogenerationRuleArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -422,8 +404,10 @@ export const getAutogenerationRulesService = (ctx: Context) => {
 
   const baseMethods: BaseAutogenerationRulesMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

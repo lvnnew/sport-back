@@ -47,10 +47,14 @@ export type StrictCreateManagerArgsWithoutAutoDefinable = PartialFieldsInRecord<
 export interface BaseManagersMethods {
   get: (id: number) =>
     Promise<Manager | null>;
+  getRequired: (id: number) =>
+    Promise<Manager>;
   all: (params?: QueryAllManagersArgs) =>
     Promise<Manager[]>;
   findOne: (params?: QueryAllManagersArgs) =>
     Promise<Manager | null>;
+  findOneRequired: (params?: QueryAllManagersArgs) =>
+    Promise<Manager>;
   count: (params?: Query_AllManagersMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllManagersMetaArgs) =>
@@ -120,7 +124,7 @@ export const getManagersService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllManagersArgs = {},
   ): Promise<Manager> => {
     const found = await findOne(params);
@@ -348,33 +352,11 @@ export const getManagersService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagerArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -415,8 +397,10 @@ export const getManagersService = (ctx: Context) => {
 
   const baseMethods: BaseManagersMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

@@ -45,10 +45,14 @@ export type StrictCreateLanguageArgsWithoutAutoDefinable = PartialFieldsInRecord
 export interface BaseLanguagesMethods {
   get: (id: string) =>
     Promise<Language | null>;
+  getRequired: (id: string) =>
+    Promise<Language>;
   all: (params?: QueryAllLanguagesArgs) =>
     Promise<Language[]>;
   findOne: (params?: QueryAllLanguagesArgs) =>
     Promise<Language | null>;
+  findOneRequired: (params?: QueryAllLanguagesArgs) =>
+    Promise<Language>;
   count: (params?: Query_AllLanguagesMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllLanguagesMetaArgs) =>
@@ -118,7 +122,7 @@ export const getLanguagesService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language> => {
     const found = await findOne(params);
@@ -346,33 +350,11 @@ export const getLanguagesService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -413,8 +395,10 @@ export const getLanguagesService = (ctx: Context) => {
 
   const baseMethods: BaseLanguagesMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,

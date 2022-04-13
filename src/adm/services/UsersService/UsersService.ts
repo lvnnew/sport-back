@@ -47,10 +47,14 @@ export type StrictCreateUserArgsWithoutAutoDefinable = PartialFieldsInRecord<Str
 export interface BaseUsersMethods {
   get: (id: number) =>
     Promise<User | null>;
+  getRequired: (id: number) =>
+    Promise<User>;
   all: (params?: QueryAllUsersArgs) =>
     Promise<User[]>;
   findOne: (params?: QueryAllUsersArgs) =>
     Promise<User | null>;
+  findOneRequired: (params?: QueryAllUsersArgs) =>
+    Promise<User>;
   count: (params?: Query_AllUsersMetaArgs) =>
     Promise<number>;
   meta: (params?: Query_AllUsersMetaArgs) =>
@@ -120,7 +124,7 @@ export const getUsersService = (ctx: Context) => {
     );
   };
 
-  const findRequired = async (
+  const findOneRequired = async (
     params: QueryAllUsersArgs = {},
   ): Promise<User> => {
     const found = await findOne(params);
@@ -348,33 +352,11 @@ export const getUsersService = (ctx: Context) => {
 
     if (cnt > 1) {
       throw new Error(`There is more then one entity (${cnt}) that fits filter "${JSON.stringify(filter)}"`);
-    }
-
-    // Compose object for augmentation
-    const dbVersion = await findRequired({filter});
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
-
-    // clear from fields forbidden for user
-    const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
-
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateUserArgs = R.mergeLeft(cleared, augmentationBase);
-
-    const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: getSearchString(processedData.updateData),
-    };
-
-    if (cnt === 0) {
-      return create(createData, false);
+    } else if (cnt === 0) {
+      return create(data, byUser);
     } else {
-      return update({...updateData, id: dbVersion.id}, false);
+      const dbVersion = await findOneRequired({filter});
+      return update({...data, id: dbVersion.id}, byUser);
     }
   };
 
@@ -415,8 +397,10 @@ export const getUsersService = (ctx: Context) => {
 
   const baseMethods: BaseUsersMethods = {
     get,
+    getRequired,
     all,
     findOne,
+    findOneRequired,
     count,
     meta,
     create,
