@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableAppLoginKeys = never;
+export type AutodefinableAppLoginKeys = never;
 export type ForbidenForUserAppLoginKeys = never;
 export type RequiredDbNotUserAppLoginKeys = never;
 
-export type AutodefinableAppLoginPart = DefinedRecord<Pick<MutationCreateAppLoginArgs, AutoDefinableAppLoginKeys>>;
+export type AutodefinableAppLoginPart = DefinedRecord<Pick<MutationCreateAppLoginArgs, AutodefinableAppLoginKeys>>;
 
 export type ReliableAppLoginCreateUserInput =
   Omit<MutationCreateAppLoginArgs, ForbidenForUserAppLoginKeys>
@@ -40,7 +40,7 @@ export type AllowedAppLoginForUserCreateInput = Omit<MutationCreateAppLoginArgs,
 export type StrictCreateAppLoginArgs = DefinedFieldsInRecord<MutationCreateAppLoginArgs, RequiredDbNotUserAppLoginKeys> & AutodefinableAppLoginPart;
 export type StrictUpdateAppLoginArgs = DefinedFieldsInRecord<MutationUpdateAppLoginArgs, RequiredDbNotUserAppLoginKeys> & AutodefinableAppLoginPart;
 
-export type StrictCreateAppLoginArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAppLoginArgs, AutoDefinableAppLoginKeys>;
+export type StrictCreateAppLoginArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAppLoginArgs, AutodefinableAppLoginKeys>;
 
 export interface BaseAppLoginsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseAppLoginsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateAppLoginArgs, byUser?: boolean) =>
     Promise<AppLogin>;
-  createMany: (data: StrictCreateAppLoginArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateAppLoginArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAppLoginArgs, byUser?: boolean) =>
     Promise<AppLogin>;
@@ -104,7 +104,7 @@ export const getAppLoginsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAppLoginPart> => currentData as T;
 
   const all = async (
     params: QueryAllAppLoginsArgs = {},
@@ -168,17 +168,15 @@ export const getAppLoginsService = (ctx: Context) => {
     data: MutationCreateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedAppLoginForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableAppLoginCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.appLogin.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getAppLoginsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateAppLoginArgsWithoutAutoDefinable[],
+    entries: StrictCreateAppLoginArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateAppLoginArgs);
 
     const result = await ctx.prisma.appLogin.createMany({
@@ -254,16 +253,17 @@ export const getAppLoginsService = (ctx: Context) => {
     data: MutationUpdateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAppLoginArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAppLoginArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getAppLoginsService = (ctx: Context) => {
     data: MutationUpdateAppLoginArgs,
     byUser = false,
   ): Promise<AppLogin> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAppLoginArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAppLoginArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AppLogin);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

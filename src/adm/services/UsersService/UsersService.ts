@@ -27,11 +27,11 @@ const forbiddenForUserFields: string[] = [
   'tenantId',
 ];
 
-export type AutoDefinableUserKeys = never;
+export type AutodefinableUserKeys = never;
 export type ForbidenForUserUserKeys = 'tenantId';
 export type RequiredDbNotUserUserKeys = never;
 
-export type AutodefinableUserPart = DefinedRecord<Pick<MutationCreateUserArgs, AutoDefinableUserKeys>>;
+export type AutodefinableUserPart = DefinedRecord<Pick<MutationCreateUserArgs, AutodefinableUserKeys>>;
 
 export type ReliableUserCreateUserInput =
   Omit<MutationCreateUserArgs, ForbidenForUserUserKeys>
@@ -42,7 +42,7 @@ export type AllowedUserForUserCreateInput = Omit<MutationCreateUserArgs, Forbide
 export type StrictCreateUserArgs = DefinedFieldsInRecord<MutationCreateUserArgs, RequiredDbNotUserUserKeys> & AutodefinableUserPart;
 export type StrictUpdateUserArgs = DefinedFieldsInRecord<MutationUpdateUserArgs, RequiredDbNotUserUserKeys> & AutodefinableUserPart;
 
-export type StrictCreateUserArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateUserArgs, AutoDefinableUserKeys>;
+export type StrictCreateUserArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateUserArgs, AutodefinableUserKeys>;
 
 export interface BaseUsersMethods {
   get: (id: number) =>
@@ -61,7 +61,7 @@ export interface BaseUsersMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateUserArgs, byUser?: boolean) =>
     Promise<User>;
-  createMany: (data: StrictCreateUserArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateUserArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateUserArgs, byUser?: boolean) =>
     Promise<User>;
@@ -106,7 +106,7 @@ export const getUsersService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableUserPart> => currentData as T;
 
   const all = async (
     params: QueryAllUsersArgs = {},
@@ -170,17 +170,15 @@ export const getUsersService = (ctx: Context) => {
     data: MutationCreateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedUserForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableUserCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.user.create({
       data: R.mergeDeepLeft(
@@ -221,18 +219,19 @@ export const getUsersService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateUserArgsWithoutAutoDefinable[],
+    entries: StrictCreateUserArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateUserArgs);
 
     const result = await ctx.prisma.user.createMany({
@@ -256,16 +255,17 @@ export const getUsersService = (ctx: Context) => {
     data: MutationUpdateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateUserArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateUserArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -309,16 +309,17 @@ export const getUsersService = (ctx: Context) => {
     data: MutationUpdateUserArgs,
     byUser = false,
   ): Promise<User> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateUserArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateUserArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as User);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

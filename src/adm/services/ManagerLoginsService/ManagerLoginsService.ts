@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableManagerLoginKeys = never;
+export type AutodefinableManagerLoginKeys = never;
 export type ForbidenForUserManagerLoginKeys = never;
 export type RequiredDbNotUserManagerLoginKeys = never;
 
-export type AutodefinableManagerLoginPart = DefinedRecord<Pick<MutationCreateManagerLoginArgs, AutoDefinableManagerLoginKeys>>;
+export type AutodefinableManagerLoginPart = DefinedRecord<Pick<MutationCreateManagerLoginArgs, AutodefinableManagerLoginKeys>>;
 
 export type ReliableManagerLoginCreateUserInput =
   Omit<MutationCreateManagerLoginArgs, ForbidenForUserManagerLoginKeys>
@@ -40,7 +40,7 @@ export type AllowedManagerLoginForUserCreateInput = Omit<MutationCreateManagerLo
 export type StrictCreateManagerLoginArgs = DefinedFieldsInRecord<MutationCreateManagerLoginArgs, RequiredDbNotUserManagerLoginKeys> & AutodefinableManagerLoginPart;
 export type StrictUpdateManagerLoginArgs = DefinedFieldsInRecord<MutationUpdateManagerLoginArgs, RequiredDbNotUserManagerLoginKeys> & AutodefinableManagerLoginPart;
 
-export type StrictCreateManagerLoginArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagerLoginArgs, AutoDefinableManagerLoginKeys>;
+export type StrictCreateManagerLoginArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagerLoginArgs, AutodefinableManagerLoginKeys>;
 
 export interface BaseManagerLoginsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseManagerLoginsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateManagerLoginArgs, byUser?: boolean) =>
     Promise<ManagerLogin>;
-  createMany: (data: StrictCreateManagerLoginArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateManagerLoginArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
     Promise<ManagerLogin>;
@@ -104,7 +104,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableManagerLoginPart> => currentData as T;
 
   const all = async (
     params: QueryAllManagerLoginsArgs = {},
@@ -168,17 +168,15 @@ export const getManagerLoginsService = (ctx: Context) => {
     data: MutationCreateManagerLoginArgs,
     byUser = false,
   ): Promise<ManagerLogin> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedManagerLoginForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableManagerLoginCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.managerLogin.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateManagerLoginArgsWithoutAutoDefinable[],
+    entries: StrictCreateManagerLoginArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateManagerLoginArgs);
 
     const result = await ctx.prisma.managerLogin.createMany({
@@ -254,16 +253,17 @@ export const getManagerLoginsService = (ctx: Context) => {
     data: MutationUpdateManagerLoginArgs,
     byUser = false,
   ): Promise<ManagerLogin> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagerLoginArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagerLoginArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getManagerLoginsService = (ctx: Context) => {
     data: MutationUpdateManagerLoginArgs,
     byUser = false,
   ): Promise<ManagerLogin> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagerLoginArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagerLoginArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as ManagerLogin);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

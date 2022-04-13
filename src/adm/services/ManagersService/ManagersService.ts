@@ -27,11 +27,11 @@ const forbiddenForUserFields: string[] = [
   'tenantId',
 ];
 
-export type AutoDefinableManagerKeys = never;
+export type AutodefinableManagerKeys = never;
 export type ForbidenForUserManagerKeys = 'tenantId';
 export type RequiredDbNotUserManagerKeys = never;
 
-export type AutodefinableManagerPart = DefinedRecord<Pick<MutationCreateManagerArgs, AutoDefinableManagerKeys>>;
+export type AutodefinableManagerPart = DefinedRecord<Pick<MutationCreateManagerArgs, AutodefinableManagerKeys>>;
 
 export type ReliableManagerCreateUserInput =
   Omit<MutationCreateManagerArgs, ForbidenForUserManagerKeys>
@@ -42,7 +42,7 @@ export type AllowedManagerForUserCreateInput = Omit<MutationCreateManagerArgs, F
 export type StrictCreateManagerArgs = DefinedFieldsInRecord<MutationCreateManagerArgs, RequiredDbNotUserManagerKeys> & AutodefinableManagerPart;
 export type StrictUpdateManagerArgs = DefinedFieldsInRecord<MutationUpdateManagerArgs, RequiredDbNotUserManagerKeys> & AutodefinableManagerPart;
 
-export type StrictCreateManagerArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagerArgs, AutoDefinableManagerKeys>;
+export type StrictCreateManagerArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagerArgs, AutodefinableManagerKeys>;
 
 export interface BaseManagersMethods {
   get: (id: number) =>
@@ -61,7 +61,7 @@ export interface BaseManagersMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateManagerArgs, byUser?: boolean) =>
     Promise<Manager>;
-  createMany: (data: StrictCreateManagerArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateManagerArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagerArgs, byUser?: boolean) =>
     Promise<Manager>;
@@ -106,7 +106,7 @@ export const getManagersService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableManagerPart> => currentData as T;
 
   const all = async (
     params: QueryAllManagersArgs = {},
@@ -170,17 +170,15 @@ export const getManagersService = (ctx: Context) => {
     data: MutationCreateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedManagerForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableManagerCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.manager.create({
       data: R.mergeDeepLeft(
@@ -221,18 +219,19 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateManagerArgsWithoutAutoDefinable[],
+    entries: StrictCreateManagerArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateManagerArgs);
 
     const result = await ctx.prisma.manager.createMany({
@@ -256,16 +255,17 @@ export const getManagersService = (ctx: Context) => {
     data: MutationUpdateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagerArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagerArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -309,16 +309,17 @@ export const getManagersService = (ctx: Context) => {
     data: MutationUpdateManagerArgs,
     byUser = false,
   ): Promise<Manager> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagerArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagerArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Manager);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

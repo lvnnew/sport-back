@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableDelegationKeys = never;
+export type AutodefinableDelegationKeys = never;
 export type ForbidenForUserDelegationKeys = never;
 export type RequiredDbNotUserDelegationKeys = never;
 
-export type AutodefinableDelegationPart = DefinedRecord<Pick<MutationCreateDelegationArgs, AutoDefinableDelegationKeys>>;
+export type AutodefinableDelegationPart = DefinedRecord<Pick<MutationCreateDelegationArgs, AutodefinableDelegationKeys>>;
 
 export type ReliableDelegationCreateUserInput =
   Omit<MutationCreateDelegationArgs, ForbidenForUserDelegationKeys>
@@ -40,7 +40,7 @@ export type AllowedDelegationForUserCreateInput = Omit<MutationCreateDelegationA
 export type StrictCreateDelegationArgs = DefinedFieldsInRecord<MutationCreateDelegationArgs, RequiredDbNotUserDelegationKeys> & AutodefinableDelegationPart;
 export type StrictUpdateDelegationArgs = DefinedFieldsInRecord<MutationUpdateDelegationArgs, RequiredDbNotUserDelegationKeys> & AutodefinableDelegationPart;
 
-export type StrictCreateDelegationArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateDelegationArgs, AutoDefinableDelegationKeys>;
+export type StrictCreateDelegationArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateDelegationArgs, AutodefinableDelegationKeys>;
 
 export interface BaseDelegationsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseDelegationsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateDelegationArgs, byUser?: boolean) =>
     Promise<Delegation>;
-  createMany: (data: StrictCreateDelegationArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateDelegationArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateDelegationArgs, byUser?: boolean) =>
     Promise<Delegation>;
@@ -110,7 +110,7 @@ export const getDelegationsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableDelegationPart> => currentData as T;
 
   const all = async (
     params: QueryAllDelegationsArgs = {},
@@ -174,17 +174,15 @@ export const getDelegationsService = (ctx: Context) => {
     data: MutationCreateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedDelegationForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableDelegationCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.delegation.create({
       data: R.mergeDeepLeft(
@@ -225,18 +223,19 @@ export const getDelegationsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateDelegationArgsWithoutAutoDefinable[],
+    entries: StrictCreateDelegationArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateDelegationArgs);
 
     const result = await ctx.prisma.delegation.createMany({
@@ -260,16 +259,17 @@ export const getDelegationsService = (ctx: Context) => {
     data: MutationUpdateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateDelegationArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateDelegationArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -313,16 +313,17 @@ export const getDelegationsService = (ctx: Context) => {
     data: MutationUpdateDelegationArgs,
     byUser = false,
   ): Promise<Delegation> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateDelegationArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateDelegationArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Delegation);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

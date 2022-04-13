@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableManagersToPermissionKeys = never;
+export type AutodefinableManagersToPermissionKeys = never;
 export type ForbidenForUserManagersToPermissionKeys = never;
 export type RequiredDbNotUserManagersToPermissionKeys = never;
 
-export type AutodefinableManagersToPermissionPart = DefinedRecord<Pick<MutationCreateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>>;
+export type AutodefinableManagersToPermissionPart = DefinedRecord<Pick<MutationCreateManagersToPermissionArgs, AutodefinableManagersToPermissionKeys>>;
 
 export type ReliableManagersToPermissionCreateUserInput =
   Omit<MutationCreateManagersToPermissionArgs, ForbidenForUserManagersToPermissionKeys>
@@ -40,7 +40,7 @@ export type AllowedManagersToPermissionForUserCreateInput = Omit<MutationCreateM
 export type StrictCreateManagersToPermissionArgs = DefinedFieldsInRecord<MutationCreateManagersToPermissionArgs, RequiredDbNotUserManagersToPermissionKeys> & AutodefinableManagersToPermissionPart;
 export type StrictUpdateManagersToPermissionArgs = DefinedFieldsInRecord<MutationUpdateManagersToPermissionArgs, RequiredDbNotUserManagersToPermissionKeys> & AutodefinableManagersToPermissionPart;
 
-export type StrictCreateManagersToPermissionArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagersToPermissionArgs, AutoDefinableManagersToPermissionKeys>;
+export type StrictCreateManagersToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagersToPermissionArgs, AutodefinableManagersToPermissionKeys>;
 
 export interface BaseManagersToPermissionsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseManagersToPermissionsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateManagersToPermissionArgs, byUser?: boolean) =>
     Promise<ManagersToPermission>;
-  createMany: (data: StrictCreateManagersToPermissionArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateManagersToPermissionArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagersToPermissionArgs, byUser?: boolean) =>
     Promise<ManagersToPermission>;
@@ -104,7 +104,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableManagersToPermissionPart> => currentData as T;
 
   const all = async (
     params: QueryAllManagersToPermissionsArgs = {},
@@ -168,17 +168,15 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     data: MutationCreateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedManagersToPermissionForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableManagersToPermissionCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.managersToPermission.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateManagersToPermissionArgsWithoutAutoDefinable[],
+    entries: StrictCreateManagersToPermissionArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateManagersToPermissionArgs);
 
     const result = await ctx.prisma.managersToPermission.createMany({
@@ -254,16 +253,17 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     data: MutationUpdateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagersToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagersToPermissionArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     data: MutationUpdateManagersToPermissionArgs,
     byUser = false,
   ): Promise<ManagersToPermission> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagersToPermissionArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagersToPermissionArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as ManagersToPermission);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

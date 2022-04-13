@@ -24,11 +24,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableAuditLogActionTypeKeys = never;
+export type AutodefinableAuditLogActionTypeKeys = never;
 export type ForbidenForUserAuditLogActionTypeKeys = never;
 export type RequiredDbNotUserAuditLogActionTypeKeys = never;
 
-export type AutodefinableAuditLogActionTypePart = DefinedRecord<Pick<MutationCreateAuditLogActionTypeArgs, AutoDefinableAuditLogActionTypeKeys>>;
+export type AutodefinableAuditLogActionTypePart = DefinedRecord<Pick<MutationCreateAuditLogActionTypeArgs, AutodefinableAuditLogActionTypeKeys>>;
 
 export type ReliableAuditLogActionTypeCreateUserInput =
   Omit<MutationCreateAuditLogActionTypeArgs, ForbidenForUserAuditLogActionTypeKeys>
@@ -39,7 +39,7 @@ export type AllowedAuditLogActionTypeForUserCreateInput = Omit<MutationCreateAud
 export type StrictCreateAuditLogActionTypeArgs = DefinedFieldsInRecord<MutationCreateAuditLogActionTypeArgs, RequiredDbNotUserAuditLogActionTypeKeys> & AutodefinableAuditLogActionTypePart;
 export type StrictUpdateAuditLogActionTypeArgs = DefinedFieldsInRecord<MutationUpdateAuditLogActionTypeArgs, RequiredDbNotUserAuditLogActionTypeKeys> & AutodefinableAuditLogActionTypePart;
 
-export type StrictCreateAuditLogActionTypeArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAuditLogActionTypeArgs, AutoDefinableAuditLogActionTypeKeys>;
+export type StrictCreateAuditLogActionTypeArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAuditLogActionTypeArgs, AutodefinableAuditLogActionTypeKeys>;
 
 export interface BaseAuditLogActionTypesMethods {
   get: (id: string) =>
@@ -58,7 +58,7 @@ export interface BaseAuditLogActionTypesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateAuditLogActionTypeArgs, byUser?: boolean) =>
     Promise<AuditLogActionType>;
-  createMany: (data: StrictCreateAuditLogActionTypeArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateAuditLogActionTypeArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAuditLogActionTypeArgs, byUser?: boolean) =>
     Promise<AuditLogActionType>;
@@ -103,7 +103,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAuditLogActionTypePart> => currentData as T;
 
   const all = async (
     params: QueryAllAuditLogActionTypesArgs = {},
@@ -167,17 +167,15 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationCreateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedAuditLogActionTypeForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableAuditLogActionTypeCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.auditLogActionType.create({
       data: R.mergeDeepLeft(
@@ -213,18 +211,19 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateAuditLogActionTypeArgsWithoutAutoDefinable[],
+    entries: StrictCreateAuditLogActionTypeArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateAuditLogActionTypeArgs);
 
     const result = await ctx.prisma.auditLogActionType.createMany({
@@ -248,16 +247,17 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -294,16 +294,17 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     data: MutationUpdateAuditLogActionTypeArgs,
     byUser = false,
   ): Promise<AuditLogActionType> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AuditLogActionType);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableAppRefreshTokenKeys = never;
+export type AutodefinableAppRefreshTokenKeys = never;
 export type ForbidenForUserAppRefreshTokenKeys = never;
 export type RequiredDbNotUserAppRefreshTokenKeys = never;
 
-export type AutodefinableAppRefreshTokenPart = DefinedRecord<Pick<MutationCreateAppRefreshTokenArgs, AutoDefinableAppRefreshTokenKeys>>;
+export type AutodefinableAppRefreshTokenPart = DefinedRecord<Pick<MutationCreateAppRefreshTokenArgs, AutodefinableAppRefreshTokenKeys>>;
 
 export type ReliableAppRefreshTokenCreateUserInput =
   Omit<MutationCreateAppRefreshTokenArgs, ForbidenForUserAppRefreshTokenKeys>
@@ -40,7 +40,7 @@ export type AllowedAppRefreshTokenForUserCreateInput = Omit<MutationCreateAppRef
 export type StrictCreateAppRefreshTokenArgs = DefinedFieldsInRecord<MutationCreateAppRefreshTokenArgs, RequiredDbNotUserAppRefreshTokenKeys> & AutodefinableAppRefreshTokenPart;
 export type StrictUpdateAppRefreshTokenArgs = DefinedFieldsInRecord<MutationUpdateAppRefreshTokenArgs, RequiredDbNotUserAppRefreshTokenKeys> & AutodefinableAppRefreshTokenPart;
 
-export type StrictCreateAppRefreshTokenArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAppRefreshTokenArgs, AutoDefinableAppRefreshTokenKeys>;
+export type StrictCreateAppRefreshTokenArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAppRefreshTokenArgs, AutodefinableAppRefreshTokenKeys>;
 
 export interface BaseAppRefreshTokensMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseAppRefreshTokensMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateAppRefreshTokenArgs, byUser?: boolean) =>
     Promise<AppRefreshToken>;
-  createMany: (data: StrictCreateAppRefreshTokenArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateAppRefreshTokenArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAppRefreshTokenArgs, byUser?: boolean) =>
     Promise<AppRefreshToken>;
@@ -110,7 +110,7 @@ export const getAppRefreshTokensService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAppRefreshTokenPart> => currentData as T;
 
   const all = async (
     params: QueryAllAppRefreshTokensArgs = {},
@@ -174,17 +174,15 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationCreateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedAppRefreshTokenForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableAppRefreshTokenCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.appRefreshToken.create({
       data: R.mergeDeepLeft(
@@ -225,18 +223,19 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateAppRefreshTokenArgsWithoutAutoDefinable[],
+    entries: StrictCreateAppRefreshTokenArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateAppRefreshTokenArgs);
 
     const result = await ctx.prisma.appRefreshToken.createMany({
@@ -260,16 +259,17 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationUpdateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -313,16 +313,17 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     data: MutationUpdateAppRefreshTokenArgs,
     byUser = false,
   ): Promise<AppRefreshToken> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAppRefreshTokenArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AppRefreshToken);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

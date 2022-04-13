@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableManagersToRoleKeys = never;
+export type AutodefinableManagersToRoleKeys = never;
 export type ForbidenForUserManagersToRoleKeys = never;
 export type RequiredDbNotUserManagersToRoleKeys = never;
 
-export type AutodefinableManagersToRolePart = DefinedRecord<Pick<MutationCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>>;
+export type AutodefinableManagersToRolePart = DefinedRecord<Pick<MutationCreateManagersToRoleArgs, AutodefinableManagersToRoleKeys>>;
 
 export type ReliableManagersToRoleCreateUserInput =
   Omit<MutationCreateManagersToRoleArgs, ForbidenForUserManagersToRoleKeys>
@@ -40,7 +40,7 @@ export type AllowedManagersToRoleForUserCreateInput = Omit<MutationCreateManager
 export type StrictCreateManagersToRoleArgs = DefinedFieldsInRecord<MutationCreateManagersToRoleArgs, RequiredDbNotUserManagersToRoleKeys> & AutodefinableManagersToRolePart;
 export type StrictUpdateManagersToRoleArgs = DefinedFieldsInRecord<MutationUpdateManagersToRoleArgs, RequiredDbNotUserManagersToRoleKeys> & AutodefinableManagersToRolePart;
 
-export type StrictCreateManagersToRoleArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateManagersToRoleArgs, AutoDefinableManagersToRoleKeys>;
+export type StrictCreateManagersToRoleArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagersToRoleArgs, AutodefinableManagersToRoleKeys>;
 
 export interface BaseManagersToRolesMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseManagersToRolesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateManagersToRoleArgs, byUser?: boolean) =>
     Promise<ManagersToRole>;
-  createMany: (data: StrictCreateManagersToRoleArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateManagersToRoleArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagersToRoleArgs, byUser?: boolean) =>
     Promise<ManagersToRole>;
@@ -104,7 +104,7 @@ export const getManagersToRolesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableManagersToRolePart> => currentData as T;
 
   const all = async (
     params: QueryAllManagersToRolesArgs = {},
@@ -168,17 +168,15 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationCreateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedManagersToRoleForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableManagersToRoleCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.managersToRole.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getManagersToRolesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateManagersToRoleArgsWithoutAutoDefinable[],
+    entries: StrictCreateManagersToRoleArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateManagersToRoleArgs);
 
     const result = await ctx.prisma.managersToRole.createMany({
@@ -254,16 +253,17 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationUpdateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getManagersToRolesService = (ctx: Context) => {
     data: MutationUpdateManagersToRoleArgs,
     byUser = false,
   ): Promise<ManagersToRole> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateManagersToRoleArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as ManagersToRole);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

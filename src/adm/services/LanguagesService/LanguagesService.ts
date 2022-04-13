@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableLanguageKeys = never;
+export type AutodefinableLanguageKeys = never;
 export type ForbidenForUserLanguageKeys = never;
 export type RequiredDbNotUserLanguageKeys = never;
 
-export type AutodefinableLanguagePart = DefinedRecord<Pick<MutationCreateLanguageArgs, AutoDefinableLanguageKeys>>;
+export type AutodefinableLanguagePart = DefinedRecord<Pick<MutationCreateLanguageArgs, AutodefinableLanguageKeys>>;
 
 export type ReliableLanguageCreateUserInput =
   Omit<MutationCreateLanguageArgs, ForbidenForUserLanguageKeys>
@@ -40,7 +40,7 @@ export type AllowedLanguageForUserCreateInput = Omit<MutationCreateLanguageArgs,
 export type StrictCreateLanguageArgs = DefinedFieldsInRecord<MutationCreateLanguageArgs, RequiredDbNotUserLanguageKeys> & AutodefinableLanguagePart;
 export type StrictUpdateLanguageArgs = DefinedFieldsInRecord<MutationUpdateLanguageArgs, RequiredDbNotUserLanguageKeys> & AutodefinableLanguagePart;
 
-export type StrictCreateLanguageArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateLanguageArgs, AutoDefinableLanguageKeys>;
+export type StrictCreateLanguageArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateLanguageArgs, AutodefinableLanguageKeys>;
 
 export interface BaseLanguagesMethods {
   get: (id: string) =>
@@ -59,7 +59,7 @@ export interface BaseLanguagesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateLanguageArgs, byUser?: boolean) =>
     Promise<Language>;
-  createMany: (data: StrictCreateLanguageArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateLanguageArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateLanguageArgs, byUser?: boolean) =>
     Promise<Language>;
@@ -104,7 +104,7 @@ export const getLanguagesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableLanguagePart> => currentData as T;
 
   const all = async (
     params: QueryAllLanguagesArgs = {},
@@ -168,17 +168,15 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationCreateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedLanguageForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableLanguageCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.language.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getLanguagesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateLanguageArgsWithoutAutoDefinable[],
+    entries: StrictCreateLanguageArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateLanguageArgs);
 
     const result = await ctx.prisma.language.createMany({
@@ -254,16 +253,17 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationUpdateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getLanguagesService = (ctx: Context) => {
     data: MutationUpdateLanguageArgs,
     byUser = false,
   ): Promise<Language> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Language);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

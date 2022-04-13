@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableMessageTypeKeys = never;
+export type AutodefinableMessageTypeKeys = never;
 export type ForbidenForUserMessageTypeKeys = never;
 export type RequiredDbNotUserMessageTypeKeys = never;
 
-export type AutodefinableMessageTypePart = DefinedRecord<Pick<MutationCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>>;
+export type AutodefinableMessageTypePart = DefinedRecord<Pick<MutationCreateMessageTypeArgs, AutodefinableMessageTypeKeys>>;
 
 export type ReliableMessageTypeCreateUserInput =
   Omit<MutationCreateMessageTypeArgs, ForbidenForUserMessageTypeKeys>
@@ -40,7 +40,7 @@ export type AllowedMessageTypeForUserCreateInput = Omit<MutationCreateMessageTyp
 export type StrictCreateMessageTypeArgs = DefinedFieldsInRecord<MutationCreateMessageTypeArgs, RequiredDbNotUserMessageTypeKeys> & AutodefinableMessageTypePart;
 export type StrictUpdateMessageTypeArgs = DefinedFieldsInRecord<MutationUpdateMessageTypeArgs, RequiredDbNotUserMessageTypeKeys> & AutodefinableMessageTypePart;
 
-export type StrictCreateMessageTypeArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateMessageTypeArgs, AutoDefinableMessageTypeKeys>;
+export type StrictCreateMessageTypeArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMessageTypeArgs, AutodefinableMessageTypeKeys>;
 
 export interface BaseMessageTypesMethods {
   get: (id: string) =>
@@ -59,7 +59,7 @@ export interface BaseMessageTypesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateMessageTypeArgs, byUser?: boolean) =>
     Promise<MessageType>;
-  createMany: (data: StrictCreateMessageTypeArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateMessageTypeArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateMessageTypeArgs, byUser?: boolean) =>
     Promise<MessageType>;
@@ -104,7 +104,7 @@ export const getMessageTypesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableMessageTypePart> => currentData as T;
 
   const all = async (
     params: QueryAllMessageTypesArgs = {},
@@ -168,17 +168,15 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationCreateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedMessageTypeForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableMessageTypeCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.messageType.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getMessageTypesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateMessageTypeArgsWithoutAutoDefinable[],
+    entries: StrictCreateMessageTypeArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateMessageTypeArgs);
 
     const result = await ctx.prisma.messageType.createMany({
@@ -254,16 +253,17 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationUpdateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getMessageTypesService = (ctx: Context) => {
     data: MutationUpdateMessageTypeArgs,
     byUser = false,
   ): Promise<MessageType> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as MessageType);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

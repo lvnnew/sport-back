@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableAutogenerationHistoryEntryKeys = never;
+export type AutodefinableAutogenerationHistoryEntryKeys = never;
 export type ForbidenForUserAutogenerationHistoryEntryKeys = never;
 export type RequiredDbNotUserAutogenerationHistoryEntryKeys = never;
 
-export type AutodefinableAutogenerationHistoryEntryPart = DefinedRecord<Pick<MutationCreateAutogenerationHistoryEntryArgs, AutoDefinableAutogenerationHistoryEntryKeys>>;
+export type AutodefinableAutogenerationHistoryEntryPart = DefinedRecord<Pick<MutationCreateAutogenerationHistoryEntryArgs, AutodefinableAutogenerationHistoryEntryKeys>>;
 
 export type ReliableAutogenerationHistoryEntryCreateUserInput =
   Omit<MutationCreateAutogenerationHistoryEntryArgs, ForbidenForUserAutogenerationHistoryEntryKeys>
@@ -40,7 +40,7 @@ export type AllowedAutogenerationHistoryEntryForUserCreateInput = Omit<MutationC
 export type StrictCreateAutogenerationHistoryEntryArgs = DefinedFieldsInRecord<MutationCreateAutogenerationHistoryEntryArgs, RequiredDbNotUserAutogenerationHistoryEntryKeys> & AutodefinableAutogenerationHistoryEntryPart;
 export type StrictUpdateAutogenerationHistoryEntryArgs = DefinedFieldsInRecord<MutationUpdateAutogenerationHistoryEntryArgs, RequiredDbNotUserAutogenerationHistoryEntryKeys> & AutodefinableAutogenerationHistoryEntryPart;
 
-export type StrictCreateAutogenerationHistoryEntryArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateAutogenerationHistoryEntryArgs, AutoDefinableAutogenerationHistoryEntryKeys>;
+export type StrictCreateAutogenerationHistoryEntryArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAutogenerationHistoryEntryArgs, AutodefinableAutogenerationHistoryEntryKeys>;
 
 export interface BaseAutogenerationHistoryEntriesMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseAutogenerationHistoryEntriesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateAutogenerationHistoryEntryArgs, byUser?: boolean) =>
     Promise<AutogenerationHistoryEntry>;
-  createMany: (data: StrictCreateAutogenerationHistoryEntryArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateAutogenerationHistoryEntryArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAutogenerationHistoryEntryArgs, byUser?: boolean) =>
     Promise<AutogenerationHistoryEntry>;
@@ -113,7 +113,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAutogenerationHistoryEntryPart> => currentData as T;
 
   const all = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
@@ -177,17 +177,15 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     data: MutationCreateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedAutogenerationHistoryEntryForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableAutogenerationHistoryEntryCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.autogenerationHistoryEntry.create({
       data: R.mergeDeepLeft(
@@ -228,18 +226,19 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateAutogenerationHistoryEntryArgsWithoutAutoDefinable[],
+    entries: StrictCreateAutogenerationHistoryEntryArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateAutogenerationHistoryEntryArgs);
 
     const result = await ctx.prisma.autogenerationHistoryEntry.createMany({
@@ -263,16 +262,17 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     data: MutationUpdateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAutogenerationHistoryEntryArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAutogenerationHistoryEntryArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -316,16 +316,17 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     data: MutationUpdateAutogenerationHistoryEntryArgs,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateAutogenerationHistoryEntryArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateAutogenerationHistoryEntryArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AutogenerationHistoryEntry);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

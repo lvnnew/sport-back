@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableTenantKeys = never;
+export type AutodefinableTenantKeys = never;
 export type ForbidenForUserTenantKeys = never;
 export type RequiredDbNotUserTenantKeys = never;
 
-export type AutodefinableTenantPart = DefinedRecord<Pick<MutationCreateTenantArgs, AutoDefinableTenantKeys>>;
+export type AutodefinableTenantPart = DefinedRecord<Pick<MutationCreateTenantArgs, AutodefinableTenantKeys>>;
 
 export type ReliableTenantCreateUserInput =
   Omit<MutationCreateTenantArgs, ForbidenForUserTenantKeys>
@@ -40,7 +40,7 @@ export type AllowedTenantForUserCreateInput = Omit<MutationCreateTenantArgs, For
 export type StrictCreateTenantArgs = DefinedFieldsInRecord<MutationCreateTenantArgs, RequiredDbNotUserTenantKeys> & AutodefinableTenantPart;
 export type StrictUpdateTenantArgs = DefinedFieldsInRecord<MutationUpdateTenantArgs, RequiredDbNotUserTenantKeys> & AutodefinableTenantPart;
 
-export type StrictCreateTenantArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateTenantArgs, AutoDefinableTenantKeys>;
+export type StrictCreateTenantArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateTenantArgs, AutodefinableTenantKeys>;
 
 export interface BaseTenantsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseTenantsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateTenantArgs, byUser?: boolean) =>
     Promise<Tenant>;
-  createMany: (data: StrictCreateTenantArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateTenantArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateTenantArgs, byUser?: boolean) =>
     Promise<Tenant>;
@@ -104,7 +104,7 @@ export const getTenantsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableTenantPart> => currentData as T;
 
   const all = async (
     params: QueryAllTenantsArgs = {},
@@ -168,17 +168,15 @@ export const getTenantsService = (ctx: Context) => {
     data: MutationCreateTenantArgs,
     byUser = false,
   ): Promise<Tenant> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedTenantForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableTenantCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.tenant.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getTenantsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateTenantArgsWithoutAutoDefinable[],
+    entries: StrictCreateTenantArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateTenantArgs);
 
     const result = await ctx.prisma.tenant.createMany({
@@ -254,16 +253,17 @@ export const getTenantsService = (ctx: Context) => {
     data: MutationUpdateTenantArgs,
     byUser = false,
   ): Promise<Tenant> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateTenantArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateTenantArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getTenantsService = (ctx: Context) => {
     data: MutationUpdateTenantArgs,
     byUser = false,
   ): Promise<Tenant> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateTenantArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateTenantArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Tenant);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

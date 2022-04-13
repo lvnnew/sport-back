@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableMessageTemplateKeys = never;
+export type AutodefinableMessageTemplateKeys = never;
 export type ForbidenForUserMessageTemplateKeys = never;
 export type RequiredDbNotUserMessageTemplateKeys = never;
 
-export type AutodefinableMessageTemplatePart = DefinedRecord<Pick<MutationCreateMessageTemplateArgs, AutoDefinableMessageTemplateKeys>>;
+export type AutodefinableMessageTemplatePart = DefinedRecord<Pick<MutationCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>>;
 
 export type ReliableMessageTemplateCreateUserInput =
   Omit<MutationCreateMessageTemplateArgs, ForbidenForUserMessageTemplateKeys>
@@ -40,7 +40,7 @@ export type AllowedMessageTemplateForUserCreateInput = Omit<MutationCreateMessag
 export type StrictCreateMessageTemplateArgs = DefinedFieldsInRecord<MutationCreateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
 export type StrictUpdateMessageTemplateArgs = DefinedFieldsInRecord<MutationUpdateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
 
-export type StrictCreateMessageTemplateArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateMessageTemplateArgs, AutoDefinableMessageTemplateKeys>;
+export type StrictCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
 
 export interface BaseMessageTemplatesMethods {
   get: (id: string) =>
@@ -59,7 +59,7 @@ export interface BaseMessageTemplatesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateMessageTemplateArgs, byUser?: boolean) =>
     Promise<MessageTemplate>;
-  createMany: (data: StrictCreateMessageTemplateArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateMessageTemplateArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateMessageTemplateArgs, byUser?: boolean) =>
     Promise<MessageTemplate>;
@@ -104,7 +104,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableMessageTemplatePart> => currentData as T;
 
   const all = async (
     params: QueryAllMessageTemplatesArgs = {},
@@ -168,17 +168,15 @@ export const getMessageTemplatesService = (ctx: Context) => {
     data: MutationCreateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedMessageTemplateForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableMessageTemplateCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.messageTemplate.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateMessageTemplateArgsWithoutAutoDefinable[],
+    entries: StrictCreateMessageTemplateArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateMessageTemplateArgs);
 
     const result = await ctx.prisma.messageTemplate.createMany({
@@ -254,16 +253,17 @@ export const getMessageTemplatesService = (ctx: Context) => {
     data: MutationUpdateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateMessageTemplateArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateMessageTemplateArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getMessageTemplatesService = (ctx: Context) => {
     data: MutationUpdateMessageTemplateArgs,
     byUser = false,
   ): Promise<MessageTemplate> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateMessageTemplateArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateMessageTemplateArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as MessageTemplate);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

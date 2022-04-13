@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableFileKeys = never;
+export type AutodefinableFileKeys = never;
 export type ForbidenForUserFileKeys = never;
 export type RequiredDbNotUserFileKeys = never;
 
-export type AutodefinableFilePart = DefinedRecord<Pick<MutationCreateFileArgs, AutoDefinableFileKeys>>;
+export type AutodefinableFilePart = DefinedRecord<Pick<MutationCreateFileArgs, AutodefinableFileKeys>>;
 
 export type ReliableFileCreateUserInput =
   Omit<MutationCreateFileArgs, ForbidenForUserFileKeys>
@@ -40,7 +40,7 @@ export type AllowedFileForUserCreateInput = Omit<MutationCreateFileArgs, Forbide
 export type StrictCreateFileArgs = DefinedFieldsInRecord<MutationCreateFileArgs, RequiredDbNotUserFileKeys> & AutodefinableFilePart;
 export type StrictUpdateFileArgs = DefinedFieldsInRecord<MutationUpdateFileArgs, RequiredDbNotUserFileKeys> & AutodefinableFilePart;
 
-export type StrictCreateFileArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateFileArgs, AutoDefinableFileKeys>;
+export type StrictCreateFileArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateFileArgs, AutodefinableFileKeys>;
 
 export interface BaseFilesMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseFilesMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateFileArgs, byUser?: boolean) =>
     Promise<File>;
-  createMany: (data: StrictCreateFileArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateFileArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateFileArgs, byUser?: boolean) =>
     Promise<File>;
@@ -104,7 +104,7 @@ export const getFilesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableFilePart> => currentData as T;
 
   const all = async (
     params: QueryAllFilesArgs = {},
@@ -168,17 +168,15 @@ export const getFilesService = (ctx: Context) => {
     data: MutationCreateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedFileForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableFileCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.file.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getFilesService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateFileArgsWithoutAutoDefinable[],
+    entries: StrictCreateFileArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateFileArgs);
 
     const result = await ctx.prisma.file.createMany({
@@ -254,16 +253,17 @@ export const getFilesService = (ctx: Context) => {
     data: MutationUpdateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateFileArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateFileArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getFilesService = (ctx: Context) => {
     data: MutationUpdateFileArgs,
     byUser = false,
   ): Promise<File> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateFileArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateFileArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as File);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableUnitKeys = never;
+export type AutodefinableUnitKeys = never;
 export type ForbidenForUserUnitKeys = never;
 export type RequiredDbNotUserUnitKeys = never;
 
-export type AutodefinableUnitPart = DefinedRecord<Pick<MutationCreateUnitArgs, AutoDefinableUnitKeys>>;
+export type AutodefinableUnitPart = DefinedRecord<Pick<MutationCreateUnitArgs, AutodefinableUnitKeys>>;
 
 export type ReliableUnitCreateUserInput =
   Omit<MutationCreateUnitArgs, ForbidenForUserUnitKeys>
@@ -40,7 +40,7 @@ export type AllowedUnitForUserCreateInput = Omit<MutationCreateUnitArgs, Forbide
 export type StrictCreateUnitArgs = DefinedFieldsInRecord<MutationCreateUnitArgs, RequiredDbNotUserUnitKeys> & AutodefinableUnitPart;
 export type StrictUpdateUnitArgs = DefinedFieldsInRecord<MutationUpdateUnitArgs, RequiredDbNotUserUnitKeys> & AutodefinableUnitPart;
 
-export type StrictCreateUnitArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateUnitArgs, AutoDefinableUnitKeys>;
+export type StrictCreateUnitArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateUnitArgs, AutodefinableUnitKeys>;
 
 export interface BaseUnitsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseUnitsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateUnitArgs, byUser?: boolean) =>
     Promise<Unit>;
-  createMany: (data: StrictCreateUnitArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateUnitArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateUnitArgs, byUser?: boolean) =>
     Promise<Unit>;
@@ -104,7 +104,7 @@ export const getUnitsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableUnitPart> => currentData as T;
 
   const all = async (
     params: QueryAllUnitsArgs = {},
@@ -168,17 +168,15 @@ export const getUnitsService = (ctx: Context) => {
     data: MutationCreateUnitArgs,
     byUser = false,
   ): Promise<Unit> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedUnitForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableUnitCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.unit.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getUnitsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateUnitArgsWithoutAutoDefinable[],
+    entries: StrictCreateUnitArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateUnitArgs);
 
     const result = await ctx.prisma.unit.createMany({
@@ -254,16 +253,17 @@ export const getUnitsService = (ctx: Context) => {
     data: MutationUpdateUnitArgs,
     byUser = false,
   ): Promise<Unit> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateUnitArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateUnitArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getUnitsService = (ctx: Context) => {
     data: MutationUpdateUnitArgs,
     byUser = false,
   ): Promise<Unit> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateUnitArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateUnitArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Unit);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

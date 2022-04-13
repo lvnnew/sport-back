@@ -25,11 +25,11 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutoDefinableTagKeys = never;
+export type AutodefinableTagKeys = never;
 export type ForbidenForUserTagKeys = never;
 export type RequiredDbNotUserTagKeys = never;
 
-export type AutodefinableTagPart = DefinedRecord<Pick<MutationCreateTagArgs, AutoDefinableTagKeys>>;
+export type AutodefinableTagPart = DefinedRecord<Pick<MutationCreateTagArgs, AutodefinableTagKeys>>;
 
 export type ReliableTagCreateUserInput =
   Omit<MutationCreateTagArgs, ForbidenForUserTagKeys>
@@ -40,7 +40,7 @@ export type AllowedTagForUserCreateInput = Omit<MutationCreateTagArgs, ForbidenF
 export type StrictCreateTagArgs = DefinedFieldsInRecord<MutationCreateTagArgs, RequiredDbNotUserTagKeys> & AutodefinableTagPart;
 export type StrictUpdateTagArgs = DefinedFieldsInRecord<MutationUpdateTagArgs, RequiredDbNotUserTagKeys> & AutodefinableTagPart;
 
-export type StrictCreateTagArgsWithoutAutoDefinable = PartialFieldsInRecord<StrictCreateTagArgs, AutoDefinableTagKeys>;
+export type StrictCreateTagArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateTagArgs, AutodefinableTagKeys>;
 
 export interface BaseTagsMethods {
   get: (id: number) =>
@@ -59,7 +59,7 @@ export interface BaseTagsMethods {
     Promise<ListMetadata>;
   create: (data: MutationCreateTagArgs, byUser?: boolean) =>
     Promise<Tag>;
-  createMany: (data: StrictCreateTagArgsWithoutAutoDefinable[], byUser?: boolean) =>
+  createMany: (data: StrictCreateTagArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateTagArgs, byUser?: boolean) =>
     Promise<Tag>;
@@ -104,7 +104,7 @@ export const getTagsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const getDefaultPart = async () => ({});
+  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableTagPart> => currentData as T;
 
   const all = async (
     params: QueryAllTagsArgs = {},
@@ -168,17 +168,15 @@ export const getTagsService = (ctx: Context) => {
     data: MutationCreateTagArgs,
     byUser = false,
   ): Promise<Tag> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(forbiddenForUserFields, data) as AllowedTagForUserCreateInput :
       data;
 
-    // augment data by default fields
-    const augmented = R.mergeLeft(cleared, defaultPart);
+    // Augment with default field
+    const augmentedByDefault: ReliableTagCreateUserInput = await augmentByDefault(cleared);
 
-    const processedData = await runHooks.beforeCreate(ctx, augmented);
+    const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
     const createOperation = ctx.prisma.tag.create({
       data: R.mergeDeepLeft(
@@ -219,18 +217,19 @@ export const getTagsService = (ctx: Context) => {
   };
 
   const createMany = async (
-    entries: StrictCreateTagArgsWithoutAutoDefinable[],
+    entries: StrictCreateTagArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
-    const defaultPart = await getDefaultPart();
-
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
+
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(clearedData);
 
     // augment data by default fields
     const augmentedData = clearedData.map(data => R.mergeLeft(
       data,
-      defaultPart,
+      augmentedByDefault,
     ) as StrictCreateTagArgs);
 
     const result = await ctx.prisma.tag.createMany({
@@ -254,16 +253,17 @@ export const getTagsService = (ctx: Context) => {
     data: MutationUpdateTagArgs,
     byUser = false,
   ): Promise<Tag> => {
-    // Compose object for augmentation
+    // Get db version
     const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateTagArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateTagArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
@@ -307,16 +307,17 @@ export const getTagsService = (ctx: Context) => {
     data: MutationUpdateTagArgs,
     byUser = false,
   ): Promise<Tag> => {
-    // Compose object for augmentation
-    const dbVersion = await getRequired(data.id);
-    const defaultPart = await getDefaultPart();
-    const augmentationBase = R.mergeLeft(dbVersion, defaultPart);
+    // Get db version
+    const dbVersion = await get(data.id);
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
 
-    // augment data by default fields and fields from db
-    const augmented: StrictUpdateTagArgs = R.mergeLeft(cleared, augmentationBase);
+    // Augment with default field
+    const augmentedByDefault = await augmentByDefault(cleared);
+
+    // augment data by fields from db
+    const augmented: StrictUpdateTagArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Tag);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {
