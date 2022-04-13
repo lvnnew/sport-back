@@ -224,7 +224,9 @@ export const getUnitsService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableUnitCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateUnitArgs[];
 
     const result = await ctx.prisma.unit.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

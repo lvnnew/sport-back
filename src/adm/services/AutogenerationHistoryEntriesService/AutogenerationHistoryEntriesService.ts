@@ -233,7 +233,9 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableAutogenerationHistoryEntryCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateAutogenerationHistoryEntryArgs[];
 
     const result = await ctx.prisma.autogenerationHistoryEntry.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

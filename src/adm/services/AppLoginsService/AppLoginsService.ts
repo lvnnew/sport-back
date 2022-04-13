@@ -224,7 +224,9 @@ export const getAppLoginsService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableAppLoginCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateAppLoginArgs[];
 
     const result = await ctx.prisma.appLogin.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

@@ -231,7 +231,9 @@ export const getAuditLogsService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableAuditLogCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateAuditLogArgs[];
 
     const result = await ctx.prisma.auditLog.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

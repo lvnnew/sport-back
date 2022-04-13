@@ -218,7 +218,9 @@ export const getEntitiesService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableEntityCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateEntityArgs[];
 
     const result = await ctx.prisma.entity.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

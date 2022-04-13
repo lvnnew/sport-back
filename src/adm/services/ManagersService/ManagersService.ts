@@ -226,7 +226,9 @@ export const getManagersService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableManagerCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateManagerArgs[];
 
     const result = await ctx.prisma.manager.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

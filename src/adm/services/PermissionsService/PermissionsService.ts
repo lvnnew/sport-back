@@ -224,7 +224,9 @@ export const getPermissionsService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliablePermissionCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreatePermissionArgs[];
 
     const result = await ctx.prisma.permission.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

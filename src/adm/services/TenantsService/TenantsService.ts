@@ -224,7 +224,9 @@ export const getTenantsService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableTenantCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateTenantArgs[];
 
     const result = await ctx.prisma.tenant.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(

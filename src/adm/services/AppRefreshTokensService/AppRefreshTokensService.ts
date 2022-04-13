@@ -230,7 +230,9 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableAppRefreshTokenCreateUserInput[];
+    const augmentedByDefault = await Promise.all(
+      clearedData.map(el => augmentByDefault(el)),
+    ) as StrictCreateAppRefreshTokenArgs[];
 
     const result = await ctx.prisma.appRefreshToken.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(
