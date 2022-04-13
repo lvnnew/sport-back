@@ -33,66 +33,58 @@ export interface AdditionalAuditLogsMethods {
 }
 
 export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseAuditLogsMethods): AdditionalAuditLogsMethods => {
-  const addOperation = async({
+  const addOperation = ({
     entityTypeId,
     entityId,
     actionTypeId,
     title,
     actionData,
-  }: AuditLogAddOperationArgs) => {
-    return ctx.prisma.auditLog.create({
-      data: {
-        date: new Date(),
-        title,
-        entityTypeId,
-        entityId: entityId.toString(),
-        actionTypeId,
-        actionData: JSON.stringify(actionData),
-        managerId: ctx.service('profile').getManagerId(),
-        userId: ctx.service('profile').getUserId(),
-      },
-    });
-  };
+  }: AuditLogAddOperationArgs) => ctx.prisma.auditLog.create({
+    data: {
+      date: new Date(),
+      title,
+      entityTypeId,
+      entityId: entityId.toString(),
+      actionTypeId,
+      actionData: JSON.stringify(actionData),
+      managerId: ctx.service('profile').getManagerId(),
+      userId: ctx.service('profile').getUserId(),
+    },
+  });
 
-  const addCreateOperation = async({
+  const addCreateOperation = ({
     entityTypeId,
     entityId,
     actionData,
-  }: AuditLogAddCreateOperationArgs) => {
-    return addOperation({
-      entityTypeId,
-      entityId,
-      title: `${entityTypeId} create`,
-      actionData,
-      actionTypeId: AuditLogActionType.Create,
-    });
-  };
+  }: AuditLogAddCreateOperationArgs) => addOperation({
+    entityTypeId,
+    entityId,
+    title: `${entityTypeId} create`,
+    actionData,
+    actionTypeId: AuditLogActionType.Create,
+  });
 
-  const addUpdateOperation = async({
+  const addUpdateOperation = ({
     entityTypeId,
     entityId,
     actionData,
-  }: AuditLogAddUpdataOperationArgs) => {
-    return addOperation({
-      entityTypeId,
-      entityId,
-      title: `${entityTypeId} update`,
-      actionData,
-      actionTypeId: AuditLogActionType.Update,
-    });
-  };
-
-  const addDeleteOperation = async({
+  }: AuditLogAddUpdataOperationArgs) => addOperation({
     entityTypeId,
     entityId,
-  }: AuditLogAddDeleteOperationArgs) => {
-    return addOperation({
-      entityTypeId,
-      entityId,
-      title: `${entityTypeId} delete`,
-      actionTypeId: AuditLogActionType.Delete,
-    });
-  };
+    title: `${entityTypeId} update`,
+    actionData,
+    actionTypeId: AuditLogActionType.Update,
+  });
+
+  const addDeleteOperation = ({
+    entityTypeId,
+    entityId,
+  }: AuditLogAddDeleteOperationArgs) => addOperation({
+    entityTypeId,
+    entityId,
+    title: `${entityTypeId} delete`,
+    actionTypeId: AuditLogActionType.Delete,
+  });
 
   return {
     addOperation,
