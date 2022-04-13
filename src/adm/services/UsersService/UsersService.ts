@@ -226,16 +226,10 @@ export const getUsersService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await augmentByDefault(clearedData);
-
-    // augment data by default fields
-    const augmentedData = clearedData.map(data => R.mergeLeft(
-      data,
-      augmentedByDefault,
-    ) as StrictCreateUserArgs);
+    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableUserCreateUserInput[];
 
     const result = await ctx.prisma.user.createMany({
-      data: augmentedData.map(data => R.mergeDeepLeft(
+      data: augmentedByDefault.map(data => R.mergeDeepLeft(
         data,
         {
           search: getSearchString(data),

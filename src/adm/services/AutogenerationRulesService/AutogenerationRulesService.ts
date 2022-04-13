@@ -233,16 +233,10 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await augmentByDefault(clearedData);
-
-    // augment data by default fields
-    const augmentedData = clearedData.map(data => R.mergeLeft(
-      data,
-      augmentedByDefault,
-    ) as StrictCreateAutogenerationRuleArgs);
+    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableAutogenerationRuleCreateUserInput[];
 
     const result = await ctx.prisma.autogenerationRule.createMany({
-      data: augmentedData.map(data => R.mergeDeepLeft(
+      data: augmentedByDefault.map(data => R.mergeDeepLeft(
         data,
         {
           search: getSearchString(data),

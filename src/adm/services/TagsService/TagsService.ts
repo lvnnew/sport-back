@@ -224,16 +224,10 @@ export const getTagsService = (ctx: Context) => {
     const clearedData = byUser ? entries.map(data => R.omit(forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await augmentByDefault(clearedData);
-
-    // augment data by default fields
-    const augmentedData = clearedData.map(data => R.mergeLeft(
-      data,
-      augmentedByDefault,
-    ) as StrictCreateTagArgs);
+    const augmentedByDefault = await Promise.all(clearedData.map(el => augmentByDefault(el))) as ReliableTagCreateUserInput[];
 
     const result = await ctx.prisma.tag.createMany({
-      data: augmentedData.map(data => R.mergeDeepLeft(
+      data: augmentedByDefault.map(data => R.mergeDeepLeft(
         data,
         {
           search: getSearchString(data),
