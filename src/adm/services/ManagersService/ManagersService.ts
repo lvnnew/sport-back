@@ -106,7 +106,9 @@ export const getManagersService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableManagerPart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinableManagerPart> => currentData as T;
 
   const all = async (
     params: QueryAllManagersArgs = {},

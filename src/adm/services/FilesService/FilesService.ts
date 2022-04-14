@@ -104,7 +104,9 @@ export const getFilesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableFilePart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinableFilePart> => currentData as T;
 
   const all = async (
     params: QueryAllFilesArgs = {},

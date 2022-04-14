@@ -103,7 +103,9 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAuditLogActionTypePart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinableAuditLogActionTypePart> => currentData as T;
 
   const all = async (
     params: QueryAllAuditLogActionTypesArgs = {},

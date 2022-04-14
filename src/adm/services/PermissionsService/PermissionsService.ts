@@ -104,7 +104,9 @@ export const getPermissionsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinablePermissionPart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinablePermissionPart> => currentData as T;
 
   const all = async (
     params: QueryAllPermissionsArgs = {},

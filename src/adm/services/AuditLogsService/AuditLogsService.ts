@@ -116,7 +116,9 @@ export const getAuditLogsService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAuditLogPart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinableAuditLogPart> => currentData as T;
 
   const all = async (
     params: QueryAllAuditLogsArgs = {},

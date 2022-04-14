@@ -110,7 +110,9 @@ export const getAppRefreshTokensService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableAppRefreshTokenPart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinableAppRefreshTokenPart> => currentData as T;
 
   const all = async (
     params: QueryAllAppRefreshTokensArgs = {},

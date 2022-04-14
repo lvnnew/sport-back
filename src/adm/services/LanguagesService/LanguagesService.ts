@@ -104,7 +104,9 @@ export const getLanguagesService = (ctx: Context) => {
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
-  const augmentByDefault = async <T>(currentData: Record<string, any>): Promise<T & AutodefinableLanguagePart> => currentData as T;
+  const augmentByDefault = async <T>(
+    currentData: Record<string, any>,
+  ): Promise<T & AutodefinableLanguagePart> => currentData as T;
 
   const all = async (
     params: QueryAllLanguagesArgs = {},
