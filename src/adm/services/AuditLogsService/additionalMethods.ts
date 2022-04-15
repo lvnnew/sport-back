@@ -2,6 +2,7 @@ import {AuditLog} from '../../../generated/graphql';
 import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
 import {Context} from '../types';
+import getSearchStringCreator from '../utils/getSearchStringCreator';
 import {BaseAuditLogsMethods} from './AuditLogsService';
 
 export interface AuditLogAddOperationArgs {
@@ -32,15 +33,34 @@ export interface AdditionalAuditLogsMethods {
   addDeleteOperation: (args: AuditLogAddDeleteOperationArgs) => Promise<AuditLog>;
 }
 
+const dateFieldsForSearch: string[] = [
+  'date',
+];
+
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+  'entityTypeId',
+  'entityId',
+  'actionTypeId',
+  'managerId',
+  'userId',
+  'foreignEntityType',
+  'foreignEntityId',
+  'actionData',
+];
+
+const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
+
 export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseAuditLogsMethods): AdditionalAuditLogsMethods => {
-  const addOperation = ({
+  const addOperation = async ({
     entityTypeId,
     entityId,
     actionTypeId,
     title,
     actionData,
-  }: AuditLogAddOperationArgs) => ctx.prisma.auditLog.create({
-    data: {
+  }: AuditLogAddOperationArgs) => {
+    const data = {
       date: new Date(),
       title,
       entityTypeId,
@@ -49,8 +69,15 @@ export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseAuditLogsMe
       actionData: JSON.stringify(actionData),
       managerId: ctx.service('profile').getManagerId(),
       userId: ctx.service('profile').getUserId(),
-    },
-  });
+    };
+
+    return ctx.prisma.auditLog.create({
+      data: {
+        ...data,
+        search: getSearchString(data),
+      },
+    });
+  };
 
   const addCreateOperation = ({
     entityTypeId,
