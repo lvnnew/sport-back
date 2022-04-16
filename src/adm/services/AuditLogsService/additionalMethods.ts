@@ -53,7 +53,7 @@ const otherFieldsForSearch: string[] = [
 const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
 export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseAuditLogsMethods): AdditionalAuditLogsMethods => {
-  const addOperation = async ({
+  const addOperation = ({
     entityTypeId,
     entityId,
     actionTypeId,
