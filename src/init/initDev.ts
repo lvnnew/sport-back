@@ -1,6 +1,6 @@
 import {createContext} from '../adm/services/context';
 import log from '../log';
-import {getQueue} from '../clients/queue/getQueue';
+import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts

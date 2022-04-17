@@ -89,7 +89,10 @@ export type LanguagesService = BaseLanguagesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+];
 
 export const getLanguagesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

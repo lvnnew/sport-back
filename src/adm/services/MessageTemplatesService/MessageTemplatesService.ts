@@ -89,7 +89,11 @@ export type MessageTemplatesService = BaseMessageTemplatesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+  'messageTypeId',
+];
 
 export const getMessageTemplatesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

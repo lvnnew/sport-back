@@ -1,6 +1,6 @@
 import log from '../../../log';
 import {EmailOptions, whitelistedEmail} from '../../emaiSender';
-import {getQueue} from '../getQueue';
+import getQueue from '../getQueue';
 import {Job} from './Job';
 import {MessageTemplate} from '../../../types/enums';
 

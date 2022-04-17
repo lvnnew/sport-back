@@ -88,7 +88,10 @@ export type AuditLogActionTypesService = BaseAuditLogActionTypesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+];
 
 export const getAuditLogActionTypesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

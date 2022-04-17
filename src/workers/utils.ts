@@ -1,4 +1,4 @@
-import {getQueue} from '../clients/queue/getQueue';
+import getQueue from '../clients/queue/getQueue';
 import {CronItem, JobHelpers} from 'graphile-worker';
 import {Job} from '../clients/queue/jobs/Job';
 import * as R from 'ramda';

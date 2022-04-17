@@ -89,7 +89,10 @@ export type RolesService = BaseRolesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+];
 
 export const getRolesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

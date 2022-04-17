@@ -89,7 +89,11 @@ export type TenantsService = BaseTenantsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+  'utcOffset',
+];
 
 export const getTenantsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

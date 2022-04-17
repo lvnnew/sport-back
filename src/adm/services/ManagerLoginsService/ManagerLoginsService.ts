@@ -89,7 +89,13 @@ export type ManagerLoginsService = BaseManagerLoginsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'login',
+  'passwordHash',
+  'role',
+  'managerId',
+];
 
 export const getManagerLoginsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

@@ -89,7 +89,12 @@ export type AppLoginsService = BaseAppLoginsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'login',
+  'passwordHash',
+  'userId',
+];
 
 export const getAppLoginsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

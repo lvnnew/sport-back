@@ -88,7 +88,10 @@ export type EntitiesService = BaseEntitiesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+];
 
 export const getEntitiesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

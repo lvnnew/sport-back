@@ -7,7 +7,7 @@ import {Client} from 'pg';
 import {getPrisma} from '../../clients/getPrisma';
 import {getKnex} from '../../clients/knex';
 import {getPostgres} from '../../clients/postgres';
-import {getQueue} from '../../clients/queue/getQueue';
+import getQueue from '../../clients/queue/getQueue';
 
 const defaultContainer = new Container({defaultScope: 'Singleton'});
 

@@ -7,7 +7,7 @@ import {addParamsToDatabaseUri} from '../../utils/addParamsToPgUri';
 
 let queue: WorkerUtils | null = null;
 
-export const getQueue = async (appName = 'someBack_Queue') => {
+const getQueue = async (appName = 'someBack_Queue') => {
   if (!queue) {
     const config = await getConfig();
 
@@ -27,3 +27,5 @@ export const getQueue = async (appName = 'someBack_Queue') => {
 
   return queue;
 };
+
+export default getQueue;

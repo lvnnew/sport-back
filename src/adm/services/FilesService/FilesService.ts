@@ -89,7 +89,14 @@ export type FilesService = BaseFilesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'originalName',
+  'url',
+  'mimetype',
+  's3Key',
+  'eTag',
+];
 
 export const getFilesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

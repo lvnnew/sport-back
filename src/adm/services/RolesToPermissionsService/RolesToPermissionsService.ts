@@ -89,7 +89,11 @@ export type RolesToPermissionsService = BaseRolesToPermissionsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'roleId',
+  'permissionId',
+];
 
 export const getRolesToPermissionsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

@@ -89,7 +89,10 @@ export type PermissionsService = BasePermissionsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+];
 
 export const getPermissionsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

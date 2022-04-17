@@ -91,7 +91,19 @@ export type ManagersService = BaseManagersMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+  'lastName',
+  'firstName',
+  'languageId',
+  'email',
+  'phone',
+  'photo',
+  'telegramLogin',
+  'unitId',
+  'tenantId',
+];
 
 export const getManagersService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

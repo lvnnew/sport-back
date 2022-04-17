@@ -91,7 +91,14 @@ export type UsersService = BaseUsersMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+  'lastname',
+  'firstname',
+  'email',
+  'tenantId',
+];
 
 export const getUsersService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

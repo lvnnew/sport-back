@@ -5,7 +5,7 @@ import {Role} from '../../types/enums';
 // ENV=dev yarn ts-node:withContext src/init/permissions/initRoles.ts
 // ENV=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
-export const initRoles = async (ctx: Context) => {
+const initRoles = async (ctx: Context) => {
   // const allPermissions = getRuntimePermissions(await createContext());
 
   // const services = getBaseServices(() => {
@@ -57,3 +57,5 @@ export const initRoles = async (ctx: Context) => {
   // await addAllServicePermissions(manager.id, 'emails');
   // await addAllServicePermissions(manager.id, 'miles');
 };
+
+export default initRoles;

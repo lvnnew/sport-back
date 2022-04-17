@@ -89,7 +89,11 @@ export type UnitsService = BaseUnitsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'title',
+  'parentId',
+];
 
 export const getUnitsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

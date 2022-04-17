@@ -89,7 +89,11 @@ export type ManagersToPermissionsService = BaseManagersToPermissionsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'managerId',
+  'permissionId',
+];
 
 export const getManagersToPermissionsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

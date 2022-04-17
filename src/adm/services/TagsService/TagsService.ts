@@ -89,7 +89,10 @@ export type TagsService = BaseTagsMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'comment',
+];
 
 export const getTagsService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<

@@ -89,7 +89,11 @@ export type ManagersToRolesService = BaseManagersToRolesMethods
 
 const dateFieldsForSearch: string[] = [];
 
-const otherFieldsForSearch: string[] = [];
+const otherFieldsForSearch: string[] = [
+  'id',
+  'managerId',
+  'roleId',
+];
 
 export const getManagersToRolesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
