@@ -6,7 +6,7 @@
   "appTitle": "Meta Template Base",
   "customer.recaptcha.secretKey": "",
   "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
-  "graphql.playground.enabled": "false",
+  "graphql.playground.enabled": "true",
   "logs.format": "plain",
   "loki.url": "",
   "s3.accessKeyId": "",

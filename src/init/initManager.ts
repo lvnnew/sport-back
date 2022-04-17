@@ -1,7 +1,7 @@
 import {Context} from '../adm/services/types';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';
-import {Role} from '../types/enums';
+import Role from '../types/Role';
 
 export const initManager = async (
   ctx: Context,

@@ -1,5 +1,5 @@
 import {Context} from '../adm/services/types';
-import {Role} from '../types/enums';
+import Role from '../types/Role';
 import {initManager} from './initManager';
 
 // yarn ts-node:withContext src/init/initTestManagers.ts

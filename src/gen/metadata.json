@@ -3633,7 +3633,20 @@
    "needFor": {
     "ru": "Роли, определющие права на те или иные операции"
    },
-   "predefinedElements": [],
+   "predefinedElements": [
+    {
+     "allTenantsAvailable": true,
+     "hasAllPermissions": true,
+     "id": "admin",
+     "title": "Админ"
+    },
+    {
+     "allTenantsAvailable": false,
+     "hasAllPermissions": false,
+     "id": "manager",
+     "title": "Менеджер"
+    }
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -4706,7 +4719,7 @@
    ]
   },
   {
-   "default": "false",
+   "default": "true",
    "name": "graphql.playground.enabled",
    "needFor": "Включение graphql playground (true | false)",
    "scopes": [
