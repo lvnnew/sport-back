@@ -187,7 +187,7 @@ const start = async () => {
       }),
     );
 
-    log.info(`🚀 Qraphql playground at http://localhost:${port}/playground`);
+    log.info(`🚀 GraphQL playground at http://localhost:${port}/playground`);
   }
 
   app.listen({port}, () => {
