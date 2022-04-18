@@ -33,3 +33,5 @@ const initPermissionsItself = async (ctx: Context) => {
     title: p,
   })));
 };
+
+export default initPermissions;
