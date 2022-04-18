@@ -1,8 +1,8 @@
 import {createContext} from '../adm/services/context';
 import log from '../log';
 import getQueue from '../clients/queue/getQueue';
-import {initPermissions} from './permissions/initPermissions';
-import {initRoles} from './permissions/initRoles';
+import initPermissions from './permissions/initPermissions';
+import initRoles from './permissions/initRoles';
 
 // yarn ts-node src/init/baseInit.ts
 // ENV=dev yarn ts-node src/init/baseInit.ts
