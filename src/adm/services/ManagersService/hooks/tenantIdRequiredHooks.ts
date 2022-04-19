@@ -8,6 +8,8 @@ import {
   StrictUpdateManagerArgs,
 } from '../ManagersService';
 
+// DO NOT EDIT! THIS IS GENERATED FILE
+
 export const changeListFilter = async (
   ctx: Context,
   args: QueryAllManagersArgs,
@@ -48,7 +50,7 @@ export const beforeUpdate = async (
 ): Promise<StrictUpdateManagerArgs> => {
   const tenantIds = await ctx.service('profile').getAllowedTenantIds();
 
-  if (tenantIds.length > 0 && data.tenantId && tenantIds.includes(data.tenantId)) {
+  if (tenantIds.length > 0 && data.tenantId && !tenantIds.includes(data.tenantId)) {
     throw new Error('Permission denied!');
   }
 
