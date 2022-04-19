@@ -3,7 +3,7 @@ import Role from '../types/Role';
 import {initManager} from './initManager';
 
 // yarn ts-node:withContext src/init/initTestManagers.ts
-// ENV=dev yarn ts-node:withContext src/init/initTestManagers.ts
+// yarn ts-node:withContext src/init/initTestManagers.ts
 
 const testManagers = [
   {

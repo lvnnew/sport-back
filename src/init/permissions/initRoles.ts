@@ -2,7 +2,7 @@ import {Context} from '../../adm/services/types';
 import {Role} from '../../types/enums';
 
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
-// ENV=dev yarn ts-node:withContext src/init/permissions/initRoles.ts
+// yarn ts-node:withContext src/init/permissions/initRoles.ts
 // ENV=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 const initRoles = async (ctx: Context) => {

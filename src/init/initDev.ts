@@ -5,7 +5,7 @@ import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts
 // ENV=test yarn ts-node src/init/initDev.ts
-// ENV=dev yarn ts-node src/init/initDev.ts
+// yarn ts-node src/init/initDev.ts
 
 // DATABASE_URI=$MTBASE_DEV_TUNIK_DATABASE_URI yarn ts-node src/init/initDev.ts
 // DATABASE_URI=$MTBASE_DEV_THTH_DATABASE_URI yarn ts-node src/init/initDev.ts

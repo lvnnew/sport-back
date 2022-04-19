@@ -5,7 +5,7 @@ import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 import log from '../../log';
 
 // yarn init:permissions
-// ENV=dev yarn init:permissions
+// yarn init:permissions
 // ENV=prod yarn init:permissions
 
 const initPermissions = async (ctx: Context) => {

@@ -11,7 +11,7 @@ import {jobsFromFunctions, graphileLogger} from '../utils';
 import healthRouter from '../../rest/healthRouter';
 
 // yarn ts-node src/workers/emails/emailsWorker.ts
-// ENV=dev yarn ts-node src/workers/emails/emailsWorker.ts
+// yarn ts-node src/workers/emails/emailsWorker.ts
 
 exitHook(async () => {
   createContext().then(ctx => ctx.close());
