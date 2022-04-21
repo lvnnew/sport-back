@@ -41,6 +41,8 @@ export type StrictCreateTenantArgs = DefinedFieldsInRecord<MutationCreateTenantA
 export type StrictUpdateTenantArgs = DefinedFieldsInRecord<MutationUpdateTenantArgs, RequiredDbNotUserTenantKeys> & AutodefinableTenantPart;
 
 export type StrictCreateTenantArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateTenantArgs, AutodefinableTenantKeys>;
+export type MutationCreateTenantArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateTenantArgs, AutodefinableTenantKeys>;
+export type MutationUpdateTenantArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateTenantArgs, AutodefinableTenantKeys>;
 
 export interface BaseTenantsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseTenantsMethods {
     Promise<number>;
   meta: (params?: Query_AllTenantsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateTenantArgs, byUser?: boolean) =>
+  create: (data: MutationCreateTenantArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tenant>;
   createMany: (data: StrictCreateTenantArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateTenantArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateTenantArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tenant>;
-  upsert: (data: MutationUpdateTenantArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateTenantArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tenant>;
   upsertAdvanced: (
     filter: TenantFilter,
-    data: MutationCreateTenantArgs,
+    data: MutationCreateTenantArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Tenant>;
@@ -171,7 +173,7 @@ export const getTenantsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateTenantArgs,
+    data: MutationCreateTenantArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tenant> => {
     // clear from fields forbidden for user
@@ -252,7 +254,7 @@ export const getTenantsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateTenantArgs,
+    data: MutationUpdateTenantArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tenant> => {
     // Get db version
@@ -306,7 +308,7 @@ export const getTenantsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateTenantArgs,
+    data: MutationUpdateTenantArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tenant> => {
     // Get db version
@@ -346,7 +348,7 @@ export const getTenantsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: TenantFilter,
-    data: MutationCreateTenantArgs,
+    data: MutationCreateTenantArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tenant> => {
     const cnt = await count({filter});

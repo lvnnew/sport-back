@@ -41,6 +41,8 @@ export type StrictCreateDelegationArgs = DefinedFieldsInRecord<MutationCreateDel
 export type StrictUpdateDelegationArgs = DefinedFieldsInRecord<MutationUpdateDelegationArgs, RequiredDbNotUserDelegationKeys> & AutodefinableDelegationPart;
 
 export type StrictCreateDelegationArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateDelegationArgs, AutodefinableDelegationKeys>;
+export type MutationCreateDelegationArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateDelegationArgs, AutodefinableDelegationKeys>;
+export type MutationUpdateDelegationArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateDelegationArgs, AutodefinableDelegationKeys>;
 
 export interface BaseDelegationsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseDelegationsMethods {
     Promise<number>;
   meta: (params?: Query_AllDelegationsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateDelegationArgs, byUser?: boolean) =>
+  create: (data: MutationCreateDelegationArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Delegation>;
   createMany: (data: StrictCreateDelegationArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateDelegationArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateDelegationArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Delegation>;
-  upsert: (data: MutationUpdateDelegationArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateDelegationArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Delegation>;
   upsertAdvanced: (
     filter: DelegationFilter,
-    data: MutationCreateDelegationArgs,
+    data: MutationCreateDelegationArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Delegation>;
@@ -173,7 +175,7 @@ export const getDelegationsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateDelegationArgs,
+    data: MutationCreateDelegationArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Delegation> => {
     // clear from fields forbidden for user
@@ -254,7 +256,7 @@ export const getDelegationsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateDelegationArgs,
+    data: MutationUpdateDelegationArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Delegation> => {
     // Get db version
@@ -308,7 +310,7 @@ export const getDelegationsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateDelegationArgs,
+    data: MutationUpdateDelegationArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Delegation> => {
     // Get db version
@@ -348,7 +350,7 @@ export const getDelegationsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: DelegationFilter,
-    data: MutationCreateDelegationArgs,
+    data: MutationCreateDelegationArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Delegation> => {
     const cnt = await count({filter});

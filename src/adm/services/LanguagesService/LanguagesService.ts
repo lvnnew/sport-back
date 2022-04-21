@@ -41,6 +41,8 @@ export type StrictCreateLanguageArgs = DefinedFieldsInRecord<MutationCreateLangu
 export type StrictUpdateLanguageArgs = DefinedFieldsInRecord<MutationUpdateLanguageArgs, RequiredDbNotUserLanguageKeys> & AutodefinableLanguagePart;
 
 export type StrictCreateLanguageArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateLanguageArgs, AutodefinableLanguageKeys>;
+export type MutationCreateLanguageArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateLanguageArgs, AutodefinableLanguageKeys>;
+export type MutationUpdateLanguageArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateLanguageArgs, AutodefinableLanguageKeys>;
 
 export interface BaseLanguagesMethods {
   get: (id: string) =>
@@ -57,17 +59,17 @@ export interface BaseLanguagesMethods {
     Promise<number>;
   meta: (params?: Query_AllLanguagesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateLanguageArgs, byUser?: boolean) =>
+  create: (data: MutationCreateLanguageArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Language>;
   createMany: (data: StrictCreateLanguageArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateLanguageArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateLanguageArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Language>;
-  upsert: (data: MutationUpdateLanguageArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateLanguageArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Language>;
   upsertAdvanced: (
     filter: LanguageFilter,
-    data: MutationCreateLanguageArgs,
+    data: MutationCreateLanguageArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Language>;
@@ -170,7 +172,7 @@ export const getLanguagesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateLanguageArgs,
+    data: MutationCreateLanguageArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Language> => {
     // clear from fields forbidden for user
@@ -251,7 +253,7 @@ export const getLanguagesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateLanguageArgs,
+    data: MutationUpdateLanguageArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Language> => {
     // Get db version
@@ -305,7 +307,7 @@ export const getLanguagesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateLanguageArgs,
+    data: MutationUpdateLanguageArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Language> => {
     // Get db version
@@ -345,7 +347,7 @@ export const getLanguagesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: LanguageFilter,
-    data: MutationCreateLanguageArgs,
+    data: MutationCreateLanguageArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Language> => {
     const cnt = await count({filter});

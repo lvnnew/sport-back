@@ -12,5 +12,5 @@ export type DefinedRecord<T> = NonNullableRecord<Required<T>>;
 
 export type DefinedFieldsInRecord<T, K extends keyof T> = T & DefinedRecord<Pick<T, K>>;
 
-export type PartialFieldsInRecord<T, K extends keyof T> = Omit<T, keyof K> & Partial<Pick<T, K>>;
+export type PartialFieldsInRecord<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 

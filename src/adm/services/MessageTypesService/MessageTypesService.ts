@@ -41,6 +41,8 @@ export type StrictCreateMessageTypeArgs = DefinedFieldsInRecord<MutationCreateMe
 export type StrictUpdateMessageTypeArgs = DefinedFieldsInRecord<MutationUpdateMessageTypeArgs, RequiredDbNotUserMessageTypeKeys> & AutodefinableMessageTypePart;
 
 export type StrictCreateMessageTypeArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMessageTypeArgs, AutodefinableMessageTypeKeys>;
+export type MutationCreateMessageTypeArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateMessageTypeArgs, AutodefinableMessageTypeKeys>;
+export type MutationUpdateMessageTypeArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateMessageTypeArgs, AutodefinableMessageTypeKeys>;
 
 export interface BaseMessageTypesMethods {
   get: (id: string) =>
@@ -57,17 +59,17 @@ export interface BaseMessageTypesMethods {
     Promise<number>;
   meta: (params?: Query_AllMessageTypesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateMessageTypeArgs, byUser?: boolean) =>
+  create: (data: MutationCreateMessageTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageType>;
   createMany: (data: StrictCreateMessageTypeArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateMessageTypeArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateMessageTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageType>;
-  upsert: (data: MutationUpdateMessageTypeArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateMessageTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageType>;
   upsertAdvanced: (
     filter: MessageTypeFilter,
-    data: MutationCreateMessageTypeArgs,
+    data: MutationCreateMessageTypeArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<MessageType>;
@@ -171,7 +173,7 @@ export const getMessageTypesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateMessageTypeArgs,
+    data: MutationCreateMessageTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageType> => {
     // clear from fields forbidden for user
@@ -252,7 +254,7 @@ export const getMessageTypesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateMessageTypeArgs,
+    data: MutationUpdateMessageTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageType> => {
     // Get db version
@@ -306,7 +308,7 @@ export const getMessageTypesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateMessageTypeArgs,
+    data: MutationUpdateMessageTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageType> => {
     // Get db version
@@ -346,7 +348,7 @@ export const getMessageTypesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: MessageTypeFilter,
-    data: MutationCreateMessageTypeArgs,
+    data: MutationCreateMessageTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageType> => {
     const cnt = await count({filter});

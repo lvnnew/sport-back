@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';
 import Role from '../types/Role';
 
-export const initManager = async (
+const initManager = async (
   ctx: Context,
   {
     email,
@@ -11,6 +11,7 @@ export const initManager = async (
     firstName,
     lastName,
     roles,
+    tenantId,
   } :
   {
     email: string;
@@ -18,6 +19,7 @@ export const initManager = async (
     firstName: string;
     lastName: string;
     roles: Role[];
+    tenantId?: number;
   },
 ) => {
   const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
@@ -31,8 +33,7 @@ export const initManager = async (
       email,
       lastName,
       firstName,
-      active: true,
-      headOfUnit: false,
+      tenantId,
     },
   );
 
@@ -61,3 +62,5 @@ export const initManager = async (
     managerLogin,
   };
 };
+
+export default initManager;

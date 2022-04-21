@@ -41,6 +41,8 @@ export type StrictCreateStatArgs = DefinedFieldsInRecord<MutationCreateStatArgs,
 export type StrictUpdateStatArgs = DefinedFieldsInRecord<MutationUpdateStatArgs, RequiredDbNotUserStatKeys> & AutodefinableStatPart;
 
 export type StrictCreateStatArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateStatArgs, AutodefinableStatKeys>;
+export type MutationCreateStatArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateStatArgs, AutodefinableStatKeys>;
+export type MutationUpdateStatArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateStatArgs, AutodefinableStatKeys>;
 
 export interface BaseStatsMethods {
   get: (id: string) =>
@@ -57,17 +59,17 @@ export interface BaseStatsMethods {
     Promise<number>;
   meta: (params?: Query_AllStatsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateStatArgs, byUser?: boolean) =>
+  create: (data: MutationCreateStatArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Stat>;
   createMany: (data: StrictCreateStatArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateStatArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateStatArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Stat>;
-  upsert: (data: MutationUpdateStatArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateStatArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Stat>;
   upsertAdvanced: (
     filter: StatFilter,
-    data: MutationCreateStatArgs,
+    data: MutationCreateStatArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Stat>;
@@ -172,7 +174,7 @@ export const getStatsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateStatArgs,
+    data: MutationCreateStatArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Stat> => {
     // clear from fields forbidden for user
@@ -253,7 +255,7 @@ export const getStatsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateStatArgs,
+    data: MutationUpdateStatArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Stat> => {
     // Get db version
@@ -307,7 +309,7 @@ export const getStatsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateStatArgs,
+    data: MutationUpdateStatArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Stat> => {
     // Get db version
@@ -347,7 +349,7 @@ export const getStatsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: StatFilter,
-    data: MutationCreateStatArgs,
+    data: MutationCreateStatArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Stat> => {
     const cnt = await count({filter});

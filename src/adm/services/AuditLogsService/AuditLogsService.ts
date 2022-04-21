@@ -40,6 +40,8 @@ export type StrictCreateAuditLogArgs = DefinedFieldsInRecord<MutationCreateAudit
 export type StrictUpdateAuditLogArgs = DefinedFieldsInRecord<MutationUpdateAuditLogArgs, RequiredDbNotUserAuditLogKeys> & AutodefinableAuditLogPart;
 
 export type StrictCreateAuditLogArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAuditLogArgs, AutodefinableAuditLogKeys>;
+export type MutationCreateAuditLogArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateAuditLogArgs, AutodefinableAuditLogKeys>;
+export type MutationUpdateAuditLogArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateAuditLogArgs, AutodefinableAuditLogKeys>;
 
 export interface BaseAuditLogsMethods {
   get: (id: number) =>
@@ -56,17 +58,17 @@ export interface BaseAuditLogsMethods {
     Promise<number>;
   meta: (params?: Query_AllAuditLogsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAuditLogArgs, byUser?: boolean) =>
+  create: (data: MutationCreateAuditLogArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLog>;
   createMany: (data: StrictCreateAuditLogArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAuditLogArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateAuditLogArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLog>;
-  upsert: (data: MutationUpdateAuditLogArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateAuditLogArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLog>;
   upsertAdvanced: (
     filter: AuditLogFilter,
-    data: MutationCreateAuditLogArgs,
+    data: MutationCreateAuditLogArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<AuditLog>;
@@ -179,7 +181,7 @@ export const getAuditLogsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateAuditLogArgs,
+    data: MutationCreateAuditLogArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLog> => {
     // clear from fields forbidden for user
@@ -255,7 +257,7 @@ export const getAuditLogsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAuditLogArgs,
+    data: MutationUpdateAuditLogArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLog> => {
     // Get db version
@@ -302,7 +304,7 @@ export const getAuditLogsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAuditLogArgs,
+    data: MutationUpdateAuditLogArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLog> => {
     // Get db version
@@ -342,7 +344,7 @@ export const getAuditLogsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: AuditLogFilter,
-    data: MutationCreateAuditLogArgs,
+    data: MutationCreateAuditLogArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLog> => {
     const cnt = await count({filter});

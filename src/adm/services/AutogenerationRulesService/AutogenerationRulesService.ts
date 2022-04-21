@@ -41,6 +41,8 @@ export type StrictCreateAutogenerationRuleArgs = DefinedFieldsInRecord<MutationC
 export type StrictUpdateAutogenerationRuleArgs = DefinedFieldsInRecord<MutationUpdateAutogenerationRuleArgs, RequiredDbNotUserAutogenerationRuleKeys> & AutodefinableAutogenerationRulePart;
 
 export type StrictCreateAutogenerationRuleArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAutogenerationRuleArgs, AutodefinableAutogenerationRuleKeys>;
+export type MutationCreateAutogenerationRuleArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateAutogenerationRuleArgs, AutodefinableAutogenerationRuleKeys>;
+export type MutationUpdateAutogenerationRuleArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateAutogenerationRuleArgs, AutodefinableAutogenerationRuleKeys>;
 
 export interface BaseAutogenerationRulesMethods {
   get: (id: string) =>
@@ -57,17 +59,17 @@ export interface BaseAutogenerationRulesMethods {
     Promise<number>;
   meta: (params?: Query_AllAutogenerationRulesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAutogenerationRuleArgs, byUser?: boolean) =>
+  create: (data: MutationCreateAutogenerationRuleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationRule>;
   createMany: (data: StrictCreateAutogenerationRuleArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAutogenerationRuleArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationRule>;
-  upsert: (data: MutationUpdateAutogenerationRuleArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationRule>;
   upsertAdvanced: (
     filter: AutogenerationRuleFilter,
-    data: MutationCreateAutogenerationRuleArgs,
+    data: MutationCreateAutogenerationRuleArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<AutogenerationRule>;
@@ -176,7 +178,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateAutogenerationRuleArgs,
+    data: MutationCreateAutogenerationRuleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationRule> => {
     // clear from fields forbidden for user
@@ -257,7 +259,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAutogenerationRuleArgs,
+    data: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationRule> => {
     // Get db version
@@ -311,7 +313,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAutogenerationRuleArgs,
+    data: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationRule> => {
     // Get db version
@@ -351,7 +353,7 @@ export const getAutogenerationRulesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: AutogenerationRuleFilter,
-    data: MutationCreateAutogenerationRuleArgs,
+    data: MutationCreateAutogenerationRuleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationRule> => {
     const cnt = await count({filter});

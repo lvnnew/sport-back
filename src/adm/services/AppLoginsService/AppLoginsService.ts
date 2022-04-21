@@ -41,6 +41,8 @@ export type StrictCreateAppLoginArgs = DefinedFieldsInRecord<MutationCreateAppLo
 export type StrictUpdateAppLoginArgs = DefinedFieldsInRecord<MutationUpdateAppLoginArgs, RequiredDbNotUserAppLoginKeys> & AutodefinableAppLoginPart;
 
 export type StrictCreateAppLoginArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAppLoginArgs, AutodefinableAppLoginKeys>;
+export type MutationCreateAppLoginArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateAppLoginArgs, AutodefinableAppLoginKeys>;
+export type MutationUpdateAppLoginArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateAppLoginArgs, AutodefinableAppLoginKeys>;
 
 export interface BaseAppLoginsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseAppLoginsMethods {
     Promise<number>;
   meta: (params?: Query_AllAppLoginsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAppLoginArgs, byUser?: boolean) =>
+  create: (data: MutationCreateAppLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppLogin>;
   createMany: (data: StrictCreateAppLoginArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAppLoginArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateAppLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppLogin>;
-  upsert: (data: MutationUpdateAppLoginArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateAppLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppLogin>;
   upsertAdvanced: (
     filter: AppLoginFilter,
-    data: MutationCreateAppLoginArgs,
+    data: MutationCreateAppLoginArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<AppLogin>;
@@ -172,7 +174,7 @@ export const getAppLoginsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateAppLoginArgs,
+    data: MutationCreateAppLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppLogin> => {
     // clear from fields forbidden for user
@@ -253,7 +255,7 @@ export const getAppLoginsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAppLoginArgs,
+    data: MutationUpdateAppLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppLogin> => {
     // Get db version
@@ -307,7 +309,7 @@ export const getAppLoginsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAppLoginArgs,
+    data: MutationUpdateAppLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppLogin> => {
     // Get db version
@@ -347,7 +349,7 @@ export const getAppLoginsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: AppLoginFilter,
-    data: MutationCreateAppLoginArgs,
+    data: MutationCreateAppLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppLogin> => {
     const cnt = await count({filter});

@@ -41,6 +41,8 @@ export type StrictCreateManagersToPermissionArgs = DefinedFieldsInRecord<Mutatio
 export type StrictUpdateManagersToPermissionArgs = DefinedFieldsInRecord<MutationUpdateManagersToPermissionArgs, RequiredDbNotUserManagersToPermissionKeys> & AutodefinableManagersToPermissionPart;
 
 export type StrictCreateManagersToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagersToPermissionArgs, AutodefinableManagersToPermissionKeys>;
+export type MutationCreateManagersToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateManagersToPermissionArgs, AutodefinableManagersToPermissionKeys>;
+export type MutationUpdateManagersToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateManagersToPermissionArgs, AutodefinableManagersToPermissionKeys>;
 
 export interface BaseManagersToPermissionsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseManagersToPermissionsMethods {
     Promise<number>;
   meta: (params?: Query_AllManagersToPermissionsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagersToPermissionArgs, byUser?: boolean) =>
+  create: (data: MutationCreateManagersToPermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagersToPermission>;
   createMany: (data: StrictCreateManagersToPermissionArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagersToPermissionArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateManagersToPermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagersToPermission>;
-  upsert: (data: MutationUpdateManagersToPermissionArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateManagersToPermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagersToPermission>;
   upsertAdvanced: (
     filter: ManagersToPermissionFilter,
-    data: MutationCreateManagersToPermissionArgs,
+    data: MutationCreateManagersToPermissionArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<ManagersToPermission>;
@@ -171,7 +173,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateManagersToPermissionArgs,
+    data: MutationCreateManagersToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToPermission> => {
     // clear from fields forbidden for user
@@ -252,7 +254,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateManagersToPermissionArgs,
+    data: MutationUpdateManagersToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToPermission> => {
     // Get db version
@@ -306,7 +308,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateManagersToPermissionArgs,
+    data: MutationUpdateManagersToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToPermission> => {
     // Get db version
@@ -346,7 +348,7 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: ManagersToPermissionFilter,
-    data: MutationCreateManagersToPermissionArgs,
+    data: MutationCreateManagersToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToPermission> => {
     const cnt = await count({filter});

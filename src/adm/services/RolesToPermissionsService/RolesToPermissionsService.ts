@@ -41,6 +41,8 @@ export type StrictCreateRolesToPermissionArgs = DefinedFieldsInRecord<MutationCr
 export type StrictUpdateRolesToPermissionArgs = DefinedFieldsInRecord<MutationUpdateRolesToPermissionArgs, RequiredDbNotUserRolesToPermissionKeys> & AutodefinableRolesToPermissionPart;
 
 export type StrictCreateRolesToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateRolesToPermissionArgs, AutodefinableRolesToPermissionKeys>;
+export type MutationCreateRolesToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateRolesToPermissionArgs, AutodefinableRolesToPermissionKeys>;
+export type MutationUpdateRolesToPermissionArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateRolesToPermissionArgs, AutodefinableRolesToPermissionKeys>;
 
 export interface BaseRolesToPermissionsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseRolesToPermissionsMethods {
     Promise<number>;
   meta: (params?: Query_AllRolesToPermissionsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateRolesToPermissionArgs, byUser?: boolean) =>
+  create: (data: MutationCreateRolesToPermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<RolesToPermission>;
   createMany: (data: StrictCreateRolesToPermissionArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateRolesToPermissionArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateRolesToPermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<RolesToPermission>;
-  upsert: (data: MutationUpdateRolesToPermissionArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateRolesToPermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<RolesToPermission>;
   upsertAdvanced: (
     filter: RolesToPermissionFilter,
-    data: MutationCreateRolesToPermissionArgs,
+    data: MutationCreateRolesToPermissionArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<RolesToPermission>;
@@ -171,7 +173,7 @@ export const getRolesToPermissionsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateRolesToPermissionArgs,
+    data: MutationCreateRolesToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<RolesToPermission> => {
     // clear from fields forbidden for user
@@ -252,7 +254,7 @@ export const getRolesToPermissionsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateRolesToPermissionArgs,
+    data: MutationUpdateRolesToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<RolesToPermission> => {
     // Get db version
@@ -306,7 +308,7 @@ export const getRolesToPermissionsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateRolesToPermissionArgs,
+    data: MutationUpdateRolesToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<RolesToPermission> => {
     // Get db version
@@ -346,7 +348,7 @@ export const getRolesToPermissionsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: RolesToPermissionFilter,
-    data: MutationCreateRolesToPermissionArgs,
+    data: MutationCreateRolesToPermissionArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<RolesToPermission> => {
     const cnt = await count({filter});

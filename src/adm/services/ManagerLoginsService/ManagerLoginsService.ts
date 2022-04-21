@@ -41,6 +41,8 @@ export type StrictCreateManagerLoginArgs = DefinedFieldsInRecord<MutationCreateM
 export type StrictUpdateManagerLoginArgs = DefinedFieldsInRecord<MutationUpdateManagerLoginArgs, RequiredDbNotUserManagerLoginKeys> & AutodefinableManagerLoginPart;
 
 export type StrictCreateManagerLoginArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagerLoginArgs, AutodefinableManagerLoginKeys>;
+export type MutationCreateManagerLoginArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateManagerLoginArgs, AutodefinableManagerLoginKeys>;
+export type MutationUpdateManagerLoginArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateManagerLoginArgs, AutodefinableManagerLoginKeys>;
 
 export interface BaseManagerLoginsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseManagerLoginsMethods {
     Promise<number>;
   meta: (params?: Query_AllManagerLoginsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagerLoginArgs, byUser?: boolean) =>
+  create: (data: MutationCreateManagerLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagerLogin>;
   createMany: (data: StrictCreateManagerLoginArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateManagerLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagerLogin>;
-  upsert: (data: MutationUpdateManagerLoginArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateManagerLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagerLogin>;
   upsertAdvanced: (
     filter: ManagerLoginFilter,
-    data: MutationCreateManagerLoginArgs,
+    data: MutationCreateManagerLoginArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<ManagerLogin>;
@@ -173,7 +175,7 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateManagerLoginArgs,
+    data: MutationCreateManagerLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagerLogin> => {
     // clear from fields forbidden for user
@@ -254,7 +256,7 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateManagerLoginArgs,
+    data: MutationUpdateManagerLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagerLogin> => {
     // Get db version
@@ -308,7 +310,7 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateManagerLoginArgs,
+    data: MutationUpdateManagerLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagerLogin> => {
     // Get db version
@@ -348,7 +350,7 @@ export const getManagerLoginsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: ManagerLoginFilter,
-    data: MutationCreateManagerLoginArgs,
+    data: MutationCreateManagerLoginArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagerLogin> => {
     const cnt = await count({filter});

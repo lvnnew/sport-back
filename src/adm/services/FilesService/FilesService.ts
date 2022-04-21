@@ -41,6 +41,8 @@ export type StrictCreateFileArgs = DefinedFieldsInRecord<MutationCreateFileArgs,
 export type StrictUpdateFileArgs = DefinedFieldsInRecord<MutationUpdateFileArgs, RequiredDbNotUserFileKeys> & AutodefinableFilePart;
 
 export type StrictCreateFileArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateFileArgs, AutodefinableFileKeys>;
+export type MutationCreateFileArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateFileArgs, AutodefinableFileKeys>;
+export type MutationUpdateFileArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateFileArgs, AutodefinableFileKeys>;
 
 export interface BaseFilesMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseFilesMethods {
     Promise<number>;
   meta: (params?: Query_AllFilesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateFileArgs, byUser?: boolean) =>
+  create: (data: MutationCreateFileArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<File>;
   createMany: (data: StrictCreateFileArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateFileArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateFileArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<File>;
-  upsert: (data: MutationUpdateFileArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateFileArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<File>;
   upsertAdvanced: (
     filter: FileFilter,
-    data: MutationCreateFileArgs,
+    data: MutationCreateFileArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<File>;
@@ -174,7 +176,7 @@ export const getFilesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateFileArgs,
+    data: MutationCreateFileArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<File> => {
     // clear from fields forbidden for user
@@ -255,7 +257,7 @@ export const getFilesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateFileArgs,
+    data: MutationUpdateFileArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<File> => {
     // Get db version
@@ -309,7 +311,7 @@ export const getFilesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateFileArgs,
+    data: MutationUpdateFileArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<File> => {
     // Get db version
@@ -349,7 +351,7 @@ export const getFilesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: FileFilter,
-    data: MutationCreateFileArgs,
+    data: MutationCreateFileArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<File> => {
     const cnt = await count({filter});

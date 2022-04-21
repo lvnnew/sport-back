@@ -27,7 +27,7 @@ const forbiddenForUserFields: string[] = [
   'tenantId',
 ];
 
-export type AutodefinableManagerKeys = never;
+export type AutodefinableManagerKeys = 'headOfUnit' | 'active';
 export type ForbidenForUserManagerKeys = 'tenantId';
 export type RequiredDbNotUserManagerKeys = never;
 
@@ -43,6 +43,8 @@ export type StrictCreateManagerArgs = DefinedFieldsInRecord<MutationCreateManage
 export type StrictUpdateManagerArgs = DefinedFieldsInRecord<MutationUpdateManagerArgs, RequiredDbNotUserManagerKeys> & AutodefinableManagerPart;
 
 export type StrictCreateManagerArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagerArgs, AutodefinableManagerKeys>;
+export type MutationCreateManagerArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateManagerArgs, AutodefinableManagerKeys>;
+export type MutationUpdateManagerArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateManagerArgs, AutodefinableManagerKeys>;
 
 export interface BaseManagersMethods {
   get: (id: number) =>
@@ -59,17 +61,17 @@ export interface BaseManagersMethods {
     Promise<number>;
   meta: (params?: Query_AllManagersMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagerArgs, byUser?: boolean) =>
+  create: (data: MutationCreateManagerArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Manager>;
   createMany: (data: StrictCreateManagerArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagerArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateManagerArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Manager>;
-  upsert: (data: MutationUpdateManagerArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateManagerArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Manager>;
   upsertAdvanced: (
     filter: ManagerFilter,
-    data: MutationCreateManagerArgs,
+    data: MutationCreateManagerArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Manager>;
@@ -120,7 +122,21 @@ export const getManagersService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableManagerPart> => currentData as T;
+  ): Promise<T & AutodefinableManagerPart> => {
+    const defaultFieldConstructors = {
+      headOfUnit: async () => false,
+      active: async () => true,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableManagerPart;
+  };
 
   const all = async (
     params: QueryAllManagersArgs = {},
@@ -181,7 +197,7 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateManagerArgs,
+    data: MutationCreateManagerArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Manager> => {
     // clear from fields forbidden for user
@@ -262,7 +278,7 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateManagerArgs,
+    data: MutationUpdateManagerArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Manager> => {
     // Get db version
@@ -316,7 +332,7 @@ export const getManagersService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateManagerArgs,
+    data: MutationUpdateManagerArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Manager> => {
     // Get db version
@@ -356,7 +372,7 @@ export const getManagersService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: ManagerFilter,
-    data: MutationCreateManagerArgs,
+    data: MutationCreateManagerArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Manager> => {
     const cnt = await count({filter});

@@ -41,6 +41,8 @@ export type StrictCreateAppRefreshTokenArgs = DefinedFieldsInRecord<MutationCrea
 export type StrictUpdateAppRefreshTokenArgs = DefinedFieldsInRecord<MutationUpdateAppRefreshTokenArgs, RequiredDbNotUserAppRefreshTokenKeys> & AutodefinableAppRefreshTokenPart;
 
 export type StrictCreateAppRefreshTokenArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAppRefreshTokenArgs, AutodefinableAppRefreshTokenKeys>;
+export type MutationCreateAppRefreshTokenArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateAppRefreshTokenArgs, AutodefinableAppRefreshTokenKeys>;
+export type MutationUpdateAppRefreshTokenArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateAppRefreshTokenArgs, AutodefinableAppRefreshTokenKeys>;
 
 export interface BaseAppRefreshTokensMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseAppRefreshTokensMethods {
     Promise<number>;
   meta: (params?: Query_AllAppRefreshTokensMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAppRefreshTokenArgs, byUser?: boolean) =>
+  create: (data: MutationCreateAppRefreshTokenArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppRefreshToken>;
   createMany: (data: StrictCreateAppRefreshTokenArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAppRefreshTokenArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppRefreshToken>;
-  upsert: (data: MutationUpdateAppRefreshTokenArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppRefreshToken>;
   upsertAdvanced: (
     filter: AppRefreshTokenFilter,
-    data: MutationCreateAppRefreshTokenArgs,
+    data: MutationCreateAppRefreshTokenArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<AppRefreshToken>;
@@ -173,7 +175,7 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateAppRefreshTokenArgs,
+    data: MutationCreateAppRefreshTokenArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppRefreshToken> => {
     // clear from fields forbidden for user
@@ -254,7 +256,7 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAppRefreshTokenArgs,
+    data: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppRefreshToken> => {
     // Get db version
@@ -308,7 +310,7 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAppRefreshTokenArgs,
+    data: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppRefreshToken> => {
     // Get db version
@@ -348,7 +350,7 @@ export const getAppRefreshTokensService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: AppRefreshTokenFilter,
-    data: MutationCreateAppRefreshTokenArgs,
+    data: MutationCreateAppRefreshTokenArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AppRefreshToken> => {
     const cnt = await count({filter});

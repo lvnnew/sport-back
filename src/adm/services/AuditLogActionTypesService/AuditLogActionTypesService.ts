@@ -40,6 +40,8 @@ export type StrictCreateAuditLogActionTypeArgs = DefinedFieldsInRecord<MutationC
 export type StrictUpdateAuditLogActionTypeArgs = DefinedFieldsInRecord<MutationUpdateAuditLogActionTypeArgs, RequiredDbNotUserAuditLogActionTypeKeys> & AutodefinableAuditLogActionTypePart;
 
 export type StrictCreateAuditLogActionTypeArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAuditLogActionTypeArgs, AutodefinableAuditLogActionTypeKeys>;
+export type MutationCreateAuditLogActionTypeArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateAuditLogActionTypeArgs, AutodefinableAuditLogActionTypeKeys>;
+export type MutationUpdateAuditLogActionTypeArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateAuditLogActionTypeArgs, AutodefinableAuditLogActionTypeKeys>;
 
 export interface BaseAuditLogActionTypesMethods {
   get: (id: string) =>
@@ -56,17 +58,17 @@ export interface BaseAuditLogActionTypesMethods {
     Promise<number>;
   meta: (params?: Query_AllAuditLogActionTypesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAuditLogActionTypeArgs, byUser?: boolean) =>
+  create: (data: MutationCreateAuditLogActionTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLogActionType>;
   createMany: (data: StrictCreateAuditLogActionTypeArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAuditLogActionTypeArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateAuditLogActionTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLogActionType>;
-  upsert: (data: MutationUpdateAuditLogActionTypeArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateAuditLogActionTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLogActionType>;
   upsertAdvanced: (
     filter: AuditLogActionTypeFilter,
-    data: MutationCreateAuditLogActionTypeArgs,
+    data: MutationCreateAuditLogActionTypeArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<AuditLogActionType>;
@@ -169,7 +171,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateAuditLogActionTypeArgs,
+    data: MutationCreateAuditLogActionTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLogActionType> => {
     // clear from fields forbidden for user
@@ -245,7 +247,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAuditLogActionTypeArgs,
+    data: MutationUpdateAuditLogActionTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLogActionType> => {
     // Get db version
@@ -292,7 +294,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAuditLogActionTypeArgs,
+    data: MutationUpdateAuditLogActionTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLogActionType> => {
     // Get db version
@@ -332,7 +334,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: AuditLogActionTypeFilter,
-    data: MutationCreateAuditLogActionTypeArgs,
+    data: MutationCreateAuditLogActionTypeArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AuditLogActionType> => {
     const cnt = await count({filter});

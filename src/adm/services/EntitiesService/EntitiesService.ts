@@ -40,6 +40,8 @@ export type StrictCreateEntityArgs = DefinedFieldsInRecord<MutationCreateEntityA
 export type StrictUpdateEntityArgs = DefinedFieldsInRecord<MutationUpdateEntityArgs, RequiredDbNotUserEntityKeys> & AutodefinableEntityPart;
 
 export type StrictCreateEntityArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateEntityArgs, AutodefinableEntityKeys>;
+export type MutationCreateEntityArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateEntityArgs, AutodefinableEntityKeys>;
+export type MutationUpdateEntityArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateEntityArgs, AutodefinableEntityKeys>;
 
 export interface BaseEntitiesMethods {
   get: (id: string) =>
@@ -56,17 +58,17 @@ export interface BaseEntitiesMethods {
     Promise<number>;
   meta: (params?: Query_AllEntitiesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateEntityArgs, byUser?: boolean) =>
+  create: (data: MutationCreateEntityArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Entity>;
   createMany: (data: StrictCreateEntityArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateEntityArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateEntityArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Entity>;
-  upsert: (data: MutationUpdateEntityArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateEntityArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Entity>;
   upsertAdvanced: (
     filter: EntityFilter,
-    data: MutationCreateEntityArgs,
+    data: MutationCreateEntityArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Entity>;
@@ -169,7 +171,7 @@ export const getEntitiesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateEntityArgs,
+    data: MutationCreateEntityArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Entity> => {
     // clear from fields forbidden for user
@@ -245,7 +247,7 @@ export const getEntitiesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateEntityArgs,
+    data: MutationUpdateEntityArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Entity> => {
     // Get db version
@@ -292,7 +294,7 @@ export const getEntitiesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateEntityArgs,
+    data: MutationUpdateEntityArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Entity> => {
     // Get db version
@@ -332,7 +334,7 @@ export const getEntitiesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: EntityFilter,
-    data: MutationCreateEntityArgs,
+    data: MutationCreateEntityArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Entity> => {
     const cnt = await count({filter});

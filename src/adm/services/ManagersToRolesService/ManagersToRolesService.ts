@@ -41,6 +41,8 @@ export type StrictCreateManagersToRoleArgs = DefinedFieldsInRecord<MutationCreat
 export type StrictUpdateManagersToRoleArgs = DefinedFieldsInRecord<MutationUpdateManagersToRoleArgs, RequiredDbNotUserManagersToRoleKeys> & AutodefinableManagersToRolePart;
 
 export type StrictCreateManagersToRoleArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateManagersToRoleArgs, AutodefinableManagersToRoleKeys>;
+export type MutationCreateManagersToRoleArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateManagersToRoleArgs, AutodefinableManagersToRoleKeys>;
+export type MutationUpdateManagersToRoleArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateManagersToRoleArgs, AutodefinableManagersToRoleKeys>;
 
 export interface BaseManagersToRolesMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseManagersToRolesMethods {
     Promise<number>;
   meta: (params?: Query_AllManagersToRolesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateManagersToRoleArgs, byUser?: boolean) =>
+  create: (data: MutationCreateManagersToRoleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagersToRole>;
   createMany: (data: StrictCreateManagersToRoleArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateManagersToRoleArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateManagersToRoleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagersToRole>;
-  upsert: (data: MutationUpdateManagersToRoleArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateManagersToRoleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagersToRole>;
   upsertAdvanced: (
     filter: ManagersToRoleFilter,
-    data: MutationCreateManagersToRoleArgs,
+    data: MutationCreateManagersToRoleArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<ManagersToRole>;
@@ -171,7 +173,7 @@ export const getManagersToRolesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateManagersToRoleArgs,
+    data: MutationCreateManagersToRoleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToRole> => {
     // clear from fields forbidden for user
@@ -252,7 +254,7 @@ export const getManagersToRolesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateManagersToRoleArgs,
+    data: MutationUpdateManagersToRoleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToRole> => {
     // Get db version
@@ -306,7 +308,7 @@ export const getManagersToRolesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateManagersToRoleArgs,
+    data: MutationUpdateManagersToRoleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToRole> => {
     // Get db version
@@ -346,7 +348,7 @@ export const getManagersToRolesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: ManagersToRoleFilter,
-    data: MutationCreateManagersToRoleArgs,
+    data: MutationCreateManagersToRoleArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<ManagersToRole> => {
     const cnt = await count({filter});

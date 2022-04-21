@@ -41,6 +41,8 @@ export type StrictCreateMessageTemplateArgs = DefinedFieldsInRecord<MutationCrea
 export type StrictUpdateMessageTemplateArgs = DefinedFieldsInRecord<MutationUpdateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
 
 export type StrictCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
+export type MutationCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
+export type MutationUpdateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
 
 export interface BaseMessageTemplatesMethods {
   get: (id: string) =>
@@ -57,17 +59,17 @@ export interface BaseMessageTemplatesMethods {
     Promise<number>;
   meta: (params?: Query_AllMessageTemplatesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateMessageTemplateArgs, byUser?: boolean) =>
+  create: (data: MutationCreateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageTemplate>;
   createMany: (data: StrictCreateMessageTemplateArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateMessageTemplateArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageTemplate>;
-  upsert: (data: MutationUpdateMessageTemplateArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageTemplate>;
   upsertAdvanced: (
     filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgs,
+    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<MessageTemplate>;
@@ -171,7 +173,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateMessageTemplateArgs,
+    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageTemplate> => {
     // clear from fields forbidden for user
@@ -252,7 +254,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateMessageTemplateArgs,
+    data: MutationUpdateMessageTemplateArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageTemplate> => {
     // Get db version
@@ -306,7 +308,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateMessageTemplateArgs,
+    data: MutationUpdateMessageTemplateArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageTemplate> => {
     // Get db version
@@ -346,7 +348,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgs,
+    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<MessageTemplate> => {
     const cnt = await count({filter});

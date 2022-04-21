@@ -2627,6 +2627,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "headOfUnit",
      "needFor": "",
@@ -2645,6 +2647,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "true",
+     "defaultValueExpression": "true",
      "hidden": false,
      "name": "active",
      "needFor": "",

@@ -41,6 +41,8 @@ export type StrictCreateAutogenerationHistoryEntryArgs = DefinedFieldsInRecord<M
 export type StrictUpdateAutogenerationHistoryEntryArgs = DefinedFieldsInRecord<MutationUpdateAutogenerationHistoryEntryArgs, RequiredDbNotUserAutogenerationHistoryEntryKeys> & AutodefinableAutogenerationHistoryEntryPart;
 
 export type StrictCreateAutogenerationHistoryEntryArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateAutogenerationHistoryEntryArgs, AutodefinableAutogenerationHistoryEntryKeys>;
+export type MutationCreateAutogenerationHistoryEntryArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateAutogenerationHistoryEntryArgs, AutodefinableAutogenerationHistoryEntryKeys>;
+export type MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateAutogenerationHistoryEntryArgs, AutodefinableAutogenerationHistoryEntryKeys>;
 
 export interface BaseAutogenerationHistoryEntriesMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseAutogenerationHistoryEntriesMethods {
     Promise<number>;
   meta: (params?: Query_AllAutogenerationHistoryEntriesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateAutogenerationHistoryEntryArgs, byUser?: boolean) =>
+  create: (data: MutationCreateAutogenerationHistoryEntryArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationHistoryEntry>;
   createMany: (data: StrictCreateAutogenerationHistoryEntryArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateAutogenerationHistoryEntryArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationHistoryEntry>;
-  upsert: (data: MutationUpdateAutogenerationHistoryEntryArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationHistoryEntry>;
   upsertAdvanced: (
     filter: AutogenerationHistoryEntryFilter,
-    data: MutationCreateAutogenerationHistoryEntryArgs,
+    data: MutationCreateAutogenerationHistoryEntryArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<AutogenerationHistoryEntry>;
@@ -176,7 +178,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateAutogenerationHistoryEntryArgs,
+    data: MutationCreateAutogenerationHistoryEntryArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
     // clear from fields forbidden for user
@@ -257,7 +259,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateAutogenerationHistoryEntryArgs,
+    data: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
     // Get db version
@@ -311,7 +313,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAutogenerationHistoryEntryArgs,
+    data: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
     // Get db version
@@ -351,7 +353,7 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: AutogenerationHistoryEntryFilter,
-    data: MutationCreateAutogenerationHistoryEntryArgs,
+    data: MutationCreateAutogenerationHistoryEntryArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
     const cnt = await count({filter});

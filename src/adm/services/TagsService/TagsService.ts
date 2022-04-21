@@ -41,6 +41,8 @@ export type StrictCreateTagArgs = DefinedFieldsInRecord<MutationCreateTagArgs, R
 export type StrictUpdateTagArgs = DefinedFieldsInRecord<MutationUpdateTagArgs, RequiredDbNotUserTagKeys> & AutodefinableTagPart;
 
 export type StrictCreateTagArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateTagArgs, AutodefinableTagKeys>;
+export type MutationCreateTagArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateTagArgs, AutodefinableTagKeys>;
+export type MutationUpdateTagArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateTagArgs, AutodefinableTagKeys>;
 
 export interface BaseTagsMethods {
   get: (id: number) =>
@@ -57,17 +59,17 @@ export interface BaseTagsMethods {
     Promise<number>;
   meta: (params?: Query_AllTagsMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateTagArgs, byUser?: boolean) =>
+  create: (data: MutationCreateTagArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tag>;
   createMany: (data: StrictCreateTagArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateTagArgs, byUser?: boolean) =>
+  update: ({id, ...rest}: MutationUpdateTagArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tag>;
-  upsert: (data: MutationUpdateTagArgs, byUser?: boolean) =>
+  upsert: (data: MutationUpdateTagArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tag>;
   upsertAdvanced: (
     filter: TagFilter,
-    data: MutationCreateTagArgs,
+    data: MutationCreateTagArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
     Promise<Tag>;
@@ -170,7 +172,7 @@ export const getTagsService = (ctx: Context) => {
   };
 
   const create = async (
-    data: MutationCreateTagArgs,
+    data: MutationCreateTagArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tag> => {
     // clear from fields forbidden for user
@@ -251,7 +253,7 @@ export const getTagsService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateTagArgs,
+    data: MutationUpdateTagArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tag> => {
     // Get db version
@@ -305,7 +307,7 @@ export const getTagsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateTagArgs,
+    data: MutationUpdateTagArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tag> => {
     // Get db version
@@ -345,7 +347,7 @@ export const getTagsService = (ctx: Context) => {
 
   const upsertAdvanced = async (
     filter: TagFilter,
-    data: MutationCreateTagArgs,
+    data: MutationCreateTagArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Tag> => {
     const cnt = await count({filter});
