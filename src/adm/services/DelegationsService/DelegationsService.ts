@@ -323,7 +323,8 @@ export const getDelegationsService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateDelegationArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Delegation);
+    const augmented: StrictUpdateDelegationArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Delegation);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

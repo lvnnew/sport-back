@@ -320,7 +320,8 @@ export const getRolesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateRoleArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Role);
+    const augmented: StrictUpdateRoleArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Role);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

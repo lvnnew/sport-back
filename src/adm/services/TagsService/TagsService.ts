@@ -320,7 +320,8 @@ export const getTagsService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateTagArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Tag);
+    const augmented: StrictUpdateTagArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Tag);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

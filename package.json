@@ -37,7 +37,11 @@
     "testEnvironment": "node",
     "modulePathIgnorePatterns": [
       "<rootDir>/dist/"
-    ]
+    ],
+    "setupFilesAfterEnv": [
+      "jest-extended/all"
+    ],
+    "testTimeout": 120000
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.5.3",

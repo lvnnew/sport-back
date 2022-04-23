@@ -326,7 +326,8 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateAutogenerationHistoryEntryArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AutogenerationHistoryEntry);
+    const augmented: StrictUpdateAutogenerationHistoryEntryArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as AutogenerationHistoryEntry);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

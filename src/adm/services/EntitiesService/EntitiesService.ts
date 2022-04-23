@@ -307,7 +307,8 @@ export const getEntitiesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateEntityArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Entity);
+    const augmented: StrictUpdateEntityArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Entity);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

@@ -2,6 +2,7 @@
 
 enum Entity {
   AdmRefreshToken = 'admRefreshToken',
+  AggregateTracking = 'aggregateTracking',
   AppLogin = 'appLogin',
   AppRefreshToken = 'appRefreshToken',
   AuditLogActionType = 'auditLogActionType',

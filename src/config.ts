@@ -19,10 +19,12 @@ export const getFromNconf = (name: string): string | undefined => nconf.get(cons
 
 const envConfig = {
   admJwtSecret: getFromNconf('adm.jwt.secret'),
+  adminRecaptchaRequiredScore: getFromNconf('admin.recaptcha.requiredScore'),
   adminRecaptchaSecretKey: getFromNconf('admin.recaptcha.secretKey'),
   appJwtSecret: getFromNconf('app.jwt.secret'),
   appName: getFromNconf('appName'),
   appTitle: getFromNconf('appTitle'),
+  customerRecaptchaRequiredScore: getFromNconf('customer.recaptcha.requiredScore'),
   customerRecaptchaSecretKey: getFromNconf('customer.recaptcha.secretKey'),
   databaseUri: getFromNconf('database.uri'),
   graphqlPlaygroundEnabled: getFromNconf('graphql.playground.enabled'),

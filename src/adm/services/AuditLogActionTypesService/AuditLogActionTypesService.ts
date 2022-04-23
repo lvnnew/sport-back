@@ -307,7 +307,8 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateAuditLogActionTypeArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AuditLogActionType);
+    const augmented: StrictUpdateAuditLogActionTypeArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as AuditLogActionType);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

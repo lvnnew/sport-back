@@ -1,4 +1,5 @@
 import {AdmRefreshTokensService} from './AdmRefreshTokensService/AdmRefreshTokensService';
+import {AggregateTrackingsService} from './AggregateTrackingsService/AggregateTrackingsService';
 import {AppLoginsService} from './AppLoginsService/AppLoginsService';
 import {AppRefreshTokensService} from './AppRefreshTokensService/AppRefreshTokensService';
 import {AuditLogActionTypesService} from './AuditLogActionTypesService/AuditLogActionTypesService';
@@ -30,6 +31,7 @@ import {HelpService} from './HelpService/HelpService';
 export interface BaseServices {
   help: HelpService;
   admRefreshTokens: AdmRefreshTokensService;
+  aggregateTrackings: AggregateTrackingsService;
   appLogins: AppLoginsService;
   appRefreshTokens: AppRefreshTokensService;
   auditLogActionTypes: AuditLogActionTypesService;

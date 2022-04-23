@@ -6,6 +6,7 @@ export interface HelpService {
 
 const infoFilesForService = {
   admRefreshTokens: 'docs/catalogs/admRefreshTokens.md',
+  aggregateTrackings: 'docs/infoRegistries/aggregateTrackings.md',
   appLogins: 'docs/catalogs/appLogins.md',
   appRefreshTokens: 'docs/catalogs/appRefreshTokens.md',
   auditLogActionTypes: 'docs/catalogs/auditLogActionTypes.md',

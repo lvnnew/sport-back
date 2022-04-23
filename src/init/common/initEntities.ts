@@ -9,6 +9,10 @@ const initEntities = async (ctx: Context) => {
     title: 'Ui refresh tokens',
   });
   await ctx.service('entities').upsert({
+    id: Entity.AggregateTracking,
+    title: 'Aggregate Trackings',
+  });
+  await ctx.service('entities').upsert({
     id: Entity.AppLogin,
     title: 'Логины пользователей',
   });

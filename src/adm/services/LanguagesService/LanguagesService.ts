@@ -320,7 +320,8 @@ export const getLanguagesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateLanguageArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Language);
+    const augmented: StrictUpdateLanguageArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Language);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

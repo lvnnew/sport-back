@@ -8,18 +8,28 @@ interface reCaptchaResponse {
 }
 
 async function reCaptchaValidate(token: string): Promise<{validated: boolean; score: number;}> {
-  const {customerRecaptchaSecretKey} = await getConfig();
+  const {
+    customerRecaptchaSecretKey,
+    customerRecaptchaRequiredScore,
+  } = await getConfig();
+
+  if (
+    !customerRecaptchaSecretKey ||
+    !customerRecaptchaRequiredScore
+  ) {
+    throw new Error('There is no config for recaptcha');
+  }
 
   try {
     const res = await axios.post<reCaptchaResponse>(
       `https://www.google.com/recaptcha/api/siteverify?secret=${customerRecaptchaSecretKey}&response=${token}`,
     );
 
-    log.info(res.data);
+    log.info(JSON.stringify(res.data, null, 1));
     const score = res.data.success && res.data.score || 0;
 
     return {
-      validated: score >= 0.7,
+      validated: score >= Number.parseFloat(customerRecaptchaRequiredScore),
       score,
     };
   } catch (error) {

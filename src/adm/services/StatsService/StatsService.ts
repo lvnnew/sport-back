@@ -322,7 +322,8 @@ export const getStatsService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateStatArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Stat);
+    const augmented: StrictUpdateStatArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Stat);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

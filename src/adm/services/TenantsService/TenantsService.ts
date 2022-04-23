@@ -321,7 +321,8 @@ export const getTenantsService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateTenantArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Tenant);
+    const augmented: StrictUpdateTenantArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Tenant);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

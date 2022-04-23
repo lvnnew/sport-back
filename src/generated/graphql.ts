@@ -201,6 +201,9 @@ export type Query = {
   AdmRefreshToken?: Maybe<AdmRefreshToken>;
   allAdmRefreshTokens?: Maybe<Array<Maybe<AdmRefreshToken>>>;
   _allAdmRefreshTokensMeta?: Maybe<ListMetadata>;
+  AggregateTracking?: Maybe<AggregateTracking>;
+  allAggregateTrackings?: Maybe<Array<Maybe<AggregateTracking>>>;
+  _allAggregateTrackingsMeta?: Maybe<ListMetadata>;
   AppLogin?: Maybe<AppLogin>;
   allAppLogins?: Maybe<Array<Maybe<AppLogin>>>;
   _allAppLoginsMeta?: Maybe<ListMetadata>;
@@ -299,6 +302,27 @@ export type Query_AllAdmRefreshTokensMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<AdmRefreshTokenFilter>;
+};
+
+
+export type QueryAggregateTrackingArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllAggregateTrackingsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<AggregateTrackingFilter>;
+};
+
+
+export type Query_AllAggregateTrackingsMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<AggregateTrackingFilter>;
 };
 
 
@@ -820,6 +844,9 @@ export type Mutation = {
   createAdmRefreshToken?: Maybe<AdmRefreshToken>;
   updateAdmRefreshToken?: Maybe<AdmRefreshToken>;
   removeAdmRefreshToken?: Maybe<AdmRefreshToken>;
+  createAggregateTracking?: Maybe<AggregateTracking>;
+  updateAggregateTracking?: Maybe<AggregateTracking>;
+  removeAggregateTracking?: Maybe<AggregateTracking>;
   createAppLogin?: Maybe<AppLogin>;
   updateAppLogin?: Maybe<AppLogin>;
   removeAppLogin?: Maybe<AppLogin>;
@@ -912,6 +939,30 @@ export type MutationUpdateAdmRefreshTokenArgs = {
 
 
 export type MutationRemoveAdmRefreshTokenArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateAggregateTrackingArgs = {
+  entityTypeId: Scalars['String'];
+  entityId: Scalars['String'];
+  lastAggregatesComputed: Scalars['DateTime'];
+  lastEntityUpdate: Scalars['DateTime'];
+  aggregateVersion: Scalars['Int'];
+};
+
+
+export type MutationUpdateAggregateTrackingArgs = {
+  id: Scalars['Int'];
+  entityTypeId: Scalars['String'];
+  entityId: Scalars['String'];
+  lastAggregatesComputed: Scalars['DateTime'];
+  lastEntityUpdate: Scalars['DateTime'];
+  aggregateVersion: Scalars['Int'];
+};
+
+
+export type MutationRemoveAggregateTrackingArgs = {
   id: Scalars['Int'];
 };
 
@@ -1438,6 +1489,42 @@ export type MutationRemoveUserArgs = {
   id: Scalars['Int'];
 };
 
+export type AggregateTracking = {
+  __typename?: 'AggregateTracking';
+  id: Scalars['Int'];
+  entityTypeId: Scalars['String'];
+  entityId: Scalars['String'];
+  lastAggregatesComputed: Scalars['DateTime'];
+  lastEntityUpdate: Scalars['DateTime'];
+  aggregateVersion: Scalars['Int'];
+};
+
+export type AggregateTrackingFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
+  entityTypeId?: InputMaybe<Scalars['String']>;
+  entityTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entityId?: InputMaybe<Scalars['String']>;
+  entityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lastAggregatesComputed?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesComputed_lte?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesComputed_gte?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesComputed_lt?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesComputed_gt?: InputMaybe<Scalars['DateTime']>;
+  lastEntityUpdate?: InputMaybe<Scalars['DateTime']>;
+  lastEntityUpdate_lte?: InputMaybe<Scalars['DateTime']>;
+  lastEntityUpdate_gte?: InputMaybe<Scalars['DateTime']>;
+  lastEntityUpdate_lt?: InputMaybe<Scalars['DateTime']>;
+  lastEntityUpdate_gt?: InputMaybe<Scalars['DateTime']>;
+  aggregateVersion?: InputMaybe<Scalars['Int']>;
+  aggregateVersion_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  aggregateVersion_lte?: InputMaybe<Scalars['Int']>;
+  aggregateVersion_gte?: InputMaybe<Scalars['Int']>;
+  aggregateVersion_lt?: InputMaybe<Scalars['Int']>;
+  aggregateVersion_gt?: InputMaybe<Scalars['Int']>;
+};
+
 export type AppLogin = {
   __typename?: 'AppLogin';
   id: Scalars['Int'];
@@ -1679,6 +1766,7 @@ export type FileFilter = {
 
 export enum EntityType {
   AdmRefreshTokens = 'admRefreshTokens',
+  AggregateTrackings = 'aggregateTrackings',
   AppLogins = 'appLogins',
   AppRefreshTokens = 'appRefreshTokens',
   AuditLogActionTypes = 'auditLogActionTypes',
@@ -2157,6 +2245,8 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  AggregateTracking: ResolverTypeWrapper<AggregateTracking>;
+  AggregateTrackingFilter: AggregateTrackingFilter;
   AppLogin: ResolverTypeWrapper<AppLogin>;
   AppLoginFilter: AppLoginFilter;
   AppRefreshToken: ResolverTypeWrapper<AppRefreshToken>;
@@ -2278,6 +2368,8 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   Mutation: {};
   Boolean: Scalars['Boolean'];
+  AggregateTracking: AggregateTracking;
+  AggregateTrackingFilter: AggregateTrackingFilter;
   AppLogin: AppLogin;
   AppLoginFilter: AppLoginFilter;
   AppRefreshToken: AppRefreshToken;
@@ -2578,6 +2670,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   AdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<QueryAdmRefreshTokenArgs, 'id'>>;
   allAdmRefreshTokens?: Resolver<Maybe<Array<Maybe<ResolversTypes['AdmRefreshToken']>>>, ParentType, ContextType, Partial<QueryAllAdmRefreshTokensArgs>>;
   _allAdmRefreshTokensMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllAdmRefreshTokensMetaArgs>>;
+  AggregateTracking?: Resolver<Maybe<ResolversTypes['AggregateTracking']>, ParentType, ContextType, RequireFields<QueryAggregateTrackingArgs, 'id'>>;
+  allAggregateTrackings?: Resolver<Maybe<Array<Maybe<ResolversTypes['AggregateTracking']>>>, ParentType, ContextType, Partial<QueryAllAggregateTrackingsArgs>>;
+  _allAggregateTrackingsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllAggregateTrackingsMetaArgs>>;
   AppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<QueryAppLoginArgs, 'id'>>;
   allAppLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['AppLogin']>>>, ParentType, ContextType, Partial<QueryAllAppLoginsArgs>>;
   _allAppLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllAppLoginsMetaArgs>>;
@@ -2661,6 +2756,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<MutationCreateAdmRefreshTokenArgs, 'create' | 'managerId' | 'token'>>;
   updateAdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<MutationUpdateAdmRefreshTokenArgs, 'id' | 'create' | 'managerId' | 'token'>>;
   removeAdmRefreshToken?: Resolver<Maybe<ResolversTypes['AdmRefreshToken']>, ParentType, ContextType, RequireFields<MutationRemoveAdmRefreshTokenArgs, 'id'>>;
+  createAggregateTracking?: Resolver<Maybe<ResolversTypes['AggregateTracking']>, ParentType, ContextType, RequireFields<MutationCreateAggregateTrackingArgs, 'entityTypeId' | 'entityId' | 'lastAggregatesComputed' | 'lastEntityUpdate' | 'aggregateVersion'>>;
+  updateAggregateTracking?: Resolver<Maybe<ResolversTypes['AggregateTracking']>, ParentType, ContextType, RequireFields<MutationUpdateAggregateTrackingArgs, 'id' | 'entityTypeId' | 'entityId' | 'lastAggregatesComputed' | 'lastEntityUpdate' | 'aggregateVersion'>>;
+  removeAggregateTracking?: Resolver<Maybe<ResolversTypes['AggregateTracking']>, ParentType, ContextType, RequireFields<MutationRemoveAggregateTrackingArgs, 'id'>>;
   createAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationCreateAppLoginArgs, 'login' | 'passwordHash' | 'userId'>>;
   updateAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationUpdateAppLoginArgs, 'id' | 'login' | 'passwordHash' | 'userId'>>;
   removeAppLogin?: Resolver<Maybe<ResolversTypes['AppLogin']>, ParentType, ContextType, RequireFields<MutationRemoveAppLoginArgs, 'id'>>;
@@ -2734,6 +2832,16 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
   removeUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRemoveUserArgs, 'id'>>;
+};
+
+export type AggregateTrackingResolvers<ContextType = any, ParentType extends ResolversParentTypes['AggregateTracking'] = ResolversParentTypes['AggregateTracking']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  entityTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastAggregatesComputed?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  lastEntityUpdate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  aggregateVersion?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type AppLoginResolvers<ContextType = any, ParentType extends ResolversParentTypes['AppLogin'] = ResolversParentTypes['AppLogin']> = {
@@ -3015,6 +3123,7 @@ export type Resolvers<ContextType = any> = {
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  AggregateTracking?: AggregateTrackingResolvers<ContextType>;
   AppLogin?: AppLoginResolvers<ContextType>;
   AppRefreshToken?: AppRefreshTokenResolvers<ContextType>;
   AuditLogActionType?: AuditLogActionTypeResolvers<ContextType>;

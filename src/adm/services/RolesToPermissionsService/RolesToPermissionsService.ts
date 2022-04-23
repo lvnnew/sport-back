@@ -321,7 +321,8 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateRolesToPermissionArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as RolesToPermission);
+    const augmented: StrictUpdateRolesToPermissionArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as RolesToPermission);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

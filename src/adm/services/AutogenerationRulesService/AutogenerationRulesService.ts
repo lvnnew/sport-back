@@ -326,7 +326,8 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateAutogenerationRuleArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AutogenerationRule);
+    const augmented: StrictUpdateAutogenerationRuleArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as AutogenerationRule);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

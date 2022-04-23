@@ -321,7 +321,8 @@ export const getMessageTypesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateMessageTypeArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as MessageType);
+    const augmented: StrictUpdateMessageTypeArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as MessageType);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

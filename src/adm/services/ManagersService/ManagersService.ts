@@ -345,7 +345,8 @@ export const getManagersService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateManagerArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as Manager);
+    const augmented: StrictUpdateManagerArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as Manager);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

@@ -7,6 +7,18 @@ datasource db {
   url      = env("DATABASE_URI")
 }
 
+model AggregateTracking {
+	id	Int	@default(autoincrement())	@id
+	entityTypeId	String
+	entityType	Entity	@relation("From-AggregateTracking.entityType", fields: [entityTypeId], references: [id])
+	entityId	String
+	lastAggregatesComputed	DateTime
+	lastEntityUpdate	DateTime
+	aggregateVersion	Int
+	@@unique([entityTypeId, entityId])
+}
+
+
 model AppRefreshToken {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -259,6 +271,7 @@ model Entity {
 	id	String	@id
 	search	String?
 	title	String?
+	aggregateTrackingEntityTypes	AggregateTracking[]	@relation("From-AggregateTracking.entityType")
 	auditLogEntityTypes	AuditLog[]	@relation("From-AuditLog.entityType")
 }
 

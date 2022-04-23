@@ -323,7 +323,8 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateAdmRefreshTokenArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AdmRefreshToken);
+    const augmented: StrictUpdateAdmRefreshTokenArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as AdmRefreshToken);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

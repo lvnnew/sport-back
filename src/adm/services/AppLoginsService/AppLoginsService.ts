@@ -322,7 +322,8 @@ export const getAppLoginsService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateAppLoginArgs = R.mergeLeft(augmentedByDefault, dbVersion || {} as AppLogin);
+    const augmented: StrictUpdateAppLoginArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as AppLogin);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {

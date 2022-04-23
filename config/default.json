@@ -1,9 +1,11 @@
 {
   "adm.jwt.secret": "admSecret",
+  "admin.recaptcha.requiredScore": "0.7",
   "admin.recaptcha.secretKey": "",
   "app.jwt.secret": "appSecret",
   "appName": "",
   "appTitle": "Meta Template Base",
+  "customer.recaptcha.requiredScore": "0.7",
   "customer.recaptcha.secretKey": "",
   "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
   "graphql.playground.enabled": "true",

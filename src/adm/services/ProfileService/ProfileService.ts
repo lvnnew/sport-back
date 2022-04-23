@@ -20,6 +20,8 @@ export interface ProfileService {
   getManagerId: () => number | null,
   setUserId: (userId: number) => void,
   setManagerId: (managerId: number) => void,
+  getAllowedTenantIdsOfManager: (managerId: number) => Promise<number[]>;
+  getAllowedTenantIdsOfUser: (userId: number) => Promise<number[]>;
   getAllowedTenantIds: () => Promise<number[]>;
   getRequiredTenantId: () => Promise<number>;
   getTenantId: () => Promise<number | null>;
@@ -152,31 +154,47 @@ export const getProfileService = (ctx: Context): ProfileService => {
     return getPermissionsOfManagerWithMeta(managerId);
   };
 
+  const getAllowedTenantIdsOfManager = async (managerId: number): Promise<number[]> => {
+    let tenantIds: number[] = [];
+    if (managersTenantIdsCache.has(managerId)) {
+      return managersTenantIdsCache.get(managerId);
+    }
+
+    const manager = await ctx.prisma.manager.findFirst({where: {id: managerId}});
+    if (manager && manager.tenantId) {
+      tenantIds = [manager.tenantId];
+      managersTenantIdsCache.set(managerId, tenantIds);
+    }
+
+    return tenantIds;
+  };
+
+  const getAllowedTenantIdsOfUser = async (userId: number): Promise<number[]> => {
+    let tenantIds: number[] = [];
+    if (userId) {
+      if (usersTenantIdsCache.has(userId)) {
+        return usersTenantIdsCache.get(userId);
+      }
+
+      const user = await ctx.prisma.user.findFirst({where: {id: userId}});
+      if (user && user.tenantId) {
+        tenantIds = [user.tenantId];
+        usersTenantIdsCache.set(userId, tenantIds);
+      }
+    }
+
+    return tenantIds;
+  };
+
   const getAllowedTenantIds = async (): Promise<number[]> => {
-    const managerId = ctx.service('profile').getManagerId();
+    const managerId = getManagerId();
     let res: number[] = [];
     if (managerId) {
-      if (managersTenantIdsCache.has(managerId)) {
-        return managersTenantIdsCache.get(managerId);
-      }
-
-      const manager = await ctx.prisma.manager.findFirst({where: {id: managerId}});
-      if (manager && manager.tenantId) {
-        res = [manager.tenantId];
-        managersTenantIdsCache.set(managerId, res);
-      }
+      res = await getAllowedTenantIdsOfManager(managerId);
     } else {
-      const userId = ctx.service('profile').getUserId();
+      const userId = getUserId();
       if (userId) {
-        if (usersTenantIdsCache.has(userId)) {
-          return usersTenantIdsCache.get(userId);
-        }
-
-        const user = await ctx.prisma.user.findFirst({where: {id: userId}});
-        if (user && user.tenantId) {
-          res = [user.tenantId];
-          usersTenantIdsCache.set(userId, res);
-        }
+        res = await getAllowedTenantIdsOfUser(userId);
       }
     }
 
@@ -212,6 +230,8 @@ export const getProfileService = (ctx: Context): ProfileService => {
     getManagerPermissions,
     setUserId,
     setManagerId,
+    getAllowedTenantIdsOfManager,
+    getAllowedTenantIdsOfUser,
     getAllowedTenantIds,
     getRequiredTenantId,
     getTenantId,
