@@ -26,8 +26,7 @@ const initManager = async (
 
   const manager = await ctx.service('managers').upsertAdvanced(
     {
-      lastName,
-      firstName,
+      email,
     },
     {
       email,
