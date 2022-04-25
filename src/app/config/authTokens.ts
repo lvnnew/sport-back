@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import {getConfig} from '../../config';
 import {v4 as uuid} from 'uuid';
 import {createContext} from '../../adm/services/context';
-import {TOKEN_EXPIRES_IN, REFRESH_TOKEN_LIVES} from './consts';
+import {APP_TOKEN_EXPIRES_IN, APP_REFRESH_TOKEN_LIVES} from './consts';
 
 export type AuthTokens = {
   token: string;
@@ -37,7 +37,7 @@ export const checkAndDestroyRefreshToken = async (userId: number, token: string,
     throw new Error('Token is invalid');
   }
 
-  if (!ignoreExpiration && Date.now() - dbToken.create > REFRESH_TOKEN_LIVES) {
+  if (!ignoreExpiration && Date.now() - dbToken.create > APP_REFRESH_TOKEN_LIVES) {
     throw new Error('Token lifetime has run out');
   }
 
@@ -55,7 +55,7 @@ export const makeTokens = async (userId: number): Promise<AuthTokens> => {
   const ctx = await createContext();
 
   const token = jwt.sign({id: userId}, appJwtSecret, {
-    expiresIn: TOKEN_EXPIRES_IN,
+    expiresIn: APP_TOKEN_EXPIRES_IN,
   });
 
   const refreshToken = uuid();
@@ -79,7 +79,7 @@ export const getJWTMemberIdOffExpiration = async (jwtToken?: string): Promise<nu
       throw new Error('appJwtSecret not proovided');
     }
 
-    const jwtPayload = jwt.verify(jwtToken, appJwtSecret, {ignoreExpiration: true});
+    const jwtPayload = jwt.verify(jwtToken, appJwtSecret, {ignoreExpiration: false});
 
     // Todo: check when jwtPayload type is string, I could not check
     if (typeof jwtPayload === 'object' && jwtPayload.id) {

@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import jwtSecret from './jwtConfig';
 import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {createContext} from '../services/context';
 import LRUCache from 'lru-cache';
+import {getConfig} from '../../config';
 
 const cache = new LRUCache({
   max: 500,
@@ -117,30 +117,38 @@ passport.use(
   ),
 );
 
-const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: jwtSecret.secret,
-  ignoreExpiration: true,
+export const initAdmPassport = async () => {
+  const {admJwtSecret} = await getConfig();
+  if (!admJwtSecret) {
+    throw new Error('admJwtSecret is not provided');
+  }
+
+  return passport.use(
+    'admJwt',
+    new JWTstrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: admJwtSecret,
+        ignoreExpiration: false,
+      },
+      async (jwtPayload, done) => {
+        try {
+          // log.info(jwtPayload);
+          if (!jwtPayload.id) {
+            log.error('Jwt. There is no id in payload');
+            done(null, null);
+
+            return;
+          }
+
+          done(null, {
+            id: jwtPayload.id,
+            permissions: await getPermissions(jwtPayload.managerId),
+          });
+        } catch (error: any) {
+          done(error, null);
+        }
+      },
+    ),
+  );
 };
-
-export const initAdmPassport = () => passport.use(
-  'admJwt',
-  new JWTstrategy(opts, async (jwtPayload, done) => {
-    try {
-      // log.info(jwtPayload);
-      if (!jwtPayload.id) {
-        log.error('Jwt. There is no id in payload');
-        done(null, null);
-
-        return;
-      }
-
-      done(null, {
-        id: jwtPayload.id,
-        permissions: await getPermissions(jwtPayload.managerId),
-      });
-    } catch (error: any) {
-      done(error, null);
-    }
-  }),
-);

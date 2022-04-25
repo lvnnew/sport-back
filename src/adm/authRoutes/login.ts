@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
-import jwtSecret from '../config/jwtConfig';
 import {NextFunction, Request, Response} from 'express';
 import {AppErrorCode} from '../../types/enums';
 import log from '../../log';
+import {ADM_TOKEN_EXPIRES_IN} from '../config/consts';
+import {getConfig} from '../../config';
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('admLogin', async (error, user, info) => {
@@ -28,8 +29,14 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
       req.logIn(user, async () => {
         log.warn(user);
         log.warn(user.id);
-        const token = jwt.sign({id: user.id}, jwtSecret.secret, {
-          expiresIn: '1y',
+
+        const {admJwtSecret} = await getConfig();
+        if (!admJwtSecret) {
+          throw new Error('admJwtSecret is not provided');
+        }
+
+        const token = jwt.sign({id: user.id}, admJwtSecret, {
+          expiresIn: ADM_TOKEN_EXPIRES_IN,
         });
         res.status(200).send({
           auth: true,

@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import jwtSecret from './jwtConfig';
 import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {createContext} from '../../adm/services/context';
 import generator from 'generate-password';
+import {getConfig} from '../../config';
 
 passport.use(
   'appRegister',
@@ -132,27 +132,35 @@ passport.use(
   ),
 );
 
-const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: jwtSecret.secret,
-  ignoreExpiration: true,
+export const initAppPassport = async () => {
+  const {appJwtSecret} = await getConfig();
+  if (!appJwtSecret) {
+    throw new Error('appJwtSecret is not provided');
+  }
+
+  return passport.use(
+    'appJwt',
+    new JWTstrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: appJwtSecret,
+        ignoreExpiration: false,
+      },
+      async (jwtPayload, done) => {
+        try {
+          // log.info(jwtPayload);
+          if (!jwtPayload.id) {
+            log.error('Jwt. There is no id in payload');
+            done(null, null);
+
+            return;
+          }
+
+          done(null, {id: jwtPayload.id});
+        } catch (error: any) {
+          done(error, null);
+        }
+      },
+    ),
+  );
 };
-
-export const initAppPassport = () => passport.use(
-  'appJwt',
-  new JWTstrategy(opts, async (jwtPayload, done) => {
-    try {
-      // log.info(jwtPayload);
-      if (!jwtPayload.id) {
-        log.error('Jwt. There is no id in payload');
-        done(null, null);
-
-        return;
-      }
-
-      done(null, {id: jwtPayload.id});
-    } catch (error: any) {
-      done(error, null);
-    }
-  }),
-);

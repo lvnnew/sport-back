@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
 import passport from 'passport';
-import jwtSecret from '../config/jwtConfig';
 import {NextFunction, Request, Response} from 'express';
 import {AppErrorCode} from '../../types/enums';
 import log from '../../log';
+import {APP_TOKEN_EXPIRES_IN} from '../config/consts';
+import {getConfig} from '../../config';
 
 export const loginUser = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate('login', async (error, user, info) => {
@@ -28,8 +29,13 @@ export const loginUser = (req: Request, res: Response, next: NextFunction) => {
       req.logIn(user, async () => {
         log.warn(user);
         log.warn(user.id);
-        const token = jwt.sign({id: user.id}, jwtSecret.secret, {
-          expiresIn: 60 * 60,
+        const {appJwtSecret} = await getConfig();
+        if (!appJwtSecret) {
+          throw new Error('appJwtSecret not proovided');
+        }
+
+        const token = jwt.sign({id: user.id}, appJwtSecret, {
+          expiresIn: APP_TOKEN_EXPIRES_IN,
         });
         res.status(200).send({
           auth: true,
