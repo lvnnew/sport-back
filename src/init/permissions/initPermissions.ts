@@ -2,7 +2,6 @@
 import initRoles from './initRoles';
 import {Context} from '../../adm/services/types';
 import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
-import log from '../../log';
 
 // yarn init:permissions
 // yarn init:permissions
@@ -25,8 +24,6 @@ const initPermissionsItself = async (ctx: Context) => {
     ...runtimePermissionIds,
     ...customPermissions,
   ];
-
-  log.info(permissions);
 
   await ctx.service('permissions').createMany(permissions.map(p => ({
     id: p,
