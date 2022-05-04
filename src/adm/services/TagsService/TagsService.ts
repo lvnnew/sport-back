@@ -274,10 +274,10 @@ export const getTagsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.tag.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

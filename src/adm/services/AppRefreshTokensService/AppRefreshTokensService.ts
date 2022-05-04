@@ -277,10 +277,10 @@ export const getAppRefreshTokensService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.appRefreshToken.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

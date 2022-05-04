@@ -275,10 +275,10 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.messageTemplate.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

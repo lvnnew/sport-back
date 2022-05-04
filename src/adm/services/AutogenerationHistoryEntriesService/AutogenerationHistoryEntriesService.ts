@@ -280,10 +280,10 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.autogenerationHistoryEntry.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

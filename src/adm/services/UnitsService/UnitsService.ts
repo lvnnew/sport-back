@@ -275,10 +275,10 @@ export const getUnitsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.unit.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

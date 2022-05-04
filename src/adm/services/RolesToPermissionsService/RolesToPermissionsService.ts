@@ -275,10 +275,10 @@ export const getRolesToPermissionsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.rolesToPermission.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

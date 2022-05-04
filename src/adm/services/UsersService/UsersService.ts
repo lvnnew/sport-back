@@ -280,10 +280,10 @@ export const getUsersService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.user.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

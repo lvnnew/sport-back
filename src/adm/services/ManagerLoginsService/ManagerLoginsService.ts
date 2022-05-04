@@ -277,10 +277,10 @@ export const getManagerLoginsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.managerLogin.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

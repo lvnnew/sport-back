@@ -274,10 +274,10 @@ export const getLanguagesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.language.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

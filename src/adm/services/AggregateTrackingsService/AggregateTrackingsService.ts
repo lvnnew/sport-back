@@ -268,8 +268,8 @@ export const getAggregateTrackingsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.aggregateTracking.update({
       data: R.mergeDeepLeft(
-        rest,
         {},
+        rest,
       ),
       where: {id},
     });

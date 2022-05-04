@@ -278,10 +278,10 @@ export const getAuditLogsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.auditLog.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

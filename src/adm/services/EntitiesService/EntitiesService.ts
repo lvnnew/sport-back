@@ -268,10 +268,10 @@ export const getEntitiesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.entity.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

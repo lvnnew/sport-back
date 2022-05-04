@@ -275,10 +275,10 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.managersToPermission.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

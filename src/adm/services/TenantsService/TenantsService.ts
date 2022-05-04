@@ -275,10 +275,10 @@ export const getTenantsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.tenant.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

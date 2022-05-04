@@ -277,10 +277,10 @@ export const getDelegationsService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.delegation.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

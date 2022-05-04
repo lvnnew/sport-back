@@ -278,10 +278,10 @@ export const getFilesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.file.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

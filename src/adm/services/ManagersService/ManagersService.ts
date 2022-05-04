@@ -299,10 +299,10 @@ export const getManagersService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.manager.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

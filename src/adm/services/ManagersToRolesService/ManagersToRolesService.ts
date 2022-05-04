@@ -275,10 +275,10 @@ export const getManagersToRolesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.managersToRole.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });

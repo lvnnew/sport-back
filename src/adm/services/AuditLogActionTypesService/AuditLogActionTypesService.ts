@@ -268,10 +268,10 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
     const updateOperation = ctx.prisma.auditLogActionType.update({
       data: R.mergeDeepLeft(
-        rest,
         {
           search: getSearchString(processedData),
         },
+        rest,
       ),
       where: {id},
     });
