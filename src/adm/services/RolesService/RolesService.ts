@@ -25,7 +25,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableRoleKeys = never;
+export type AutodefinableRoleKeys = 'hasAllPermissions' | 'allTenantsAvailable';
 export type ForbidenForUserRoleKeys = never;
 export type RequiredDbNotUserRoleKeys = never;
 
@@ -111,7 +111,21 @@ export const getRolesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableRolePart> => currentData as T;
+  ): Promise<T & AutodefinableRolePart> => {
+    const defaultFieldConstructors = {
+      hasAllPermissions: async () => false,
+      allTenantsAvailable: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableRolePart;
+  };
 
   const all = async (
     params: QueryAllRolesArgs = {},

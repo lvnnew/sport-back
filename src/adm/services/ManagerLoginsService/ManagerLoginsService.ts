@@ -25,7 +25,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableManagerLoginKeys = never;
+export type AutodefinableManagerLoginKeys = 'emailVerified' | 'initialPasswordChanged' | 'locked';
 export type ForbidenForUserManagerLoginKeys = never;
 export type RequiredDbNotUserManagerLoginKeys = never;
 
@@ -114,7 +114,22 @@ export const getManagerLoginsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableManagerLoginPart> => currentData as T;
+  ): Promise<T & AutodefinableManagerLoginPart> => {
+    const defaultFieldConstructors = {
+      emailVerified: async () => false,
+      initialPasswordChanged: async () => false,
+      locked: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableManagerLoginPart;
+  };
 
   const all = async (
     params: QueryAllManagerLoginsArgs = {},

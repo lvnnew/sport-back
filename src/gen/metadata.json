@@ -827,6 +827,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "foreign",
      "needFor": "",
@@ -1146,6 +1148,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "errorOccurred",
      "needFor": "",
@@ -1421,6 +1425,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "ignoreVersionOnHistory",
      "needFor": "",
@@ -1626,6 +1632,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "active",
      "needFor": "",
@@ -2248,6 +2256,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "emailVerified",
      "needFor": "",
@@ -2266,6 +2276,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "initialPasswordChanged",
      "needFor": "",
@@ -2284,6 +2296,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "locked",
      "needFor": "",
@@ -3148,6 +3162,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "secretData",
      "needFor": "",
@@ -3562,6 +3578,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "hasAllPermissions",
      "needFor": "",
@@ -3580,6 +3598,8 @@
     },
     {
      "category": "scalar",
+     "defaultBackendValueExpression": "false",
+     "defaultValueExpression": "false",
      "hidden": false,
      "name": "allTenantsAvailable",
      "needFor": "",

@@ -24,7 +24,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableAuditLogKeys = never;
+export type AutodefinableAuditLogKeys = 'foreign';
 export type ForbidenForUserAuditLogKeys = never;
 export type RequiredDbNotUserAuditLogKeys = never;
 
@@ -120,7 +120,20 @@ export const getAuditLogsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAuditLogPart> => currentData as T;
+  ): Promise<T & AutodefinableAuditLogPart> => {
+    const defaultFieldConstructors = {
+      foreign: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableAuditLogPart;
+  };
 
   const all = async (
     params: QueryAllAuditLogsArgs = {},

@@ -25,7 +25,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableMessageTemplateKeys = never;
+export type AutodefinableMessageTemplateKeys = 'secretData';
 export type ForbidenForUserMessageTemplateKeys = never;
 export type RequiredDbNotUserMessageTemplateKeys = never;
 
@@ -112,7 +112,20 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableMessageTemplatePart> => currentData as T;
+  ): Promise<T & AutodefinableMessageTemplatePart> => {
+    const defaultFieldConstructors = {
+      secretData: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableMessageTemplatePart;
+  };
 
   const all = async (
     params: QueryAllMessageTemplatesArgs = {},

@@ -25,7 +25,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableAutogenerationRuleKeys = never;
+export type AutodefinableAutogenerationRuleKeys = 'ignoreVersionOnHistory';
 export type ForbidenForUserAutogenerationRuleKeys = never;
 export type RequiredDbNotUserAutogenerationRuleKeys = never;
 
@@ -117,7 +117,20 @@ export const getAutogenerationRulesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAutogenerationRulePart> => currentData as T;
+  ): Promise<T & AutodefinableAutogenerationRulePart> => {
+    const defaultFieldConstructors = {
+      ignoreVersionOnHistory: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableAutogenerationRulePart;
+  };
 
   const all = async (
     params: QueryAllAutogenerationRulesArgs = {},

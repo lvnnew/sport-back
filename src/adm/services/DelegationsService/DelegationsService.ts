@@ -25,7 +25,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableDelegationKeys = never;
+export type AutodefinableDelegationKeys = 'active';
 export type ForbidenForUserDelegationKeys = never;
 export type RequiredDbNotUserDelegationKeys = never;
 
@@ -114,7 +114,20 @@ export const getDelegationsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableDelegationPart> => currentData as T;
+  ): Promise<T & AutodefinableDelegationPart> => {
+    const defaultFieldConstructors = {
+      active: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableDelegationPart;
+  };
 
   const all = async (
     params: QueryAllDelegationsArgs = {},

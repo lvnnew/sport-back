@@ -25,7 +25,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableAutogenerationHistoryEntryKeys = never;
+export type AutodefinableAutogenerationHistoryEntryKeys = 'errorOccurred';
 export type ForbidenForUserAutogenerationHistoryEntryKeys = never;
 export type RequiredDbNotUserAutogenerationHistoryEntryKeys = never;
 
@@ -117,7 +117,20 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAutogenerationHistoryEntryPart> => currentData as T;
+  ): Promise<T & AutodefinableAutogenerationHistoryEntryPart> => {
+    const defaultFieldConstructors = {
+      errorOccurred: async () => false,
+    };
+
+    const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+    const resultedPairs: R.KeyValuePair<string, any>[] = [];
+    for (const [key, constructor] of pairedConstructors) {
+      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+    }
+
+    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableAutogenerationHistoryEntryPart;
+  };
 
   const all = async (
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
