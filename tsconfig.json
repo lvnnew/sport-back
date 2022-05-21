@@ -8,7 +8,7 @@
     ],
     "moduleResolution": "node",
     "jsx": "react",
-    "target": "es2020",
+    "target": "ESNext",
     "sourceMap": true,
     "declaration": true,
     "rootDir": "src",
@@ -40,6 +40,9 @@
   ],
   "ts-node": {
     "transpileOnly": true,
-    "transpiler": "ts-node/transpilers/swc-experimental"
+    "transpiler": "ts-node/transpilers/swc-experimental",
+    "compilerOptions": {
+      "module": "commonjs"
+    }
   }
 }
