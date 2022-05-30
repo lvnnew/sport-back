@@ -25,7 +25,7 @@ yarn prisma:deploy
 ## Rollback migration
 ```
 DATABASE_URI=$MTBASE_DEV_DATABASE_URI npx prisma migrate resolve --rolled-back "20210629114134_levels" --preview-feature
-DATABASE_URI=$MTBASE_DEV_TUNIK_DATABASE_URI npx prisma migrate resolve --rolled-back "20210629105906_files" --preview-feature
+runlify env anna_laznia npx prisma migrate resolve --rolled-back "20210629105906_files" --preview-feature
 DATABASE_URI=$MTBASE_PROD_DATABASE_URI npx prisma migrate resolve --rolled-back "20210624212115_required_on_update_level_mod" --preview-feature
 ```
 

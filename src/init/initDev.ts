@@ -7,13 +7,11 @@ import {initTestManagers} from './initTestManagers';
 // runlify env test yarn ts-node src/init/initDev.ts
 // yarn ts-node src/init/initDev.ts
 
-// DATABASE_URI=$MTBASE_DEV_TUNIK_DATABASE_URI yarn ts-node src/init/initDev.ts
-// DATABASE_URI=$MTBASE_DEV_THTH_DATABASE_URI yarn ts-node src/init/initDev.ts
-// DATABASE_URI=$MTBASE_DEV_PAPKA_DATABASE_URI yarn ts-node src/init/initDev.ts
+// runlify env anna_laznia yarn ts-node src/init/initDev.ts
+// runlify env yurii_papka yarn ts-node src/init/initDev.ts
 
-// DATABASE_URI=$MTBASE_DEV_LAVROVA_DATABASE_URI yarn ts-node src/init/initDev.ts
-// DATABASE_URI=$MTBASE_DEV_FERUNELLI_DATABASE_URI yarn ts-node src/init/initDev.ts
-// DATABASE_URI=$MTBASE_DEV_KARIMOVA_DATABASE_URI yarn ts-node src/init/initDev.ts
+// runlify env lavrova yarn ts-node src/init/initDev.ts
+// runlify env annykarimova yarn ts-node src/init/initDev.ts
 
 const app = async () => {
   log.info('start');
