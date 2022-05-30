@@ -126,8 +126,9 @@ export const getManagersToRolesService = (ctx: Context) => {
     params: QueryAllManagersToRolesArgs = {},
   ): Promise<ManagersToRole | null> => {
     return ctx.prisma.managersToRole.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -218,8 +219,9 @@ export const getManagersToRolesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as ManagersToRole),
     ]);
+
+    await runHooks.afterCreate(ctx, result as ManagersToRole);
 
     return result as ManagersToRole;
   };

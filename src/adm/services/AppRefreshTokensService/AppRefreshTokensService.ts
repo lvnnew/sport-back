@@ -128,8 +128,9 @@ export const getAppRefreshTokensService = (ctx: Context) => {
     params: QueryAllAppRefreshTokensArgs = {},
   ): Promise<AppRefreshToken | null> => {
     return ctx.prisma.appRefreshToken.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -220,8 +221,9 @@ export const getAppRefreshTokensService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as AppRefreshToken),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AppRefreshToken);
 
     return result as AppRefreshToken;
   };

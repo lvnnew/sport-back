@@ -1,0 +1,6 @@
+{
+  "projectName": "mtbase",
+  "partName": "mtbase-back",
+  "projectCategory": "back",
+  "scopes": ["back", "worker", "telegramBot"]
+}

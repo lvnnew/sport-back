@@ -126,8 +126,9 @@ export const getRolesToPermissionsService = (ctx: Context) => {
     params: QueryAllRolesToPermissionsArgs = {},
   ): Promise<RolesToPermission | null> => {
     return ctx.prisma.rolesToPermission.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -218,8 +219,9 @@ export const getRolesToPermissionsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as RolesToPermission),
     ]);
+
+    await runHooks.afterCreate(ctx, result as RolesToPermission);
 
     return result as RolesToPermission;
   };

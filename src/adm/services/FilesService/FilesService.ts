@@ -129,8 +129,9 @@ export const getFilesService = (ctx: Context) => {
     params: QueryAllFilesArgs = {},
   ): Promise<File | null> => {
     return ctx.prisma.file.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -221,8 +222,9 @@ export const getFilesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as File),
     ]);
+
+    await runHooks.afterCreate(ctx, result as File);
 
     return result as File;
   };

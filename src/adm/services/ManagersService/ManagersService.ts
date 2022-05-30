@@ -150,8 +150,9 @@ export const getManagersService = (ctx: Context) => {
     params: QueryAllManagersArgs = {},
   ): Promise<Manager | null> => {
     return ctx.prisma.manager.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -242,8 +243,9 @@ export const getManagersService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Manager),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Manager);
 
     return result as Manager;
   };

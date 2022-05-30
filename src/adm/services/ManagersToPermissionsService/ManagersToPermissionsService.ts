@@ -126,8 +126,9 @@ export const getManagersToPermissionsService = (ctx: Context) => {
     params: QueryAllManagersToPermissionsArgs = {},
   ): Promise<ManagersToPermission | null> => {
     return ctx.prisma.managersToPermission.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -218,8 +219,9 @@ export const getManagersToPermissionsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as ManagersToPermission),
     ]);
+
+    await runHooks.afterCreate(ctx, result as ManagersToPermission);
 
     return result as ManagersToPermission;
   };

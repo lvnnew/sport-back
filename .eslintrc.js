@@ -8,7 +8,7 @@ module.exports = {
   },
   extends: [
     'canonical',
-    'canonical/mocha',
+    // 'canonical/mocha',
     'canonical/jest',
     'plugin:@typescript-eslint/recommended',
     'eslint:recommended',

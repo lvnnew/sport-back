@@ -125,8 +125,9 @@ export const getTagsService = (ctx: Context) => {
     params: QueryAllTagsArgs = {},
   ): Promise<Tag | null> => {
     return ctx.prisma.tag.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -217,8 +218,9 @@ export const getTagsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Tag),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Tag);
 
     return result as Tag;
   };

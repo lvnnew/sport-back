@@ -126,8 +126,9 @@ export const getTenantsService = (ctx: Context) => {
     params: QueryAllTenantsArgs = {},
   ): Promise<Tenant | null> => {
     return ctx.prisma.tenant.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -218,8 +219,9 @@ export const getTenantsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Tenant),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Tenant);
 
     return result as Tenant;
   };

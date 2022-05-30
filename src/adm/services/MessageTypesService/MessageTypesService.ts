@@ -126,8 +126,9 @@ export const getMessageTypesService = (ctx: Context) => {
     params: QueryAllMessageTypesArgs = {},
   ): Promise<MessageType | null> => {
     return ctx.prisma.messageType.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -218,8 +219,9 @@ export const getMessageTypesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as MessageType),
     ]);
+
+    await runHooks.afterCreate(ctx, result as MessageType);
 
     return result as MessageType;
   };

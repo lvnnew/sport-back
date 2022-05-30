@@ -5,8 +5,8 @@ import initEntities from './common/initEntities';
 import initLanguages from './common/initLanguages';
 
 // yarn ts-node src/init/commonInit.ts
-// ENV=stage yarn ts-node src/init/commonInit.ts
-// ENV=test yarn ts-node src/init/commonInit.ts
+// runlify env stage yarn ts-node src/init/commonInit.ts
+// runlify env test yarn ts-node src/init/commonInit.ts
 
 const app = async () => {
   log.info('start');

@@ -126,8 +126,9 @@ export const getUnitsService = (ctx: Context) => {
     params: QueryAllUnitsArgs = {},
   ): Promise<Unit | null> => {
     return ctx.prisma.unit.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -218,8 +219,9 @@ export const getUnitsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Unit),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Unit);
 
     return result as Unit;
   };

@@ -127,8 +127,9 @@ export const getStatsService = (ctx: Context) => {
     params: QueryAllStatsArgs = {},
   ): Promise<Stat | null> => {
     return ctx.prisma.stat.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -219,8 +220,9 @@ export const getStatsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Stat),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Stat);
 
     return result as Stat;
   };

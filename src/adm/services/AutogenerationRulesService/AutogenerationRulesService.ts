@@ -144,8 +144,9 @@ export const getAutogenerationRulesService = (ctx: Context) => {
     params: QueryAllAutogenerationRulesArgs = {},
   ): Promise<AutogenerationRule | null> => {
     return ctx.prisma.autogenerationRule.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -236,8 +237,9 @@ export const getAutogenerationRulesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as AutogenerationRule),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AutogenerationRule);
 
     return result as AutogenerationRule;
   };

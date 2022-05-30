@@ -26,3 +26,5 @@ config/*
 *.db
 *.cpuprofile
 *.heapsnapshot
+
+runlify.developer.json

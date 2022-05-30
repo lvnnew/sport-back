@@ -124,8 +124,9 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
     params: QueryAllAuditLogActionTypesArgs = {},
   ): Promise<AuditLogActionType | null> => {
     return ctx.prisma.auditLogActionType.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -211,8 +212,9 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
           search: getSearchString(result),
         },
       }),
-      runHooks.afterCreate(ctx, result as AuditLogActionType),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AuditLogActionType);
 
     return result as AuditLogActionType;
   };

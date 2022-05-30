@@ -4,7 +4,7 @@ import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts
-// ENV=test yarn ts-node src/init/initDev.ts
+// runlify env test yarn ts-node src/init/initDev.ts
 // yarn ts-node src/init/initDev.ts
 
 // DATABASE_URI=$MTBASE_DEV_TUNIK_DATABASE_URI yarn ts-node src/init/initDev.ts

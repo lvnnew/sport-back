@@ -240,9 +240,13 @@ describe('toPrismaWhere', () => {
     expect(
       toPrismaWhere({ids: [1, 2]}),
     ).toEqual({
-      id: {
-        in: [1, 2],
-      },
+      AND: [
+        {
+          id: {
+            in: [1, 2],
+          },
+        },
+      ],
     });
   });
 

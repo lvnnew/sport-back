@@ -139,8 +139,9 @@ export const getRolesService = (ctx: Context) => {
     params: QueryAllRolesArgs = {},
   ): Promise<Role | null> => {
     return ctx.prisma.role.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -231,8 +232,9 @@ export const getRolesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Role),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Role);
 
     return result as Role;
   };

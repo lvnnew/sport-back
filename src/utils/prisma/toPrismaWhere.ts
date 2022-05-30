@@ -32,7 +32,7 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
 
   if (Object.keys(filter).includes('q') && (filter as any).q.trim()) {
     const searcQuery = (filter as any).q.trim().toLowerCase() as string;
-    const searchKeys = searcQuery.split(' ').map(k => k.trim()).filter(k => k);
+    const searchKeys = searcQuery.split(' ').map(k => k.trim()).filter(Boolean);
     result = {
       ...result,
       AND: searchKeys.map(searchKey => ({
@@ -77,7 +77,10 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
 
     result = {
       ...result,
-      AND: filtersForAnd,
+      AND: [
+        ...(result as any).AND ?? [],
+        ...filtersForAnd,
+      ],
     };
   }
 
@@ -95,7 +98,10 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
 
     result = {
       ...result,
-      ...arrays,
+      AND: [
+        ...(result as any).AND ?? [],
+        {...arrays},
+      ],
     };
   }
 

@@ -147,8 +147,9 @@ export const getAuditLogsService = (ctx: Context) => {
     params: QueryAllAuditLogsArgs = {},
   ): Promise<AuditLog | null> => {
     return ctx.prisma.auditLog.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -234,8 +235,9 @@ export const getAuditLogsService = (ctx: Context) => {
           search: getSearchString(result),
         },
       }),
-      runHooks.afterCreate(ctx, result as AuditLog),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AuditLog);
 
     return result as AuditLog;
   };

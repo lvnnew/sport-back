@@ -125,8 +125,9 @@ export const getLanguagesService = (ctx: Context) => {
     params: QueryAllLanguagesArgs = {},
   ): Promise<Language | null> => {
     return ctx.prisma.language.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -217,8 +218,9 @@ export const getLanguagesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Language),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Language);
 
     return result as Language;
   };

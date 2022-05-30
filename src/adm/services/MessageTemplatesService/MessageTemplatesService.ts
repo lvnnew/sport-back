@@ -139,8 +139,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
     params: QueryAllMessageTemplatesArgs = {},
   ): Promise<MessageTemplate | null> => {
     return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -231,8 +232,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as MessageTemplate),
     ]);
+
+    await runHooks.afterCreate(ctx, result as MessageTemplate);
 
     return result as MessageTemplate;
   };

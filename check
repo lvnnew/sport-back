@@ -3,8 +3,10 @@
 set -e
 set -v
 
+npm i -g runlify
+
 # Static checks
 yarn prisma:gen
 yarn lint
 yarn build
-DATABASE_URI=${TEST_DATABASE_URI:-$DATABASE_URI} ENV=test yarn test
+DATABASE_URI=${TEST_DATABASE_URI:-$DATABASE_URI} runlify env test yarn test

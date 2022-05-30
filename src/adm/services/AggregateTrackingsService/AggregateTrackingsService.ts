@@ -130,8 +130,9 @@ export const getAggregateTrackingsService = (ctx: Context) => {
     params: QueryAllAggregateTrackingsArgs = {},
   ): Promise<AggregateTracking | null> => {
     return ctx.prisma.aggregateTracking.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -213,8 +214,9 @@ export const getAggregateTrackingsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as AggregateTracking),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AggregateTracking);
 
     return result as AggregateTracking;
   };

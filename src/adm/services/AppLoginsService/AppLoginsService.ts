@@ -127,8 +127,9 @@ export const getAppLoginsService = (ctx: Context) => {
     params: QueryAllAppLoginsArgs = {},
   ): Promise<AppLogin | null> => {
     return ctx.prisma.appLogin.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -219,8 +220,9 @@ export const getAppLoginsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as AppLogin),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AppLogin);
 
     return result as AppLogin;
   };

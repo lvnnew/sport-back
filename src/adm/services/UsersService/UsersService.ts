@@ -131,8 +131,9 @@ export const getUsersService = (ctx: Context) => {
     params: QueryAllUsersArgs = {},
   ): Promise<User | null> => {
     return ctx.prisma.user.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -223,8 +224,9 @@ export const getUsersService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as User),
     ]);
+
+    await runHooks.afterCreate(ctx, result as User);
 
     return result as User;
   };

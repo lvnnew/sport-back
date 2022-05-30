@@ -141,8 +141,9 @@ export const getDelegationsService = (ctx: Context) => {
     params: QueryAllDelegationsArgs = {},
   ): Promise<Delegation | null> => {
     return ctx.prisma.delegation.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -233,8 +234,9 @@ export const getDelegationsService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as Delegation),
     ]);
+
+    await runHooks.afterCreate(ctx, result as Delegation);
 
     return result as Delegation;
   };

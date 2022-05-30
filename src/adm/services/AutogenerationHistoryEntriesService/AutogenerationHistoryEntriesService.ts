@@ -144,8 +144,9 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
     params: QueryAllAutogenerationHistoryEntriesArgs = {},
   ): Promise<AutogenerationHistoryEntry | null> => {
     return ctx.prisma.autogenerationHistoryEntry.findFirst(toPrismaRequest(
-      await runHooks.changeListFilter(ctx, params), {noId: false}),
-    );
+      await runHooks.changeListFilter(ctx, params),
+      {noId: false},
+    ));
   };
 
   const findOneRequired = async (
@@ -236,8 +237,9 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
         entityId: result.id,
         actionData: data,
       }),
-      runHooks.afterCreate(ctx, result as AutogenerationHistoryEntry),
     ]);
+
+    await runHooks.afterCreate(ctx, result as AutogenerationHistoryEntry);
 
     return result as AutogenerationHistoryEntry;
   };
