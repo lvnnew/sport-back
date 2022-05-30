@@ -37,6 +37,7 @@ const opt = {
   ttl: 1000 * 60, // 1 min
 };
 const managersTenantIdsCache = new LRUCache(opt);
+const managersPermissionsCache = new LRUCache(opt);
 const usersTenantIdsCache = new LRUCache(opt);
 
 export const getProfileService = (ctx: Context): ProfileService => {
@@ -124,17 +125,20 @@ export const getProfileService = (ctx: Context): ProfileService => {
   };
 
   const getPermissionsOfManager = async (managerId: number) => {
-    const permissions = await ctx.service('profile').getPermissionsOfManagerWithMeta(managerId);
+    if (!managerId) {
+      return [];
+    }
 
-    return R.uniq(permissions.map(el => el.permissionId));
+    if (!managersPermissionsCache.has(managerId)) {
+      const permissions = await ctx.service('profile').getPermissionsOfManagerWithMeta(managerId);
+
+      managersPermissionsCache.set(managerId, R.uniq(permissions.map(el => el.permissionId)));
+    }
+
+    return managersPermissionsCache.get(managerId);
   };
 
   const getManagerPermissions = async () => {
-    log.info('getPermissions');
-    // const managerId = ctx.service('profile').getManagerId();
-    // const managerId = ctx.container.get('managerId') as number;
-    // const managerId = getManagerId();
-
     if (!managerId) {
       log.error('getPermissions Current manager is unknown');
       throw new Error('getPermissions Current manager is unknown');
@@ -144,7 +148,6 @@ export const getProfileService = (ctx: Context): ProfileService => {
   };
 
   const getPermissionsWithMeta = async () => {
-    log.info('getPermissionsWithMeta');
     const managerId = getManagerId();
 
     if (!managerId) {
@@ -155,35 +158,39 @@ export const getProfileService = (ctx: Context): ProfileService => {
   };
 
   const getAllowedTenantIdsOfManager = async (managerId: number): Promise<number[]> => {
-    let tenantIds: number[] = [];
-    if (managersTenantIdsCache.has(managerId)) {
-      return managersTenantIdsCache.get(managerId);
+    if (!managerId) {
+      return [];
     }
 
-    const manager = await ctx.prisma.manager.findFirst({where: {id: managerId}});
-    if (manager && manager.tenantId) {
-      tenantIds = [manager.tenantId];
+    if (!managersTenantIdsCache.has(managerId)) {
+      let tenantIds: number[] = [];
+      const manager = await ctx.prisma.manager.findFirst({where: {id: managerId}});
+      if (manager && manager.tenantId) {
+        tenantIds = [manager.tenantId];
+      }
+
       managersTenantIdsCache.set(managerId, tenantIds);
     }
 
-    return tenantIds;
+    return managersTenantIdsCache.get(managerId);
   };
 
   const getAllowedTenantIdsOfUser = async (userId: number): Promise<number[]> => {
-    let tenantIds: number[] = [];
-    if (userId) {
-      if (usersTenantIdsCache.has(userId)) {
-        return usersTenantIdsCache.get(userId);
-      }
+    if (!userId) {
+      return [];
+    }
 
+    if (!usersTenantIdsCache.has(userId)) {
+      let tenantIds: number[] = [];
       const user = await ctx.prisma.user.findFirst({where: {id: userId}});
       if (user && user.tenantId) {
         tenantIds = [user.tenantId];
-        usersTenantIdsCache.set(userId, tenantIds);
       }
+
+      usersTenantIdsCache.set(userId, tenantIds);
     }
 
-    return tenantIds;
+    return usersTenantIdsCache.get(userId);
   };
 
   const getAllowedTenantIds = async (): Promise<number[]> => {

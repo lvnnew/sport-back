@@ -44,6 +44,7 @@ export const login = (req: Request, res: Response, next: NextFunction) => {
           fullName: user.fullName,
           token,
           message: 'user found & logged in',
+          permissions: user.permissions,
         });
       });
     } else {

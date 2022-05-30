@@ -148,7 +148,6 @@ export const initAppPassport = async () => {
       },
       async (jwtPayload, done) => {
         try {
-          // log.info(jwtPayload);
           if (!jwtPayload.id) {
             log.error('Jwt. There is no id in payload');
             done(null, null);

@@ -5,4 +5,4 @@ set -v
 
 yarn
 yarn prisma:gen
-npm i -g runlify
+yarn global add runlify

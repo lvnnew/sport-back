@@ -3,7 +3,7 @@
 set -e
 set -v
 
-npm i -g runlify
+yarn global add runlify
 
 runlify env dev npx prisma migrate deploy --preview-feature
 

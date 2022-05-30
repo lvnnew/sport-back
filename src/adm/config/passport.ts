@@ -8,22 +8,6 @@ import {createContext} from '../services/context';
 import LRUCache from 'lru-cache';
 import {getConfig} from '../../config';
 
-const cache = new LRUCache({
-  max: 500,
-  ttl: 1000 * 60 * 60,
-});
-
-const getPermissions = async (managerId: number) => {
-  if (!cache.has(managerId)) {
-    const ctx = await createContext();
-    const permissions = await ctx.service('profile').getPermissionsOfManager(managerId);
-
-    cache.set(managerId, permissions);
-  }
-
-  return cache.get(managerId);
-};
-
 passport.use(
   'admRegister',
   new LocalStrategy(
@@ -59,7 +43,7 @@ passport.use(
 
         return done(null, {
           id: manager.id,
-          permissions: await getPermissions(manager.id),
+          permissions: await ctx.service('profile').getPermissionsOfManager(manager.id),
         });
       } catch (error: any) {
         return done(error, null);
@@ -108,7 +92,7 @@ passport.use(
         return done(null, {
           id: login.managerId,
           fullName: `${manager.firstName} ${manager.lastName}`,
-          permissions: await getPermissions(login.managerId),
+          permissions: await ctx.service('profile').getPermissionsOfManager(login.managerId),
         });
       } catch (error: any) {
         return done(error, null);
@@ -132,8 +116,9 @@ export const initAdmPassport = async () => {
         ignoreExpiration: false,
       },
       async (jwtPayload, done) => {
+        const ctx = await createContext();
+
         try {
-          // log.info(jwtPayload);
           if (!jwtPayload.id) {
             log.error('Jwt. There is no id in payload');
             done(null, null);
@@ -143,7 +128,7 @@ export const initAdmPassport = async () => {
 
           done(null, {
             id: jwtPayload.id,
-            permissions: await getPermissions(jwtPayload.managerId),
+            permissions: await ctx.service('profile').getPermissionsOfManager(jwtPayload.managerId),
           });
         } catch (error: any) {
           done(error, null);
