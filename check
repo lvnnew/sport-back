@@ -9,4 +9,4 @@ npm i -g runlify
 yarn prisma:gen
 yarn lint
 yarn build
-DATABASE_URI=${TEST_DATABASE_URI:-$DATABASE_URI} runlify env test yarn test
+runlify env test runlify env test yarn test
