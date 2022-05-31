@@ -5,7 +5,6 @@ import initPermissions from './permissions/initPermissions';
 import initRoles from './permissions/initRoles';
 
 // yarn ts-node src/init/baseInit.ts
-// yarn ts-node src/init/baseInit.ts
 // runlify env test yarn ts-node src/init/baseInit.ts
 // runlify env prod yarn ts-node src/init/baseInit.ts
 
