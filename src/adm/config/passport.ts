@@ -5,7 +5,6 @@ import {Strategy as LocalStrategy} from 'passport-local';
 import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {createContext} from '../services/context';
-import LRUCache from 'lru-cache';
 import {getConfig} from '../../config';
 
 passport.use(

@@ -11,7 +11,7 @@ nconf
 
 const developerRunlifyConfig = read('runlify.developer.json', 'json');
 
-const envName = process.env.ENV || developerRunlifyConfig.defaultEnvironment;
+const envName = process.env.ENV || developerRunlifyConfig?.defaultEnvironment;
 const file = `./config/${envName}.json`;
 
 if (exists(file)) {

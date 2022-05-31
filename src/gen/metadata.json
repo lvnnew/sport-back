@@ -4596,7 +4596,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "DATABASE_URI=$GOS_MIGRATION_DATABASE_URI prisma migrate dev --preview-feature",
+   "command": "runlify env migration prisma migrate dev --preview-feature",
    "name": "prisma:migrate",
    "needFor": "Создания новой миграции базы данных",
    "projectCategory": "back"
