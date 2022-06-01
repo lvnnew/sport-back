@@ -9,4 +9,4 @@ yarn global add runlify
 yarn prisma:gen
 yarn lint
 yarn build
-runlify env test runlify env test yarn test
+runlify env test yarn test

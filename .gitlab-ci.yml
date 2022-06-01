@@ -29,6 +29,8 @@ check:
     - yarn
   script:
     - ./check
+  variables:
+    DATABASE_URI: $TEST_DATABASE_URI
 
 build:
   stage: build

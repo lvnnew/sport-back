@@ -4596,12 +4596,6 @@
    "projectCategory": "back"
   },
   {
-   "command": "runlify env migration prisma migrate dev --preview-feature",
-   "name": "prisma:migrate",
-   "needFor": "Создания новой миграции базы данных",
-   "projectCategory": "back"
-  },
-  {
    "command": "cross-env NODE_ENV=production node --unhandled-rejections=strict dist/index.js",
    "name": "start",
    "needFor": "Запуска собранного проекта",
@@ -4641,6 +4635,12 @@
    "command": "prisma migrate deploy --preview-feature",
    "name": "prisma:deploy",
    "needFor": "Мигрирования базы данных",
+   "projectCategory": "back"
+  },
+  {
+   "command": "runlify env migration prisma migrate dev --preview-feature",
+   "name": "prisma:migrate",
+   "needFor": "Создания новой миграции базы данных",
    "projectCategory": "back"
   },
   {
