@@ -2,7 +2,7 @@ import log from '../log';
 import {generalJobsByQueue} from '../workers/general/generalJobs';
 
 // yarn ts-node src/cli/helloJob.ts
-// runlify env stage yarn ts-node src/cli/helloJob.ts
+// runlify start stage yarn ts-node src/cli/helloJob.ts
 
 const app = async () => {
   log.info('start');

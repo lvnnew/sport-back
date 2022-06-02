@@ -24,9 +24,9 @@ yarn prisma:deploy
 
 ## Rollback migration
 ```
-runlify env dev npx prisma migrate resolve --rolled-back "20210629114134_levels" --preview-feature
-runlify env anna_laznia npx prisma migrate resolve --rolled-back "20210629105906_files" --preview-feature
-runlify env prod npx prisma migrate resolve --rolled-back "20210624212115_required_on_update_level_mod" --preview-feature
+runlify start dev npx prisma migrate resolve --rolled-back "20210629114134_levels" --preview-feature
+runlify start anna_laznia npx prisma migrate resolve --rolled-back "20210629105906_files" --preview-feature
+runlify start prod npx prisma migrate resolve --rolled-back "20210624212115_required_on_update_level_mod" --preview-feature
 ```
 
 ## Install pgcrypto extension

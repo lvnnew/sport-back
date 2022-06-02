@@ -5,9 +5,9 @@ set -v
 
 yarn global add runlify
 
-runlify env dev npx prisma migrate deploy --preview-feature
+runlify start dev npx prisma migrate deploy --preview-feature
 
-runlify env test npx prisma migrate deploy --preview-feature
-runlify env stage npx prisma migrate deploy --preview-feature
+runlify start test npx prisma migrate deploy --preview-feature
+runlify start stage npx prisma migrate deploy --preview-feature
 
-runlify env prod npx prisma migrate deploy --preview-feature
+runlify start prod npx prisma migrate deploy --preview-feature
