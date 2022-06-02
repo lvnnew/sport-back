@@ -4596,7 +4596,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "runlify start prod node --unhandled-rejections=strict dist/index.js",
+   "command": "runlify start env=prod node --unhandled-rejections=strict dist/index.js",
    "name": "start",
    "needFor": "Запуска собранного проекта",
    "projectCategory": "back"
@@ -4638,7 +4638,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "runlify start migration prisma migrate dev --preview-feature",
+   "command": "runlify start env=migration prisma migrate dev --preview-feature",
    "name": "prisma:migrate",
    "needFor": "Создания новой миграции базы данных",
    "projectCategory": "back"

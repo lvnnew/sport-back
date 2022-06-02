@@ -6,7 +6,7 @@ import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 
-// runlify start test yarn test --testPathPattern tags
+// runlify start env=test yarn test --testPathPattern tags
 
 let ctx: Context = null as any;
 beforeAll(async () => {

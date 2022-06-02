@@ -3,7 +3,7 @@ import {Role} from '../../types/enums';
 
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
-// runlify start prod yarn ts-node:withContext src/init/permissions/initRoles.ts
+// runlify start env=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 const initRoles = async (ctx: Context) => {
   // const allPermissions = getRuntimePermissions(await createContext());

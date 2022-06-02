@@ -5,7 +5,7 @@ import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 
 // yarn init:permissions
 // yarn init:permissions
-// runlify start prod yarn init:permissions
+// runlify start env=prod yarn init:permissions
 
 const initPermissions = async (ctx: Context) => {
   await initPermissionsItself(ctx);

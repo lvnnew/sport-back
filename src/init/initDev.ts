@@ -4,14 +4,14 @@ import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 
 // yarn ts-node src/init/initDev.ts
-// runlify start test yarn ts-node src/init/initDev.ts
+// runlify start env=test yarn ts-node src/init/initDev.ts
 // yarn ts-node src/init/initDev.ts
 
-// runlify start anna_laznia yarn ts-node src/init/initDev.ts
-// runlify start yurii_papka yarn ts-node src/init/initDev.ts
+// runlify start env=anna_laznia yarn ts-node src/init/initDev.ts
+// runlify start env=yurii_papka yarn ts-node src/init/initDev.ts
 
-// runlify start lavrova yarn ts-node src/init/initDev.ts
-// runlify start annykarimova yarn ts-node src/init/initDev.ts
+// runlify start env=lavrova yarn ts-node src/init/initDev.ts
+// runlify start env=annykarimova yarn ts-node src/init/initDev.ts
 
 const app = async () => {
   log.info('start');
