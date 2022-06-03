@@ -7,6 +7,7 @@ import initLanguages from './common/initLanguages';
 // yarn ts-node src/init/commonInit.ts
 // runlify start env=stage yarn ts-node src/init/commonInit.ts
 // runlify start env=test yarn ts-node src/init/commonInit.ts
+runlify start env=stage yarn ts-node src/init/commonInit.ts
 
 const app = async () => {
   log.info('start');

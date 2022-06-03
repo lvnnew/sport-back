@@ -6,6 +6,7 @@ import initRoles from './permissions/initRoles';
 
 // yarn ts-node src/init/baseInit.ts
 // runlify start env=test yarn ts-node src/init/baseInit.ts
+// runlify start env=stage yarn ts-node src/init/baseInit.ts
 // runlify start env=prod yarn ts-node src/init/baseInit.ts
 
 const app = async () => {
