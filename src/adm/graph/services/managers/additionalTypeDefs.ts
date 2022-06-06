@@ -1,5 +1,9 @@
-// import {gql} from 'apollo-server';
+import {gql} from 'apollo-server';
 
-// export default gql``;
-
-export const message = 'uncomment lines if additional types needed';
+export default gql`
+  type Mutation {
+    newManager(firstName: String!, lastName: String!, email: String!, password: String!, roles: [String!]): Void
+    deactivateManagers(managerIds: [Int!]!): Void
+    changePassword(managerId: Int!, password: String!): Void
+  }
+`;

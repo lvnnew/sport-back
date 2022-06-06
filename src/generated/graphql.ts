@@ -880,6 +880,9 @@ export type Mutation = {
   createManagerLogin?: Maybe<ManagerLogin>;
   updateManagerLogin?: Maybe<ManagerLogin>;
   removeManagerLogin?: Maybe<ManagerLogin>;
+  newManager?: Maybe<Scalars['Void']>;
+  deactivateManagers?: Maybe<Scalars['Void']>;
+  changePassword?: Maybe<Scalars['Void']>;
   createManager?: Maybe<Manager>;
   updateManager?: Maybe<Manager>;
   removeManager?: Maybe<Manager>;
@@ -1222,6 +1225,26 @@ export type MutationUpdateManagerLoginArgs = {
 
 export type MutationRemoveManagerLoginArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationNewManagerArgs = {
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  roles?: InputMaybe<Array<Scalars['String']>>;
+};
+
+
+export type MutationDeactivateManagersArgs = {
+  managerIds: Array<Scalars['Int']>;
+};
+
+
+export type MutationChangePasswordArgs = {
+  managerId: Scalars['Int'];
+  password: Scalars['String'];
 };
 
 
@@ -2792,6 +2815,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   removeManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
+  newManager?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationNewManagerArgs, 'firstName' | 'lastName' | 'email' | 'password'>>;
+  deactivateManagers?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationDeactivateManagersArgs, 'managerIds'>>;
+  changePassword?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'managerId' | 'password'>>;
   createManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationCreateManagerArgs, 'lastName' | 'firstName' | 'email' | 'headOfUnit' | 'active'>>;
   updateManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationUpdateManagerArgs, 'id' | 'lastName' | 'firstName' | 'email' | 'headOfUnit' | 'active'>>;
   removeManager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<MutationRemoveManagerArgs, 'id'>>;

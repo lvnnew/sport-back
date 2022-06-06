@@ -1,12 +1,20 @@
 import {Context} from '../../adm/services/types';
 import {Role} from '../../types/enums';
+import {createContext} from '../../adm/services/context';
+import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 
-// yarn ts-node:withContext src/init/permissions/initRoles.ts
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
 // runlify start env=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 const initRoles = async (ctx: Context) => {
-  // const allPermissions = getRuntimePermissions(await createContext());
+  const allPermissions = getRuntimePermissions(await createContext());
+  await ctx.service('permissions').createMany(
+    allPermissions
+      .map(p => ({
+        id: p.id,
+        title: p.id,
+      })),
+  );
 
   // const services = getBaseServices(() => {
   //   throw new Error('Not supposed to be called');
@@ -56,6 +64,19 @@ const initRoles = async (ctx: Context) => {
   // await addAllServicePermissions(manager.id, 'saveFile');
   // await addAllServicePermissions(manager.id, 'emails');
   // await addAllServicePermissions(manager.id, 'miles');
+
+  // Admin specific permissions.
+  // We do not link them by rolesToPermissions due to Admin's ability to get all existing permissions
+  const adminPermissions = [
+    'members.changePassword',
+  ];
+  await ctx.service('permissions').createMany(
+    adminPermissions
+      .map(p => ({
+        id: p,
+        title: p,
+      })),
+  );
 };
 
 export default initRoles;
