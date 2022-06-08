@@ -3258,10 +3258,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^17.0.40":
-  version "17.0.40"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.40.tgz#76ee88ae03650de8064a6cf75b8d95f9f4a16090"
-  integrity sha512-UXdBxNGqTMtm7hCwh9HtncFVLrXoqA3oJW30j6XWp5BH/wu3mVeaxo7cq5benFdBw34HB3XDT2TRPI7rXZ+mDg==
+"@types/node@^17.0.41":
+  version "17.0.41"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.41.tgz#1607b2fd3da014ae5d4d1b31bc792a39348dfb9b"
+  integrity sha512-xA6drNNeqb5YyV5fO3OAEsnXLfO7uF0whiOfPTz5AeDo8KeZFmODKnvwPymMNO8qE/an8pVY/O50tig2SQCrGw==
 
 "@types/nodemailer@*":
   version "6.4.4"
@@ -4280,10 +4280,10 @@ autoprefixer@^9.7.3:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
-aws-sdk@^2.1149.0:
-  version "2.1149.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1149.0.tgz#c7a4e10ca898341bd736ca9ace6cbf19387bc274"
-  integrity sha512-wNb3YMLhXoK4UkjXhGAWMjRdrXT/Zhv3KdgPmd7VWlr3nXMViLwVJEEYdVmALUdkzCefdzY1JUTRLMgCxtn9EA==
+aws-sdk@^2.1150.0:
+  version "2.1150.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1150.0.tgz#6f43380837d9cd1b761b9dc51395067686a4a053"
+  integrity sha512-SNbVXNlFGNFVcztPk7iWnjtGL+Afm1nyidpvX2rEqYdap2Ow57njZJXvghQUici4Xhqe+BUuG+x1orlFjapo4g==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
