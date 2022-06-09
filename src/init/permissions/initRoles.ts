@@ -1,13 +1,12 @@
 import {Context} from '../../adm/services/types';
 import {Role} from '../../types/enums';
-import {createContext} from '../../adm/services/context';
 import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 
 // yarn ts-node:withContext src/init/permissions/initRoles.ts
 // runlify start env=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 const initRoles = async (ctx: Context) => {
-  const allPermissions = getRuntimePermissions(await createContext());
+  const allPermissions = getRuntimePermissions(ctx);
   await ctx.service('permissions').createMany(
     allPermissions
       .map(p => ({
