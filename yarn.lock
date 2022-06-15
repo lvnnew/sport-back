@@ -3281,10 +3281,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^17.0.42":
-  version "17.0.42"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.42.tgz#d7e8f22700efc94d125103075c074396b5f41f9b"
-  integrity sha512-Q5BPGyGKcvQgAMbsr7qEGN/kIPN6zZecYYABeTDBizOsau+2NMdSVTar9UQw21A2+JyA2KRNDYaYrPB0Rpk2oQ==
+"@types/node@^17.0.44":
+  version "17.0.44"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.44.tgz#16dd0bb5338f016d8ca10631789f0d0612fe5d5b"
+  integrity sha512-gWYiOlu6Y4oyLYBvsJAPlwHbC8H4tX+tLsHy6Ee976wedwwZKrG2hFl3Y/HiH6bIyLTbDWQexQF/ohwKkOpUCg==
 
 "@types/nodemailer@*":
   version "6.4.4"
@@ -4303,10 +4303,10 @@ autoprefixer@^9.7.3:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
-aws-sdk@^2.1153.0:
-  version "2.1153.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1153.0.tgz#63394dff05166d12d29594beda909e85897aa56d"
-  integrity sha512-afuYFy5jc2eQ7fGL6bsMiDGJ74nSvQyCWwQ0j3lJp+9BbMCxqc03lozWh3W07tknr4xmL+5YhfkmViNLoz2huA==
+aws-sdk@^2.1154.0:
+  version "2.1154.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1154.0.tgz#94c9406aeb69b7320a16714eb4958a9569cbb7f4"
+  integrity sha512-SIxLcWGsnW9Sl2P+a+uoqebBsfjeAZZOQokzgDj3VoESnFzsjI+2REi9CdvvSvwlfFUP7sFr6A0khrYNDJLebQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -6717,10 +6717,15 @@ eslint-plugin-promise@^6.0.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-6.0.0.tgz#017652c07c9816413a41e11c30adc42c3d55ff18"
   integrity sha512-7GPezalm5Bfi/E22PnQxDWH2iW9GTvAlUNTztemeHb6c1BniSyoeTrM87JkC0wYdi6aQrZX9p2qEiAno8aTcbw==
 
-eslint-plugin-react-hooks@^4.4.0, eslint-plugin-react-hooks@^4.5.0:
+eslint-plugin-react-hooks@^4.4.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.5.0.tgz#5f762dfedf8b2cf431c689f533c9d3fa5dcf25ad"
   integrity sha512-8k1gRt7D7h03kd+SAAlzXkQwWK22BnK6GKZG+FJA6BAGy22CFvl8kCIXKpVux0cCxMWDQUPqSok0LKaZ0aOcCw==
+
+eslint-plugin-react-hooks@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.0.tgz#4c3e697ad95b77e93f8646aaa1630c1ba607edd3"
+  integrity sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==
 
 eslint-plugin-react@^7.29.4, eslint-plugin-react@^7.30.0:
   version "7.30.0"
