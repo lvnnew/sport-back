@@ -42,7 +42,7 @@
     "testTimeout": 120000
   },
   "dependencies": {
-    "@faker-js/faker": "^7.2.0",
+    "@faker-js/faker": "^7.3.0",
     "@graphql-tools/load-files": "^6.5.4",
     "@graphql-tools/merge": "^8.2.14",
     "@graphql-tools/schema": "^8.3.14",
@@ -147,8 +147,8 @@
     "@types/tmp": "^0.2.3",
     "@types/uuid": "^8.3.4",
     "@types/xml2js": "^0.4.11",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "5.29.0",
     "apollo-server-testing": "^2.25.3",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
