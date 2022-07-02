@@ -2,7 +2,7 @@
 # DO NOT EDIT! THIS IS GENERATED FILE
 
 {{- if .Values.ingress.enabled }}
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
  name: mtbase-back
@@ -24,16 +24,24 @@ spec:
     - host: {{ $.Values.ingress.domain }}.apps.{{ $.Values.ingress.host }}
       http:
         paths:
-          - backend:
-              serviceName: mtbase-back
-              servicePort: 3000
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: mtbase-back
+                port:
+                  number: 3000
     {{ end }}
     - host: {{ $.Values.ingress.domain }}.{{ $.Values.global.env }}.apps.{{ $.Values.global.clusterName }}.{{ $.Values.ingress.host }}
       http:
         paths:
-          - backend:
-              serviceName: mtbase-back
-              servicePort: 3000
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: mtbase-back
+                port:
+                  number: 3000
   tls:
   - hosts:
     - {{ $.Values.ingress.domain }}.{{ $.Values.global.env }}.apps.{{ $.Values.global.clusterName }}.{{ $.Values.ingress.host }}
