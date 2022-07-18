@@ -1,5 +1,4 @@
 import {createContext} from '../adm/services/context';
-import log from '../log';
 import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 
@@ -15,8 +14,6 @@ import {initTestManagers} from './initTestManagers';
 // runlify start env=annykarimova yarn ts-node src/init/initDev.ts
 
 const app = async () => {
-  log.info('start');
-
   const queue = await getQueue();
   await queue.migrate();
 
@@ -25,8 +22,6 @@ const app = async () => {
   await initTestManagers(ctx);
 
   await ctx.close();
-
-  log.info('finish');
 };
 
 app();
