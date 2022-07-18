@@ -1,4 +1,4 @@
-import jetpack from 'fs-jetpack';
+import fs from 'fs-jetpack';
 import {
   BootstrapEntityOptions,
   defaultBootstrapEntityOptions,
@@ -10,7 +10,7 @@ import path from 'path';
 
 // yarn ts-node src/meta/regenBasedOnMeta.ts
 
-const dir = jetpack.cwd('..').cwd();
+const dir = fs.cwd('..').cwd();
 
 const opts: BootstrapEntityOptions = {
   ...defaultBootstrapEntityOptions,
@@ -53,4 +53,7 @@ stats.addField('helloCount').setType('int');
 const tags = system.addCatalog('tags', 'Tags', opts);
 tags.addField('comment').setType('string');
 
-generateProject(system.build(), opts);
+const meta = system.build();
+const genFilder = fs.cwd('src').cwd('gen');
+fs.write(genFilder.cwd('metadata.json').cwd(), meta);
+fs.write(genFilder.cwd('options.json').cwd(), opts);
