@@ -7,6 +7,7 @@ import {
   addCommonEntities,
 } from 'runlify';
 import path from 'path';
+import stringify from 'safe-stable-stringify';
 
 // yarn ts-node src/meta/regenBasedOnMeta.ts
 
@@ -54,6 +55,6 @@ const tags = system.addCatalog('tags', 'Tags', opts);
 tags.addField('comment').setType('string');
 
 const meta = system.build();
-const genFilder = fs.cwd('src').cwd('gen');
-fs.write(genFilder.cwd('metadata.json').cwd(), meta);
-fs.write(genFilder.cwd('options.json').cwd(), opts);
+const genFilder = fs.cwd('src').cwd('meta');
+fs.write(genFilder.cwd('metadata.json').cwd(), stringify(meta));
+fs.write(genFilder.cwd('options.json').cwd(), stringify(opts));
