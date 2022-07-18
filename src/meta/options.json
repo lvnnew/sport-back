@@ -1,1 +1,67 @@
-{"ciDockerRegistry":"registry.gitlab.com","coreIndex":true,"corePrismaGetter":true,"dbName":"mtbase_stage","detachedBackProject":"/home/da/prjs/mtbase-back","detachedUiProject":"/home/da/prjs/mtbase-ui","forms":{"create":{"gen":true,"idEditable":false},"edit":{"gen":true,"idEditable":false},"list":{"gen":true},"menu":{"show":true},"resourcesPage":{"show":true},"show":{"gen":true}},"genBackChartBack":true,"genBackChartIngress":true,"genBackChartValues":true,"genBackGitlabCi":true,"genContext":true,"genGraphResolvers":true,"genGraphSchema":true,"genPrismaSchema":true,"genPrismaServices":true,"genRootConfig":true,"genRootElements":true,"genUIApp":true,"genUiChartFront":true,"genUiChartIngress":true,"genUiCountWidget":true,"genUiDashboard":true,"genUiElements":true,"genUiEntityMapping":true,"genUiFunctions":true,"genUiGitlabCi":true,"genUiListWidget":true,"genUiMenu":true,"genUiResources":true,"genUiResourcesPage":true,"genUiRoutes":true,"k8sAppsDomain":"apps.making.ventures","k8sChartName":"","k8sImagePullSecrets":"gitlab-registry","k8sNamespacePrefix":"","k8sSubdomainPrefix":"","projectName":"Meta Template Base","projectPrefix":"","projectsGroup":"mtbase","readOnly":false,"showMetaPage":true,"skipWarningThisIsGenerated":false,"typesOnly":false}
+{
+ "ciDockerRegistry": "registry.gitlab.com",
+ "coreIndex": true,
+ "corePrismaGetter": true,
+ "dbName": "mtbase_stage",
+ "detachedBackProject": "/home/da/prjs/mtbase-back",
+ "detachedUiProject": "/home/da/prjs/mtbase-ui",
+ "forms": {
+  "create": {
+   "gen": true,
+   "idEditable": false
+  },
+  "edit": {
+   "gen": true,
+   "idEditable": false
+  },
+  "list": {
+   "gen": true
+  },
+  "menu": {
+   "show": true
+  },
+  "resourcesPage": {
+   "show": true
+  },
+  "show": {
+   "gen": true
+  }
+ },
+ "genBackChartBack": true,
+ "genBackChartIngress": true,
+ "genBackChartValues": true,
+ "genBackGitlabCi": true,
+ "genContext": true,
+ "genGraphResolvers": true,
+ "genGraphSchema": true,
+ "genPrismaSchema": true,
+ "genPrismaServices": true,
+ "genRootConfig": true,
+ "genRootElements": true,
+ "genUIApp": true,
+ "genUiChartFront": true,
+ "genUiChartIngress": true,
+ "genUiCountWidget": true,
+ "genUiDashboard": true,
+ "genUiElements": true,
+ "genUiEntityMapping": true,
+ "genUiFunctions": true,
+ "genUiGitlabCi": true,
+ "genUiListWidget": true,
+ "genUiMenu": true,
+ "genUiResources": true,
+ "genUiResourcesPage": true,
+ "genUiRoutes": true,
+ "k8sAppsDomain": "apps.making.ventures",
+ "k8sChartName": "",
+ "k8sImagePullSecrets": "gitlab-registry",
+ "k8sNamespacePrefix": "",
+ "k8sSubdomainPrefix": "",
+ "projectName": "Meta Template Base",
+ "projectPrefix": "",
+ "projectsGroup": "mtbase",
+ "readOnly": false,
+ "showMetaPage": true,
+ "skipWarningThisIsGenerated": false,
+ "typesOnly": false
+}

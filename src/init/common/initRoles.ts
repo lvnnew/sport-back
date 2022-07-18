@@ -6,15 +6,15 @@ import Role from '../../types/Role';
 const initRoles = async (ctx: Context) => {
   await ctx.service('roles').upsert({
     id: Role.Admin,
-    title: 'Админ',
-    hasAllPermissions: true,
     allTenantsAvailable: true,
+    hasAllPermissions: true,
+    title: 'Админ',
   });
   await ctx.service('roles').upsert({
     id: Role.Manager,
-    title: 'Менеджер',
-    hasAllPermissions: false,
     allTenantsAvailable: false,
+    hasAllPermissions: false,
+    title: 'Менеджер',
   });
 };
 
