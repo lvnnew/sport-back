@@ -56,5 +56,5 @@ tags.addField('comment').setType('string');
 
 const meta = system.build();
 const genFilder = fs.cwd('src').cwd('meta');
-fs.write(genFilder.cwd('metadata.json').cwd(), stringify(meta));
-fs.write(genFilder.cwd('options.json').cwd(), stringify(opts));
+fs.write(genFilder.cwd('metadata.json').cwd(), stringify(meta, null, 1));
+fs.write(genFilder.cwd('options.json').cwd(), stringify(opts, null, 1));
