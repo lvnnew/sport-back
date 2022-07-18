@@ -8,7 +8,7 @@ import {
 } from 'runlify';
 import path from 'path';
 
-// yarn ts-node src/meta/mtbase.ts
+// yarn ts-node src/meta/regenBasedOnMeta.ts
 
 const dir = jetpack.cwd('..').cwd();
 
