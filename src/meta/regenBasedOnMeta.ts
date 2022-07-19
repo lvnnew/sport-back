@@ -2,7 +2,6 @@ import fs from 'fs-jetpack';
 import {
   BootstrapEntityOptions,
   defaultBootstrapEntityOptions,
-  generateProject,
   SystemMetaBuilder,
   addCommonEntities,
 } from 'runlify';
