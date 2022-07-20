@@ -8,7 +8,7 @@ import {
 import path from 'path';
 import stringify from 'safe-stable-stringify';
 
-// yarn ts-node src/meta/regenBasedOnMeta.ts
+// yarn regen
 
 const dir = fs.cwd('..').cwd();
 
