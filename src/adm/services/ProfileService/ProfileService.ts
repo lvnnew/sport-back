@@ -18,6 +18,8 @@ export interface ProfileService {
   getPermissions: () => Promise<string[]>;
   getPermissionsOfManagerWithMeta: (managerId: number) => Promise<PermissionsWithMeta[]>;
   getPermissionsWithMeta: () => Promise<PermissionsWithMeta[]>;
+  getRolesOfManager: (managerId: number) => Promise<string[]>;
+  getRoles: () => Promise<string[]>;
 
   changePassword: (params: MutationChangePasswordArgs) => Promise<void>;
 
@@ -233,6 +235,30 @@ export const getProfileService = (ctx: Context): ProfileService => {
     return allowed[0];
   };
 
+  const getRolesOfManager = async (managerId: number) => {
+    const prisma = await ctx.container.getAsync('Prisma') as PrismaClient;
+
+    const rawPermissions = await prisma.managersToRole.findMany({
+      where: {
+        managerId,
+      },
+      select: {
+        roleId: true,
+      },
+    });
+
+    return rawPermissions.map(el => el.roleId);
+  };
+
+  const getRoles = async () => {
+    if (!managerId) {
+      log.error('getPermissions Current manager is unknown');
+      throw new Error('getPermissions Current manager is unknown');
+    }
+
+    return getRolesOfManager(managerId);
+  };
+
   const changePassword = async ({
     password,
   }: MutationChangePasswordArgs) => {
@@ -248,6 +274,8 @@ export const getProfileService = (ctx: Context): ProfileService => {
     getPermissionsOfManager,
     getPermissionsWithMeta,
     getPermissionsOfManagerWithMeta,
+    getRolesOfManager,
+    getRoles,
     changePassword,
     getUserId,
     getManagerId,

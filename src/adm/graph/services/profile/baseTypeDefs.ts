@@ -9,8 +9,10 @@ export default gql`
 
   type Query {
     getPermissions: [String!]!
-    getPermissionsWithMeta: [PermissionsWithMeta]!
-    getPermissionsOfManagerWithMeta(managerId: Int!): [PermissionsWithMeta]!
+    getPermissionsWithMeta: [PermissionsWithMeta!]!
+    getPermissionsOfManagerWithMeta(managerId: Int!): [PermissionsWithMeta!]!
+    getRoles: [String!]!
+    getRolesOfManager(managerId: Int!): [String!]!
   }
 
   type Mutation {

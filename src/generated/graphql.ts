@@ -258,8 +258,10 @@ export type Query = {
   allPermissions?: Maybe<Array<Maybe<Permission>>>;
   _allPermissionsMeta?: Maybe<ListMetadata>;
   getPermissions: Array<Scalars['String']>;
-  getPermissionsWithMeta: Array<Maybe<PermissionsWithMeta>>;
-  getPermissionsOfManagerWithMeta: Array<Maybe<PermissionsWithMeta>>;
+  getPermissionsWithMeta: Array<PermissionsWithMeta>;
+  getPermissionsOfManagerWithMeta: Array<PermissionsWithMeta>;
+  getRoles: Array<Scalars['String']>;
+  getRolesOfManager: Array<Scalars['String']>;
   Role?: Maybe<Role>;
   allRoles?: Maybe<Array<Maybe<Role>>>;
   _allRolesMeta?: Maybe<ListMetadata>;
@@ -689,6 +691,11 @@ export type Query_AllPermissionsMetaArgs = {
 
 
 export type QueryGetPermissionsOfManagerWithMetaArgs = {
+  managerId: Scalars['Int'];
+};
+
+
+export type QueryGetRolesOfManagerArgs = {
   managerId: Scalars['Int'];
 };
 
@@ -2756,8 +2763,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   allPermissions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Permission']>>>, ParentType, ContextType, Partial<QueryAllPermissionsArgs>>;
   _allPermissionsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllPermissionsMetaArgs>>;
   getPermissions?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
-  getPermissionsWithMeta?: Resolver<Array<Maybe<ResolversTypes['PermissionsWithMeta']>>, ParentType, ContextType>;
-  getPermissionsOfManagerWithMeta?: Resolver<Array<Maybe<ResolversTypes['PermissionsWithMeta']>>, ParentType, ContextType, RequireFields<QueryGetPermissionsOfManagerWithMetaArgs, 'managerId'>>;
+  getPermissionsWithMeta?: Resolver<Array<ResolversTypes['PermissionsWithMeta']>, ParentType, ContextType>;
+  getPermissionsOfManagerWithMeta?: Resolver<Array<ResolversTypes['PermissionsWithMeta']>, ParentType, ContextType, RequireFields<QueryGetPermissionsOfManagerWithMetaArgs, 'managerId'>>;
+  getRoles?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getRolesOfManager?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryGetRolesOfManagerArgs, 'managerId'>>;
   Role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType, RequireFields<QueryRoleArgs, 'id'>>;
   allRoles?: Resolver<Maybe<Array<Maybe<ResolversTypes['Role']>>>, ParentType, ContextType, Partial<QueryAllRolesArgs>>;
   _allRolesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllRolesMetaArgs>>;
