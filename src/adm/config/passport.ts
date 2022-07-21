@@ -43,6 +43,7 @@ passport.use(
         return done(null, {
           id: manager.id,
           permissions: await ctx.service('profile').getPermissionsOfManager(manager.id),
+          roles: await ctx.service('profile').getRolesOfManager(manager.id),
         });
       } catch (error: any) {
         return done(error, null);
@@ -92,6 +93,7 @@ passport.use(
           id: login.managerId,
           fullName: `${manager.firstName} ${manager.lastName}`,
           permissions: await ctx.service('profile').getPermissionsOfManager(login.managerId),
+          roles: await ctx.service('profile').getRolesOfManager(manager.id),
         });
       } catch (error: any) {
         return done(error, null);
@@ -128,6 +130,7 @@ export const initAdmPassport = async () => {
           done(null, {
             id: jwtPayload.id,
             permissions: await ctx.service('profile').getPermissionsOfManager(jwtPayload.managerId),
+            roles: await ctx.service('profile').getRolesOfManager(jwtPayload.managerId),
           });
         } catch (error: any) {
           done(error, null);
