@@ -8,8 +8,12 @@ export default gql`
   }
 
   type Query {
-    getManagerPermissions: [String!]!
+    getPermissions: [String!]!
     getPermissionsWithMeta: [PermissionsWithMeta]!
     getPermissionsOfManagerWithMeta(managerId: Int!): [PermissionsWithMeta]!
+  }
+
+  type Mutation {
+    changePassword(password: String!): Void
   }
 `;

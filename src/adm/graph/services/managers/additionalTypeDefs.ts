@@ -4,6 +4,6 @@ export default gql`
   type Mutation {
     newManager(firstName: String!, lastName: String!, email: String!, password: String!, roles: [String!]): Void
     deactivateManagers(managerIds: [Int!]!): Void
-    changePassword(managerId: Int!, password: String!): Void
+    changePasswordByManagerId(managerId: Int!, password: String!): Void
   }
 `;

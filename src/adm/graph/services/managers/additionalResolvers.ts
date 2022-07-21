@@ -2,7 +2,7 @@ import {
   Resolvers,
   MutationNewManagerArgs,
   MutationDeactivateManagersArgs,
-  MutationChangePasswordArgs,
+  MutationChangePasswordByManagerIdArgs,
 } from '../../../../generated/graphql';
 import {Context} from '../../../services/types';
 
@@ -12,8 +12,8 @@ const queryResolvers: Resolvers = {
       context.service('managers').newManager(params),
     deactivateManagers: (_, params: MutationDeactivateManagersArgs, {context}: {context: Context}) =>
       context.service('managers').deactivateManagers(params),
-    changePassword: (_, params: MutationChangePasswordArgs, {context}: {context: Context}) =>
-      context.service('managers').changePassword(params),
+    changePasswordByManagerId: (_, params: MutationChangePasswordByManagerIdArgs, {context}: {context: Context}) =>
+      context.service('managers').changePasswordByManagerId(params),
   },
 };
 

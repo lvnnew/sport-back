@@ -1,6 +1,9 @@
 import * as R from 'ramda';
 import LRUCache from 'lru-cache';
-import {PermissionsWithMeta} from '../../../generated/graphql';
+import {
+  PermissionsWithMeta,
+  MutationChangePasswordArgs,
+} from '../../../generated/graphql';
 import {KeyValuePair} from 'ramda';
 import log from '../../../log';
 import {PrismaClient} from '@prisma/client';
@@ -12,9 +15,11 @@ export const BASE_MILES_TO_REWARD_FLIGHT = 1000;
 
 export interface ProfileService {
   getPermissionsOfManager: (managerId: number) => Promise<string[]>;
-  getManagerPermissions: () => Promise<string[]>;
+  getPermissions: () => Promise<string[]>;
   getPermissionsOfManagerWithMeta: (managerId: number) => Promise<PermissionsWithMeta[]>;
   getPermissionsWithMeta: () => Promise<PermissionsWithMeta[]>;
+
+  changePassword: (params: MutationChangePasswordArgs) => Promise<void>;
 
   getUserId: () => number | null,
   getManagerId: () => number | null,
@@ -138,7 +143,7 @@ export const getProfileService = (ctx: Context): ProfileService => {
     return managersPermissionsCache.get(managerId);
   };
 
-  const getManagerPermissions = async () => {
+  const getPermissions = async () => {
     if (!managerId) {
       log.error('getPermissions Current manager is unknown');
       throw new Error('getPermissions Current manager is unknown');
@@ -228,13 +233,25 @@ export const getProfileService = (ctx: Context): ProfileService => {
     return allowed[0];
   };
 
+  const changePassword = async ({
+    password,
+  }: MutationChangePasswordArgs) => {
+    const managerId = getManagerId();
+    if (!managerId) {
+      throw new Error('No managers found.');
+    }
+
+    return ctx.service('managers').changePasswordByManagerId({password, managerId});
+  };
+
   return {
     getPermissionsOfManager,
     getPermissionsWithMeta,
     getPermissionsOfManagerWithMeta,
+    changePassword,
     getUserId,
     getManagerId,
-    getManagerPermissions,
+    getPermissions,
     setUserId,
     setManagerId,
     getAllowedTenantIdsOfManager,

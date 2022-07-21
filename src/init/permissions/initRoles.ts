@@ -67,7 +67,7 @@ const initRoles = async (ctx: Context) => {
   // Admin specific permissions.
   // We do not link them by rolesToPermissions due to Admin's ability to get all existing permissions
   const adminPermissions = [
-    'members.changePassword',
+    'members.changePasswordByManagerId',
   ];
   await ctx.service('permissions').createMany(
     adminPermissions

@@ -3,7 +3,7 @@ import {BaseManagersMethods} from './ManagersService';
 import {
   MutationNewManagerArgs,
   MutationDeactivateManagersArgs,
-  MutationChangePasswordArgs,
+  MutationChangePasswordByManagerIdArgs,
 } from '../../../generated/graphql';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../../../constants';
@@ -11,7 +11,7 @@ import {BCRYPT_SALT_ROUNDS} from '../../../constants';
 export interface AdditionalManagersMethods {
   newManager: (params: MutationNewManagerArgs) => Promise<void>;
   deactivateManagers: (params: MutationDeactivateManagersArgs) => Promise<void>;
-  changePassword: (params: MutationChangePasswordArgs) => Promise<void>;
+  changePasswordByManagerId: (params: MutationChangePasswordByManagerIdArgs) => Promise<void>;
 }
 
 export const getAdditionalMethods = (ctx: Context, baseMethods: BaseManagersMethods): AdditionalManagersMethods => {
@@ -68,10 +68,10 @@ export const getAdditionalMethods = (ctx: Context, baseMethods: BaseManagersMeth
     });
   };
 
-  const changePassword = async ({
+  const changePasswordByManagerId = async ({
     managerId,
     password,
-  }: MutationChangePasswordArgs) => {
+  }: MutationChangePasswordByManagerIdArgs) => {
     const managerLogin = await ctx.service('managerLogins').findOneRequired({filter: {managerId}});
     const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
@@ -88,6 +88,6 @@ export const getAdditionalMethods = (ctx: Context, baseMethods: BaseManagersMeth
   return {
     newManager,
     deactivateManagers,
-    changePassword,
+    changePasswordByManagerId,
   };
 };
