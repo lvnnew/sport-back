@@ -122,7 +122,7 @@ const start = async () => {
               // log.info(typeof getManagerId);
               // log.info(getManagerId());
 
-              // log.info(getManagerPermissions());
+              // log.info(getPermissions());
 
               // log.info(Object.keys(context));
 
@@ -139,7 +139,7 @@ const start = async () => {
               //   throw new AuthenticationError(`There is no permission for "${operationName}"`);
               // }
 
-              // if (!getManagerPermissions().includes(permission)) {
+              // if (!getPermissions().includes(permission)) {
               //   throw new AuthenticationError(`Operation "${operationName}" not permitted`);
               // }
 

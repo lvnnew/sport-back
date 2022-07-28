@@ -76,7 +76,7 @@ model AdmRefreshToken {
 model Unit {
 	id	Int	@default(autoincrement())	@id
 	search	String?
-	title	String?
+	title	String
 	parentId	Int?
 	parent	Unit?	@relation("From-Unit.parent", fields: [parentId], references: [id])
 	managerUnits	Manager[]	@relation("From-Manager.unit")

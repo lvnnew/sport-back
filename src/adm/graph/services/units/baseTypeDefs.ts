@@ -5,7 +5,7 @@ import {gql} from 'apollo-server';
 export default gql`
   type Unit {
     id: Int!
-    title: String
+    title: String!
     parentId: Int
   }
 
@@ -30,8 +30,8 @@ export default gql`
   }
 
   type Mutation {
-    createUnit(title: String, parentId: Int): Unit
-    updateUnit(id: Int!, title: String, parentId: Int): Unit
+    createUnit(title: String!, parentId: Int): Unit
+    updateUnit(id: Int!, title: String!, parentId: Int): Unit
     removeUnit(id: Int!): Unit
   }
 `;

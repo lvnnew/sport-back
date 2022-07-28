@@ -1485,14 +1485,14 @@ export type MutationRemoveTenantArgs = {
 
 
 export type MutationCreateUnitArgs = {
-  title?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
   parentId?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type MutationUpdateUnitArgs = {
   id: Scalars['Int'];
-  title?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
   parentId?: InputMaybe<Scalars['Int']>;
 };
 
@@ -2105,7 +2105,7 @@ export type TenantFilter = {
 export type Unit = {
   __typename?: 'Unit';
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
   parentId?: Maybe<Scalars['Int']>;
 };
 
@@ -2868,8 +2868,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationCreateTenantArgs, 'utcOffset'>>;
   updateTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationUpdateTenantArgs, 'id' | 'utcOffset'>>;
   removeTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationRemoveTenantArgs, 'id'>>;
-  createUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, Partial<MutationCreateUnitArgs>>;
-  updateUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationUpdateUnitArgs, 'id'>>;
+  createUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationCreateUnitArgs, 'title'>>;
+  updateUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationUpdateUnitArgs, 'id' | 'title'>>;
   removeUnit?: Resolver<Maybe<ResolversTypes['Unit']>, ParentType, ContextType, RequireFields<MutationRemoveUnitArgs, 'id'>>;
   createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'lastname' | 'firstname' | 'email'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'lastname' | 'firstname' | 'email'>>;
@@ -3087,7 +3087,7 @@ export type TenantResolvers<ContextType = any, ParentType extends ResolversParen
 
 export type UnitResolvers<ContextType = any, ParentType extends ResolversParentTypes['Unit'] = ResolversParentTypes['Unit']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   parentId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
