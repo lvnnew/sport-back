@@ -67,7 +67,10 @@ export interface BaseUsersMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateUserArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<User>;
-  upsert: (data: MutationUpdateUserArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateUserArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<User>;
   upsertAdvanced: (
     filter: UserFilter,
@@ -315,11 +318,11 @@ export const getUsersService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateUserArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateUserArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<User> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

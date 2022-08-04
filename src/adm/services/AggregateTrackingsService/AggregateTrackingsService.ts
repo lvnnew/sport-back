@@ -65,7 +65,10 @@ export interface BaseAggregateTrackingsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAggregateTrackingArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AggregateTracking>;
-  upsert: (data: MutationUpdateAggregateTrackingArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateAggregateTrackingArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<AggregateTracking>;
   upsertAdvanced: (
     filter: AggregateTrackingFilter,
@@ -301,11 +304,11 @@ export const getAggregateTrackingsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAggregateTrackingArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateAggregateTrackingArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<AggregateTracking> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

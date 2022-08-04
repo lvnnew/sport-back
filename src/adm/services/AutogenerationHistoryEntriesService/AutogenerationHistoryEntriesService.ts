@@ -65,7 +65,10 @@ export interface BaseAutogenerationHistoryEntriesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationHistoryEntry>;
-  upsert: (data: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<AutogenerationHistoryEntry>;
   upsertAdvanced: (
     filter: AutogenerationHistoryEntryFilter,
@@ -328,11 +331,11 @@ export const getAutogenerationHistoryEntriesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateAutogenerationHistoryEntryArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<AutogenerationHistoryEntry> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

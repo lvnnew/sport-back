@@ -65,7 +65,10 @@ export interface BaseAutogenerationRulesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AutogenerationRule>;
-  upsert: (data: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateAutogenerationRuleArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<AutogenerationRule>;
   upsertAdvanced: (
     filter: AutogenerationRuleFilter,
@@ -328,11 +331,11 @@ export const getAutogenerationRulesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAutogenerationRuleArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateAutogenerationRuleArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<AutogenerationRule> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

@@ -65,7 +65,10 @@ export interface BaseMessageTypesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateMessageTypeArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageType>;
-  upsert: (data: MutationUpdateMessageTypeArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateMessageTypeArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<MessageType>;
   upsertAdvanced: (
     filter: MessageTypeFilter,
@@ -310,11 +313,11 @@ export const getMessageTypesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateMessageTypeArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateMessageTypeArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<MessageType> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

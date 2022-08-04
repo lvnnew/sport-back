@@ -65,7 +65,10 @@ export interface BaseAppLoginsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAppLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppLogin>;
-  upsert: (data: MutationUpdateAppLoginArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateAppLoginArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<AppLogin>;
   upsertAdvanced: (
     filter: AppLoginFilter,
@@ -311,11 +314,11 @@ export const getAppLoginsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAppLoginArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateAppLoginArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<AppLogin> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

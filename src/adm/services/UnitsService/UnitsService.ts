@@ -65,7 +65,10 @@ export interface BaseUnitsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateUnitArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Unit>;
-  upsert: (data: MutationUpdateUnitArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateUnitArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Unit>;
   upsertAdvanced: (
     filter: UnitFilter,
@@ -310,11 +313,11 @@ export const getUnitsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateUnitArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateUnitArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Unit> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

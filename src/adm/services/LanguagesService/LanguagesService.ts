@@ -65,7 +65,10 @@ export interface BaseLanguagesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateLanguageArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Language>;
-  upsert: (data: MutationUpdateLanguageArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateLanguageArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Language>;
   upsertAdvanced: (
     filter: LanguageFilter,
@@ -309,11 +312,11 @@ export const getLanguagesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateLanguageArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateLanguageArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Language> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

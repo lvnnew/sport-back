@@ -65,7 +65,10 @@ export interface BaseDelegationsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateDelegationArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Delegation>;
-  upsert: (data: MutationUpdateDelegationArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateDelegationArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Delegation>;
   upsertAdvanced: (
     filter: DelegationFilter,
@@ -325,11 +328,11 @@ export const getDelegationsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateDelegationArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateDelegationArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Delegation> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

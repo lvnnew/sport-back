@@ -65,7 +65,10 @@ export interface BaseAppRefreshTokensMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AppRefreshToken>;
-  upsert: (data: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateAppRefreshTokenArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<AppRefreshToken>;
   upsertAdvanced: (
     filter: AppRefreshTokenFilter,
@@ -312,11 +315,11 @@ export const getAppRefreshTokensService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAppRefreshTokenArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateAppRefreshTokenArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<AppRefreshToken> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

@@ -64,7 +64,10 @@ export interface BaseEntitiesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateEntityArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Entity>;
-  upsert: (data: MutationUpdateEntityArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateEntityArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Entity>;
   upsertAdvanced: (
     filter: EntityFilter,
@@ -296,11 +299,11 @@ export const getEntitiesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateEntityArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateEntityArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Entity> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

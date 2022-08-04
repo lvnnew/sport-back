@@ -65,7 +65,10 @@ export interface BaseTagsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateTagArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tag>;
-  upsert: (data: MutationUpdateTagArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateTagArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Tag>;
   upsertAdvanced: (
     filter: TagFilter,
@@ -309,11 +312,11 @@ export const getTagsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateTagArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateTagArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Tag> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

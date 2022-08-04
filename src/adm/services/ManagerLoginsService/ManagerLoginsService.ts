@@ -65,7 +65,10 @@ export interface BaseManagerLoginsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateManagerLoginArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<ManagerLogin>;
-  upsert: (data: MutationUpdateManagerLoginArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateManagerLoginArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<ManagerLogin>;
   upsertAdvanced: (
     filter: ManagerLoginFilter,
@@ -327,11 +330,11 @@ export const getManagerLoginsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateManagerLoginArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateManagerLoginArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<ManagerLogin> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

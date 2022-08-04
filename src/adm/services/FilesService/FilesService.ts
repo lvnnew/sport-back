@@ -65,7 +65,10 @@ export interface BaseFilesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateFileArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<File>;
-  upsert: (data: MutationUpdateFileArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateFileArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<File>;
   upsertAdvanced: (
     filter: FileFilter,
@@ -313,11 +316,11 @@ export const getFilesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateFileArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateFileArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<File> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

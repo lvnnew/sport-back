@@ -65,7 +65,10 @@ export interface BaseMessageTemplatesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<MessageTemplate>;
-  upsert: (data: MutationUpdateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateMessageTemplateArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<MessageTemplate>;
   upsertAdvanced: (
     filter: MessageTemplateFilter,
@@ -323,11 +326,11 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateMessageTemplateArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateMessageTemplateArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<MessageTemplate> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

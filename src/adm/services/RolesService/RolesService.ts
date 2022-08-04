@@ -65,7 +65,10 @@ export interface BaseRolesMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateRoleArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Role>;
-  upsert: (data: MutationUpdateRoleArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateRoleArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Role>;
   upsertAdvanced: (
     filter: RoleFilter,
@@ -323,11 +326,11 @@ export const getRolesService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateRoleArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateRoleArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Role> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

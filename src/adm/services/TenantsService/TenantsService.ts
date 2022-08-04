@@ -65,7 +65,10 @@ export interface BaseTenantsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateTenantArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Tenant>;
-  upsert: (data: MutationUpdateTenantArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateTenantArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Tenant>;
   upsertAdvanced: (
     filter: TenantFilter,
@@ -310,11 +313,11 @@ export const getTenantsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateTenantArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateTenantArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Tenant> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

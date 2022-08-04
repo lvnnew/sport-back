@@ -65,7 +65,10 @@ export interface BaseStatsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateStatArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Stat>;
-  upsert: (data: MutationUpdateStatArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateStatArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Stat>;
   upsertAdvanced: (
     filter: StatFilter,
@@ -311,11 +314,11 @@ export const getStatsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateStatArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateStatArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Stat> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

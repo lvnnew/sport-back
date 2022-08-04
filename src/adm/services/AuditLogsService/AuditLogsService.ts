@@ -64,7 +64,10 @@ export interface BaseAuditLogsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdateAuditLogArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<AuditLog>;
-  upsert: (data: MutationUpdateAuditLogArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdateAuditLogArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<AuditLog>;
   upsertAdvanced: (
     filter: AuditLogFilter,
@@ -319,11 +322,11 @@ export const getAuditLogsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdateAuditLogArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdateAuditLogArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<AuditLog> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;

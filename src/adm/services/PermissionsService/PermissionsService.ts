@@ -65,7 +65,10 @@ export interface BasePermissionsMethods {
     Promise<Prisma.BatchPayload>;
   update: ({id, ...rest}: MutationUpdatePermissionArgsWithoutAutodefinable, byUser?: boolean) =>
     Promise<Permission>;
-  upsert: (data: MutationUpdatePermissionArgsWithoutAutodefinable, byUser?: boolean) =>
+  upsert: (
+    data: PartialFieldsInRecord<MutationUpdatePermissionArgsWithoutAutodefinable, 'id'>,
+    byUser?: boolean,
+  ) =>
     Promise<Permission>;
   upsertAdvanced: (
     filter: PermissionFilter,
@@ -309,11 +312,11 @@ export const getPermissionsService = (ctx: Context) => {
   };
 
   const upsert = async (
-    data: MutationUpdatePermissionArgsWithoutAutodefinable,
+    data: PartialFieldsInRecord<MutationUpdatePermissionArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Permission> => {
     // Get db version
-    const dbVersion = await get(data.id);
+    const dbVersion = data.id ? await get(data.id) : null;
 
     // clear from fields forbidden for user
     const cleared = byUser ? R.omit(forbiddenForUserFields, data) : data;
