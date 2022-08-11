@@ -589,6 +589,16 @@
         "possibleTypes": null
       },
       {
+        "kind": "SCALAR",
+        "name": "Cuid",
+        "description": "A field whose value conforms to the standard cuid format as specified in https://github.com/ericelliott/cuid#broken-down",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "AdmRefreshToken",
         "description": null,

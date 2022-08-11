@@ -166,6 +166,8 @@ export type Scalars = {
   RoutingNumber: any;
   /** Banking account number is a string of 5 to 17 alphanumeric values for representing an generic account number */
   AccountNumber: any;
+  /** A field whose value conforms to the standard cuid format as specified in https://github.com/ericelliott/cuid#broken-down */
+  Cuid: any;
 };
 
 export type AdmRefreshToken = {
@@ -2272,6 +2274,7 @@ export type ResolversTypes = {
   Locale: ResolverTypeWrapper<Scalars['Locale']>;
   RoutingNumber: ResolverTypeWrapper<Scalars['RoutingNumber']>;
   AccountNumber: ResolverTypeWrapper<Scalars['AccountNumber']>;
+  Cuid: ResolverTypeWrapper<Scalars['Cuid']>;
   AdmRefreshToken: ResolverTypeWrapper<AdmRefreshToken>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -2395,6 +2398,7 @@ export type ResolversParentTypes = {
   Locale: Scalars['Locale'];
   RoutingNumber: Scalars['RoutingNumber'];
   AccountNumber: Scalars['AccountNumber'];
+  Cuid: Scalars['Cuid'];
   AdmRefreshToken: AdmRefreshToken;
   Int: Scalars['Int'];
   String: Scalars['String'];
@@ -2687,6 +2691,10 @@ export interface RoutingNumberScalarConfig extends GraphQLScalarTypeConfig<Resol
 
 export interface AccountNumberScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['AccountNumber'], any> {
   name: 'AccountNumber';
+}
+
+export interface CuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cuid'], any> {
+  name: 'Cuid';
 }
 
 export type AdmRefreshTokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['AdmRefreshToken'] = ResolversParentTypes['AdmRefreshToken']> = {
@@ -3161,6 +3169,7 @@ export type Resolvers<ContextType = any> = {
   Locale?: GraphQLScalarType;
   RoutingNumber?: GraphQLScalarType;
   AccountNumber?: GraphQLScalarType;
+  Cuid?: GraphQLScalarType;
   AdmRefreshToken?: AdmRefreshTokenResolvers<ContextType>;
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

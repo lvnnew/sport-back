@@ -4590,7 +4590,8 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Units"
+    "en": "Units",
+    "ru": "Подразделения"
    },
    "titleField": "title",
    "type": "catalog",

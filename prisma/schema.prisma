@@ -73,17 +73,6 @@ model AdmRefreshToken {
 }
 
 
-model Unit {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	title	String
-	parentId	Int?
-	parent	Unit?	@relation("From-Unit.parent", fields: [parentId], references: [id])
-	managerUnits	Manager[]	@relation("From-Manager.unit")
-	unitParents	Unit[]	@relation("From-Unit.parent")
-}
-
-
 model AuditLog {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -183,6 +172,17 @@ model Manager {
 	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
 	@@unique([email])
+}
+
+
+model Unit {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	parentId	Int?
+	parent	Unit?	@relation("From-Unit.parent", fields: [parentId], references: [id])
+	managerUnits	Manager[]	@relation("From-Manager.unit")
+	unitParents	Unit[]	@relation("From-Unit.parent")
 }
 
 

@@ -102,7 +102,7 @@ const initEntities = async (ctx: Context) => {
   });
   await ctx.service('entities').upsert({
     id: Entity.Unit,
-    title: 'Units',
+    title: 'Подразделения',
   });
   await ctx.service('entities').upsert({
     id: Entity.User,
