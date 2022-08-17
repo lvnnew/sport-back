@@ -3389,7 +3389,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^18.7.5":
+"@types/node@^18.7.6":
   version "18.7.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.7.6.tgz#31743bc5772b6ac223845e18c3fc26f042713c83"
   integrity sha512-EdxgKRXgYsNITy5mjjXjVE/CS8YENSdhiagGrLqjG0pvA2owgJ6i4l7wy/PFZGC0B1/H20lWKN7ONVDNYDZm7A==
@@ -4485,10 +4485,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-sdk@^2.1195.0:
-  version "2.1195.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1195.0.tgz#f6f091426934ba1a4f8d5138f568e840f7bdb51a"
-  integrity sha512-xU7177JhKM+4SsLnoA6/r3qGzSXmbLgw/YC1KRHvZyJCbuTY+vdAGLaldbtNXjjwmE3a6EeoCREANv8GY62VdQ==
+aws-sdk@^2.1196.0:
+  version "2.1196.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1196.0.tgz#28951e1c742373397514f295f742eb3a9497c02d"
+  integrity sha512-iOGhCY5IqGfHCJ70p0H/uxkXDh/96KanAMfhnGGbIKbpVliuEV7SYxTfsWORaaUHey+N8FE6OMKfzo7F4X+wQg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -12776,10 +12776,10 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-runlify@^0.0.120:
-  version "0.0.120"
-  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.120.tgz#fc538622320a7b36ca390441b9e246452fd801ff"
-  integrity sha512-4hbC61ld4zjVSAW9u6PC6Ev9+JpcD0udw4sQfcQUsbEkeFD5P3gBKqxmsPksgJcFb1fvYB8M/VHVOSlXhn5ugg==
+runlify@^0.0.122:
+  version "0.0.122"
+  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.122.tgz#594b370bf6154954b2940b7f9228ec104c0de2d2"
+  integrity sha512-zBS9g8xKHeRct6lBBtg9785o/qC9lo9Unp9BFNqGWT7KNjGdrOfKt/HNuzue6bpzVjRfTsaSXTjZGaChEWn1Nw==
   dependencies:
     appdata-path "^1.0.0"
     change-case "^4.1.2"
