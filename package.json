@@ -126,7 +126,7 @@
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-resolvers": "^2.7.3",
     "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.2.239",
+    "@swc/core": "^1.2.241",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/email-templates": "^10.0.0",
