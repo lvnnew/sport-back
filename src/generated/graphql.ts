@@ -1265,7 +1265,7 @@ export type MutationCreateManagerArgs = {
   languageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   phone?: InputMaybe<Scalars['String']>;
-  photo?: InputMaybe<Scalars['String']>;
+  photoId?: InputMaybe<Scalars['Int']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   unitId?: InputMaybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
@@ -1282,7 +1282,7 @@ export type MutationUpdateManagerArgs = {
   languageId?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   phone?: InputMaybe<Scalars['String']>;
-  photo?: InputMaybe<Scalars['String']>;
+  photoId?: InputMaybe<Scalars['Int']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   unitId?: InputMaybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
@@ -1883,7 +1883,7 @@ export type Manager = {
   languageId?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   phone?: Maybe<Scalars['String']>;
-  photo?: Maybe<Scalars['String']>;
+  photoId?: Maybe<Scalars['Int']>;
   telegramLogin?: Maybe<Scalars['String']>;
   unitId?: Maybe<Scalars['Int']>;
   headOfUnit: Scalars['Boolean'];
@@ -1907,8 +1907,8 @@ export type ManagerFilter = {
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   phone?: InputMaybe<Scalars['String']>;
   phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  photo?: InputMaybe<Scalars['String']>;
-  photo_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  photoId?: InputMaybe<Scalars['Int']>;
+  photoId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   telegramLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   unitId?: InputMaybe<Scalars['Int']>;
@@ -3007,7 +3007,7 @@ export type ManagerResolvers<ContextType = any, ParentType extends ResolversPare
   languageId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  photoId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   telegramLogin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   unitId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   headOfUnit?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

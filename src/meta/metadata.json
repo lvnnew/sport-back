@@ -2639,7 +2639,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Last name"
+      "ru": "Фамилия"
      },
      "type": "string",
      "updatable": true,
@@ -2660,7 +2660,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "First name"
+      "ru": "Имя"
      },
      "type": "string",
      "updatable": true,
@@ -2683,7 +2683,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Language"
+      "ru": "Язык"
      },
      "type": "string",
      "updatable": true,
@@ -2725,17 +2725,21 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Phone"
+      "ru": "Телефон"
      },
      "type": "string",
      "updatable": true,
      "updatableByUser": true
     },
     {
-     "category": "scalar",
+     "category": "link",
+     "externalEntity": "files",
+     "fileType": "image",
      "hidden": false,
-     "name": "photo",
+     "linkCategory": "entity",
+     "name": "photoId",
      "needFor": "",
+     "predefinedLinkedEntity": "file",
      "required": false,
      "requiredOnInput": null,
      "searchable": true,
@@ -2744,11 +2748,10 @@
      "showInFilter": true,
      "showInList": true,
      "showInWidget": true,
-     "stringType": "plain",
      "title": {
-      "ru": "Photo"
+      "ru": "Фото"
      },
-     "type": "string",
+     "type": "int",
      "updatable": true,
      "updatableByUser": true
     },
@@ -2767,7 +2770,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Telegram login"
+      "ru": "Логин в Telegram"
      },
      "type": "string",
      "updatable": true,
@@ -2790,7 +2793,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Unit"
+      "ru": "Подразделение"
      },
      "type": "int",
      "updatable": true,
@@ -2812,7 +2815,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Head of unit"
+      "ru": "Глава подразделения"
      },
      "type": "bool",
      "updatable": true,
@@ -2834,7 +2837,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Active"
+      "ru": "Активный"
      },
      "type": "bool",
      "updatable": true,
@@ -2911,7 +2914,7 @@
        {
         "alwaysOn": false,
         "hidden": false,
-        "name": "photo"
+        "name": "photoId"
        },
        {
         "alwaysOn": false,

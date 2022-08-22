@@ -11,7 +11,7 @@ export default gql`
     languageId: String
     email: String!
     phone: String
-    photo: String
+    photoId: Int
     telegramLogin: String
     unitId: Int
     headOfUnit: Boolean!
@@ -35,8 +35,8 @@ export default gql`
     email_in: [String]
     phone: String
     phone_in: [String]
-    photo: String
-    photo_in: [String]
+    photoId: Int
+    photoId_in: [Int]
     telegramLogin: String
     telegramLogin_in: [String]
     unitId: Int
@@ -58,8 +58,8 @@ export default gql`
   }
 
   type Mutation {
-    createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String!, phone: String, photo: String, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!, tenantId: Int): Manager
-    updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String!, phone: String, photo: String, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!, tenantId: Int): Manager
+    createManager(title: String, lastName: String!, firstName: String!, languageId: String, email: String!, phone: String, photoId: Int, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!, tenantId: Int): Manager
+    updateManager(id: Int!, title: String, lastName: String!, firstName: String!, languageId: String, email: String!, phone: String, photoId: Int, telegramLogin: String, unitId: Int, headOfUnit: Boolean!, active: Boolean!, tenantId: Int): Manager
     removeManager(id: Int!): Manager
   }
 `;

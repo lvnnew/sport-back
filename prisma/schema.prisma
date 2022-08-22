@@ -37,6 +37,7 @@ model File {
 	mimetype	String
 	s3Key	String
 	eTag	String
+	managerPhotos	Manager[]	@relation("From-Manager.photo")
 }
 
 
@@ -156,7 +157,8 @@ model Manager {
 	language	Language?	@relation("From-Manager.language", fields: [languageId], references: [id])
 	email	String
 	phone	String?
-	photo	String?
+	photoId	Int?
+	photo	File?	@relation("From-Manager.photo", fields: [photoId], references: [id])
 	telegramLogin	String?
 	unitId	Int?
 	unit	Unit?	@relation("From-Manager.unit", fields: [unitId], references: [id])

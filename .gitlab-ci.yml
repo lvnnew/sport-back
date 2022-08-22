@@ -225,6 +225,7 @@ deploy-prod-back:
   script:
     - NAMESPACE=${NAMESPACE:-"mtbase-${ENV}"}
     - echo NAMESPACE ${NAMESPACE}
+    - echo chart ${NAMESPACE}-${DEPLOY_KIND}
 
     - helm upgrade
       --install

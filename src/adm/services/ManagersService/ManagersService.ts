@@ -104,7 +104,7 @@ const otherFieldsForSearch: string[] = [
   'languageId',
   'email',
   'phone',
-  'photo',
+  'photoId',
   'telegramLogin',
   'unitId',
   'tenantId',
