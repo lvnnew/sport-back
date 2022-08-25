@@ -1,15 +1,13 @@
 import log from '../../../log';
-import {EmailOptions, whitelistedEmail} from '../../emaiSender';
+import {EmailOptions} from '../../emailSender';
 import getQueue from '../getQueue';
 import {Job} from './Job';
-import {MessageTemplate} from '../../../types/enums';
+import {Optional} from 'utility-types';
 
 export type SendEmailLocals = Record<string, any>;
 
-export interface AddSendEmailJobArgs extends EmailOptions {
-  template: MessageTemplate;
+export interface AddSendEmailJobArgs extends Optional<EmailOptions, 'message'> {
   priority?: number;
-  locals?: SendEmailLocals;
 }
 
 export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
@@ -19,12 +17,6 @@ export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
   // log.info(args);
   const queue = await getQueue();
 
-  const to = whitelistedEmail(args.message?.to ? args.message.to.toString() : '');
-
-  if (!to) {
-    throw new Error(`Email you wish to send to should be provided. Computed email: "${to}", original: "${args.message?.to}"`);
-  }
-
   await queue.addJob(
     Job.SendEmail,
     {
@@ -32,10 +24,7 @@ export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
       lang: args.lang,
       locals: args.locals,
       files: args.files,
-      message: {
-        ...args.message,
-        to,
-      },
+      message: args.message,
       priority: args.priority,
     },
   );
