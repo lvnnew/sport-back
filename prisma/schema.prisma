@@ -46,6 +46,7 @@ model Language {
 	search	String?
 	title	String?
 	managerLanguages	Manager[]	@relation("From-Manager.language")
+	messageTemplateLangVariantLanguages	MessageTemplateLangVariant[]	@relation("From-MessageTemplateLangVariant.language")
 }
 
 
@@ -269,6 +270,15 @@ model ManagersToRole {
 }
 
 
+model TemplateStyle {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	style	String
+	messageTemplateTemplateStyles	MessageTemplate[]	@relation("From-MessageTemplate.templateStyle")
+}
+
+
 model Entity {
 	id	String	@id
 	search	String?
@@ -306,10 +316,27 @@ model MessageType {
 
 
 model MessageTemplate {
-	id	String	@id
+	id	Int	@default(autoincrement())	@id
 	search	String?
 	title	String
 	secretData	Boolean
 	messageTypeId	String
 	messageType	MessageType	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
+	templateStyleId	Int?
+	templateStyle	TemplateStyle?	@relation("From-MessageTemplate.templateStyle", fields: [templateStyleId], references: [id])
+	messageTemplateLangVariantMessageTemplates	MessageTemplateLangVariant[]	@relation("From-MessageTemplateLangVariant.messageTemplate")
+}
+
+
+model MessageTemplateLangVariant {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	subjectTemplate	String
+	bodyTemplate	String
+	messageTemplateId	Int
+	messageTemplate	MessageTemplate	@relation("From-MessageTemplateLangVariant.messageTemplate", fields: [messageTemplateId], references: [id])
+	languageId	String
+	language	Language	@relation("From-MessageTemplateLangVariant.language", fields: [languageId], references: [id])
+	additionalStyle	String?
+	@@unique([messageTemplateId, languageId])
 }

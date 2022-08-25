@@ -14,6 +14,7 @@ import {getManagerLoginsService} from './ManagerLoginsService/ManagerLoginsServi
 import {getManagersService} from './ManagersService/ManagersService';
 import {getManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
 import {getManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
+import {getMessageTemplateLangVariantsService} from './MessageTemplateLangVariantsService/MessageTemplateLangVariantsService';
 import {getMessageTemplatesService} from './MessageTemplatesService/MessageTemplatesService';
 import {getMessageTypesService} from './MessageTypesService/MessageTypesService';
 import {getPermissionsService} from './PermissionsService/PermissionsService';
@@ -21,6 +22,7 @@ import {getRolesService} from './RolesService/RolesService';
 import {getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
 import {getStatsService} from './StatsService/StatsService';
 import {getTagsService} from './TagsService/TagsService';
+import {getTemplateStylesService} from './TemplateStylesService/TemplateStylesService';
 import {getTenantsService} from './TenantsService/TenantsService';
 import {getUnitsService} from './UnitsService/UnitsService';
 import {getUsersService} from './UsersService/UsersService';
@@ -48,6 +50,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   managers: getManagersService,
   managersToPermissions: getManagersToPermissionsService,
   managersToRoles: getManagersToRolesService,
+  messageTemplateLangVariants: getMessageTemplateLangVariantsService,
   messageTemplates: getMessageTemplatesService,
   messageTypes: getMessageTypesService,
   permissions: getPermissionsService,
@@ -55,6 +58,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   rolesToPermissions: getRolesToPermissionsService,
   stats: getStatsService,
   tags: getTagsService,
+  templateStyles: getTemplateStylesService,
   tenants: getTenantsService,
   units: getUnitsService,
   users: getUsersService,

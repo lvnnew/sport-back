@@ -4,21 +4,24 @@ import {gql} from 'apollo-server';
 
 export default gql`
   type MessageTemplate {
-    id: ID!
+    id: Int!
     title: String!
     secretData: Boolean!
     messageTypeId: String!
+    templateStyleId: Int
   }
 
   input MessageTemplateFilter {
     q: String
-    ids: [ID]
-    id: ID
+    ids: [Int]
+    id: Int
     title: String
     title_in: [String]
     secretData: Boolean
     messageTypeId: String
     messageTypeId_in: [String]
+    templateStyleId: Int
+    templateStyleId_in: [Int]
   }
 
   type ListMetadata {
@@ -26,14 +29,14 @@ export default gql`
   }
 
   type Query {
-    MessageTemplate(id: ID!): MessageTemplate
+    MessageTemplate(id: Int!): MessageTemplate
     allMessageTemplates(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: MessageTemplateFilter): [MessageTemplate]
     _allMessageTemplatesMeta(page: Int, perPage: Int, filter: MessageTemplateFilter): ListMetadata
   }
 
   type Mutation {
-    createMessageTemplate(id: ID!, title: String!, secretData: Boolean!, messageTypeId: String!): MessageTemplate
-    updateMessageTemplate(id: ID!, title: String!, secretData: Boolean!, messageTypeId: String!): MessageTemplate
-    removeMessageTemplate(id: ID!): MessageTemplate
+    createMessageTemplate(title: String!, secretData: Boolean!, messageTypeId: String!, templateStyleId: Int): MessageTemplate
+    updateMessageTemplate(id: Int!, title: String!, secretData: Boolean!, messageTypeId: String!, templateStyleId: Int): MessageTemplate
+    removeMessageTemplate(id: Int!): MessageTemplate
   }
 `;

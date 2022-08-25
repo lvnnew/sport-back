@@ -14,6 +14,7 @@ import {ManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService'
 import {ManagersService} from './ManagersService/ManagersService';
 import {ManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
 import {ManagersToRolesService} from './ManagersToRolesService/ManagersToRolesService';
+import {MessageTemplateLangVariantsService} from './MessageTemplateLangVariantsService/MessageTemplateLangVariantsService';
 import {MessageTemplatesService} from './MessageTemplatesService/MessageTemplatesService';
 import {MessageTypesService} from './MessageTypesService/MessageTypesService';
 import {PermissionsService} from './PermissionsService/PermissionsService';
@@ -21,6 +22,7 @@ import {RolesService} from './RolesService/RolesService';
 import {RolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
 import {StatsService} from './StatsService/StatsService';
 import {TagsService} from './TagsService/TagsService';
+import {TemplateStylesService} from './TemplateStylesService/TemplateStylesService';
 import {TenantsService} from './TenantsService/TenantsService';
 import {UnitsService} from './UnitsService/UnitsService';
 import {UsersService} from './UsersService/UsersService';
@@ -46,6 +48,7 @@ export interface BaseServices {
   managers: ManagersService;
   managersToPermissions: ManagersToPermissionsService;
   managersToRoles: ManagersToRolesService;
+  messageTemplateLangVariants: MessageTemplateLangVariantsService;
   messageTemplates: MessageTemplatesService;
   messageTypes: MessageTypesService;
   permissions: PermissionsService;
@@ -53,6 +56,7 @@ export interface BaseServices {
   rolesToPermissions: RolesToPermissionsService;
   stats: StatsService;
   tags: TagsService;
+  templateStyles: TemplateStylesService;
   tenants: TenantsService;
   units: UnitsService;
   users: UsersService;

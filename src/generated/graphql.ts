@@ -249,6 +249,9 @@ export type Query = {
   ManagersToRole?: Maybe<ManagersToRole>;
   allManagersToRoles?: Maybe<Array<Maybe<ManagersToRole>>>;
   _allManagersToRolesMeta?: Maybe<ListMetadata>;
+  MessageTemplateLangVariant?: Maybe<MessageTemplateLangVariant>;
+  allMessageTemplateLangVariants?: Maybe<Array<Maybe<MessageTemplateLangVariant>>>;
+  _allMessageTemplateLangVariantsMeta?: Maybe<ListMetadata>;
   MessageTemplate?: Maybe<MessageTemplate>;
   allMessageTemplates?: Maybe<Array<Maybe<MessageTemplate>>>;
   _allMessageTemplatesMeta?: Maybe<ListMetadata>;
@@ -276,6 +279,9 @@ export type Query = {
   Tag?: Maybe<Tag>;
   allTags?: Maybe<Array<Maybe<Tag>>>;
   _allTagsMeta?: Maybe<ListMetadata>;
+  TemplateStyle?: Maybe<TemplateStyle>;
+  allTemplateStyles?: Maybe<Array<Maybe<TemplateStyle>>>;
+  _allTemplateStylesMeta?: Maybe<ListMetadata>;
   Tenant?: Maybe<Tenant>;
   allTenants?: Maybe<Array<Maybe<Tenant>>>;
   _allTenantsMeta?: Maybe<ListMetadata>;
@@ -629,8 +635,29 @@ export type Query_AllManagersToRolesMetaArgs = {
 };
 
 
+export type QueryMessageTemplateLangVariantArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllMessageTemplateLangVariantsArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<MessageTemplateLangVariantFilter>;
+};
+
+
+export type Query_AllMessageTemplateLangVariantsMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<MessageTemplateLangVariantFilter>;
+};
+
+
 export type QueryMessageTemplateArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -786,6 +813,27 @@ export type Query_AllTagsMetaArgs = {
 };
 
 
+export type QueryTemplateStyleArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryAllTemplateStylesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<TemplateStyleFilter>;
+};
+
+
+export type Query_AllTemplateStylesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<TemplateStyleFilter>;
+};
+
+
 export type QueryTenantArgs = {
   id: Scalars['Int'];
 };
@@ -901,6 +949,9 @@ export type Mutation = {
   createManagersToRole?: Maybe<ManagersToRole>;
   updateManagersToRole?: Maybe<ManagersToRole>;
   removeManagersToRole?: Maybe<ManagersToRole>;
+  createMessageTemplateLangVariant?: Maybe<MessageTemplateLangVariant>;
+  updateMessageTemplateLangVariant?: Maybe<MessageTemplateLangVariant>;
+  removeMessageTemplateLangVariant?: Maybe<MessageTemplateLangVariant>;
   createMessageTemplate?: Maybe<MessageTemplate>;
   updateMessageTemplate?: Maybe<MessageTemplate>;
   removeMessageTemplate?: Maybe<MessageTemplate>;
@@ -924,6 +975,9 @@ export type Mutation = {
   createTag?: Maybe<Tag>;
   updateTag?: Maybe<Tag>;
   removeTag?: Maybe<Tag>;
+  createTemplateStyle?: Maybe<TemplateStyle>;
+  updateTemplateStyle?: Maybe<TemplateStyle>;
+  removeTemplateStyle?: Maybe<TemplateStyle>;
   createTenant?: Maybe<Tenant>;
   updateTenant?: Maybe<Tenant>;
   removeTenant?: Maybe<Tenant>;
@@ -1332,24 +1386,49 @@ export type MutationRemoveManagersToRoleArgs = {
 };
 
 
+export type MutationCreateMessageTemplateLangVariantArgs = {
+  subjectTemplate: Scalars['String'];
+  bodyTemplate: Scalars['String'];
+  messageTemplateId: Scalars['Int'];
+  languageId: Scalars['String'];
+  additionalStyle?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateMessageTemplateLangVariantArgs = {
+  id: Scalars['Int'];
+  subjectTemplate: Scalars['String'];
+  bodyTemplate: Scalars['String'];
+  messageTemplateId: Scalars['Int'];
+  languageId: Scalars['String'];
+  additionalStyle?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveMessageTemplateLangVariantArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type MutationCreateMessageTemplateArgs = {
-  id: Scalars['ID'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
   messageTypeId: Scalars['String'];
+  templateStyleId?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type MutationUpdateMessageTemplateArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
   messageTypeId: Scalars['String'];
+  templateStyleId?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type MutationRemoveMessageTemplateArgs = {
-  id: Scalars['ID'];
+  id: Scalars['Int'];
 };
 
 
@@ -1464,6 +1543,24 @@ export type MutationUpdateTagArgs = {
 
 
 export type MutationRemoveTagArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationCreateTemplateStyleArgs = {
+  title: Scalars['String'];
+  style: Scalars['String'];
+};
+
+
+export type MutationUpdateTemplateStyleArgs = {
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  style: Scalars['String'];
+};
+
+
+export type MutationRemoveTemplateStyleArgs = {
   id: Scalars['Int'];
 };
 
@@ -1819,6 +1916,7 @@ export enum EntityType {
   Managers = 'managers',
   ManagersToPermissions = 'managersToPermissions',
   ManagersToRoles = 'managersToRoles',
+  MessageTemplateLangVariants = 'messageTemplateLangVariants',
   MessageTemplates = 'messageTemplates',
   MessageTypes = 'messageTypes',
   Permissions = 'permissions',
@@ -1826,6 +1924,7 @@ export enum EntityType {
   RolesToPermissions = 'rolesToPermissions',
   Stats = 'stats',
   Tags = 'tags',
+  TemplateStyles = 'templateStyles',
   Tenants = 'tenants',
   Units = 'units',
   Users = 'users'
@@ -1953,23 +2052,52 @@ export type ManagersToRoleFilter = {
   roleId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type MessageTemplateLangVariant = {
+  __typename?: 'MessageTemplateLangVariant';
+  id: Scalars['Int'];
+  subjectTemplate: Scalars['String'];
+  bodyTemplate: Scalars['String'];
+  messageTemplateId: Scalars['Int'];
+  languageId: Scalars['String'];
+  additionalStyle?: Maybe<Scalars['String']>;
+};
+
+export type MessageTemplateLangVariantFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
+  subjectTemplate?: InputMaybe<Scalars['String']>;
+  subjectTemplate_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bodyTemplate?: InputMaybe<Scalars['String']>;
+  bodyTemplate_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  messageTemplateId?: InputMaybe<Scalars['Int']>;
+  messageTemplateId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  languageId?: InputMaybe<Scalars['String']>;
+  languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  additionalStyle?: InputMaybe<Scalars['String']>;
+  additionalStyle_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type MessageTemplate = {
   __typename?: 'MessageTemplate';
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   title: Scalars['String'];
   secretData: Scalars['Boolean'];
   messageTypeId: Scalars['String'];
+  templateStyleId?: Maybe<Scalars['Int']>;
 };
 
 export type MessageTemplateFilter = {
   q?: InputMaybe<Scalars['String']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  id?: InputMaybe<Scalars['ID']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   secretData?: InputMaybe<Scalars['Boolean']>;
   messageTypeId?: InputMaybe<Scalars['String']>;
   messageTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  templateStyleId?: InputMaybe<Scalars['Int']>;
+  templateStyleId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type MessageType = {
@@ -2081,6 +2209,23 @@ export type TagFilter = {
   id?: InputMaybe<Scalars['Int']>;
   comment?: InputMaybe<Scalars['String']>;
   comment_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type TemplateStyle = {
+  __typename?: 'TemplateStyle';
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  style: Scalars['String'];
+};
+
+export type TemplateStyleFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  id?: InputMaybe<Scalars['Int']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  style?: InputMaybe<Scalars['String']>;
+  style_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Tenant = {
@@ -2315,6 +2460,8 @@ export type ResolversTypes = {
   ManagersToPermissionFilter: ManagersToPermissionFilter;
   ManagersToRole: ResolverTypeWrapper<ManagersToRole>;
   ManagersToRoleFilter: ManagersToRoleFilter;
+  MessageTemplateLangVariant: ResolverTypeWrapper<MessageTemplateLangVariant>;
+  MessageTemplateLangVariantFilter: MessageTemplateLangVariantFilter;
   MessageTemplate: ResolverTypeWrapper<MessageTemplate>;
   MessageTemplateFilter: MessageTemplateFilter;
   MessageType: ResolverTypeWrapper<MessageType>;
@@ -2330,6 +2477,8 @@ export type ResolversTypes = {
   StatFilter: StatFilter;
   Tag: ResolverTypeWrapper<Tag>;
   TagFilter: TagFilter;
+  TemplateStyle: ResolverTypeWrapper<TemplateStyle>;
+  TemplateStyleFilter: TemplateStyleFilter;
   Tenant: ResolverTypeWrapper<Tenant>;
   TenantFilter: TenantFilter;
   Unit: ResolverTypeWrapper<Unit>;
@@ -2438,6 +2587,8 @@ export type ResolversParentTypes = {
   ManagersToPermissionFilter: ManagersToPermissionFilter;
   ManagersToRole: ManagersToRole;
   ManagersToRoleFilter: ManagersToRoleFilter;
+  MessageTemplateLangVariant: MessageTemplateLangVariant;
+  MessageTemplateLangVariantFilter: MessageTemplateLangVariantFilter;
   MessageTemplate: MessageTemplate;
   MessageTemplateFilter: MessageTemplateFilter;
   MessageType: MessageType;
@@ -2453,6 +2604,8 @@ export type ResolversParentTypes = {
   StatFilter: StatFilter;
   Tag: Tag;
   TagFilter: TagFilter;
+  TemplateStyle: TemplateStyle;
+  TemplateStyleFilter: TemplateStyleFilter;
   Tenant: Tenant;
   TenantFilter: TenantFilter;
   Unit: Unit;
@@ -2760,6 +2913,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   ManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<QueryManagersToRoleArgs, 'id'>>;
   allManagersToRoles?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagersToRole']>>>, ParentType, ContextType, Partial<QueryAllManagersToRolesArgs>>;
   _allManagersToRolesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagersToRolesMetaArgs>>;
+  MessageTemplateLangVariant?: Resolver<Maybe<ResolversTypes['MessageTemplateLangVariant']>, ParentType, ContextType, RequireFields<QueryMessageTemplateLangVariantArgs, 'id'>>;
+  allMessageTemplateLangVariants?: Resolver<Maybe<Array<Maybe<ResolversTypes['MessageTemplateLangVariant']>>>, ParentType, ContextType, Partial<QueryAllMessageTemplateLangVariantsArgs>>;
+  _allMessageTemplateLangVariantsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMessageTemplateLangVariantsMetaArgs>>;
   MessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<QueryMessageTemplateArgs, 'id'>>;
   allMessageTemplates?: Resolver<Maybe<Array<Maybe<ResolversTypes['MessageTemplate']>>>, ParentType, ContextType, Partial<QueryAllMessageTemplatesArgs>>;
   _allMessageTemplatesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMessageTemplatesMetaArgs>>;
@@ -2787,6 +2943,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Tag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<QueryTagArgs, 'id'>>;
   allTags?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tag']>>>, ParentType, ContextType, Partial<QueryAllTagsArgs>>;
   _allTagsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllTagsMetaArgs>>;
+  TemplateStyle?: Resolver<Maybe<ResolversTypes['TemplateStyle']>, ParentType, ContextType, RequireFields<QueryTemplateStyleArgs, 'id'>>;
+  allTemplateStyles?: Resolver<Maybe<Array<Maybe<ResolversTypes['TemplateStyle']>>>, ParentType, ContextType, Partial<QueryAllTemplateStylesArgs>>;
+  _allTemplateStylesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllTemplateStylesMetaArgs>>;
   Tenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<QueryTenantArgs, 'id'>>;
   allTenants?: Resolver<Maybe<Array<Maybe<ResolversTypes['Tenant']>>>, ParentType, ContextType, Partial<QueryAllTenantsArgs>>;
   _allTenantsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllTenantsMetaArgs>>;
@@ -2850,7 +3009,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationCreateManagersToRoleArgs, 'managerId' | 'roleId'>>;
   updateManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationUpdateManagersToRoleArgs, 'id' | 'managerId' | 'roleId'>>;
   removeManagersToRole?: Resolver<Maybe<ResolversTypes['ManagersToRole']>, ParentType, ContextType, RequireFields<MutationRemoveManagersToRoleArgs, 'id'>>;
-  createMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationCreateMessageTemplateArgs, 'id' | 'title' | 'secretData' | 'messageTypeId'>>;
+  createMessageTemplateLangVariant?: Resolver<Maybe<ResolversTypes['MessageTemplateLangVariant']>, ParentType, ContextType, RequireFields<MutationCreateMessageTemplateLangVariantArgs, 'subjectTemplate' | 'bodyTemplate' | 'messageTemplateId' | 'languageId'>>;
+  updateMessageTemplateLangVariant?: Resolver<Maybe<ResolversTypes['MessageTemplateLangVariant']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTemplateLangVariantArgs, 'id' | 'subjectTemplate' | 'bodyTemplate' | 'messageTemplateId' | 'languageId'>>;
+  removeMessageTemplateLangVariant?: Resolver<Maybe<ResolversTypes['MessageTemplateLangVariant']>, ParentType, ContextType, RequireFields<MutationRemoveMessageTemplateLangVariantArgs, 'id'>>;
+  createMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationCreateMessageTemplateArgs, 'title' | 'secretData' | 'messageTypeId'>>;
   updateMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationUpdateMessageTemplateArgs, 'id' | 'title' | 'secretData' | 'messageTypeId'>>;
   removeMessageTemplate?: Resolver<Maybe<ResolversTypes['MessageTemplate']>, ParentType, ContextType, RequireFields<MutationRemoveMessageTemplateArgs, 'id'>>;
   createMessageType?: Resolver<Maybe<ResolversTypes['MessageType']>, ParentType, ContextType, RequireFields<MutationCreateMessageTypeArgs, 'id' | 'title'>>;
@@ -2873,6 +3035,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, Partial<MutationCreateTagArgs>>;
   updateTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationUpdateTagArgs, 'id'>>;
   removeTag?: Resolver<Maybe<ResolversTypes['Tag']>, ParentType, ContextType, RequireFields<MutationRemoveTagArgs, 'id'>>;
+  createTemplateStyle?: Resolver<Maybe<ResolversTypes['TemplateStyle']>, ParentType, ContextType, RequireFields<MutationCreateTemplateStyleArgs, 'title' | 'style'>>;
+  updateTemplateStyle?: Resolver<Maybe<ResolversTypes['TemplateStyle']>, ParentType, ContextType, RequireFields<MutationUpdateTemplateStyleArgs, 'id' | 'title' | 'style'>>;
+  removeTemplateStyle?: Resolver<Maybe<ResolversTypes['TemplateStyle']>, ParentType, ContextType, RequireFields<MutationRemoveTemplateStyleArgs, 'id'>>;
   createTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationCreateTenantArgs, 'utcOffset'>>;
   updateTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationUpdateTenantArgs, 'id' | 'utcOffset'>>;
   removeTenant?: Resolver<Maybe<ResolversTypes['Tenant']>, ParentType, ContextType, RequireFields<MutationRemoveTenantArgs, 'id'>>;
@@ -3030,11 +3195,22 @@ export type ManagersToRoleResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MessageTemplateLangVariantResolvers<ContextType = any, ParentType extends ResolversParentTypes['MessageTemplateLangVariant'] = ResolversParentTypes['MessageTemplateLangVariant']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  subjectTemplate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  bodyTemplate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  messageTemplateId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  languageId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  additionalStyle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MessageTemplateResolvers<ContextType = any, ParentType extends ResolversParentTypes['MessageTemplate'] = ResolversParentTypes['MessageTemplate']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   secretData?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   messageTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  templateStyleId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3083,6 +3259,13 @@ export type StatResolvers<ContextType = any, ParentType extends ResolversParentT
 export type TagResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tag'] = ResolversParentTypes['Tag']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   comment?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type TemplateStyleResolvers<ContextType = any, ParentType extends ResolversParentTypes['TemplateStyle'] = ResolversParentTypes['TemplateStyle']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  style?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3189,6 +3372,7 @@ export type Resolvers<ContextType = any> = {
   Manager?: ManagerResolvers<ContextType>;
   ManagersToPermission?: ManagersToPermissionResolvers<ContextType>;
   ManagersToRole?: ManagersToRoleResolvers<ContextType>;
+  MessageTemplateLangVariant?: MessageTemplateLangVariantResolvers<ContextType>;
   MessageTemplate?: MessageTemplateResolvers<ContextType>;
   MessageType?: MessageTypeResolvers<ContextType>;
   Permission?: PermissionResolvers<ContextType>;
@@ -3197,6 +3381,7 @@ export type Resolvers<ContextType = any> = {
   RolesToPermission?: RolesToPermissionResolvers<ContextType>;
   Stat?: StatResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
+  TemplateStyle?: TemplateStyleResolvers<ContextType>;
   Tenant?: TenantResolvers<ContextType>;
   Unit?: UnitResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

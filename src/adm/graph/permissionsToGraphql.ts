@@ -19,6 +19,7 @@ import managerLoginsPermissionToGraphql from './services/managerLogins/permissio
 import managersPermissionToGraphql from './services/managers/permissionsToGraphql';
 import managersToPermissionsPermissionToGraphql from './services/managersToPermissions/permissionsToGraphql';
 import managersToRolesPermissionToGraphql from './services/managersToRoles/permissionsToGraphql';
+import messageTemplateLangVariantsPermissionToGraphql from './services/messageTemplateLangVariants/permissionsToGraphql';
 import messageTemplatesPermissionToGraphql from './services/messageTemplates/permissionsToGraphql';
 import messageTypesPermissionToGraphql from './services/messageTypes/permissionsToGraphql';
 import permissionsPermissionToGraphql from './services/permissions/permissionsToGraphql';
@@ -26,6 +27,7 @@ import rolesPermissionToGraphql from './services/roles/permissionsToGraphql';
 import rolesToPermissionsPermissionToGraphql from './services/rolesToPermissions/permissionsToGraphql';
 import statsPermissionToGraphql from './services/stats/permissionsToGraphql';
 import tagsPermissionToGraphql from './services/tags/permissionsToGraphql';
+import templateStylesPermissionToGraphql from './services/templateStyles/permissionsToGraphql';
 import tenantsPermissionToGraphql from './services/tenants/permissionsToGraphql';
 import unitsPermissionToGraphql from './services/units/permissionsToGraphql';
 import usersPermissionToGraphql from './services/users/permissionsToGraphql';
@@ -59,6 +61,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   managers: managersPermissionToGraphql,
   managersToPermissions: managersToPermissionsPermissionToGraphql,
   managersToRoles: managersToRolesPermissionToGraphql,
+  messageTemplateLangVariants: messageTemplateLangVariantsPermissionToGraphql,
   messageTemplates: messageTemplatesPermissionToGraphql,
   messageTypes: messageTypesPermissionToGraphql,
   permissions: permissionsPermissionToGraphql,
@@ -66,6 +69,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   rolesToPermissions: rolesToPermissionsPermissionToGraphql,
   stats: statsPermissionToGraphql,
   tags: tagsPermissionToGraphql,
+  templateStyles: templateStylesPermissionToGraphql,
   tenants: tenantsPermissionToGraphql,
   units: unitsPermissionToGraphql,
   users: usersPermissionToGraphql,

@@ -1,17 +1,17 @@
 import {
   ListMetadata,
-  MutationCreateMessageTemplateArgs,
-  MutationUpdateMessageTemplateArgs,
-  MutationRemoveMessageTemplateArgs,
-  QueryAllMessageTemplatesArgs,
-  Query_AllMessageTemplatesMetaArgs,
-  MessageTemplate,
-  MessageTemplateFilter,
+  MutationCreateTemplateStyleArgs,
+  MutationUpdateTemplateStyleArgs,
+  MutationRemoveTemplateStyleArgs,
+  QueryAllTemplateStylesArgs,
+  Query_AllTemplateStylesMetaArgs,
+  TemplateStyle,
+  TemplateStyleFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
-import {AdditionalMessageTemplatesMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalTemplateStylesMethods, getAdditionalMethods} from './additionalMethods';
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
@@ -25,71 +25,71 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableMessageTemplateKeys = 'secretData';
-export type ForbidenForUserMessageTemplateKeys = never;
-export type RequiredDbNotUserMessageTemplateKeys = never;
+export type AutodefinableTemplateStyleKeys = never;
+export type ForbidenForUserTemplateStyleKeys = never;
+export type RequiredDbNotUserTemplateStyleKeys = never;
 
-export type AutodefinableMessageTemplatePart = DefinedRecord<Pick<MutationCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>>;
+export type AutodefinableTemplateStylePart = DefinedRecord<Pick<MutationCreateTemplateStyleArgs, AutodefinableTemplateStyleKeys>>;
 
-export type ReliableMessageTemplateCreateUserInput =
-  Omit<MutationCreateMessageTemplateArgs, ForbidenForUserMessageTemplateKeys>
-  & AutodefinableMessageTemplatePart;
+export type ReliableTemplateStyleCreateUserInput =
+  Omit<MutationCreateTemplateStyleArgs, ForbidenForUserTemplateStyleKeys>
+  & AutodefinableTemplateStylePart;
 
-export type AllowedMessageTemplateForUserCreateInput = Omit<MutationCreateMessageTemplateArgs, ForbidenForUserMessageTemplateKeys>;
+export type AllowedTemplateStyleForUserCreateInput = Omit<MutationCreateTemplateStyleArgs, ForbidenForUserTemplateStyleKeys>;
 
-export type StrictCreateMessageTemplateArgs = DefinedFieldsInRecord<MutationCreateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
-export type StrictUpdateMessageTemplateArgs = DefinedFieldsInRecord<MutationUpdateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
+export type StrictCreateTemplateStyleArgs = DefinedFieldsInRecord<MutationCreateTemplateStyleArgs, RequiredDbNotUserTemplateStyleKeys> & AutodefinableTemplateStylePart;
+export type StrictUpdateTemplateStyleArgs = DefinedFieldsInRecord<MutationUpdateTemplateStyleArgs, RequiredDbNotUserTemplateStyleKeys> & AutodefinableTemplateStylePart;
 
-export type StrictCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
-export type MutationCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
-export type MutationUpdateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
+export type StrictCreateTemplateStyleArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateTemplateStyleArgs, AutodefinableTemplateStyleKeys>;
+export type MutationCreateTemplateStyleArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateTemplateStyleArgs, AutodefinableTemplateStyleKeys>;
+export type MutationUpdateTemplateStyleArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateTemplateStyleArgs, AutodefinableTemplateStyleKeys>;
 
-export interface BaseMessageTemplatesMethods {
+export interface BaseTemplateStylesMethods {
   get: (id: number) =>
-    Promise<MessageTemplate | null>;
+    Promise<TemplateStyle | null>;
   getRequired: (id: number) =>
-    Promise<MessageTemplate>;
-  all: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate[]>;
-  findOne: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate | null>;
-  findOneRequired: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate>;
-  count: (params?: Query_AllMessageTemplatesMetaArgs) =>
+    Promise<TemplateStyle>;
+  all: (params?: QueryAllTemplateStylesArgs) =>
+    Promise<TemplateStyle[]>;
+  findOne: (params?: QueryAllTemplateStylesArgs) =>
+    Promise<TemplateStyle | null>;
+  findOneRequired: (params?: QueryAllTemplateStylesArgs) =>
+    Promise<TemplateStyle>;
+  count: (params?: Query_AllTemplateStylesMetaArgs) =>
     Promise<number>;
-  meta: (params?: Query_AllMessageTemplatesMetaArgs) =>
+  meta: (params?: Query_AllTemplateStylesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
-    Promise<MessageTemplate>;
-  createMany: (data: StrictCreateMessageTemplateArgsWithoutAutodefinable[], byUser?: boolean) =>
+  create: (data: MutationCreateTemplateStyleArgsWithoutAutodefinable, byUser?: boolean) =>
+    Promise<TemplateStyle>;
+  createMany: (data: StrictCreateTemplateStyleArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
-    Promise<MessageTemplate>;
+  update: ({id, ...rest}: MutationUpdateTemplateStyleArgsWithoutAutodefinable, byUser?: boolean) =>
+    Promise<TemplateStyle>;
   upsert: (
-    data: PartialFieldsInRecord<MutationUpdateMessageTemplateArgsWithoutAutodefinable, 'id'>,
+    data: PartialFieldsInRecord<MutationUpdateTemplateStyleArgsWithoutAutodefinable, 'id'>,
     byUser?: boolean,
   ) =>
-    Promise<MessageTemplate>;
+    Promise<TemplateStyle>;
   upsertAdvanced: (
-    filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
+    filter: TemplateStyleFilter,
+    data: MutationCreateTemplateStyleArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
-    Promise<MessageTemplate>;
-  delete: (params: MutationRemoveMessageTemplateArgs) =>
-    Promise<MessageTemplate>;
+    Promise<TemplateStyle>;
+  delete: (params: MutationRemoveTemplateStyleArgs) =>
+    Promise<TemplateStyle>;
 }
 
-export type MessageTemplatesService = BaseMessageTemplatesMethods
-  & AdditionalMessageTemplatesMethods
+export type TemplateStylesService = BaseTemplateStylesMethods
+  & AdditionalTemplateStylesMethods
   & HooksAddType<
-    MessageTemplate,
-    QueryAllMessageTemplatesArgs,
-    ReliableMessageTemplateCreateUserInput,
-    MutationUpdateMessageTemplateArgs,
-    MutationRemoveMessageTemplateArgs,
-    StrictCreateMessageTemplateArgs,
-    StrictUpdateMessageTemplateArgs
+    TemplateStyle,
+    QueryAllTemplateStylesArgs,
+    ReliableTemplateStyleCreateUserInput,
+    MutationUpdateTemplateStyleArgs,
+    MutationRemoveTemplateStyleArgs,
+    StrictCreateTemplateStyleArgs,
+    StrictUpdateTemplateStyleArgs
   >;
 
 const dateFieldsForSearch: string[] = [];
@@ -97,60 +97,46 @@ const dateFieldsForSearch: string[] = [];
 const otherFieldsForSearch: string[] = [
   'id',
   'title',
-  'messageTypeId',
-  'templateStyleId',
+  'style',
 ];
 
-export const getMessageTemplatesService = (ctx: Context) => {
+export const getTemplateStylesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
-    MessageTemplate,
-    QueryAllMessageTemplatesArgs,
-    ReliableMessageTemplateCreateUserInput,
-    MutationUpdateMessageTemplateArgs,
-    MutationRemoveMessageTemplateArgs,
-    StrictCreateMessageTemplateArgs,
-    StrictUpdateMessageTemplateArgs
+    TemplateStyle,
+    QueryAllTemplateStylesArgs,
+    ReliableTemplateStyleCreateUserInput,
+    MutationUpdateTemplateStyleArgs,
+    MutationRemoveTemplateStyleArgs,
+    StrictCreateTemplateStyleArgs,
+    StrictUpdateTemplateStyleArgs
   >();
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableMessageTemplatePart> => {
-    const defaultFieldConstructors = {
-      secretData: async () => false,
-    };
-
-    const pairedConstructors = R.toPairs(defaultFieldConstructors);
-
-    const resultedPairs: R.KeyValuePair<string, any>[] = [];
-    for (const [key, constructor] of pairedConstructors) {
-      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
-    }
-
-    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableMessageTemplatePart;
-  };
+  ): Promise<T & AutodefinableTemplateStylePart> => currentData as T;
 
   const all = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate[]> => {
-    return ctx.prisma.messageTemplate.findMany(
+    params: QueryAllTemplateStylesArgs = {},
+  ): Promise<TemplateStyle[]> => {
+    return ctx.prisma.templateStyle.findMany(
       toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
-    ) as unknown as Promise<MessageTemplate[]>;
+    ) as unknown as Promise<TemplateStyle[]>;
   };
 
   const findOne = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(
+    params: QueryAllTemplateStylesArgs = {},
+  ): Promise<TemplateStyle | null> => {
+    return ctx.prisma.templateStyle.findFirst(toPrismaRequest(
       await runHooks.changeListFilter(ctx, params),
       {noId: false},
     ));
   };
 
   const findOneRequired = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate> => {
+    params: QueryAllTemplateStylesArgs = {},
+  ): Promise<TemplateStyle> => {
     const found = await findOne(params);
 
     if (!found) {
@@ -162,13 +148,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const get = async (
     id: number,
-  ): Promise<MessageTemplate | null> => {
+  ): Promise<TemplateStyle | null> => {
     return findOne({filter: {id}});
   };
 
   const getRequired = async (
     id: number,
-  ): Promise<MessageTemplate> => {
+  ): Promise<TemplateStyle> => {
     const found = await get(id);
 
     if (!found) {
@@ -179,32 +165,32 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const count = async (
-    params: Query_AllMessageTemplatesMetaArgs = {},
+    params: Query_AllTemplateStylesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.messageTemplate.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
+    return ctx.prisma.templateStyle.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
-    params: Query_AllMessageTemplatesMetaArgs = {},
+    params: Query_AllTemplateStylesMetaArgs = {},
   ): Promise<ListMetadata> => {
     return count(params).then(count => ({count}));
   };
 
   const create = async (
-    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
+    data: MutationCreateTemplateStyleArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<TemplateStyle> => {
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as AllowedMessageTemplateForUserCreateInput :
+      R.omit(forbiddenForUserFields, data) as AllowedTemplateStyleForUserCreateInput :
       data;
 
     // Augment with default field
-    const augmentedByDefault: ReliableMessageTemplateCreateUserInput = await augmentByDefault(cleared);
+    const augmentedByDefault: ReliableTemplateStyleCreateUserInput = await augmentByDefault(cleared);
 
     const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
-    const createOperation = ctx.prisma.messageTemplate.create({
+    const createOperation = ctx.prisma.templateStyle.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -225,26 +211,26 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
     await Promise.all([
       // update search. earlier we does not have id
-      ctx.prisma.messageTemplate.update({
+      ctx.prisma.templateStyle.update({
         where: {id: result.id},
         data: {
           search: getSearchString(result),
         },
       }),
       ctx.service('auditLogs').addCreateOperation({
-        entityTypeId: Entity.MessageTemplate,
+        entityTypeId: Entity.TemplateStyle,
         entityId: result.id,
         actionData: data,
       }),
     ]);
 
-    await runHooks.afterCreate(ctx, result as MessageTemplate);
+    await runHooks.afterCreate(ctx, result as TemplateStyle);
 
-    return result as MessageTemplate;
+    return result as TemplateStyle;
   };
 
   const createMany = async (
-    entries: StrictCreateMessageTemplateArgsWithoutAutodefinable[],
+    entries: StrictCreateTemplateStyleArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     // clear from fields forbidden for user
@@ -253,9 +239,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
     // Augment with default field
     const augmentedByDefault = await Promise.all(
       clearedData.map(el => augmentByDefault(el)),
-    ) as StrictCreateMessageTemplateArgs[];
+    ) as StrictCreateTemplateStyleArgs[];
 
-    const result = await ctx.prisma.messageTemplate.createMany({
+    const result = await ctx.prisma.templateStyle.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(
         data,
         {
@@ -273,9 +259,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateMessageTemplateArgsWithoutAutodefinable,
+    data: MutationUpdateTemplateStyleArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<TemplateStyle> => {
     // Get db version
     const dbVersion = await getRequired(data.id);
 
@@ -286,13 +272,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateMessageTemplateArgs = R.mergeLeft(augmentedByDefault, dbVersion);
+    const augmented: StrictUpdateTemplateStyleArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = ctx.prisma.messageTemplate.update({
+    const updateOperation = ctx.prisma.templateStyle.update({
       data: R.mergeDeepLeft(
         {
           search: getSearchString(processedData),
@@ -303,7 +289,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     });
 
     const auditOperation = ctx.service('auditLogs').addUpdateOperation({
-      entityTypeId: Entity.MessageTemplate,
+      entityTypeId: Entity.TemplateStyle,
       entityId: data.id,
       actionData: data,
     });
@@ -320,16 +306,16 @@ export const getMessageTemplatesService = (ctx: Context) => {
     }
 
     await Promise.all([
-      runHooks.afterUpdate(ctx, result as MessageTemplate),
+      runHooks.afterUpdate(ctx, result as TemplateStyle),
     ]);
 
-    return result as MessageTemplate;
+    return result as TemplateStyle;
   };
 
   const upsert = async (
-    data: PartialFieldsInRecord<MutationUpdateMessageTemplateArgsWithoutAutodefinable, 'id'>,
+    data: PartialFieldsInRecord<MutationUpdateTemplateStyleArgsWithoutAutodefinable, 'id'>,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<TemplateStyle> => {
     // Get db version
     const dbVersion = data.id ? await get(data.id) : null;
 
@@ -340,8 +326,8 @@ export const getMessageTemplatesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateMessageTemplateArgs =
-      R.mergeLeft(augmentedByDefault, dbVersion || {} as MessageTemplate);
+    const augmented: StrictUpdateTemplateStyleArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as TemplateStyle);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {
@@ -353,7 +339,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
       search: getSearchString(processedData.updateData),
     };
 
-    const result = await ctx.prisma.messageTemplate.upsert({
+    const result = await ctx.prisma.templateStyle.upsert({
       create: createData,
       update: updateData,
       where: {id: data.id},
@@ -367,10 +353,10 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const upsertAdvanced = async (
-    filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
+    filter: TemplateStyleFilter,
+    data: MutationCreateTemplateStyleArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<TemplateStyle> => {
     const cnt = await count({filter});
 
     if (cnt > 1) {
@@ -384,14 +370,14 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const del = async (
-    params: MutationRemoveMessageTemplateArgs,
-  ): Promise<MessageTemplate> => {
+    params: MutationRemoveTemplateStyleArgs,
+  ): Promise<TemplateStyle> => {
     await runHooks.beforeDelete(ctx, params);
 
-    const deleteOperation = ctx.prisma.messageTemplate.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.templateStyle.delete({where: {id: params.id}});
 
     const auditOperation = ctx.service('auditLogs').addDeleteOperation({
-      entityTypeId: Entity.MessageTemplate,
+      entityTypeId: Entity.TemplateStyle,
       entityId: params.id,
     });
 
@@ -418,7 +404,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     return entity;
   };
 
-  const baseMethods: BaseMessageTemplatesMethods = {
+  const baseMethods: BaseTemplateStylesMethods = {
     get,
     getRequired,
     all,
@@ -436,7 +422,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  const service: MessageTemplatesService = {
+  const service: TemplateStylesService = {
     ...baseMethods,
     ...additionalMethods,
     hooksAdd,

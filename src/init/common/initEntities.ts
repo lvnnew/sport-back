@@ -69,6 +69,10 @@ const initEntities = async (ctx: Context) => {
     title: 'Роли менеджеров',
   });
   await ctx.service('entities').upsert({
+    id: Entity.MessageTemplateLangVariant,
+    title: 'Языковой вариант шаблона сообщения',
+  });
+  await ctx.service('entities').upsert({
     id: Entity.MessageTemplate,
     title: 'Шаблоны сообщений',
   });
@@ -95,6 +99,10 @@ const initEntities = async (ctx: Context) => {
   await ctx.service('entities').upsert({
     id: Entity.Tag,
     title: 'Tags',
+  });
+  await ctx.service('entities').upsert({
+    id: Entity.TemplateStyle,
+    title: 'Стили шаблонов',
   });
   await ctx.service('entities').upsert({
     id: Entity.Tenant,

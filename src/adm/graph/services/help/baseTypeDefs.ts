@@ -18,6 +18,7 @@ export default gql`
     managers
     managersToPermissions
     managersToRoles
+    messageTemplateLangVariants
     messageTemplates
     messageTypes
     permissions
@@ -25,6 +26,7 @@ export default gql`
     rolesToPermissions
     stats
     tags
+    templateStyles
     tenants
     units
     users

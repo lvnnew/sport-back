@@ -148,6 +148,7 @@ deploy-prod-back:
     ENV: "stage"
     DEV: "true"
     HOST: "making.ventures"
+    ROOT_ENABLED: "false"
     TAG: ":latest"
     ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${DEV_ADMIN_RECAPTCHA_REQUIRED_SCORE}
@@ -179,6 +180,7 @@ deploy-prod-back:
     ENV: "prod"
     DEV: "false"
     HOST: "making.ventures"
+    ROOT_ENABLED: "true"
     TAG: ":release"
     ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${PROD_ADMIN_RECAPTCHA_REQUIRED_SCORE}
