@@ -7,7 +7,7 @@ yarn global add runlify
 
 # initRoles
 
-yarn ts-node:withContext src/init/permissions/initRoles.ts
+runlify start yarn ts-node:withContext src/init/permissions/initRoles.ts
 runlify start env=test yarn ts-node:withContext src/init/permissions/initRoles.ts
 runlify start env=stage yarn ts-node:withContext src/init/permissions/initRoles.ts
 
