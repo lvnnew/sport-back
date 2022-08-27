@@ -115,7 +115,7 @@ export const getMessageTypesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableMessageTypePart> => currentData as T;
+  ): Promise<T & AutodefinableMessageTypePart> => currentData as T & AutodefinableMessageTypePart;
 
   const all = async (
     params: QueryAllMessageTypesArgs = {},

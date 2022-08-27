@@ -115,7 +115,7 @@ export const getTemplateStylesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableTemplateStylePart> => currentData as T;
+  ): Promise<T & AutodefinableTemplateStylePart> => currentData as T & AutodefinableTemplateStylePart;
 
   const all = async (
     params: QueryAllTemplateStylesArgs = {},

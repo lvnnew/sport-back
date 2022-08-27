@@ -117,7 +117,7 @@ export const getAppRefreshTokensService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAppRefreshTokenPart> => currentData as T;
+  ): Promise<T & AutodefinableAppRefreshTokenPart> => currentData as T & AutodefinableAppRefreshTokenPart;
 
   const all = async (
     params: QueryAllAppRefreshTokensArgs = {},

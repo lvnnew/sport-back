@@ -116,7 +116,7 @@ export const getStatsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableStatPart> => currentData as T;
+  ): Promise<T & AutodefinableStatPart> => currentData as T & AutodefinableStatPart;
 
   const all = async (
     params: QueryAllStatsArgs = {},

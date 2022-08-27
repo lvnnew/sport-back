@@ -116,7 +116,7 @@ export const getAppLoginsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAppLoginPart> => currentData as T;
+  ): Promise<T & AutodefinableAppLoginPart> => currentData as T & AutodefinableAppLoginPart;
 
   const all = async (
     params: QueryAllAppLoginsArgs = {},

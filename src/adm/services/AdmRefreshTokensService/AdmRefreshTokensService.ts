@@ -117,7 +117,7 @@ export const getAdmRefreshTokensService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAdmRefreshTokenPart> => currentData as T;
+  ): Promise<T & AutodefinableAdmRefreshTokenPart> => currentData as T & AutodefinableAdmRefreshTokenPart;
 
   const all = async (
     params: QueryAllAdmRefreshTokensArgs = {},

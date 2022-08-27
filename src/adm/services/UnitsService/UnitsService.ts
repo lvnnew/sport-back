@@ -115,7 +115,7 @@ export const getUnitsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableUnitPart> => currentData as T;
+  ): Promise<T & AutodefinableUnitPart> => currentData as T & AutodefinableUnitPart;
 
   const all = async (
     params: QueryAllUnitsArgs = {},

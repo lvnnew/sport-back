@@ -17,12 +17,14 @@ export const getS3 = async () => {
 
     // const opt = {credentials: amqp.credentials.plain(username, password)};
 
-    s3 = new S3({
-      accessKeyId: s3AccessKeyId,
-      endpoint: (ep as unknown) as string,
-      region: 'eu-central-1',
-      secretAccessKey: s3SecretAccessKey,
-    });
+    if (!s3) {
+      s3 = new S3({
+        accessKeyId: s3AccessKeyId,
+        endpoint: (ep as unknown) as string,
+        region: 'eu-central-1',
+        secretAccessKey: s3SecretAccessKey,
+      });
+    }
   }
 
   if (!s3) {
@@ -48,26 +50,6 @@ export const createS3Getter = (bucket: string) => async (path: string) => {
   return null;
 };
 
-export const createS3JsonGetter = (bucket: string) => async (path: string): Promise<Record<string, any> | null> => {
-  const s3 = await getS3();
-  try {
-    const data = await s3.getObject({
-      Bucket: bucket,
-      Key: path,
-    }).promise();
-
-    if (!data.Body) {
-      return null;
-    }
-
-    return JSON.parse(data.Body.toString('utf-8'));
-  } catch (error: any) {
-    log.error(error);
-  }
-
-  return null;
-};
-
 const createS3BucketIfNotExist = async (Bucket: string): Promise<void> => {
   const s3 = await getS3();
 
@@ -81,6 +63,49 @@ const createS3BucketIfNotExist = async (Bucket: string): Promise<void> => {
       }
     });
   });
+};
+
+export const createS3StringPutter = (bucket: string) => async (fileNameWithExtension: string, data: string) => {
+  const s3 = await getS3();
+  await createS3BucketIfNotExist(bucket);
+
+  await new Promise<void>((resolve, reject) => {
+    s3.upload(
+      {
+        Body: data,
+        Bucket: bucket,
+        Key: fileNameWithExtension,
+      },
+      (err) => {
+        if (err) {
+          log.error(err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      },
+    );
+  });
+};
+
+export const createS3JsonGetter = (bucket: string) => async (path: string): Promise<Record<string, any> | null> => {
+  const s3 = await getS3();
+  try {
+    const data = await s3.getObject({
+      Bucket: bucket,
+      Key: path,
+    }).promise();
+
+    if (!data.Body) {
+      return null;
+    }
+
+    return JSON.parse(data.Body.toString('utf8'));
+  } catch (error: any) {
+    log.error(error);
+  }
+
+  return null;
 };
 
 export const createS3Putter = (bucket: string) => async (file: string, path: string) => {

@@ -118,7 +118,7 @@ export const getMessageTemplateLangVariantsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableMessageTemplateLangVariantPart> => currentData as T;
+  ): Promise<T & AutodefinableMessageTemplateLangVariantPart> => currentData as T & AutodefinableMessageTemplateLangVariantPart;
 
   const all = async (
     params: QueryAllMessageTemplateLangVariantsArgs = {},

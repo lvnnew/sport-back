@@ -114,7 +114,7 @@ export const getLanguagesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableLanguagePart> => currentData as T;
+  ): Promise<T & AutodefinableLanguagePart> => currentData as T & AutodefinableLanguagePart;
 
   const all = async (
     params: QueryAllLanguagesArgs = {},

@@ -114,7 +114,7 @@ export const getTagsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableTagPart> => currentData as T;
+  ): Promise<T & AutodefinableTagPart> => currentData as T & AutodefinableTagPart;
 
   const all = async (
     params: QueryAllTagsArgs = {},

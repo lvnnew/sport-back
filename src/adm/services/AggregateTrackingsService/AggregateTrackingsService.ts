@@ -119,7 +119,7 @@ export const getAggregateTrackingsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAggregateTrackingPart> => currentData as T;
+  ): Promise<T & AutodefinableAggregateTrackingPart> => currentData as T & AutodefinableAggregateTrackingPart;
 
   const all = async (
     params: QueryAllAggregateTrackingsArgs = {},

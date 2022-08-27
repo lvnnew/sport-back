@@ -115,7 +115,7 @@ export const getRolesToPermissionsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableRolesToPermissionPart> => currentData as T;
+  ): Promise<T & AutodefinableRolesToPermissionPart> => currentData as T & AutodefinableRolesToPermissionPart;
 
   const all = async (
     params: QueryAllRolesToPermissionsArgs = {},

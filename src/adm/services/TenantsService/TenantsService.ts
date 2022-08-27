@@ -115,7 +115,7 @@ export const getTenantsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableTenantPart> => currentData as T;
+  ): Promise<T & AutodefinableTenantPart> => currentData as T & AutodefinableTenantPart;
 
   const all = async (
     params: QueryAllTenantsArgs = {},

@@ -118,7 +118,7 @@ export const getFilesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableFilePart> => currentData as T;
+  ): Promise<T & AutodefinableFilePart> => currentData as T & AutodefinableFilePart;
 
   const all = async (
     params: QueryAllFilesArgs = {},

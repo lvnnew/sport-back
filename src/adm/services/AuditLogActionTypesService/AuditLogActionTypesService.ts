@@ -113,7 +113,7 @@ export const getAuditLogActionTypesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAuditLogActionTypePart> => currentData as T;
+  ): Promise<T & AutodefinableAuditLogActionTypePart> => currentData as T & AutodefinableAuditLogActionTypePart;
 
   const all = async (
     params: QueryAllAuditLogActionTypesArgs = {},

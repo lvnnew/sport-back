@@ -113,7 +113,7 @@ export const getEntitiesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableEntityPart> => currentData as T;
+  ): Promise<T & AutodefinableEntityPart> => currentData as T & AutodefinableEntityPart;
 
   const all = async (
     params: QueryAllEntitiesArgs = {},
