@@ -1,4 +1,14 @@
 
+# First Start 
+
+Выполнить команду
+
+```sh
+./prepare.sh
+```
+
+Проверить что в файле runlify.developer.json параметр "defaultEnvironment": "твой логин" или отредактировать его вручную.
+
 # Windows
 If you use window next commnd may be required:
 ```sh
