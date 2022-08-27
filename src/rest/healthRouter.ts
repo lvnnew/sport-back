@@ -16,9 +16,9 @@ const healthRouter: Router = express.Router();
 
 healthRouter.use(limiter);
 
-healthRouter.get('/', async (req: Request, res: Response) => {
-  const startDate = Date.now();
-  log.info(`health, type: "${req.query.type}", remote id: "${req.headers['x-real-ip'] || req.connection.remoteAddress}"`);
+healthRouter.get('/', async (_req: Request, res: Response) => {
+  // const startDate = Date.now();
+  // log.info(`health, type: "${req.query.type}", remote id: "${req.headers['x-real-ip'] || req.connection.remoteAddress}"`);
   const ctx = await createContext();
 
   // check by Knex
@@ -45,7 +45,7 @@ healthRouter.get('/', async (req: Request, res: Response) => {
     return;
   }
 
-  log.info(`Health check finshed in ${(Date.now() - startDate) / 1000} sec`);
+  // log.info(`Health check finshed in ${(Date.now() - startDate) / 1000} sec`);
 
   res
     .status(200)
