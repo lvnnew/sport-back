@@ -6,6 +6,6 @@ set -v
 yarn
 yarn prisma:gen
 yarn global add runlify
-runlify login --ifNotLeggedin
-runlify init
-runlify pullEnvs
+yarn runlify login --ifNotLeggedin
+yarn runlify init
+yarn runlify pullEnvs
