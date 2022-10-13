@@ -14,6 +14,10 @@ export default gql`
     entities
     files
     languages
+    mailingCampaigns
+    mailingMessageStatuses
+    mailingMessages
+    mailingTypes
     managerLogins
     managers
     managersToPermissions

@@ -5,6 +5,7 @@ import {gql} from 'apollo-server';
 export default gql`
   type MessageTemplateLangVariant {
     id: Int!
+    title: String
     subjectTemplate: String!
     bodyTemplate: String!
     messageTemplateId: Int!
@@ -16,6 +17,8 @@ export default gql`
     q: String
     ids: [Int]
     id: Int
+    title: String
+    title_in: [String]
     subjectTemplate: String
     subjectTemplate_in: [String]
     bodyTemplate: String
@@ -39,8 +42,8 @@ export default gql`
   }
 
   type Mutation {
-    createMessageTemplateLangVariant(subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: Int!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
-    updateMessageTemplateLangVariant(id: Int!, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: Int!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
+    createMessageTemplateLangVariant(title: String, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: Int!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
+    updateMessageTemplateLangVariant(id: Int!, title: String, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: Int!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
     removeMessageTemplateLangVariant(id: Int!): MessageTemplateLangVariant
   }
 `;

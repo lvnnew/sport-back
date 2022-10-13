@@ -45,6 +45,7 @@ model Language {
 	id	String	@id
 	search	String?
 	title	String?
+	mailingMessageLanguages	MailingMessage[]	@relation("From-MailingMessage.language")
 	managerLanguages	Manager[]	@relation("From-Manager.language")
 	messageTemplateLangVariantLanguages	MessageTemplateLangVariant[]	@relation("From-MessageTemplateLangVariant.language")
 }
@@ -248,6 +249,17 @@ model RolesToPermission {
 }
 
 
+model MailingCampaign {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	mailingTypeId	String
+	mailingType	MailingType	@relation("From-MailingCampaign.mailingType", fields: [mailingTypeId], references: [id])
+	priority	Int
+	mailingMessageMailingCampaigns	MailingMessage[]	@relation("From-MailingMessage.mailingCampaign")
+}
+
+
 model Role {
 	id	String	@id
 	search	String?
@@ -267,6 +279,43 @@ model ManagersToRole {
 	roleId	String
 	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
 	@@unique([managerId, roleId])
+}
+
+
+model MailingMessage {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	mailingCampaignId	Int
+	mailingCampaign	MailingCampaign	@relation("From-MailingMessage.mailingCampaign", fields: [mailingCampaignId], references: [id])
+	templateId	Int
+	template	MessageTemplate	@relation("From-MailingMessage.template", fields: [templateId], references: [id])
+	languageId	String
+	language	Language	@relation("From-MailingMessage.language", fields: [languageId], references: [id])
+	to	String
+	locals	String
+	localsHash	String
+	priority	Int
+	dateCreated	DateTime
+	dateSent	DateTime?
+	error	String?
+	html	String?
+	text	String?
+	uniqueKey	String?
+	subject	String?
+	mailingMessageStatusId	String
+	mailingMessageStatus	MailingMessageStatus	@relation("From-MailingMessage.mailingMessageStatus", fields: [mailingMessageStatusId], references: [id])
+	messageTemplateLangVariantId	Int
+	messageTemplateLangVariant	MessageTemplateLangVariant	@relation("From-MailingMessage.messageTemplateLangVariant", fields: [messageTemplateLangVariantId], references: [id])
+	@@unique([mailingCampaignId, to, uniqueKey])
+}
+
+
+model MailingMessageStatus {
+	id	String	@id
+	search	String?
+	title	String?
+	final	Boolean
+	mailingMessageMailingMessageStatuses	MailingMessage[]	@relation("From-MailingMessage.mailingMessageStatus")
 }
 
 
@@ -298,6 +347,14 @@ model Tenant {
 }
 
 
+model MailingType {
+	id	String	@id
+	search	String?
+	title	String
+	mailingCampaignMailingTypes	MailingCampaign[]	@relation("From-MailingCampaign.mailingType")
+}
+
+
 model AuditLogActionType {
 	id	String	@id
 	search	String?
@@ -324,6 +381,7 @@ model MessageTemplate {
 	messageType	MessageType	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
 	templateStyleId	Int?
 	templateStyle	TemplateStyle?	@relation("From-MessageTemplate.templateStyle", fields: [templateStyleId], references: [id])
+	mailingMessageTemplates	MailingMessage[]	@relation("From-MailingMessage.template")
 	messageTemplateLangVariantMessageTemplates	MessageTemplateLangVariant[]	@relation("From-MessageTemplateLangVariant.messageTemplate")
 }
 
@@ -331,6 +389,7 @@ model MessageTemplate {
 model MessageTemplateLangVariant {
 	id	Int	@default(autoincrement())	@id
 	search	String?
+	title	String?
 	subjectTemplate	String
 	bodyTemplate	String
 	messageTemplateId	Int
@@ -338,5 +397,6 @@ model MessageTemplateLangVariant {
 	languageId	String
 	language	Language	@relation("From-MessageTemplateLangVariant.language", fields: [languageId], references: [id])
 	additionalStyle	String?
+	mailingMessageMessageTemplateLangVariants	MailingMessage[]	@relation("From-MailingMessage.messageTemplateLangVariant")
 	@@unique([messageTemplateId, languageId])
 }

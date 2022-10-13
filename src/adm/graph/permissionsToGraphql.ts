@@ -15,6 +15,10 @@ import delegationsPermissionToGraphql from './services/delegations/permissionsTo
 import entitiesPermissionToGraphql from './services/entities/permissionsToGraphql';
 import filesPermissionToGraphql from './services/files/permissionsToGraphql';
 import languagesPermissionToGraphql from './services/languages/permissionsToGraphql';
+import mailingCampaignsPermissionToGraphql from './services/mailingCampaigns/permissionsToGraphql';
+import mailingMessageStatusesPermissionToGraphql from './services/mailingMessageStatuses/permissionsToGraphql';
+import mailingMessagesPermissionToGraphql from './services/mailingMessages/permissionsToGraphql';
+import mailingTypesPermissionToGraphql from './services/mailingTypes/permissionsToGraphql';
 import managerLoginsPermissionToGraphql from './services/managerLogins/permissionsToGraphql';
 import managersPermissionToGraphql from './services/managers/permissionsToGraphql';
 import managersToPermissionsPermissionToGraphql from './services/managersToPermissions/permissionsToGraphql';
@@ -57,6 +61,10 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   entities: entitiesPermissionToGraphql,
   files: filesPermissionToGraphql,
   languages: languagesPermissionToGraphql,
+  mailingCampaigns: mailingCampaignsPermissionToGraphql,
+  mailingMessageStatuses: mailingMessageStatusesPermissionToGraphql,
+  mailingMessages: mailingMessagesPermissionToGraphql,
+  mailingTypes: mailingTypesPermissionToGraphql,
   managerLogins: managerLoginsPermissionToGraphql,
   managers: managersPermissionToGraphql,
   managersToPermissions: managersToPermissionsPermissionToGraphql,

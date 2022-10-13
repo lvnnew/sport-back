@@ -53,6 +53,22 @@ const initEntities = async (ctx: Context) => {
     title: 'Languages',
   });
   await ctx.service('entities').upsert({
+    id: Entity.MailingCampaign,
+    title: 'Рассылки',
+  });
+  await ctx.service('entities').upsert({
+    id: Entity.MailingMessageStatus,
+    title: 'Статусы сообщений массовой рассылки',
+  });
+  await ctx.service('entities').upsert({
+    id: Entity.MailingMessage,
+    title: 'Сообщения рассылки',
+  });
+  await ctx.service('entities').upsert({
+    id: Entity.MailingType,
+    title: 'Типы рассылок',
+  });
+  await ctx.service('entities').upsert({
     id: Entity.ManagerLogin,
     title: 'Логины менеджеров',
   });

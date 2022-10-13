@@ -96,6 +96,7 @@ const dateFieldsForSearch: string[] = [];
 
 const otherFieldsForSearch: string[] = [
   'id',
+  'title',
   'subjectTemplate',
   'bodyTemplate',
   'messageTemplateId',

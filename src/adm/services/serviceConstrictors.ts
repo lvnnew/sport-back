@@ -10,6 +10,10 @@ import {getDelegationsService} from './DelegationsService/DelegationsService';
 import {getEntitiesService} from './EntitiesService/EntitiesService';
 import {getFilesService} from './FilesService/FilesService';
 import {getLanguagesService} from './LanguagesService/LanguagesService';
+import {getMailingCampaignsService} from './MailingCampaignsService/MailingCampaignsService';
+import {getMailingMessageStatusesService} from './MailingMessageStatusesService/MailingMessageStatusesService';
+import {getMailingMessagesService} from './MailingMessagesService/MailingMessagesService';
+import {getMailingTypesService} from './MailingTypesService/MailingTypesService';
 import {getManagerLoginsService} from './ManagerLoginsService/ManagerLoginsService';
 import {getManagersService} from './ManagersService/ManagersService';
 import {getManagersToPermissionsService} from './ManagersToPermissionsService/ManagersToPermissionsService';
@@ -46,6 +50,10 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   entities: getEntitiesService,
   files: getFilesService,
   languages: getLanguagesService,
+  mailingCampaigns: getMailingCampaignsService,
+  mailingMessageStatuses: getMailingMessageStatusesService,
+  mailingMessages: getMailingMessagesService,
+  mailingTypes: getMailingTypesService,
   managerLogins: getManagerLoginsService,
   managers: getManagersService,
   managersToPermissions: getManagersToPermissionsService,
