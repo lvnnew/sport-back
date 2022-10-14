@@ -120,6 +120,8 @@ export type Scalars = {
   HSL: any;
   /** A field whose value is a CSS HSLA color: https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#hsl()_and_hsla(). */
   HSLA: any;
+  /** A field whose value is either an IPv4 or IPv6 address: https://en.wikipedia.org/wiki/IP_address. */
+  IP: any;
   /** A field whose value is a IPv4 address: https://en.wikipedia.org/wiki/IPv4. */
   IPv4: any;
   /** A field whose value is a IPv6 address: https://en.wikipedia.org/wiki/IPv6. */
@@ -168,6 +170,8 @@ export type Scalars = {
   AccountNumber: any;
   /** A field whose value conforms to the standard cuid format as specified in https://github.com/ericelliott/cuid#broken-down */
   Cuid: any;
+  /** A field whose value is a Semantic Version: https://semver.org */
+  SemVer: any;
 };
 
 export type AdmRefreshToken = {
@@ -2738,6 +2742,7 @@ export type ResolversTypes = {
   HexColorCode: ResolverTypeWrapper<Scalars['HexColorCode']>;
   HSL: ResolverTypeWrapper<Scalars['HSL']>;
   HSLA: ResolverTypeWrapper<Scalars['HSLA']>;
+  IP: ResolverTypeWrapper<Scalars['IP']>;
   IPv4: ResolverTypeWrapper<Scalars['IPv4']>;
   IPv6: ResolverTypeWrapper<Scalars['IPv6']>;
   ISBN: ResolverTypeWrapper<Scalars['ISBN']>;
@@ -2762,6 +2767,7 @@ export type ResolversTypes = {
   RoutingNumber: ResolverTypeWrapper<Scalars['RoutingNumber']>;
   AccountNumber: ResolverTypeWrapper<Scalars['AccountNumber']>;
   Cuid: ResolverTypeWrapper<Scalars['Cuid']>;
+  SemVer: ResolverTypeWrapper<Scalars['SemVer']>;
   AdmRefreshToken: ResolverTypeWrapper<AdmRefreshToken>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -2874,6 +2880,7 @@ export type ResolversParentTypes = {
   HexColorCode: Scalars['HexColorCode'];
   HSL: Scalars['HSL'];
   HSLA: Scalars['HSLA'];
+  IP: Scalars['IP'];
   IPv4: Scalars['IPv4'];
   IPv6: Scalars['IPv6'];
   ISBN: Scalars['ISBN'];
@@ -2898,6 +2905,7 @@ export type ResolversParentTypes = {
   RoutingNumber: Scalars['RoutingNumber'];
   AccountNumber: Scalars['AccountNumber'];
   Cuid: Scalars['Cuid'];
+  SemVer: Scalars['SemVer'];
   AdmRefreshToken: AdmRefreshToken;
   Int: Scalars['Int'];
   String: Scalars['String'];
@@ -3112,6 +3120,10 @@ export interface HslaScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
   name: 'HSLA';
 }
 
+export interface IpScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IP'], any> {
+  name: 'IP';
+}
+
 export interface IPv4ScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['IPv4'], any> {
   name: 'IPv4';
 }
@@ -3206,6 +3218,10 @@ export interface AccountNumberScalarConfig extends GraphQLScalarTypeConfig<Resol
 
 export interface CuidScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Cuid'], any> {
   name: 'Cuid';
+}
+
+export interface SemVerScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['SemVer'], any> {
+  name: 'SemVer';
 }
 
 export type AdmRefreshTokenResolvers<ContextType = any, ParentType extends ResolversParentTypes['AdmRefreshToken'] = ResolversParentTypes['AdmRefreshToken']> = {
@@ -3754,6 +3770,7 @@ export type Resolvers<ContextType = any> = {
   HexColorCode?: GraphQLScalarType;
   HSL?: GraphQLScalarType;
   HSLA?: GraphQLScalarType;
+  IP?: GraphQLScalarType;
   IPv4?: GraphQLScalarType;
   IPv6?: GraphQLScalarType;
   ISBN?: GraphQLScalarType;
@@ -3778,6 +3795,7 @@ export type Resolvers<ContextType = any> = {
   RoutingNumber?: GraphQLScalarType;
   AccountNumber?: GraphQLScalarType;
   Cuid?: GraphQLScalarType;
+  SemVer?: GraphQLScalarType;
   AdmRefreshToken?: AdmRefreshTokenResolvers<ContextType>;
   ListMetadata?: ListMetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
