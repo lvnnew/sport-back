@@ -1,14 +1,9 @@
-import {sentenceCase} from 'change-case';
-// import {createContext} from '../adm/services/context';
 import {getConfig} from '../config';
 import log from '../log';
 import {File} from '../generated/graphql';
-import Language from '../types/Language';
 import nodemailer from 'nodemailer';
-import fs from 'fs-jetpack';
-import path from 'path';
-import {MessageTemplate} from '../types/enums';
 import renderEmailFromTemplateData from './renderEmailFromTemplateData';
+import {Context} from '../adm/services/types';
 
 export interface EmailFile {
   name: string;
@@ -17,16 +12,17 @@ export interface EmailFile {
 }
 
 export interface EmailOptions {
-  lang?: Language;
+  // lang?: Language;
   files?: EmailFile[];
-  message: {to: string},
-  template: MessageTemplate,
+  to: string,
+  // templateId: number,
+  messageTemplateLangVariantId: number,
   locals?: Record<string, any>,
   // priority?: number;
 }
 
 export interface EmailSender {
-  send: (options: EmailOptions) => Promise<any>;
+  send: (ctx: Context, options: EmailOptions) => Promise<any>;
 }
 
 export const s3FileToEmailFile = (s3File: Omit<File, 'id'>):EmailFile => ({
@@ -35,7 +31,7 @@ export const s3FileToEmailFile = (s3File: Omit<File, 'id'>):EmailFile => ({
   mimetype: s3File.mimetype,
 });
 
-let send: (options: EmailOptions) => Promise<any>;
+let send: (ctx: Context, options: EmailOptions) => Promise<any>;
 
 export const getEmailSender = async () => {
   if (!send) {
@@ -58,7 +54,7 @@ export const getEmailSender = async () => {
       },
     });
 
-    send = async (options: EmailOptions) => {
+    send = async (ctx: Context, options: EmailOptions) => {
       const attachments = [];
       // const ctx = await createContext();
 
@@ -75,42 +71,55 @@ export const getEmailSender = async () => {
       log.info('attachments');
       log.info(JSON.stringify(attachments, null, 1));
 
-      const to = options.message.to.toLowerCase();
+      const to = options.to.toLowerCase();
       if (!to) {
         throw new Error('Email you wish to send to should be provided');
       }
 
-      const templateName = options.template && options.lang ? `${options.template}${sentenceCase(options.lang)}` : options.template;
-      if (!templateName) {
-        throw new Error('Template name must be specified');
-      }
+      // const tt = {
+      //   messageTemplateLangVariantId: 11,
+      //   files: [
+      //     {
+      //       name: 'balance.pdf',
+      //       url: 'https://aloyal-dev-tmp-files-to-download.s3.eu-central-1.wasabisys.com/a66d50ef-a108-4996-bc10-a97863a54ab2.pdf',
+      //       mimetype: 'application/pdf',
+      //     },
+      //   ],
+      // };
 
-      const subjectTemplate = fs.read(path.join(fs.cwd(), 'emails', templateName, 'subject.pug'));
-      if (!subjectTemplate) {
-        throw new Error('Subject template is not specified');
-      }
+      // const templateName = options.template && options.lang ? `${options.template}${sentenceCase(options.lang)}` : options.template;
+      // if (!templateName) {
+      //   throw new Error('Template name must be specified');
+      // }
 
-      const htmlTemplate = fs.read(path.join(fs.cwd(), 'emails', templateName, 'html.pug'));
-      if (!htmlTemplate) {
-        throw new Error('Html template is not specified');
-      }
+      // const subjectTemplate = fs.read(path.join(fs.cwd(), 'emails', templateName, 'subject.pug'));
+      // if (!subjectTemplate) {
+      //   throw new Error('Subject template is not specified');
+      // }
+
+      // const htmlTemplate = fs.read(path.join(fs.cwd(), 'emails', templateName, 'html.pug'));
+      // if (!htmlTemplate) {
+      //   throw new Error('Html template is not specified');
+      // }
 
       log.info('options');
       log.info(JSON.stringify(options, null, 1));
 
-      const templateId = options.template;
-      if (!templateId) {
-        throw new Error('Template should be set');
-      }
+      // const templateId = options.template;
+      // if (!templateId) {
+      //   throw new Error('Template should be set');
+      // }
 
       // const template = await ctx.service('messageTemplates').get(templateId);
       // if (!template) {
       //   throw new Error(`There is no template with "${templateId}" id`);
       // }
 
+      const langVariant = await ctx.service('messageTemplateLangVariants').getRequired(options.messageTemplateLangVariantId);
+
       const messageFromTemplate = await renderEmailFromTemplateData({
-        subjectTemplate,
-        bodyTemplate: htmlTemplate,
+        subjectTemplate: langVariant.subjectTemplate,
+        bodyTemplate: langVariant.bodyTemplate,
         locals: options.locals,
       });
 

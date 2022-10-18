@@ -2,11 +2,10 @@ import log from '../../../log';
 import {EmailOptions} from '../../emailSender';
 import getQueue from '../getQueue';
 import {Job} from './Job';
-import {Optional} from 'utility-types';
 
 export type SendEmailLocals = Record<string, any>;
 
-export interface AddSendEmailJobArgs extends Optional<EmailOptions, 'message'> {
+export interface AddSendEmailJobArgs extends EmailOptions {
   priority?: number;
 }
 
@@ -20,11 +19,12 @@ export const addSendEmailJob = async (args: AddSendEmailJobArgs) => {
   await queue.addJob(
     Job.SendEmail,
     {
-      template: args.template,
-      lang: args.lang,
+      // template: args.template,
+      // lang: args.lang,
+      to: args.to,
+      messageTemplateLangVariantId: args.messageTemplateLangVariantId,
       locals: args.locals,
       files: args.files,
-      message: args.message,
       priority: args.priority,
     },
   );

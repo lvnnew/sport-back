@@ -5,7 +5,6 @@ import {initTestManagers} from './initTestManagers';
 // yarn ts-node src/init/initDev.ts
 // runlify start env=test yarn ts-node src/init/initDev.ts
 // runlify start env=stage yarn ts-node src/init/initDev.ts
-// yarn ts-node src/init/initDev.ts
 
 // runlify start env=anna_laznia yarn ts-node src/init/initDev.ts
 // runlify start env=yurii_papka yarn ts-node src/init/initDev.ts

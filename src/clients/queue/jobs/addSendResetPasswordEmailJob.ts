@@ -17,8 +17,8 @@ export const addSendResetPasswordEmailJob = async (ctx: Context, userId: number,
 
   await addSendEmailToUserJob(
     ctx,
-    userId,
     {
+      userId,
       template: MessageTemplate.ResetPassword,
       locals,
     },

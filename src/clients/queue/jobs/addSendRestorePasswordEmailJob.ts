@@ -17,8 +17,8 @@ export const addSendRestorePasswordEmailJob = async (ctx: Context, userId: numbe
 
   await addSendEmailToUserJob(
     ctx,
-    userId,
     {
+      userId,
       locals,
       template: MessageTemplate.RestorePassword,
     },

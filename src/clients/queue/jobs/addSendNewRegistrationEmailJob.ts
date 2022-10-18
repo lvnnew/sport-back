@@ -17,8 +17,8 @@ export const addSendNewRegistrationEmailJob = async (ctx: Context, userId: numbe
 
   await addSendEmailToUserJob(
     ctx,
-    userId,
     {
+      userId,
       locals,
       template: MessageTemplate.NewRegistration,
     },
