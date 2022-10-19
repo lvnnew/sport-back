@@ -36,7 +36,7 @@ passport.use(
 
         return done(null, {id: user.id});
       } catch (error: any) {
-        return done(error, null);
+        return done(error, false);
       }
     },
   ),
@@ -81,7 +81,7 @@ passport.use(
 
         return done(null, {id: login.userId});
       } catch (error: any) {
-        return done(error, null);
+        return done(error, false);
       }
     },
   ),
@@ -126,7 +126,7 @@ passport.use(
 
         return done(null, {id: login.userId});
       } catch (error: any) {
-        return done(error, null);
+        return done(error, false);
       }
     },
   ),
@@ -150,14 +150,14 @@ export const initAppPassport = async () => {
         try {
           if (!jwtPayload.id) {
             log.error('Jwt. There is no id in payload');
-            done(null, null);
+            done(null, false);
 
             return;
           }
 
           done(null, {id: jwtPayload.id});
         } catch (error: any) {
-          done(error, null);
+          done(error, false);
         }
       },
     ),

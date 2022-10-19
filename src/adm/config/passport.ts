@@ -46,7 +46,7 @@ passport.use(
           roles: await ctx.service('profile').getRolesOfManager(manager.id),
         });
       } catch (error: any) {
-        return done(error, null);
+        return done(error, false);
       }
     },
   ),
@@ -96,7 +96,7 @@ passport.use(
           roles: await ctx.service('profile').getRolesOfManager(manager.id),
         });
       } catch (error: any) {
-        return done(error, null);
+        return done(error, false);
       }
     },
   ),
@@ -122,7 +122,7 @@ export const initAdmPassport = async () => {
         try {
           if (!jwtPayload.id) {
             log.error('Jwt. There is no id in payload');
-            done(null, null);
+            done(null, false);
 
             return;
           }
@@ -133,7 +133,7 @@ export const initAdmPassport = async () => {
             roles: await ctx.service('profile').getRolesOfManager(jwtPayload.managerId),
           });
         } catch (error: any) {
-          done(error, null);
+          done(error, false);
         }
       },
     ),
