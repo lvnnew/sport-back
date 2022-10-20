@@ -1,4 +1,4 @@
-import fs, {ReadStream, WriteStream} from 'fs-extra';
+import fs, {WriteStream} from 'fs-extra';
 import AWS from 'aws-sdk';
 import S3 from 'aws-sdk/clients/s3';
 import log from '../log';
@@ -244,7 +244,7 @@ export const createS3Lister = (bucket: string) => async (prefix?: string): Promi
   });
 };
 
-export const createUploaderFromStream = (bucket: string) => async (key: string, stream: ReadStream | PassThrough): Promise<ManagedUpload.SendData> => {
+export const createUploaderFromStream = (bucket: string) => async (key: string, stream: Readable | PassThrough): Promise<ManagedUpload.SendData> => {
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
 
