@@ -19,7 +19,7 @@ npm install --global windows-build-tools
 
 ## Create migrations
 ```
-yarn prisma:migrate
+yarn prisma:newMigration
 ```
 
 ## Run main migration

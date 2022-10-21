@@ -6287,7 +6287,7 @@
   },
   {
    "command": "runlify start env=migration prisma migrate dev --preview-feature",
-   "name": "prisma:migrate",
+   "name": "prisma:newMigration",
    "needFor": "Создания новой миграции базы данных",
    "projectCategory": "back"
   },
