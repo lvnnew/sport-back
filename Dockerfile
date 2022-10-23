@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/making.ventures/images/node-with-tools AS builder
+FROM registry.gitlab.com/making.ventures/images/node-with-tools-private AS builder
 
 RUN mkdir /app
 WORKDIR /app
