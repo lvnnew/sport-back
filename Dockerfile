@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/making.ventures/images/node-with-tools-private AS builder
+FROM registry.gitlab.com/making.ventures/images/node-with-tools AS builder
 
 RUN mkdir /app
 WORKDIR /app
@@ -11,7 +11,7 @@ RUN npm run prisma:gen
 RUN npm run build
 
 # Actual image (this version of node required for email sending by email-templates, not booster)
-FROM node:16-stretch
+FROM registry.gitlab.com/making.ventures/images/node-base-private
 
 RUN mkdir -p /usr/src/app/back
 WORKDIR /usr/src/app/back
