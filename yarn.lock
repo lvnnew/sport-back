@@ -7945,13 +7945,6 @@ fs-jetpack@4.3.1:
     minimatch "^3.0.2"
     rimraf "^2.6.3"
 
-fs-jetpack@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/fs-jetpack/-/fs-jetpack-5.0.0.tgz#020bde38f9d4a5422fc663b7934ac8abdc64a885"
-  integrity sha512-0f9QoIbfAq/DuafAQisvsHJmLnJB2D53d9FXIu0UZPUg4Kzocez1+AinToPON6JD/C60kDlye121puiR5ivfdg==
-  dependencies:
-    minimatch "^5.1.0"
-
 fs-jetpack@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/fs-jetpack/-/fs-jetpack-5.1.0.tgz#dcd34d709b69007c9dc2420a6f2b9e8f986cff0d"
@@ -13045,16 +13038,16 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-runlify@^0.0.170:
-  version "0.0.170"
-  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.170.tgz#a24b950c844849ad2fd192d3c8285b264617eb6d"
-  integrity sha512-OdXPLhbUfOYgiEPj6yhNKxe1HNios5MmdDpw7wtD8vK+cUNuwWr/tK0y+SMLuaTNifcSaEH1o5G5kYRI+b1YRQ==
+runlify@^0.0.173:
+  version "0.0.173"
+  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.173.tgz#4616139b823f23688492d838d9488b8f4de187b3"
+  integrity sha512-uoz1OmDKOKaAHbky+6TKImAojdzavOt8EkE8a6ZTJg5mFSXbeo53CWBWSIOO5fQcp3v7iZKtUqMtRDSSE+zwZg==
   dependencies:
     appdata-path "^1.0.0"
     change-case "^4.1.2"
     cross-spawn "^7.0.3"
     fs-extra "^10.1.0"
-    fs-jetpack "^5.0.0"
+    fs-jetpack "^5.1.0"
     gluegun latest
     graphql "^16.6.0"
     graphql-scalars "^1.19.0"
