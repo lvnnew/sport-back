@@ -1,7 +1,7 @@
 import passport from 'passport';
 import {NextFunction, Request, Response} from 'express';
 import jwt from 'jsonwebtoken';
-import {AppErrorCode} from '../../types/enums';
+import AppErrorCode from '../../types/AppErrorCode';
 import log from '../../log';
 import {ADM_TOKEN_EXPIRES_IN} from '../config/consts';
 import {getConfig} from '../../config';
