@@ -8,7 +8,7 @@ global:
 
 dev: false
 
-dockerRegistry: registry.gitlab.com/mtbase
+dockerRegistry: registry.service.making.ventures/mtbase
 
 app:
   tag: :master

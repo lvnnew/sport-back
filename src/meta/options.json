@@ -1,5 +1,5 @@
 {
- "ciDockerRegistry": "registry.gitlab.com",
+ "ciDockerRegistry": "registry.service.making.ventures",
  "coreIndex": true,
  "corePrismaGetter": true,
  "dbName": "mtbase_stage",
