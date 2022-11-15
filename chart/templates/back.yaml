@@ -48,7 +48,7 @@ spec:
     {{- end }}
       containers:
       - name: mtbase-back
-        image: {{ $.Values.dockerRegistry }}/mtbase-back{{ $.Values.app.tag }}
+        image: {{ $.Values.docker.registry }}/mtbase-back{{ $.Values.app.tag }}
         ports:
         - name: main-port
           containerPort: 3000

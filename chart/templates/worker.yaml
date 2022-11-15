@@ -52,7 +52,7 @@ spec:
     {{- end }}
       containers:
       - name: mtbase-{{ .name  }}-worker
-        image: {{ $.Values.dockerRegistry }}/mtbase-back{{ $.Values.app.tag }}
+        image: {{ $.Values.docker.registry }}/mtbase-back{{ $.Values.app.tag }}
         command: ["node", "{{ .file  }}"]
         ports:
         - name: main-port

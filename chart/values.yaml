@@ -8,7 +8,8 @@ global:
 
 dev: false
 
-dockerRegistry: registry.service.making.ventures/mtbase
+docker:
+  registry: registry.service.making.ventures/mtbase
 
 app:
   tag: :master
