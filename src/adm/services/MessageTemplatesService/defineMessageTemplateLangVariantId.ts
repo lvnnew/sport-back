@@ -1,9 +1,8 @@
 import {MessageTemplate} from '../../../types/enums';
 import Language from '../../../types/Language';
 import {Context} from '../types';
-import defineTemplateId from './defineTemplateId';
 
-export const defineMessageTemplateLangVariantIdByTemplteId = async (ctx: Context, templateId: number, languageId?: Language) => {
+export const defineMessageTemplateLangVariantIdByTemplteId = async (ctx: Context, templateId: MessageTemplate, languageId?: Language) => {
   if (languageId) {
     const byLang = await ctx.prisma.messageTemplateLangVariant.findFirst({
       select: {id: true},
@@ -45,9 +44,7 @@ export const defineMessageTemplateLangVariantIdByTemplteId = async (ctx: Context
 };
 
 const defineMessageTemplateLangVariantId = async (ctx: Context, template: MessageTemplate, languageId?: Language) => {
-  const templateId = await defineTemplateId(ctx, template);
-
-  return defineMessageTemplateLangVariantIdByTemplteId(ctx, templateId, languageId);
+  return defineMessageTemplateLangVariantIdByTemplteId(ctx, template, languageId);
 };
 
 export default defineMessageTemplateLangVariantId;

@@ -55,10 +55,9 @@ export const templates: Record<MessageTemplate, Omit<MutationUpdateMessageTempla
 
 export const initMessageTemplates = async (ctx: Context) => {
   const arr = R.toPairs(templates);
-  for (const [, {title, messageTypeId, secretData}] of arr) {
-    await ctx.service('messageTemplates').upsertAdvanced(
-      {title, messageTypeId, secretData},
-      {title, messageTypeId, secretData},
+  for (const [id, {title, messageTypeId, secretData}] of arr) {
+    await ctx.service('messageTemplates').upsert(
+      {id, title, messageTypeId, secretData},
     );
   }
 };
