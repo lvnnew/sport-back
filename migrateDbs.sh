@@ -5,9 +5,15 @@ set -v
 
 yarn global add runlify
 
-runlify start env=dev npx prisma migrate deploy --preview-feature
+filenames=$(ls ./config -I 'prod.json' -I 'default.json' -I 'migration.json' -I '*copy*' -I '*.json_')
+echo $filenames
 
-runlify start env=test npx prisma migrate deploy --preview-feature
-runlify start env=stage npx prisma migrate deploy --preview-feature
+for filename in $filenames; do
+  env="${filename//.json/}"
+  echo env: $env
+  command="yarn runlify start env=$env npx prisma migrate deploy --preview-feature"
+  echo command: $command
+  $command
+done
 
-runlify start env=prod npx prisma migrate deploy --preview-feature
+yarn runlify start env=prod npx prisma migrate deploy --preview-feature
