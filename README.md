@@ -1,13 +1,24 @@
 
-# First Start 
+# First Start
 
-Выполнить команду
+1. Выполнить команду
 
 ```sh
 ./prepare.sh
 ```
 
 Проверить что в файле runlify.developer.json параметр "defaultEnvironment": "твой логин" или отредактировать его вручную.
+
+2. Накатить миграции
+```
+yarn prisma:deploy
+```
+
+3. Выполнить иниты
+```
+yarn init:base
+yarn init:dev
+```
 
 # Windows
 If you use window next commnd may be required:

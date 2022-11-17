@@ -1,4 +1,3 @@
-import {createContext} from '../adm/services/context';
 import initAuditLogActionTypes from './common/initAuditLogActionTypes';
 import initEntities from './common/initEntities';
 import initLanguages from './common/initLanguages';
