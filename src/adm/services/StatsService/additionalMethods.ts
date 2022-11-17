@@ -16,20 +16,8 @@ const gauge = new Gauge({
 });
 
 export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseStatsMethods): AdditionalStatsMethods => {
-  const recalculate = async () => {    const stats: MutationUpdateStatArgs = {
-      id: 'stats',
-      updated: new Date(),
-      helloCount: 0,
-    };
-
-    await ctx.service('stats').upsert(stats);
-
-    await updateGauges();
-
-    return stats;
-  };
-
-  const updateGauges = async () => {    const stats = await ctx.service('stats').get('stats');
+  const updateGauges = async () => {
+    const stats = await ctx.service('stats').get('stats');
 
     if (!stats) {
       return;
@@ -40,6 +28,20 @@ export const getAdditionalMethods = (ctx: Context, _baseMethods: BaseStatsMethod
       .forEach(([key, value]) => {
         gauge.set({label: key}, value || 0);
       });
+  };
+
+  const recalculate = async () => {
+    const stats: MutationUpdateStatArgs = {
+      id: 'stats',
+      updated: new Date(),
+      helloCount: 0,
+    };
+
+    await ctx.service('stats').upsert(stats);
+
+    await updateGauges();
+
+    return stats;
   };
 
   return {

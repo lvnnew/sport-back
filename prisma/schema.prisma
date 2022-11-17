@@ -81,6 +81,8 @@ model AuditLog {
 	search	String?
 	date	DateTime
 	title	String
+	success	Boolean?
+	error	String?
 	entityTypeId	String
 	entityType	Entity	@relation("From-AuditLog.entityType", fields: [entityTypeId], references: [id])
 	entityId	String
@@ -235,6 +237,7 @@ model ManagersToPermission {
 	manager	Manager	@relation("From-ManagersToPermission.manager", fields: [managerId], references: [id])
 	permissionId	String
 	permission	Permission	@relation("From-ManagersToPermission.permission", fields: [permissionId], references: [id])
+	expiresAt	DateTime?	@db.Date
 }
 
 
@@ -256,6 +259,11 @@ model MailingCampaign {
 	mailingTypeId	String
 	mailingType	MailingType	@relation("From-MailingCampaign.mailingType", fields: [mailingTypeId], references: [id])
 	priority	Int
+	date	DateTime?	@db.Date
+	mailingCampaignStatusId	String?
+	mailingCampaignStatus	MailingCampaignStatus?	@relation("From-MailingCampaign.mailingCampaignStatus", fields: [mailingCampaignStatusId], references: [id])
+	messageTemplateId	String
+	messageTemplate	MessageTemplate	@relation("From-MailingCampaign.messageTemplate", fields: [messageTemplateId], references: [id])
 	mailingMessageMailingCampaigns	MailingMessage[]	@relation("From-MailingMessage.mailingCampaign")
 }
 
@@ -278,7 +286,8 @@ model ManagersToRole {
 	manager	Manager	@relation("From-ManagersToRole.manager", fields: [managerId], references: [id])
 	roleId	String
 	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
-	@@unique([managerId, roleId])
+	expiresAt	DateTime?	@db.Date
+	@@unique([managerId, roleId, expiresAt])
 }
 
 
@@ -287,7 +296,7 @@ model MailingMessage {
 	search	String?
 	mailingCampaignId	Int
 	mailingCampaign	MailingCampaign	@relation("From-MailingMessage.mailingCampaign", fields: [mailingCampaignId], references: [id])
-	templateId	Int
+	templateId	String
 	template	MessageTemplate	@relation("From-MailingMessage.template", fields: [templateId], references: [id])
 	languageId	String
 	language	Language	@relation("From-MailingMessage.language", fields: [languageId], references: [id])
@@ -307,6 +316,14 @@ model MailingMessage {
 	messageTemplateLangVariantId	Int
 	messageTemplateLangVariant	MessageTemplateLangVariant	@relation("From-MailingMessage.messageTemplateLangVariant", fields: [messageTemplateLangVariantId], references: [id])
 	@@unique([mailingCampaignId, to, uniqueKey])
+}
+
+
+model MailingCampaignStatus {
+	id	String	@id
+	search	String?
+	title	String
+	mailingCampaignMailingCampaignStatuses	MailingCampaign[]	@relation("From-MailingCampaign.mailingCampaignStatus")
 }
 
 
@@ -373,14 +390,16 @@ model MessageType {
 
 
 model MessageTemplate {
-	id	Int	@default(autoincrement())	@id
+	id	String	@id
 	search	String?
 	title	String
 	secretData	Boolean
 	messageTypeId	String
 	messageType	MessageType	@relation("From-MessageTemplate.messageType", fields: [messageTypeId], references: [id])
+	dataExample	String?
 	templateStyleId	Int?
 	templateStyle	TemplateStyle?	@relation("From-MessageTemplate.templateStyle", fields: [templateStyleId], references: [id])
+	mailingCampaignMessageTemplates	MailingCampaign[]	@relation("From-MailingCampaign.messageTemplate")
 	mailingMessageTemplates	MailingMessage[]	@relation("From-MailingMessage.template")
 	messageTemplateLangVariantMessageTemplates	MessageTemplateLangVariant[]	@relation("From-MessageTemplateLangVariant.messageTemplate")
 }
@@ -392,7 +411,7 @@ model MessageTemplateLangVariant {
 	title	String?
 	subjectTemplate	String
 	bodyTemplate	String
-	messageTemplateId	Int
+	messageTemplateId	String
 	messageTemplate	MessageTemplate	@relation("From-MessageTemplateLangVariant.messageTemplate", fields: [messageTemplateId], references: [id])
 	languageId	String
 	language	Language	@relation("From-MessageTemplateLangVariant.language", fields: [languageId], references: [id])

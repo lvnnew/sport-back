@@ -10,6 +10,7 @@ import {DelegationsService} from './DelegationsService/DelegationsService';
 import {EntitiesService} from './EntitiesService/EntitiesService';
 import {FilesService} from './FilesService/FilesService';
 import {LanguagesService} from './LanguagesService/LanguagesService';
+import {MailingCampaignStatusesService} from './MailingCampaignStatusesService/MailingCampaignStatusesService';
 import {MailingCampaignsService} from './MailingCampaignsService/MailingCampaignsService';
 import {MailingMessageStatusesService} from './MailingMessageStatusesService/MailingMessageStatusesService';
 import {MailingMessagesService} from './MailingMessagesService/MailingMessagesService';
@@ -48,6 +49,7 @@ export interface BaseServices {
   entities: EntitiesService;
   files: FilesService;
   languages: LanguagesService;
+  mailingCampaignStatuses: MailingCampaignStatusesService;
   mailingCampaigns: MailingCampaignsService;
   mailingMessageStatuses: MailingMessageStatusesService;
   mailingMessages: MailingMessagesService;

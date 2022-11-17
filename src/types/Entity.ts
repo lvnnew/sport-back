@@ -13,6 +13,7 @@ enum Entity {
   Entity = 'entity',
   File = 'file',
   Language = 'language',
+  MailingCampaignStatus = 'mailingCampaignStatus',
   MailingCampaign = 'mailingCampaign',
   MailingMessageStatus = 'mailingMessageStatus',
   MailingMessage = 'mailingMessage',

@@ -53,6 +53,10 @@ const initEntities = async (ctx: Context) => {
     title: 'Languages',
   });
   await ctx.service('entities').upsert({
+    id: Entity.MailingCampaignStatus,
+    title: 'Статусы рассылок',
+  });
+  await ctx.service('entities').upsert({
     id: Entity.MailingCampaign,
     title: 'Рассылки',
   });

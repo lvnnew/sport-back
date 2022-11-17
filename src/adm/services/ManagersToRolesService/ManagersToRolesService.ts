@@ -92,7 +92,9 @@ export type ManagersToRolesService = BaseManagersToRolesMethods
     StrictUpdateManagersToRoleArgs
   >;
 
-const dateFieldsForSearch: string[] = [];
+const dateFieldsForSearch: string[] = [
+  'expiresAt',
+];
 
 const otherFieldsForSearch: string[] = [
   'id',

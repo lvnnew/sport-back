@@ -8,7 +8,7 @@ export default gql`
     title: String
     subjectTemplate: String!
     bodyTemplate: String!
-    messageTemplateId: Int!
+    messageTemplateId: String!
     languageId: String!
     additionalStyle: String
   }
@@ -23,8 +23,8 @@ export default gql`
     subjectTemplate_in: [String]
     bodyTemplate: String
     bodyTemplate_in: [String]
-    messageTemplateId: Int
-    messageTemplateId_in: [Int]
+    messageTemplateId: String
+    messageTemplateId_in: [String]
     languageId: String
     languageId_in: [String]
     additionalStyle: String
@@ -42,8 +42,8 @@ export default gql`
   }
 
   type Mutation {
-    createMessageTemplateLangVariant(title: String, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: Int!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
-    updateMessageTemplateLangVariant(id: Int!, title: String, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: Int!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
+    createMessageTemplateLangVariant(title: String, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: String!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
+    updateMessageTemplateLangVariant(id: Int!, title: String, subjectTemplate: String!, bodyTemplate: String!, messageTemplateId: String!, languageId: String!, additionalStyle: String): MessageTemplateLangVariant
     removeMessageTemplateLangVariant(id: Int!): MessageTemplateLangVariant
   }
 `;

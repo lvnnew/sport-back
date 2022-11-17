@@ -24,7 +24,7 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableAuditLogKeys = 'foreign';
+export type AutodefinableAuditLogKeys = 'success' | 'foreign';
 export type ForbidenForUserAuditLogKeys = never;
 export type RequiredDbNotUserAuditLogKeys = never;
 
@@ -98,6 +98,7 @@ const dateFieldsForSearch: string[] = [
 const otherFieldsForSearch: string[] = [
   'id',
   'title',
+  'error',
   'entityTypeId',
   'entityId',
   'actionTypeId',
@@ -125,6 +126,7 @@ export const getAuditLogsService = (ctx: Context) => {
     currentData: Record<string, any>,
   ): Promise<T & AutodefinableAuditLogPart> => {
     const defaultFieldConstructors = {
+      success: async () => false,
       foreign: async () => false,
     };
 

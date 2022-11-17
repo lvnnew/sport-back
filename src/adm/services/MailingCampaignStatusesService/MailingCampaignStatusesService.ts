@@ -1,17 +1,17 @@
 import {
   ListMetadata,
-  MutationCreateMessageTemplateArgs,
-  MutationUpdateMessageTemplateArgs,
-  MutationRemoveMessageTemplateArgs,
-  QueryAllMessageTemplatesArgs,
-  Query_AllMessageTemplatesMetaArgs,
-  MessageTemplate,
-  MessageTemplateFilter,
+  MutationCreateMailingCampaignStatusArgs,
+  MutationUpdateMailingCampaignStatusArgs,
+  MutationRemoveMailingCampaignStatusArgs,
+  QueryAllMailingCampaignStatusesArgs,
+  Query_AllMailingCampaignStatusesMetaArgs,
+  MailingCampaignStatus,
+  MailingCampaignStatusFilter,
 } from '../../../generated/graphql';
 import {toPrismaRequest} from '../../../utils/prisma/toPrismaRequest';
 import {Context} from '../types';
 import {Prisma} from '@prisma/client';
-import {AdditionalMessageTemplatesMethods, getAdditionalMethods} from './additionalMethods';
+import {AdditionalMailingCampaignStatusesMethods, getAdditionalMethods} from './additionalMethods';
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {getHooksUtils, HooksAddType} from '../getHooksUtils';
@@ -25,71 +25,71 @@ import getSearchStringCreator from '../utils/getSearchStringCreator';
 
 const forbiddenForUserFields: string[] = [];
 
-export type AutodefinableMessageTemplateKeys = 'secretData';
-export type ForbidenForUserMessageTemplateKeys = never;
-export type RequiredDbNotUserMessageTemplateKeys = never;
+export type AutodefinableMailingCampaignStatusKeys = never;
+export type ForbidenForUserMailingCampaignStatusKeys = never;
+export type RequiredDbNotUserMailingCampaignStatusKeys = never;
 
-export type AutodefinableMessageTemplatePart = DefinedRecord<Pick<MutationCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>>;
+export type AutodefinableMailingCampaignStatusPart = DefinedRecord<Pick<MutationCreateMailingCampaignStatusArgs, AutodefinableMailingCampaignStatusKeys>>;
 
-export type ReliableMessageTemplateCreateUserInput =
-  Omit<MutationCreateMessageTemplateArgs, ForbidenForUserMessageTemplateKeys>
-  & AutodefinableMessageTemplatePart;
+export type ReliableMailingCampaignStatusCreateUserInput =
+  Omit<MutationCreateMailingCampaignStatusArgs, ForbidenForUserMailingCampaignStatusKeys>
+  & AutodefinableMailingCampaignStatusPart;
 
-export type AllowedMessageTemplateForUserCreateInput = Omit<MutationCreateMessageTemplateArgs, ForbidenForUserMessageTemplateKeys>;
+export type AllowedMailingCampaignStatusForUserCreateInput = Omit<MutationCreateMailingCampaignStatusArgs, ForbidenForUserMailingCampaignStatusKeys>;
 
-export type StrictCreateMessageTemplateArgs = DefinedFieldsInRecord<MutationCreateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
-export type StrictUpdateMessageTemplateArgs = DefinedFieldsInRecord<MutationUpdateMessageTemplateArgs, RequiredDbNotUserMessageTemplateKeys> & AutodefinableMessageTemplatePart;
+export type StrictCreateMailingCampaignStatusArgs = DefinedFieldsInRecord<MutationCreateMailingCampaignStatusArgs, RequiredDbNotUserMailingCampaignStatusKeys> & AutodefinableMailingCampaignStatusPart;
+export type StrictUpdateMailingCampaignStatusArgs = DefinedFieldsInRecord<MutationUpdateMailingCampaignStatusArgs, RequiredDbNotUserMailingCampaignStatusKeys> & AutodefinableMailingCampaignStatusPart;
 
-export type StrictCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
-export type MutationCreateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
-export type MutationUpdateMessageTemplateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateMessageTemplateArgs, AutodefinableMessageTemplateKeys>;
+export type StrictCreateMailingCampaignStatusArgsWithoutAutodefinable = PartialFieldsInRecord<StrictCreateMailingCampaignStatusArgs, AutodefinableMailingCampaignStatusKeys>;
+export type MutationCreateMailingCampaignStatusArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateMailingCampaignStatusArgs, AutodefinableMailingCampaignStatusKeys>;
+export type MutationUpdateMailingCampaignStatusArgsWithoutAutodefinable = PartialFieldsInRecord<MutationUpdateMailingCampaignStatusArgs, AutodefinableMailingCampaignStatusKeys>;
 
-export interface BaseMessageTemplatesMethods {
+export interface BaseMailingCampaignStatusesMethods {
   get: (id: string) =>
-    Promise<MessageTemplate | null>;
+    Promise<MailingCampaignStatus | null>;
   getRequired: (id: string) =>
-    Promise<MessageTemplate>;
-  all: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate[]>;
-  findOne: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate | null>;
-  findOneRequired: (params?: QueryAllMessageTemplatesArgs) =>
-    Promise<MessageTemplate>;
-  count: (params?: Query_AllMessageTemplatesMetaArgs) =>
+    Promise<MailingCampaignStatus>;
+  all: (params?: QueryAllMailingCampaignStatusesArgs) =>
+    Promise<MailingCampaignStatus[]>;
+  findOne: (params?: QueryAllMailingCampaignStatusesArgs) =>
+    Promise<MailingCampaignStatus | null>;
+  findOneRequired: (params?: QueryAllMailingCampaignStatusesArgs) =>
+    Promise<MailingCampaignStatus>;
+  count: (params?: Query_AllMailingCampaignStatusesMetaArgs) =>
     Promise<number>;
-  meta: (params?: Query_AllMessageTemplatesMetaArgs) =>
+  meta: (params?: Query_AllMailingCampaignStatusesMetaArgs) =>
     Promise<ListMetadata>;
-  create: (data: MutationCreateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
-    Promise<MessageTemplate>;
-  createMany: (data: StrictCreateMessageTemplateArgsWithoutAutodefinable[], byUser?: boolean) =>
+  create: (data: MutationCreateMailingCampaignStatusArgsWithoutAutodefinable, byUser?: boolean) =>
+    Promise<MailingCampaignStatus>;
+  createMany: (data: StrictCreateMailingCampaignStatusArgsWithoutAutodefinable[], byUser?: boolean) =>
     Promise<Prisma.BatchPayload>;
-  update: ({id, ...rest}: MutationUpdateMessageTemplateArgsWithoutAutodefinable, byUser?: boolean) =>
-    Promise<MessageTemplate>;
+  update: ({id, ...rest}: MutationUpdateMailingCampaignStatusArgsWithoutAutodefinable, byUser?: boolean) =>
+    Promise<MailingCampaignStatus>;
   upsert: (
-    data: PartialFieldsInRecord<MutationUpdateMessageTemplateArgsWithoutAutodefinable, 'id'>,
+    data: PartialFieldsInRecord<MutationUpdateMailingCampaignStatusArgsWithoutAutodefinable, 'id'>,
     byUser?: boolean,
   ) =>
-    Promise<MessageTemplate>;
+    Promise<MailingCampaignStatus>;
   upsertAdvanced: (
-    filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
+    filter: MailingCampaignStatusFilter,
+    data: MutationCreateMailingCampaignStatusArgsWithoutAutodefinable,
     byUser?: boolean,
   ) =>
-    Promise<MessageTemplate>;
-  delete: (params: MutationRemoveMessageTemplateArgs) =>
-    Promise<MessageTemplate>;
+    Promise<MailingCampaignStatus>;
+  delete: (params: MutationRemoveMailingCampaignStatusArgs) =>
+    Promise<MailingCampaignStatus>;
 }
 
-export type MessageTemplatesService = BaseMessageTemplatesMethods
-  & AdditionalMessageTemplatesMethods
+export type MailingCampaignStatusesService = BaseMailingCampaignStatusesMethods
+  & AdditionalMailingCampaignStatusesMethods
   & HooksAddType<
-    MessageTemplate,
-    QueryAllMessageTemplatesArgs,
-    ReliableMessageTemplateCreateUserInput,
-    MutationUpdateMessageTemplateArgs,
-    MutationRemoveMessageTemplateArgs,
-    StrictCreateMessageTemplateArgs,
-    StrictUpdateMessageTemplateArgs
+    MailingCampaignStatus,
+    QueryAllMailingCampaignStatusesArgs,
+    ReliableMailingCampaignStatusCreateUserInput,
+    MutationUpdateMailingCampaignStatusArgs,
+    MutationRemoveMailingCampaignStatusArgs,
+    StrictCreateMailingCampaignStatusArgs,
+    StrictUpdateMailingCampaignStatusArgs
   >;
 
 const dateFieldsForSearch: string[] = [];
@@ -97,61 +97,45 @@ const dateFieldsForSearch: string[] = [];
 const otherFieldsForSearch: string[] = [
   'id',
   'title',
-  'messageTypeId',
-  'dataExample',
-  'templateStyleId',
 ];
 
-export const getMessageTemplatesService = (ctx: Context) => {
+export const getMailingCampaignStatusesService = (ctx: Context) => {
   const {hooksAdd, runHooks} = getHooksUtils<
-    MessageTemplate,
-    QueryAllMessageTemplatesArgs,
-    ReliableMessageTemplateCreateUserInput,
-    MutationUpdateMessageTemplateArgs,
-    MutationRemoveMessageTemplateArgs,
-    StrictCreateMessageTemplateArgs,
-    StrictUpdateMessageTemplateArgs
+    MailingCampaignStatus,
+    QueryAllMailingCampaignStatusesArgs,
+    ReliableMailingCampaignStatusCreateUserInput,
+    MutationUpdateMailingCampaignStatusArgs,
+    MutationRemoveMailingCampaignStatusArgs,
+    StrictCreateMailingCampaignStatusArgs,
+    StrictUpdateMailingCampaignStatusArgs
   >();
 
   const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableMessageTemplatePart> => {
-    const defaultFieldConstructors = {
-      secretData: async () => false,
-    };
-
-    const pairedConstructors = R.toPairs(defaultFieldConstructors);
-
-    const resultedPairs: R.KeyValuePair<string, any>[] = [];
-    for (const [key, constructor] of pairedConstructors) {
-      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
-    }
-
-    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableMessageTemplatePart;
-  };
+  ): Promise<T & AutodefinableMailingCampaignStatusPart> => currentData as T & AutodefinableMailingCampaignStatusPart;
 
   const all = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate[]> => {
-    return ctx.prisma.messageTemplate.findMany(
+    params: QueryAllMailingCampaignStatusesArgs = {},
+  ): Promise<MailingCampaignStatus[]> => {
+    return ctx.prisma.mailingCampaignStatus.findMany(
       toPrismaRequest(await runHooks.changeListFilter(ctx, params), {noId: false}),
-    ) as unknown as Promise<MessageTemplate[]>;
+    ) as unknown as Promise<MailingCampaignStatus[]>;
   };
 
   const findOne = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate | null> => {
-    return ctx.prisma.messageTemplate.findFirst(toPrismaRequest(
+    params: QueryAllMailingCampaignStatusesArgs = {},
+  ): Promise<MailingCampaignStatus | null> => {
+    return ctx.prisma.mailingCampaignStatus.findFirst(toPrismaRequest(
       await runHooks.changeListFilter(ctx, params),
       {noId: false},
     ));
   };
 
   const findOneRequired = async (
-    params: QueryAllMessageTemplatesArgs = {},
-  ): Promise<MessageTemplate> => {
+    params: QueryAllMailingCampaignStatusesArgs = {},
+  ): Promise<MailingCampaignStatus> => {
     const found = await findOne(params);
 
     if (!found) {
@@ -163,13 +147,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const get = async (
     id: string,
-  ): Promise<MessageTemplate | null> => {
+  ): Promise<MailingCampaignStatus | null> => {
     return findOne({filter: {id}});
   };
 
   const getRequired = async (
     id: string,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MailingCampaignStatus> => {
     const found = await get(id);
 
     if (!found) {
@@ -180,32 +164,32 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const count = async (
-    params: Query_AllMessageTemplatesMetaArgs = {},
+    params: Query_AllMailingCampaignStatusesMetaArgs = {},
   ): Promise<number> => {
-    return ctx.prisma.messageTemplate.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
+    return ctx.prisma.mailingCampaignStatus.count(toPrismaTotalRequest(await runHooks.changeListFilter(ctx, params)));
   };
 
   const meta = async (
-    params: Query_AllMessageTemplatesMetaArgs = {},
+    params: Query_AllMailingCampaignStatusesMetaArgs = {},
   ): Promise<ListMetadata> => {
     return count(params).then(count => ({count}));
   };
 
   const create = async (
-    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
+    data: MutationCreateMailingCampaignStatusArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MailingCampaignStatus> => {
     // clear from fields forbidden for user
     const cleared = byUser ?
-      R.omit(forbiddenForUserFields, data) as AllowedMessageTemplateForUserCreateInput :
+      R.omit(forbiddenForUserFields, data) as AllowedMailingCampaignStatusForUserCreateInput :
       data;
 
     // Augment with default field
-    const augmentedByDefault: ReliableMessageTemplateCreateUserInput = await augmentByDefault(cleared);
+    const augmentedByDefault: ReliableMailingCampaignStatusCreateUserInput = await augmentByDefault(cleared);
 
     const processedData = await runHooks.beforeCreate(ctx, augmentedByDefault);
 
-    const createOperation = ctx.prisma.messageTemplate.create({
+    const createOperation = ctx.prisma.mailingCampaignStatus.create({
       data: R.mergeDeepLeft(
         processedData,
         {
@@ -226,26 +210,26 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
     await Promise.all([
       // update search. earlier we does not have id
-      ctx.prisma.messageTemplate.update({
+      ctx.prisma.mailingCampaignStatus.update({
         where: {id: result.id},
         data: {
           search: getSearchString(result),
         },
       }),
       ctx.service('auditLogs').addCreateOperation({
-        entityTypeId: Entity.MessageTemplate,
+        entityTypeId: Entity.MailingCampaignStatus,
         entityId: result.id,
         actionData: data,
       }),
     ]);
 
-    await runHooks.afterCreate(ctx, result as MessageTemplate);
+    await runHooks.afterCreate(ctx, result as MailingCampaignStatus);
 
-    return result as MessageTemplate;
+    return result as MailingCampaignStatus;
   };
 
   const createMany = async (
-    entries: StrictCreateMessageTemplateArgsWithoutAutodefinable[],
+    entries: StrictCreateMailingCampaignStatusArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> => {
     // clear from fields forbidden for user
@@ -254,9 +238,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
     // Augment with default field
     const augmentedByDefault = await Promise.all(
       clearedData.map(el => augmentByDefault(el)),
-    ) as StrictCreateMessageTemplateArgs[];
+    ) as StrictCreateMailingCampaignStatusArgs[];
 
-    const result = await ctx.prisma.messageTemplate.createMany({
+    const result = await ctx.prisma.mailingCampaignStatus.createMany({
       data: augmentedByDefault.map(data => R.mergeDeepLeft(
         data,
         {
@@ -274,9 +258,9 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const update = async (
-    data: MutationUpdateMessageTemplateArgsWithoutAutodefinable,
+    data: MutationUpdateMailingCampaignStatusArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MailingCampaignStatus> => {
     // Get db version
     const dbVersion = await getRequired(data.id);
 
@@ -287,13 +271,13 @@ export const getMessageTemplatesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateMessageTemplateArgs = R.mergeLeft(augmentedByDefault, dbVersion);
+    const augmented: StrictUpdateMailingCampaignStatusArgs = R.mergeLeft(augmentedByDefault, dbVersion);
 
     const processedData = await runHooks.beforeUpdate(ctx, augmented);
 
     const {id, ...rest} = processedData;
 
-    const updateOperation = ctx.prisma.messageTemplate.update({
+    const updateOperation = ctx.prisma.mailingCampaignStatus.update({
       data: R.mergeDeepLeft(
         {
           search: getSearchString(processedData),
@@ -304,7 +288,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     });
 
     const auditOperation = ctx.service('auditLogs').addUpdateOperation({
-      entityTypeId: Entity.MessageTemplate,
+      entityTypeId: Entity.MailingCampaignStatus,
       entityId: data.id,
       actionData: data,
     });
@@ -321,16 +305,16 @@ export const getMessageTemplatesService = (ctx: Context) => {
     }
 
     await Promise.all([
-      runHooks.afterUpdate(ctx, result as MessageTemplate),
+      runHooks.afterUpdate(ctx, result as MailingCampaignStatus),
     ]);
 
-    return result as MessageTemplate;
+    return result as MailingCampaignStatus;
   };
 
   const upsert = async (
-    data: PartialFieldsInRecord<MutationUpdateMessageTemplateArgsWithoutAutodefinable, 'id'>,
+    data: PartialFieldsInRecord<MutationUpdateMailingCampaignStatusArgsWithoutAutodefinable, 'id'>,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MailingCampaignStatus> => {
     // Get db version
     const dbVersion = data.id ? await get(data.id) : null;
 
@@ -341,8 +325,8 @@ export const getMessageTemplatesService = (ctx: Context) => {
     const augmentedByDefault = await augmentByDefault(cleared);
 
     // augment data by fields from db
-    const augmented: StrictUpdateMessageTemplateArgs =
-      R.mergeLeft(augmentedByDefault, dbVersion || {} as MessageTemplate);
+    const augmented: StrictUpdateMailingCampaignStatusArgs =
+      R.mergeLeft(augmentedByDefault, dbVersion || {} as MailingCampaignStatus);
 
     const processedData = await runHooks.beforeUpsert(ctx, {createData: augmented, updateData: augmented});
     const createData = {
@@ -354,7 +338,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
       search: getSearchString(processedData.updateData),
     };
 
-    const result = await ctx.prisma.messageTemplate.upsert({
+    const result = await ctx.prisma.mailingCampaignStatus.upsert({
       create: createData,
       update: updateData,
       where: {id: data.id},
@@ -368,10 +352,10 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const upsertAdvanced = async (
-    filter: MessageTemplateFilter,
-    data: MutationCreateMessageTemplateArgsWithoutAutodefinable,
+    filter: MailingCampaignStatusFilter,
+    data: MutationCreateMailingCampaignStatusArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<MessageTemplate> => {
+  ): Promise<MailingCampaignStatus> => {
     const cnt = await count({filter});
 
     if (cnt > 1) {
@@ -385,14 +369,14 @@ export const getMessageTemplatesService = (ctx: Context) => {
   };
 
   const del = async (
-    params: MutationRemoveMessageTemplateArgs,
-  ): Promise<MessageTemplate> => {
+    params: MutationRemoveMailingCampaignStatusArgs,
+  ): Promise<MailingCampaignStatus> => {
     await runHooks.beforeDelete(ctx, params);
 
-    const deleteOperation = ctx.prisma.messageTemplate.delete({where: {id: params.id}});
+    const deleteOperation = ctx.prisma.mailingCampaignStatus.delete({where: {id: params.id}});
 
     const auditOperation = ctx.service('auditLogs').addDeleteOperation({
-      entityTypeId: Entity.MessageTemplate,
+      entityTypeId: Entity.MailingCampaignStatus,
       entityId: params.id,
     });
 
@@ -419,7 +403,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
     return entity;
   };
 
-  const baseMethods: BaseMessageTemplatesMethods = {
+  const baseMethods: BaseMailingCampaignStatusesMethods = {
     get,
     getRequired,
     all,
@@ -437,7 +421,7 @@ export const getMessageTemplatesService = (ctx: Context) => {
 
   const additionalMethods = getAdditionalMethods(ctx, baseMethods);
 
-  const service: MessageTemplatesService = {
+  const service: MailingCampaignStatusesService = {
     ...baseMethods,
     ...additionalMethods,
     hooksAdd,

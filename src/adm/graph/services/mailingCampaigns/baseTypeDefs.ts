@@ -8,7 +8,15 @@ export default gql`
     title: String!
     mailingTypeId: String!
     priority: Int!
+    date: Date
+    mailingCampaignStatusId: String
+    messageTemplateId: String!
   }
+
+  """
+  A date string, such as 2007-12-03, compliant with the 'full-date' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+  """
+  scalar Date
 
   input MailingCampaignFilter {
     q: String
@@ -24,6 +32,15 @@ export default gql`
     priority_gte: Int
     priority_lt: Int
     priority_gt: Int
+    date: Date
+    date_lte: Date
+    date_gte: Date
+    date_lt: Date
+    date_gt: Date
+    mailingCampaignStatusId: String
+    mailingCampaignStatusId_in: [String]
+    messageTemplateId: String
+    messageTemplateId_in: [String]
   }
 
   type ListMetadata {
@@ -37,8 +54,8 @@ export default gql`
   }
 
   type Mutation {
-    createMailingCampaign(title: String!, mailingTypeId: String!, priority: Int!): MailingCampaign
-    updateMailingCampaign(id: Int!, title: String!, mailingTypeId: String!, priority: Int!): MailingCampaign
+    createMailingCampaign(title: String!, mailingTypeId: String!, priority: Int!, date: Date, mailingCampaignStatusId: String, messageTemplateId: String!): MailingCampaign
+    updateMailingCampaign(id: Int!, title: String!, mailingTypeId: String!, priority: Int!, date: Date, mailingCampaignStatusId: String, messageTemplateId: String!): MailingCampaign
     removeMailingCampaign(id: Int!): MailingCampaign
   }
 `;

@@ -22,7 +22,7 @@ npm install --global windows-build-tools
 yarn prisma:newMigration
 ```
 
-## Run main migration
+## Run migrations
 ```
 yarn prisma:deploy
 ```

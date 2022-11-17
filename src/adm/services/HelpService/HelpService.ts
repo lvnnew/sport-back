@@ -17,6 +17,7 @@ const infoFilesForService = {
   entities: 'docs/catalogs/entities.md',
   files: 'docs/catalogs/files.md',
   languages: 'docs/catalogs/languages.md',
+  mailingCampaignStatuses: 'docs/catalogs/mailingCampaignStatuses.md',
   mailingCampaigns: 'docs/catalogs/mailingCampaigns.md',
   mailingMessageStatuses: 'docs/catalogs/mailingMessageStatuses.md',
   mailingMessages: 'docs/catalogs/mailingMessages.md',

@@ -92,13 +92,17 @@ export type MailingCampaignsService = BaseMailingCampaignsMethods
     StrictUpdateMailingCampaignArgs
   >;
 
-const dateFieldsForSearch: string[] = [];
+const dateFieldsForSearch: string[] = [
+  'date',
+];
 
 const otherFieldsForSearch: string[] = [
   'id',
   'title',
   'mailingTypeId',
   'priority',
+  'mailingCampaignStatusId',
+  'messageTemplateId',
 ];
 
 export const getMailingCampaignsService = (ctx: Context) => {

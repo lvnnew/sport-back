@@ -14,6 +14,7 @@ export default gql`
     entities
     files
     languages
+    mailingCampaignStatuses
     mailingCampaigns
     mailingMessageStatuses
     mailingMessages

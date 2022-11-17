@@ -1,4 +1,11 @@
+# DO NOT EDIT! THIS IS GENERATED FILE
+
 FROM registry.gitlab.com/making.ventures/images/node-with-tools AS builder
+
+# docker build --tag aloyal-back .
+# docker run --rm -p 3000:3000 --name aloyal-back aloyal-back
+# docker run --rm --name aloyal-back aloyal-back ls
+# docker run --rm --name aloyal-back aloyal-back ls docs
 
 RUN mkdir /app
 WORKDIR /app

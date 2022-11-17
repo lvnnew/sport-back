@@ -6,7 +6,7 @@ export default gql`
   type MailingMessage {
     id: Int!
     mailingCampaignId: Int!
-    templateId: Int!
+    templateId: String!
     languageId: String!
     to: String!
     locals: String!
@@ -34,8 +34,8 @@ export default gql`
     id: Int
     mailingCampaignId: Int
     mailingCampaignId_in: [Int]
-    templateId: Int
-    templateId_in: [Int]
+    templateId: String
+    templateId_in: [String]
     languageId: String
     languageId_in: [String]
     to: String
@@ -87,8 +87,8 @@ export default gql`
   }
 
   type Mutation {
-    createMailingMessage(mailingCampaignId: Int!, templateId: Int!, languageId: String!, to: String!, locals: String!, localsHash: String!, priority: Int!, dateCreated: DateTime!, dateSent: DateTime, error: String, html: String, text: String, uniqueKey: String, subject: String, mailingMessageStatusId: String!, messageTemplateLangVariantId: Int!): MailingMessage
-    updateMailingMessage(id: Int!, mailingCampaignId: Int!, templateId: Int!, languageId: String!, to: String!, locals: String!, localsHash: String!, priority: Int!, dateCreated: DateTime!, dateSent: DateTime, error: String, html: String, text: String, uniqueKey: String, subject: String, mailingMessageStatusId: String!, messageTemplateLangVariantId: Int!): MailingMessage
+    createMailingMessage(mailingCampaignId: Int!, templateId: String!, languageId: String!, to: String!, locals: String!, localsHash: String!, priority: Int!, dateCreated: DateTime!, dateSent: DateTime, error: String, html: String, text: String, uniqueKey: String, subject: String, mailingMessageStatusId: String!, messageTemplateLangVariantId: Int!): MailingMessage
+    updateMailingMessage(id: Int!, mailingCampaignId: Int!, templateId: String!, languageId: String!, to: String!, locals: String!, localsHash: String!, priority: Int!, dateCreated: DateTime!, dateSent: DateTime, error: String, html: String, text: String, uniqueKey: String, subject: String, mailingMessageStatusId: String!, messageTemplateLangVariantId: Int!): MailingMessage
     removeMailingMessage(id: Int!): MailingMessage
   }
 `;

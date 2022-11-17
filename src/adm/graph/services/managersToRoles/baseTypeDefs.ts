@@ -7,7 +7,13 @@ export default gql`
     id: Int!
     managerId: Int!
     roleId: String!
+    expiresAt: Date
   }
+
+  """
+  A date string, such as 2007-12-03, compliant with the 'full-date' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+  """
+  scalar Date
 
   input ManagersToRoleFilter {
     q: String
@@ -17,6 +23,11 @@ export default gql`
     managerId_in: [Int]
     roleId: String
     roleId_in: [String]
+    expiresAt: Date
+    expiresAt_lte: Date
+    expiresAt_gte: Date
+    expiresAt_lt: Date
+    expiresAt_gt: Date
   }
 
   type ListMetadata {
@@ -30,8 +41,8 @@ export default gql`
   }
 
   type Mutation {
-    createManagersToRole(managerId: Int!, roleId: String!): ManagersToRole
-    updateManagersToRole(id: Int!, managerId: Int!, roleId: String!): ManagersToRole
+    createManagersToRole(managerId: Int!, roleId: String!, expiresAt: Date): ManagersToRole
+    updateManagersToRole(id: Int!, managerId: Int!, roleId: String!, expiresAt: Date): ManagersToRole
     removeManagersToRole(id: Int!): ManagersToRole
   }
 `;

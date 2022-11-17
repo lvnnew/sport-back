@@ -92,7 +92,9 @@ export type ManagersToPermissionsService = BaseManagersToPermissionsMethods
     StrictUpdateManagersToPermissionArgs
   >;
 
-const dateFieldsForSearch: string[] = [];
+const dateFieldsForSearch: string[] = [
+  'expiresAt',
+];
 
 const otherFieldsForSearch: string[] = [
   'id',

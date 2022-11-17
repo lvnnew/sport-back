@@ -10,6 +10,7 @@ import {getDelegationsService} from './DelegationsService/DelegationsService';
 import {getEntitiesService} from './EntitiesService/EntitiesService';
 import {getFilesService} from './FilesService/FilesService';
 import {getLanguagesService} from './LanguagesService/LanguagesService';
+import {getMailingCampaignStatusesService} from './MailingCampaignStatusesService/MailingCampaignStatusesService';
 import {getMailingCampaignsService} from './MailingCampaignsService/MailingCampaignsService';
 import {getMailingMessageStatusesService} from './MailingMessageStatusesService/MailingMessageStatusesService';
 import {getMailingMessagesService} from './MailingMessagesService/MailingMessagesService';
@@ -50,6 +51,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   entities: getEntitiesService,
   files: getFilesService,
   languages: getLanguagesService,
+  mailingCampaignStatuses: getMailingCampaignStatusesService,
   mailingCampaigns: getMailingCampaignsService,
   mailingMessageStatuses: getMailingMessageStatusesService,
   mailingMessages: getMailingMessagesService,
