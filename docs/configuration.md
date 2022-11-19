@@ -20,9 +20,10 @@ If both files exists they will be merged. `${ENV}.json` takes precedence.
 | adm.jwt.secret                   | ADM_JWT_SECRET                    | Секрет для подписи JWT-токенов приложения админки             |
 | admin.recaptcha.requiredScore    | ADMIN_RECAPTCHA_REQUIRED_SCORE    | Требуемый уровень доверия к пользователю                      |
 | admin.recaptcha.secretKey        | ADMIN_RECAPTCHA_SECRET_KEY        | Секретный токен рекапчи приложения админки                    |
+| app.environment                  | APP_ENVIRONMENT                   | Название окружения                                            |
 | app.jwt.secret                   | APP_JWT_SECRET                    | Секрет для подписи JWT-токенов приложения пользователей       |
-| appName                          | APP_NAME                          | Техническое название приложения                               |
-| appTitle                         | APP_TITLE                         | Человеческое название приложения                              |
+| app.name                         | APP_NAME                          | Техническое название приложения                               |
+| app.title                        | APP_TITLE                         | Человеческое название приложения                              |
 | customer.recaptcha.requiredScore | CUSTOMER_RECAPTCHA_REQUIRED_SCORE | Требуемый уровень доверия к пользователю                      |
 | customer.recaptcha.secretKey     | CUSTOMER_RECAPTCHA_SECRET_KEY     | Секретный токен рекапчи приложения пользователя               |
 | database.uri                     | DATABASE_URI                      | Строка подключения к основной базе данных                     |

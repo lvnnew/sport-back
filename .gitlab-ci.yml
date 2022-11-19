@@ -153,6 +153,7 @@ deploy-prod-back:
     ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${DEV_ADMIN_RECAPTCHA_REQUIRED_SCORE}
     ADMIN_RECAPTCHA_SECRET_KEY: ${DEV_ADMIN_RECAPTCHA_SECRET_KEY}
+    APP_ENVIRONMENT: ${DEV_APP_ENVIRONMENT}
     APP_JWT_SECRET: ${DEV_APP_JWT_SECRET}
     APP_NAME: ${DEV_APP_NAME}
     APP_TITLE: ${DEV_APP_TITLE}
@@ -185,6 +186,7 @@ deploy-prod-back:
     ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${PROD_ADMIN_RECAPTCHA_REQUIRED_SCORE}
     ADMIN_RECAPTCHA_SECRET_KEY: ${PROD_ADMIN_RECAPTCHA_SECRET_KEY}
+    APP_ENVIRONMENT: ${PROD_APP_ENVIRONMENT}
     APP_JWT_SECRET: ${PROD_APP_JWT_SECRET}
     APP_NAME: ${PROD_APP_NAME}
     APP_TITLE: ${PROD_APP_TITLE}
@@ -251,9 +253,10 @@ deploy-prod-back:
       --set "adm.jwt.secret=${ADM_JWT_SECRET}"
       --set "admin.recaptcha.requiredScore=${ADMIN_RECAPTCHA_REQUIRED_SCORE}"
       --set "admin.recaptcha.secretKey=${ADMIN_RECAPTCHA_SECRET_KEY}"
+      --set "app.environment=${APP_ENVIRONMENT}"
       --set "app.jwt.secret=${APP_JWT_SECRET}"
-      --set "appName=${APP_NAME}"
-      --set "appTitle=${APP_TITLE}"
+      --set "app.name=${APP_NAME}"
+      --set "app.title=${APP_TITLE}"
       --set "customer.recaptcha.requiredScore=${CUSTOMER_RECAPTCHA_REQUIRED_SCORE}"
       --set "customer.recaptcha.secretKey=${CUSTOMER_RECAPTCHA_SECRET_KEY}"
       --set "database.uri=${DATABASE_URI}"

@@ -60,7 +60,7 @@
  "k8sNamespacePrefix": "",
  "k8sSubdomainPrefix": "",
  "projectName": "Meta Template Base",
- "projectPrefix": "",
+ "projectPrefix": "mtbase",
  "projectsGroup": "mtbase",
  "readOnly": false,
  "showMetaPage": true,

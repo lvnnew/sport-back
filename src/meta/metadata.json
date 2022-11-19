@@ -6721,6 +6721,16 @@
    ]
   },
   {
+   "default": "",
+   "name": "app.environment",
+   "needFor": "Название окружения",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
    "default": "appSecret",
    "name": "app.jwt.secret",
    "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
@@ -6731,8 +6741,8 @@
    ]
   },
   {
-   "default": "",
-   "name": "appName",
+   "default": "mtbase",
+   "name": "app.name",
    "needFor": "Техническое название приложения",
    "scopes": [
     "back",
@@ -6742,7 +6752,7 @@
   },
   {
    "default": "Meta Template Base",
-   "name": "appTitle",
+   "name": "app.title",
    "needFor": "Человеческое название приложения",
    "scopes": [
     "back",

@@ -68,12 +68,14 @@ spec:
           value: {{ $.Values.admin.recaptcha.requiredScore | quote }}
         - name: ADMIN_RECAPTCHA_SECRET_KEY
           value: {{ $.Values.admin.recaptcha.secretKey | quote }}
+        - name: APP_ENVIRONMENT
+          value: {{ $.Values.app.environment | quote }}
         - name: APP_JWT_SECRET
           value: {{ $.Values.app.jwt.secret | quote }}
         - name: APP_NAME
-          value: {{ $.Values.appName | quote }}
+          value: {{ $.Values.app.name | quote }}
         - name: APP_TITLE
-          value: {{ $.Values.appTitle | quote }}
+          value: {{ $.Values.app.title | quote }}
         - name: CUSTOMER_RECAPTCHA_REQUIRED_SCORE
           value: {{ $.Values.customer.recaptcha.requiredScore | quote }}
         - name: CUSTOMER_RECAPTCHA_SECRET_KEY
