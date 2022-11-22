@@ -21,7 +21,7 @@ image:
   pullPolicy: IfNotPresent
 
 imagePullSecrets:
-  - name: gitlab-registry
+  - name: docker-registry
 
 nameOverride: ""
 fullnameOverride: ""

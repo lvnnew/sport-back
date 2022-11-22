@@ -56,7 +56,7 @@
  "genUiRoutes": true,
  "k8sAppsDomain": "apps.making.ventures",
  "k8sChartName": "",
- "k8sImagePullSecrets": "gitlab-registry",
+ "k8sImagePullSecrets": "docker-registry",
  "k8sNamespacePrefix": "",
  "k8sSubdomainPrefix": "",
  "projectName": "Meta Template Base",
