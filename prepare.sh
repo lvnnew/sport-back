@@ -9,6 +9,6 @@ yarn add -D runlify@latest
 yarn
 yarn prisma:gen
 
-yarn runlify login --ifNotLeggedin
+yarn runlify login --ifNotLoggedIn
 yarn runlify init
 yarn runlify pullEnvs
