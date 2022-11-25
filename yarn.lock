@@ -13038,10 +13038,10 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-runlify@^0.0.192:
-  version "0.0.192"
-  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.192.tgz#163515cffeb2e802ca4abf5a0a004b29a3c318c6"
-  integrity sha512-/yi7XsX8Pb1kWHCIUf0yYIBiT6w9NYaB/C8t1IIx/7boMpTrTJZxOyoYvseua99Zbe5cgz7eepQj6drMUDSAuQ==
+runlify@^0.0.193:
+  version "0.0.193"
+  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.193.tgz#ae8599fb11aeb1f2c6963cbdd859bfb3c15fd176"
+  integrity sha512-PXrSM2io9Kt5+MTwYeQyMMoUUixWNehDL3v6G9mUQM33N7vQv24utojjwpTbYr+Ae1BbGiZg+HMOJyiRcvjFrQ==
   dependencies:
     appdata-path "^1.0.0"
     change-case "^4.1.2"
