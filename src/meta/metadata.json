@@ -6664,7 +6664,7 @@
   },
   {
    "command": "yarn ts-node src/init/baseInit.ts",
-   "name": "init",
+   "name": "init:base",
    "needFor": "Инициализации базы данных",
    "projectCategory": "back"
   },

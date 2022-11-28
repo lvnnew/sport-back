@@ -12,11 +12,11 @@ for filename in $filenames; do
   env="${filename//.json/}"
   echo env: $env
   
-  baseDevCommand="yarn runlify start env=$env yarn ts-node src/init/baseInit.ts"
+  baseDevCommand="yarn runlify start env=$env yarn init:base"
   echo baseDevCommand: $baseDevCommand
   $baseDevCommand
 
-  initDevCommand="yarn runlify start env=$env yarn ts-node src/init/initDev.ts"
+  initDevCommand="yarn runlify start env=$env yarn init:dev"
   echo initDevCommand: $initDevCommand
   $initDevCommand
 done

@@ -4,10 +4,10 @@ import initPermissions from './permissions/initPermissions';
 import initRoles from './permissions/initRoles';
 import commonInit from './commonInit';
 
-// yarn ts-node src/init/baseInit.ts
-// runlify start env=test yarn ts-node src/init/baseInit.ts
-// runlify start env=stage yarn ts-node src/init/baseInit.ts
-// runlify start env=prod yarn ts-node src/init/baseInit.ts
+// yarn init:base
+// runlify start env=test yarn init:base
+// runlify start env=stage yarn init:base
+// runlify start env=prod yarn init:base
 
 const app = async () => {
   const queue = await getQueue();

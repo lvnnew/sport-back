@@ -59,11 +59,11 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 ## Init for prod db
 ```
-yarn ts-node src/init/baseInit.ts
+yarn init:base
 ```
 
 ## Init for dev db
 ```
-yarn ts-node src/init/baseInit.ts
-yarn ts-node src/init/initDev.ts
+yarn init:base
+yarn init:dev
 ```

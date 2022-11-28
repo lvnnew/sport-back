@@ -2,15 +2,15 @@ import {createContext} from '../adm/services/context';
 import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 
-// yarn ts-node src/init/initDev.ts
-// runlify start env=test yarn ts-node src/init/initDev.ts
-// runlify start env=stage yarn ts-node src/init/initDev.ts
+// yarn init:dev
+// runlify start env=test yarn init:dev
+// runlify start env=stage yarn init:dev
 
-// runlify start env=anna_laznia yarn ts-node src/init/initDev.ts
-// runlify start env=yurii_papka yarn ts-node src/init/initDev.ts
+// runlify start env=anna_laznia yarn init:dev
+// runlify start env=yurii_papka yarn init:dev
 
-// runlify start env=lavrova yarn ts-node src/init/initDev.ts
-// runlify start env=annykarimova yarn ts-node src/init/initDev.ts
+// runlify start env=lavrova yarn init:dev
+// runlify start env=annykarimova yarn init:dev
 
 const app = async () => {
   const queue = await getQueue();
