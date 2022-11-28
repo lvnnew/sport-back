@@ -4,9 +4,9 @@ import initLanguages from './common/initLanguages';
 import {Context} from '../adm/services/types';
 import log from '../log';
 
-// yarn ts-node:withContext srcinit/commonInit.ts
-// runlify start env=stage yarn ts-node:withContext srcinit/commonInit.ts
-// runlify start env=test yarn ts-node:withContext srcinit/commonInit.ts
+// yarn ts-node:withContext src/init/commonInit.ts
+// runlify start env=stage yarn ts-node:withContext src/init/commonInit.ts
+// runlify start env=test yarn ts-node:withContext src/init/commonInit.ts
 
 const commonInit = async (ctx: Context) => {
   log.info('commonInit');
