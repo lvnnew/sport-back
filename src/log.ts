@@ -1,7 +1,9 @@
-import winston, {format} from 'winston';
+import winston, {format, Logger as WLogger} from 'winston';
 import {getFromNconf} from './config';
 
-const log = winston.createLogger({
+export type Logger = Pick<WLogger, 'info' | 'error' | 'debug'>
+
+const log: Logger = winston.createLogger({
   defaultMeta: {
     loggerName: 'adm-graph-server',
   },
