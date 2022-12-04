@@ -6,7 +6,6 @@ import {ContextAdmin, getKafkaAdmin} from './admin';
 import {getConsumer} from './consumer';
 
 // todo: add to generating
-// DO NOT EDIT! THIS IS GENERATED FILE
 
 export type KafkaContext = {
   kafka: Kafka;
