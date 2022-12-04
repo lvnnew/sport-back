@@ -3,8 +3,9 @@ import {gql} from 'apollo-server';
 export default gql`
   type PermissionsWithMeta {
     permissionId: String!
-    byRoles: [String]!
+    byRoles: [String!]!
     directly: Boolean!
+    byFullAccessRoles: [String!]!
   }
 
   type Query {

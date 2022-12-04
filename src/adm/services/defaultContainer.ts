@@ -8,6 +8,8 @@ import {getPrisma} from '../../clients/getPrisma';
 import {getKnex} from '../../clients/knex';
 import {getPostgres} from '../../clients/postgres';
 import getQueue from '../../clients/queue/getQueue';
+import getKafkaContext, {KafkaContext} from '../../clients/kafka/getKafkaContext';
+import {unregisterAllInstance} from '../../clients/kafka/disconnectService';
 
 const defaultContainer = new Container({defaultScope: 'Singleton'});
 
@@ -23,5 +25,8 @@ defaultContainer.bind<Client>('Postgres')
 defaultContainer.bind<WorkerUtils>('Queue')
   .toDynamicValue(() => getQueue())
   .onDeactivation((queue: WorkerUtils) => queue.release());
+defaultContainer.bind<KafkaContext>('Kafka')
+  .toDynamicValue(() => getKafkaContext())
+  .onDeactivation(() => unregisterAllInstance());
 
 export default defaultContainer;

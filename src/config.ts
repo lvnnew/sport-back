@@ -18,6 +18,8 @@ if (exists(file)) {
   nconf.file({file});
 }
 
+export const isLocalEnv = envName === 'local';
+
 export const getFromNconf = (name: string): string | undefined => nconf.get(constantCase(name)) || nconf.get(name) || '';
 
 const envConfig = {
@@ -32,6 +34,17 @@ const envConfig = {
   customerRecaptchaSecretKey: getFromNconf('customer.recaptcha.secretKey'),
   databaseUri: getFromNconf('database.uri'),
   graphqlPlaygroundEnabled: getFromNconf('graphql.playground.enabled'),
+  kafkaBrokers: getFromNconf('kafka.brokers'),
+  kafkaPassword: getFromNconf('kafka.password'),
+  kafkaQueueAcks: getFromNconf('kafka.queue.acks'),
+  kafkaQueueAutoCommitInterval: getFromNconf('kafka.queue.autoCommitInterval'),
+  kafkaQueueAutoCommitThreshold: getFromNconf('kafka.queue.autoCommitThreshold'),
+  kafkaQueueDefaultRetryTime: getFromNconf('kafka.queue.defaultRetryTime'),
+  kafkaQueueMaxAttemptsSize: getFromNconf('kafka.queue.maxAttemptsSize'),
+  kafkaQueueStackSize: getFromNconf('kafka.queue.stackSize'),
+  kafkaQueueSupportedVersion: getFromNconf('kafka.queue.supportedVersion'),
+  kafkaQueueWaitingInterruptTime: getFromNconf('kafka.queue.waitingInterruptTime'),
+  kafkaUsername: getFromNconf('kafka.username'),
   logsFormat: getFromNconf('logs.format'),
   lokiUrl: getFromNconf('loki.url'),
   s3AccessKeyId: getFromNconf('s3.accessKeyId'),

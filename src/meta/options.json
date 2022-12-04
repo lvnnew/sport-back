@@ -65,5 +65,7 @@
  "readOnly": false,
  "showMetaPage": true,
  "skipWarningThisIsGenerated": false,
- "typesOnly": false
+ "tenantsAvailable": false,
+ "typesOnly": false,
+ "usersEnabled": true
 }

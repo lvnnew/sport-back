@@ -68,9 +68,6 @@ export const getEmailSender = async () => {
         }
       }
 
-      log.info('attachments');
-      log.info(JSON.stringify(attachments, null, 1));
-
       const to = options.to.toLowerCase();
       if (!to) {
         throw new Error('Email you wish to send to should be provided');
@@ -101,9 +98,6 @@ export const getEmailSender = async () => {
       // if (!htmlTemplate) {
       //   throw new Error('Html template is not specified');
       // }
-
-      log.info('options');
-      log.info(JSON.stringify(options, null, 1));
 
       // const templateId = options.template;
       // if (!templateId) {

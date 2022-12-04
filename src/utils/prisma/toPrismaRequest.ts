@@ -7,7 +7,7 @@ export const toPrismaRequest = ({filter, page, perPage, sortField, sortOrder}: I
     sortField !== 'id'
   ) ?
     {[sortField]: (
-      (sortOrder && sortOrder === 'ASC') ?
+      (sortOrder && sortOrder.toUpperCase() === 'ASC') ?
         'asc' :
         'desc'
     )} :

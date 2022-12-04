@@ -3,7 +3,6 @@ import {convert} from 'html-to-text';
 import previewEmail from 'preview-email';
 import juice from 'juice';
 import util from 'util';
-import log from '../log';
 
 const juiceResources = util.promisify(juice.juiceResources);
 
@@ -44,7 +43,6 @@ ${pad(bodyTemplate, 2)}`, {...locals, style});
   const text = convert(html);
 
   const resultingHtml = await juiceResources(html, {});
-  log.info(JSON.stringify(resultingHtml, null, 1));
 
   const result = {
     subject,

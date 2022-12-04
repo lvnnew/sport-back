@@ -1,5 +1,5 @@
 import log from '../../log';
-import exitHook from 'exit-hook';
+import {exitHook} from '../../utils/exitHook';
 import express from 'express';
 import {collectDefaultMetrics, register} from 'prom-client';
 import {run} from 'graphile-worker';

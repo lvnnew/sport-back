@@ -1,7 +1,7 @@
 import winston, {format, Logger as WLogger} from 'winston';
 import {getFromNconf} from './config';
 
-export type Logger = Pick<WLogger, 'info' | 'error' | 'debug'>
+export type Logger = Pick<WLogger, 'info' | 'error' | 'debug' | 'warn'>;
 
 const log: Logger = winston.createLogger({
   defaultMeta: {

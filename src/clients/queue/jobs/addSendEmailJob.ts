@@ -1,7 +1,7 @@
 import log from '../../../log';
 import {EmailOptions} from '../../emailSender';
 import getQueue from '../getQueue';
-import {Job} from './Job';
+import {Job} from '../Job';
 
 export type SendEmailLocals = Record<string, any>;
 

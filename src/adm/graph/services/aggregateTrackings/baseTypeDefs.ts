@@ -8,6 +8,7 @@ export default gql`
     entityTypeId: String!
     entityId: String!
     lastAggregatesComputed: DateTime!
+    lastAggregatesScheduled: DateTime
     lastEntityUpdate: DateTime!
     aggregateVersion: Int!
   }
@@ -30,6 +31,11 @@ export default gql`
     lastAggregatesComputed_gte: DateTime
     lastAggregatesComputed_lt: DateTime
     lastAggregatesComputed_gt: DateTime
+    lastAggregatesScheduled: DateTime
+    lastAggregatesScheduled_lte: DateTime
+    lastAggregatesScheduled_gte: DateTime
+    lastAggregatesScheduled_lt: DateTime
+    lastAggregatesScheduled_gt: DateTime
     lastEntityUpdate: DateTime
     lastEntityUpdate_lte: DateTime
     lastEntityUpdate_gte: DateTime
@@ -54,8 +60,8 @@ export default gql`
   }
 
   type Mutation {
-    createAggregateTracking(entityTypeId: String!, entityId: String!, lastAggregatesComputed: DateTime!, lastEntityUpdate: DateTime!, aggregateVersion: Int!): AggregateTracking
-    updateAggregateTracking(id: Int!, entityTypeId: String!, entityId: String!, lastAggregatesComputed: DateTime!, lastEntityUpdate: DateTime!, aggregateVersion: Int!): AggregateTracking
+    createAggregateTracking(entityTypeId: String!, entityId: String!, lastAggregatesComputed: DateTime!, lastAggregatesScheduled: DateTime, lastEntityUpdate: DateTime!, aggregateVersion: Int!): AggregateTracking
+    updateAggregateTracking(id: Int!, entityTypeId: String!, entityId: String!, lastAggregatesComputed: DateTime!, lastAggregatesScheduled: DateTime, lastEntityUpdate: DateTime!, aggregateVersion: Int!): AggregateTracking
     removeAggregateTracking(id: Int!): AggregateTracking
   }
 `;

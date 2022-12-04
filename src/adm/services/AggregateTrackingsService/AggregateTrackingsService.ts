@@ -94,6 +94,7 @@ export type AggregateTrackingsService = BaseAggregateTrackingsMethods
 
 const dateFieldsForSearch: string[] = [
   'lastAggregatesComputed',
+  'lastAggregatesScheduled',
   'lastEntityUpdate',
 ];
 

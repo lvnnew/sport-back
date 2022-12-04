@@ -1,15 +1,12 @@
 import getQueue from '../clients/queue/getQueue';
 import {CronItem, JobHelpers} from 'graphile-worker';
-import {Job} from '../clients/queue/jobs/Job';
+import {Job} from '../clients/queue/Job';
 import * as R from 'ramda';
 import log from '../log';
 import {fromPairs, toPairs} from 'ramda';
 import {Summary} from 'prom-client';
 import {Logger, LogScope} from 'graphile-worker/dist/logger';
 import {getConfig} from '../config';
-import {jobsCount} from '../clients/queue/jobsCount';
-import paginateArray from '../utils/paginateArray';
-import {Context} from '../adm/services/types';
 
 export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * * * *`;
 
@@ -24,6 +21,12 @@ export const getSixHoursCronPattern = () => `${Math.floor(Math.random() * 59)} *
 export const getTwiceADayCronPattern = () => `${Math.floor(Math.random() * 59)} */12 * * *`;
 
 export const getOnceADayCronPattern = () => `${Math.floor(Math.random() * 59)} ${Math.floor(Math.random() * 23)} * * *`;
+
+export const getFiveHoursEveryFirstToFifthDayOfMonthCronPattern = () => '0 */5 1-5 * *';
+
+export const getEveryHourEveryFirstToFifthDayOfMonthCronPattern = () => '0 */1 1-5 * *';
+
+export const getEveryThreeHoursEveryFirstToFifthDayOfMonthCronPattern = () => '0 */3 1-5 * *';
 
 export const constructCron = (
   name: string,
@@ -63,6 +66,33 @@ export const twiceADayPatternCron = (name: string, queued = false, priority = 0)
 
 export const onceADayPatternCron = (name: string, queued = false, priority = 0): CronItem =>
   constructCron(name, `${name}OnceADay`, getOnceADayCronPattern(), queued, priority);
+
+export const fiveHoursDuringMonthStartPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(
+    name,
+    `${name}EveryFiveHoursEveryFirstToFifthDayOfMonth`,
+    getFiveHoursEveryFirstToFifthDayOfMonthCronPattern(),
+    queued,
+    priority,
+  );
+
+export const everyHourDuringMonthStartPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(
+    name,
+    `${name}EveryHourEveryFirstToFifthDayOfMonth`,
+    getEveryHourEveryFirstToFifthDayOfMonthCronPattern(),
+    queued,
+    priority,
+  );
+
+export const everyThreeHoursDuringMonthStartPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+  constructCron(
+    name,
+    `${name}EveryThreeHoursEveryFirstToFifthDayOfMonth`,
+    getEveryThreeHoursEveryFirstToFifthDayOfMonthCronPattern(),
+    queued,
+    priority,
+  );
 
 export const getQueueJobs = <T extends Record<string, any>>(jobs: T) => R.fromPairs(
   R.toPairs(
@@ -127,37 +157,3 @@ export const jobsFromFunctions = (
     return [name, overridedHandler];
   }),
 );
-
-export const schedule = async <Payload>(ctx: Context, jobName: Job, job: (payload: Payload) => void, ifLessThan: number, scheduleUpTo: number, payloads: Payload[]) => {
-  const currentCount = await jobsCount(ctx, jobName);
-  // log.info(`currentCount: ${currentCount}`);
-
-  if (currentCount >= ifLessThan) {
-    return;
-  }
-
-  const countOfJobsToAdd = Math.max(scheduleUpTo - currentCount, 0);
-  // log.info(`countOfJobsToAdd: ${countOfJobsToAdd}`);
-
-  const slicedPayloads = payloads.slice(0, countOfJobsToAdd);
-  // log.info(`slicedPayloads count: ${slicedPayloads.length}`);
-
-  const batchSize = 10000;
-  // log.info(`batchSize: ${batchSize}`);
-  const batchCount = Math.ceil(slicedPayloads.length / batchSize);
-  // log.info(`batchCount: ${batchCount}`);
-
-  const handle = async (payloads: Payload[]) => {
-    for (const payload of payloads) {
-      await job(payload);
-    }
-  };
-
-  const pageBatches: Payload[][] = [];
-  for (let batchNum = 1; batchNum <= batchCount; batchNum++) {
-    const batch = paginateArray(slicedPayloads, batchNum, batchSize).data;
-    pageBatches.push(batch);
-  }
-
-  await Promise.all(pageBatches.map(batch => handle(batch)));
-};

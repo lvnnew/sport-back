@@ -1,5 +1,5 @@
 import {CronItem} from 'graphile-worker';
-import {Job} from '../../clients/queue/jobs/Job';
+import {Job} from '../../clients/queue/Job';
 import {hourlyCron, onceInSixHoursCron} from '../utils';
 
 export const generalCronJobs: CronItem[] = [

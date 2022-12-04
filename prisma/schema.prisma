@@ -14,6 +14,7 @@ model AggregateTracking {
 	entityType	Entity	@relation("From-AggregateTracking.entityType", fields: [entityTypeId], references: [id])
 	entityId	String
 	lastAggregatesComputed	DateTime
+	lastAggregatesScheduled	DateTime?
 	lastEntityUpdate	DateTime
 	aggregateVersion	Int
 	@@unique([entityTypeId, entityId])

@@ -86,7 +86,7 @@ passport.use(
         }
 
         if (!manager.active) {
-          return done(null, false, {message: 'There is no manager is not active'});
+          return done(null, false, {message: 'Manager is not active'});
         }
 
         return done(null, {

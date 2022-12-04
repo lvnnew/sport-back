@@ -7474,11 +7474,6 @@ execa@^0.10.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exit-hook@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/exit-hook/-/exit-hook-2.2.1.tgz#007b2d92c6428eda2b76e7016a34351586934593"
-  integrity sha512-eNTPlAD67BmP31LDINZ3U7HSF8l57TxOY2PmBJ1shpCvpnxBF93mWCE8YHBnXs8qiUZJc9WDcWIeC3a2HIAMfw==
-
 exit@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
@@ -10144,6 +10139,11 @@ jws@^3.2.2:
   dependencies:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
+
+kafkajs@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/kafkajs/-/kafkajs-2.2.3.tgz#a1ab1b7c4a27699871a89b3978b5cfe5b05c6f3e"
+  integrity sha512-JmzIiLHE/TdQ7b4I2B/DNMtfhTh66fmEaEg7gGkyQXBC6f1A7I2jSjeUsVIJfC8d9YcEIURyBjtOEKBO5OHVhg==
 
 kleur@^3.0.3:
   version "3.0.3"
@@ -13038,10 +13038,10 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-runlify@^0.0.203:
-  version "0.0.203"
-  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.203.tgz#1b7f031fd5e2c11ce5dc8bf24fe0a40290950b7f"
-  integrity sha512-lhrnYfABkF5gzRO2Rb2evPn5DF30L0npFWt1uROTAmoERUaHVVOmCn19FzoKH9PheUNlFH5Fen5yzvbOBkgUhg==
+runlify@^0.0.205:
+  version "0.0.205"
+  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.205.tgz#6ab4fdf983807ff28ba40a6c800da6a585a347a9"
+  integrity sha512-yoVbPYEqsmPbSM4LT6c2lMqh2cJ5XCjrYSvkfvTnMbCG/7EG5lFIHk9sVwk7JZa4ZhbxmejZmzWj/ewYRcHfPw==
   dependencies:
     appdata-path "^1.0.0"
     change-case "^4.1.2"

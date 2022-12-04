@@ -1,5 +1,5 @@
 import {Context} from '../../adm/services/types';
-import {Job} from './jobs/Job';
+import {Job} from './Job';
 
 export const jobsCount = async (ctx: Context, taskIdentifier: Job): Promise<number> => {
   const res = await ctx.knex

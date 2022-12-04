@@ -21,7 +21,9 @@ export const getPostgres = async (appName = 'someBack_Knex') => {
     const client = new Client(url);
     await client.connect();
 
-    postgresInstance = client;
+    if (!postgresInstance) {
+      postgresInstance = client;
+    }
   }
 
   return postgresInstance;

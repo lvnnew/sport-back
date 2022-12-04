@@ -1153,6 +1153,7 @@ export type MutationCreateAggregateTrackingArgs = {
   entityTypeId: Scalars['String'];
   entityId: Scalars['String'];
   lastAggregatesComputed: Scalars['DateTime'];
+  lastAggregatesScheduled?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate: Scalars['DateTime'];
   aggregateVersion: Scalars['Int'];
 };
@@ -1163,6 +1164,7 @@ export type MutationUpdateAggregateTrackingArgs = {
   entityTypeId: Scalars['String'];
   entityId: Scalars['String'];
   lastAggregatesComputed: Scalars['DateTime'];
+  lastAggregatesScheduled?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate: Scalars['DateTime'];
   aggregateVersion: Scalars['Int'];
 };
@@ -1907,6 +1909,7 @@ export type AggregateTracking = {
   entityTypeId: Scalars['String'];
   entityId: Scalars['String'];
   lastAggregatesComputed: Scalars['DateTime'];
+  lastAggregatesScheduled?: Maybe<Scalars['DateTime']>;
   lastEntityUpdate: Scalars['DateTime'];
   aggregateVersion: Scalars['Int'];
 };
@@ -1924,6 +1927,11 @@ export type AggregateTrackingFilter = {
   lastAggregatesComputed_gte?: InputMaybe<Scalars['DateTime']>;
   lastAggregatesComputed_lt?: InputMaybe<Scalars['DateTime']>;
   lastAggregatesComputed_gt?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesScheduled?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesScheduled_lte?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesScheduled_gte?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesScheduled_lt?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesScheduled_gt?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate_lte?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate_gte?: InputMaybe<Scalars['DateTime']>;
@@ -2588,8 +2596,9 @@ export type PermissionFilter = {
 export type PermissionsWithMeta = {
   __typename?: 'PermissionsWithMeta';
   permissionId: Scalars['String'];
-  byRoles: Array<Maybe<Scalars['String']>>;
+  byRoles: Array<Scalars['String']>;
   directly: Scalars['Boolean'];
+  byFullAccessRoles: Array<Scalars['String']>;
 };
 
 export type Role = {
@@ -3570,6 +3579,7 @@ export type AggregateTrackingResolvers<ContextType = any, ParentType extends Res
   entityTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastAggregatesComputed?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  lastAggregatesScheduled?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   lastEntityUpdate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   aggregateVersion?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -3802,8 +3812,9 @@ export type PermissionResolvers<ContextType = any, ParentType extends ResolversP
 
 export type PermissionsWithMetaResolvers<ContextType = any, ParentType extends ResolversParentTypes['PermissionsWithMeta'] = ResolversParentTypes['PermissionsWithMeta']> = {
   permissionId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  byRoles?: Resolver<Array<Maybe<ResolversTypes['String']>>, ParentType, ContextType>;
+  byRoles?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   directly?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  byFullAccessRoles?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

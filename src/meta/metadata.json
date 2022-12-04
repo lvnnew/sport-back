@@ -6809,6 +6809,116 @@
    ]
   },
   {
+   "default": "localhost:29092;localhost:29094",
+   "name": "kafka.brokers",
+   "needFor": "Список kafka блокеров",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "kafka.password",
+   "needFor": "Пароль доступа в kafka",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "1",
+   "name": "kafka.queue.acks",
+   "needFor": "`-1`(all) все несинхронизированные реплики должны подтвердить (по умолчанию), `0` нет подтверждений, `1` только ждет подтверждения лидера",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "10000",
+   "name": "kafka.queue.autoCommitInterval",
+   "needFor": "Потребитель будет фиксировать смещения по истечении заданного периода, например, пяти секунд. Значение в миллисекундах  ",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "1000",
+   "name": "kafka.queue.autoCommitThreshold",
+   "needFor": "Потребитель будет фиксировать смещения после разрешения заданного количества сообщений, например тысячи сообщений",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "20000",
+   "name": "kafka.queue.defaultRetryTime",
+   "needFor": "Время паузы после первой ошибки, например 20000 мс, потом оно увеличывается экспоненциально с мультипликатором 1.5",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "10",
+   "name": "kafka.queue.maxAttemptsSize",
+   "needFor": "Максимальное количество попыток обработки ошибки на сообщение",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "100",
+   "name": "kafka.queue.stackSize",
+   "needFor": "Количество сообщений, обрабатываемых параллельно",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "1;2",
+   "name": "kafka.queue.supportedVersion",
+   "needFor": "Поддерживаемые версии сообщения",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "60000",
+   "name": "kafka.queue.waitingInterruptTime",
+   "needFor": "Время паузы в очереди ожидания, когда она прошла все сообщения, это чтобы она не крутила сообщения покругу без остановки ",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "kafka.username",
+   "needFor": "Username доступа в kafka",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
    "default": "plain",
    "name": "logs.format",
    "needFor": "Формат логов (plain | json)",
@@ -7055,6 +7165,26 @@
     {
      "category": "scalar",
      "hidden": false,
+     "name": "lastAggregatesScheduled",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInFilter": true,
+     "showInList": true,
+     "showInWidget": true,
+     "title": {
+      "ru": "Последний раз было добавлено в очередь на обработку"
+     },
+     "type": "datetime",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
      "name": "lastEntityUpdate",
      "needFor": "",
      "required": true,
@@ -7120,6 +7250,11 @@
        {
         "alwaysOn": false,
         "hidden": false,
+        "name": "lastAggregatesScheduled"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
         "name": "lastEntityUpdate"
        },
        {
@@ -7157,6 +7292,26 @@
      "showInWidget": true,
      "title": {
       "ru": "Агрегаты последний раз вычислены "
+     },
+     "type": "datetime",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "lastAggregatesScheduled",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInFilter": true,
+     "showInList": true,
+     "showInWidget": true,
+     "title": {
+      "ru": "Последний раз было добавлено в очередь на обработку"
      },
      "type": "datetime",
      "updatable": true,

@@ -6,6 +6,12 @@ import serviceConstrictors from './serviceConstrictors';
 import {Context, Services} from './types';
 import * as R from 'ramda';
 import {onStart} from '../../systemHooks';
+import {KafkaContext} from '../../clients/kafka/getKafkaContext';
+import {getQueueContext} from '../../clients/queue/getQueueContext';
+import {PrismaClient} from '@prisma/client';
+import {Knex} from 'knex';
+import {Client} from 'pg';
+import {WorkerUtils} from 'graphile-worker';
 
 export const createContext = async (container: interfaces.Container = defaultContainer): Promise<Context> => {
   const close = async () => {
@@ -13,18 +19,30 @@ export const createContext = async (container: interfaces.Container = defaultCon
       container.unbindAsync('Prisma'),
       container.unbindAsync('Knex'),
       container.unbindAsync('Postgres'),
+      container.unbindAsync('Kafka'),
+      // todo: add unbind kafka
     ]);
   };
 
+  const [prisma, knex, postgres, worker, kafka] = await Promise.all([
+    container.getAsync<PrismaClient>('Prisma'),
+    container.getAsync<Knex>('Knex'),
+    container.getAsync<Client>('Postgres'),
+    container.getAsync<WorkerUtils>('Queue'),
+    container.getAsync<KafkaContext>('Kafka'),
+  ]);
+
   const context: Context = {
-    prisma: await container.getAsync('Prisma'),
-    knex: await container.getAsync('Knex'),
-    postgres: await container.getAsync('Postgres'),
-    worker: await container.getAsync('Queue'),
+    prisma,
+    knex,
+    postgres,
+    worker,
     log,
     close,
     service: (name: keyof Services) => container.get(name),
     container,
+    kafka,
+    queue: getQueueContext(kafka),
   };
 
   const pairs = R.toPairs(serviceConstrictors);

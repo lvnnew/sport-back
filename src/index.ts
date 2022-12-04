@@ -1,4 +1,4 @@
-import exitHook from 'exit-hook';
+import {exitHook} from './utils/exitHook';
 import {ApolloServer, AuthenticationError} from 'apollo-server-express';
 import {
   ApolloServerPlugin,
@@ -22,11 +22,11 @@ import {json, raw} from 'body-parser';
 import restRouter from './rest/restRouter';
 import helmet from 'helmet';
 import {collectDefaultMetrics, register} from 'prom-client';
-import {initAppPassport} from './app/config/passport';
 import {initAdmPassport} from './adm/config/passport';
+import {initAppPassport} from './app/config/passport';
 import appAuthRouter from './app/authRouter';
-import admAuthRouter from './adm/authRouter';
 import getAppServer from './app/getAppServer';
+import admAuthRouter from './adm/authRouter';
 import {graphqlUploadExpress} from 'graphql-upload';
 import {flattenGraphqlToPermission} from './adm/graph/permissionsToGraphql';
 import defaultContainer from './adm/services/defaultContainer';
