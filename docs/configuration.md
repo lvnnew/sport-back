@@ -38,6 +38,7 @@ If both files exists they will be merged. `${ENV}.json` takes precedence.
 | kafka.queue.stackSize            | KAFKA_QUEUE_STACK_SIZE             | Количество сообщений, обрабатываемых параллельно                                                                                          |
 | kafka.queue.supportedVersion     | KAFKA_QUEUE_SUPPORTED_VERSION      | Поддерживаемые версии сообщения                                                                                                           |
 | kafka.queue.waitingInterruptTime | KAFKA_QUEUE_WAITING_INTERRUPT_TIME | Время паузы в очереди ожидания, когда она прошла все сообщения, это чтобы она не крутила сообщения покругу без остановки                  |
+| kafka.ssl.rejectUnauthorized     | KAFKA_SSL_REJECT_UNAUTHORIZED      | Запрещать невалидный ssl сертификат                                                                                                       |
 | kafka.username                   | KAFKA_USERNAME                     | Username доступа в kafka                                                                                                                  |
 | logs.format                      | LOGS_FORMAT                        | Формат логов (plain | json)                                                                                                               |
 | loki.url                         | LOKI_URL                           | Урл для доступа в Loki. Используется для запроса бизнес-логов                                                                             |

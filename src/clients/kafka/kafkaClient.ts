@@ -28,7 +28,12 @@ const logCreator: kafkaLogCreator = () => {
 };
 
 const getKafka = async (): Promise<Kafka> => {
-  const {kafkaBrokers, kafkaUsername, kafkaPassword} = await getConfig();
+  const {
+    kafkaBrokers,
+    kafkaUsername,
+    kafkaPassword,
+    kafkaSslRejectUnauthorized,
+  } = await getConfig();
 
   const brokers = kafkaBrokers?.split(';');
 
@@ -49,7 +54,9 @@ const getKafka = async (): Promise<Kafka> => {
 
     kafkaConfig = {
       ...kafkaConfig,
-      ssl: true,
+      ssl: {
+        rejectUnauthorized: kafkaSslRejectUnauthorized === 'true',
+      },
       sasl: {
         mechanism: 'plain',
         username: kafkaUsername,

@@ -105,7 +105,6 @@ deploy-prod-back:
     - .deploy-worker
   variables:
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
-    APP_NAME: workers
     BACK_ENABLED: "false"
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
@@ -134,7 +133,6 @@ deploy-prod-back:
     - .deploy-worker
   variables:
     KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
-    APP_NAME: workers
     BACK_ENABLED: "false"
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
@@ -171,6 +169,7 @@ deploy-prod-back:
     KAFKA_QUEUE_STACK_SIZE: ${DEV_KAFKA_QUEUE_STACK_SIZE}
     KAFKA_QUEUE_SUPPORTED_VERSION: ${DEV_KAFKA_QUEUE_SUPPORTED_VERSION}
     KAFKA_QUEUE_WAITING_INTERRUPT_TIME: ${DEV_KAFKA_QUEUE_WAITING_INTERRUPT_TIME}
+    KAFKA_SSL_REJECT_UNAUTHORIZED: ${DEV_KAFKA_SSL_REJECT_UNAUTHORIZED}
     KAFKA_USERNAME: ${DEV_KAFKA_USERNAME}
     LOGS_FORMAT: ${DEV_LOGS_FORMAT}
     LOKI_URL: ${DEV_LOKI_URL}
@@ -181,6 +180,7 @@ deploy-prod-back:
     SMTP_PASS: ${DEV_SMTP_PASS}
     SMTP_PORT: ${DEV_SMTP_PORT}
     SMTP_USER: ${DEV_SMTP_USER}
+    APP_ENVIRONMENT: dev
   only:
     - master
 
@@ -215,6 +215,7 @@ deploy-prod-back:
     KAFKA_QUEUE_STACK_SIZE: ${PROD_KAFKA_QUEUE_STACK_SIZE}
     KAFKA_QUEUE_SUPPORTED_VERSION: ${PROD_KAFKA_QUEUE_SUPPORTED_VERSION}
     KAFKA_QUEUE_WAITING_INTERRUPT_TIME: ${PROD_KAFKA_QUEUE_WAITING_INTERRUPT_TIME}
+    KAFKA_SSL_REJECT_UNAUTHORIZED: ${PROD_KAFKA_SSL_REJECT_UNAUTHORIZED}
     KAFKA_USERNAME: ${PROD_KAFKA_USERNAME}
     LOGS_FORMAT: ${PROD_LOGS_FORMAT}
     LOKI_URL: ${PROD_LOKI_URL}
@@ -225,6 +226,7 @@ deploy-prod-back:
     SMTP_PASS: ${PROD_SMTP_PASS}
     SMTP_PORT: ${PROD_SMTP_PORT}
     SMTP_USER: ${PROD_SMTP_USER}
+    APP_ENVIRONMENT: prod
   only:
     - release
     - /^release-.*$/
@@ -232,10 +234,12 @@ deploy-prod-back:
 .deploy-back:
   variables:
     DEPLOY_KIND: "back"
+    APP_NAME: back
 
 .deploy-worker:
   variables:
     DEPLOY_KIND: "worker"
+    APP_NAME: worker
 
 .deploy-telegramBot:
   variables:
@@ -293,6 +297,7 @@ deploy-prod-back:
       --set "kafka.queue.stackSize=${KAFKA_QUEUE_STACK_SIZE}"
       --set "kafka.queue.supportedVersion=${KAFKA_QUEUE_SUPPORTED_VERSION}"
       --set "kafka.queue.waitingInterruptTime=${KAFKA_QUEUE_WAITING_INTERRUPT_TIME}"
+      --set "kafka.ssl.rejectUnauthorized=${KAFKA_SSL_REJECT_UNAUTHORIZED}"
       --set "kafka.username=${KAFKA_USERNAME}"
       --set "logs.format=${LOGS_FORMAT}"
       --set "loki.url=${LOKI_URL}"

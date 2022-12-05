@@ -6909,6 +6909,16 @@
    ]
   },
   {
+   "default": "false",
+   "name": "kafka.ssl.rejectUnauthorized",
+   "needFor": "Запрещать невалидный ssl сертификат",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
    "default": "",
    "name": "kafka.username",
    "needFor": "Username доступа в kafka",

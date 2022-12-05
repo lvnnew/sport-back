@@ -44,6 +44,7 @@ const envConfig = {
   kafkaQueueStackSize: getFromNconf('kafka.queue.stackSize'),
   kafkaQueueSupportedVersion: getFromNconf('kafka.queue.supportedVersion'),
   kafkaQueueWaitingInterruptTime: getFromNconf('kafka.queue.waitingInterruptTime'),
+  kafkaSslRejectUnauthorized: getFromNconf('kafka.ssl.rejectUnauthorized'),
   kafkaUsername: getFromNconf('kafka.username'),
   logsFormat: getFromNconf('logs.format'),
   lokiUrl: getFromNconf('loki.url'),
