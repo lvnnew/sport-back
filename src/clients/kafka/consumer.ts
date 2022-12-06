@@ -1,12 +1,11 @@
-import {ConsumerConfig} from 'kafkajs';
+import {Consumer, ConsumerConfig, Kafka} from 'kafkajs';
 
-import getKafka from './kafkaClient';
-import {registerInstance} from './disconnectService';
-// import log from "../../log";
+import {RegisterService} from './getKafkaContext';
+// import log from '../../log';
 
-export const getConsumer = async (config: ConsumerConfig) => {
-  const kafka = await getKafka();
+export type GetConsumer = (config: ConsumerConfig) => Promise<Consumer>;
 
+export const getConsumer = (rs: RegisterService, kafka: Kafka): GetConsumer => async (config: ConsumerConfig) => {
   const consumer = kafka.consumer(config);
 
   await consumer.connect();
@@ -16,7 +15,7 @@ export const getConsumer = async (config: ConsumerConfig) => {
   //   log.info(`${payload.topic} ${payload.firstOffset} ${+payload.highWatermark - 1 - +payload.firstOffset} ${+payload.lastOffset - +payload.firstOffset}`);
   // });
 
-  registerInstance(consumer);
+  rs.register(consumer);
 
   return consumer;
 };

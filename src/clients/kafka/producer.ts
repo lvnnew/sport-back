@@ -11,6 +11,7 @@ type Sender = (topic: string, messages: ShortMessage | ShortMessage[]) => Return
 export type ProducerUtils = {
   sender: Sender;
   producer: Producer;
+  close: () => Promise<void>;
 };
 
 export const getProducer = async (kafka: Kafka): Promise<ProducerUtils> => {
@@ -54,5 +55,7 @@ export const getProducer = async (kafka: Kafka): Promise<ProducerUtils> => {
     });
   };
 
-  return {sender, producer};
+  const close = () => producer.disconnect();
+
+  return {sender, producer, close};
 };

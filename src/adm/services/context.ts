@@ -20,7 +20,6 @@ export const createContext = async (container: interfaces.Container = defaultCon
       container.unbindAsync('Knex'),
       container.unbindAsync('Postgres'),
       container.unbindAsync('Kafka'),
-      // todo: add unbind kafka
     ]);
   };
 

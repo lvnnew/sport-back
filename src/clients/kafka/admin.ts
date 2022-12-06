@@ -1,10 +1,11 @@
 import {Admin, Kafka} from 'kafkajs';
 
-import {registerInstance, unregisterInstance} from './disconnectService';
+// import {registerInstance, unregisterInstance} from './disconnectService';
 import log from '../../log';
 import {KafkaJob} from '../queue/Job';
 import {configureTopics, getJobPrefix} from './queue/utils';
 import {Topics} from './queue/types';
+import {RegisterService} from './getKafkaContext';
 
 type CountMessages = Awaited<ReturnType<Admin['fetchTopicOffsets']>>[number] & {
   size: number;
@@ -27,11 +28,11 @@ export type ContextAdmin = {
   close: () => Promise<void>;
 };
 
-export const getKafkaAdmin = (kafka: Kafka) => async (): Promise<ContextAdmin> => {
+export const getKafkaAdmin = (is: RegisterService, kafka: Kafka) => async (): Promise<ContextAdmin> => {
   const admin = kafka.admin();
   await admin.connect();
 
-  registerInstance(admin);
+  is.register(admin);
 
   const countMessagesByPartition: ContextAdmin['countMessagesByPartition'] = async (topic) => {
     try {
@@ -115,7 +116,7 @@ export const getKafkaAdmin = (kafka: Kafka) => async (): Promise<ContextAdmin> =
     }, {} as Awaited<ReturnType<ContextAdmin['countJobsRawMessages']>>);
   };
 
-  const close = () => unregisterInstance(admin);
+  const close = () => is.unregister(admin);
 
   return {
     admin,

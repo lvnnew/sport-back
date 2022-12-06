@@ -9,7 +9,6 @@ import {getKnex} from '../../clients/knex';
 import {getPostgres} from '../../clients/postgres';
 import getQueue from '../../clients/queue/getQueue';
 import getKafkaContext, {KafkaContext} from '../../clients/kafka/getKafkaContext';
-import {unregisterAllInstance} from '../../clients/kafka/disconnectService';
 
 const defaultContainer = new Container({defaultScope: 'Singleton'});
 
@@ -27,6 +26,6 @@ defaultContainer.bind<WorkerUtils>('Queue')
   .onDeactivation((queue: WorkerUtils) => queue.release());
 defaultContainer.bind<KafkaContext>('Kafka')
   .toDynamicValue(() => getKafkaContext())
-  .onDeactivation(() => unregisterAllInstance());
+  .onDeactivation((kafka) => kafka.close());
 
 export default defaultContainer;
