@@ -86,6 +86,8 @@ spec:
           value: {{ $.Values.graphql.playground.enabled | quote }}
         - name: KAFKA_BROKERS
           value: {{ $.Values.kafka.brokers | quote }}
+        - name: KAFKA_ENABLED
+          value: {{ $.Values.kafka.enabled | quote }}
         - name: KAFKA_PASSWORD
           value: {{ $.Values.kafka.password | quote }}
         - name: KAFKA_QUEUE_ACKS

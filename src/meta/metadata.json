@@ -6819,6 +6819,16 @@
    ]
   },
   {
+   "default": "true",
+   "name": "kafka.enabled",
+   "needFor": "Включние кафки",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
    "default": "",
    "name": "kafka.password",
    "needFor": "Пароль доступа в kafka",

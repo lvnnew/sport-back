@@ -35,6 +35,7 @@ const envConfig = {
   databaseUri: getFromNconf('database.uri'),
   graphqlPlaygroundEnabled: getFromNconf('graphql.playground.enabled'),
   kafkaBrokers: getFromNconf('kafka.brokers'),
+  kafkaEnabled: getFromNconf('kafka.enabled'),
   kafkaPassword: getFromNconf('kafka.password'),
   kafkaQueueAcks: getFromNconf('kafka.queue.acks'),
   kafkaQueueAutoCommitInterval: getFromNconf('kafka.queue.autoCommitInterval'),

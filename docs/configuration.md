@@ -29,6 +29,7 @@ If both files exists they will be merged. `${ENV}.json` takes precedence.
 | database.uri                     | DATABASE_URI                       | Строка подключения к основной базе данных                                                                                                 |
 | graphql.playground.enabled       | GRAPHQL_PLAYGROUND_ENABLED         | Включение graphql playground (true | false)                                                                                               |
 | kafka.brokers                    | KAFKA_BROKERS                      | Список kafka блокеров                                                                                                                     |
+| kafka.enabled                    | KAFKA_ENABLED                      | Включние кафки                                                                                                                            |
 | kafka.password                   | KAFKA_PASSWORD                     | Пароль доступа в kafka                                                                                                                    |
 | kafka.queue.acks                 | KAFKA_QUEUE_ACKS                   | `-1`(all) все несинхронизированные реплики должны подтвердить (по умолчанию), `0` нет подтверждений, `1` только ждет подтверждения лидера |
 | kafka.queue.autoCommitInterval   | KAFKA_QUEUE_AUTO_COMMIT_INTERVAL   | Потребитель будет фиксировать смещения по истечении заданного периода, например, пяти секунд. Значение в миллисекундах                    |

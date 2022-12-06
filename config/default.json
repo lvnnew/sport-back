@@ -11,6 +11,7 @@
   "database.uri": "postgresql://fake:fake@127.0.0.1:5432",
   "graphql.playground.enabled": "true",
   "kafka.brokers": "localhost:29092;localhost:29094",
+  "kafka.enabled": "true",
   "kafka.password": "",
   "kafka.queue.acks": "1",
   "kafka.queue.autoCommitInterval": "10000",
