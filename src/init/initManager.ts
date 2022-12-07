@@ -49,7 +49,6 @@ const initManager = async (
     {
       login: email,
       passwordHash: hashedPassword,
-      role: '',
       emailVerified: true,
       initialPasswordChanged: true,
       locked: false,

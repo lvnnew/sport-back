@@ -132,7 +132,6 @@ model ManagerLogin {
 	search	String?
 	login	String
 	passwordHash	String
-	role	String
 	emailVerified	Boolean
 	initialPasswordChanged	Boolean
 	locked	Boolean

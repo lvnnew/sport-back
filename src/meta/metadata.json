@@ -3620,27 +3620,6 @@
     },
     {
      "category": "scalar",
-     "hidden": false,
-     "name": "role",
-     "needFor": "",
-     "required": true,
-     "requiredOnInput": true,
-     "searchable": true,
-     "showInCreate": true,
-     "showInEdit": true,
-     "showInFilter": true,
-     "showInList": true,
-     "showInWidget": true,
-     "stringType": "plain",
-     "title": {
-      "ru": "Role"
-     },
-     "type": "string",
-     "updatable": true,
-     "updatableByUser": true
-    },
-    {
-     "category": "scalar",
      "defaultBackendValueExpression": "false",
      "defaultValueExpression": "false",
      "hidden": false,
@@ -3752,11 +3731,6 @@
         "alwaysOn": false,
         "hidden": false,
         "name": "passwordHash"
-       },
-       {
-        "alwaysOn": false,
-        "hidden": false,
-        "name": "role"
        },
        {
         "alwaysOn": false,

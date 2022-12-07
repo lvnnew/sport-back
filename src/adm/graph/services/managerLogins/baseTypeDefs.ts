@@ -7,7 +7,6 @@ export default gql`
     id: Int!
     login: String!
     passwordHash: String!
-    role: String!
     emailVerified: Boolean!
     initialPasswordChanged: Boolean!
     locked: Boolean!
@@ -22,8 +21,6 @@ export default gql`
     login_in: [String]
     passwordHash: String
     passwordHash_in: [String]
-    role: String
-    role_in: [String]
     emailVerified: Boolean
     initialPasswordChanged: Boolean
     locked: Boolean
@@ -42,8 +39,8 @@ export default gql`
   }
 
   type Mutation {
-    createManagerLogin(login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
-    updateManagerLogin(id: Int!, login: String!, passwordHash: String!, role: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
+    createManagerLogin(login: String!, passwordHash: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
+    updateManagerLogin(id: Int!, login: String!, passwordHash: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
     removeManagerLogin(id: Int!): ManagerLogin
   }
 `;

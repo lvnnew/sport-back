@@ -1537,7 +1537,6 @@ export type MutationRemoveMailingTypeArgs = {
 export type MutationCreateManagerLoginArgs = {
   login: Scalars['String'];
   passwordHash: Scalars['String'];
-  role: Scalars['String'];
   emailVerified: Scalars['Boolean'];
   initialPasswordChanged: Scalars['Boolean'];
   locked: Scalars['Boolean'];
@@ -1549,7 +1548,6 @@ export type MutationUpdateManagerLoginArgs = {
   id: Scalars['Int'];
   login: Scalars['String'];
   passwordHash: Scalars['String'];
-  role: Scalars['String'];
   emailVerified: Scalars['Boolean'];
   initialPasswordChanged: Scalars['Boolean'];
   locked: Scalars['Boolean'];
@@ -2393,7 +2391,6 @@ export type ManagerLogin = {
   id: Scalars['Int'];
   login: Scalars['String'];
   passwordHash: Scalars['String'];
-  role: Scalars['String'];
   emailVerified: Scalars['Boolean'];
   initialPasswordChanged: Scalars['Boolean'];
   locked: Scalars['Boolean'];
@@ -2408,8 +2405,6 @@ export type ManagerLoginFilter = {
   login_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   passwordHash?: InputMaybe<Scalars['String']>;
   passwordHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  role?: InputMaybe<Scalars['String']>;
-  role_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   emailVerified?: InputMaybe<Scalars['Boolean']>;
   initialPasswordChanged?: InputMaybe<Scalars['Boolean']>;
   locked?: InputMaybe<Scalars['Boolean']>;
@@ -3519,8 +3514,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationCreateMailingTypeArgs, 'id' | 'title'>>;
   updateMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationUpdateMailingTypeArgs, 'id' | 'title'>>;
   removeMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationRemoveMailingTypeArgs, 'id'>>;
-  createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
-  updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'role' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
+  createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
+  updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
   removeManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
   newManager?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationNewManagerArgs, 'firstName' | 'lastName' | 'email' | 'password'>>;
   deactivateManagers?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationDeactivateManagersArgs, 'managerIds'>>;
@@ -3735,7 +3730,6 @@ export type ManagerLoginResolvers<ContextType = any, ParentType extends Resolver
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   passwordHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   initialPasswordChanged?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   locked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;

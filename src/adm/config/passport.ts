@@ -32,7 +32,6 @@ passport.use(
         await ctx.service('managerLogins').create({
           login: email,
           passwordHash: hashedPassword,
-          role: '',
           emailVerified: false,
           initialPasswordChanged: true,
           locked: true,

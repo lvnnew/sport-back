@@ -98,7 +98,6 @@ const otherFieldsForSearch: string[] = [
   'id',
   'login',
   'passwordHash',
-  'role',
   'managerId',
 ];
 

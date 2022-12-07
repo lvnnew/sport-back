@@ -32,7 +32,6 @@ export const getAdditionalMethods = (ctx: Context, baseMethods: BaseManagersMeth
       {
         login: params.email,
         passwordHash: hashedPassword,
-        role: '',
         emailVerified: true,
         initialPasswordChanged: true,
         locked: false,
