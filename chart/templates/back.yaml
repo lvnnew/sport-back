@@ -82,6 +82,16 @@ spec:
           value: {{ $.Values.customer.recaptcha.secretKey | quote }}
         - name: DATABASE_URI
           value: {{ $.Values.database.uri | quote }}
+        - name: ES_CLOUD_ID
+          value: {{ $.Values.es.cloudId | quote }}
+        - name: ES_NODE
+          value: {{ $.Values.es.node | quote }}
+        - name: ES_PASSWORD
+          value: {{ $.Values.es.password | quote }}
+        - name: ES_TLS_REJECT_UNAUTHORIZED
+          value: {{ $.Values.es.tls.rejectUnauthorized | quote }}
+        - name: ES_USERNAME
+          value: {{ $.Values.es.username | quote }}
         - name: GRAPHQL_PLAYGROUND_ENABLED
           value: {{ $.Values.graphql.playground.enabled | quote }}
         - name: KAFKA_BROKERS

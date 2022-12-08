@@ -6695,7 +6695,7 @@
    ]
   },
   {
-   "default": "",
+   "default": "dev",
    "name": "app.environment",
    "needFor": "Название окружения",
    "scopes": [
@@ -6763,9 +6763,59 @@
    ]
   },
   {
-   "default": "postgresql://fake:fake@127.0.0.1:5432",
+   "default": "postgresql://postgres:password@localhost:5432",
    "name": "database.uri",
    "needFor": "Строка подключения к основной базе данных",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "es.cloudId",
+   "needFor": "Идентификатор аккаунта в облачном сервисе ElasticSearch",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "http://localhost:9200",
+   "name": "es.node",
+   "needFor": "Нода эластика",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "es.password",
+   "needFor": "Пароль для авторизации в облачном сервисе ElasticSearch",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "false",
+   "name": "es.tls.rejectUnauthorized",
+   "needFor": "Запрещать невалидный ssl сертификат",
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ]
+  },
+  {
+   "default": "",
+   "name": "es.username",
+   "needFor": "Пользователь для авторизации в облачном сервисе ElasticSearch",
    "scopes": [
     "back",
     "worker",
@@ -6793,7 +6843,7 @@
    ]
   },
   {
-   "default": "true",
+   "default": "false",
    "name": "kafka.enabled",
    "needFor": "Включние кафки",
    "scopes": [
