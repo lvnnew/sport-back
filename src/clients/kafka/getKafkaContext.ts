@@ -84,7 +84,7 @@ const getKafkaContext = async (): Promise<KafkaContext> => {
     };
   } else {
     const fake = () => {
-      const reason = 'Kafka cannot be used with the kafka.disable is true!';
+      const reason = 'Kafka cannot be used with the kafka.enabled is not true!';
       log.error(reason);
       return Promise.reject(reason);
     };
