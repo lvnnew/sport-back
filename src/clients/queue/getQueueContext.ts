@@ -6,7 +6,7 @@ import log from '../../log';
 export const getQueueContext = (kafkaContext: KafkaContext): QueueTypes => {
   const kafkaQueue: QueueTypes = Object.values(KafkaJob).reduce((accum, jobName) => {
     accum[jobName] = (payload?: any) => {
-      if (!kafkaContext) {
+      if (!kafkaContext.kafka) {
         const msg = 'Kafka is disabled, you cannot send any messages to the queue!';
         log.error(msg);
         return Promise.reject(msg);
