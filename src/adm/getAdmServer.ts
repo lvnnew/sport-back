@@ -5,7 +5,7 @@ import {
   GraphQLRequestContextDidResolveOperation,
   GraphQLRequestContextExecutionDidStart,
 } from 'apollo-server-plugin-base';
-import {LabelValues, Summary} from 'prom-client';
+import {LabelValues} from 'prom-client';
 import {
   SelectionNode,
 } from 'graphql';
@@ -17,7 +17,7 @@ import {Context} from './services/types';
 import {flattenGraphqlToPermission} from './graph/permissionsToGraphql';
 import defaultContainer from './services/defaultContainer';
 import log from '../log';
-import {name} from 'aws-sdk/clients/importexport';
+import getSummary from '../metrics/getSummary';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = (_arg: any) => {};
@@ -81,20 +81,7 @@ const authPlugin: ApolloServerPlugin = {
   },
 };
 
-const summaries: Map<name, Summary> = new Map();
-
-const getSummary = (name: string) => {
-  if (!summaries.has(name)) {
-    summaries.set(name, new Summary({
-      name: `graph_${name}`,
-      help: `graph_${name}`,
-    // maxAgeSeconds: 600,
-    // ageBuckets: 5,
-    }));
-  }
-
-  return summaries.get(name) as Summary<string>;
-};
+const getGraphSummary = (name: string) => getSummary(`graph_${name}`);
 
 const metricsPlugin: ApolloServerPlugin = {
   requestDidStart: async () => ({
@@ -123,7 +110,7 @@ const metricsPlugin: ApolloServerPlugin = {
       let endSummary: ((labels?: LabelValues<string>) => number) | null = null;
 
       if (operationName) {
-        const summary = getSummary(operationName);
+        const summary = await getGraphSummary(operationName);
         endSummary = summary.startTimer();
       }
 

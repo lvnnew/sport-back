@@ -1,6 +1,7 @@
 import {Config, TopicsConfig} from './types';
 import {getConfig} from '../../../config';
 import {KafkaJob} from '../../queue/Job';
+import getAppEnvPrefix from '../../../config/getAppEnvPrefix';
 
 export const randomRange = (min: number, max: number): number => {
   const rand = min - 0.5 + Math.random() * (max - min + 1);
@@ -20,18 +21,8 @@ export const configureTopics = (prefix: string): TopicsConfig => ({
   dead: `${prefix}-dead`,
 });
 
-export const getClientPrefix = async () => {
-  const {appName, appEnvironment} = await getConfig();
-
-  if (!(appName || appEnvironment)) {
-    throw new Error('At least one of appName or appEnvironment configuration variables must be filled');
-  }
-
-  return `${appName}-${appEnvironment}`;
-};
-
 export const getJobPrefix = async (jobName: KafkaJob | string) => {
-  const prefix = await getClientPrefix();
+  const prefix = await getAppEnvPrefix();
 
   return `${prefix}_${jobName}`;
 };

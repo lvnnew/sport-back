@@ -1,7 +1,7 @@
 import {Kafka, KafkaConfig, logCreator as kafkaLogCreator, logLevel} from 'kafkajs';
 import {getConfig, isLocalEnv} from '../../config';
 import logger from '../../log';
-import {getClientPrefix} from './queue/utils';
+import getAppEnvPrefix from '../../config/getAppEnvPrefix';
 
 const mapLogLevel = (level: logLevel) => {
   switch (level) {
@@ -42,7 +42,7 @@ const getKafka = async (): Promise<Kafka> => {
   }
 
   let kafkaConfig: KafkaConfig = {
-    clientId: await getClientPrefix(),
+    clientId: await getAppEnvPrefix(),
     brokers,
     logCreator,
   };
