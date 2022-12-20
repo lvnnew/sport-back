@@ -1,12 +1,12 @@
 import {Summary} from 'prom-client';
 import {name} from 'aws-sdk/clients/importexport';
-import getAppEnvPrefix from '../config/getAppEnvPrefix';
+import getAppEnvUnderscorePrefix from '../config/getAppEnvUnderscorePrefix';
 
 const summaries: Map<name, Summary> = new Map();
 
 const getSummary = async (name: string) => {
   if (!summaries.has(name)) {
-    const prefix = await getAppEnvPrefix();
+    const prefix = await getAppEnvUnderscorePrefix();
     summaries.set(name, new Summary({
       name: `${prefix}_graph_${name}`,
       help: `graph_${name}`,
