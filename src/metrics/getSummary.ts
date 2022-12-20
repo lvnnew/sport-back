@@ -7,9 +7,12 @@ const summaries: Map<name, Summary> = new Map();
 const getSummary = async (name: string) => {
   if (!summaries.has(name)) {
     const prefix = await getAppEnvUnderscorePrefix();
+
+    const metricName = (`${prefix}_${name}`);
+
     summaries.set(name, new Summary({
-      name: `${prefix}_graph_${name}`,
-      help: `graph_${name}`,
+      name: metricName,
+      help: metricName,
     // maxAgeSeconds: 600,
     // ageBuckets: 5,
     }));
