@@ -1,22 +1,4 @@
-import {ApolloServer, AuthenticationError} from 'apollo-server-express';
-import {
-  ApolloServerPlugin,
-  GraphQLRequestContext,
-  GraphQLRequestContextDidResolveOperation,
-  GraphQLRequestContextExecutionDidStart,
-} from 'apollo-server-plugin-base';
-import {LabelValues, Summary} from 'prom-client';
-import {
-  SelectionNode,
-} from 'graphql';
-import schema from '../graph/schema';
-import {
-  createUsersAwareContext,
-} from './services/context';
-import {Context} from './services/types';
-import {flattenGraphqlToPermission} from './graph/permissionsToGraphql';
-import defaultContainer from './services/defaultContainer';
-import log from '../log';
+import {Summary} from 'prom-client';
 import {name} from 'aws-sdk/clients/importexport';
 import getAppEnvPrefix from '../config/getAppEnvPrefix';
 
