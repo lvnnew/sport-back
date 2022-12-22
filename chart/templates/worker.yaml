@@ -62,7 +62,9 @@ spec:
         - name: RANDOM
           value: {{ $.Values.random | quote }}
         - name: APP_NAME
-          value: mtbase-{{ .name  }}-worker
+          value: {{ $.Values.app.name | quote }}
+        - name: APP_ENVIRONMENT
+          value: {{ $.Values.app.environment | quote }}
         - name: ENV
           value: '{{ $.Values.global.env }}'
         - name: APOLLO_KEY

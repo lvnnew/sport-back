@@ -93,11 +93,11 @@ export const getKafkaAdmin = (is: RegisterService, kafka: Kafka) => async (): Pr
 
     const entries = Object.values(topics);
 
-    const promises = entries.map(([_key, topic]) => countRawMessages(groupId, topic));
+    const promises = entries.map((topic) => countRawMessages(groupId, topic));
 
     const res = await Promise.all(promises);
 
-    return entries.reduce((accum, [key], idx) => {
+    return entries.reduce((accum, key, idx) => {
       accum[key] = res[idx];
 
       return accum;
