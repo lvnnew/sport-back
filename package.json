@@ -108,7 +108,7 @@
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "runlify": "^0.0.223",
+    "runlify": "^0.0.224",
     "safe-stable-stringify": "^2.4.1",
     "set-cookie-parser": "^2.5.1",
     "tmp": "^0.2.1",

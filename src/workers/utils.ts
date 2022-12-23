@@ -67,7 +67,7 @@ export const twiceADayPatternCron = (name: string, queued = false, priority = 0)
 export const onceADayPatternCron = (name: string, queued = false, priority = 0): CronItem =>
   constructCron(name, `${name}OnceADay`, getOnceADayCronPattern(), queued, priority);
 
-export const fiveHoursDuringMonthStartPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+export const everyFiveHoursEveryFirstToFifthDayOfMonthPatternCron = (name: string, queued = false, priority = 0): CronItem =>
   constructCron(
     name,
     `${name}EveryFiveHoursEveryFirstToFifthDayOfMonth`,
@@ -76,7 +76,7 @@ export const fiveHoursDuringMonthStartPatternCron = (name: string, queued = fals
     priority,
   );
 
-export const everyHourDuringMonthStartPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+export const everyHourEveryFirstToFifthDayOfMonthPatternCron = (name: string, queued = false, priority = 0): CronItem =>
   constructCron(
     name,
     `${name}EveryHourEveryFirstToFifthDayOfMonth`,
@@ -85,7 +85,7 @@ export const everyHourDuringMonthStartPatternCron = (name: string, queued = fals
     priority,
   );
 
-export const everyThreeHoursDuringMonthStartPatternCron = (name: string, queued = false, priority = 0): CronItem =>
+export const everyThreeHoursEveryFirstToFifthDayOfMonthPatternCron = (name: string, queued = false, priority = 0): CronItem =>
   constructCron(
     name,
     `${name}EveryThreeHoursEveryFirstToFifthDayOfMonth`,
