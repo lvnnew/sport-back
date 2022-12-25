@@ -34,9 +34,14 @@ app.get('/metrics', async (_req, res) => {
 
 const startExpress = async () => {
   const port = 3000;
-  app.listen({port}, () => {
-    log.info(`🚀 Server ready at http://localhost:${port}`);
-  });
+  app
+    .listen({port}, () => {
+      log.info(`🚀 Server ready at http://localhost:${port}`);
+    })
+    .on('error', (error) => {
+      log.error(error?.toString());
+      throw error;
+    });
 };
 
 startExpress()

@@ -33,8 +33,6 @@ export const processMessages = async <S extends KafkaJob>(
   currentlyInWorkPromises: Promise<void>[],
 ) => {
   const currentBatchPromises: Promise<void>[] = [];
-  let heartbeatId;
-
   for (const message of payload.batch.messages) {
     const run = async () => {
       try {
@@ -52,8 +50,6 @@ export const processMessages = async <S extends KafkaJob>(
         const value = message.value ? JSON.parse(message.value.toString()) : undefined;
 
         await task(value?.payload);
-
-        payload.resolveOffset(message.offset);
       } catch (error_: any) {
         const attempts = getAttempts(message) + 1;
 
@@ -62,11 +58,12 @@ export const processMessages = async <S extends KafkaJob>(
         const nextCallTime = (getCallTime(message) ?? Date.now()) + retryTime;
 
         let unsuccessfulTopic: string;
-        let error: string = message.headers?.error?.toString() ?? '';
-        // const version = getVersion(message);
+        let error: string = error_?.toString() ?? '';
+        log.warn(error);
 
         if (attempts >= config.maxAttemptsSize) { // errors without error text replacement
           unsuccessfulTopic = topics.dead;
+          error = message.headers?.error?.toString() ?? '';
         } else if (error_ instanceof VersionError) {
           unsuccessfulTopic = topics.waiting;
           error = error_.toString();
@@ -94,16 +91,24 @@ export const processMessages = async <S extends KafkaJob>(
             }],
             acks: config.acks,
           });
-
-          payload.resolveOffset(message.offset);
         } catch (error_: any) {
           log.error(`FATAL ERROR IN ${payload.batch.topic} QUEUE: ${error_?.toString()}`);
         }
       }
+
+      await payload.commitOffsetsIfNecessary({topics: [{
+        topic: payload.batch.topic,
+        partitions: [{
+          partition: payload.batch.partition,
+          offset: message.offset,
+        }],
+      }]});
     };
 
     if (currentlyInWorkPromises.length >= config.stackSize) {
+      // eslint-disable-next-line canonical/no-use-extend-native
       await Promise.any(currentlyInWorkPromises).then(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const idx = currentlyInWorkPromises.findIndex((prom) => !prom?.pending);
         if (idx !== -1) {
@@ -113,11 +118,6 @@ export const processMessages = async <S extends KafkaJob>(
     }
 
     if (!payload.isRunning() || payload.isStale()) {
-      // heartbeat every 10 sec, this is for long tasks
-      heartbeatId = setTimeout(async function heartbeat() {
-        await payload.heartbeat();
-        heartbeatId = setTimeout(heartbeat, 10 * 1000);
-      }, 10 * 1000);
       break;
     }
 
@@ -127,6 +127,4 @@ export const processMessages = async <S extends KafkaJob>(
   }
 
   await Promise.all(currentBatchPromises);
-
-  clearTimeout(heartbeatId);
 };

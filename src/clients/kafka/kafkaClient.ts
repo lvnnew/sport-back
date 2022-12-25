@@ -1,4 +1,6 @@
 import {Kafka, KafkaConfig, logCreator as kafkaLogCreator, logLevel} from 'kafkajs';
+import {v4 as uuidv4} from 'uuid';
+
 import {getConfig, isLocalEnv} from '../../config';
 import logger from '../../log';
 import getAppEnvPrefix from '../../config/getAppEnvPrefix';
@@ -14,6 +16,8 @@ const mapLogLevel = (level: logLevel) => {
     return 'info';
   case logLevel.DEBUG:
     return 'debug';
+  default:
+    return 'info';
   }
 };
 
@@ -41,10 +45,18 @@ const getKafka = async (): Promise<Kafka> => {
     throw new Error('Config variable kafkaBrokers is empty!');
   }
 
+  const podName: string | undefined = process.env.K8S_POD_NAME;
+
+  const clientId = podName ? podName : `${await getAppEnvPrefix()}-${uuidv4()}`;
+
+  logger.info(`Kafka've run with clientId: ${clientId}`);
+
   let kafkaConfig: KafkaConfig = {
-    clientId: await getAppEnvPrefix(),
+    clientId,
     brokers,
     logCreator,
+    connectionTimeout: 60_000,
+    requestTimeout: 90_000,
   };
 
   if (!isLocalEnv) {

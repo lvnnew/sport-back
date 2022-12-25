@@ -32,15 +32,20 @@ app.get('/metrics', async (_req, res) => {
   }
 });
 
-// const startExpress = async () => {
-//   const port = 3000;
-//   app.listen({port}, () => {
-//     log.info(`🚀 Server ready at http://localhost:${port}`);
-//   });
-// };
+const startExpress = async () => {
+  const port = 3000;
+  app
+    .listen({port}, () => {
+      log.info(`🚀 Server ready at http://localhost:${port}`);
+    })
+    .on('error', (error) => {
+      log.error(error?.toString());
+      throw error;
+    });
+};
 
-// startExpress()
-//   .catch(error => log.error(error));
+startExpress()
+  .catch(error => log.error(error));
 
 const emailsWorker = async (appName = 'someBack_emailsWorker') => {
   const config = await getConfig();
