@@ -43,8 +43,6 @@ const envConfig = {
   kafkaEnabled: getFromNconf('kafka.enabled'),
   kafkaPassword: getFromNconf('kafka.password'),
   kafkaQueueAcks: getFromNconf('kafka.queue.acks'),
-  kafkaQueueAutoCommitInterval: getFromNconf('kafka.queue.autoCommitInterval'),
-  kafkaQueueAutoCommitThreshold: getFromNconf('kafka.queue.autoCommitThreshold'),
   kafkaQueueDefaultRetryTime: getFromNconf('kafka.queue.defaultRetryTime'),
   kafkaQueueMaxAttemptsSize: getFromNconf('kafka.queue.maxAttemptsSize'),
   kafkaQueueStackSize: getFromNconf('kafka.queue.stackSize'),

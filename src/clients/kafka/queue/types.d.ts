@@ -8,10 +8,6 @@ export type Config = {
   stackSize: number;
   supportedVersion: string[];
 
-  // consumer config
-  autoCommitInterval: ConsumerRunConfig['autoCommitInterval'];
-  autoCommitThreshold: ConsumerRunConfig['autoCommitThreshold'];
-
   // producer config
   acks: 0 | 1 | -1;
 };
@@ -22,7 +18,7 @@ export interface IHeaders {
   error?: string; // last error message
   // next fields just for waiting queue work
   callTime?: string; // date in integer
-  retryTime?: string;  // date range
+  retryTime?: string; // date range
   interruptMark?: string; // only used in the waiting queue to determine if the whole queue has been traversed.
 }
 

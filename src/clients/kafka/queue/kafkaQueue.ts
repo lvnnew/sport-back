@@ -27,9 +27,9 @@ export const kafkaQueue = async <S extends KafkaJob>(task: JobType<S>, jobName: 
 
   const consumer = await ctx.kafka.getConsumer({
     groupId,
-    heartbeatInterval: 5_000,
-    rebalanceTimeout: 75_000,
-    sessionTimeout: 90_000,
+    heartbeatInterval: 15_000,
+    rebalanceTimeout: 45_000,
+    sessionTimeout: 60_000,
     minBytes: 5,
     maxBytes: 5e5, // 0.5 mb
   });
@@ -39,22 +39,12 @@ export const kafkaQueue = async <S extends KafkaJob>(task: JobType<S>, jobName: 
   });
 
   const uuid = uuidv4();
-  const needMarkNextTime = {val: true};
-  let lastMarkCheck: number | undefined;
-  const currentlyInWorkPromises: Promise<void>[] = [];
+  const needMarkNextTime = {ref: true};
+  const lastMarkCheck: {ref: number | undefined} = {ref: undefined};
 
   await consumer.run({
     partitionsConsumedConcurrently: 1,
-    // autoCommitInterval: config.autoCommitInterval, // todo: delete from environment
-    // autoCommitThreshold: config.autoCommitThreshold,
     eachBatch: async (payload) => {
-      let heartbeatId = setTimeout(async function heartbeat() {
-        if (payload.isRunning() && !payload.isStale()) {
-          await payload.heartbeat();
-          heartbeatId = setTimeout(heartbeat, 5_000);
-        }
-      }, 5_000);
-
       if (payload.batch.topic === topics.waiting) {
         await waitingMessages(
           consumer,
@@ -73,13 +63,7 @@ export const kafkaQueue = async <S extends KafkaJob>(task: JobType<S>, jobName: 
           topics,
           config,
           task,
-          currentlyInWorkPromises,
         );
-      }
-
-      clearTimeout(heartbeatId);
-      if (payload.isRunning() && !payload.isStale()) {
-        await payload.heartbeat();
       }
     },
   });

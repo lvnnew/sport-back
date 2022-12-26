@@ -44,8 +44,6 @@ export const getValidatedConfig = async (): Promise<Config> => {
     kafkaQueueWaitingInterruptTime,
     kafkaQueueStackSize,
     kafkaQueueSupportedVersion,
-    kafkaQueueAutoCommitInterval,
-    kafkaQueueAutoCommitThreshold,
   } = await getConfig();
 
   const config: Partial<Config> = {};
@@ -80,22 +78,6 @@ export const getValidatedConfig = async (): Promise<Config> => {
     config.supportedVersion = supportedVersion;
   } else {
     errorInField = 'supportedVersion';
-  }
-
-  if (kafkaQueueAutoCommitInterval && ['null', 'undefined'].includes(kafkaQueueAutoCommitInterval)) {
-    config.autoCommitInterval = kafkaQueueAutoCommitInterval === 'null' ? null : undefined;
-  } else if (kafkaQueueAutoCommitInterval && !Number.isNaN(Number(kafkaQueueAutoCommitInterval))) {
-    config.autoCommitInterval = Number(kafkaQueueAutoCommitInterval);
-  } else {
-    errorInField = 'autoCommitInterval';
-  }
-
-  if (kafkaQueueAutoCommitThreshold && ['null', 'undefined'].includes(kafkaQueueAutoCommitThreshold)) {
-    config.autoCommitThreshold = kafkaQueueAutoCommitThreshold === 'null' ? null : undefined;
-  } else if (kafkaQueueAutoCommitThreshold && !Number.isNaN(Number(kafkaQueueAutoCommitThreshold))) {
-    config.autoCommitThreshold = Number(kafkaQueueAutoCommitThreshold);
-  } else {
-    errorInField = 'autoCommitThreshold';
   }
 
   config.acks = await getValidatedKafkaAsks();

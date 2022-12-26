@@ -105,10 +105,6 @@ spec:
           value: {{ $.Values.kafka.password | quote }}
         - name: KAFKA_QUEUE_ACKS
           value: {{ $.Values.kafka.queue.acks | quote }}
-        - name: KAFKA_QUEUE_AUTO_COMMIT_INTERVAL
-          value: {{ $.Values.kafka.queue.autoCommitInterval | quote }}
-        - name: KAFKA_QUEUE_AUTO_COMMIT_THRESHOLD
-          value: {{ $.Values.kafka.queue.autoCommitThreshold | quote }}
         - name: KAFKA_QUEUE_DEFAULT_RETRY_TIME
           value: {{ $.Values.kafka.queue.defaultRetryTime | quote }}
         - name: KAFKA_QUEUE_MAX_ATTEMPTS_SIZE

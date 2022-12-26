@@ -6873,26 +6873,6 @@
    ]
   },
   {
-   "default": "10000",
-   "name": "kafka.queue.autoCommitInterval",
-   "needFor": "Потребитель будет фиксировать смещения по истечении заданного периода, например, пяти секунд. Значение в миллисекундах  ",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ]
-  },
-  {
-   "default": "1000",
-   "name": "kafka.queue.autoCommitThreshold",
-   "needFor": "Потребитель будет фиксировать смещения после разрешения заданного количества сообщений, например тысячи сообщений",
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ]
-  },
-  {
    "default": "20000",
    "name": "kafka.queue.defaultRetryTime",
    "needFor": "Время паузы после первой ошибки, например 20000 мс, потом оно увеличывается экспоненциально с мультипликатором 1.5",
@@ -6913,7 +6893,7 @@
    ]
   },
   {
-   "default": "100",
+   "default": "3",
    "name": "kafka.queue.stackSize",
    "needFor": "Количество сообщений, обрабатываемых параллельно",
    "scopes": [
