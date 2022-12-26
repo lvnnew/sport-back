@@ -56,7 +56,6 @@ const getKafka = async (): Promise<Kafka> => {
     brokers,
     logCreator,
     connectionTimeout: 60_000,
-    requestTimeout: 90_000,
   };
 
   if (!isLocalEnv) {

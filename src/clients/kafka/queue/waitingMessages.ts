@@ -10,12 +10,12 @@ export const waitingMessages = async (
   topics: TopicsConfig,
   config: Config,
   uuid: string,
-  needMarkNextTime: { val: boolean },
-  lastMarkCheck: number | undefined,
+  needMarkNextTime: {ref: boolean},
+  lastMarkCheck: {ref: number | undefined},
 ) => {
   let needInterrupt = false;
-  let needMarkNewMessage = needMarkNextTime.val;
-  needMarkNextTime.val = false;
+  let needMarkNewMessage = needMarkNextTime.ref;
+  needMarkNextTime.ref = false;
 
   const waitMessages: KMessage[] = [];
   const retryMessages: KMessage[] = [];
@@ -25,11 +25,11 @@ export const waitingMessages = async (
     const isMarked = message.headers?.interruptMark?.toString() === uuid;
     if (isMarked) {
       needInterrupt = true;
-      if (lastMarkCheck) {
-        needInterrupt = Date.now() - lastMarkCheck < config.waitingInterruptTime;
+      if (lastMarkCheck.ref) {
+        needInterrupt = Date.now() - lastMarkCheck.ref < config.waitingInterruptTime;
       }
 
-      lastMarkCheck = Date.now();
+      lastMarkCheck.ref = Date.now();
     }
 
     const callTime = getCallTime(message);
@@ -55,8 +55,6 @@ export const waitingMessages = async (
 
       retryMessages.push(message);
     }
-
-    payload.resolveOffset(message.offset);
   });
 
   if (needMarkNewMessage) {
@@ -68,7 +66,7 @@ export const waitingMessages = async (
       } as IHeaders;
       firstWaitingMessage.partition = payload.batch.partition;
     } else {
-      needMarkNextTime.val = true;
+      needMarkNextTime.ref = true;
     }
   }
 
@@ -99,10 +97,19 @@ export const waitingMessages = async (
   }
 
   try {
+    await payload.commitOffsetsIfNecessary({topics: [{
+      topic: payload.batch.topic,
+      partitions: payload.batch.messages.map(message => ({
+        partition: payload.batch.partition,
+        offset: message.offset,
+      })),
+    }]});
     await Promise.all(promises);
   } catch (error: any) {
     log.error(`FATAL ERROR IN ${payload.batch.topic} QUEUE: ${error?.toString()}`);
   }
+
+  await payload.heartbeat();
 
   const isInterrupted = consumer.paused().findIndex((topic) => topic.topic === topics.waiting) !== -1;
   if (!isInterrupted && needInterrupt) {
