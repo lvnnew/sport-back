@@ -5,13 +5,15 @@ import {interfaces} from 'inversify/lib/interfaces/interfaces';
 import serviceConstrictors from './serviceConstrictors';
 import {Context, Services} from './types';
 import * as R from 'ramda';
-import {onStart} from '../../systemHooks';
+import {onStart} from '../../systemHooks/systemHooks';
 import {KafkaContext} from '../../clients/kafka/getKafkaContext';
 import {getQueueContext} from '../../clients/queue/getQueueContext';
 import {PrismaClient} from '@prisma/client';
 import {Knex} from 'knex';
 import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
+
+let willRunOnce = true;
 
 export const createContext = async (container: interfaces.Container = defaultContainer): Promise<Context> => {
   const close = async () => {
@@ -58,7 +60,10 @@ export const createContext = async (container: interfaces.Container = defaultCon
     }
   }
 
-  onStart();
+  if (willRunOnce) {
+    willRunOnce = false;
+    await onStart(context);
+  }
 
   return context;
 };

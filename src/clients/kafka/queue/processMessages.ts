@@ -56,7 +56,6 @@ export const processMessages = async <S extends KafkaJob>(
 
       let unsuccessfulTopic: string;
       let error: string = error_?.toString() ?? '';
-      log.warn(error);
 
       if (attempts >= config.maxAttemptsSize) { // errors without error text replacement
         unsuccessfulTopic = topics.dead;
@@ -72,6 +71,8 @@ export const processMessages = async <S extends KafkaJob>(
       } else {
         unsuccessfulTopic = topics.retry;
       }
+
+      log.warn(error);
 
       try {
         await producer.send({

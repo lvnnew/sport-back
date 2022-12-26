@@ -6,7 +6,14 @@ import {RegisterService} from './getKafkaContext';
 export type GetConsumer = (config: ConsumerConfig) => Promise<Consumer>;
 
 export const getConsumer = (rs: RegisterService, kafka: Kafka): GetConsumer => async (config: ConsumerConfig) => {
-  const consumer = kafka.consumer(config);
+  const consumer = kafka.consumer({
+    heartbeatInterval: 15_000,
+    rebalanceTimeout: 45_000,
+    sessionTimeout: 60_000,
+    minBytes: 5,
+    maxBytes: 5e5, // 0.5 mb
+    ...config,
+  });
 
   await consumer.connect();
 

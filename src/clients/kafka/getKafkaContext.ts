@@ -75,10 +75,29 @@ const getKafkaContext = async (): Promise<KafkaContext> => {
 
     const rs: RegisterService = {register, unregister};
 
+    const admin: {ref: ContextAdmin | null} = {ref: null};
+
+    const getAdmin = async () => {
+      if (!admin.ref) {
+        const localAdmin = await getKafkaAdmin(rs, kafka);
+        // eslint-disable-next-line require-atomic-updates
+        admin.ref = {
+          ...localAdmin,
+          close: () => {
+            const promise = localAdmin?.close() ?? Promise.resolve();
+            admin.ref = null;
+            return promise;
+          },
+        };
+      }
+
+      return admin.ref;
+    };
+
     return {
       kafka,
       producer,
-      getAdmin: getKafkaAdmin(rs, kafka),
+      getAdmin,
       getConsumer: getConsumer(rs, kafka),
       close,
     };

@@ -12,7 +12,7 @@ export type Config = {
   acks: 0 | 1 | -1;
 };
 
-export interface IHeaders {
+export interface Headers {
   version: string;
   attempts: number; // attempts counter
   error?: string; // last error message
