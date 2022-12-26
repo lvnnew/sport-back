@@ -1,3 +1,3 @@
-import {onStart} from '../systemHooks';
+import {onStart} from '../systemHooks/systemHooks';
 
 onStart();

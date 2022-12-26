@@ -2,12 +2,14 @@
 import {types} from 'pg';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import log from './log';
+import log from '../log';
+import {bootstrapKafkaWorkers} from './bootstrapKafkaWorkers';
+import {Context} from '../adm/services/types';
 
 dayjs.extend(utc);
 
 // Runs on any start of the system: as api backend, as worker, as cli-command, etc.
-export const onStart = () => {
+export const onStart = (ctx?: Context) => {
   log.info('onStart');
 
   // To parse date as utc date
@@ -25,4 +27,11 @@ export const onStart = () => {
       return this.toString();
     } as any;
   }
+
+  if (ctx) {
+    // todo: move to deployment script
+    return bootstrapKafkaWorkers(ctx);
+  }
+
+  return null;
 };

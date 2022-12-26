@@ -1,6 +1,5 @@
 import {Admin, Kafka} from 'kafkajs';
 
-// import {registerInstance, unregisterInstance} from './disconnectService';
 import log from '../../log';
 import {KafkaJob} from '../queue/Job';
 import {configureTopics, getJobPrefix} from './queue/utils';
@@ -24,11 +23,12 @@ export type ContextAdmin = {
   countMessages: (topic: string) => Promise<number>;
   countRawMessages: (groupId: string, topic: string) => Promise<CountRawMessages>;
   countJobRawMessages: (job: KafkaJob) => Promise<CountJobRawMessages>;
+  getJobTotalRawSize: (job: KafkaJob) => Promise<CountRawMessages>;
   countJobsRawMessages: (jobs: KafkaJob[]) => Promise<Record<(typeof jobs)[number], CountJobRawMessages>>;
   close: () => Promise<void>;
 };
 
-export const getKafkaAdmin = (is: RegisterService, kafka: Kafka) => async (): Promise<ContextAdmin> => {
+export const getKafkaAdmin = async (is: RegisterService, kafka: Kafka): Promise<ContextAdmin> => {
   const admin = kafka.admin();
   await admin.connect();
 
@@ -104,6 +104,21 @@ export const getKafkaAdmin = (is: RegisterService, kafka: Kafka) => async (): Pr
     }, {} as CountJobRawMessages);
   };
 
+  const getJobTotalRawSize: ContextAdmin['getJobTotalRawSize'] = async (job) => {
+    const sizes = await countJobRawMessages(job);
+
+    return Object.values(sizes).reduce((accum, topicInfo, idx) => {
+      if (idx === 0) {
+        return topicInfo;
+      } else {
+        return {
+          size: accum.size + topicInfo.size,
+          raw: accum.raw + topicInfo.raw,
+        };
+      }
+    }, {} as CountRawMessages);
+  };
+
   const countJobsRawMessages: ContextAdmin['countJobsRawMessages'] = async (jobs) => {
     const promises = jobs.map((job) => countJobRawMessages(job));
 
@@ -125,6 +140,7 @@ export const getKafkaAdmin = (is: RegisterService, kafka: Kafka) => async (): Pr
     countMessages,
     countRawMessages,
     countJobRawMessages,
+    getJobTotalRawSize,
     countJobsRawMessages,
     close,
   };

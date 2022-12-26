@@ -43,7 +43,7 @@ export const kafkaQueue = async <S extends KafkaJob>(task: JobType<S>, jobName: 
   const lastMarkCheck: {ref: number | undefined} = {ref: undefined};
 
   await consumer.run({
-    partitionsConsumedConcurrently: 1,
+    partitionsConsumedConcurrently: config.stackSize,
     eachBatch: async (payload) => {
       if (payload.batch.topic === topics.waiting) {
         await waitingMessages(
