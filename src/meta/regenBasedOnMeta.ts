@@ -36,11 +36,11 @@ const opts: BootstrapEntityOptions = {
 
 const system = new SystemMetaBuilder('mtbase', opts);
 
-system.addConfigVar('smtp.host', 'string', true, '', 'Хост почтового сервера');
-system.addConfigVar('smtp.port', 'int', true, undefined, 'Порт почтового сервера');
-system.addConfigVar('smtp.user', 'string', true, '', 'Имя пользователя для авторизации на почтовом сервере');
-system.addConfigVar('smtp.pass', 'string', true, '', 'Пароль пользователя для авторизации на почтовом сервере');
-system.addConfigVar('smtp.from', 'string', true, '', 'Почтовый адрес, от имени которого следует отправлять письма');
+system.addConfigVar('smtp.host', 'string', false, '', 'Хост почтового сервера');
+system.addConfigVar('smtp.port', 'int', false, undefined, 'Порт почтового сервера');
+system.addConfigVar('smtp.user', 'string', false, '', 'Имя пользователя для авторизации на почтовом сервере');
+system.addConfigVar('smtp.pass', 'string', false, '', 'Пароль пользователя для авторизации на почтовом сервере');
+system.addConfigVar('smtp.from', 'string', false, '', 'Почтовый адрес, от имени которого следует отправлять письма');
 
 addCommonEntities(system);
 

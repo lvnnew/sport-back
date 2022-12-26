@@ -6800,7 +6800,7 @@
    "default": "",
    "name": "es.cloudId",
    "needFor": "Идентификатор аккаунта в облачном сервисе ElasticSearch",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6812,7 +6812,7 @@
    "default": "http://localhost:9200",
    "name": "es.node",
    "needFor": "Нода эластика",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6824,7 +6824,7 @@
    "default": "",
    "name": "es.password",
    "needFor": "Пароль для авторизации в облачном сервисе ElasticSearch",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6836,7 +6836,7 @@
    "default": false,
    "name": "es.tls.rejectUnauthorized",
    "needFor": "Запрещать невалидный ssl сертификат",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6848,7 +6848,7 @@
    "default": "",
    "name": "es.username",
    "needFor": "Пользователь для авторизации в облачном сервисе ElasticSearch",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6872,7 +6872,7 @@
    "default": "localhost:29092;localhost:29094",
    "name": "kafka.brokers",
    "needFor": "Список kafka блокеров",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6884,7 +6884,7 @@
    "default": false,
    "name": "kafka.enabled",
    "needFor": "Включние кафки",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6896,7 +6896,7 @@
    "default": "",
    "name": "kafka.password",
    "needFor": "Пароль доступа в kafka",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6908,7 +6908,7 @@
    "default": 1,
    "name": "kafka.queue.acks",
    "needFor": "`-1`(all) все несинхронизированные реплики должны подтвердить (по умолчанию), `0` нет подтверждений, `1` только ждет подтверждения лидера",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6920,7 +6920,7 @@
    "default": 20000,
    "name": "kafka.queue.defaultRetryTime",
    "needFor": "Время паузы после первой ошибки, например 20000 мс, потом оно увеличывается экспоненциально с мультипликатором 1.5",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6932,7 +6932,7 @@
    "default": 10,
    "name": "kafka.queue.maxAttemptsSize",
    "needFor": "Максимальное количество попыток обработки ошибки на сообщение",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6944,7 +6944,7 @@
    "default": 3,
    "name": "kafka.queue.stackSize",
    "needFor": "Количество сообщений, обрабатываемых параллельно",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6956,7 +6956,7 @@
    "default": "1;2",
    "name": "kafka.queue.supportedVersion",
    "needFor": "Поддерживаемые версии сообщения",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6968,7 +6968,7 @@
    "default": 60000,
    "name": "kafka.queue.waitingInterruptTime",
    "needFor": "Время паузы в очереди ожидания, когда она прошла все сообщения, это чтобы она не крутила сообщения покругу без остановки ",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6980,7 +6980,7 @@
    "default": false,
    "name": "kafka.ssl.rejectUnauthorized",
    "needFor": "Запрещать невалидный ssl сертификат",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6992,7 +6992,7 @@
    "default": "",
    "name": "kafka.username",
    "needFor": "Username доступа в kafka",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7049,9 +7049,10 @@
    "type": "string"
   },
   {
-   "default": "Почтовый адрес, от имени которого следует отправлять письма",
+   "default": "",
    "name": "smtp.from",
-   "required": "",
+   "needFor": "Почтовый адрес, от имени которого следует отправлять письма",
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7060,9 +7061,10 @@
    "type": "string"
   },
   {
-   "default": "Хост почтового сервера",
+   "default": "",
    "name": "smtp.host",
-   "required": "",
+   "needFor": "Хост почтового сервера",
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7071,9 +7073,10 @@
    "type": "string"
   },
   {
-   "default": "Пароль пользователя для авторизации на почтовом сервере",
+   "default": "",
    "name": "smtp.pass",
-   "required": "",
+   "needFor": "Пароль пользователя для авторизации на почтовом сервере",
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7082,9 +7085,9 @@
    "type": "string"
   },
   {
-   "default": "Порт почтового сервера",
    "name": "smtp.port",
-   "required": "",
+   "needFor": "Порт почтового сервера",
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7093,9 +7096,10 @@
    "type": "int"
   },
   {
-   "default": "Имя пользователя для авторизации на почтовом сервере",
+   "default": "",
    "name": "smtp.user",
-   "required": "",
+   "needFor": "Имя пользователя для авторизации на почтовом сервере",
+   "required": false,
    "scopes": [
     "back",
     "worker",
