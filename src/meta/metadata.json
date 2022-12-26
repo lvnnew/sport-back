@@ -6660,377 +6660,448 @@
    "default": "admSecret",
    "name": "adm.jwt.secret",
    "needFor": "Секрет для подписи JWT-токенов приложения админки",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "admin.recaptcha.publicKey",
    "needFor": "Публичный токен рекапчи приложения админки",
+   "required": true,
    "scopes": [
     "admin-app"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "0.7",
+   "default": 0.7,
    "name": "admin.recaptcha.requiredScore",
    "needFor": "Требуемый уровень доверия к пользователю",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "float"
   },
   {
    "default": "",
    "name": "admin.recaptcha.secretKey",
    "needFor": "Секретный токен рекапчи приложения админки",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "dev",
    "name": "app.environment",
    "needFor": "Название окружения",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "appSecret",
    "name": "app.jwt.secret",
    "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "mtbase",
    "name": "app.name",
    "needFor": "Техническое название приложения",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "Meta Template Base",
    "name": "app.title",
    "needFor": "Человеческое название приложения",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "customer.recaptcha.publicKey",
    "needFor": "Публичный токен рекапчи приложения пользователя",
+   "required": true,
    "scopes": [
     "cutomer-app"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "0.7",
    "name": "customer.recaptcha.requiredScore",
    "needFor": "Требуемый уровень доверия к пользователю",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "customer.recaptcha.secretKey",
    "needFor": "Секретный токен рекапчи приложения пользователя",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "postgresql://postgres:password@localhost:5432",
    "name": "database.uri",
    "needFor": "Строка подключения к основной базе данных",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "es.cloudId",
    "needFor": "Идентификатор аккаунта в облачном сервисе ElasticSearch",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "http://localhost:9200",
    "name": "es.node",
    "needFor": "Нода эластика",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "es.password",
    "needFor": "Пароль для авторизации в облачном сервисе ElasticSearch",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "false",
+   "default": false,
    "name": "es.tls.rejectUnauthorized",
    "needFor": "Запрещать невалидный ssl сертификат",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "bool"
   },
   {
    "default": "",
    "name": "es.username",
    "needFor": "Пользователь для авторизации в облачном сервисе ElasticSearch",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "true",
+   "default": true,
    "name": "graphql.playground.enabled",
    "needFor": "Включение graphql playground (true | false)",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "bool"
   },
   {
    "default": "localhost:29092;localhost:29094",
    "name": "kafka.brokers",
    "needFor": "Список kafka блокеров",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "false",
+   "default": false,
    "name": "kafka.enabled",
    "needFor": "Включние кафки",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "bool"
   },
   {
    "default": "",
    "name": "kafka.password",
    "needFor": "Пароль доступа в kafka",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "1",
+   "default": 1,
    "name": "kafka.queue.acks",
    "needFor": "`-1`(all) все несинхронизированные реплики должны подтвердить (по умолчанию), `0` нет подтверждений, `1` только ждет подтверждения лидера",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "int"
   },
   {
-   "default": "20000",
+   "default": 20000,
    "name": "kafka.queue.defaultRetryTime",
    "needFor": "Время паузы после первой ошибки, например 20000 мс, потом оно увеличывается экспоненциально с мультипликатором 1.5",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "int"
   },
   {
-   "default": "10",
+   "default": 10,
    "name": "kafka.queue.maxAttemptsSize",
    "needFor": "Максимальное количество попыток обработки ошибки на сообщение",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "int"
   },
   {
-   "default": "3",
+   "default": 3,
    "name": "kafka.queue.stackSize",
    "needFor": "Количество сообщений, обрабатываемых параллельно",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "int"
   },
   {
    "default": "1;2",
    "name": "kafka.queue.supportedVersion",
    "needFor": "Поддерживаемые версии сообщения",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "60000",
+   "default": 60000,
    "name": "kafka.queue.waitingInterruptTime",
    "needFor": "Время паузы в очереди ожидания, когда она прошла все сообщения, это чтобы она не крутила сообщения покругу без остановки ",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "int"
   },
   {
-   "default": "false",
+   "default": false,
    "name": "kafka.ssl.rejectUnauthorized",
    "needFor": "Запрещать невалидный ssl сертификат",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "bool"
   },
   {
    "default": "",
    "name": "kafka.username",
    "needFor": "Username доступа в kafka",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "plain",
    "name": "logs.format",
    "needFor": "Формат логов (plain | json)",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "loki.url",
    "needFor": "Урл для доступа в Loki. Используется для запроса бизнес-логов",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "s3.accessKeyId",
    "needFor": "Идентификатор доступа для авторизации в S3",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
    "default": "",
    "name": "s3.secretAccessKey",
    "needFor": "Секретный ключ для авторизации в S3",
+   "required": true,
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "",
+   "default": "Почтовый адрес, от имени которого следует отправлять письма",
    "name": "smtp.from",
-   "needFor": "Почтовый адрес, от имени которого следует отправлять письма",
+   "required": "",
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "",
+   "default": "Хост почтового сервера",
    "name": "smtp.host",
-   "needFor": "Хост почтового сервера",
+   "required": "",
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "",
+   "default": "Пароль пользователя для авторизации на почтовом сервере",
    "name": "smtp.pass",
-   "needFor": "Пароль пользователя для авторизации на почтовом сервере",
+   "required": "",
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   },
   {
-   "default": "",
+   "default": "Порт почтового сервера",
    "name": "smtp.port",
-   "needFor": "Порт почтового сервера",
+   "required": "",
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "int"
   },
   {
-   "default": "",
+   "default": "Имя пользователя для авторизации на почтовом сервере",
    "name": "smtp.user",
-   "needFor": "Имя пользователя для авторизации на почтовом сервере",
+   "required": "",
    "scopes": [
     "back",
     "worker",
     "telegramBot"
-   ]
+   ],
+   "type": "string"
   }
  ],
  "defaultLanguage": "ru",
