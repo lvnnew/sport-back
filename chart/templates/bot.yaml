@@ -45,6 +45,7 @@ spec:
     metadata:
       labels:
         app: mtbase-{{ .name  }}-bot
+        projectName: {{ $.Values.global.projectName }}
         clusterName: {{ $.Values.global.clusterName }}
         env: {{ $.Values.global.env }}
         deployKind: {{ $.Values.global.deployKind }}
