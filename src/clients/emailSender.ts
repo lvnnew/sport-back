@@ -42,7 +42,7 @@ export const getEmailSender = async () => {
 
     const transporter = nodemailer.createTransport({
       host: config.smtpHost,
-      port: Number.parseInt(config.smtpPort, 10),
+      port: config.smtpPort,
       secure: false,
       auth: {
         user: config.smtpUser,

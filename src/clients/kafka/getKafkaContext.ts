@@ -27,7 +27,7 @@ export type RegisterService = {
 const getKafkaContext = async (): Promise<KafkaContext> => {
   const {kafkaEnabled} = await getConfig();
 
-  if (kafkaEnabled && kafkaEnabled === 'true') {
+  if (kafkaEnabled) {
     const kafka = await getKafka();
 
     const producer = await getProducer(kafka);

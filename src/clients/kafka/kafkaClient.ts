@@ -66,7 +66,7 @@ const getKafka = async (): Promise<Kafka> => {
     kafkaConfig = {
       ...kafkaConfig,
       ssl: {
-        rejectUnauthorized: kafkaSslRejectUnauthorized === 'true',
+        rejectUnauthorized: kafkaSslRejectUnauthorized,
       },
       sasl: {
         mechanism: 'plain',
