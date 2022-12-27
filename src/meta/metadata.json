@@ -6660,7 +6660,7 @@
    "default": "admSecret",
    "name": "adm.jwt.secret",
    "needFor": "Секрет для подписи JWT-токенов приложения админки",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6672,7 +6672,7 @@
    "default": "",
    "name": "admin.recaptcha.publicKey",
    "needFor": "Публичный токен рекапчи приложения админки",
-   "required": true,
+   "required": false,
    "scopes": [
     "admin-app"
    ],
@@ -6682,7 +6682,7 @@
    "default": 0.7,
    "name": "admin.recaptcha.requiredScore",
    "needFor": "Требуемый уровень доверия к пользователю",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6694,7 +6694,7 @@
    "default": "",
    "name": "admin.recaptcha.secretKey",
    "needFor": "Секретный токен рекапчи приложения админки",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6718,7 +6718,7 @@
    "default": "appSecret",
    "name": "app.jwt.secret",
    "needFor": "Секрет для подписи JWT-токенов приложения пользователей",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6742,7 +6742,7 @@
    "default": "Meta Template Base",
    "name": "app.title",
    "needFor": "Человеческое название приложения",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6754,7 +6754,7 @@
    "default": "",
    "name": "customer.recaptcha.publicKey",
    "needFor": "Публичный токен рекапчи приложения пользователя",
-   "required": true,
+   "required": false,
    "scopes": [
     "cutomer-app"
    ],
@@ -6764,7 +6764,7 @@
    "default": "0.7",
    "name": "customer.recaptcha.requiredScore",
    "needFor": "Требуемый уровень доверия к пользователю",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6776,7 +6776,7 @@
    "default": "",
    "name": "customer.recaptcha.secretKey",
    "needFor": "Секретный токен рекапчи приложения пользователя",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -6860,7 +6860,7 @@
    "default": true,
    "name": "graphql.playground.enabled",
    "needFor": "Включение graphql playground (true | false)",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7004,7 +7004,7 @@
    "default": "plain",
    "name": "logs.format",
    "needFor": "Формат логов (plain | json)",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7016,7 +7016,7 @@
    "default": "",
    "name": "loki.url",
    "needFor": "Урл для доступа в Loki. Используется для запроса бизнес-логов",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7028,7 +7028,7 @@
    "default": "",
    "name": "s3.accessKeyId",
    "needFor": "Идентификатор доступа для авторизации в S3",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
@@ -7040,7 +7040,7 @@
    "default": "",
    "name": "s3.secretAccessKey",
    "needFor": "Секретный ключ для авторизации в S3",
-   "required": true,
+   "required": false,
    "scopes": [
     "back",
     "worker",
