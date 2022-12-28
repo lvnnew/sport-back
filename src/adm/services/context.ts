@@ -5,7 +5,7 @@ import {interfaces} from 'inversify/lib/interfaces/interfaces';
 import serviceConstrictors from './serviceConstrictors';
 import {Context, Services} from './types';
 import * as R from 'ramda';
-import {onStart} from '../../systemHooks/systemHooks';
+import {onStart} from '../../systemHooks';
 import {KafkaContext} from '../../clients/kafka/getKafkaContext';
 import {getQueueContext} from '../../clients/queue/getQueueContext';
 import {PrismaClient} from '@prisma/client';
