@@ -10,7 +10,7 @@ const app = async () => {
 
   const ctx = await createContext();
 
-  log.info(await ctx.service('appLogins').count());
+  log.info(await ctx.service('managerLogins').count());
 
   await ctx.close();
 
