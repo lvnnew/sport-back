@@ -1,0 +1,77 @@
+import {BaseEntity, BaseService} from './BaseService';
+import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
+import {IAllRequestArgs} from '../../../../utils/types';
+import {toPrismaTotalRequest} from '../../../../utils/prisma/toPrismaTotalRequest';
+import {PartialFieldsInRecord} from '../../../../types/utils';
+import {MutationUpdateAddressArgsWithoutAutodefinable} from '../../AddressesService/BaseAddressesServiceClass';
+
+export class ElasticBaseSearch<
+  E extends BaseEntity,
+  QA extends IAllRequestArgs, // query all entities arguments
+  MC extends {}, // mutation create entity arguments
+  MU extends {}, // mutation update entity arguments
+  MR extends {}, // mutation remove entity arguments
+  SMC extends {} = MC, // strict mutation create entity arguments
+  SMU extends {} = MU, // strict mutation create entity arguments
+> extends BaseService<E, QA, MC, MU, MR, SMC, SMU> {
+  all = async (
+    params: QA = {} as QA, // todo: why {} as QA
+  ): Promise<E[]> => {
+    // todo: elastic search code и будет разделение по типу id
+    /*
+    const elasticSearch = ctx.elastic.createSearcher('${pathCase(
+      entity.name
+    )}');
+
+    const search = await elasticSearch(toElasticRequest(await runHooks.changeListFilter(ctx, params)));
+
+    const ids = search.hits.hits.map(el => ${getKeyField(entity).type === 'bigint' ? `BigInt((el._source as ${pascalSingular(
+      entity.name
+    )}).id)` : `(el._source as ${pascalSingular(
+      entity.name
+    )}).id`});
+    const prismaReq = toPrismaRequest(params, {noId: false});
+
+    return ctx.prisma.${camelSingular(entity.name)}.findMany(
+      {
+        where: {id: {in: ids}},
+        orderBy: prismaReq.orderBy,
+      },
+    */
+    return this.prismaService.findMany(
+      toPrismaRequest(await this._hooks.changeListFilter(this.ctx, params), {noId: false}),
+    ) as unknown as Promise<E[]>;
+  };
+
+  count = async (
+    params: QA = {} as QA, // todo: why {} as QA
+  ): Promise<number> => {
+    // todo: elastic search code
+    /*
+    const elasticCount = ctx.elastic.createCounter('${pathCase(entity.name)}');
+
+    const reg = R.omit(['sortOrder', 'sortField'], toElasticRequest(await runHooks.changeListFilter(ctx, params)));
+
+    const result = await elasticCount(reg);
+
+    return result.count;
+    */
+    return this.prismaService.count(toPrismaTotalRequest(await this._hooks.changeListFilter(this.ctx, params)));
+  };
+
+  upsert = async (
+    data: PartialFieldsInRecord<MutationUpdateAddressArgsWithoutAutodefinable, 'id'>,
+    byUser = false,
+  ): Promise<E> => {
+    // todo: external search
+    const res = await super.upsert(data, byUser);
+
+    /*
+    await ctx.service('externalSearch').onEntityChange(Entity.${pascalSingular(
+      entity.name
+    )});
+    */
+
+    return res;
+  };
+}

@@ -9,6 +9,7 @@ import {getKnex} from '../../clients/knex';
 import {getPostgres} from '../../clients/postgres';
 import getQueue from '../../clients/queue/getQueue';
 import getKafkaContext, {KafkaContext} from '../../clients/kafka/getKafkaContext';
+import {ElasticClient, getElastic} from '../../clients/elastic';
 
 const defaultContainer = new Container({defaultScope: 'Singleton'});
 
@@ -24,6 +25,8 @@ defaultContainer.bind<Client>('Postgres')
 defaultContainer.bind<WorkerUtils>('Queue')
   .toDynamicValue(() => getQueue())
   .onDeactivation((queue: WorkerUtils) => queue.release());
+defaultContainer.bind<ElasticClient>('Elastic')
+  .toDynamicValue(() => getElastic());
 defaultContainer.bind<KafkaContext>('Kafka')
   .toDynamicValue(() => getKafkaContext())
   .onDeactivation((kafka) => kafka.close());

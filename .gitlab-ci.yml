@@ -159,6 +159,7 @@ deploy-prod-back:
     CUSTOMER_RECAPTCHA_SECRET_KEY: ${DEV_CUSTOMER_RECAPTCHA_SECRET_KEY}
     DATABASE_URI: ${DEV_DATABASE_URI}
     ES_CLOUD_ID: ${DEV_ES_CLOUD_ID}
+    ES_ENABLED: ${DEV_ES_ENABLED}
     ES_NODE: ${DEV_ES_NODE}
     ES_PASSWORD: ${DEV_ES_PASSWORD}
     ES_TLS_REJECT_UNAUTHORIZED: ${DEV_ES_TLS_REJECT_UNAUTHORIZED}
@@ -209,6 +210,7 @@ deploy-prod-back:
     CUSTOMER_RECAPTCHA_SECRET_KEY: ${PROD_CUSTOMER_RECAPTCHA_SECRET_KEY}
     DATABASE_URI: ${PROD_DATABASE_URI}
     ES_CLOUD_ID: ${PROD_ES_CLOUD_ID}
+    ES_ENABLED: ${PROD_ES_ENABLED}
     ES_NODE: ${PROD_ES_NODE}
     ES_PASSWORD: ${PROD_ES_PASSWORD}
     ES_TLS_REJECT_UNAUTHORIZED: ${PROD_ES_TLS_REJECT_UNAUTHORIZED}
@@ -293,6 +295,7 @@ deploy-prod-back:
       --set "customer.recaptcha.secretKey=${CUSTOMER_RECAPTCHA_SECRET_KEY}"
       --set "database.uri=${DATABASE_URI}"
       --set "es.cloudId=${ES_CLOUD_ID}"
+      --set "es.enabled=${ES_ENABLED}"
       --set "es.node=${ES_NODE}"
       --set "es.password=${ES_PASSWORD}"
       --set "es.tls.rejectUnauthorized=${ES_TLS_REJECT_UNAUTHORIZED}"

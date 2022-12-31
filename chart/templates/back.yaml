@@ -87,6 +87,8 @@ spec:
           value: {{ $.Values.database.uri | quote }}
         - name: ES_CLOUD_ID
           value: {{ $.Values.es.cloudId | quote }}
+        - name: ES_ENABLED
+          value: {{ $.Values.es.enabled | quote }}
         - name: ES_NODE
           value: {{ $.Values.es.node | quote }}
         - name: ES_PASSWORD

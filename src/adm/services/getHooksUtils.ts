@@ -133,6 +133,7 @@ export const getHooksUtils = <
       return callHookPromises.flat();
     };
 
+  // todo: rename to hooks
   const runHooks: Omit<ServiceHooksType, 'beforeCreateStrict' | 'beforeUpsertStrict'> = {
     changeListFilter: runWithReturnSecondAttr('changeListFilter'),
     beforeCreate: runWithReturnSecondAttrWithStrict('beforeCreate'),
@@ -170,3 +171,24 @@ export const getHooksUtils = <
 
   return {hooksAdd, runHooks};
 };
+
+export class HooksUtils<
+  E extends {}, //  entity
+  QA extends {}, // query all entities arguments
+  MC extends {}, // mutation create entity arguments
+  MU extends {}, // mutation update entity arguments
+  MR extends {}, // mutation remove entity arguments
+  SMC extends {} = MC, // strict mutation create entity arguments
+  SMU extends {} = MU, // strict mutation create entity arguments
+  > {
+  _hooks;
+  hooksAdd;
+
+  constructor() {
+    // todo: maybe move implementation to class
+    const {hooksAdd, runHooks} = getHooksUtils<E, QA, MC, MU, MR, SMC, SMU>();
+
+    this._hooks = runHooks;
+    this.hooksAdd = hooksAdd;
+  }
+}

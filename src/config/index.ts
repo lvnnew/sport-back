@@ -49,6 +49,7 @@ const envConfig = {
   customerRecaptchaSecretKey: utils.getStringConfig('customer.recaptcha.secretKey', false),
   databaseUri: utils.getStringConfig('database.uri', true),
   esCloudId: utils.getStringConfig('es.cloudId', false),
+  esEnabled: utils.getBooleanConfig('es.enabled', false),
   esNode: utils.getStringConfig('es.node', false),
   esPassword: utils.getStringConfig('es.password', false),
   esTlsRejectUnauthorized: utils.getBooleanConfig('es.tls.rejectUnauthorized', false),

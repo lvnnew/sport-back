@@ -12,9 +12,9 @@ let ctx: Context = null as any;
 beforeAll(async () => {
   ctx = await createContext();
 });
-afterAll(async () => {
-  await ctx.close();
-});
+// afterAll(async () => {
+//   await ctx.close();
+// });
 
 describe('tags', () => {
   it('creates', async () => {

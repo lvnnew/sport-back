@@ -12,6 +12,7 @@ import {PrismaClient} from '@prisma/client';
 import {Knex} from 'knex';
 import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
+import {ElasticClient} from '../../clients/elastic';
 
 let willRunOnce = true;
 
@@ -25,10 +26,11 @@ export const createContext = async (container: interfaces.Container = defaultCon
     ]);
   };
 
-  const [prisma, knex, postgres, worker, kafka] = await Promise.all([
+  const [prisma, knex, postgres, elastic, worker, kafka] = await Promise.all([
     container.getAsync<PrismaClient>('Prisma'),
     container.getAsync<Knex>('Knex'),
     container.getAsync<Client>('Postgres'),
+    container.getAsync<ElasticClient>('Elastic'),
     container.getAsync<WorkerUtils>('Queue'),
     container.getAsync<KafkaContext>('Kafka'),
   ]);
@@ -38,6 +40,7 @@ export const createContext = async (container: interfaces.Container = defaultCon
     knex,
     postgres,
     worker,
+    elastic,
     log,
     close,
     service: (name: keyof Services) => container.get(name),

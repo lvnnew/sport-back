@@ -43,6 +43,7 @@
     "testTimeout": 120000
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.5.0",
     "@faker-js/faker": "^7.6.0",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.3.6",
@@ -109,7 +110,7 @@
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "runlify": "^0.0.243",
+    "runlify": "^0.0.244",
     "safe-stable-stringify": "^2.4.1",
     "set-cookie-parser": "^2.5.1",
     "tmp": "^0.2.1",

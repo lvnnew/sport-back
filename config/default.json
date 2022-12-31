@@ -10,6 +10,7 @@
   "customer.recaptcha.secretKey": "",
   "database.uri": "postgresql://postgres:password@localhost:5432",
   "es.cloudId": "",
+  "es.enabled": false,
   "es.node": "http://localhost:9200",
   "es.password": "",
   "es.tls.rejectUnauthorized": false,

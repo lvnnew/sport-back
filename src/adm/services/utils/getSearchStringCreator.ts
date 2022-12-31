@@ -1,6 +1,7 @@
 import * as R from 'ramda';
 import dayjs from 'dayjs';
 
+// todo: delete
 const getSearchStringCreator = (dateFields: string[], otherFields: string[]) => (entry: Record<string, any>) => [
   ...R
     .toPairs(R.pick(otherFields, entry))
