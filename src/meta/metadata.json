@@ -5806,7 +5806,9 @@
     "ru": "Статистика"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -5923,7 +5925,9 @@
    "name": "tags",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",

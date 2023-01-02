@@ -46,12 +46,14 @@ addCommonEntities(system);
 
 // stats
 const stats = system.addCatalog('stats', 'Stats', opts);
+stats.setPreviewFeature('classService');
 stats.setNeedFor('Статистика');
 stats.getKey().setType('string');
 stats.addField('updated').setType('datetime');
 stats.addField('helloCount').setType('int');
 
 const tags = system.addCatalog('tags', 'Tags', opts);
+tags.setPreviewFeature('classService');
 tags.addField('comment').setType('string');
 
 const meta = system.build();

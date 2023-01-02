@@ -25,8 +25,8 @@ import {getMessageTypesService} from './MessageTypesService/MessageTypesService'
 import {getPermissionsService} from './PermissionsService/PermissionsService';
 import {getRolesService} from './RolesService/RolesService';
 import {getRolesToPermissionsService} from './RolesToPermissionsService/RolesToPermissionsService';
-import {getStatsService} from './StatsService/StatsService';
-import {getTagsService} from './TagsService/TagsService';
+import {StatsServiceClass} from './StatsService/StatsServiceClass';
+import {TagsServiceClass} from './TagsService/TagsServiceClass';
 import {getTemplateStylesService} from './TemplateStylesService/TemplateStylesService';
 import {getTenantsService} from './TenantsService/TenantsService';
 import {getUnitsService} from './UnitsService/UnitsService';
@@ -66,8 +66,8 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   permissions: getPermissionsService,
   roles: getRolesService,
   rolesToPermissions: getRolesToPermissionsService,
-  stats: getStatsService,
-  tags: getTagsService,
+  stats: (ctx) => new StatsServiceClass(ctx),
+  tags: (ctx) => new TagsServiceClass(ctx),
   templateStyles: getTemplateStylesService,
   tenants: getTenantsService,
   units: getUnitsService,
