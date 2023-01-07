@@ -117,7 +117,8 @@ export const getManagersToRolesService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableManagersToRolePart> => currentData as T & AutodefinableManagersToRolePart;
+  ): Promise<T & AutodefinableManagersToRolePart> =>
+    currentData as T & AutodefinableManagersToRolePart;
 
   const all = async (
     params: QueryAllManagersToRolesArgs = {},

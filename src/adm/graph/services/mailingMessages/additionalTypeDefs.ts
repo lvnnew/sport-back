@@ -1,5 +1,17 @@
-// import {gql} from 'apollo-server';
+import {gql} from 'apollo-server';
 
-// export default gql``;
+export default gql`
+  type QuantityPerStatus {
+    draft: Int!
+    stopped: Int!
+    pending: Int!
+    sent: Int!
+    cancelled: Int!
+    errored: Int!
+  }
 
-export const message = 'uncomment lines if additional types needed';
+  type Query {
+    getMessageQuantityPerStatus(mailingCampaignId: Int!): QuantityPerStatus!
+  }
+`;
+

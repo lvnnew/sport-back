@@ -55,7 +55,7 @@ export class DocumentBaseService<
   };
 
   rePost = async (
-    id: number,
+    id: Entity['id'],
   ): Promise<void> => {
     const data = await this.get(id);
 

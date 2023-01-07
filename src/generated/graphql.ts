@@ -250,6 +250,7 @@ export type Query = {
   MailingMessageStatus?: Maybe<MailingMessageStatus>;
   allMailingMessageStatuses?: Maybe<Array<Maybe<MailingMessageStatus>>>;
   _allMailingMessageStatusesMeta?: Maybe<ListMetadata>;
+  getMessageQuantityPerStatus: QuantityPerStatus;
   MailingMessage?: Maybe<MailingMessage>;
   allMailingMessages?: Maybe<Array<Maybe<MailingMessage>>>;
   _allMailingMessagesMeta?: Maybe<ListMetadata>;
@@ -630,6 +631,11 @@ export type Query_AllMailingMessageStatusesMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<MailingMessageStatusFilter>;
+};
+
+
+export type QueryGetMessageQuantityPerStatusArgs = {
+  mailingCampaignId: Scalars['Int'];
 };
 
 
@@ -2303,6 +2309,16 @@ export type MailingMessageStatusFilter = {
   final?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type QuantityPerStatus = {
+  __typename?: 'QuantityPerStatus';
+  draft: Scalars['Int'];
+  stopped: Scalars['Int'];
+  pending: Scalars['Int'];
+  sent: Scalars['Int'];
+  cancelled: Scalars['Int'];
+  errored: Scalars['Int'];
+};
+
 export type MailingMessage = {
   __typename?: 'MailingMessage';
   id: Scalars['Int'];
@@ -2918,6 +2934,7 @@ export type ResolversTypes = {
   MailingCampaignFilter: MailingCampaignFilter;
   MailingMessageStatus: ResolverTypeWrapper<MailingMessageStatus>;
   MailingMessageStatusFilter: MailingMessageStatusFilter;
+  QuantityPerStatus: ResolverTypeWrapper<QuantityPerStatus>;
   MailingMessage: ResolverTypeWrapper<MailingMessage>;
   MailingMessageFilter: MailingMessageFilter;
   MailingType: ResolverTypeWrapper<MailingType>;
@@ -3057,6 +3074,7 @@ export type ResolversParentTypes = {
   MailingCampaignFilter: MailingCampaignFilter;
   MailingMessageStatus: MailingMessageStatus;
   MailingMessageStatusFilter: MailingMessageStatusFilter;
+  QuantityPerStatus: QuantityPerStatus;
   MailingMessage: MailingMessage;
   MailingMessageFilter: MailingMessageFilter;
   MailingType: MailingType;
@@ -3400,6 +3418,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   MailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<QueryMailingMessageStatusArgs, 'id'>>;
   allMailingMessageStatuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingMessageStatus']>>>, ParentType, ContextType, Partial<QueryAllMailingMessageStatusesArgs>>;
   _allMailingMessageStatusesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingMessageStatusesMetaArgs>>;
+  getMessageQuantityPerStatus?: Resolver<ResolversTypes['QuantityPerStatus'], ParentType, ContextType, RequireFields<QueryGetMessageQuantityPerStatusArgs, 'mailingCampaignId'>>;
   MailingMessage?: Resolver<Maybe<ResolversTypes['MailingMessage']>, ParentType, ContextType, RequireFields<QueryMailingMessageArgs, 'id'>>;
   allMailingMessages?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingMessage']>>>, ParentType, ContextType, Partial<QueryAllMailingMessagesArgs>>;
   _allMailingMessagesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingMessagesMetaArgs>>;
@@ -3699,6 +3718,16 @@ export type MailingMessageStatusResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type QuantityPerStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['QuantityPerStatus'] = ResolversParentTypes['QuantityPerStatus']> = {
+  draft?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  stopped?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  pending?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  sent?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  cancelled?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  errored?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MailingMessageResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingMessage'] = ResolversParentTypes['MailingMessage']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   mailingCampaignId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -3951,6 +3980,7 @@ export type Resolvers<ContextType = any> = {
   MailingCampaignStatus?: MailingCampaignStatusResolvers<ContextType>;
   MailingCampaign?: MailingCampaignResolvers<ContextType>;
   MailingMessageStatus?: MailingMessageStatusResolvers<ContextType>;
+  QuantityPerStatus?: QuantityPerStatusResolvers<ContextType>;
   MailingMessage?: MailingMessageResolvers<ContextType>;
   MailingType?: MailingTypeResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;

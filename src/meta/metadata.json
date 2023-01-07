@@ -171,7 +171,9 @@
     "ru": "Хранилище рефреш токенов для админа"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -344,7 +346,9 @@
     "ru": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -521,7 +525,9 @@
     "ru": "Хранилище рефреш токенов для app"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -653,7 +659,9 @@
      "title": "Удаление сущности"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -1094,7 +1102,9 @@
     "ru": "Аудит системы"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -1371,7 +1381,9 @@
     "ru": "История применения правил автогенерации к сущностям"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -1647,7 +1659,9 @@
     "ru": "Правила автогенерации сущностей"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -1969,7 +1983,9 @@
     "ru": "Список всех сущностей проекта"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -2191,7 +2207,9 @@
    "name": "files",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -2317,7 +2335,9 @@
      "title": "English"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -2453,7 +2473,9 @@
      "title": "Finished"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -2705,7 +2727,9 @@
    "name": "mailingCampaigns",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -2881,7 +2905,9 @@
      "title": "Errored"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -3396,7 +3422,9 @@
    "name": "mailingMessages",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -3525,7 +3553,9 @@
      "title": "Email"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -3780,7 +3810,9 @@
     "ru": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -4201,7 +4233,9 @@
     "ru": "Менеджерские (административные) аккаунты"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -4815,7 +4849,9 @@
     "ru": "Языковой вариант шаблона сообщения"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -5049,7 +5085,9 @@
     "ru": "Шаблоны сообщений"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -5200,7 +5238,9 @@
      "title": "Plain"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -5320,7 +5360,9 @@
     "ru": "Разрешение на совершение той или иной операции"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -5507,7 +5549,9 @@
      "title": "Менеджер"
     }
    ],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -5807,6 +5851,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [
+    "classService",
     "classService"
    ],
    "singleKey": true,
@@ -5926,6 +5971,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [
+    "classService",
     "classService"
    ],
    "singleKey": true,
@@ -6072,7 +6118,9 @@
     "ru": "Стили шаблонов"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -6216,7 +6264,9 @@
    "name": "tenants",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -6362,7 +6412,9 @@
    "name": "units",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",
@@ -6586,7 +6638,9 @@
    "name": "users",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "singleKey": true,
    "sortField": "id",
    "sortOrder": "DESC",

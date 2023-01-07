@@ -117,7 +117,8 @@ export const getManagersToPermissionsService = (ctx: Context) => {
 
   const augmentByDefault = async <T>(
     currentData: Record<string, any>,
-  ): Promise<T & AutodefinableManagersToPermissionPart> => currentData as T & AutodefinableManagersToPermissionPart;
+  ): Promise<T & AutodefinableManagersToPermissionPart> =>
+    currentData as T & AutodefinableManagersToPermissionPart;
 
   const all = async (
     params: QueryAllManagersToPermissionsArgs = {},
