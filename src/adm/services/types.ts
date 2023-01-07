@@ -40,7 +40,7 @@ export interface ServiceConfig {
 
 export interface DocumentConfig extends ServiceConfig {
   registries: string[];
-  registrarTypeId: string;
+  registrarDependedRegistries: string[]; // for getPostOperation
 }
 
 type ServiceConstrictor<T extends keyof Services> = (context: Context) => Services[T];
