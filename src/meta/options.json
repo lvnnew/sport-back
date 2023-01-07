@@ -5,8 +5,8 @@
  "coreIndex": true,
  "corePrismaGetter": true,
  "dbName": "mtbase_stage",
- "detachedBackProject": "/home/dm/prjs/mtbase-back",
- "detachedUiProject": "/home/dm/prjs/mtbase-ui",
+ "detachedBackProject": "/Users/yuriipapka/Projects/air/mtbase-back",
+ "detachedUiProject": "/Users/yuriipapka/Projects/air/mtbase-ui",
  "forms": {
   "create": {
    "gen": true,
