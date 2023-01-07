@@ -1,4 +1,4 @@
-import {BaseStatsServiceClass} from './BaseStatsServiceClass';
+import {StatsService} from './StatsService';
 import {MutationUpdateStatArgs} from '../../../generated/graphql';
 import {Gauge} from 'prom-client';
 import * as R from 'ramda';
@@ -9,7 +9,7 @@ const gauge = new Gauge({
   labelNames: ['label'],
 });
 
-export class StatsServiceClass extends BaseStatsServiceClass {
+export class AdditionalStatsService extends StatsService {
   async updateGauges() {
     const stats = await this.ctx.service('stats').get('stats');
 
