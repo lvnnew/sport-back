@@ -182,6 +182,7 @@ export class BaseService<
           entityId: result.id,
           actionData: data,
         }) : fakePromise,
+      this.ctx.prisma.$transaction(await this.getPostOperations(result)),
     ]);
 
     await this._hooks.afterCreate(this.ctx, result as Entity);
