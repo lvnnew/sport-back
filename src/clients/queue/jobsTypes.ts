@@ -9,8 +9,11 @@ export type PayloadTypes = {
   };
 };
 
-export type JobType<key extends KafkaJob> = PayloadTypes[key] extends {} ? (payload: PayloadTypes[key]) => Promise<any> : () => Promise<any>;
+export type JobType<key extends KafkaJob>
+  = PayloadTypes[key] extends Record<string, unknown> ? (payload: PayloadTypes[key]) => Promise<any> : () => Promise<any>;
 
 export type QueueTypes = {
-  [key in KafkaJob]: PayloadTypes[key] extends {} ? (payload: PayloadTypes[key] | PayloadTypes[key][]) => Promise<any> : () => Promise<any>;
+  [key in KafkaJob]: PayloadTypes[key] extends Record<string, unknown>
+    ? (payload: PayloadTypes[key] | PayloadTypes[key][]) => Promise<any>
+    : () => Promise<any>;
 };
