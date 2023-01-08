@@ -12,8 +12,10 @@ export type PayloadTypes = {
 export type JobType<key extends KafkaJob>
   = PayloadTypes[key] extends Record<string, unknown> ? (payload: PayloadTypes[key]) => Promise<any> : () => Promise<any>;
 
+type ArrayOrNot<T> = T | T[];
+
 export type QueueTypes = {
-  [key in KafkaJob]: PayloadTypes[key] extends Record<string, unknown>
-    ? (payload: PayloadTypes[key] | PayloadTypes[key][]) => Promise<any>
+  [key in keyof PayloadTypes]: PayloadTypes[key] extends Record<string, unknown>
+    ? (payload: ArrayOrNot<PayloadTypes[key]>) => Promise<any>
     : () => Promise<any>;
 };
