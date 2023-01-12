@@ -45,14 +45,14 @@ system.addConfigVar('smtp.from', 'string', false, '', 'Почтовый адре
 addCommonEntities(system);
 
 // stats
-const stats = system.addCatalog('stats', 'Stats', opts);
+const stats = system.addCatalog('stats', {plural: 'Stats', singular: 'Stats'}, opts);
 stats.setPreviewFeature('classService');
 stats.setNeedFor('Статистика');
 stats.getKey().setType('string');
 stats.addField('updated').setType('datetime');
 stats.addField('helloCount').setType('int');
 
-const tags = system.addCatalog('tags', 'Tags', opts);
+const tags = system.addCatalog('tags', {plural: 'Tags', singular: 'Tag'}, opts);
 tags.setPreviewFeature('classService');
 tags.addField('comment').setType('string');
 
