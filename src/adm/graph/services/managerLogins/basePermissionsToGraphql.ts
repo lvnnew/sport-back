@@ -8,8 +8,8 @@ const managerLoginsBasePermissionToGraphql: Partial<PermissionToGraphql<ManagerL
   get: 'ManagerLogin',
   all: 'allManagerLogins',
   create: 'createManagerLogin',
-  update: 'removeManagerLogin',
-  delete: 'updateManagerLogin',
+  update: 'updateManagerLogin',
+  delete: 'removeManagerLogin',
 };
 
 export default managerLoginsBasePermissionToGraphql;

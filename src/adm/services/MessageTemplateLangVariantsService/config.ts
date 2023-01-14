@@ -1,4 +1,5 @@
 /* eslint-disable quote-props,comma-dangle,@typescript-eslint/ban-types */
+import Entity from '../../../types/Entity';
 import {ServiceConfig} from '../types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -20,7 +21,7 @@ const config: ServiceConfig = {
     'additionalStyle'
   ],
   forbiddenForUserFields: [],
-  entityTypeId: 'messageTemplateLangVariant',
+  entityTypeId: Entity.MessageTemplateLangVariant,
 };
 
 export default config;

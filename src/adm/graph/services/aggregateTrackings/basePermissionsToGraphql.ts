@@ -8,8 +8,8 @@ const aggregateTrackingsBasePermissionToGraphql: Partial<PermissionToGraphql<Agg
   get: 'AggregateTracking',
   all: 'allAggregateTrackings',
   create: 'createAggregateTracking',
-  update: 'removeAggregateTracking',
-  delete: 'updateAggregateTracking',
+  update: 'updateAggregateTracking',
+  delete: 'removeAggregateTracking',
 };
 
 export default aggregateTrackingsBasePermissionToGraphql;

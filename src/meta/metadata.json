@@ -179,7 +179,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Ui refresh tokens"
+    "ru": {
+     "plural": "Ui refresh tokens",
+     "singular": "Ui refresh token"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -355,8 +358,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Logins of users",
-    "ru": "Логины пользователей"
+    "en": {
+     "plural": "Logins of users",
+     "singular": "Login of user"
+    },
+    "ru": {
+     "plural": "Логины пользователей",
+     "singular": "Логин пользователей"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -535,7 +544,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "App refresh tokens"
+    "ru": {
+     "plural": "App refresh tokens",
+     "singular": "App refresh token"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -670,8 +682,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Audit action types",
-    "ru": "Типы событий аудита"
+    "en": {
+     "plural": "Audit action types",
+     "singular": "Audit action type"
+    },
+    "ru": {
+     "plural": "Типы событий аудита",
+     "singular": "Тип события аудита"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -1114,8 +1132,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Audit",
-    "ru": "Аудит"
+    "en": {
+     "plural": "Audit logs",
+     "singular": "Audit log"
+    },
+    "ru": {
+     "plural": "Аудиты",
+     "singular": "Аудит"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -1394,8 +1418,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Autogeneration History",
-    "ru": "История автогенерации"
+    "en": {
+     "plural": "Autogeneration History",
+     "singular": "Autogeneration History"
+    },
+    "ru": {
+     "plural": "Истории автогенерации",
+     "singular": "История автогенерации"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -1673,8 +1703,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Autogeneration Rules",
-    "ru": "Правила автогенерации"
+    "en": {
+     "plural": "Autogeneration Rules",
+     "singular": "Autogeneration Rule"
+    },
+    "ru": {
+     "plural": "Правило автогенерации",
+     "singular": "Правила автогенерации"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -1876,8 +1912,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Delegations",
-    "ru": "Делегирование"
+    "en": {
+     "plural": "Delegations",
+     "singular": "Delegation"
+    },
+    "ru": {
+     "plural": "Делегирования",
+     "singular": "Делегирование"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -1999,8 +2041,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Entities",
-    "ru": "Сущности"
+    "en": {
+     "plural": "Entities",
+     "singular": "Entity"
+    },
+    "ru": {
+     "plural": "Сущности",
+     "singular": "Сущность"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -2224,7 +2272,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Files"
+    "ru": {
+     "plural": "Files",
+     "singular": "File"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -2353,7 +2404,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Languages"
+    "ru": {
+     "plural": "Languages",
+     "singular": "Language"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -2492,8 +2546,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Mailing campaign statuses",
-    "ru": "Статусы рассылок"
+    "en": {
+     "plural": "Mailing campaign statuses",
+     "singular": "Mailing campaign statuse"
+    },
+    "ru": {
+     "plural": "Статус рассылок",
+     "singular": "Статус рассылок"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -2747,8 +2807,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Mailing campaigns",
-    "ru": "Рассылки"
+    "en": {
+     "plural": "Mailing campaigns",
+     "singular": "Mailing campaign"
+    },
+    "ru": {
+     "plural": "Рассылки",
+     "singular": "Рассылка"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -2926,8 +2992,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Mailing message statuses",
-    "ru": "Статусы сообщений массовой рассылки"
+    "en": {
+     "plural": "Mailing message statuses",
+     "singular": "Mailing message statuse"
+    },
+    "ru": {
+     "plural": "Статусы сообщений массовой рассылки",
+     "singular": "Статус сообщений массовой рассылки"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -3444,8 +3516,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Mailing messages",
-    "ru": "Сообщения рассылки"
+    "en": {
+     "plural": "Mailing messages",
+     "singular": "Mailing message"
+    },
+    "ru": {
+     "plural": "Сообщения рассылки",
+     "singular": "Сообщение рассылки"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -3576,8 +3654,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Mailing types",
-    "ru": "Типы рассылок"
+    "en": {
+     "plural": "Mailing types",
+     "singular": "Mailing type"
+    },
+    "ru": {
+     "plural": "Типы рассылок",
+     "singular": "Тип рассылок"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -3834,8 +3918,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Manager logins",
-    "ru": "Логины менеджеров"
+    "en": {
+     "plural": "Manager logins",
+     "singular": "Manager login"
+    },
+    "ru": {
+     "plural": "Логины менеджеров",
+     "singular": "Логин менеджера"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -4258,8 +4348,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Managers",
-    "ru": "Менеджеры"
+    "en": {
+     "plural": "Managers",
+     "singular": "Manager"
+    },
+    "ru": {
+     "plural": "Менеджеры",
+     "singular": "Менеджер"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -4438,8 +4534,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Managers To Permissions",
-    "ru": "Разрешения менеджеров"
+    "en": {
+     "plural": "Managers To Permissions",
+     "singular": "Manager To Permission"
+    },
+    "ru": {
+     "plural": "Разрешения менеджеров",
+     "singular": "Разрешение менеджера"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -4614,8 +4716,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Managers To Roles",
-    "ru": "Роли менеджеров"
+    "en": {
+     "plural": "Managers To Roles",
+     "singular": "Manager To Role"
+    },
+    "ru": {
+     "plural": "Роли менеджеров",
+     "singular": "Роль менеджера"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -4877,8 +4985,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Message template lang variant",
-    "ru": "Языковой вариант шаблона сообщения"
+    "en": {
+     "plural": "Message template lang variants",
+     "singular": "Message template lang variant"
+    },
+    "ru": {
+     "plural": "Языковые варианты шаблонов сообщений",
+     "singular": "Языковой вариант шаблона сообщения"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -5114,8 +5228,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Message templates",
-    "ru": "Шаблоны сообщений"
+    "en": {
+     "plural": "Message templates",
+     "singular": "Message template"
+    },
+    "ru": {
+     "plural": "Шаблоны сообщений",
+     "singular": "Шаблон сообщения"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -5268,8 +5388,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Message types",
-    "ru": "Типы сообщений"
+    "en": {
+     "plural": "Message types",
+     "singular": "Message type"
+    },
+    "ru": {
+     "plural": "Типы сообщений",
+     "singular": "Тип сообщений"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -5391,8 +5517,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Permissions",
-    "ru": "Разрешения"
+    "en": {
+     "plural": "Permissions",
+     "singular": "Permission"
+    },
+    "ru": {
+     "plural": "Разрешения",
+     "singular": "Разрешение"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -5581,8 +5713,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Roles",
-    "ru": "Роли"
+    "en": {
+     "plural": "Roles",
+     "singular": "Role"
+    },
+    "ru": {
+     "plural": "Роли",
+     "singular": "Роль"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -5732,8 +5870,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Roles To Permissions",
-    "ru": "Разрешения ролей"
+    "en": {
+     "plural": "Roles To Permissions",
+     "singular": "Role To Permission"
+    },
+    "ru": {
+     "plural": "Разрешения ролей",
+     "singular": "Разрешение роли"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -5885,7 +6029,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Stats"
+    "ru": {
+     "plural": "Stats",
+     "singular": "Stats"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -6006,7 +6153,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Tags"
+    "ru": {
+     "plural": "Tags",
+     "singular": "Tag"
+    }
    },
    "titleField": "id",
    "type": "catalog",
@@ -6154,8 +6304,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Template styles",
-    "ru": "Стили шаблонов"
+    "en": {
+     "plural": "Template styles",
+     "singular": "Template style"
+    },
+    "ru": {
+     "plural": "Стили шаблонов",
+     "singular": "Стили шаблона"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -6301,8 +6457,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Tenants",
-    "ru": "Тенанты"
+    "en": {
+     "plural": "Tenants",
+     "singular": "Tenant"
+    },
+    "ru": {
+     "plural": "Тенанты",
+     "singular": "Тенант"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -6450,8 +6612,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Units",
-    "ru": "Подразделения"
+    "en": {
+     "plural": "Units",
+     "singular": "Unit"
+    },
+    "ru": {
+     "plural": "Подразделения",
+     "singular": "Подразделение"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -6677,8 +6845,14 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "en": "Users",
-    "ru": "Пользователи"
+    "en": {
+     "plural": "Users",
+     "singular": "User"
+    },
+    "ru": {
+     "plural": "Пользователи",
+     "singular": "Пользовател"
+    }
    },
    "titleField": "title",
    "type": "catalog",
@@ -7597,7 +7771,10 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": "Aggregate Trackings"
+    "ru": {
+     "plural": "Aggregate Trackings",
+     "singular": "Aggregate Tracking"
+    }
    },
    "titleField": "id",
    "type": "infoRegistry",

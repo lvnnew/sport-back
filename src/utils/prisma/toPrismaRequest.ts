@@ -1,7 +1,7 @@
 import {toPrismaWhere} from './toPrismaWhere';
-import {IAllRequestArgs, IOptions} from '../types';
+import {AllRequestArgs, IOptions} from '../types';
 
-export const toPrismaRequest = ({filter, page, perPage, sortField, sortOrder}: IAllRequestArgs, options?: IOptions) => {
+export const toPrismaRequest = ({filter, page, perPage, sortField, sortOrder}: AllRequestArgs, options?: IOptions) => {
   const orderBy = sortField && (
     !options || !options.noId || options.noId &&
     sortField !== 'id'

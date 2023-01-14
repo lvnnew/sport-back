@@ -1,7 +1,7 @@
 /* eslint-disable max-len,@typescript-eslint/ban-types */
 import {BaseService, Obj, WithID} from './BaseService';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
-import {IAllRequestArgs} from '../../../../utils/types';
+import {AllRequestArgs} from '../../../../utils/types';
 import * as R from 'ramda';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
 import {toElasticRequest} from '../../../../utils/toElasticRequest';
@@ -17,7 +17,7 @@ export class ElasticBaseSearch<
   MutationCreateArgs extends {},
   MutationUpdateArgs extends WithID,
   MutationRemoveArgs extends WithID,
-  QueryAllArgs extends IAllRequestArgs,
+  QueryAllArgs extends AllRequestArgs,
   AutodefinableKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,

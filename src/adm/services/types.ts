@@ -42,6 +42,7 @@ export interface ServiceConfig {
 export interface DocumentConfig extends ServiceConfig {
   registries: string[];
   registrarDependedRegistries: string[]; // for getPostOperation
+  externalSearchDeps?: Partial<Record<string, string>>
 }
 
 type ServiceConstrictor<T extends keyof Services> = (context: Context) => Services[T];

@@ -1,4 +1,5 @@
 /* eslint-disable quote-props,comma-dangle,@typescript-eslint/ban-types */
+import Entity from '../../../types/Entity';
 import {ServiceConfig} from '../types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -15,7 +16,7 @@ const config: ServiceConfig = {
     'comment'
   ],
   forbiddenForUserFields: [],
-  entityTypeId: 'tag',
+  entityTypeId: Entity.Tag,
 };
 
 export default config;

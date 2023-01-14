@@ -8,8 +8,8 @@ const appLoginsBasePermissionToGraphql: Partial<PermissionToGraphql<AppLoginsSer
   get: 'AppLogin',
   all: 'allAppLogins',
   create: 'createAppLogin',
-  update: 'removeAppLogin',
-  delete: 'updateAppLogin',
+  update: 'updateAppLogin',
+  delete: 'removeAppLogin',
 };
 
 export default appLoginsBasePermissionToGraphql;

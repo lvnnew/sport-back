@@ -8,8 +8,8 @@ const messageTypesBasePermissionToGraphql: Partial<PermissionToGraphql<MessageTy
   get: 'MessageType',
   all: 'allMessageTypes',
   create: 'createMessageType',
-  update: 'removeMessageType',
-  delete: 'updateMessageType',
+  update: 'updateMessageType',
+  delete: 'removeMessageType',
 };
 
 export default messageTypesBasePermissionToGraphql;

@@ -8,8 +8,8 @@ const messageTemplateLangVariantsBasePermissionToGraphql: Partial<PermissionToGr
   get: 'MessageTemplateLangVariant',
   all: 'allMessageTemplateLangVariants',
   create: 'createMessageTemplateLangVariant',
-  update: 'removeMessageTemplateLangVariant',
-  delete: 'updateMessageTemplateLangVariant',
+  update: 'updateMessageTemplateLangVariant',
+  delete: 'removeMessageTemplateLangVariant',
 };
 
 export default messageTemplateLangVariantsBasePermissionToGraphql;

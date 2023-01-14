@@ -3,13 +3,12 @@ import {HooksUtils} from '../../getHooksUtils';
 import {Context, ServiceConfig} from '../../types';
 import {Prisma, PrismaPromise} from '@prisma/client';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
-import {IAllRequestArgs} from '../../../../utils/types';
+import {AllRequestArgs} from '../../../../utils/types';
 import {toPrismaTotalRequest} from '../../../../utils/prisma/toPrismaTotalRequest';
 import {ListMetadata} from '../../../../generated/graphql';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
 import * as R from 'ramda';
 import dayjs from 'dayjs';
-import EntityEnum from '../../../../types/Entity';
 import {v4 as uuidv4} from 'uuid';
 
 export type WithID = { id: bigint | string | number };
@@ -24,7 +23,7 @@ export class BaseService<
   MutationCreateArgs extends {},
   MutationUpdateArgs extends WithID,
   MutationRemoveArgs extends WithID,
-  QueryAllArgs extends IAllRequestArgs,
+  QueryAllArgs extends AllRequestArgs,
   AutodefinableKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
@@ -52,32 +51,32 @@ export class BaseService<
 
   constructor(
     protected ctx: Context,
-    protected prismaService: any, // todo: do something about it PrismaClient[keyof PrismaClient],
-    protected config: ServiceConfig,
+    public prismaService: any, // todo: do something about it PrismaClient[keyof PrismaClient],
+    public config: ServiceConfig,
   ) {
     super();
   }
 
-  all = async (
+  async all (
     params: QueryAllArgs = {} as QueryAllArgs,
-  ): Promise<Entity[]> => {
+  ): Promise<Entity[]> {
     return this.prismaService.findMany(
       toPrismaRequest(await this._hooks.changeListFilter(this.ctx, params), {noId: false}),
-    ) as unknown as Promise<Entity[]>; // todo: may I fix unknown
-  };
+    ) as Promise<Entity[]>;
+  }
 
-  findOne = async (
+  async findOne (
     params: QueryAllArgs = {} as QueryAllArgs,
-  ): Promise<Entity | null> => {
+  ): Promise<Entity | null> {
     return this.prismaService.findFirst(toPrismaRequest(
       await this._hooks.changeListFilter(this.ctx, params),
       {noId: false},
     )) as Entity;
-  };
+  }
 
-  findOneRequired = async (
+  async findOneRequired (
     params: QueryAllArgs = {} as QueryAllArgs,
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     const found = await this.findOne(params);
 
     if (!found) {
@@ -85,17 +84,17 @@ export class BaseService<
     }
 
     return found;
-  };
+  }
 
-  get = async (
+  async get (
     id: Entity['id'],
-  ): Promise<Entity | null> => {
+  ): Promise<Entity | null> {
     return this.findOne({filter: {id}} as unknown as QueryAllArgs); // todo: fix unknown
-  };
+  }
 
-  getRequired = async (
+  async getRequired (
     id: Entity['id'],
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     const found = await this.get(id);
 
     if (!found) {
@@ -103,24 +102,24 @@ export class BaseService<
     }
 
     return found;
-  };
+  }
 
-  count = async (
+  async count (
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
-  ): Promise<number> => {
+  ): Promise<number> {
     return this.prismaService.count(toPrismaTotalRequest(await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs)));
-  };
+  }
 
-  meta = async (
+  async meta (
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
-  ): Promise<ListMetadata> => {
+  ): Promise<ListMetadata> {
     return this.count(params).then(count => ({count}));
-  };
+  }
 
-  create = async (
+  async create (
     data: MutationCreateArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     // clear from fields forbidden for user
     const cleared = byUser ?
       R.omit(this.config.forbiddenForUserFields, data) as AllowedForUserCreateInput :
@@ -160,7 +159,7 @@ export class BaseService<
       ...(await this._hooks.additionalOperationsOnCreate(this.ctx, processedData as ReliableCreateUserInput)),
     ];
 
-    const [result] = await this.ctx.prisma.$transaction(operations as any); // todo: may I fix any
+    const [result] = await this.ctx.prisma.$transaction(operations);
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -178,7 +177,7 @@ export class BaseService<
       }),
       this.config.auditable ?
         this.ctx.service('auditLogs').addCreateOperation({
-          entityTypeId: this.config.entityTypeId as EntityEnum, // todo: fix type
+          entityTypeId: this.config.entityTypeId,
           entityId: result.id,
           actionData: data,
         }) : fakePromise,
@@ -188,19 +187,19 @@ export class BaseService<
     await this._hooks.afterCreate(this.ctx, result as Entity);
 
     return result as Entity;
-  };
+  }
 
-  createMany = async (
+  async createMany (
     entries: StrictCreateArgsWithoutAutodefinable[],
     byUser = false,
-  ): Promise<Prisma.BatchPayload> => {
+  ): Promise<Prisma.BatchPayload> {
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(this.config.forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
     const augmentedByDefault = await Promise.all(
       clearedData.map(el => this.augmentByDefault(el)),
-    ) as unknown as StrictUpdateArgs[]; // todo: may I fix unknown
+    ) as StrictUpdateArgs[];
 
     let result;
     if (this.config.autogeneratedStringId) {
@@ -234,12 +233,12 @@ export class BaseService<
     }
 
     return result;
-  };
+  }
 
-  update = async (
+  async update (
     data: MutationUpdateArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     // Get db version
     const dbVersion = await this.getRequired(data.id);
 
@@ -271,7 +270,7 @@ export class BaseService<
     const operations = [
       updateOperation,
       this.config.auditable ? this.ctx.service('auditLogs').addUpdateOperation({
-        entityTypeId: this.config.entityTypeId as EntityEnum, // todo: fix type
+        entityTypeId: this.config.entityTypeId,
         entityId: toLogId(data),
         actionData: data,
       }) : fakePromise,
@@ -282,23 +281,23 @@ export class BaseService<
       ...(await this.getPostOperations(processedData)),
     ];
 
-    const [result] = await this.ctx.prisma.$transaction(operations as any); // todo: may I fix any
+    const [result] = await this.ctx.prisma.$transaction(operations);
 
     if (!result) {
       throw new Error('There is no such entity');
     }
 
     await Promise.all([
-      this._hooks.afterUpdate(this.ctx, result as any), // todo: may I fix any
+      this._hooks.afterUpdate(this.ctx, result),
     ]);
 
     return result as Entity;
-  };
+  }
 
-  upsert = async (
+  async upsert (
     data: PartialFieldsInRecord<MutationUpdateArgsWithoutAutodefinable, 'id'>,
     byUser = false,
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     // Get db version
     const dbVersion = data.id ? await this.get(data.id) : null;
 
@@ -331,14 +330,14 @@ export class BaseService<
       throw new Error('There is no such entity');
     }
 
-    return result as unknown as Entity; // todo: may I fix unknown
-  };
+    return result;
+  }
 
-  upsertAdvanced = async (
+  async upsertAdvanced (
     filter: QueryAllArgs['filter'],
     data: MutationCreateArgsWithoutAutodefinable,
     byUser = false,
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     const cnt = await this.count({filter} as QueryAllArgs);
 
     if (cnt > 1) {
@@ -352,11 +351,11 @@ export class BaseService<
         id: dbVersion.id,
       } as unknown as MutationUpdateArgsWithoutAutodefinable, byUser); // todo: may I fix unknown
     }
-  };
+  }
 
-  delete = async (
+  async delete (
     params: MutationRemoveArgs,
-  ): Promise<Entity> => {
+  ): Promise<Entity> {
     await this._hooks.beforeDelete(this.ctx, params);
 
     const deleteOperation = this.prismaService.delete({
@@ -368,7 +367,7 @@ export class BaseService<
     const operations = [
       deleteOperation,
       this.config.auditable ? this.ctx.service('auditLogs').addDeleteOperation({
-        entityTypeId: this.config.entityTypeId as EntityEnum, // todo: fix type
+        entityTypeId: this.config.entityTypeId,
         entityId: toLogId(params),
       }) : fakePromise,
       ...(await this._hooks.additionalOperationsOnDelete(this.ctx, params)),
@@ -381,7 +380,7 @@ export class BaseService<
       throw new Error(`There is no entity with "${params.id}" id`);
     }
 
-    const [result] = await this.ctx.prisma.$transaction(operations as any); // todo: may I fix any
+    const [result] = await this.ctx.prisma.$transaction(operations);
 
     if (!result) {
       throw new Error('There is no such entity');
@@ -390,9 +389,13 @@ export class BaseService<
     await this._hooks.afterDelete(this.ctx, entity);
 
     return entity;
-  };
+  }
 
   // fake methods for the document, they are populated in the next document class
-  protected getPostOperations = async (_data: StrictUpdateArgs): Promise<PrismaPromise<any>[]> => [];
-  protected getUnPostOperations = async (_id: Entity['id']): Promise<PrismaPromise<any>[]> => [];
+  protected async getPostOperations (_data: StrictUpdateArgs): Promise<PrismaPromise<any>[]> {
+    return [];
+  }
+  protected async getUnPostOperations (_id: Entity['id']): Promise<PrismaPromise<any>[]> {
+    return [];
+  }
 }

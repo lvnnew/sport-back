@@ -8,8 +8,8 @@ const autogenerationRulesBasePermissionToGraphql: Partial<PermissionToGraphql<Au
   get: 'AutogenerationRule',
   all: 'allAutogenerationRules',
   create: 'createAutogenerationRule',
-  update: 'removeAutogenerationRule',
-  delete: 'updateAutogenerationRule',
+  update: 'updateAutogenerationRule',
+  delete: 'removeAutogenerationRule',
 };
 
 export default autogenerationRulesBasePermissionToGraphql;

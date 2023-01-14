@@ -6,135 +6,135 @@ import Entity from '../../types/Entity';
 const initEntities = async (ctx: Context) => {
   await ctx.service('entities').upsert({
     id: Entity.AdmRefreshToken,
-    title: 'Ui refresh tokens',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AggregateTracking,
-    title: 'Aggregate Trackings',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AppLogin,
-    title: 'Логины пользователей',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AppRefreshToken,
-    title: 'App refresh tokens',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AuditLogActionType,
-    title: 'Типы событий аудита',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AuditLog,
-    title: 'Аудит',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AutogenerationHistoryEntry,
-    title: 'История автогенерации',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.AutogenerationRule,
-    title: 'Правила автогенерации',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Delegation,
-    title: 'Делегирование',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Entity,
-    title: 'Сущности',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.File,
-    title: 'Files',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Language,
-    title: 'Languages',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MailingCampaignStatus,
-    title: 'Статусы рассылок',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MailingCampaign,
-    title: 'Рассылки',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MailingMessageStatus,
-    title: 'Статусы сообщений массовой рассылки',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MailingMessage,
-    title: 'Сообщения рассылки',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MailingType,
-    title: 'Типы рассылок',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.ManagerLogin,
-    title: 'Логины менеджеров',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Manager,
-    title: 'Менеджеры',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.ManagersToPermission,
-    title: 'Разрешения менеджеров',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.ManagersToRole,
-    title: 'Роли менеджеров',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MessageTemplateLangVariant,
-    title: 'Языковой вариант шаблона сообщения',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MessageTemplate,
-    title: 'Шаблоны сообщений',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.MessageType,
-    title: 'Типы сообщений',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Permission,
-    title: 'Разрешения',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Role,
-    title: 'Роли',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.RolesToPermission,
-    title: 'Разрешения ролей',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Stat,
-    title: 'Stats',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Tag,
-    title: 'Tags',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.TemplateStyle,
-    title: 'Стили шаблонов',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Tenant,
-    title: 'Тенанты',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.Unit,
-    title: 'Подразделения',
+    title: '[object Object]',
   });
   await ctx.service('entities').upsert({
     id: Entity.User,
-    title: 'Пользователи',
+    title: '[object Object]',
   });
 };
 

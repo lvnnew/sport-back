@@ -8,8 +8,8 @@ const mailingCampaignStatusesBasePermissionToGraphql: Partial<PermissionToGraphq
   get: 'MailingCampaignStatus',
   all: 'allMailingCampaignStatuses',
   create: 'createMailingCampaignStatus',
-  update: 'removeMailingCampaignStatus',
-  delete: 'updateMailingCampaignStatus',
+  update: 'updateMailingCampaignStatus',
+  delete: 'removeMailingCampaignStatus',
 };
 
 export default mailingCampaignStatusesBasePermissionToGraphql;

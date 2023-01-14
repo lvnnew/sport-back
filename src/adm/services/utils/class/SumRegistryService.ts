@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types,max-len */
-import {IAllRequestArgs} from '../../../../utils/types';
+import {AllRequestArgs} from '../../../../utils/types';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
 import {BaseService, Obj, WithID} from './BaseService';
 
@@ -8,7 +8,7 @@ export class SumRegistryService<
   MutationCreateArgs extends {},
   MutationUpdateArgs extends WithID,
   MutationRemoveArgs extends WithID,
-  QueryAllArgs extends IAllRequestArgs,
+  QueryAllArgs extends AllRequestArgs,
   AutodefinableKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,

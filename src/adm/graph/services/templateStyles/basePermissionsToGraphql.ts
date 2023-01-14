@@ -8,8 +8,8 @@ const templateStylesBasePermissionToGraphql: Partial<PermissionToGraphql<Templat
   get: 'TemplateStyle',
   all: 'allTemplateStyles',
   create: 'createTemplateStyle',
-  update: 'removeTemplateStyle',
-  delete: 'updateTemplateStyle',
+  update: 'updateTemplateStyle',
+  delete: 'removeTemplateStyle',
 };
 
 export default templateStylesBasePermissionToGraphql;

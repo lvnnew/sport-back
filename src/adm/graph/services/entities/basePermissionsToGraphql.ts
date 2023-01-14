@@ -8,8 +8,8 @@ const entitiesBasePermissionToGraphql: Partial<PermissionToGraphql<EntitiesServi
   get: 'Entity',
   all: 'allEntities',
   create: 'createEntity',
-  update: 'removeEntity',
-  delete: 'updateEntity',
+  update: 'updateEntity',
+  delete: 'removeEntity',
 };
 
 export default entitiesBasePermissionToGraphql;

@@ -8,8 +8,8 @@ const auditLogsBasePermissionToGraphql: Partial<PermissionToGraphql<AuditLogsSer
   get: 'AuditLog',
   all: 'allAuditLogs',
   create: 'createAuditLog',
-  update: 'removeAuditLog',
-  delete: 'updateAuditLog',
+  update: 'updateAuditLog',
+  delete: 'removeAuditLog',
 };
 
 export default auditLogsBasePermissionToGraphql;

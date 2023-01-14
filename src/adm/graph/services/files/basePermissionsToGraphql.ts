@@ -8,8 +8,8 @@ const filesBasePermissionToGraphql: Partial<PermissionToGraphql<FilesService>> =
   get: 'File',
   all: 'allFiles',
   create: 'createFile',
-  update: 'removeFile',
-  delete: 'updateFile',
+  update: 'updateFile',
+  delete: 'removeFile',
 };
 
 export default filesBasePermissionToGraphql;

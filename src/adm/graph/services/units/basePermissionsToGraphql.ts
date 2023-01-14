@@ -8,8 +8,8 @@ const unitsBasePermissionToGraphql: Partial<PermissionToGraphql<UnitsService>> =
   get: 'Unit',
   all: 'allUnits',
   create: 'createUnit',
-  update: 'removeUnit',
-  delete: 'updateUnit',
+  update: 'updateUnit',
+  delete: 'removeUnit',
 };
 
 export default unitsBasePermissionToGraphql;

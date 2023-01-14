@@ -8,8 +8,8 @@ const autogenerationHistoryEntriesBasePermissionToGraphql: Partial<PermissionToG
   get: 'AutogenerationHistoryEntry',
   all: 'allAutogenerationHistoryEntries',
   create: 'createAutogenerationHistoryEntry',
-  update: 'removeAutogenerationHistoryEntry',
-  delete: 'updateAutogenerationHistoryEntry',
+  update: 'updateAutogenerationHistoryEntry',
+  delete: 'removeAutogenerationHistoryEntry',
 };
 
 export default autogenerationHistoryEntriesBasePermissionToGraphql;

@@ -8,8 +8,8 @@ const mailingMessagesBasePermissionToGraphql: Partial<PermissionToGraphql<Mailin
   get: 'MailingMessage',
   all: 'allMailingMessages',
   create: 'createMailingMessage',
-  update: 'removeMailingMessage',
-  delete: 'updateMailingMessage',
+  update: 'updateMailingMessage',
+  delete: 'removeMailingMessage',
 };
 
 export default mailingMessagesBasePermissionToGraphql;

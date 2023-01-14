@@ -1,4 +1,5 @@
 /* eslint-disable quote-props,comma-dangle,@typescript-eslint/ban-types */
+import Entity from '../../../types/Entity';
 import {ServiceConfig} from '../types';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
@@ -21,7 +22,7 @@ const config: ServiceConfig = {
     'generatingEntityConstructionRules'
   ],
   forbiddenForUserFields: [],
-  entityTypeId: 'autogenerationRule',
+  entityTypeId: Entity.AutogenerationRule,
 };
 
 export default config;

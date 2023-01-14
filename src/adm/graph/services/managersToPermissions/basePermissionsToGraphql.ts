@@ -8,8 +8,8 @@ const managersToPermissionsBasePermissionToGraphql: Partial<PermissionToGraphql<
   get: 'ManagersToPermission',
   all: 'allManagersToPermissions',
   create: 'createManagersToPermission',
-  update: 'removeManagersToPermission',
-  delete: 'updateManagersToPermission',
+  update: 'updateManagersToPermission',
+  delete: 'removeManagersToPermission',
 };
 
 export default managersToPermissionsBasePermissionToGraphql;

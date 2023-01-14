@@ -8,8 +8,8 @@ const mailingCampaignsBasePermissionToGraphql: Partial<PermissionToGraphql<Maili
   get: 'MailingCampaign',
   all: 'allMailingCampaigns',
   create: 'createMailingCampaign',
-  update: 'removeMailingCampaign',
-  delete: 'updateMailingCampaign',
+  update: 'updateMailingCampaign',
+  delete: 'removeMailingCampaign',
 };
 
 export default mailingCampaignsBasePermissionToGraphql;

@@ -8,8 +8,8 @@ const rolesBasePermissionToGraphql: Partial<PermissionToGraphql<RolesService>> =
   get: 'Role',
   all: 'allRoles',
   create: 'createRole',
-  update: 'removeRole',
-  delete: 'updateRole',
+  update: 'updateRole',
+  delete: 'removeRole',
 };
 
 export default rolesBasePermissionToGraphql;

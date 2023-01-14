@@ -1,13 +1,13 @@
 import {BaseEntity, BaseService} from './BaseService';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
-import {IAllRequestArgs} from '../../../../utils/types';
+import {AllRequestArgs} from '../../../../utils/types';
 import {toPrismaTotalRequest} from '../../../../utils/prisma/toPrismaTotalRequest';
 import {PartialFieldsInRecord} from '../../../../types/utils';
 import {MutationUpdateAddressArgsWithoutAutodefinable} from '../../AddressesService/BaseAddressesServiceClass';
 
 export class ElasticBaseSearch<
   E extends BaseEntity,
-  QA extends IAllRequestArgs, // query all entities arguments
+  QA extends AllRequestArgs, // query all entities arguments
   MC extends {}, // mutation create entity arguments
   MU extends {}, // mutation update entity arguments
   MR extends {}, // mutation remove entity arguments

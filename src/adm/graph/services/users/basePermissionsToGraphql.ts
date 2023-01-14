@@ -8,8 +8,8 @@ const usersBasePermissionToGraphql: Partial<PermissionToGraphql<UsersService>> =
   get: 'User',
   all: 'allUsers',
   create: 'createUser',
-  update: 'removeUser',
-  delete: 'updateUser',
+  update: 'updateUser',
+  delete: 'removeUser',
 };
 
 export default usersBasePermissionToGraphql;

@@ -8,8 +8,8 @@ const auditLogActionTypesBasePermissionToGraphql: Partial<PermissionToGraphql<Au
   get: 'AuditLogActionType',
   all: 'allAuditLogActionTypes',
   create: 'createAuditLogActionType',
-  update: 'removeAuditLogActionType',
-  delete: 'updateAuditLogActionType',
+  update: 'updateAuditLogActionType',
+  delete: 'removeAuditLogActionType',
 };
 
 export default auditLogActionTypesBasePermissionToGraphql;

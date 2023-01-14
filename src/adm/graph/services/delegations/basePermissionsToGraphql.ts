@@ -8,8 +8,8 @@ const delegationsBasePermissionToGraphql: Partial<PermissionToGraphql<Delegation
   get: 'Delegation',
   all: 'allDelegations',
   create: 'createDelegation',
-  update: 'removeDelegation',
-  delete: 'updateDelegation',
+  update: 'updateDelegation',
+  delete: 'removeDelegation',
 };
 
 export default delegationsBasePermissionToGraphql;

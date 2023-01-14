@@ -8,8 +8,8 @@ const mailingTypesBasePermissionToGraphql: Partial<PermissionToGraphql<MailingTy
   get: 'MailingType',
   all: 'allMailingTypes',
   create: 'createMailingType',
-  update: 'removeMailingType',
-  delete: 'updateMailingType',
+  update: 'updateMailingType',
+  delete: 'removeMailingType',
 };
 
 export default mailingTypesBasePermissionToGraphql;

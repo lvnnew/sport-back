@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types,max-len */
-import {IAllRequestArgs} from '../../../../utils/types';
+import {AllRequestArgs} from '../../../../utils/types';
 import {BaseService, Obj, WithID} from './BaseService';
 import {Context, DocumentConfig} from '../../types';
 import {PrismaPromise} from '@prisma/client';
@@ -10,7 +10,7 @@ export class DocumentBaseService<
   MutationCreateArgs extends {},
   MutationUpdateArgs extends WithID,
   MutationRemoveArgs extends WithID,
-  QueryAllArgs extends IAllRequestArgs,
+  QueryAllArgs extends AllRequestArgs,
   AutodefinableKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
@@ -23,7 +23,7 @@ export class DocumentBaseService<
   StrictCreateArgsWithoutAutodefinable = PartialFieldsInRecord<MutationCreateArgs, AutodefinableKeys>, // todo: StrictCreateArgs instead of MutationCreateArgs
   MutationCreateArgsWithoutAutodefinable extends Obj = PartialFieldsInRecord<MutationCreateArgs, AutodefinableKeys>,
   MutationUpdateArgsWithoutAutodefinable extends WithID = PartialFieldsInRecord<MutationUpdateArgs, AutodefinableKeys> & Pick<MutationUpdateArgs, 'id'> // todo: I added & Pick<MutationUpdateArgs, 'id'>,
-  > extends BaseService<
+> extends BaseService<
   Entity,
   MutationCreateArgs,
   MutationUpdateArgs,
@@ -39,24 +39,25 @@ export class DocumentBaseService<
   StrictUpdateArgs,
   StrictCreateArgsWithoutAutodefinable,
   MutationCreateArgsWithoutAutodefinable,
-  MutationUpdateArgsWithoutAutodefinable> {
+  MutationUpdateArgsWithoutAutodefinable
+> {
   constructor(
-    public ctx: Context,
-    protected prismaService: any, // todo: do something about it PrismaClient[keyof PrismaClient],
-    protected config: DocumentConfig,
+    protected ctx: Context,
+    public prismaService: any, // todo: do something about it PrismaClient[keyof PrismaClient],
+    public config: DocumentConfig,
   ) {
     super(ctx, prismaService, config);
   }
 
-  post = async (
+  async post (
     data: Entity,
-  ): Promise<void> => {
+  ): Promise<void> {
     await this.ctx.prisma.$transaction(await this.getPostOperations(await this.augmentByDefault(data)));
-  };
+  }
 
-  rePost = async (
+  async rePost (
     id: Entity['id'],
-  ): Promise<void> => {
+  ): Promise<void> {
     const data = await this.get(id);
 
     if (!data) {
@@ -64,18 +65,20 @@ export class DocumentBaseService<
     }
 
     await this.post(data);
-  };
+  }
 
-  getRegistryEntries = async (
+  async getRegistryEntries (
     _data: StrictUpdateArgs,
-  ): Promise<RegistryEntries> => this.config.registries.reduce((accum, key) => ({
-    ...accum,
-    [key]: [],
-  }), {} as RegistryEntries);
+  ): Promise<RegistryEntries> {
+    return this.config.registries.reduce((accum, key) => ({
+      ...accum,
+      [key]: [],
+    }), {} as RegistryEntries);
+  }
 
-  getPostOperations = async (
+  async getPostOperations (
     data: StrictUpdateArgs,
-  ): Promise<PrismaPromise<any>[]> => {
+  ): Promise<PrismaPromise<any>[]> {
     const registries: any[] = this.config.registrarDependedRegistries;
 
     if (!registries.length) {
@@ -84,27 +87,52 @@ export class DocumentBaseService<
 
     const cus = await this.getRegistryEntries(data);
 
-    const customOps: PrismaPromise<any>[] = registries.map(registry =>
-      this.ctx.prisma[registry].createMany({
-        data: cus[registry].map((en: any) => ({
+    const customOps: PrismaPromise<any>[] = registries.flatMap(registry => {
+      const externalSearch = this.config.externalSearchDeps?.[registry];
+
+      return cus[registry].map((en: any) => this.ctx.prisma[registry].create({
+        data: {
           ...en,
           registrarTypeId: this.config.entityTypeId,
           registrarId: data.id,
-        })),
+          ...(externalSearch ? {
+            [externalSearch + 'Entities']: {
+              create: {
+                lastUpdated: new Date(),
+                lastSynced: new Date(1),
+              },
+            },
+          } : null),
+        },
       }));
+    });
 
     return [
       await this.getUnPostOperations(data.id),
       customOps,
     ].flat();
-  };
+  }
 
-  getUnPostOperations = async (id: Entity['id']) => {
-    return this.config.registries.map(registry => this.ctx.prisma[registry].deleteMany({
-      where: {
-        registrarTypeId: this.config.entityTypeId,
-        registrarId: id,
-      },
-    }));
-  };
+  async getUnPostOperations (id: Entity['id']) {
+    return this.config.registries.flatMap(registry => {
+      const externalSearch = this.config.externalSearchDeps?.[registry];
+
+      return [
+        ...(externalSearch ? [this.ctx.prisma[externalSearch].deleteMany({
+          where: {
+            entity: {
+              registrarTypeId: this.config.entityTypeId,
+              registrarId: id,
+            },
+          },
+        })] : []),
+        this.ctx.prisma[registry].deleteMany({
+          where: {
+            registrarTypeId: this.config.entityTypeId,
+            registrarId: id,
+          },
+        }),
+      ];
+    });
+  }
 }

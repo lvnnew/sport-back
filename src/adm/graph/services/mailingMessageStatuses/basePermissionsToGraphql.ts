@@ -8,8 +8,8 @@ const mailingMessageStatusesBasePermissionToGraphql: Partial<PermissionToGraphql
   get: 'MailingMessageStatus',
   all: 'allMailingMessageStatuses',
   create: 'createMailingMessageStatus',
-  update: 'removeMailingMessageStatus',
-  delete: 'updateMailingMessageStatus',
+  update: 'updateMailingMessageStatus',
+  delete: 'removeMailingMessageStatus',
 };
 
 export default mailingMessageStatusesBasePermissionToGraphql;

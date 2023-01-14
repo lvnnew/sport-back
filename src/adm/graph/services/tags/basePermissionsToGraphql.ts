@@ -8,8 +8,8 @@ const tagsBasePermissionToGraphql: Partial<PermissionToGraphql<TagsService>> = {
   get: 'Tag',
   all: 'allTags',
   create: 'createTag',
-  update: 'removeTag',
-  delete: 'updateTag',
+  update: 'updateTag',
+  delete: 'removeTag',
 };
 
 export default tagsBasePermissionToGraphql;

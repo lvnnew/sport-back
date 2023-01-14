@@ -8,8 +8,8 @@ const messageTemplatesBasePermissionToGraphql: Partial<PermissionToGraphql<Messa
   get: 'MessageTemplate',
   all: 'allMessageTemplates',
   create: 'createMessageTemplate',
-  update: 'removeMessageTemplate',
-  delete: 'updateMessageTemplate',
+  update: 'updateMessageTemplate',
+  delete: 'removeMessageTemplate',
 };
 
 export default messageTemplatesBasePermissionToGraphql;

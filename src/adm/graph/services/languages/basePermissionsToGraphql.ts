@@ -8,8 +8,8 @@ const languagesBasePermissionToGraphql: Partial<PermissionToGraphql<LanguagesSer
   get: 'Language',
   all: 'allLanguages',
   create: 'createLanguage',
-  update: 'removeLanguage',
-  delete: 'updateLanguage',
+  update: 'updateLanguage',
+  delete: 'removeLanguage',
 };
 
 export default languagesBasePermissionToGraphql;

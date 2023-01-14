@@ -8,8 +8,8 @@ const appRefreshTokensBasePermissionToGraphql: Partial<PermissionToGraphql<AppRe
   get: 'AppRefreshToken',
   all: 'allAppRefreshTokens',
   create: 'createAppRefreshToken',
-  update: 'removeAppRefreshToken',
-  delete: 'updateAppRefreshToken',
+  update: 'updateAppRefreshToken',
+  delete: 'removeAppRefreshToken',
 };
 
 export default appRefreshTokensBasePermissionToGraphql;

@@ -8,8 +8,8 @@ const statsBasePermissionToGraphql: Partial<PermissionToGraphql<StatsService>> =
   get: 'Stat',
   all: 'allStats',
   create: 'createStat',
-  update: 'removeStat',
-  delete: 'updateStat',
+  update: 'updateStat',
+  delete: 'removeStat',
 };
 
 export default statsBasePermissionToGraphql;

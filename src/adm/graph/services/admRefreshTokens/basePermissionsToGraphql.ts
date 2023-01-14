@@ -8,8 +8,8 @@ const admRefreshTokensBasePermissionToGraphql: Partial<PermissionToGraphql<AdmRe
   get: 'AdmRefreshToken',
   all: 'allAdmRefreshTokens',
   create: 'createAdmRefreshToken',
-  update: 'removeAdmRefreshToken',
-  delete: 'updateAdmRefreshToken',
+  update: 'updateAdmRefreshToken',
+  delete: 'removeAdmRefreshToken',
 };
 
 export default admRefreshTokensBasePermissionToGraphql;

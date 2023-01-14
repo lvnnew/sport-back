@@ -8,8 +8,8 @@ const tenantsBasePermissionToGraphql: Partial<PermissionToGraphql<TenantsService
   get: 'Tenant',
   all: 'allTenants',
   create: 'createTenant',
-  update: 'removeTenant',
-  delete: 'updateTenant',
+  update: 'updateTenant',
+  delete: 'removeTenant',
 };
 
 export default tenantsBasePermissionToGraphql;
