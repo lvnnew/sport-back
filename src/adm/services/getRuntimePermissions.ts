@@ -9,43 +9,37 @@ export interface RuntimePermission {
   name: string;
 }
 
-export const getRuntimeServicePermissions = (ctx: Context): RuntimePermission[] => {
+// eslint-disable-next-line max-len
+const withoutSystemFields = (key: string) => !['constructor', '_hooks', 'hooksAdd', 'getSearchString', 'augmentByDefault', 'ctx', 'prismaService', 'config', 'prismaExternalService', 'needToSyncCount', 'getIdsToSyncWithElastic', 'markSynced', 'markToSync', 'getRegistryEntries', 'getPostOperations', 'getUnPostOperations'].includes(key);
+
+export const getRuntimePermissions = (ctx: Context): RuntimePermission[] => {
   const services = R.fromPairs(
-    R.toPairs(baseServiceConstrictors)
+    R.toPairs(
+      R.mergeLeft(additionalServiceConstrictors, baseServiceConstrictors),
+    )
       .map(([name, constructor]) => [name, constructor(ctx)]),
   );
 
-  return R.flatten(
-    R.toPairs(services)
-      .map(
-        ([service, value]) => R.toPairs(value).map(([method]: R.KeyValuePair<string, any>) => ({
-          id: `${service}.${method}`,
-          service,
-          name: method,
-        })),
-      ),
-  );
+  const runtimePermissions = [];
+
+  for (const [service, value] of R.toPairs(services)) {
+    const methods = R.keysIn(value);
+    let prototypeInstance = Object.getPrototypeOf(value);
+
+    while (Object.getPrototypeOf(prototypeInstance)) {
+      methods.push(...Object.getOwnPropertyNames(prototypeInstance));
+      prototypeInstance = Object.getPrototypeOf(prototypeInstance);
+    }
+
+    runtimePermissions.push(methods
+      .filter(withoutSystemFields)
+      .map((method) => ({
+        id: `${service}.${method}`,
+        service,
+        name: method,
+      })),
+    );
+  }
+
+  return R.flatten(runtimePermissions);
 };
-
-export const getAdditionalPermissions = (ctx: Context): RuntimePermission[] => {
-  const services = R.fromPairs(
-    R.toPairs(additionalServiceConstrictors)
-      .map(([name, constructor]) => [name, constructor(ctx)]),
-  );
-
-  return R.flatten(
-    R.toPairs(services)
-      .map(
-        ([service, value]) => R.toPairs(value).map(([method]: R.KeyValuePair<string, any>) => ({
-          id: `${service}.${method}`,
-          service,
-          name: method,
-        })),
-      ),
-  );
-};
-
-export const getRuntimePermissions = (ctx: Context): RuntimePermission[] => [
-  ...getRuntimeServicePermissions(ctx),
-  ...getAdditionalPermissions(ctx),
-];

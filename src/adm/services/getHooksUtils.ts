@@ -3,50 +3,58 @@ import {PrismaPromise} from '@prisma/client';
 import {Context} from './types';
 
 export type HooksUtilsType<
-  E extends {}, //  entity
-  QA extends {}, // query all entities arguments
-  MCWAD extends {}, // mutation create entity arguments with auto definable fields
-  MU extends {}, // mutation update entity arguments
-  MR extends {}, // mutation remove entity arguments
-  SMC extends {} = MCWAD, // strict mutation create entity arguments
-  SMU extends {} = MU, // strict mutation create entity arguments
+  Entity extends {}, //  entity
+  QueryAllArgs extends {}, // query all entities arguments
+  ReliableCreateUserInput extends {}, // mutation create entity arguments with auto definable fields
+  MutationUpdateArgs extends {}, // mutation update entity arguments
+  MutationRemoveArgs extends {}, // mutation remove entity arguments
+  StrictCreateArgs extends {} = ReliableCreateUserInput, // strict mutation create entity arguments
+  StrictUpdateArgs extends {} = MutationUpdateArgs, // strict mutation create entity arguments
   > = {
-  changeListFilter: (ctx: Context, args: QA) => Promise<QA>;
-  beforeCreate: (ctx: Context, data: MCWAD) => Promise<SMC>;
-  beforeCreateStrict: (ctx: Context, data: SMC) => Promise<SMC>;
-  afterCreate: (ctx: Context, data: E) => Promise<void>;
-  beforeUpdate: (ctx: Context, data: SMU) => Promise<SMU>;
-  afterUpdate: (ctx: Context, data: E) => Promise<void>,
-  beforeDelete: (ctx: Context, params: MR) => Promise<void>;
-  afterDelete: (ctx: Context, data: E) => Promise<void>;
+  changeListFilter: (ctx: Context, args: QueryAllArgs) => Promise<QueryAllArgs>;
+  beforeCreate: (ctx: Context, data: ReliableCreateUserInput) => Promise<StrictCreateArgs>;
+  beforeCreateStrict: (ctx: Context, data: StrictCreateArgs) => Promise<StrictCreateArgs>;
+  afterCreate: (ctx: Context, data: Entity) => Promise<void>;
+  beforeUpdate: (ctx: Context, data: StrictUpdateArgs) => Promise<StrictUpdateArgs>;
+  afterUpdate: (ctx: Context, data: Entity) => Promise<void>,
+  beforeDelete: (ctx: Context, params: MutationRemoveArgs) => Promise<void>;
+  afterDelete: (ctx: Context, data: Entity) => Promise<void>;
   beforeUpsert: (ctx: Context, data: {
-    createData: MCWAD;
-    updateData: SMU;
+    createData: ReliableCreateUserInput;
+    updateData: StrictUpdateArgs;
   }) => Promise<{
-    createData: SMC;
-    updateData: SMU;
+    createData: StrictCreateArgs;
+    updateData: StrictUpdateArgs;
   }>;
   beforeUpsertStrict: (ctx: Context, data: {
-    createData: SMC;
-    updateData: SMU;
+    createData: StrictCreateArgs;
+    updateData: StrictUpdateArgs;
   }) => Promise<{
-    createData: SMC;
-    updateData: SMU;
+    createData: StrictCreateArgs;
+    updateData: StrictUpdateArgs;
   }>;
-  additionalOperationsOnCreate: (ctx: Context, data: MCWAD) => Promise<PrismaPromise<any>[]>;
-  additionalOperationsOnUpdate: (ctx: Context, data: MU) => Promise<PrismaPromise<any>[]>;
-  additionalOperationsOnDelete: (ctx: Context, data: MR) => Promise<PrismaPromise<any>[]>;
+  additionalOperationsOnCreate: (ctx: Context, data: ReliableCreateUserInput) => Promise<PrismaPromise<any>[]>;
+  additionalOperationsOnUpdate: (ctx: Context, data: MutationUpdateArgs) => Promise<PrismaPromise<any>[]>;
+  additionalOperationsOnDelete: (ctx: Context, data: MutationRemoveArgs) => Promise<PrismaPromise<any>[]>;
 };
 
-export type HooksAddType<
-  E extends {}, //  entity
-  QA extends {}, // query all entities arguments
-  MCWAD extends {}, // mutation create entity arguments with auto definable fields
-  MU extends {}, // mutation update entity arguments
-  MR extends {}, // mutation remove entity arguments
-  SMC extends {} = MCWAD, // strict mutation create entity arguments
-  SMU extends {} = MU, // strict mutation create entity arguments
-  T = HooksUtilsType<E, QA, MCWAD, MU, MR, SMC, SMU>,
+export type HooksAddType< // todo: may I can delete this code and rewrite to class
+  Entity extends {}, //  entity
+  QueryAllArgs extends {}, // query all entities arguments
+  ReliableCreateUserInput extends {}, // mutation create entity arguments with auto definable fields
+  MutationUpdateArgs extends {}, // mutation update entity arguments
+  MutationRemoveArgs extends {}, // mutation remove entity arguments
+  StrictCreateArgs extends {} = ReliableCreateUserInput, // strict mutation create entity arguments
+  StrictUpdateArgs extends {} = MutationUpdateArgs, // strict mutation create entity arguments
+  T = HooksUtilsType<
+    Entity,
+    QueryAllArgs,
+    ReliableCreateUserInput,
+    MutationUpdateArgs,
+    MutationRemoveArgs,
+    StrictCreateArgs,
+    StrictUpdateArgs
+  >,
   > = {hooksAdd: {[K in keyof T]: (func: T[K]) => any}};
 
 type ObjValToArr<T> = {
@@ -54,15 +62,23 @@ type ObjValToArr<T> = {
 }
 
 export const getHooksUtils = <
-  E extends {}, //  entity
-  QA extends {}, // query all entities arguments
-  MC extends {}, // mutation create entity arguments
-  MU extends {}, // mutation update entity arguments
-  MR extends {}, // mutation remove entity arguments
-  SMC extends {} = MC, // strict mutation create entity arguments
-  SMU extends {} = MU, // strict mutation create entity arguments
+  Entity extends {}, //  entity
+  QueryAllArgs extends {}, // query all entities arguments
+  ReliableCreateUserInput extends {}, // mutation create entity arguments
+  MutationUpdateArgs extends {}, // mutation update entity arguments
+  MutationRemoveArgs extends {}, // mutation remove entity arguments
+  StrictCreateArgs extends {} = ReliableCreateUserInput, // strict mutation create entity arguments
+  StrictUpdateArgs extends {} = MutationUpdateArgs, // strict mutation create entity arguments
   >() => {
-  type ServiceHooksType = HooksUtilsType<E, QA, MC, MU, MR, SMC, SMU>;
+  type ServiceHooksType = HooksUtilsType<
+    Entity,
+    QueryAllArgs,
+    ReliableCreateUserInput,
+    MutationUpdateArgs,
+    MutationRemoveArgs,
+    StrictCreateArgs,
+    StrictUpdateArgs
+  >;
   const hooks: ObjValToArr<ServiceHooksType> = {
     changeListFilter: [],
     beforeCreate: [],
@@ -150,7 +166,15 @@ export const getHooksUtils = <
     additionalOperationsOnDelete: runImmediatelyAllWithReturnVoidArr('additionalOperationsOnDelete'),
   };
 
-  const hooksAdd: HooksAddType<E, QA, MC, MU, MR, SMC, SMU>['hooksAdd'] = {
+  const hooksAdd: HooksAddType<
+    Entity,
+    QueryAllArgs,
+    ReliableCreateUserInput,
+    MutationUpdateArgs,
+    MutationRemoveArgs,
+    StrictCreateArgs,
+    StrictUpdateArgs
+  >['hooksAdd'] = {
     changeListFilter: (hook: ServiceHooksType['changeListFilter']) => hooks.changeListFilter.unshift(hook),
     beforeCreate: (hook: ServiceHooksType['beforeCreate']) => hooks.beforeCreate.unshift(hook),
     beforeCreateStrict: (hook: ServiceHooksType['beforeCreateStrict']) => hooks.beforeCreateStrict.unshift(hook),
@@ -173,20 +197,28 @@ export const getHooksUtils = <
 };
 
 export class HooksUtils<
-  E extends {}, //  entity
-  QA extends {}, // query all entities arguments
-  MC extends {}, // mutation create entity arguments
-  MU extends {}, // mutation update entity arguments
-  MR extends {}, // mutation remove entity arguments
-  SMC extends {} = MC, // strict mutation create entity arguments
-  SMU extends {} = MU, // strict mutation create entity arguments
+  Entity extends {}, //  entity
+  QueryAllArgs extends {}, // query all entities arguments
+  ReliableCreateUserInput extends {}, // mutation create entity arguments
+  MutationUpdateArgs extends {}, // mutation update entity arguments
+  MutationRemoveArgs extends {}, // mutation remove entity arguments
+  StrictCreateArgs extends {} = ReliableCreateUserInput, // strict mutation create entity arguments
+  StrictUpdateArgs extends {} = MutationUpdateArgs, // strict mutation create entity arguments
   > {
   _hooks;
   hooksAdd;
 
   constructor() {
     // todo: maybe move implementation to class
-    const {hooksAdd, runHooks} = getHooksUtils<E, QA, MC, MU, MR, SMC, SMU>();
+    const {hooksAdd, runHooks} = getHooksUtils<
+      Entity,
+      QueryAllArgs,
+      ReliableCreateUserInput,
+      MutationUpdateArgs,
+      MutationRemoveArgs,
+      StrictCreateArgs,
+      StrictUpdateArgs
+    >();
 
     this._hooks = runHooks;
     this.hooksAdd = hooksAdd;

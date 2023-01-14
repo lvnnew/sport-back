@@ -34,7 +34,7 @@ export const getFullIndexName = async (index: string) => {
     throw new Error('appName and appEnvironment should be provided');
   }
 
-  return `${appName}-${appEnvironment}-${index}`;
+  return `${appName}-${appEnvironment}-${index}`.toLowerCase();
 };
 
 const fillInParams = ({
