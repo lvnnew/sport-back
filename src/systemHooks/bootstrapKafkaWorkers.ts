@@ -9,7 +9,9 @@ import {getConfig} from '../config';
 
 const kafkaConfigs: KafkaWorkerConfig['jobs'][] = Object.values(workersConfig).map(c => c.jobs).filter(Boolean);
 
-export const bootstrapKafkaWorkers = async (ctx: Context) => {
+const bootstrapKafkaWorkers = async (ctx: Context) => {
+  log.info('bootstrapKafkaWorkers');
+
   const {kafkaEnabled} = await getConfig();
 
   if (kafkaEnabled) {
@@ -83,3 +85,5 @@ export const bootstrapKafkaWorkers = async (ctx: Context) => {
     await admin.close();
   }
 };
+
+export default bootstrapKafkaWorkers;

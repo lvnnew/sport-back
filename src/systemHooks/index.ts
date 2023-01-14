@@ -1,37 +1,21 @@
-/* eslint-disable @babel/no-invalid-this */
-import {types} from 'pg';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import log from '../log';
-import {bootstrapKafkaWorkers} from './bootstrapKafkaWorkers';
+import bootstrapKafkaWorkers from './bootstrapKafkaWorkers';
 import {Context} from '../adm/services/types';
-
-dayjs.extend(utc);
+import initPgParsers from './initPgParsers';
+import initBigIntSerialization from './initBigIntSerialization';
+import initRoles from '../init/permissions/initRoles';
 
 // Runs on any start of the system: as api backend, as worker, as cli-command, etc.
-export const onStart = (ctx?: Context) => {
+export const onStart = async (ctx?: Context) => {
   log.info('onStart');
 
-  // To parse date as utc date
-  types.setTypeParser(types.builtins.DATE, (val) => dayjs.utc(val).toDate());
-  types.setTypeParser(types.builtins.TIMESTAMP, (val) => dayjs.utc(val).toDate());
-
-  types.setTypeParser(types.builtins.INT2, (val) => Number.parseInt(val, 10));
-  types.setTypeParser(types.builtins.INT4, (val) => Number.parseInt(val, 10));
-  types.setTypeParser(types.builtins.INT8, (val) => Number.parseInt(val, 10));
-
-  // To serialze BigInt as string in json
-  if (typeof (BigInt as any).prototype.toJSON !== 'function') {
-    // eslint-disable-next-line no-extend-native
-    (BigInt as any).prototype.toJSON = function(this: any) {
-      return this.toString();
-    } as any;
-  }
+  initPgParsers();
+  initBigIntSerialization();
 
   if (ctx) {
     // todo: move to deployment script
-    return bootstrapKafkaWorkers(ctx);
-  }
+    await bootstrapKafkaWorkers(ctx);
 
-  return null;
+    await initRoles(ctx);
+  }
 };
