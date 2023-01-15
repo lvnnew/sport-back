@@ -79,7 +79,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Create"
+      "en": "Create",
+      "ru": "Создать"
      },
      "type": "datetime",
      "updatable": true,
@@ -102,7 +103,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Manager"
+      "en": "Manager",
+      "ru": "Менеджер"
      },
      "type": "int",
      "updatable": true,
@@ -123,7 +125,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Token"
+      "en": "Token",
+      "ru": "Токен"
      },
      "type": "string",
      "updatable": true,
@@ -258,7 +261,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Login"
+      "en": "Login",
+      "ru": "Логин"
      },
      "type": "string",
      "updatable": true,
@@ -279,7 +283,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Password hash"
+      "en": "Password",
+      "ru": "Пароль"
      },
      "type": "string",
      "updatable": true,
@@ -302,7 +307,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "User"
+      "en": "User",
+      "ru": "Пользователь"
      },
      "type": "int",
      "updatable": true,
@@ -444,7 +450,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Create"
+      "en": "Create",
+      "ru": "Создать"
      },
      "type": "datetime",
      "updatable": true,
@@ -467,7 +474,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "User"
+      "en": "User",
+      "ru": "Пользователь"
      },
      "type": "int",
      "updatable": true,
@@ -488,7 +496,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Token"
+      "en": "Token",
+      "ru": "Токен"
      },
      "type": "string",
      "updatable": true,
@@ -623,6 +632,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Title",
       "ru": "Название"
      },
      "type": "string",
@@ -764,6 +774,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Date",
       "ru": "Дата"
      },
      "type": "datetime",
@@ -785,6 +796,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Title",
       "ru": "Название"
      },
      "type": "string",
@@ -807,6 +819,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Success",
       "ru": "Успешно"
      },
      "type": "bool",
@@ -828,6 +841,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Error",
       "ru": "Ошибка"
      },
      "type": "string",
@@ -851,6 +865,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Entity type",
       "ru": "Сущность"
      },
      "type": "string",
@@ -872,6 +887,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Entity Id",
       "ru": "ID сущности"
      },
      "type": "string",
@@ -895,6 +911,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Action Type",
       "ru": "Тип операции"
      },
      "type": "string",
@@ -918,6 +935,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Manager",
       "ru": "Менеджер"
      },
      "type": "int",
@@ -941,6 +959,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "User",
       "ru": "Пользователь"
      },
      "type": "int",
@@ -963,6 +982,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Foreign",
       "ru": "Внешняя сущность"
      },
      "type": "bool",
@@ -984,7 +1004,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Тип внешней сущности "
+      "en": "Foreign entity type",
+      "ru": "Тип внешней сущности"
      },
      "type": "string",
      "updatable": true,
@@ -1005,6 +1026,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Foreign entity Id",
       "ru": "ID внешней сущности"
      },
      "type": "string",
@@ -1026,7 +1048,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Action data"
+      "en": "Action data",
+      "ru": "Данные о действии"
      },
      "type": "string",
      "updatable": true,
@@ -1214,6 +1237,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Date",
       "ru": "Дату проверки"
      },
      "type": "datetime",
@@ -1235,6 +1259,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Original entity type",
       "ru": "Тип сущности, на которой запускалось правило"
      },
      "type": "string",
@@ -1256,6 +1281,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Original entity Id",
       "ru": "Идентификатор сущности, на котором запускалось правило"
      },
      "type": "string",
@@ -1279,6 +1305,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Autogeneration rule",
       "ru": "Правило автогенерации, которое запускалось"
      },
      "type": "string",
@@ -1299,6 +1326,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Version",
       "ru": "Версия запускаемого правила"
      },
      "type": "date",
@@ -1321,6 +1349,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Error occurred",
       "ru": "Произошла ли ошибка"
      },
      "type": "bool",
@@ -1342,6 +1371,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "error",
       "ru": "Текст ошибки"
      },
      "type": "string",
@@ -1501,6 +1531,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Title",
       "ru": "Название правила"
      },
      "type": "string",
@@ -1521,6 +1552,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Version",
       "ru": "Дата последнего изменения правила"
      },
      "type": "date",
@@ -1542,6 +1574,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Original entity type",
       "ru": "На основе какой сущности производится генерация"
      },
      "type": "string",
@@ -1563,6 +1596,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Generating entity type",
       "ru": "Какую сущность генерируем"
      },
      "type": "string",
@@ -1584,6 +1618,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Original entity filter",
       "ru": "Объект с информацией, как отобрать среди первоначальных сущностей те, по которым следует произвести генерацию"
      },
      "type": "string",
@@ -1605,6 +1640,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Generating entity construction rules",
       "ru": "Объект с информацией, как заполнить поля генерируемой сущности. На основе полей исходной сущности, констант или выражений"
      },
      "type": "string",
@@ -1627,6 +1663,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Ignore version on history",
       "ru": "Нужно ли учитывать версию при поиске сущностей ещё не обработанных правилом"
      },
      "type": "bool",
@@ -1788,7 +1825,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "From"
+      "en": "From",
+      "ru": "От"
      },
      "type": "int",
      "updatable": true,
@@ -1811,7 +1849,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "To"
+      "en": "To",
+      "ru": "К"
      },
      "type": "int",
      "updatable": true,
@@ -1831,7 +1870,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Expires at"
+      "en": "Expires at",
+      "ru": "Истекает"
      },
      "type": "date",
      "updatable": true,
@@ -1853,7 +1893,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Active"
+      "en": "Active",
+      "ru": "Активно"
      },
      "type": "bool",
      "updatable": true,
@@ -1995,6 +2036,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Title",
       "ru": "Название"
      },
      "type": "string",
@@ -2351,7 +2393,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Title"
+      "en": "Title",
+      "ru": "Название"
      },
      "type": "string",
      "updatable": true,
@@ -3737,7 +3780,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Login"
+      "en": "Login",
+      "ru": "Логин"
      },
      "type": "string",
      "updatable": true,
@@ -3758,7 +3802,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Password hash"
+      "en": "Password hash",
+      "ru": "Хэш пароля"
      },
      "type": "string",
      "updatable": true,
@@ -3780,7 +3825,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Email verified"
+      "en": "Email verified",
+      "ru": "Email подтвержден"
      },
      "type": "bool",
      "updatable": true,
@@ -3802,7 +3848,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Initial password changed"
+      "en": "Initial password changed",
+      "ru": "Исходный пароль изменен"
      },
      "type": "bool",
      "updatable": true,
@@ -3824,7 +3871,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Locked"
+      "en": "Locked",
+      "ru": "Заблокирован"
      },
      "type": "bool",
      "updatable": true,
@@ -3847,7 +3895,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Manager"
+      "en": "Managers",
+      "ru": "Менеджеры"
      },
      "type": "int",
      "updatable": true,
@@ -4005,7 +4054,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Title"
+      "en": "Title",
+      "ru": "Название"
      },
      "type": "string",
      "updatable": true,
@@ -4026,6 +4076,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Lastname",
       "ru": "Фамилия"
      },
      "type": "string",
@@ -4047,6 +4098,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Firstname",
       "ru": "Имя"
      },
      "type": "string",
@@ -4070,6 +4122,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Language",
       "ru": "Язык"
      },
      "type": "string",
@@ -4091,6 +4144,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Email",
       "ru": "Email"
      },
      "type": "string",
@@ -4112,6 +4166,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Phone",
       "ru": "Телефон"
      },
      "type": "string",
@@ -4157,6 +4212,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Telegram login",
       "ru": "Логин в Telegram"
      },
      "type": "string",
@@ -4180,6 +4236,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Units",
       "ru": "Подразделение"
      },
      "type": "int",
@@ -4202,6 +4259,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Head of unit",
       "ru": "Глава подразделения"
      },
      "type": "bool",
@@ -4224,6 +4282,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Active",
       "ru": "Активный"
      },
      "type": "bool",
@@ -4437,7 +4496,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Manager"
+      "en": "Manager",
+      "ru": "Менеджер"
      },
      "type": "int",
      "updatable": true,
@@ -4460,7 +4520,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Permission"
+      "en": "Permission",
+      "ru": "Разрешение"
      },
      "type": "string",
      "updatable": true,
@@ -4480,7 +4541,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Expires at"
+      "en": "Expires at",
+      "ru": "Истекает"
      },
      "type": "date",
      "updatable": true,
@@ -4619,7 +4681,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Manager"
+      "en": "Manager",
+      "ru": "Менеджер"
      },
      "type": "int",
      "updatable": true,
@@ -4642,7 +4705,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Role"
+      "en": "Role",
+      "ru": "Роль"
      },
      "type": "string",
      "updatable": true,
@@ -4662,7 +4726,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Expires at"
+      "en": "Expires at",
+      "ru": "Истекает"
      },
      "type": "date",
      "updatable": true,
@@ -5471,7 +5536,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Title"
+      "en": "Title",
+      "ru": "Название"
      },
      "type": "string",
      "updatable": true,
@@ -5600,6 +5666,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Title",
       "ru": "Название"
      },
      "type": "string",
@@ -5622,6 +5689,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Has all permissions",
       "ru": "Доступны все разрешения"
      },
      "type": "bool",
@@ -5644,6 +5712,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "All tenants available",
       "ru": "Доступны все арендаторы"
      },
      "type": "bool",
@@ -5798,7 +5867,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Role"
+      "en": "Roles",
+      "ru": "Роль"
      },
      "type": "string",
      "updatable": true,
@@ -5821,7 +5891,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Permission"
+      "en": "Permission",
+      "ru": "Разрешение"
      },
      "type": "string",
      "updatable": true,
@@ -6387,7 +6458,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Title"
+      "en": "Title",
+      "ru": "Название"
      },
      "type": "string",
      "updatable": true,
@@ -6408,7 +6480,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Utc offset"
+      "en": "UTC offset",
+      "ru": "Смещение по UTC"
      },
      "type": "int",
      "updatable": true,
@@ -6540,7 +6613,8 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
-      "ru": "Title"
+      "en": "Title",
+      "ru": "Название"
      },
      "type": "string",
      "updatable": true,
@@ -6563,7 +6637,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Parent"
+      "en": "Parent id",
+      "ru": "Родительское подразделение"
      },
      "type": "int",
      "updatable": true,
@@ -7452,6 +7527,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Entity type",
       "ru": "Тип сущности"
      },
      "type": "string",
@@ -7473,6 +7549,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Entity",
       "ru": "Сущность"
      },
      "type": "string",
@@ -7522,6 +7599,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Entity type",
       "ru": "Тип сущности"
      },
      "type": "string",
@@ -7543,6 +7621,7 @@
      "showInWidget": true,
      "stringType": "plain",
      "title": {
+      "en": "Entity",
       "ru": "Сущность"
      },
      "type": "string",
@@ -7563,7 +7642,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Агрегаты последний раз вычислены "
+      "en": "Last aggregates computed",
+      "ru": "Агрегаты последний раз вычислены"
      },
      "type": "datetime",
      "updatable": true,
@@ -7583,6 +7663,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Last aggregates scheduled",
       "ru": "Последний раз было добавлено в очередь на обработку"
      },
      "type": "datetime",
@@ -7603,6 +7684,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Last entity update",
       "ru": "Последнее обновление сущности"
      },
      "type": "datetime",
@@ -7623,6 +7705,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Aggregate version",
       "ru": "Версия агрегата"
      },
      "type": "int",
@@ -7699,7 +7782,8 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
-      "ru": "Агрегаты последний раз вычислены "
+      "en": "Last aggregates computed",
+      "ru": "Агрегаты последний раз вычислены"
      },
      "type": "datetime",
      "updatable": true,
@@ -7719,6 +7803,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Last aggregates scheduled",
       "ru": "Последний раз было добавлено в очередь на обработку"
      },
      "type": "datetime",
@@ -7739,6 +7824,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Last entity update",
       "ru": "Последнее обновление сущности"
      },
      "type": "datetime",
@@ -7759,6 +7845,7 @@
      "showInList": true,
      "showInWidget": true,
      "title": {
+      "en": "Aggregate version",
       "ru": "Версия агрегата"
      },
      "type": "int",
