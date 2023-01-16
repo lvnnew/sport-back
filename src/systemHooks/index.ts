@@ -13,6 +13,8 @@ export const onStart = async (ctx?: Context) => {
   initBigIntSerialization();
 
   if (ctx) {
+    log.info('bootstrapping');
+
     // todo: move to deployment script
     await bootstrapKafkaWorkers(ctx);
 
