@@ -26,7 +26,7 @@ const getConfigUtils = (getFromNconf: (name: string, required: boolean) => strin
   const getBooleanConfig = (name: string, required: boolean) => {
     const value = getFromNconf(name, required);
 
-    return (value ? Boolean(value) : undefined);
+    return (value ? value.toLowerCase() === 'true' : undefined);
   };
 
   return {
