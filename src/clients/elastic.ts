@@ -4,9 +4,8 @@ import log from '../log';
 import * as R from 'ramda';
 import {AggregationsAggregate, CountResponse, SearchRequest, SearchResponse, SearchTotalHits, SortOrder} from '@elastic/elasticsearch/lib/api/types';
 import {BulkStats} from '@elastic/elasticsearch/lib/helpers';
-// import {SearchRequest} from '@elastic/elasticsearch/lib/api/typesWithBodyKey';
-
-const uri = `http://${process.env.ELASTIC_URI as string}`;
+import {snakeCase} from 'change-case';
+import Entity from '../types/Entity';
 
 export interface ElasticListArgs {
   sortField?: string,
@@ -19,22 +18,22 @@ export interface ElasticListArgs {
 
 export interface ElasticClient {
   client: Client;
-  createSearcher: (index: string) => (args?: ElasticListArgs) => Promise<SearchResponse<unknown, Record<string, AggregationsAggregate>>>;
-  createCounter: (index: string) => (args?: ElasticListArgs) => Promise<CountResponse>;
-  createManyPutter: (index: string) => (
+  createSearcher: (index: Entity) => (args?: ElasticListArgs) => Promise<SearchResponse<unknown, Record<string, AggregationsAggregate>>>;
+  createCounter: (index: Entity) => (args?: ElasticListArgs) => Promise<CountResponse>;
+  createManyPutter: (index: Entity) => (
     dataset: Array<Record<string, any> & {id: string | number | bigint}>,
   ) => Promise<BulkStats>;
 }
 
 let elasticClient: ElasticClient | null = null;
 
-export const getFullIndexName = async (index: string) => {
+export const getFullIndexName = async (index: Entity) => {
   const {appName, appEnvironment} = await getConfig();
   if (!appName || !appEnvironment) {
     throw new Error('appName and appEnvironment should be provided');
   }
 
-  return `${appName}-${appEnvironment}-${index}`.toLowerCase();
+  return `${appName}-${appEnvironment}-${snakeCase(index)}`;
 };
 
 const fillInParams = ({
@@ -94,7 +93,7 @@ const fillInParams = ({
   return req;
 };
 
-export const createElasticSearcher = (client: Client, index: string) => async (args?: ElasticListArgs) => {
+export const createElasticSearcher = (client: Client, index: Entity) => async (args?: ElasticListArgs) => {
   let req: SearchRequest = {
     index: await getFullIndexName(index),
   };
@@ -134,7 +133,7 @@ export const createElasticSearcher = (client: Client, index: string) => async (a
   return client.search(req);
 };
 
-export const createElasticCounter = (client: Client, index: string) => async (args?: ElasticListArgs) => {
+export const createElasticCounter = (client: Client, index: Entity) => async (args?: ElasticListArgs) => {
   let req: SearchRequest = {
     index: await getFullIndexName(index),
   };
@@ -163,7 +162,7 @@ export const createElasticCounter = (client: Client, index: string) => async (ar
   return client.count(req);
 };
 
-export const createElasticManyPutter = (client: Client, index: string) => async (
+export const createElasticManyPutter = (client: Client, index: Entity) => async (
   dataset: Array<Record<string, any> & {id: string | number | bigint}>,
 ) => {
   const fullIndexName = await getFullIndexName(index);
@@ -227,9 +226,9 @@ export const getElastic = async () => {
       if (!elasticClient) {
         elasticClient = {
           client,
-          createSearcher: (index: string) => createElasticSearcher(client, index),
-          createCounter: (index: string) => createElasticCounter(client, index),
-          createManyPutter: (index: string) => createElasticManyPutter(client, index),
+          createSearcher: (index: Entity) => createElasticSearcher(client, index),
+          createCounter: (index: Entity) => createElasticCounter(client, index),
+          createManyPutter: (index: Entity) => createElasticManyPutter(client, index),
         };
       }
     } else {
@@ -255,7 +254,7 @@ export const getElastic = async () => {
   return elasticClient;
 };
 
-export const createElasticPutter = (index: string) => async (id: string, data: Record<string, any>) => {
+export const createElasticPutter = (index: Entity) => async (id: string, data: Record<string, any>) => {
   const client = await getElastic();
 
   return client.client.index({
@@ -268,7 +267,7 @@ export const createElasticPutter = (index: string) => async (id: string, data: R
   });
 };
 
-export const createElasticDeleterByQuery = (index: string) => async () => {
+export const createElasticDeleterByQuery = (index: Entity) => async () => {
   const client = await getElastic();
   const fullIndexName = await getFullIndexName(index);
 
@@ -280,7 +279,7 @@ export const createElasticDeleterByQuery = (index: string) => async () => {
   });
 };
 
-export const createElasticFilter = (index: string) => async (params?: object) => {
+export const createElasticFilter = (index: Entity) => async (params?: object) => {
   const client = await getElastic();
 
   return await client.client.search({
@@ -299,7 +298,7 @@ export const createElasticFilter = (index: string) => async (params?: object) =>
   });
 };
 
-export const createUpdater = (index: string) => async (id: string, data: Record<string, any>) => {
+export const createUpdater = (index: Entity) => async (id: string, data: Record<string, any>) => {
   const client = await getElastic();
   const current = await client.client.get({id, index});
 
@@ -315,13 +314,13 @@ export const createUpdater = (index: string) => async (id: string, data: Record<
   });
 };
 
-export const createGetter = (index: string) => async (id: string) => {
+export const createGetter = (index: Entity) => async (id: string) => {
   const client = await getElastic();
 
   return client.client.get({id, index});
 };
 
-export const search = async (index: string, params?: object, size = 500) => {
+export const search = async (index: Entity, params?: object, size = 500) => {
   const client = await getElastic();
 
   return client.client.search({
@@ -344,12 +343,12 @@ export const search = async (index: string, params?: object, size = 500) => {
   });
 };
 
-export const createLister = (index: string) => async (params: object = {}, size = 500) => {
+export const createLister = (index: Entity) => async (params: object = {}, size = 500) => {
   const res = await search(index, params, size);
   return (res)?.hits.hits as any[];
 };
 
-export const scroll = async (index: string) => {
+export const scroll = async (index: Entity) => {
   const client = await getElastic();
 
   return client.client.search({
@@ -364,7 +363,7 @@ export const scroll = async (index: string) => {
   });
 };
 
-export const handleEveryDoc = async (index: string, handler: (
+export const handleEveryDoc = async (index: Entity, handler: (
   doc: any,
   index: number,
   total: number
@@ -414,27 +413,4 @@ export const handleEveryDoc = async (index: string, handler: (
       }),
     );
   }
-};
-
-export const elasticApp = async () => {
-  log.info(123);
-  log.info(`uri: ${uri}`);
-
-  const index = 'adheart-teasers';
-
-  const testindex3Putter = createElasticPutter(index);
-
-  await testindex3Putter('555', {
-    character: 'Daenerys Targaryen',
-    quote: '888 I am the mother of dragons.',
-  });
-
-  const response = await search(index);
-  log.info(`docs: ${response.fields}`);
-
-  await handleEveryDoc(index, (_, i) => {
-    log.info(`i: ${i}`);
-  });
-
-  log.info(7);
 };
