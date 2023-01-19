@@ -78,6 +78,8 @@ spec:
           value: {{ $.Values.app.name | quote }}
         - name: APP_TITLE
           value: {{ $.Values.app.title | quote }}
+        - name: BOOTSTRAP_ENABLED
+          value: {{ $.Values.bootstrap.enabled | quote }}
         - name: CUSTOMER_RECAPTCHA_REQUIRED_SCORE
           value: {{ $.Values.customer.recaptcha.requiredScore | quote }}
         - name: CUSTOMER_RECAPTCHA_SECRET_KEY

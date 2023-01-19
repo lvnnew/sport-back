@@ -84,6 +84,8 @@ const bootstrapKafkaWorkers = async (ctx: Context) => {
     }
 
     await admin.close();
+  } else {
+    log.info('kafka is not enables, skipping started');
   }
 
   log.info(`bootstrapKafkaWorkers finished, took: ${Math.ceil((Date.now() - startedAt) / 1000)} sec`);

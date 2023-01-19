@@ -31,18 +31,6 @@ model AppRefreshToken {
 }
 
 
-model File {
-	id	Int	@default(autoincrement())	@id
-	search	String?
-	originalName	String
-	url	String
-	mimetype	String
-	s3Key	String
-	eTag	String
-	managerPhotos	Manager[]	@relation("From-Manager.photo")
-}
-
-
 model Language {
 	id	String	@id
 	search	String?
@@ -387,6 +375,18 @@ model MessageType {
 	title	String
 	description	String?
 	messageTemplateMessageTypes	MessageTemplate[]	@relation("From-MessageTemplate.messageType")
+}
+
+
+model File {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	originalName	String
+	url	String
+	mimetype	String
+	s3Key	String
+	eTag	String
+	managerPhotos	Manager[]	@relation("From-Manager.photo")
 }
 
 

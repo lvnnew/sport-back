@@ -4,6 +4,7 @@ import {Context} from '../adm/services/types';
 import initPgParsers from './initPgParsers';
 import initBigIntSerialization from './initBigIntSerialization';
 import initRoles from '../init/permissions/initRoles';
+import {getConfig} from '../config';
 
 // Runs on any start of the system: as api backend, as worker, as cli-command, etc.
 export const onStart = async (ctx?: Context) => {
@@ -15,9 +16,14 @@ export const onStart = async (ctx?: Context) => {
   if (ctx) {
     log.info('bootstrapping');
 
-    // todo: move to deployment script
-    await bootstrapKafkaWorkers(ctx);
+    const {bootstrapEnabled} = await getConfig();
+    if (bootstrapEnabled) {
+      // todo: move to deployment script
+      await bootstrapKafkaWorkers(ctx);
 
-    await initRoles(ctx);
+      await initRoles(ctx);
+    } else {
+      log.info('Bootstrap is not enabled, skipping');
+    }
   }
 };
