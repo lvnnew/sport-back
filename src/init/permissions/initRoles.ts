@@ -7,7 +7,9 @@ import log from '../../log';
 // runlify start env=prod yarn ts-node:withContext src/init/permissions/initRoles.ts
 
 const initRoles = async (ctx: Context) => {
-  log.info('initRoles');
+  log.info('initRoles started');
+  const startedAt = Date.now();
+
   const allPermissions = getRuntimePermissions(ctx);
   await ctx.service('permissions').createMany(
     allPermissions
@@ -78,6 +80,8 @@ const initRoles = async (ctx: Context) => {
         title: p,
       })),
   );
+
+  log.info(`initRoles finished, took: ${Math.ceil((Date.now() - startedAt) / 1000)} sec`);
 };
 
 export default initRoles;

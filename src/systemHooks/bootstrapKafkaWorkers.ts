@@ -10,7 +10,8 @@ import {getConfig} from '../config';
 const kafkaConfigs: KafkaWorkerConfig['jobs'][] = Object.values(workersConfig).map(c => c.jobs).filter(Boolean);
 
 const bootstrapKafkaWorkers = async (ctx: Context) => {
-  log.info('bootstrapKafkaWorkers');
+  log.info('bootstrapKafkaWorkers started');
+  const startedAt = Date.now();
 
   const {kafkaEnabled} = await getConfig();
 
@@ -84,6 +85,8 @@ const bootstrapKafkaWorkers = async (ctx: Context) => {
 
     await admin.close();
   }
+
+  log.info(`bootstrapKafkaWorkers finished, took: ${Math.ceil((Date.now() - startedAt) / 1000)} sec`);
 };
 
 export default bootstrapKafkaWorkers;
