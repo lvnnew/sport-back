@@ -4,6 +4,7 @@ import {BaseService, Obj, WithID} from './BaseService';
 import {Context, DocumentConfig} from '../../types';
 import {PrismaPromise} from '@prisma/client';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
+import log from '../../../../log';
 
 export class DocumentBaseService<
   Entity extends WithID,
@@ -116,6 +117,23 @@ export class DocumentBaseService<
   async getUnPostOperations (id: Entity['id']) {
     return this.config.registries.flatMap(registry => {
       const externalSearch = this.config.externalSearchDeps?.[registry];
+
+      if (externalSearch) {
+        // todo: add await or etc
+        this.ctx.prisma[registry].findMany({
+          where: {
+            registrarTypeId: this.config.entityTypeId,
+            registrarId: id,
+          },
+          select: {
+            id: true,
+          },
+        }).then((EntityIds: {id: any}[]) => {
+          return this.ctx.elastic.deleteById(registry as any, EntityIds.map(entity => entity.id));
+        }).catch((error: any) => {
+          log.error(error?.toString());
+        });
+      }
 
       return [
         ...(externalSearch ? [this.ctx.prisma[externalSearch].deleteMany({

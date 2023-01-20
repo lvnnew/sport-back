@@ -2,7 +2,15 @@ import {Client} from '@elastic/elasticsearch';
 import {getConfig} from '../config';
 import log from '../log';
 import * as R from 'ramda';
-import {AggregationsAggregate, CountResponse, SearchRequest, SearchResponse, SearchTotalHits, SortOrder} from '@elastic/elasticsearch/lib/api/types';
+import {
+  AggregationsAggregate,
+  BulkResponse,
+  CountResponse,
+  SearchRequest,
+  SearchResponse,
+  SearchTotalHits,
+  SortOrder,
+} from '@elastic/elasticsearch/lib/api/types';
 import {BulkStats} from '@elastic/elasticsearch/lib/helpers';
 import {snakeCase} from 'change-case';
 import Entity from '../types/Entity';
@@ -16,6 +24,8 @@ export interface ElasticListArgs {
   search?: Record<string, any>,
 }
 
+type ID = string | number | bigint;
+
 export interface ElasticClient {
   client: Client;
   createSearcher: (index: Entity) => (args?: ElasticListArgs) => Promise<SearchResponse<unknown, Record<string, AggregationsAggregate>>>;
@@ -23,6 +33,7 @@ export interface ElasticClient {
   createManyPutter: (index: Entity) => (
     dataset: Array<Record<string, any> & {id: string | number | bigint}>,
   ) => Promise<BulkStats>;
+  deleteById: (index: Entity, id: ID | ID[]) => Promise<BulkResponse>;
 }
 
 let elasticClient: ElasticClient | null = null;
@@ -166,6 +177,7 @@ export const createElasticManyPutter = (client: Client, index: Entity) => async 
   dataset: Array<Record<string, any> & {id: string | number | bigint}>,
 ) => {
   const fullIndexName = await getFullIndexName(index);
+  log.info(`fullIndexName: ${fullIndexName}`);
 
   return client.helpers.bulk({
     datasource: dataset,
@@ -226,6 +238,23 @@ export const getElastic = async () => {
       if (!elasticClient) {
         elasticClient = {
           client,
+          deleteById: async (indexPrefix: Entity, id) => {
+            const index = await getFullIndexName(indexPrefix);
+
+            const ids = Array.isArray(id) ? id : [id];
+
+            log.info(`Deleting from elastic: ${index} ${ids.join(', ')}`);
+
+            return await client.bulk({
+              index,
+              body: ids.map(id => ({
+                delete: {
+                  _id: id.toString(),
+                  _index: index,
+                },
+              })),
+            });
+          },
           createSearcher: (index: Entity) => createElasticSearcher(client, index),
           createCounter: (index: Entity) => createElasticCounter(client, index),
           createManyPutter: (index: Entity) => createElasticManyPutter(client, index),

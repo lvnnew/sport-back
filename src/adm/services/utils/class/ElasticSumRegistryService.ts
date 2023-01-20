@@ -178,4 +178,22 @@ export class ElasticSumRegistryService<
 
     return result.map((r: ElasticEntity) => r.entityId);
   }
+
+  async delete (
+    params: MutationRemoveArgs,
+  ): Promise<Entity> {
+    const promise = this.ctx.elastic.deleteById(this.config.entityTypeId, params.id);
+
+    await this.prismaExternalService.deleteMany({
+      where: {
+        entityId: params.id,
+      },
+    });
+
+    const res = await super.delete(params);
+
+    await promise;
+
+    return res;
+  }
 }
