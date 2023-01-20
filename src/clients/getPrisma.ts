@@ -27,7 +27,7 @@ export const getPrisma = async (connectionType: 'write' | 'readOnly') => {
         apply: () => {
           throw new Error('Read only database connection cannot be used with the database.main.readOnly.enabled is not true');
         },
-      });
+      }) as PrismaClient;
     }
 
     if (!databaseMainReadOnlyUri) {
