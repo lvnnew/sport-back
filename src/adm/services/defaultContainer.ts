@@ -14,7 +14,10 @@ import {ElasticClient, getElastic} from '../../clients/elastic';
 const defaultContainer = new Container({defaultScope: 'Singleton'});
 
 defaultContainer.bind<PrismaClient>('Prisma')
-  .toDynamicValue(() => getPrisma())
+  .toDynamicValue(() => getPrisma('write'))
+  .onDeactivation((prisma: PrismaClient) => prisma.$disconnect());
+defaultContainer.bind<PrismaClient>('PrismaReadOnly')
+  .toDynamicValue(() => getPrisma('readOnly'))
   .onDeactivation((prisma: PrismaClient) => prisma.$disconnect());
 defaultContainer.bind<Knex>('Knex')
   .toDynamicValue(() => getKnex())

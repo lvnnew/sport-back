@@ -262,7 +262,7 @@ export const getElastic = async () => {
       }
     } else {
       const fake = () => {
-        const reason = 'Elastic cannot be used with the es.enabled is not true!';
+        const reason = 'Elastic cannot be used with the es.enabled is not true';
         log.error(reason);
         return Promise.reject(reason);
       };

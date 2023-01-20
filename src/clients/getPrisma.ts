@@ -7,10 +7,37 @@ import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
 
 let prisma: PrismaClient | null = null;
 
-export const getPrisma = async (appName = 'someBack_Prisma') => {
-  const {databaseMainWriteUri} = await getConfig();
+export const getPrisma = async (connectionType: 'write' | 'readOnly') => {
+  const {
+    databaseMainWriteUri,
+    databaseMainReadOnlyUri,
+    databaseMainReadOnlyEnabled,
+  } = await getConfig();
 
-  log.info(appName, typeof addParamsToDatabaseUri);
+  let uri: string;
+
+  if (connectionType === 'write') {
+    uri = databaseMainWriteUri;
+  } else {
+    if (!databaseMainReadOnlyEnabled) {
+      return new Proxy({}, {
+        get() {
+          throw new Error('Read only database connection cannot be used with the database.main.readOnly.enabled is not true');
+        },
+        apply: () => {
+          throw new Error('Read only database connection cannot be used with the database.main.readOnly.enabled is not true');
+        },
+      });
+    }
+
+    if (!databaseMainReadOnlyUri) {
+      throw new Error('database.main.readOnly.uri must be set');
+    }
+
+    uri = databaseMainReadOnlyUri;
+  }
+
+  log.info(typeof addParamsToDatabaseUri);
 
   // const url = addParamsToDatabaseUri(databaseMainWriteUri, {
   //   application_name: appName,
@@ -21,7 +48,7 @@ export const getPrisma = async (appName = 'someBack_Prisma') => {
     prisma = new PrismaClient({
       datasources: {
         db: {
-          url: databaseMainWriteUri,
+          url: uri,
         },
       },
     });

@@ -7,10 +7,10 @@ import {addParamsToDatabaseUri} from '../utils/addParamsToPgUri';
 
 let knexInstance: Knex | null = null;
 
-export const getKnex = async (appName = 'someBack_Knex') => {
+export const getKnex = async () => {
   const {databaseMainWriteUri} = await getConfig();
 
-  log.info(appName, typeof addParamsToDatabaseUri);
+  log.info(typeof addParamsToDatabaseUri);
 
   // const url = addParamsToDatabaseUri(databaseMainWriteUri {
   //   application_name: appName,

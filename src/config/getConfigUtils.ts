@@ -1,9 +1,17 @@
-const getConfigUtils = (getFromNconf: (name: string, required: boolean) => string | number | boolean | Date | undefined) => {
-  const getStringConfig = (name: string, required: boolean) => {
+import {ValueBasedOnRequired} from './types';
+
+const getConfigUtils = (
+  getFromNconf: <T extends boolean>(name: string, required?: T) => ValueBasedOnRequired<T, string | number | boolean | Date>,
+) => {
+  const getStringConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, string> => {
     const value = getFromNconf(name, required);
 
     if (typeof value === 'undefined') {
-      return value;
+      if (required) {
+        throw new Error(`Config var "${name}" is required`);
+      }
+
+      return value as any;
     }
 
     if (typeof value === 'string') {
@@ -13,11 +21,15 @@ const getConfigUtils = (getFromNconf: (name: string, required: boolean) => strin
     throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
   };
 
-  const getIntConfig = (name: string, required: boolean) => {
+  const getIntConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, number> => {
     const value = getFromNconf(name, required);
 
     if (typeof value === 'undefined') {
-      return value;
+      if (required) {
+        throw new Error(`Config var "${name}" is required`);
+      }
+
+      return value as any;
     }
 
     if (typeof value === 'number') {
@@ -33,11 +45,15 @@ const getConfigUtils = (getFromNconf: (name: string, required: boolean) => strin
 
   const getFloatConfig = getIntConfig;
 
-  const getBigIntConfig = (name: string, required: boolean) => {
+  const getBigIntConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, bigint> => {
     const value = getFromNconf(name, required);
 
     if (typeof value === 'undefined') {
-      return value;
+      if (required) {
+        throw new Error(`Config var "${name}" is required`);
+      }
+
+      return value as any;
     }
 
     if (typeof value === 'bigint') {
@@ -51,11 +67,15 @@ const getConfigUtils = (getFromNconf: (name: string, required: boolean) => strin
     throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
   };
 
-  const getDateTimeConfig = (name: string, required: boolean) => {
+  const getDateTimeConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, Date> => {
     const value = getFromNconf(name, required);
 
     if (typeof value === 'undefined') {
-      return value;
+      if (required) {
+        throw new Error(`Config var "${name}" is required`);
+      }
+
+      return value as any;
     }
 
     if (value instanceof Date) {
@@ -71,11 +91,15 @@ const getConfigUtils = (getFromNconf: (name: string, required: boolean) => strin
 
   const getDateConfig = getDateTimeConfig;
 
-  const getBooleanConfig = (name: string, required: boolean) => {
+  const getBooleanConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, boolean> => {
     const value = getFromNconf(name, required);
 
     if (typeof value === 'undefined') {
-      return value;
+      if (required) {
+        throw new Error(`Config var "${name}" is required`);
+      }
+
+      return value as any;
     }
 
     if (typeof value === 'boolean') {
