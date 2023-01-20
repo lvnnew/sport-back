@@ -2,7 +2,6 @@ import {KafkaContext} from '../kafka/getKafkaContext';
 import {QueueTypes} from './jobsTypes';
 import {KafkaJob, Job} from './Job';
 import log from '../../log';
-import {isLocalEnv} from '../../config';
 
 export const getQueueContext = (kafkaContext: KafkaContext): QueueTypes => {
   const kafkaQueue: QueueTypes = Object.values(KafkaJob).reduce((accum, jobName) => {
@@ -10,9 +9,6 @@ export const getQueueContext = (kafkaContext: KafkaContext): QueueTypes => {
       if (!kafkaContext.kafka) {
         const msg = 'Kafka is disabled, you cannot send any messages to the queue!';
         log.error(msg);
-        if (isLocalEnv) {
-          return Promise.resolve();
-        }
 
         return Promise.reject(msg);
       }

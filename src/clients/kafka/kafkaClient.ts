@@ -1,7 +1,7 @@
 import {Kafka, KafkaConfig, logCreator as kafkaLogCreator, logLevel} from 'kafkajs';
 import {v4 as uuidv4} from 'uuid';
 
-import {getConfig, isLocalEnv} from '../../config';
+import {getConfig} from '../../config';
 import logger from '../../log';
 import getAppEnvPrefix from '../../config/getAppEnvPrefix';
 
@@ -58,23 +58,21 @@ const getKafka = async (): Promise<Kafka> => {
     connectionTimeout: 60_000,
   };
 
-  if (!isLocalEnv) {
-    if (!(kafkaUsername && kafkaPassword)) {
-      throw new Error('The configuration variables kafkaUsername and kafkaPassword cannot be empty!');
-    }
-
-    kafkaConfig = {
-      ...kafkaConfig,
-      ssl: {
-        rejectUnauthorized: kafkaSslRejectUnauthorized,
-      },
-      sasl: {
-        mechanism: 'plain',
-        username: kafkaUsername,
-        password: kafkaPassword,
-      },
-    };
+  if (!(kafkaUsername && kafkaPassword)) {
+    throw new Error('The configuration variables kafkaUsername and kafkaPassword cannot be empty!');
   }
+
+  kafkaConfig = {
+    ...kafkaConfig,
+    ssl: {
+      rejectUnauthorized: kafkaSslRejectUnauthorized,
+    },
+    sasl: {
+      mechanism: 'plain',
+      username: kafkaUsername,
+      password: kafkaPassword,
+    },
+  };
 
   return new Kafka(kafkaConfig);
 };

@@ -20,8 +20,6 @@ if (exists(file)) {
   nconf.file({file});
 }
 
-export const isLocalEnv = envName === 'local';
-
 type ValueBasedOnRequired<Req extends boolean, Val extends number | string | boolean | Date | bigint>
   = Req extends true ? Val : Val | undefined
 
