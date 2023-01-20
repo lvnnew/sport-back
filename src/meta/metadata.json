@@ -6978,8 +6978,44 @@
   },
   {
    "default": "postgresql://postgres:password@localhost:5432",
-   "name": "database.uri",
-   "needFor": "Строка подключения к основной базе данных",
+   "name": "database.main.migration.uri",
+   "needFor": "Строка подключения к основной базе для миграций (должна быть прямой строкой подключения к бд минуя pgbouncer, если он используется)",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": false,
+   "name": "database.main.readOnly.enabled",
+   "needFor": "Включена ли работа с запросами на чтение через отдельное подключение",
+   "required": true,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
+  },
+  {
+   "default": "postgresql://postgres:password@localhost:5432",
+   "name": "database.main.readOnly.uri",
+   "needFor": "Строка подключения к основной базе только для чтения",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "postgresql://postgres:password@localhost:5432",
+   "name": "database.main.write.uri",
+   "needFor": "Строка подключения к основной базе данных для записи",
    "required": true,
    "scopes": [
     "back",

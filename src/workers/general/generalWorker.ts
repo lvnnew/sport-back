@@ -48,13 +48,13 @@ startExpress()
   .catch(error => log.error(error));
 
 const generalWorker = async (appName = 'someBack_generalWorker') => {
-  const config = await getConfig();
-  if (!config.databaseUri) {
+  const {databaseMainWriteUri} = await getConfig();
+  if (!databaseMainWriteUri) {
     throw new Error('Database Uri is not provided');
   }
 
   const runner = await run({
-    connectionString: addParamsToDatabaseUri(config.databaseUri, {
+    connectionString: addParamsToDatabaseUri(databaseMainWriteUri, {
       application_name: appName,
       ...(process.env.NODE_ENV === 'production' ? {} : {connection_limit: '1'}),
     }),

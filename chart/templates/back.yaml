@@ -84,8 +84,14 @@ spec:
           value: {{ $.Values.customer.recaptcha.requiredScore | quote }}
         - name: CUSTOMER_RECAPTCHA_SECRET_KEY
           value: {{ $.Values.customer.recaptcha.secretKey | quote }}
-        - name: DATABASE_URI
-          value: {{ $.Values.database.uri | quote }}
+        - name: DATABASE_MAIN_MIGRATION_URI
+          value: {{ $.Values.database.main.migration.uri | quote }}
+        - name: DATABASE_MAIN_READ_ONLY_ENABLED
+          value: {{ $.Values.database.main.readOnly.enabled | quote }}
+        - name: DATABASE_MAIN_READ_ONLY_URI
+          value: {{ $.Values.database.main.readOnly.uri | quote }}
+        - name: DATABASE_MAIN_WRITE_URI
+          value: {{ $.Values.database.main.write.uri | quote }}
         - name: ES_CLOUD_ID
           value: {{ $.Values.es.cloudId | quote }}
         - name: ES_ENABLED

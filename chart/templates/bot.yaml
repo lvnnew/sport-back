@@ -71,7 +71,7 @@ spec:
         - name: APOLLO_KEY
           value: {{ $.Values.apollo.key | quote }}
         - name: DATABASE_URI
-          value: {{ $.Values.database.uri | quote }}
+          value: {{ $.Values.database.main.write.uri | quote }}
         - name: LOGS_FORMAT
           value: {{ $.Values.logs.format | quote }}
         - name: LOKI_URL
