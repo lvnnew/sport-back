@@ -3,6 +3,7 @@ import typeDefs from './graph/typeDefs';
 import resolvers from './graph/resolvers';
 import {createUsersAwareContext} from '../adm/services/context';
 import defaultContainer from '../adm/services/defaultContainer';
+import {InMemoryLRUCache} from '@apollo/utils.keyvaluecache';
 
 const getAppServer = () => new ApolloServer({
   context: async ({req}) => {
@@ -20,6 +21,7 @@ const getAppServer = () => new ApolloServer({
   introspection: true,
   resolvers,
   typeDefs,
+  cache: new InMemoryLRUCache(),
 });
 
 export default getAppServer;

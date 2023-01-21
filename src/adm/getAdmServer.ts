@@ -18,6 +18,7 @@ import {flattenGraphqlToPermission} from './graph/permissionsToGraphql';
 import defaultContainer from './services/defaultContainer';
 import log from '../log';
 import getSummary from '../metrics/getSummary';
+import {InMemoryLRUCache} from '@apollo/utils.keyvaluecache';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = (_arg: any) => {};
@@ -148,6 +149,7 @@ const getAdmServer = () => new ApolloServer({
   introspection: true,
   plugins: [authPlugin, metricsPlugin],
   schema,
+  cache: new InMemoryLRUCache(),
 });
 
 export default getAdmServer;
