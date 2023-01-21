@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URI")
+  url      = env("DATABASE_MAIN_WRITE_URI")
 }
 
 model AggregateTracking {
