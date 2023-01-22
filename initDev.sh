@@ -11,7 +11,7 @@ echo $filenames
 for filename in $filenames; do
   env="${filename//.json/}"
   echo env: $env
-  
+
   baseDevCommand="yarn runlify start env=$env yarn init:base"
   echo baseDevCommand: $baseDevCommand
   $baseDevCommand

@@ -6763,7 +6763,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "jest --maxWorkers 8",
+   "command": "jest --maxWorkers 2",
    "name": "test",
    "needFor": "Запуска тестов",
    "projectCategory": "back"
