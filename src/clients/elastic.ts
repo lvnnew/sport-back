@@ -34,7 +34,7 @@ export interface ElasticClient {
   createManyPutter: (index: Entity) => (
     dataset: Array<Record<string, any> & {id: string | number | bigint}>,
   ) => Promise<BulkStats>;
-  deleteById: (index: Entity, id: ID | ID[]) => Promise<BulkResponse>;
+  deleteById: (index: Entity, id: ID | ID[]) => Promise<BulkResponse | null>;
 }
 
 let elasticClient: ElasticClient | null = null;
@@ -228,8 +228,8 @@ export const createElasticSearcher = (client: Client, index: Entity) => async (a
     };
   }
 
-  log.info('query');
-  log.info(JSON.stringify(req.query, null, 1));
+  // log.info('query');
+  // log.info(JSON.stringify(req.query, null, 1));
 
   const listingConstraint = 10_000;
 
@@ -276,7 +276,7 @@ export const createElasticManyPutter = (client: Client, index: Entity) => async 
   dataset: Array<Record<string, any> & {id: string | number | bigint}>,
 ) => {
   const fullIndexName = await getFullIndexName(index);
-  log.info(`fullIndexName: ${fullIndexName}`);
+  // log.info(`fullIndexName: ${fullIndexName}`);
 
   return client.helpers.bulk({
     datasource: dataset,
@@ -341,6 +341,10 @@ export const getElastic = async () => {
             const index = await getFullIndexName(indexPrefix);
 
             const ids = Array.isArray(id) ? id : [id];
+
+            if (ids.length === 0) {
+              return null;
+            }
 
             log.info(`Deleting from elastic: ${index} ${ids.join(', ')}`);
 
