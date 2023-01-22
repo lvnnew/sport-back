@@ -190,4 +190,16 @@ export class ElasticBaseSearch<
 
     return res;
   }
+
+  async entitiesForExternalSearch (ids: Entity['id'][]): Promise<Entity[]> {
+    const entities = await this.prismaService.findMany({
+      where: {id: {in: ids}},
+    });
+
+    return entities;
+  }
+
+  async afterExternalSearchSync (_entities: Entity[]): Promise<void> {
+    return undefined;
+  }
 }

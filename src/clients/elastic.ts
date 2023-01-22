@@ -396,6 +396,7 @@ export const createElasticPutter = (index: Entity) => async (id: string, data: R
     },
     id,
     index,
+    wait_for_active_shards: 'all',
   });
 };
 
