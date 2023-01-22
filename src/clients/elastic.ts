@@ -6,6 +6,7 @@ import {
   AggregationsAggregate,
   BulkResponse,
   CountResponse,
+  QueryDslQueryContainer,
   SearchRequest,
   SearchResponse,
   SearchTotalHits,
@@ -60,38 +61,133 @@ const fillInParams = ({
     req.sort = [{[sortField]: {order: sortOrder ?? 'asc'}}] as any;
   }
 
-  if (filter || search) {
-    // if (filter?.ids) {
-    //   const should = filter.ids.map((id: any) => ({term: {id}}));
-    //   req.query = {
-    //     bool: {
-    //       should: [],
-    //     },
-    //   };
-    // }
+  const elasticFilter: QueryDslQueryContainer | QueryDslQueryContainer[] = [];
+  const must: QueryDslQueryContainer | QueryDslQueryContainer[] = [];
 
-    const fieldsExceptIds = R.omit(['ids'], filter);
+  if (search) {
+    must.push(
+      ...(search ?
+        R
+          .toPairs(search)
+          .map(([key, value]: [any, any]) => ({match_phrase_prefix: {[key]: {query: value}}})) :
+        []));
+  }
 
-    req.query = {
-      bool: {
-        should: filter?.ids ?
-          filter.ids.map((id: any) => ({term: {id}})) :
-          [],
-        filter: R.isEmpty(fieldsExceptIds) ?
+  if (filter) {
+    const plainFields = R.fromPairs(
+      R.toPairs(filter)
+        .filter((
+          [key]) => key !== 'ids' &&
+            !key.endsWith('_in') &&
+            !key.endsWith('_lt') &&
+            !key.endsWith('_lte') &&
+            !key.endsWith('_gt') &&
+            !key.endsWith('_gte'),
+        ),
+    );
+
+    elasticFilter.push(
+      ...(
+        R.isEmpty(plainFields) ?
           [] :
-          R.toPairs(fieldsExceptIds).map(([key, value]: any) => ({
+          R.toPairs(plainFields).map(([key, value]: any) => ({
             term: {
-              [typeof value === 'string' ? `${key}.keyword` : key]: value,
+              // [typeof value === 'string' ? `${key}.keyword` : key]: value,
+              [key]: value,
+            },
+          }))
+      ),
+    );
+
+    if ('ids' in filter) {
+      const ids: Array<string | number | bigint> = filter.ids;
+      elasticFilter.push({
+        bool: {
+          should: ids.map(id => ({
+            term: {
+              id,
             },
           })),
-        must: search ?
-          R
-            .toPairs(search)
-            .map(([key, value]: [any, any]) => ({match_phrase_prefix: {[key]: {query: value}}})) :
-          [],
-      },
-    };
+          minimum_should_match: 1,
+        },
+      });
+    }
+
+    const inFields = R.toPairs(filter).filter(([key]) => key.endsWith('_in'));
+    if (inFields.length) {
+      for (const [key, values] of inFields) {
+        elasticFilter.push({
+          bool: {
+            should: (values as any[]).map(value => ({
+              term: {
+                [key.replaceAll('_in', '')]: value,
+              },
+            })),
+            minimum_should_match: 1,
+          },
+        });
+      }
+    }
+
+    const gteFields = R.toPairs(filter).filter(([key]) => key.endsWith('_gte'));
+    if (gteFields.length) {
+      for (const [key, value] of gteFields) {
+        elasticFilter.push({
+          range: {
+            [key.replaceAll('_gte', '')]: {
+              gte: value,
+            },
+          },
+        });
+      }
+    }
+
+    const gtFields = R.toPairs(filter).filter(([key]) => key.endsWith('_gt'));
+    if (gtFields.length) {
+      for (const [key, value] of gtFields) {
+        elasticFilter.push({
+          range: {
+            [key.replaceAll('_gt', '')]: {
+              gt: value,
+            },
+          },
+        });
+      }
+    }
+
+    const lteFields = R.toPairs(filter).filter(([key]) => key.endsWith('_lte'));
+    if (lteFields.length) {
+      for (const [key, value] of lteFields) {
+        elasticFilter.push({
+          range: {
+            [key.replaceAll('_lte', '')]: {
+              lte: value,
+            },
+          },
+        });
+      }
+    }
+
+    const ltFields = R.toPairs(filter).filter(([key]) => key.endsWith('_lt'));
+    if (ltFields.length) {
+      for (const [key, value] of ltFields) {
+        elasticFilter.push({
+          range: {
+            [key.replaceAll('_lt', '')]: {
+              lt: value,
+            },
+          },
+        });
+      }
+    }
   }
+
+  req.query = {
+    bool: {
+      filter: elasticFilter,
+      must,
+    },
+  };
 
   if (perPage) {
     if (page) {
@@ -132,13 +228,16 @@ export const createElasticSearcher = (client: Client, index: Entity) => async (a
     };
   }
 
-  const listingConstaint = 10_000;
+  log.info('query');
+  log.info(JSON.stringify(req.query, null, 1));
+
+  const listingConstraint = 10_000;
 
   // log.info('req after mapping');
   // log.info(JSON.stringify(req, null, 1));
 
-  if (((req.from ?? 0) + (req.size ?? 0)) > listingConstaint) {
-    req.from = listingConstaint - (req.size ?? 0);
+  if (((req.from ?? 0) + (req.size ?? 0)) > listingConstraint) {
+    req.from = listingConstraint - (req.size ?? 0);
   }
 
   return client.search(req);
