@@ -63,6 +63,7 @@ const emailsWorker = async (appName = 'someBack_emailsWorker') => {
     pollInterval: 1000,
     taskList: jobsFromFunctions(emailsJobs),
     logger: graphileLogger,
+    noPreparedStatements: true,
   });
   log.info('start');
   await runner.promise;

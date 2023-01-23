@@ -291,6 +291,7 @@ export const createElasticManyPutter = (client: Client, index: Entity) => async 
         {doc_as_upsert: true},
       ];
     },
+    refresh: 'wait_for',
   });
 };
 
@@ -396,7 +397,7 @@ export const createElasticPutter = (index: Entity) => async (id: string, data: R
     },
     id,
     index,
-    wait_for_active_shards: 'all',
+    refresh: 'wait_for',
   });
 };
 

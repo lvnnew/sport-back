@@ -64,6 +64,7 @@ const generalWorker = async (appName = 'someBack_generalWorker') => {
     taskList: jobsFromFunctions(generalJobs),
     parsedCronItems: parseCronItems(generalCronJobs),
     logger: graphileLogger,
+    noPreparedStatements: true,
   });
   log.info('start');
   await runner.promise;
