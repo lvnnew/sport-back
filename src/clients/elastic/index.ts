@@ -1,6 +1,6 @@
 import {Client} from '@elastic/elasticsearch';
-import {getConfig} from '../config';
-import log from '../log';
+import {getConfig} from '../../config';
+import log from '../../log';
 import * as R from 'ramda';
 import {
   AggregationsAggregate,
@@ -14,7 +14,7 @@ import {
 } from '@elastic/elasticsearch/lib/api/types';
 import {BulkStats} from '@elastic/elasticsearch/lib/helpers';
 import {snakeCase} from 'change-case';
-import Entity from '../types/Entity';
+import Entity from '../../types/Entity';
 
 export interface ElasticListArgs {
   sortField?: string,
