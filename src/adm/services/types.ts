@@ -15,6 +15,7 @@ export type Services = BaseServices & AdditionalServices;
 
 export type Context = {
   prisma: PrismaClient;
+  prismaReadOnly: PrismaClient;
   knex: Knex;
   postgres: Client;
   worker: WorkerUtils;

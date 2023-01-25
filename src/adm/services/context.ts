@@ -20,14 +20,24 @@ export const createContext = async (container: interfaces.Container = defaultCon
   const close = async () => {
     await Promise.all([
       container.unbindAsync('Prisma'),
+      container.unbindAsync('PrismaReadOnly'),
       container.unbindAsync('Knex'),
       container.unbindAsync('Postgres'),
       container.unbindAsync('Kafka'),
     ]);
   };
 
-  const [prisma, knex, postgres, elastic, worker, kafka] = await Promise.all([
+  const [
+    prisma,
+    prismaReadOnly,
+    knex,
+    postgres,
+    elastic,
+    worker,
+    kafka,
+  ] = await Promise.all([
     container.getAsync<PrismaClient>('Prisma'),
+    container.getAsync<PrismaClient>('PrismaReadOnly'),
     container.getAsync<Knex>('Knex'),
     container.getAsync<Client>('Postgres'),
     container.getAsync<ElasticClient>('Elastic'),
@@ -37,6 +47,7 @@ export const createContext = async (container: interfaces.Container = defaultCon
 
   const context: Context = {
     prisma,
+    prismaReadOnly,
     knex,
     postgres,
     worker,
