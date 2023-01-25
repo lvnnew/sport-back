@@ -4,7 +4,7 @@ import {BaseService, Obj, WithID} from './BaseService';
 import {Context, DocumentConfig} from '../../types';
 import {PrismaPromise} from '@prisma/client';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
-import log from '../../../../log';
+import * as R from 'ramda';
 
 export class DocumentBaseService<
   Entity extends WithID,
@@ -91,21 +91,41 @@ export class DocumentBaseService<
     const customOps: PrismaPromise<any>[] = registries.flatMap(registry => {
       const externalSearch = this.config.externalSearchDeps?.[registry];
 
-      return cus[registry].map((en: any) => this.ctx.prisma[registry].create({
-        data: {
+      return cus[registry].flatMap((en: any) => {
+        const createData = {
           ...en,
           registrarTypeId: this.config.entityTypeId,
           registrarId: data.id,
-          ...(externalSearch ? {
-            [externalSearch + 'Entities']: {
+        };
+
+        const operations = [
+          this.ctx.prisma[registry].create({
+            data: createData,
+          }),
+        ];
+
+        if (externalSearch) {
+          const where = R.pick(['registrarTypeId', 'registrarId', 'row'], createData);
+
+          operations.push(
+            this.ctx.prisma[externalSearch].upsert({
+              where: {
+                registrarTypeId_registrarId_row: where,
+              },
               create: {
+                ...where,
                 lastUpdated: new Date(),
                 lastSynced: new Date(1),
               },
-            },
-          } : null),
-        },
-      }));
+              update: {
+                lastUpdated: new Date(),
+              },
+            }),
+          );
+        }
+
+        return operations;
+      });
     });
 
     return [
@@ -117,40 +137,29 @@ export class DocumentBaseService<
   async getUnPostOperations (id: Entity['id']) {
     return this.config.registries.flatMap(registry => {
       const externalSearch = this.config.externalSearchDeps?.[registry];
+      const deleteWhere = {
+        registrarTypeId: this.config.entityTypeId,
+        registrarId: id,
+      };
 
-      if (externalSearch) {
-        // todo: add await or etc
-        this.ctx.prisma[registry].findMany({
-          where: {
-            registrarTypeId: this.config.entityTypeId,
-            registrarId: id,
-          },
-          select: {
-            id: true,
-          },
-        }).then((EntityIds: {id: any}[]) => {
-          return this.ctx.elastic.deleteById(registry as any, EntityIds.map(entity => entity.id));
-        }).catch((error: any) => {
-          log.error(error?.toString());
-        });
-      }
-
-      return [
-        ...(externalSearch ? [this.ctx.prisma[externalSearch].deleteMany({
-          where: {
-            entity: {
-              registrarTypeId: this.config.entityTypeId,
-              registrarId: id,
-            },
-          },
-        })] : []),
+      const operations = [
         this.ctx.prisma[registry].deleteMany({
-          where: {
-            registrarTypeId: this.config.entityTypeId,
-            registrarId: id,
-          },
+          where: deleteWhere,
         }),
       ];
+
+      if (externalSearch) {
+        operations.push(
+          this.ctx.prisma[externalSearch].updateMany({
+            where: deleteWhere,
+            data: {
+              lastUpdated: new Date(),
+            },
+          }),
+        );
+      }
+
+      return operations;
     });
   }
 }

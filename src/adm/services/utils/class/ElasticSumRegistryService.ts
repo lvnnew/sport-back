@@ -9,6 +9,7 @@ import log from '../../../../log';
 import {toElasticRequest} from '../../../../utils/toElasticRequest';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
 import * as R from 'ramda';
+import {PrismaPromise} from '@prisma/client';
 
 export class ElasticSumRegistryService<
   Entity extends WithID,
@@ -53,9 +54,22 @@ export class ElasticSumRegistryService<
     public config: ServiceConfig,
   ) {
     super(ctx, prismaService, config);
+
+    const markToSync = this.markToSync.bind(this);
+
+    async function getExternalTrackingOperation (_: Context, data: ReliableCreateUserInput | MutationUpdateArgs | MutationRemoveArgs): Promise<PrismaPromise<ElasticEntity>[]> {
+      // entities with external search always have generated string id
+      const localData = data as (ReliableCreateUserInput | MutationUpdateArgs | MutationRemoveArgs) & WithID;
+
+      return [markToSync(localData.id)];
+    }
+
+    this.hooksAdd.additionalOperationsOnCreate(getExternalTrackingOperation);
+    this.hooksAdd.additionalOperationsOnUpdate(getExternalTrackingOperation);
+    this.hooksAdd.additionalOperationsOnDelete(getExternalTrackingOperation);
   }
 
-  async markToSync (id: Entity['id']) {
+  markToSync (id: Entity['id']): PrismaPromise<ElasticEntity> {
     const upsert = {
       entityId: id,
       lastUpdated: new Date(),
@@ -63,7 +77,7 @@ export class ElasticSumRegistryService<
 
     log.info(`entityId: ${id}`);
 
-    await this.prismaExternalService.upsert({
+    return this.prismaExternalService.upsert({
       where: {
         entityId: id,
       },
@@ -75,8 +89,8 @@ export class ElasticSumRegistryService<
     });
   }
 
-  async markSynced (ids: Entity['id'][]) {
-    await this.prismaExternalService.updateMany({
+  markSynced (ids: Entity['id'][]): PrismaPromise<any> {
+    return this.prismaExternalService.updateMany({
       where: {
         entityId: {
           in: ids,
@@ -117,28 +131,6 @@ export class ElasticSumRegistryService<
     return result.count;
   }
 
-  async create (
-    data: MutationCreateArgsWithoutAutodefinable,
-    byUser = false,
-  ): Promise<Entity> {
-    const res = await super.create(data, byUser);
-
-    await this.markToSync(res.id);
-
-    return res;
-  }
-
-  async update (
-    data: MutationUpdateArgsWithoutAutodefinable,
-    byUser = false,
-  ): Promise<Entity> {
-    const res = await super.update(data, byUser);
-
-    await this.markToSync(res.id);
-
-    return res;
-  }
-
   async upsert (
     data: PartialFieldsInRecord<MutationUpdateArgsWithoutAutodefinable, 'id'>,
     byUser = false,
@@ -160,7 +152,7 @@ export class ElasticSumRegistryService<
     });
   }
 
-  async getIdsToSyncWithElastic (perPage: number): Promise<ElasticEntity['entityId'][]> {
+  async getIdsToSyncWithElastic (perPage: number): Promise<any[]> {
     const result = await this.prismaExternalService.findMany({
       where: {
         lastUpdated: {
@@ -176,33 +168,13 @@ export class ElasticSumRegistryService<
       take: perPage,
     });
 
-    return result.map((r: ElasticEntity) => r.entityId);
+    return result.map((r: any) => r.entityId);
   }
 
-  async delete (
-    params: MutationRemoveArgs,
-  ): Promise<Entity> {
-    const promise = this.ctx.elastic.deleteById(this.config.entityTypeId, params.id);
-
-    await this.prismaExternalService.deleteMany({
-      where: {
-        entityId: params.id,
-      },
-    });
-
-    const res = await super.delete(params);
-
-    await promise;
-
-    return res;
-  }
-
-  async entitiesForExternalSearch (ids: Entity['id'][]): Promise<Entity[]> {
-    const entities = await this.prismaService.findMany({
+  entitiesForExternalSearch (ids: Entity['id'][]): Promise<Entity[]> {
+    return this.prismaService.findMany({
       where: {id: {in: ids}},
     });
-
-    return entities;
   }
 
   async afterExternalSearchSync (_entities: Entity[]): Promise<void> {
