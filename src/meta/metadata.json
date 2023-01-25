@@ -6781,7 +6781,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "prisma migrate deploy --preview-feature",
+   "command": "prisma migrate deploy --schema prisma/deployConnection.prisma",
    "name": "prisma:deploy",
    "needFor": "Мигрирования базы данных",
    "projectCategory": "back"
