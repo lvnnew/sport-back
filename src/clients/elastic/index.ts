@@ -13,8 +13,10 @@ import {
   SortOrder,
 } from '@elastic/elasticsearch/lib/api/types';
 import {BulkStats} from '@elastic/elasticsearch/lib/helpers';
-import {snakeCase} from 'change-case';
 import Entity from '../../types/Entity';
+import {snakeCase} from 'change-case';
+
+export type ElasticIndexes = Entity/* | AdditionalIndex*/;
 
 export interface ElasticListArgs {
   sortField?: string,
@@ -29,23 +31,24 @@ type ID = string | number | bigint;
 
 export interface ElasticClient {
   client: Client;
-  createSearcher: (index: Entity) => (args?: ElasticListArgs) => Promise<SearchResponse<unknown, Record<string, AggregationsAggregate>>>;
-  createCounter: (index: Entity) => (args?: ElasticListArgs) => Promise<CountResponse>;
-  createManyPutter: (index: Entity) => (
+  createSearcher: (index: ElasticIndexes) =>
+    (args?: ElasticListArgs) => Promise<SearchResponse<unknown, Record<string, AggregationsAggregate>>>;
+  createCounter: (index: ElasticIndexes) => (args?: ElasticListArgs) => Promise<CountResponse>;
+  createManyPutter: (index: ElasticIndexes) => (
     dataset: Array<Record<string, any> & {id: string | number | bigint}>,
   ) => Promise<BulkStats>;
-  deleteById: (index: Entity, id: ID | ID[]) => Promise<BulkResponse | null>;
+  deleteById: (index: ElasticIndexes, id: ID | ID[]) => Promise<BulkResponse | null>;
 }
 
 let elasticClient: ElasticClient | null = null;
 
-export const getFullIndexName = async (index: Entity) => {
+export const getFullIndexName = async (index: ElasticIndexes) => {
   const {appName, appEnvironment} = await getConfig();
   if (!appName || !appEnvironment) {
     throw new Error('appName and appEnvironment should be provided');
   }
 
-  return `${appName}-${appEnvironment}-${snakeCase(index)}`;
+  return `${appName}-${appEnvironment}-${snakeCase(index as string)}`;
 };
 
 const fillInParams = ({
@@ -200,7 +203,7 @@ const fillInParams = ({
   return req;
 };
 
-export const createElasticSearcher = (client: Client, index: Entity) => async (args?: ElasticListArgs) => {
+export const createElasticSearcher = (client: Client, index: ElasticIndexes) => async (args?: ElasticListArgs) => {
   let req: SearchRequest = {
     index: await getFullIndexName(index),
   };
@@ -243,7 +246,7 @@ export const createElasticSearcher = (client: Client, index: Entity) => async (a
   return client.search(req);
 };
 
-export const createElasticCounter = (client: Client, index: Entity) => async (args?: ElasticListArgs) => {
+export const createElasticCounter = (client: Client, index: ElasticIndexes) => async (args?: ElasticListArgs) => {
   let req: SearchRequest = {
     index: await getFullIndexName(index),
   };
@@ -272,7 +275,7 @@ export const createElasticCounter = (client: Client, index: Entity) => async (ar
   return client.count(req);
 };
 
-export const createElasticManyPutter = (client: Client, index: Entity) => async (
+export const createElasticManyPutter = (client: Client, index: ElasticIndexes) => async (
   dataset: Array<Record<string, any> & {id: string | number | bigint}>,
 ) => {
   const fullIndexName = await getFullIndexName(index);
@@ -338,7 +341,7 @@ export const getElastic = async () => {
       if (!elasticClient) {
         elasticClient = {
           client,
-          deleteById: async (indexPrefix: Entity, id) => {
+          deleteById: async (indexPrefix: ElasticIndexes, id) => {
             const index = await getFullIndexName(indexPrefix);
 
             const ids = Array.isArray(id) ? id : [id];
@@ -359,9 +362,9 @@ export const getElastic = async () => {
               })),
             });
           },
-          createSearcher: (index: Entity) => createElasticSearcher(client, index),
-          createCounter: (index: Entity) => createElasticCounter(client, index),
-          createManyPutter: (index: Entity) => createElasticManyPutter(client, index),
+          createSearcher: (index: ElasticIndexes) => createElasticSearcher(client, index),
+          createCounter: (index: ElasticIndexes) => createElasticCounter(client, index),
+          createManyPutter: (index: ElasticIndexes) => createElasticManyPutter(client, index),
         };
       }
     } else {
@@ -401,7 +404,7 @@ export const createElasticPutter = (index: Entity) => async (id: string, data: R
   });
 };
 
-export const createElasticDeleterByQuery = (index: Entity) => async () => {
+export const createElasticDeleterByQuery = (index: ElasticIndexes) => async () => {
   const client = await getElastic();
   const fullIndexName = await getFullIndexName(index);
 
