@@ -41,6 +41,7 @@ const envConfig = {
   appJwtSecret: utils.getStringConfig('app.jwt.secret', false),
   appName: utils.getStringConfig('app.name', true),
   appTitle: utils.getStringConfig('app.title', false),
+  authorizationBackendChecksEnabled: utils.getBooleanConfig('authorization.backendChecks.enabled', false),
   bootstrapEnabled: utils.getBooleanConfig('bootstrap.enabled', false),
   customerRecaptchaRequiredScore: utils.getStringConfig('customer.recaptcha.requiredScore', false),
   customerRecaptchaSecretKey: utils.getStringConfig('customer.recaptcha.secretKey', false),

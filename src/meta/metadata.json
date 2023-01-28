@@ -5878,9 +5878,7 @@
     "ru": "Статистика"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5998,9 +5996,7 @@
    "name": "tags",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -6875,6 +6871,18 @@
     "telegramBot"
    ],
    "type": "string"
+  },
+  {
+   "default": false,
+   "name": "authorization.backendChecks.enabled",
+   "needFor": "Проверка авторизации на бекенде включены",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
   },
   {
    "default": false,

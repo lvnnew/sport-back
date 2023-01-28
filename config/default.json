@@ -6,6 +6,7 @@
   "app.jwt.secret": "appSecret",
   "app.name": "mtbase",
   "app.title": "Meta Template Base",
+  "authorization.backendChecks.enabled": false,
   "bootstrap.enabled": false,
   "customer.recaptcha.requiredScore": "0.7",
   "customer.recaptcha.secretKey": "",

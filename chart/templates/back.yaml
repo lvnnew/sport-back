@@ -78,6 +78,8 @@ spec:
           value: {{ $.Values.app.name | quote }}
         - name: APP_TITLE
           value: {{ $.Values.app.title | quote }}
+        - name: AUTHORIZATION_BACKEND_CHECKS_ENABLED
+          value: {{ $.Values.authorization.backendChecks.enabled | quote }}
         - name: BOOTSTRAP_ENABLED
           value: {{ $.Values.bootstrap.enabled | quote }}
         - name: CUSTOMER_RECAPTCHA_REQUIRED_SCORE
