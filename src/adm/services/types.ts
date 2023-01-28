@@ -1,3 +1,4 @@
+import {InfoRegistryPeriod} from 'runlify';
 import {PrismaClient} from '@prisma/client';
 import {Knex} from 'knex';
 import {Client} from 'pg';
@@ -44,6 +45,10 @@ export interface DocumentConfig extends ServiceConfig {
   registries: string[];
   registrarDependedRegistries: string[]; // for getPostOperation
   externalSearchDeps?: Partial<Record<string, string>>
+}
+
+export interface InfoRegistryConfig extends ServiceConfig {
+  period: InfoRegistryPeriod;
 }
 
 type ServiceConstrictor<T extends keyof Services> = (context: Context) => Services[T];
