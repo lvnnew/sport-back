@@ -169,9 +169,7 @@
     "ru": "Хранилище рефреш токенов для админа"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -346,9 +344,7 @@
     "ru": "Аккаунты (информация по логинам) обычных пользователей (не админов)"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -530,9 +526,7 @@
     "ru": "Хранилище рефреш токенов для app"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -666,9 +660,7 @@
      "title": "Удаление сущности"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -1114,9 +1106,7 @@
     "ru": "Аудит системы"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -1398,9 +1388,7 @@
     "ru": "История применения правил автогенерации к сущностям"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -1681,9 +1669,7 @@
     "ru": "Правила автогенерации сущностей"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -1890,9 +1876,7 @@
     "ru": "Делегирование прав между пользователями"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -2017,9 +2001,7 @@
     "ru": "Список всех сущностей проекта"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -2241,9 +2223,7 @@
    "name": "files",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -2375,9 +2355,7 @@
      "title": "English"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -2514,9 +2492,7 @@
      "title": "Finished"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -2767,9 +2743,7 @@
    "name": "mailingCampaigns",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -2948,9 +2922,7 @@
      "title": "Errored"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -3454,9 +3426,7 @@
    "name": "mailingMessages",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -3589,9 +3559,7 @@
      "title": "Email"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -3851,9 +3819,7 @@
     "ru": "Аккаунты (информация по логинам) пользователей бек-офиса (админы, менеджеры)"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -4277,9 +4243,7 @@
     "ru": "Менеджерские (административные) аккаунты"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -4463,9 +4427,7 @@
     "ru": "Соединение, которым менеджерам назначаются пермишны в обход ролей"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -4645,9 +4607,7 @@
     "ru": "Соединение, которым менеджерам назначаются роли"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -4906,9 +4866,7 @@
     "ru": "Языковой вариант шаблона сообщения"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5142,9 +5100,7 @@
     "ru": "Шаблоны сообщений"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5298,9 +5254,7 @@
      "title": "Plain"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5425,9 +5379,7 @@
     "ru": "Разрешение на совершение той или иной операции"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5619,9 +5571,7 @@
      "title": "Менеджер"
     }
    ],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5776,9 +5726,7 @@
     "ru": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5931,7 +5879,6 @@
    },
    "predefinedElements": [],
    "previewFeatures": [
-    "classService",
     "classService"
    ],
    "searchEnabled": true,
@@ -6052,7 +5999,6 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [
-    "classService",
     "classService"
    ],
    "searchEnabled": true,
@@ -6199,9 +6145,7 @@
     "ru": "Стили шаблонов"
    },
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -6350,9 +6294,7 @@
    "name": "tenants",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -6503,9 +6445,7 @@
    "name": "units",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -6729,9 +6669,7 @@
    "name": "users",
    "needFor": {},
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -7621,9 +7559,7 @@
    },
    "period": "notPeriodic",
    "predefinedElements": [],
-   "previewFeatures": [
-    "classService"
-   ],
+   "previewFeatures": [],
    "registrarDepended": false,
    "resources": [
     {
