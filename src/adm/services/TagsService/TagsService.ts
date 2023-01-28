@@ -48,8 +48,4 @@ export class TagsService extends BaseService<
     initBuiltInHooks(this);
     initUserHooks(this);
   }
-
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableTagPart> => currentData as T & AutodefinableTagPart;
 }

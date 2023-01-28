@@ -48,28 +48,24 @@ export class ManagerLoginsService extends BaseService<
     super(ctx, ctx.prisma.managerLogin, config);
     initBuiltInHooks(this);
     initUserHooks(this);
-  }
 
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableManagerLoginPart> => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const ctx = this.ctx;
+    this.augmentByDefault = async <T>(
+      currentData: Record<string, any>,
+    ): Promise<T & AutodefinableManagerLoginPart> => {
+      const defaultFieldConstructors = {
+        emailVerified: async () => false,
+        initialPasswordChanged: async () => false,
+        locked: async () => false,
+      };
 
-    const defaultFieldConstructors = {
-      emailVerified: async () => false,
-      initialPasswordChanged: async () => false,
-      locked: async () => false,
+      const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+      const resultedPairs: R.KeyValuePair<string, any>[] = [];
+      for (const [key, constructor] of pairedConstructors) {
+        resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+      }
+
+      return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableManagerLoginPart;
     };
-
-    const pairedConstructors = R.toPairs(defaultFieldConstructors);
-
-    const resultedPairs: R.KeyValuePair<string, any>[] = [];
-    for (const [key, constructor] of pairedConstructors) {
-      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
-    }
-
-    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableManagerLoginPart;
-  };
+  }
 }

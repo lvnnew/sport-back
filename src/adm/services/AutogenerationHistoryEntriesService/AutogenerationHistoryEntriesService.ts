@@ -48,26 +48,22 @@ export class AutogenerationHistoryEntriesService extends BaseService<
     super(ctx, ctx.prisma.autogenerationHistoryEntry, config);
     initBuiltInHooks(this);
     initUserHooks(this);
-  }
 
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAutogenerationHistoryEntryPart> => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const ctx = this.ctx;
+    this.augmentByDefault = async <T>(
+      currentData: Record<string, any>,
+    ): Promise<T & AutodefinableAutogenerationHistoryEntryPart> => {
+      const defaultFieldConstructors = {
+        errorOccurred: async () => false,
+      };
 
-    const defaultFieldConstructors = {
-      errorOccurred: async () => false,
+      const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+      const resultedPairs: R.KeyValuePair<string, any>[] = [];
+      for (const [key, constructor] of pairedConstructors) {
+        resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+      }
+
+      return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableAutogenerationHistoryEntryPart;
     };
-
-    const pairedConstructors = R.toPairs(defaultFieldConstructors);
-
-    const resultedPairs: R.KeyValuePair<string, any>[] = [];
-    for (const [key, constructor] of pairedConstructors) {
-      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
-    }
-
-    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableAutogenerationHistoryEntryPart;
-  };
+  }
 }

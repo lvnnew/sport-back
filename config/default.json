@@ -6,7 +6,7 @@
   "app.jwt.secret": "appSecret",
   "app.name": "mtbase",
   "app.title": "Meta Template Base",
-  "bootstrap.enabled": true,
+  "bootstrap.enabled": false,
   "customer.recaptcha.requiredScore": "0.7",
   "customer.recaptcha.secretKey": "",
   "database.main.migration.uri": "postgresql://postgres:password@localhost:5432",

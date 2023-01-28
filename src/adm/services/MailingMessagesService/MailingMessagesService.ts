@@ -48,8 +48,4 @@ export class MailingMessagesService extends BaseService<
     initBuiltInHooks(this);
     initUserHooks(this);
   }
-
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableMailingMessagePart> => currentData as T & AutodefinableMailingMessagePart;
 }

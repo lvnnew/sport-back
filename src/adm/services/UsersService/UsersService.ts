@@ -48,8 +48,4 @@ export class UsersService extends BaseService<
     initBuiltInHooks(this);
     initUserHooks(this);
   }
-
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableUserPart> => currentData as T & AutodefinableUserPart;
 }

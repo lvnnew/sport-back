@@ -48,8 +48,4 @@ export class EntitiesService extends BaseService<
     initBuiltInHooks(this);
     initUserHooks(this);
   }
-
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableEntityPart> => currentData as T & AutodefinableEntityPart;
 }

@@ -48,8 +48,4 @@ export class AppRefreshTokensService extends BaseService<
     initBuiltInHooks(this);
     initUserHooks(this);
   }
-
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableAppRefreshTokenPart> => currentData as T & AutodefinableAppRefreshTokenPart;
 }

@@ -48,27 +48,23 @@ export class ManagersService extends BaseService<
     super(ctx, ctx.prisma.manager, config);
     initBuiltInHooks(this);
     initUserHooks(this);
-  }
 
-  augmentByDefault = async <T>(
-    currentData: Record<string, any>,
-  ): Promise<T & AutodefinableManagerPart> => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const ctx = this.ctx;
+    this.augmentByDefault = async <T>(
+      currentData: Record<string, any>,
+    ): Promise<T & AutodefinableManagerPart> => {
+      const defaultFieldConstructors = {
+        headOfUnit: async () => false,
+        active: async () => true,
+      };
 
-    const defaultFieldConstructors = {
-      headOfUnit: async () => false,
-      active: async () => true,
+      const pairedConstructors = R.toPairs(defaultFieldConstructors);
+
+      const resultedPairs: R.KeyValuePair<string, any>[] = [];
+      for (const [key, constructor] of pairedConstructors) {
+        resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
+      }
+
+      return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableManagerPart;
     };
-
-    const pairedConstructors = R.toPairs(defaultFieldConstructors);
-
-    const resultedPairs: R.KeyValuePair<string, any>[] = [];
-    for (const [key, constructor] of pairedConstructors) {
-      resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
-    }
-
-    return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableManagerPart;
-  };
+  }
 }

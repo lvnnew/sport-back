@@ -1890,7 +1890,9 @@
     "ru": "Делегирование прав между пользователями"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -4461,7 +4463,9 @@
     "ru": "Соединение, которым менеджерам назначаются пермишны в обход ролей"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -4641,7 +4645,9 @@
     "ru": "Соединение, которым менеджерам назначаются роли"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -5770,7 +5776,9 @@
     "ru": "Соединение, которым в роли наполняются разрешениями на те или иные операции"
    },
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "searchEnabled": true,
    "singleKey": true,
    "sortField": "id",
@@ -6931,7 +6939,7 @@
    "type": "string"
   },
   {
-   "default": true,
+   "default": false,
    "name": "bootstrap.enabled",
    "needFor": "Подготавливать окружеине при запуске",
    "required": false,
@@ -7613,7 +7621,9 @@
    },
    "period": "notPeriodic",
    "predefinedElements": [],
-   "previewFeatures": [],
+   "previewFeatures": [
+    "classService"
+   ],
    "registrarDepended": false,
    "resources": [
     {
