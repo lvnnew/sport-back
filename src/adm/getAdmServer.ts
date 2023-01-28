@@ -37,21 +37,28 @@ const authPlugin: ApolloServerPlugin = {
       didResolveOperation: async (
         resolutionContext: GraphQLRequestContextDidResolveOperation<{context: Context}>,
       ) => {
-        // const {getManagerId} = context;
+        // const {getManagerId, getPermissions} = context;
+
+        const managerId = await context.service('profile').getManagerId();
+        const permissions = await context.service('profile').getPermissions();
+
+        log.info(noop(managerId));
+        log.info(noop(permissions));
+
+        // log.info('getManagerId');
+        // log.info(managerId);
+
+        // log.info('getPermissions');
+        // log.info(permissions);
 
         resolutionContext.operation.selectionSet.selections.forEach((selection: SelectionNode) => {
           if (selection.kind === 'Field') {
-            const {name: {value: operationName}} = selection;
-            noop(operationName);
-            noop(typeof context);
-            // noop(getManagerId);
-            noop(flattenGraphqlToPermission);
-            noop(AuthenticationError);
-
-            // log.info(typeof getManagerId);
-            // log.info(getManagerId());
-
-            // log.info(getPermissions());
+            // const {name: {value: operationName}} = selection;
+            // noop(operationName);
+            // noop(typeof context);
+            // // noop(getManagerId);
+            // noop(flattenGraphqlToPermission);
+            // noop(AuthenticationError);
 
             // log.info(Object.keys(context));
 
@@ -68,7 +75,7 @@ const authPlugin: ApolloServerPlugin = {
             //   throw new AuthenticationError(`There is no permission for "${operationName}"`);
             // }
 
-            // if (!getPermissions().includes(permission)) {
+            // if (!permissions.includes(permission)) {
             //   throw new AuthenticationError(`Operation "${operationName}" not permitted`);
             // }
 
