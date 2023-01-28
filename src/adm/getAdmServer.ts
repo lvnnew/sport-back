@@ -57,8 +57,8 @@ const authPlugin: ApolloServerPlugin = {
             // noop(operationName);
             // noop(typeof context);
             // // noop(getManagerId);
-            // noop(flattenGraphqlToPermission);
-            // noop(AuthenticationError);
+            noop(flattenGraphqlToPermission);
+            noop(AuthenticationError);
 
             // log.info(Object.keys(context));
 
