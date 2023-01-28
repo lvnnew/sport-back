@@ -26,7 +26,7 @@
     "prisma": "prisma",
     "ts-node:withContext": "ts-node ./src/init/wrap.ts",
     "init:base": "ts-node src/init/baseInit.ts",
-    "init:permissions": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
+    "init:permissions": "yarn ts-node:withContext src/init/roles/initRoles.ts",
     "init:dev": "ts-node src/init/initDev.ts",
     "regen": "yarn ts-node src/meta/regenBasedOnMeta.ts && runlify regen",
     "preinstall": "npx only-allow yarn"

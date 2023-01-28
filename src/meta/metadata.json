@@ -6775,7 +6775,7 @@
    "projectCategory": "back"
   },
   {
-   "command": "yarn ts-node:withContext src/init/permissions/initPermissions.ts",
+   "command": "yarn ts-node:withContext src/init/roles/initRoles.ts",
    "name": "init:permissions",
    "needFor": "Инициализации системы ролевой модели",
    "projectCategory": "back"

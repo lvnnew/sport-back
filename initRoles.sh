@@ -11,7 +11,7 @@ echo $filenames
 for filename in $filenames; do
   env="${filename//.json/}"
   echo env: $env
-  command="yarn runlify start env=$env yarn ts-node:withContext src/init/permissions/initRoles.ts"
+  command="yarn runlify start env=$env yarn ts-node:withContext src/init/roles/initRolesWithPermissions.ts"
   echo command: $command
   $command
 done

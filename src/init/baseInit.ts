@@ -1,7 +1,6 @@
 import {createContext} from '../adm/services/context';
 import getQueue from '../clients/queue/getQueue';
-import initPermissions from './permissions/initPermissions';
-import initRoles from './permissions/initRoles';
+import initRolesWithPermissions from './roles/initRolesWithPermissions';
 import commonInit from './commonInit';
 
 // yarn init:base
@@ -18,8 +17,7 @@ const app = async () => {
   await commonInit(ctx);
 
   // Permissions
-  await initPermissions(ctx);
-  await initRoles(ctx);
+  await initRolesWithPermissions(ctx);
 
   await ctx.service('stats').recalculate();
 
