@@ -1,4 +1,3 @@
-import initRoles from './initRoles';
 import {Context} from '../../adm/services/types';
 import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 
