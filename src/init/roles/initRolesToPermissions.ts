@@ -1,9 +1,7 @@
 import {Context} from '../../adm/services/types';
-import {Role} from '../../types/enums';
-import {getRuntimePermissions} from '../../adm/services/getRuntimePermissions';
 import log from '../../log';
 
-const initRolesToPermissions = async (ctx: Context) => {
+const initRolesToPermissions = async (_ctx: Context) => {
   log.info('initRolesToPermissions started');
   const startedAt = Date.now();
 
