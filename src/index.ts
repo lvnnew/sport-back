@@ -94,9 +94,8 @@ const start = async () => {
   });
 };
 
-try {
-  start();
-} catch (error: any) {
+start().catch(error => {
   log.error(error);
-  createContext().then(ctx => ctx.close());
-}
+
+  throw error;
+});
