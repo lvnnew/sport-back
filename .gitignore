@@ -22,6 +22,7 @@ data
 
 config/*
 !config/default.json
+!config/local.json
 
 *.db
 *.cpuprofile
