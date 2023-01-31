@@ -1,5 +1,6 @@
 
 # DO NOT EDIT! THIS IS GENERATED FILE
+
 global:
   env: noName
   clusterName: noName
@@ -38,15 +39,13 @@ deployment:
 
 back:
   enabled: true
+  replicas: 1
   requests:
-    memory: "128Mi"
+    memory: "64Mi"
     cpu: "0.15"
   limits:
-    memory: "256Mi"
-    cpu: "1"
-
-ingress:
-  enabled: true
+    memory: "64Mi"
+    cpu: "0.15"
 
 metrics:
   enabled: true
@@ -82,6 +81,7 @@ database:
   uri: ''
 
 ingress:
+  enabled: true
   annotations:
     nginx.ingress.kubernetes.io/limit-connections: "100"
     nginx.ingress.kubernetes.io/limit-rps: "300"

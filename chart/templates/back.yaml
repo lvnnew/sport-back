@@ -27,7 +27,7 @@ kind: Deployment
 metadata:
   name: mtbase-back
 spec:
-  replicas: {{ $.Values.app.replicas }}
+  replicas: {{ $.Values.back.replicas }}
   strategy:
     type: RollingUpdate
     rollingUpdate:

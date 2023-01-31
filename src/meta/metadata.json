@@ -1,12 +1,22 @@
 {
  "back": {
   "limits": {
-   "cpu": "1",
-   "memory": "256Mi"
+   "cpu": "0.15",
+   "memory": "64Mi"
   },
+  "materialUiIcon": "Brightness1Outlined",
+  "name": "back",
+  "needFor": {},
+  "previewFeatures": [],
+  "replicas": 1,
   "requests": {
    "cpu": "0.15",
-   "memory": "128Mi"
+   "memory": "64Mi"
+  },
+  "title": {
+   "ru": {
+    "singular": "back"
+   }
   }
  },
  "catalogs": [
