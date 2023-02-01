@@ -36,7 +36,7 @@ export interface ElasticClient {
   createCounter: (index: ElasticIndexes) => (args?: ElasticListArgs) => Promise<CountResponse>;
   createManyPutter: (index: ElasticIndexes) => (
     dataset: Array<Record<string, any> & {id: string | number | bigint}>,
-  ) => Promise<BulkStats>;
+  ) => Promise<BulkStats | undefined>;
   deleteById: (index: ElasticIndexes, id: ID | ID[]) => Promise<BulkResponse | null>;
 }
 
@@ -280,6 +280,10 @@ export const createElasticManyPutter = (client: Client, index: ElasticIndexes) =
 ) => {
   const fullIndexName = await getFullIndexName(index);
   // log.info(`fullIndexName: ${fullIndexName}`);
+
+  if (dataset.length === 0) {
+    return;
+  }
 
   return client.helpers.bulk({
     datasource: dataset,
