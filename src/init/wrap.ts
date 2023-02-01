@@ -26,7 +26,8 @@ const wrap = async () => {
             await method(ctx);
           } catch (error: any) {
             log.error(`Method "${name || method?.name}" from file "${file}" run with error`);
-            log.error(error);
+            // eslint-disable-next-line no-console
+            console.error(error);
           }
         }
       }

@@ -6,6 +6,8 @@ import {PrismaPromise} from '@prisma/client';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
 import * as R from 'ramda';
 
+export const getRegistrarFields = R.pick(['row', 'registrarTypeId', 'registrarId']);
+
 export class DocumentBaseService<
   Entity extends WithID,
   MutationCreateArgs extends {},
@@ -105,7 +107,7 @@ export class DocumentBaseService<
         ];
 
         if (externalSearch) {
-          const where = R.pick(['registrarTypeId', 'registrarId', 'row'], createData);
+          const where = getRegistrarFields(createData);
 
           operations.push(
             this.ctx.prisma[externalSearch].upsert({
