@@ -9,6 +9,7 @@ const log: Logger = winston.createLogger({
   },
   format: format.combine(
     format.errors({stack: true}),
+    format.timestamp(),
     getFromNconf('logs.format') === 'json' ? winston.format.json() : winston.format.cli(),
   ),
   transports: [

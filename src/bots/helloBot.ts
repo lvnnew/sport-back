@@ -33,7 +33,8 @@ const startExpress = async () => {
       log.info(`🚀 Server ready at http://localhost:${port}`);
     })
     .on('error', (error) => {
-      log.error(error?.toString());
+      // eslint-disable-next-line no-console
+      console.error(error);
       throw error;
     });
 };
