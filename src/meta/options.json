@@ -65,6 +65,7 @@
  "projectPrefix": "mtbase",
  "projectsGroup": "mtbase",
  "readOnly": false,
+ "sharding": false,
  "showMetaPage": true,
  "skipWarningThisIsGenerated": false,
  "tenantsAvailable": false,
