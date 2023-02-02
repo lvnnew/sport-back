@@ -126,6 +126,8 @@ spec:
           value: {{ $.Values.kafka.queue.supportedVersion | quote }}
         - name: KAFKA_QUEUE_WAITING_INTERRUPT_TIME
           value: {{ $.Values.kafka.queue.waitingInterruptTime | quote }}
+        - name: KAFKA_SSL_ENABLED
+          value: {{ $.Values.kafka.ssl.enabled | quote }}
         - name: KAFKA_SSL_REJECT_UNAUTHORIZED
           value: {{ $.Values.kafka.ssl.rejectUnauthorized | quote }}
         - name: KAFKA_USERNAME

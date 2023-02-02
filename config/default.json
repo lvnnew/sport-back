@@ -30,6 +30,7 @@
   "kafka.queue.stackSize": 3,
   "kafka.queue.supportedVersion": "1;2",
   "kafka.queue.waitingInterruptTime": 60000,
+  "kafka.ssl.enabled": true,
   "kafka.ssl.rejectUnauthorized": false,
   "kafka.username": "",
   "logs.format": "plain",

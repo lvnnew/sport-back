@@ -65,6 +65,7 @@ const envConfig = {
   kafkaQueueStackSize: utils.getIntConfig('kafka.queue.stackSize', false),
   kafkaQueueSupportedVersion: utils.getStringConfig('kafka.queue.supportedVersion', false),
   kafkaQueueWaitingInterruptTime: utils.getIntConfig('kafka.queue.waitingInterruptTime', false),
+  kafkaSslEnabled: utils.getBooleanConfig('kafka.ssl.enabled', true),
   kafkaSslRejectUnauthorized: utils.getBooleanConfig('kafka.ssl.rejectUnauthorized', false),
   kafkaUsername: utils.getStringConfig('kafka.username', false),
   logsFormat: utils.getStringConfig('logs.format', false),

@@ -7181,6 +7181,18 @@
    "type": "int"
   },
   {
+   "default": true,
+   "name": "kafka.ssl.enabled",
+   "needFor": "Включена работа по ssl",
+   "required": true,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
+  },
+  {
    "default": false,
    "name": "kafka.ssl.rejectUnauthorized",
    "needFor": "Запрещать невалидный ssl сертификат",
