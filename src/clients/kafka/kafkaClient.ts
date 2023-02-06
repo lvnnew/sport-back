@@ -38,6 +38,7 @@ const getKafka = async (): Promise<Kafka> => {
     kafkaPassword,
     kafkaSslRejectUnauthorized,
     kafkaSslEnabled,
+    kafkaAuthEnabled,
   } = await getConfig();
 
   const brokers = kafkaBrokers?.split(';');
@@ -68,11 +69,11 @@ const getKafka = async (): Promise<Kafka> => {
     ssl: kafkaSslEnabled ? {
       rejectUnauthorized: kafkaSslRejectUnauthorized,
     } : false,
-    sasl: {
+    sasl: kafkaAuthEnabled ? {
       mechanism: 'plain',
       username: kafkaUsername,
       password: kafkaPassword,
-    },
+    } : undefined,
   };
 
   return new Kafka(kafkaConfig);
