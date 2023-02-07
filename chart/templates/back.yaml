@@ -70,6 +70,8 @@ spec:
           value: {{ $.Values.admin.recaptcha.requiredScore | quote }}
         - name: ADMIN_RECAPTCHA_SECRET_KEY
           value: {{ $.Values.admin.recaptcha.secretKey | quote }}
+        - name: ADMIN_UI_URL
+          value: {{ $.Values.admin.ui.url | quote }}
         - name: APP_ENVIRONMENT
           value: {{ $.Values.app.environment | quote }}
         - name: APP_JWT_SECRET
@@ -78,6 +80,8 @@ spec:
           value: {{ $.Values.app.name | quote }}
         - name: APP_TITLE
           value: {{ $.Values.app.title | quote }}
+        - name: APP_UI_URL
+          value: {{ $.Values.app.ui.url | quote }}
         - name: AUTHORIZATION_BACKEND_CHECKS_ENABLED
           value: {{ $.Values.authorization.backendChecks.enabled | quote }}
         - name: BOOTSTRAP_ENABLED
@@ -108,6 +112,8 @@ spec:
           value: {{ $.Values.es.username | quote }}
         - name: GRAPHQL_PLAYGROUND_ENABLED
           value: {{ $.Values.graphql.playground.enabled | quote }}
+        - name: KAFKA_AUTH_ENABLED
+          value: {{ $.Values.kafka.auth.enabled | quote }}
         - name: KAFKA_BROKERS
           value: {{ $.Values.kafka.brokers | quote }}
         - name: KAFKA_ENABLED

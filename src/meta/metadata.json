@@ -1127,7 +1127,7 @@
      "singular": "Audit log"
     },
     "ru": {
-     "plural": "Аудиты",
+     "plural": "Аудит",
      "singular": "Аудит"
     }
    },
@@ -6835,6 +6835,18 @@
    "type": "string"
   },
   {
+   "default": "http://localhost:8080",
+   "name": "admin.ui.url",
+   "needFor": "Урл административного интерфейса (без конечного слеша)",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
    "default": "dev",
    "name": "app.environment",
    "needFor": "Название окружения",
@@ -6874,6 +6886,18 @@
    "default": "Meta Template Base",
    "name": "app.title",
    "needFor": "Человеческое название приложения",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "http://localhost:4000",
+   "name": "app.ui.url",
+   "needFor": "Урл интерфейса конечного пользователя (без конечного слеша)",
    "required": false,
    "scopes": [
     "back",
@@ -7065,6 +7089,18 @@
    "name": "graphql.playground.enabled",
    "needFor": "Включение graphql playground (true | false)",
    "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
+  },
+  {
+   "default": true,
+   "name": "kafka.auth.enabled",
+   "needFor": "Включена проверка аутентификации",
+   "required": true,
    "scopes": [
     "back",
     "worker",

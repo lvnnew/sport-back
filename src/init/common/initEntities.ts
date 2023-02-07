@@ -27,7 +27,7 @@ const initEntities = async (ctx: Context) => {
     },
     {
       id: Entity.AuditLog,
-      title: 'Аудиты',
+      title: 'Аудит',
     },
     {
       id: Entity.AutogenerationHistoryEntry,
