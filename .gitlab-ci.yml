@@ -195,7 +195,6 @@ deploy-prod-back:
     SMTP_PASS: ${DEV_SMTP_PASS}
     SMTP_PORT: ${DEV_SMTP_PORT}
     SMTP_USER: ${DEV_SMTP_USER}
-    APP_ENVIRONMENT: dev
   only:
     - master
 
@@ -255,7 +254,6 @@ deploy-prod-back:
     SMTP_PASS: ${PROD_SMTP_PASS}
     SMTP_PORT: ${PROD_SMTP_PORT}
     SMTP_USER: ${PROD_SMTP_USER}
-    APP_ENVIRONMENT: prod
   only:
     - release
     - /^release-.*$/
