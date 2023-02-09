@@ -7000,7 +7000,7 @@
    "default": "postgresql://postgres:password@localhost:5432",
    "name": "database.main.migration.uri",
    "needFor": "Строка подключения к основной базе для миграций (должна быть прямой строкой подключения к бд минуя pgbouncer, если он используется)",
-   "required": false,
+   "required": true,
    "scopes": [
     "back",
     "worker",

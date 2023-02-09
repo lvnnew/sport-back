@@ -47,7 +47,7 @@ const envConfig = {
   bootstrapEnabled: utils.getBooleanConfig('bootstrap.enabled', false),
   customerRecaptchaRequiredScore: utils.getStringConfig('customer.recaptcha.requiredScore', false),
   customerRecaptchaSecretKey: utils.getStringConfig('customer.recaptcha.secretKey', false),
-  databaseMainMigrationUri: utils.getStringConfig('database.main.migration.uri', false),
+  databaseMainMigrationUri: utils.getStringConfig('database.main.migration.uri', true),
   databaseMainReadOnlyEnabled: utils.getBooleanConfig('database.main.readOnly.enabled', true),
   databaseMainReadOnlyUri: utils.getStringConfig('database.main.readOnly.uri', false),
   databaseMainWriteUri: utils.getStringConfig('database.main.write.uri', true),
