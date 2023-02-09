@@ -13,7 +13,7 @@
 # Common backup files
 *.swp
 *.bak
-*.tmp
+*.zip
 *~
 # Various IDEs
 .project
