@@ -11,8 +11,7 @@ const initManager = async (
     firstName,
     lastName,
     roles,
-    tenantId,
-    photoId,
+    login,
   } :
   {
     email: string;
@@ -20,8 +19,7 @@ const initManager = async (
     firstName: string;
     lastName: string;
     roles: Role[];
-    tenantId?: number;
-    photoId?: number | null;
+    login?: string;
   },
 ) => {
   const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
@@ -31,23 +29,20 @@ const initManager = async (
       email,
       lastName,
       firstName,
-      tenantId,
     },
     {
       email,
       lastName,
       firstName,
-      tenantId,
-      photoId,
     },
   );
 
   const managerLogin = await ctx.service('managerLogins').upsertAdvanced(
     {
-      login: email,
+      login: login ?? email,
     },
     {
-      login: email,
+      login: login ?? email,
       passwordHash: hashedPassword,
       emailVerified: true,
       initialPasswordChanged: true,
