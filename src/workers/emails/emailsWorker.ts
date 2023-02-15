@@ -13,9 +13,7 @@ import healthRouter from '../../rest/healthRouter';
 // yarn ts-node src/workers/emails/emailsWorker.ts
 // yarn ts-node src/workers/emails/emailsWorker.ts
 
-exitHook(async () => {
-  createContext().then(ctx => ctx.close());
-});
+exitHook(() => createContext().then(ctx => ctx.close()));
 
 const app = express();
 

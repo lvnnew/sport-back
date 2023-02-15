@@ -7,9 +7,7 @@ import healthRouter from '../rest/healthRouter';
 
 // yarn ts-node src/bots/helloBot.ts
 
-exitHook(async () => {
-  createContext().then(ctx => ctx.close());
-});
+exitHook(() => createContext().then(ctx => ctx.close()));
 
 const app = express();
 

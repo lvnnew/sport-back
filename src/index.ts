@@ -21,9 +21,7 @@ import getMetricsHandler from './rest/getMetricsHandler';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-exitHook(async () => {
-  createContext().then(ctx => ctx.close());
-});
+exitHook(() => createContext().then(ctx => ctx.close()));
 
 const app = express();
 
