@@ -1,5 +1,5 @@
 import {PermissionToGraphql} from '../../permissionsToGraphql';
-import {ProfileService} from '../../../services/ProfileService/ProfileService';
+import ProfileService from '../../../services/ProfileService/ProfileService';
 
 const profilePermissionToGraphql: Partial<PermissionToGraphql<ProfileService>> = {
   getPermissions: 'getPermissions',

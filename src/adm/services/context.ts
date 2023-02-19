@@ -1,6 +1,7 @@
 import log from '../../log';
 import defaultContainer from './defaultContainer';
-import {getProfileService, ProfileService, UserData} from './ProfileService/ProfileService';
+import ProfileService from './ProfileService/ProfileService';
+import {UserData} from './ProfileService/BaseProfileService';
 import {interfaces} from 'inversify/lib/interfaces/interfaces';
 import serviceConstrictors from './serviceConstrictors';
 import {Context, Services} from './types';
@@ -92,14 +93,14 @@ export const createUserAwareContext = (context: Context, userId: number): Contex
 };
 
 export const createUsersAwareContext = async (
-  {userId, managerId}: UserData,
+  {userId, managerId, managerLogin}: UserData,
   container: interfaces.Container = defaultContainer,
 ): Promise<Context> => {
   const child = container.createChild();
 
   const created = await createContext(child);
 
-  const profile = getProfileService(created);
+  const profile = new ProfileService(created);
 
   if (userId) {
     profile.setUserId(userId);
@@ -107,6 +108,10 @@ export const createUsersAwareContext = async (
 
   if (managerId) {
     profile.setManagerId(managerId);
+  }
+
+  if (managerLogin) {
+    profile.setManagerLogin(managerLogin);
   }
 
   child.bind<ProfileService>('profile')
