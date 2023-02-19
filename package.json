@@ -23,7 +23,7 @@
     "test": "jest --maxWorkers 2",
     "prisma:gen": "prisma generate",
     "prisma:newMigration": "runlify start env=migration prisma migrate dev --preview-feature",
-    "prisma:deploy": "runlify start prisma migrate deploy --schema prisma/deployConnection.prisma",
+    "prisma:deploy": "prisma migrate deploy --schema prisma/deployConnection.prisma",
     "prisma": "prisma",
     "ts-node:withContext": "ts-node ./src/init/wrap.ts",
     "init:base": "ts-node src/init/baseInit.ts",
