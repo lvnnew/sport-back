@@ -386,6 +386,7 @@ model File {
 	mimetype	String
 	s3Key	String
 	eTag	String
+	bytes	Int?
 	managerPhotos	Manager[]	@relation("From-Manager.photo")
 }
 

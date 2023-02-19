@@ -10,6 +10,7 @@ export default gql`
     mimetype: String!
     s3Key: String!
     eTag: String!
+    bytes: Int
   }
 
   input FileFilter {
@@ -26,6 +27,12 @@ export default gql`
     s3Key_in: [String]
     eTag: String
     eTag_in: [String]
+    bytes: Int
+    bytes_in: [Int]
+    bytes_lte: Int
+    bytes_gte: Int
+    bytes_lt: Int
+    bytes_gt: Int
   }
 
   type ListMetadata {
@@ -39,8 +46,8 @@ export default gql`
   }
 
   type Mutation {
-    createFile(originalName: String!, url: String!, mimetype: String!, s3Key: String!, eTag: String!): File
-    updateFile(id: Int!, originalName: String!, url: String!, mimetype: String!, s3Key: String!, eTag: String!): File
+    createFile(originalName: String!, url: String!, mimetype: String!, s3Key: String!, eTag: String!, bytes: Int): File
+    updateFile(id: Int!, originalName: String!, url: String!, mimetype: String!, s3Key: String!, eTag: String!, bytes: Int): File
     removeFile(id: Int!): File
   }
 `;

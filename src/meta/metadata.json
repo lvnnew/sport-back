@@ -2191,6 +2191,25 @@
      "type": "string",
      "updatable": true,
      "updatableByUser": true
+    },
+    {
+     "category": "scalar",
+     "hidden": false,
+     "name": "bytes",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInFilter": true,
+     "showInList": false,
+     "title": {
+      "ru": "Bytes"
+     },
+     "type": "int",
+     "updatable": true,
+     "updatableByUser": true
     }
    ],
    "forms": {
@@ -2231,6 +2250,11 @@
         "alwaysOn": false,
         "hidden": false,
         "name": "eTag"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "bytes"
        }
       ]
      }
@@ -7763,8 +7787,14 @@
   }
  ],
  "languages": [
-  "en",
-  "ru"
+  {
+   "id": "en",
+   "title": "English"
+  },
+  {
+   "id": "ru",
+   "title": "Russian"
+  }
  ],
  "name": "mtbase",
  "needFor": "notSet",

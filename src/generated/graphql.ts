@@ -1058,6 +1058,7 @@ export type Mutation = {
   createEntity?: Maybe<Entity>;
   updateEntity?: Maybe<Entity>;
   removeEntity?: Maybe<Entity>;
+  downloadEntityRecords?: Maybe<Scalars['Void']>;
   createFile?: Maybe<File>;
   updateFile?: Maybe<File>;
   removeFile?: Maybe<File>;
@@ -1374,12 +1375,19 @@ export type MutationRemoveEntityArgs = {
 };
 
 
+export type MutationDownloadEntityRecordsArgs = {
+  entityName: EntityType;
+  filter?: InputMaybe<Scalars['JSON']>;
+};
+
+
 export type MutationCreateFileArgs = {
   originalName: Scalars['String'];
   url: Scalars['String'];
   mimetype: Scalars['String'];
   s3Key: Scalars['String'];
   eTag: Scalars['String'];
+  bytes?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -1390,6 +1398,7 @@ export type MutationUpdateFileArgs = {
   mimetype: Scalars['String'];
   s3Key: Scalars['String'];
   eTag: Scalars['String'];
+  bytes?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -2175,6 +2184,7 @@ export type File = {
   mimetype: Scalars['String'];
   s3Key: Scalars['String'];
   eTag: Scalars['String'];
+  bytes?: Maybe<Scalars['Int']>;
 };
 
 export type FileFilter = {
@@ -2191,6 +2201,12 @@ export type FileFilter = {
   s3Key_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   eTag?: InputMaybe<Scalars['String']>;
   eTag_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bytes?: InputMaybe<Scalars['Int']>;
+  bytes_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  bytes_lte?: InputMaybe<Scalars['Int']>;
+  bytes_gte?: InputMaybe<Scalars['Int']>;
+  bytes_lt?: InputMaybe<Scalars['Int']>;
+  bytes_gt?: InputMaybe<Scalars['Int']>;
 };
 
 export enum EntityType {
@@ -3512,6 +3528,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createEntity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<MutationCreateEntityArgs, 'id'>>;
   updateEntity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<MutationUpdateEntityArgs, 'id'>>;
   removeEntity?: Resolver<Maybe<ResolversTypes['Entity']>, ParentType, ContextType, RequireFields<MutationRemoveEntityArgs, 'id'>>;
+  downloadEntityRecords?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationDownloadEntityRecordsArgs, 'entityName'>>;
   createFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationCreateFileArgs, 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   updateFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationUpdateFileArgs, 'id' | 'originalName' | 'url' | 'mimetype' | 's3Key' | 'eTag'>>;
   removeFile?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType, RequireFields<MutationRemoveFileArgs, 'id'>>;
@@ -3685,6 +3702,7 @@ export type FileResolvers<ContextType = any, ParentType extends ResolversParentT
   mimetype?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   s3Key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   eTag?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  bytes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

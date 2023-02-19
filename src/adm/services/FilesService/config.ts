@@ -17,7 +17,8 @@ const config: ServiceConfig = {
     'url',
     'mimetype',
     's3Key',
-    'eTag'
+    'eTag',
+    'bytes'
   ],
   forbiddenForUserFields: [],
   entityTypeId: Entity.File,
