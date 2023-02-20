@@ -24,7 +24,7 @@ export interface ElasticListArgs {
   filter?: Record<string, any>,
   page?: number,
   perPage?: number,
-  search?: Record<string, any>,
+  search?: string,
 }
 
 type ID = string | number | bigint;
@@ -70,10 +70,12 @@ const fillInParams = ({
   if (search) {
     must.push(
       ...(search ?
-        R
-          .toPairs(search)
-          .map(([key, value]: [any, any]) => ({match_phrase_prefix: {[key]: {query: value}}})) :
-        []));
+        [{
+          query_string: {
+            query: `${search}*`,
+            analyze_wildcard: true,
+          },
+        }] : []));
   }
 
   if (filter) {

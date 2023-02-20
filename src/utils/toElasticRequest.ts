@@ -35,7 +35,7 @@ export const toElasticRequest = ({
     filter: toElasticFilter(filter),
     page: page ? page + 1 : undefined,
     perPage: perPage || 1000,
-    search: filter?.q ? {search: filter?.q} : undefined,
+    search: filter?.q,
   };
   // log.info(JSON.stringify(result, null, 1));
 
