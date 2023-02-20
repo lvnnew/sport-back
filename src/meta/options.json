@@ -59,7 +59,6 @@
  "k8sImagePullSecrets": "docker-registry",
  "k8sNamespacePrefix": "",
  "k8sSubdomainPrefix": "",
- "localesEnabled": true,
  "mainColorOfAppTitile": true,
  "projectName": "Meta Template Base",
  "projectPrefix": "mtbase",
