@@ -1945,6 +1945,7 @@ export type AggregateTrackingFilter = {
   lastAggregatesScheduled_gte?: InputMaybe<Scalars['DateTime']>;
   lastAggregatesScheduled_lt?: InputMaybe<Scalars['DateTime']>;
   lastAggregatesScheduled_gt?: InputMaybe<Scalars['DateTime']>;
+  lastAggregatesScheduled_defined?: InputMaybe<Scalars['Boolean']>;
   lastEntityUpdate?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate_lte?: InputMaybe<Scalars['DateTime']>;
   lastEntityUpdate_gte?: InputMaybe<Scalars['DateTime']>;
@@ -2013,6 +2014,7 @@ export type AuditLogActionTypeFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type AuditLog = {
@@ -2045,8 +2047,10 @@ export type AuditLogFilter = {
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   success?: InputMaybe<Scalars['Boolean']>;
+  success_defined?: InputMaybe<Scalars['Boolean']>;
   error?: InputMaybe<Scalars['String']>;
   error_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  error_defined?: InputMaybe<Scalars['Boolean']>;
   entityTypeId?: InputMaybe<Scalars['String']>;
   entityTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entityId?: InputMaybe<Scalars['String']>;
@@ -2055,15 +2059,21 @@ export type AuditLogFilter = {
   actionTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  managerId_defined?: InputMaybe<Scalars['Boolean']>;
   userId?: InputMaybe<Scalars['Int']>;
   userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  userId_defined?: InputMaybe<Scalars['Boolean']>;
   foreign?: InputMaybe<Scalars['Boolean']>;
+  foreign_defined?: InputMaybe<Scalars['Boolean']>;
   foreignEntityType?: InputMaybe<Scalars['String']>;
   foreignEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  foreignEntityType_defined?: InputMaybe<Scalars['Boolean']>;
   foreignEntityId?: InputMaybe<Scalars['String']>;
   foreignEntityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  foreignEntityId_defined?: InputMaybe<Scalars['Boolean']>;
   actionData?: InputMaybe<Scalars['String']>;
   actionData_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  actionData_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type AutogenerationHistoryEntry = {
@@ -2101,6 +2111,7 @@ export type AutogenerationHistoryEntryFilter = {
   errorOccurred?: InputMaybe<Scalars['Boolean']>;
   error?: InputMaybe<Scalars['String']>;
   error_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  error_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type AutogenerationRule = {
@@ -2126,6 +2137,7 @@ export type AutogenerationRuleFilter = {
   version_gte?: InputMaybe<Scalars['Date']>;
   version_lt?: InputMaybe<Scalars['Date']>;
   version_gt?: InputMaybe<Scalars['Date']>;
+  version_defined?: InputMaybe<Scalars['Boolean']>;
   originalEntityType?: InputMaybe<Scalars['String']>;
   originalEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   generatingEntityType?: InputMaybe<Scalars['String']>;
@@ -2159,6 +2171,7 @@ export type DelegationFilter = {
   expiresAt_gte?: InputMaybe<Scalars['Date']>;
   expiresAt_lt?: InputMaybe<Scalars['Date']>;
   expiresAt_gt?: InputMaybe<Scalars['Date']>;
+  expiresAt_defined?: InputMaybe<Scalars['Boolean']>;
   active?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2174,6 +2187,7 @@ export type EntityFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type File = {
@@ -2207,6 +2221,7 @@ export type FileFilter = {
   bytes_gte?: InputMaybe<Scalars['Int']>;
   bytes_lt?: InputMaybe<Scalars['Int']>;
   bytes_gt?: InputMaybe<Scalars['Int']>;
+  bytes_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export enum EntityType {
@@ -2257,6 +2272,7 @@ export type LanguageFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type MailingCampaignStatus = {
@@ -2303,8 +2319,10 @@ export type MailingCampaignFilter = {
   date_gte?: InputMaybe<Scalars['Date']>;
   date_lt?: InputMaybe<Scalars['Date']>;
   date_gt?: InputMaybe<Scalars['Date']>;
+  date_defined?: InputMaybe<Scalars['Boolean']>;
   mailingCampaignStatusId?: InputMaybe<Scalars['String']>;
   mailingCampaignStatusId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  mailingCampaignStatusId_defined?: InputMaybe<Scalars['Boolean']>;
   messageTemplateId?: InputMaybe<Scalars['String']>;
   messageTemplateId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -2322,6 +2340,7 @@ export type MailingMessageStatusFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
   final?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2388,16 +2407,22 @@ export type MailingMessageFilter = {
   dateSent_gte?: InputMaybe<Scalars['DateTime']>;
   dateSent_lt?: InputMaybe<Scalars['DateTime']>;
   dateSent_gt?: InputMaybe<Scalars['DateTime']>;
+  dateSent_defined?: InputMaybe<Scalars['Boolean']>;
   error?: InputMaybe<Scalars['String']>;
   error_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  error_defined?: InputMaybe<Scalars['Boolean']>;
   html?: InputMaybe<Scalars['String']>;
   html_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  html_defined?: InputMaybe<Scalars['Boolean']>;
   text?: InputMaybe<Scalars['String']>;
   text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  text_defined?: InputMaybe<Scalars['Boolean']>;
   uniqueKey?: InputMaybe<Scalars['String']>;
   uniqueKey_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uniqueKey_defined?: InputMaybe<Scalars['Boolean']>;
   subject?: InputMaybe<Scalars['String']>;
   subject_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  subject_defined?: InputMaybe<Scalars['Boolean']>;
   mailingMessageStatusId?: InputMaybe<Scalars['String']>;
   mailingMessageStatusId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   messageTemplateLangVariantId?: InputMaybe<Scalars['Int']>;
@@ -2467,26 +2492,33 @@ export type ManagerFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
   lastName?: InputMaybe<Scalars['String']>;
   lastName_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   firstName?: InputMaybe<Scalars['String']>;
   firstName_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   languageId?: InputMaybe<Scalars['String']>;
   languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  languageId_defined?: InputMaybe<Scalars['Boolean']>;
   email?: InputMaybe<Scalars['String']>;
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   phone?: InputMaybe<Scalars['String']>;
   phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  phone_defined?: InputMaybe<Scalars['Boolean']>;
   photoId?: InputMaybe<Scalars['Int']>;
   photoId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  photoId_defined?: InputMaybe<Scalars['Boolean']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   telegramLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  telegramLogin_defined?: InputMaybe<Scalars['Boolean']>;
   unitId?: InputMaybe<Scalars['Int']>;
   unitId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  unitId_defined?: InputMaybe<Scalars['Boolean']>;
   headOfUnit?: InputMaybe<Scalars['Boolean']>;
   active?: InputMaybe<Scalars['Boolean']>;
   tenantId?: InputMaybe<Scalars['Int']>;
   tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  tenantId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ManagersToPermission = {
@@ -2510,6 +2542,7 @@ export type ManagersToPermissionFilter = {
   expiresAt_gte?: InputMaybe<Scalars['Date']>;
   expiresAt_lt?: InputMaybe<Scalars['Date']>;
   expiresAt_gt?: InputMaybe<Scalars['Date']>;
+  expiresAt_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type ManagersToRole = {
@@ -2533,6 +2566,7 @@ export type ManagersToRoleFilter = {
   expiresAt_gte?: InputMaybe<Scalars['Date']>;
   expiresAt_lt?: InputMaybe<Scalars['Date']>;
   expiresAt_gt?: InputMaybe<Scalars['Date']>;
+  expiresAt_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type MessageTemplateLangVariant = {
@@ -2552,6 +2586,7 @@ export type MessageTemplateLangVariantFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
   subjectTemplate?: InputMaybe<Scalars['String']>;
   subjectTemplate_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bodyTemplate?: InputMaybe<Scalars['String']>;
@@ -2562,6 +2597,7 @@ export type MessageTemplateLangVariantFilter = {
   languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   additionalStyle?: InputMaybe<Scalars['String']>;
   additionalStyle_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  additionalStyle_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type MessageTemplate = {
@@ -2585,8 +2621,10 @@ export type MessageTemplateFilter = {
   messageTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   dataExample?: InputMaybe<Scalars['String']>;
   dataExample_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  dataExample_defined?: InputMaybe<Scalars['Boolean']>;
   templateStyleId?: InputMaybe<Scalars['Int']>;
   templateStyleId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  templateStyleId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type MessageType = {
@@ -2604,6 +2642,7 @@ export type MessageTypeFilter = {
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description?: InputMaybe<Scalars['String']>;
   description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Permission = {
@@ -2618,6 +2657,7 @@ export type PermissionFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type PermissionsWithMeta = {
@@ -2642,6 +2682,7 @@ export type RoleFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
   hasAllPermissions?: InputMaybe<Scalars['Boolean']>;
   allTenantsAvailable?: InputMaybe<Scalars['Boolean']>;
 };
@@ -2679,12 +2720,14 @@ export type StatFilter = {
   updated_gte?: InputMaybe<Scalars['DateTime']>;
   updated_lt?: InputMaybe<Scalars['DateTime']>;
   updated_gt?: InputMaybe<Scalars['DateTime']>;
+  updated_defined?: InputMaybe<Scalars['Boolean']>;
   helloCount?: InputMaybe<Scalars['Int']>;
   helloCount_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   helloCount_lte?: InputMaybe<Scalars['Int']>;
   helloCount_gte?: InputMaybe<Scalars['Int']>;
   helloCount_lt?: InputMaybe<Scalars['Int']>;
   helloCount_gt?: InputMaybe<Scalars['Int']>;
+  helloCount_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Tag = {
@@ -2699,6 +2742,7 @@ export type TagFilter = {
   id?: InputMaybe<Scalars['Int']>;
   comment?: InputMaybe<Scalars['String']>;
   comment_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  comment_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type TemplateStyle = {
@@ -2731,6 +2775,7 @@ export type TenantFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
   utcOffset?: InputMaybe<Scalars['Int']>;
   utcOffset_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   utcOffset_lte?: InputMaybe<Scalars['Int']>;
@@ -2754,6 +2799,7 @@ export type UnitFilter = {
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   parentId?: InputMaybe<Scalars['Int']>;
   parentId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  parentId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type User = {
@@ -2772,6 +2818,7 @@ export type UserFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
   lastname?: InputMaybe<Scalars['String']>;
   lastname_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   firstname?: InputMaybe<Scalars['String']>;
@@ -2780,6 +2827,7 @@ export type UserFilter = {
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tenantId?: InputMaybe<Scalars['Int']>;
   tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  tenantId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 

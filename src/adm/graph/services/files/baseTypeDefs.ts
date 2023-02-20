@@ -33,6 +33,7 @@ export default gql`
     bytes_gte: Int
     bytes_lt: Int
     bytes_gt: Int
+    bytes_defined: Boolean
   }
 
   type ListMetadata {

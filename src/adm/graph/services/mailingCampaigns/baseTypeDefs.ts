@@ -37,8 +37,10 @@ export default gql`
     date_gte: Date
     date_lt: Date
     date_gt: Date
+    date_defined: Boolean
     mailingCampaignStatusId: String
     mailingCampaignStatusId_in: [String]
+    mailingCampaignStatusId_defined: Boolean
     messageTemplateId: String
     messageTemplateId_in: [String]
   }

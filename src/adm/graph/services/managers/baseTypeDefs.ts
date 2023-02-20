@@ -25,26 +25,33 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_defined: Boolean
     lastName: String
     lastName_in: [String]
     firstName: String
     firstName_in: [String]
     languageId: String
     languageId_in: [String]
+    languageId_defined: Boolean
     email: String
     email_in: [String]
     phone: String
     phone_in: [String]
+    phone_defined: Boolean
     photoId: Int
     photoId_in: [Int]
+    photoId_defined: Boolean
     telegramLogin: String
     telegramLogin_in: [String]
+    telegramLogin_defined: Boolean
     unitId: Int
     unitId_in: [Int]
+    unitId_defined: Boolean
     headOfUnit: Boolean
     active: Boolean
     tenantId: Int
     tenantId_in: [Int]
+    tenantId_defined: Boolean
   }
 
   type ListMetadata {

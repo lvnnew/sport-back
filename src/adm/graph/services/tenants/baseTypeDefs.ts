@@ -15,6 +15,7 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_defined: Boolean
     utcOffset: Int
     utcOffset_in: [Int]
     utcOffset_lte: Int

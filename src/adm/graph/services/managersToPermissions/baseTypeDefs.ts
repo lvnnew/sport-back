@@ -28,6 +28,7 @@ export default gql`
     expiresAt_gte: Date
     expiresAt_lt: Date
     expiresAt_gt: Date
+    expiresAt_defined: Boolean
   }
 
   type ListMetadata {

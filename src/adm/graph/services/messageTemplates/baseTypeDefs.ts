@@ -23,8 +23,10 @@ export default gql`
     messageTypeId_in: [String]
     dataExample: String
     dataExample_in: [String]
+    dataExample_defined: Boolean
     templateStyleId: Int
     templateStyleId_in: [Int]
+    templateStyleId_defined: Boolean
   }
 
   type ListMetadata {

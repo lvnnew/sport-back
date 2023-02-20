@@ -23,12 +23,14 @@ export default gql`
     updated_gte: DateTime
     updated_lt: DateTime
     updated_gt: DateTime
+    updated_defined: Boolean
     helloCount: Int
     helloCount_in: [Int]
     helloCount_lte: Int
     helloCount_gte: Int
     helloCount_lt: Int
     helloCount_gt: Int
+    helloCount_defined: Boolean
   }
 
   type ListMetadata {

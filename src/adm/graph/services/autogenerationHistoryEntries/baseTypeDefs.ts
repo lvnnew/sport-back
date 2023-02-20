@@ -47,6 +47,7 @@ export default gql`
     errorOccurred: Boolean
     error: String
     error_in: [String]
+    error_defined: Boolean
   }
 
   type ListMetadata {

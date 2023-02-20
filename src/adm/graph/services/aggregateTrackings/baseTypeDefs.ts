@@ -36,6 +36,7 @@ export default gql`
     lastAggregatesScheduled_gte: DateTime
     lastAggregatesScheduled_lt: DateTime
     lastAggregatesScheduled_gt: DateTime
+    lastAggregatesScheduled_defined: Boolean
     lastEntityUpdate: DateTime
     lastEntityUpdate_lte: DateTime
     lastEntityUpdate_gte: DateTime

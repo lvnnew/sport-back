@@ -60,16 +60,22 @@ export default gql`
     dateSent_gte: DateTime
     dateSent_lt: DateTime
     dateSent_gt: DateTime
+    dateSent_defined: Boolean
     error: String
     error_in: [String]
+    error_defined: Boolean
     html: String
     html_in: [String]
+    html_defined: Boolean
     text: String
     text_in: [String]
+    text_defined: Boolean
     uniqueKey: String
     uniqueKey_in: [String]
+    uniqueKey_defined: Boolean
     subject: String
     subject_in: [String]
+    subject_defined: Boolean
     mailingMessageStatusId: String
     mailingMessageStatusId_in: [String]
     messageTemplateLangVariantId: Int

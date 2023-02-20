@@ -19,6 +19,7 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_defined: Boolean
     subjectTemplate: String
     subjectTemplate_in: [String]
     bodyTemplate: String
@@ -29,6 +30,7 @@ export default gql`
     languageId_in: [String]
     additionalStyle: String
     additionalStyle_in: [String]
+    additionalStyle_defined: Boolean
   }
 
   type ListMetadata {

@@ -66,6 +66,7 @@ const fillInParams = ({
 
   const elasticFilter: QueryDslQueryContainer | QueryDslQueryContainer[] = [];
   const must: QueryDslQueryContainer | QueryDslQueryContainer[] = [];
+  const mustNot: QueryDslQueryContainer | QueryDslQueryContainer[] = [];
 
   if (search) {
     must.push(
@@ -87,7 +88,8 @@ const fillInParams = ({
             !key.endsWith('_lt') &&
             !key.endsWith('_lte') &&
             !key.endsWith('_gt') &&
-            !key.endsWith('_gte'),
+            !key.endsWith('_gte') &&
+            !key.endsWith('_defined'),
         ),
     );
 
@@ -185,12 +187,33 @@ const fillInParams = ({
         });
       }
     }
+
+    const definedFields = R.toPairs(filter).filter(([key]) => key.endsWith('_defined'));
+    if (definedFields.length) {
+      for (const [key, value] of definedFields) {
+        const field = key.replaceAll('_defined', '');
+        if (value) {
+          elasticFilter.push({
+            exists: {
+              field,
+            },
+          });
+        } else {
+          mustNot.push({
+            exists: {
+              field,
+            },
+          });
+        }
+      }
+    }
   }
 
   req.query = {
     bool: {
       filter: elasticFilter,
       must,
+      must_not: mustNot,
     },
   };
 

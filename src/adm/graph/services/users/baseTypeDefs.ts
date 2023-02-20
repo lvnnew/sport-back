@@ -18,6 +18,7 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_defined: Boolean
     lastname: String
     lastname_in: [String]
     firstname: String
@@ -26,6 +27,7 @@ export default gql`
     email_in: [String]
     tenantId: Int
     tenantId_in: [Int]
+    tenantId_defined: Boolean
   }
 
   type ListMetadata {

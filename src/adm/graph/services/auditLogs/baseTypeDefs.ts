@@ -37,8 +37,10 @@ export default gql`
     title: String
     title_in: [String]
     success: Boolean
+    success_defined: Boolean
     error: String
     error_in: [String]
+    error_defined: Boolean
     entityTypeId: String
     entityTypeId_in: [String]
     entityId: String
@@ -47,15 +49,21 @@ export default gql`
     actionTypeId_in: [String]
     managerId: Int
     managerId_in: [Int]
+    managerId_defined: Boolean
     userId: Int
     userId_in: [Int]
+    userId_defined: Boolean
     foreign: Boolean
+    foreign_defined: Boolean
     foreignEntityType: String
     foreignEntityType_in: [String]
+    foreignEntityType_defined: Boolean
     foreignEntityId: String
     foreignEntityId_in: [String]
+    foreignEntityId_defined: Boolean
     actionData: String
     actionData_in: [String]
+    actionData_defined: Boolean
   }
 
   type ListMetadata {

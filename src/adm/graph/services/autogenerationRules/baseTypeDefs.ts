@@ -30,6 +30,7 @@ export default gql`
     version_gte: Date
     version_lt: Date
     version_gt: Date
+    version_defined: Boolean
     originalEntityType: String
     originalEntityType_in: [String]
     generatingEntityType: String

@@ -17,6 +17,7 @@ export default gql`
     title_in: [String]
     parentId: Int
     parentId_in: [Int]
+    parentId_defined: Boolean
   }
 
   type ListMetadata {

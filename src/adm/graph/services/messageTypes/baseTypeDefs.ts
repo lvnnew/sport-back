@@ -17,6 +17,7 @@ export default gql`
     title_in: [String]
     description: String
     description_in: [String]
+    description_defined: Boolean
   }
 
   type ListMetadata {
