@@ -69,7 +69,7 @@ export class AdditionalAuditLogsService extends AuditLogsService {
       actionTypeId,
       actionData: JSON.stringify(actionData),
       managerId: this.ctx.service('profile').getManagerId(),
-      userId: this.ctx.service('profile').getUserId(),
+      managerLogin: this.ctx.service('profile').getManagerLogin(),
     };
 
     return this.ctx.prisma.auditLog.create({

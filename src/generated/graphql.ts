@@ -1248,6 +1248,7 @@ export type MutationCreateAuditLogArgs = {
   entityId: Scalars['String'];
   actionTypeId: Scalars['String'];
   managerId?: InputMaybe<Scalars['Int']>;
+  managerLogin?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['Int']>;
   foreign?: InputMaybe<Scalars['Boolean']>;
   foreignEntityType?: InputMaybe<Scalars['String']>;
@@ -1266,6 +1267,7 @@ export type MutationUpdateAuditLogArgs = {
   entityId: Scalars['String'];
   actionTypeId: Scalars['String'];
   managerId?: InputMaybe<Scalars['Int']>;
+  managerLogin?: InputMaybe<Scalars['String']>;
   userId?: InputMaybe<Scalars['Int']>;
   foreign?: InputMaybe<Scalars['Boolean']>;
   foreignEntityType?: InputMaybe<Scalars['String']>;
@@ -2028,6 +2030,7 @@ export type AuditLog = {
   entityId: Scalars['String'];
   actionTypeId: Scalars['String'];
   managerId?: Maybe<Scalars['Int']>;
+  managerLogin?: Maybe<Scalars['String']>;
   userId?: Maybe<Scalars['Int']>;
   foreign?: Maybe<Scalars['Boolean']>;
   foreignEntityType?: Maybe<Scalars['String']>;
@@ -2060,6 +2063,9 @@ export type AuditLogFilter = {
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   managerId_defined?: InputMaybe<Scalars['Boolean']>;
+  managerLogin?: InputMaybe<Scalars['String']>;
+  managerLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  managerLogin_defined?: InputMaybe<Scalars['Boolean']>;
   userId?: InputMaybe<Scalars['Int']>;
   userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   userId_defined?: InputMaybe<Scalars['Boolean']>;
@@ -3696,6 +3702,7 @@ export type AuditLogResolvers<ContextType = any, ParentType extends ResolversPar
   entityId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   actionTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   managerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  managerLogin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   userId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   foreign?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   foreignEntityType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

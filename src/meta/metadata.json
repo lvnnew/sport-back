@@ -921,6 +921,26 @@
      "updatableByUser": true
     },
     {
+     "category": "scalar",
+     "hidden": false,
+     "name": "managerLogin",
+     "needFor": "",
+     "required": false,
+     "requiredOnInput": null,
+     "searchable": true,
+     "showInCreate": true,
+     "showInEdit": true,
+     "showInFilter": true,
+     "showInList": true,
+     "stringType": "plain",
+     "title": {
+      "ru": "Логин"
+     },
+     "type": "string",
+     "updatable": true,
+     "updatableByUser": true
+    },
+    {
      "category": "link",
      "externalEntity": "users",
      "hidden": false,
@@ -1082,6 +1102,11 @@
         "alwaysOn": false,
         "hidden": false,
         "name": "managerId"
+       },
+       {
+        "alwaysOn": false,
+        "hidden": false,
+        "name": "managerLogin"
        },
        {
         "alwaysOn": false,

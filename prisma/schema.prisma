@@ -80,6 +80,7 @@ model AuditLog {
 	actionType	AuditLogActionType	@relation("From-AuditLog.actionType", fields: [actionTypeId], references: [id])
 	managerId	Int?
 	manager	Manager?	@relation("From-AuditLog.manager", fields: [managerId], references: [id])
+	managerLogin	String?
 	userId	Int?
 	user	User?	@relation("From-AuditLog.user", fields: [userId], references: [id])
 	foreign	Boolean?

@@ -21,6 +21,7 @@ const config: ServiceConfig = {
     'entityId',
     'actionTypeId',
     'managerId',
+    'managerLogin',
     'userId',
     'foreignEntityType',
     'foreignEntityId',
