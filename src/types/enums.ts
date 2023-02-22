@@ -14,6 +14,9 @@ export enum RegistrarType {
 export enum MessageTemplate {
   Hello = 'hello',
   Custom = 'custom',
+  ReportFileAsAttachment = 'reportFileAsAttachment',
+  ReportFileAsLink = 'reportFileAsLink',
+
   NewRegistration = 'newRegistration',
   ResetPassword = 'resetPassword',
   PasswordChange = 'passwordChange',

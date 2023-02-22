@@ -18,13 +18,18 @@ export default gql`
     foreign: Boolean
     foreignEntityType: String
     foreignEntityId: String
-    actionData: String
+    actionData: JSON
   }
 
   """
   A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the 'date-time' format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
   """
   scalar DateTime
+
+  """
+  The 'JSON' scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+  """
+  scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
   input AuditLogFilter {
     q: String
@@ -65,8 +70,8 @@ export default gql`
     foreignEntityId: String
     foreignEntityId_in: [String]
     foreignEntityId_defined: Boolean
-    actionData: String
-    actionData_in: [String]
+    actionData: JSON
+    actionData_in: [JSON]
     actionData_defined: Boolean
   }
 
@@ -81,8 +86,8 @@ export default gql`
   }
 
   type Mutation {
-    createAuditLog(date: DateTime!, title: String!, success: Boolean, error: String, entityTypeId: String!, entityId: String!, actionTypeId: String!, managerId: Int, managerLogin: String, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
-    updateAuditLog(id: Int!, date: DateTime!, title: String!, success: Boolean, error: String, entityTypeId: String!, entityId: String!, actionTypeId: String!, managerId: Int, managerLogin: String, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: String): AuditLog
+    createAuditLog(date: DateTime!, title: String!, success: Boolean, error: String, entityTypeId: String!, entityId: String!, actionTypeId: String!, managerId: Int, managerLogin: String, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: JSON): AuditLog
+    updateAuditLog(id: Int!, date: DateTime!, title: String!, success: Boolean, error: String, entityTypeId: String!, entityId: String!, actionTypeId: String!, managerId: Int, managerLogin: String, userId: Int, foreign: Boolean, foreignEntityType: String, foreignEntityId: String, actionData: JSON): AuditLog
     removeAuditLog(id: Int!): AuditLog
   }
 `;

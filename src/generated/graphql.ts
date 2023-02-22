@@ -172,6 +172,8 @@ export type Scalars = {
   Cuid: any;
   /** A field whose value is a Semantic Version: https://semver.org */
   SemVer: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type AdmRefreshToken = {
@@ -1114,6 +1116,9 @@ export type Mutation = {
   createRolesToPermission?: Maybe<RolesToPermission>;
   updateRolesToPermission?: Maybe<RolesToPermission>;
   removeRolesToPermission?: Maybe<RolesToPermission>;
+  saveFiles: Array<FileRes>;
+  saveFile: FileRes;
+  sendEmailDebug?: Maybe<Scalars['Void']>;
   recalculateStat?: Maybe<Scalars['Void']>;
   createStat?: Maybe<Stat>;
   updateStat?: Maybe<Stat>;
@@ -1253,7 +1258,7 @@ export type MutationCreateAuditLogArgs = {
   foreign?: InputMaybe<Scalars['Boolean']>;
   foreignEntityType?: InputMaybe<Scalars['String']>;
   foreignEntityId?: InputMaybe<Scalars['String']>;
-  actionData?: InputMaybe<Scalars['String']>;
+  actionData?: InputMaybe<Scalars['JSON']>;
 };
 
 
@@ -1272,7 +1277,7 @@ export type MutationUpdateAuditLogArgs = {
   foreign?: InputMaybe<Scalars['Boolean']>;
   foreignEntityType?: InputMaybe<Scalars['String']>;
   foreignEntityId?: InputMaybe<Scalars['String']>;
-  actionData?: InputMaybe<Scalars['String']>;
+  actionData?: InputMaybe<Scalars['JSON']>;
 };
 
 
@@ -1806,6 +1811,23 @@ export type MutationRemoveRolesToPermissionArgs = {
 };
 
 
+export type MutationSaveFilesArgs = {
+  files: Array<Scalars['Upload']>;
+};
+
+
+export type MutationSaveFileArgs = {
+  file: Scalars['Upload'];
+};
+
+
+export type MutationSendEmailDebugArgs = {
+  messageTemplate: Scalars['String'];
+  managerId?: InputMaybe<Scalars['Int']>;
+  locals: Scalars['JSON'];
+};
+
+
 export type MutationCreateStatArgs = {
   id: Scalars['ID'];
   updated?: InputMaybe<Scalars['DateTime']>;
@@ -2035,7 +2057,7 @@ export type AuditLog = {
   foreign?: Maybe<Scalars['Boolean']>;
   foreignEntityType?: Maybe<Scalars['String']>;
   foreignEntityId?: Maybe<Scalars['String']>;
-  actionData?: Maybe<Scalars['String']>;
+  actionData?: Maybe<Scalars['JSON']>;
 };
 
 export type AuditLogFilter = {
@@ -2077,8 +2099,8 @@ export type AuditLogFilter = {
   foreignEntityId?: InputMaybe<Scalars['String']>;
   foreignEntityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   foreignEntityId_defined?: InputMaybe<Scalars['Boolean']>;
-  actionData?: InputMaybe<Scalars['String']>;
-  actionData_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  actionData?: InputMaybe<Scalars['JSON']>;
+  actionData_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
   actionData_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2710,6 +2732,12 @@ export type RolesToPermissionFilter = {
   permissionId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type FileRes = {
+  __typename?: 'FileRes';
+  id: Scalars['Int'];
+  url: Scalars['String'];
+};
+
 export type Stat = {
   __typename?: 'Stat';
   id: Scalars['ID'];
@@ -3030,6 +3058,8 @@ export type ResolversTypes = {
   RoleFilter: RoleFilter;
   RolesToPermission: ResolverTypeWrapper<RolesToPermission>;
   RolesToPermissionFilter: RolesToPermissionFilter;
+  Upload: ResolverTypeWrapper<Scalars['Upload']>;
+  FileRes: ResolverTypeWrapper<FileRes>;
   Stat: ResolverTypeWrapper<Stat>;
   StatFilter: StatFilter;
   Tag: ResolverTypeWrapper<Tag>;
@@ -3170,6 +3200,8 @@ export type ResolversParentTypes = {
   RoleFilter: RoleFilter;
   RolesToPermission: RolesToPermission;
   RolesToPermissionFilter: RolesToPermissionFilter;
+  Upload: Scalars['Upload'];
+  FileRes: FileRes;
   Stat: Stat;
   StatFilter: StatFilter;
   Tag: Tag;
@@ -3638,6 +3670,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createRolesToPermission?: Resolver<Maybe<ResolversTypes['RolesToPermission']>, ParentType, ContextType, RequireFields<MutationCreateRolesToPermissionArgs, 'roleId' | 'permissionId'>>;
   updateRolesToPermission?: Resolver<Maybe<ResolversTypes['RolesToPermission']>, ParentType, ContextType, RequireFields<MutationUpdateRolesToPermissionArgs, 'id' | 'roleId' | 'permissionId'>>;
   removeRolesToPermission?: Resolver<Maybe<ResolversTypes['RolesToPermission']>, ParentType, ContextType, RequireFields<MutationRemoveRolesToPermissionArgs, 'id'>>;
+  saveFiles?: Resolver<Array<ResolversTypes['FileRes']>, ParentType, ContextType, RequireFields<MutationSaveFilesArgs, 'files'>>;
+  saveFile?: Resolver<ResolversTypes['FileRes'], ParentType, ContextType, RequireFields<MutationSaveFileArgs, 'file'>>;
+  sendEmailDebug?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationSendEmailDebugArgs, 'messageTemplate' | 'locals'>>;
   recalculateStat?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType>;
   createStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationCreateStatArgs, 'id'>>;
   updateStat?: Resolver<Maybe<ResolversTypes['Stat']>, ParentType, ContextType, RequireFields<MutationUpdateStatArgs, 'id'>>;
@@ -3707,7 +3742,7 @@ export type AuditLogResolvers<ContextType = any, ParentType extends ResolversPar
   foreign?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   foreignEntityType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   foreignEntityId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  actionData?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  actionData?: Resolver<Maybe<ResolversTypes['JSON']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -3929,6 +3964,16 @@ export type RolesToPermissionResolvers<ContextType = any, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
+  name: 'Upload';
+}
+
+export type FileResResolvers<ContextType = any, ParentType extends ResolversParentTypes['FileRes'] = ResolversParentTypes['FileRes']> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type StatResolvers<ContextType = any, ParentType extends ResolversParentTypes['Stat'] = ResolversParentTypes['Stat']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   updated?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
@@ -4067,6 +4112,8 @@ export type Resolvers<ContextType = any> = {
   PermissionsWithMeta?: PermissionsWithMetaResolvers<ContextType>;
   Role?: RoleResolvers<ContextType>;
   RolesToPermission?: RolesToPermissionResolvers<ContextType>;
+  Upload?: GraphQLScalarType;
+  FileRes?: FileResResolvers<ContextType>;
   Stat?: StatResolvers<ContextType>;
   Tag?: TagResolvers<ContextType>;
   TemplateStyle?: TemplateStyleResolvers<ContextType>;

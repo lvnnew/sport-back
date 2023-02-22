@@ -21,6 +21,16 @@ import {MutationUpdateMessageTemplateArgs} from '../generated/graphql';
 // runlify start env=prod yarn ts-node:withContext src/init/initMessageTemplates.ts
 
 export const templates: Record<MessageTemplate, Omit<MutationUpdateMessageTemplateArgs, 'id'>> = {
+  [MessageTemplate.ReportFileAsAttachment]: {
+    title: 'Report file as attachment',
+    messageTypeId: MessageType.Plain,
+    secretData: false,
+  },
+  [MessageTemplate.ReportFileAsLink]: {
+    title: 'Report file as link',
+    messageTypeId: MessageType.Plain,
+    secretData: false,
+  },
   [MessageTemplate.Hello]: {
     title: 'Hello',
     messageTypeId: MessageType.Plain,

@@ -144,6 +144,10 @@ spec:
           value: {{ $.Values.loki.url | quote }}
         - name: S3_ACCESS_KEY_ID
           value: {{ $.Values.s3.accessKeyId | quote }}
+        - name: S3_BUCKET_EMAIL_FILES
+          value: {{ $.Values.s3.bucket.emailFiles | quote }}
+        - name: S3_BUCKET_TMP_FILES_TO_DOWNLOAD
+          value: {{ $.Values.s3.bucket.tmpFilesToDownload | quote }}
         - name: S3_SECRET_ACCESS_KEY
           value: {{ $.Values.s3.secretAccessKey | quote }}
         - name: SMTP_FROM

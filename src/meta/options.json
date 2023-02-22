@@ -5,8 +5,8 @@
  "coreIndex": true,
  "corePrismaGetter": true,
  "dbName": "mtbase_stage",
- "detachedBackProject": "/home/dm/prjs/mtbase-back",
- "detachedUiProject": "/home/dm/prjs/mtbase-ui",
+ "detachedBackProject": "/home/damir/prjs/mtbase-back",
+ "detachedUiProject": "/home/damir/prjs/mtbase-ui",
  "forms": {
   "create": {
    "gen": true,

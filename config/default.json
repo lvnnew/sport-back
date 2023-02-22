@@ -39,6 +39,8 @@
   "logs.format": "plain",
   "loki.url": "",
   "s3.accessKeyId": "",
+  "s3.bucket.emailFiles": "",
+  "s3.bucket.tmpFilesToDownload": "",
   "s3.secretAccessKey": "",
   "smtp.from": "",
   "smtp.host": "",

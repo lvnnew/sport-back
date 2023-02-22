@@ -1037,9 +1037,9 @@
      "searchable": true,
      "showInCreate": true,
      "showInEdit": true,
-     "showInFilter": true,
-     "showInList": true,
-     "stringType": "plain",
+     "showInFilter": false,
+     "showInList": false,
+     "stringType": "json",
      "title": {
       "en": "Action data",
       "ru": "Данные о действии"
@@ -1127,11 +1127,6 @@
         "alwaysOn": false,
         "hidden": false,
         "name": "foreignEntityId"
-       },
-       {
-        "alwaysOn": false,
-        "hidden": false,
-        "name": "actionData"
        }
       ]
      }
@@ -7361,6 +7356,30 @@
    "default": "",
    "name": "s3.accessKeyId",
    "needFor": "Идентификатор доступа для авторизации в S3",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "name": "s3.bucket.emailFiles",
+   "needFor": "Имя бакета для хранения файлов, отправленных на почту",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "name": "s3.bucket.tmpFilesToDownload",
+   "needFor": "Имя бакета для хранения временных файлов, созданных для скачивания пользователями",
    "required": false,
    "scopes": [
     "back",

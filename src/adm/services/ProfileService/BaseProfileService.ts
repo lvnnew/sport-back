@@ -154,7 +154,7 @@ class BaseProfileService {
     }));
   };
 
-  getPermissionsOfManager = async(managerId: number) => {
+  getPermissionsOfManager = async(managerId: number): Promise<string[]> => {
     if (!managerId) {
       return [];
     }

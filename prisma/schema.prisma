@@ -86,7 +86,7 @@ model AuditLog {
 	foreign	Boolean?
 	foreignEntityType	String?
 	foreignEntityId	String?
-	actionData	String?
+	actionData	Json?
 }
 
 
