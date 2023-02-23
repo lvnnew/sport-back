@@ -41,8 +41,10 @@ const opt = {
   max: 500,
   ttl: 1000 * 60, // 1 min
 };
+const managersTenantIdsCache = new LRUCache(opt);
 const managersPermissionsCache = new LRUCache(opt);
 const managerCache = new LRUCache(opt);
+const usersTenantIdsCache = new LRUCache(opt);
 
 class BaseProfileService {
   userId: number | null = null;
@@ -185,6 +187,77 @@ class BaseProfileService {
     }
 
     return this.getPermissionsOfManagerWithMeta(managerId);
+  };
+
+  getAllowedTenantIdsOfManager = async (managerId: number) => {
+    if (!managerId) {
+      return [];
+    }
+
+    if (!managersTenantIdsCache.has(managerId)) {
+      let tenantIds: number[] = [];
+      const manager = await this.ctx.prisma.manager.findFirst({where: {id: managerId}});
+      if (manager && manager.tenantId) {
+        tenantIds = [manager.tenantId];
+      }
+
+      managersTenantIdsCache.set(managerId, tenantIds);
+    }
+
+    return managersTenantIdsCache.get(managerId);
+  };
+
+  getAllowedTenantIdsOfUser = async (userId: number) => {
+    if (!userId) {
+      return [];
+    }
+
+    if (!usersTenantIdsCache.has(userId)) {
+      let tenantIds: number[] = [];
+      const user = await this.ctx.prisma.user.findFirst({where: {id: userId}});
+      if (user && user.tenantId) {
+        tenantIds = [user.tenantId];
+      }
+
+      usersTenantIdsCache.set(userId, tenantIds);
+    }
+
+    return usersTenantIdsCache.get(userId);
+  };
+
+  getAllowedTenantIds = async () => {
+    const managerId = this.getManagerId();
+    let res: number[] = [];
+    if (managerId) {
+      res = await this.getAllowedTenantIdsOfManager(managerId);
+    } else {
+      const userId = this.getUserId();
+      if (userId) {
+        res = await this.getAllowedTenantIdsOfUser(userId);
+      }
+    }
+
+    return res;
+  };
+
+  getRequiredTenantId = async () => {
+    const allowed = await this.getAllowedTenantIds();
+
+    if (!allowed.length) {
+      throw new Error('There is no allowed tenants. Imposible to provide any.');
+    }
+
+    if (allowed.length > 1) {
+      throw new Error(`There is more then 1 tenant (${allowed.length}). Imposible to pick one.`);
+    }
+
+    return allowed[0];
+  };
+
+  getTenantId = async () => {
+    const allowed = await this.getAllowedTenantIds();
+
+    return allowed[0];
   };
 
   getRolesOfManager = async(managerId: number) => {
