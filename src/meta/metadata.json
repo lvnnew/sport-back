@@ -7368,7 +7368,7 @@
    "default": "",
    "name": "s3.bucket.emailFiles",
    "needFor": "Имя бакета для хранения файлов, отправленных на почту",
-   "required": false,
+   "required": true,
    "scopes": [
     "back",
     "worker",
@@ -7380,7 +7380,7 @@
    "default": "",
    "name": "s3.bucket.tmpFilesToDownload",
    "needFor": "Имя бакета для хранения временных файлов, созданных для скачивания пользователями",
-   "required": false,
+   "required": true,
    "scopes": [
     "back",
     "worker",
