@@ -148,6 +148,10 @@ spec:
           value: {{ $.Values.s3.bucket.emailFiles | quote }}
         - name: S3_BUCKET_TMP_FILES_TO_DOWNLOAD
           value: {{ $.Values.s3.bucket.tmpFilesToDownload | quote }}
+        - name: S3_ENDPOINT
+          value: {{ $.Values.s3.endpoint | quote }}
+        - name: S3_REGION
+          value: {{ $.Values.s3.region | quote }}
         - name: S3_SECRET_ACCESS_KEY
           value: {{ $.Values.s3.secretAccessKey | quote }}
         - name: SMTP_FROM

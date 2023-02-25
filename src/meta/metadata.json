@@ -7356,7 +7356,7 @@
    "default": "",
    "name": "s3.accessKeyId",
    "needFor": "Идентификатор доступа для авторизации в S3",
-   "required": false,
+   "required": true,
    "scopes": [
     "back",
     "worker",
@@ -7389,10 +7389,34 @@
    "type": "string"
   },
   {
+   "default": "eu-central-1",
+   "name": "s3.endpoint",
+   "needFor": "Идентификатор доступа для авторизации в S3",
+   "required": true,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "s3.eu-central-1.wasabisys.com",
+   "name": "s3.region",
+   "needFor": "Идентификатор доступа для авторизации в S3",
+   "required": true,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
    "default": "",
    "name": "s3.secretAccessKey",
    "needFor": "Секретный ключ для авторизации в S3",
-   "required": false,
+   "required": true,
    "scopes": [
     "back",
     "worker",

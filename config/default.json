@@ -41,6 +41,8 @@
   "s3.accessKeyId": "",
   "s3.bucket.emailFiles": "",
   "s3.bucket.tmpFilesToDownload": "",
+  "s3.endpoint": "eu-central-1",
+  "s3.region": "s3.eu-central-1.wasabisys.com",
   "s3.secretAccessKey": "",
   "smtp.from": "",
   "smtp.host": "",
