@@ -1,5 +1,5 @@
 import {PermissionToGraphql} from '../../permissionsToGraphql';
-import {SendingEmailsService} from '../../../services/SendingEmails/SendingEmailsService';
+import SendingEmailsService from '../../../services/SendingEmails/SendingEmailsService';
 
 const sendingEmailsPermissionToGraphql: Partial<PermissionToGraphql<SendingEmailsService>> = {
   // sendEmailOnNewRegistration: 'sendEmailOnNewRegistration',

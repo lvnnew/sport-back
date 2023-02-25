@@ -12,13 +12,8 @@ export type ReportsParams = Parameters<Reports[ReportCalcMethod]>;
 
 export const methodToReportName: Record<ReportCalcMethod, string> = {};
 
-export const getReportsService = (ctx: Context) => {
-  const reports = getReports(ctx);
+class ReportsService {
+  constructor(protected ctx: Context) {}
+}
 
-  return {
-    ...reports,
-    ...getReportsMeta(ctx),
-  };
-};
-
-export type ReportsService = ReturnType<typeof getReportsService>;
+export default ReportsService;

@@ -1,7 +1,7 @@
 import {PermissionToGraphql} from '../../permissionsToGraphql';
-import {SaveFileMethods} from '../../../services/SaveFiles/SaveFileMethods';
+import SaveFilesService from '../../../services/SaveFilesService/SaveFilesService';
 
-const saveFilesPermissionToGraphql: Partial<PermissionToGraphql<SaveFileMethods>> = {
+const saveFilesPermissionToGraphql: Partial<PermissionToGraphql<SaveFilesService>> = {
   saveFile: 'saveFile',
   saveFiles: 'saveFiles',
 };

@@ -116,6 +116,7 @@
     "runlify": "^0.0.407",
     "safe-stable-stringify": "^2.4.1",
     "set-cookie-parser": "^2.5.1",
+    "stream-size": "^0.0.6",
     "tmp": "^0.2.1",
     "tslog": "^3.3.4",
     "tweetnacl": "^1.0.3",

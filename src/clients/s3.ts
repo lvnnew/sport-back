@@ -6,6 +6,7 @@ import {getConfig} from '../config';
 import {ManagedUpload} from 'aws-sdk/lib/s3/managed_upload';
 import {PassThrough, Readable} from 'stream';
 import * as stream from 'stream';
+import getSizeTransform from 'stream-size';
 
 const ep = new AWS.Endpoint('s3.eu-central-1.wasabisys.com');
 
@@ -244,17 +245,26 @@ export const createS3Lister = (bucket: string) => async (prefix?: string): Promi
   });
 };
 
-export const createUploaderFromStream = (bucket: string) => async (key: string, stream: Readable | PassThrough): Promise<ManagedUpload.SendData> => {
+export const createUploaderFromStream = (bucket: string) => async (key: string, stream: Readable | PassThrough): Promise<ManagedUpload.SendData & {sizeInBytes: number}> => {
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
 
-  return s3
+  const pipedStream = stream.pipe(
+    getSizeTransform(),
+  );
+
+  const result = await s3
     .upload({
       Bucket: bucket,
       Key: key,
-      Body: stream,
+      Body: pipedStream,
     })
     .promise();
+
+  return {
+    ...result,
+    sizeInBytes: pipedStream.sizeInBytes,
+  };
 };
 
 export const createStreamCreatorForUpload = (bucket: string) => async (key: string): Promise<{stream: WriteStream, promise: Promise<ManagedUpload.SendData>}> => {

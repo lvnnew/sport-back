@@ -15,22 +15,14 @@ interface SendEmailDebugArgs {
   locals: SendEmailLocals,
 }
 
-export interface SendingEmailsService {
-  sendEmailOnNewRegistration: (userId: number, password: string) => Promise<void>;
-  sendEmailOnRestorePassword: (userId: number, password: string) => Promise<void>;
-  sendEmailOnPasswordChange: (userId: number, password: string) => Promise<void>;
-  sendEmailOnResetPassword: (userId: number, password: string) => Promise<void>;
-  sendEmailDebug: (params: SendEmailDebugArgs) => Promise<void>;
-  sendReportFileAsAttachment: (email: string, file: Omit<File, 'id'>) => Promise<void>;
-  sendReportFileAsLink: (locals: SendEmailLocals, email: string, file: Omit<File, 'id'>) => Promise<void>;
-}
+class SendingEmailsService {
+  constructor(protected ctx: Context) {}
 
-export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
-  const sendEmailOnNewRegistration = async (userId: number, password: string) => {
+  sendEmailOnNewRegistration = async (userId: number, password: string) => {
     log.info(`sendEmailOnNewRegistration, userId: "${userId}"`);
 
     await addSendNewRegistrationEmailJob(
-      ctx,
+      this.ctx,
       userId,
       {
         password,
@@ -39,11 +31,11 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
     );
   };
 
-  const sendEmailOnRestorePassword = async (userId: number, password: string) => {
+  sendEmailOnRestorePassword = async (userId: number, password: string) => {
     log.info(`sendEmailOnNewRegistration, userId: "${userId}"`);
 
     await addSendRestorePasswordEmailJob(
-      ctx,
+      this.ctx,
       userId,
       {
         password,
@@ -52,11 +44,11 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
     );
   };
 
-  const sendEmailOnPasswordChange = async (userId: number, password: string) => {
+  sendEmailOnPasswordChange = async (userId: number, password: string) => {
     log.info(`sendEmailOnPasswordChange, userId: "${userId}"`);
 
     await addSendPasswordChangeEmailJob(
-      ctx,
+      this.ctx,
       userId,
       {
         password,
@@ -65,11 +57,11 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
     );
   };
 
-  const sendEmailOnResetPassword = async (userId: number, password: string) => {
+  sendEmailOnResetPassword = async (userId: number, password: string) => {
     log.info(`sendEmailOnNewRegistration, userId: "${userId}"`);
 
     await addSendResetPasswordEmailJob(
-      ctx,
+      this.ctx,
       userId,
       {
         password,
@@ -78,7 +70,7 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
     );
   };
 
-  const sendEmailDebug = async ({
+  sendEmailDebug = async ({
     messageTemplate,
   }: SendEmailDebugArgs) => {
     switch (messageTemplate) {
@@ -87,10 +79,10 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
     }
   };
 
-  const sendReportFileAsAttachment: SendingEmailsService['sendReportFileAsAttachment'] = async (email, file) => {
+  sendReportFileAsAttachment = async (email: string, file: Omit<File, 'id'>): Promise<void> => {
     log.info(`sendReportFileAsAttachment, email "${email}"`);
 
-    const messageTemplateLangVariantId = await defineMessageTemplateLangVariantId(ctx, MessageTemplate.ReportFileAsAttachment);
+    const messageTemplateLangVariantId = await defineMessageTemplateLangVariantId(this.ctx, MessageTemplate.ReportFileAsAttachment);
 
     await addSendEmailJob({
       files: [s3FileToEmailFile(file)],
@@ -99,10 +91,10 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
     });
   };
 
-  const sendReportFileAsLink: SendingEmailsService['sendReportFileAsLink'] = async (locals, email, file) => {
+  sendReportFileAsLink = async (locals: SendEmailLocals, email: string, file: Omit<File, 'id'>): Promise<void> => {
     log.info(`sendReportFileAsLink, email "${email}"`);
 
-    const messageTemplateLangVariantId = await defineMessageTemplateLangVariantId(ctx, MessageTemplate.ReportFileAsLink);
+    const messageTemplateLangVariantId = await defineMessageTemplateLangVariantId(this.ctx, MessageTemplate.ReportFileAsLink);
 
     await addSendEmailJob({
       files: [s3FileToEmailFile(file)],
@@ -111,14 +103,6 @@ export const getSendingEmailsService = (ctx: Context): SendingEmailsService => {
       locals,
     });
   };
+}
 
-  return {
-    sendEmailDebug,
-    sendReportFileAsAttachment,
-    sendReportFileAsLink,
-    sendEmailOnNewRegistration,
-    sendEmailOnRestorePassword,
-    sendEmailOnPasswordChange,
-    sendEmailOnResetPassword,
-  };
-};
+export default SendingEmailsService;

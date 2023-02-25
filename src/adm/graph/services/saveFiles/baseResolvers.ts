@@ -3,7 +3,7 @@ import {
 } from '../../../../generated/graphql';
 import {FileUpload, GraphQLUpload} from 'graphql-upload';
 import {Context} from '../../../services/types';
-import {FileUploadResult} from '../../../services/SaveFiles/SaveFileMethods';
+import {FileUploadResult} from '../../../services/SaveFilesService/SaveFilesService';
 
 const queryResolvers: Resolvers = {
   Mutation: {

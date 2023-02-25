@@ -52,9 +52,7 @@ class BaseProfileService {
   managerLogin: string | null = null;
   ip: string | null = null;
 
-  constructor(
-    protected ctx: Context,
-  ) {}
+  constructor(protected ctx: Context) {}
 
   getUserId = () => this.userId;
   getManagerId = () => this.managerId;
