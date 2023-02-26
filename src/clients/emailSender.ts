@@ -42,7 +42,7 @@ export const getEmailSender = async () => {
       smtpPass,
       smtpFrom,
     } = await getConfig();
-    if (!smtpHost || !smtpPort || !smtpUser || !smtpPass || !smtpFrom) {
+    if (!smtpHost || !smtpPort || !smtpFrom) {
       throw new Error('smtp creads is not provided');
     }
 
@@ -50,10 +50,10 @@ export const getEmailSender = async () => {
       host: smtpHost,
       port: smtpPort,
       secure: false,
-      auth: {
+      auth: smtpUser && smtpPass ? {
         user: smtpUser,
         pass: smtpPass,
-      },
+      } : undefined,
       tls: {
         // do not fail on invalid certs
         rejectUnauthorized: false,

@@ -44,7 +44,8 @@ export const uploadPdfToS3ByPdfCreator = async (
   fileName: string,
   creator: (stream: WriteStream) => Promise<void>,
 ): Promise<Omit<File, 'id'>> => {
-  const s3FileName = `${uuid()}.pdf`;
+  const fileNameWithExtension = `${fileName}.pdf`;
+  const s3FileName = `${uuid()}/${fileNameWithExtension}`;
   const streamCreator = createStreamCreatorForUpload(bucket);
   const {stream, promise} = await streamCreator(s3FileName);
 
@@ -55,9 +56,10 @@ export const uploadPdfToS3ByPdfCreator = async (
   return {
     eTag: resUpload.ETag,
     mimetype: 'application/pdf',
-    originalName: `${fileName}.pdf`,
+    originalName: fileNameWithExtension,
     s3Key: resUpload.Key,
     url: resUpload.Location,
+    bytes: resUpload.sizeInBytes,
   };
 };
 

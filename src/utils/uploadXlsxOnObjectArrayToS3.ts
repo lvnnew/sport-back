@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs from 'fs-jetpack';
 import {v4 as uuid} from 'uuid';
 import tmp from 'tmp';
 import {createS3Putter} from '../clients/s3';
@@ -17,20 +17,23 @@ const uploadXlsxOnObjectArrayToS3 = async <T extends Record<string, any>>(
   fileName: string,
 ): Promise<Omit<File, 'id'>> => {
   const filePutter = createS3Putter(bucket);
-  const s3FileName = `${uuid()}/${fileName}.xlsx`;
+  const fileNameWithExtension = `${fileName}.xlsx`;
+  const s3FileName = `${uuid()}/${fileNameWithExtension}`;
   const filePath = tmp.fileSync().name;
 
   exportDataToExcel(items, fileName, filePath);
 
-  await filePutter(filePath, s3FileName);
+  const resUpload = await filePutter(filePath, s3FileName);
+
   fs.remove(filePath);
 
   return {
     eTag: '',
     mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    originalName: `${fileName}.xlsx`,
-    s3Key: s3FileName,
-    url: `https://${bucket}.s3.eu-central-1.wasabisys.com/${s3FileName}`,
+    originalName: fileNameWithExtension,
+    s3Key: resUpload.Key,
+    url: resUpload.Location,
+    bytes: resUpload.sizeInBytes,
   };
 };
 

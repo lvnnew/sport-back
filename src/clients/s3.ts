@@ -1,4 +1,4 @@
-import fs, {WriteStream} from 'fs-extra';
+import fs from 'fs-jetpack';
 import AWS from 'aws-sdk';
 import S3 from 'aws-sdk/clients/s3';
 import log from '../log';
@@ -7,6 +7,7 @@ import {ManagedUpload} from 'aws-sdk/lib/s3/managed_upload';
 import {PassThrough, Readable} from 'stream';
 import * as stream from 'stream';
 import getSizeTransform from 'stream-size';
+import {WriteStream} from 'fs';
 
 let s3: S3 | null = null;
 
@@ -147,25 +148,30 @@ export const createS3JsonGetter = (bucket: string) => async (path: string): Prom
   return null;
 };
 
-export const createS3Putter = (bucket: string) => async (file: string, path: string) => {
+export const createS3Putter = (bucket: string) => async (localFilePath: string, s3FilePath: string) => {
+  const size = fs.inspect(localFilePath);
+
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
 
-  const fileContent = fs.readFileSync(file);
+  const fileContent = fs.read(localFilePath);
 
-  await new Promise<void>((resolve, reject) => {
+  return new Promise<S3.ManagedUpload.SendData & {sizeInBytes: number}>((resolve, reject) => {
     s3.upload(
       {
         Body: fileContent,
         Bucket: bucket,
-        Key: path,
+        Key: s3FilePath,
       },
-      (err) => {
+      (err, data) => {
         if (err) {
           log.error(err);
           reject(err);
         } else {
-          resolve();
+          resolve({
+            ...data,
+            sizeInBytes: size?.size ?? 0,
+          });
         }
       },
     );
@@ -176,7 +182,7 @@ export const createS3PutterWithoutFileSaving = (bucket: string) => async (file: 
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
 
-  const fileContent = fs.readFileSync(file);
+  const fileContent = fs.read(file);
 
   await new Promise<void>((resolve, reject) => {
     s3.upload(
@@ -305,7 +311,7 @@ export const createUploaderFromStream = (bucket: string) => async (key: string, 
   };
 };
 
-export const createStreamCreatorForUpload = (bucket: string) => async (key: string): Promise<{stream: WriteStream, promise: Promise<ManagedUpload.SendData>}> => {
+export const createStreamCreatorForUpload = (bucket: string) => async (key: string) => {
   const pass = new stream.PassThrough();
   const promise = createUploaderFromStream(bucket)(key, pass);
 
