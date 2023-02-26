@@ -8,13 +8,12 @@ import {PassThrough, Readable} from 'stream';
 import * as stream from 'stream';
 import getSizeTransform from 'stream-size';
 
-const ep = new AWS.Endpoint('s3.eu-central-1.wasabisys.com');
-
 let s3: S3 | null = null;
 
 export const getS3 = async () => {
   if (!s3) {
-    const {s3AccessKeyId, s3SecretAccessKey} = await getConfig();
+    const {s3AccessKeyId, s3SecretAccessKey, s3Endpoint, s3Region} = await getConfig();
+    const ep = new AWS.Endpoint(s3Endpoint);
 
     // const opt = {credentials: amqp.credentials.plain(username, password)};
 
@@ -22,8 +21,9 @@ export const getS3 = async () => {
       s3 = new S3({
         accessKeyId: s3AccessKeyId,
         endpoint: (ep as unknown) as string,
-        region: 'eu-central-1',
+        region: s3Region,
         secretAccessKey: s3SecretAccessKey,
+        s3ForcePathStyle: true,
       });
     }
   }
@@ -51,19 +51,57 @@ export const createS3Getter = (bucket: string) => async (path: string) => {
   return null;
 };
 
-const createS3BucketIfNotExist = async (Bucket: string): Promise<void> => {
+export const createS3BucketIfNotExist = async (bucket: string, publicBucket = false): Promise<void> => {
   const s3 = await getS3();
 
   await new Promise<void>((resolve, reject) => {
-    s3.createBucket({Bucket}, (err) => {
+    s3.createBucket({Bucket: bucket}, (err) => {
       if (err) {
-        log.error(err);
-        reject(err);
+        if (err.statusCode === 409) {
+          log.info(`Bucket "${bucket}" has been created already`);
+          resolve();
+        } else {
+          log.error(err);
+          reject(err);
+        }
       } else {
         resolve();
       }
     });
   });
+
+  if (publicBucket) {
+    const policy = {
+      Version: '2012-10-17',
+      Statement: [
+        {
+          Effect: 'Allow',
+          Principal: {
+            AWS: [
+              '*',
+            ],
+          },
+          Action: [
+            's3:GetObject',
+          ],
+          Resource: [
+            `arn:aws:s3:::${bucket}/*`,
+          ],
+        },
+      ],
+    };
+
+    await new Promise<void>((resolve, reject) => {
+      s3.putBucketPolicy({Bucket: bucket, Policy: JSON.stringify(policy, null, 1)}, (err) => {
+        if (err) {
+          log.error(err);
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
 };
 
 export const createS3StringPutter = (bucket: string) => async (fileNameWithExtension: string, data: string) => {
