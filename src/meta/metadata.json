@@ -7389,7 +7389,7 @@
    "type": "string"
   },
   {
-   "default": "eu-central-1",
+   "default": "s3.eu-central-1.wasabisys.com",
    "name": "s3.endpoint",
    "needFor": "Идентификатор доступа для авторизации в S3",
    "required": true,
@@ -7401,7 +7401,7 @@
    "type": "string"
   },
   {
-   "default": "s3.eu-central-1.wasabisys.com",
+   "default": "eu-central-1",
    "name": "s3.region",
    "needFor": "Идентификатор доступа для авторизации в S3",
    "required": true,
