@@ -16,6 +16,7 @@ export const getPdfCreatorOnObjectArray = <T>(
   items: T[],
   fields?: string[],
   isTable?: boolean,
+  columnTitles?: Record<string, any>,
 ) =>
     async (stream: WriteStream) => {
       if (items.length > 10000) {
@@ -33,9 +34,9 @@ export const getPdfCreatorOnObjectArray = <T>(
       }
 
       if (isTable) {
-        await createPdfItemsTable(filteredFields, stream);
+        await createPdfItemsTable(filteredFields, stream, columnTitles);
       } else {
-        await createPdfItemsList(filteredFields, stream);
+        await createPdfItemsList(filteredFields, stream, columnTitles);
       }
     };
 
@@ -69,6 +70,8 @@ const uploadPdfOnObjectArrayToS3 = async <T extends Record<string, any>>(
   fileName: string,
   fields?: string[],
   isTable?: boolean,
-): Promise<Omit<File, 'id'>> => uploadPdfToS3ByPdfCreator(bucket, fileName, getPdfCreatorOnObjectArray(items, fields, isTable));
+  columnTitles?: Record<string, any>,
+): Promise<Omit<File, 'id'>> =>
+  uploadPdfToS3ByPdfCreator(bucket, fileName, getPdfCreatorOnObjectArray(items, fields, isTable, columnTitles));
 
 export default uploadPdfOnObjectArrayToS3;

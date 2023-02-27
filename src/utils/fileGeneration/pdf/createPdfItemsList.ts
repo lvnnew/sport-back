@@ -3,7 +3,11 @@ import {capitalCase} from 'change-case';
 import {WriteStream} from 'fs-extra';
 import {valueToString} from '../valueToString';
 
-const createPdfItemsList = async <T extends Record<string, any>>(items: T[], stream: WriteStream) => {
+const createPdfItemsList = async <T extends Record<string, any>>(
+  items: T[],
+  stream: WriteStream,
+  columnTitles?: Record<string, any>,
+) => {
   const doc = new pdf.Document();
 
   doc.pipe(stream);
@@ -19,7 +23,7 @@ const createPdfItemsList = async <T extends Record<string, any>>(items: T[], str
     for (const [key, value] of Object.entries(item)) {
       doc
         .text()
-        .add(`${capitalCase(key)}: ${valueToString(value)}`);
+        .add(`${columnTitles && columnTitles[key] ? columnTitles[key] : capitalCase(key)}: ${valueToString(value)}`);
     }
 
     doc
