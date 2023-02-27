@@ -186,9 +186,13 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": {
+    "en": {
      "plural": "Ui refresh tokens",
      "singular": "Ui refresh token"
+    },
+    "ru": {
+     "plural": "UI Токены обновления",
+     "singular": "UI Токен обновления"
     }
    },
    "titleField": "id",
@@ -7839,9 +7843,13 @@
    "sortField": "id",
    "sortOrder": "DESC",
    "title": {
-    "ru": {
+    "en": {
      "plural": "Aggregate Trackings",
      "singular": "Aggregate Tracking"
+    },
+    "ru": {
+     "plural": "Отслеживание агрегатов",
+     "singular": "Отслеживание агрегата"
     }
    },
    "titleField": "id",

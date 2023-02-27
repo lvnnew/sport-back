@@ -8,19 +8,6 @@ datasource db {
   url      = env("DATABASE_MAIN_WRITE_URI")
 }
 
-model AggregateTracking {
-	id	Int	@default(autoincrement())	@id
-	entityTypeId	String
-	entityType	Entity	@relation("From-AggregateTracking.entityType", fields: [entityTypeId], references: [id])
-	entityId	String
-	lastAggregatesComputed	DateTime
-	lastAggregatesScheduled	DateTime?
-	lastEntityUpdate	DateTime
-	aggregateVersion	Int
-	@@unique([entityTypeId, entityId])
-}
-
-
 model AppRefreshToken {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -168,6 +155,19 @@ model Manager {
 	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
 	@@unique([email])
+}
+
+
+model AggregateTracking {
+	id	Int	@default(autoincrement())	@id
+	entityTypeId	String
+	entityType	Entity	@relation("From-AggregateTracking.entityType", fields: [entityTypeId], references: [id])
+	entityId	String
+	lastAggregatesComputed	DateTime
+	lastAggregatesScheduled	DateTime?
+	lastEntityUpdate	DateTime
+	aggregateVersion	Int
+	@@unique([entityTypeId, entityId])
 }
 
 

@@ -7,11 +7,11 @@ const initEntities = async (ctx: Context) => {
   await ctx.service('entities').createMany([
     {
       id: Entity.AdmRefreshToken,
-      title: 'Ui refresh tokens',
+      title: 'UI Токены обновления',
     },
     {
       id: Entity.AggregateTracking,
-      title: 'Aggregate Trackings',
+      title: 'Отслеживание агрегатов',
     },
     {
       id: Entity.AppLogin,
