@@ -4,10 +4,11 @@ image: node:18
 
 stages:
   - check
+  - previous-image
   - build
   - latest-image
-  - deploy-stage
-  - deploy-prod
+  - deploy
+  - deploy-previous
 
 cache:
   paths:
@@ -32,6 +33,18 @@ check:
   variables:
     DATABASE_MAIN_WRITE_URI: $TEST_DATABASE_MAIN_WRITE_URI
 
+tag-previous-with-sha:
+  extends: .tag-image
+  stage: previous-image
+  only:
+    - master
+    - release
+    - /^release-.*$/
+  allow_failure: true # Firt run won't be able to create previous image
+  variables:
+    TAG_ORIGIN: :${CI_COMMIT_REF_SLUG}
+    TAG_DESTINATION: :${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}
+
 build:
   stage: build
   image:
@@ -54,7 +67,7 @@ build:
     - release
     - /^release-.*$/
 
-master-to-latest:
+tag-latest:
   extends: .tag-image
   stage: latest-image
   only:
@@ -75,14 +88,14 @@ master-to-latest:
 
 deploy-stage-back:
   extends: .deploy-dev-back
-  stage: deploy-stage
+  stage: deploy
   variables:
     ENV: "stage"
     CLUSTER_NAME: "stage01"
 
 deploy-prod-back:
   extends: .deploy-prod-back
-  stage: deploy-prod
+  stage: deploy
   variables:
     ENV: "prod"
     CLUSTER_NAME: "stage01"
@@ -148,7 +161,7 @@ deploy-prod-back:
     DEV: "true"
     HOST: "making.ventures"
     ROOT_ENABLED: "false"
-    TAG: ":latest"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
     ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${DEV_ADMIN_RECAPTCHA_REQUIRED_SCORE}
     ADMIN_RECAPTCHA_SECRET_KEY: ${DEV_ADMIN_RECAPTCHA_SECRET_KEY}
@@ -204,14 +217,14 @@ deploy-prod-back:
 
 .deploy-prod:
   extends: .deploy
-  stage: deploy-prod
+  stage: deploy
   when: manual
   variables:
     ENV: "prod"
     DEV: "false"
     HOST: "making.ventures"
     ROOT_ENABLED: "true"
-    TAG: ":release"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
     ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${PROD_ADMIN_RECAPTCHA_REQUIRED_SCORE}
     ADMIN_RECAPTCHA_SECRET_KEY: ${PROD_ADMIN_RECAPTCHA_SECRET_KEY}
