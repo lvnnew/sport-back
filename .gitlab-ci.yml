@@ -100,6 +100,24 @@ deploy-prod-back:
     ENV: "prod"
     CLUSTER_NAME: "stage01"
 
+deploy-stage-back-previous:
+  extends: .deploy-dev-back
+  stage: deploy-previous
+  when: manual
+  variables:
+    ENV: "stage"
+    CLUSTER_NAME: "stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
+
+deploy-prod-back-previous:
+  extends: .deploy-prod-back
+  stage: deploy-previous
+  when: manual
+  variables:
+    ENV: "prod"
+    CLUSTER_NAME: "stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
+
 .deploy-dev-back:
   extends:
     - .deploy-dev
@@ -179,6 +197,9 @@ deploy-prod-back:
     DATABASE_MAIN_READ_ONLY_ENABLED: ${DEV_DATABASE_MAIN_READ_ONLY_ENABLED}
     DATABASE_MAIN_READ_ONLY_URI: ${DEV_DATABASE_MAIN_READ_ONLY_URI}
     DATABASE_MAIN_WRITE_URI: ${DEV_DATABASE_MAIN_WRITE_URI}
+    DOCKER_REGISTRY_DOMAIN: ${DEV_DOCKER_REGISTRY_DOMAIN}
+    DOCKER_REGISTRY_PASSWORD: ${DEV_DOCKER_REGISTRY_PASSWORD}
+    DOCKER_REGISTRY_USERNAME: ${DEV_DOCKER_REGISTRY_USERNAME}
     ES_CLOUD_ID: ${DEV_ES_CLOUD_ID}
     ES_ENABLED: ${DEV_ES_ENABLED}
     ES_NODE: ${DEV_ES_NODE}
@@ -242,6 +263,9 @@ deploy-prod-back:
     DATABASE_MAIN_READ_ONLY_ENABLED: ${PROD_DATABASE_MAIN_READ_ONLY_ENABLED}
     DATABASE_MAIN_READ_ONLY_URI: ${PROD_DATABASE_MAIN_READ_ONLY_URI}
     DATABASE_MAIN_WRITE_URI: ${PROD_DATABASE_MAIN_WRITE_URI}
+    DOCKER_REGISTRY_DOMAIN: ${PROD_DOCKER_REGISTRY_DOMAIN}
+    DOCKER_REGISTRY_PASSWORD: ${PROD_DOCKER_REGISTRY_PASSWORD}
+    DOCKER_REGISTRY_USERNAME: ${PROD_DOCKER_REGISTRY_USERNAME}
     ES_CLOUD_ID: ${PROD_ES_CLOUD_ID}
     ES_ENABLED: ${PROD_ES_ENABLED}
     ES_NODE: ${PROD_ES_NODE}
@@ -339,6 +363,9 @@ deploy-prod-back:
       --set "database.main.readOnly.enabled=${DATABASE_MAIN_READ_ONLY_ENABLED}"
       --set "database.main.readOnly.uri=${DATABASE_MAIN_READ_ONLY_URI}"
       --set "database.main.write.uri=${DATABASE_MAIN_WRITE_URI}"
+      --set "dockerRegistry.domain=${DOCKER_REGISTRY_DOMAIN}"
+      --set "dockerRegistry.password=${DOCKER_REGISTRY_PASSWORD}"
+      --set "dockerRegistry.username=${DOCKER_REGISTRY_USERNAME}"
       --set "es.cloudId=${ES_CLOUD_ID}"
       --set "es.enabled=${ES_ENABLED}"
       --set "es.node=${ES_NODE}"

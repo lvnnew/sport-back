@@ -7126,6 +7126,36 @@
   },
   {
    "default": "",
+   "name": "dockerRegistry.domain",
+   "needFor": "Docker registry domain",
+   "required": false,
+   "scopes": [
+    "ci"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "name": "dockerRegistry.password",
+   "needFor": "Docker registry password",
+   "required": false,
+   "scopes": [
+    "ci"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "name": "dockerRegistry.username",
+   "needFor": "Docker registry username",
+   "required": false,
+   "scopes": [
+    "ci"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
    "name": "es.cloudId",
    "needFor": "Идентификатор аккаунта в облачном сервисе ElasticSearch",
    "required": false,
