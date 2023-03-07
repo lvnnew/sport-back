@@ -154,7 +154,7 @@ export const createS3Putter = (bucket: string) => async (localFilePath: string, 
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
 
-  const fileContent = fs.read(localFilePath);
+  const fileContent = fs.read(localFilePath, 'buffer');
 
   return new Promise<S3.ManagedUpload.SendData & {sizeInBytes: number}>((resolve, reject) => {
     s3.upload(
@@ -182,7 +182,7 @@ export const createS3PutterWithoutFileSaving = (bucket: string) => async (file: 
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
 
-  const fileContent = fs.read(file);
+  const fileContent = fs.read(file, 'buffer');
 
   await new Promise<void>((resolve, reject) => {
     s3.upload(
