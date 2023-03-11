@@ -7567,6 +7567,7 @@
   {
    "branchName": "master",
    "clusterName": "stage01",
+   "main": false,
    "manualDeploy": false,
    "name": "dev",
    "workerClusterName": "workers01"
@@ -7574,6 +7575,7 @@
   {
    "branchName": "release",
    "clusterName": "stage01",
+   "main": true,
    "manualDeploy": true,
    "name": "prod",
    "workerClusterName": "workers01"

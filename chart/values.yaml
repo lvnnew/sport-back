@@ -10,7 +10,7 @@ global:
 dev: false
 
 docker:
-  registry: registry.service.making.ventures/mtbase
+  registry: registry.service.making.ventures
 
 app:
   tag: :master

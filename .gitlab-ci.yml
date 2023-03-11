@@ -161,7 +161,7 @@ deploy-prod-back-previous:
     METRICS_ENABLED: "true"
     WORKER_ENABLED: "false"
     BOT_ENABLED: "false"
-    ROOT_ENABLED: "false"
+    ROOT_ENABLED: "true"
 
 .deploy-prod-workers:
   extends:
@@ -174,7 +174,7 @@ deploy-prod-back-previous:
     METRICS_ENABLED: "false"
     WORKER_ENABLED: "true"
     BOT_ENABLED: "true"
-    ROOT_ENABLED: "false"
+    ROOT_ENABLED: "true"
 
 .deploy-dev:
   extends: .deploy
@@ -188,7 +188,7 @@ deploy-prod-back-previous:
     ENV: "dev"
     DEV: "false"
     HOST: "making.ventures"
-    ROOT_ENABLED: "true"
+    ROOT_ENABLED: "false"
     TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
     ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${DEV_ADMIN_RECAPTCHA_REQUIRED_SCORE}

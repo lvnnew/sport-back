@@ -48,7 +48,7 @@ spec:
         - name: {{ $.Release.Name }}-pullsecret
       containers:
       - name: mtbase-back
-        image: {{ $.Values.docker.registry }}/mtbase-back{{ $.Values.app.tag }}
+        image: {{ $.Values.dockerRegistry.domain }}/mtbase/mtbase-back{{ $.Values.app.tag }}
         ports:
         - name: main-port
           containerPort: 3000
