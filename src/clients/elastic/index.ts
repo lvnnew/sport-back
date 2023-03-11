@@ -98,7 +98,7 @@ const fillInParams = ({
         R.isEmpty(plainFields) ?
           [] :
           R.toPairs(plainFields).map(([key, value]: any) => ({
-            term: {
+            match_phrase: {
               // [typeof value === 'string' ? `${key}.keyword` : key]: value,
               [key]: value,
             },
@@ -224,6 +224,8 @@ const fillInParams = ({
 
     req.size = perPage;
   }
+
+  log.info(JSON.stringify(req, null, 1));
 
   return req;
 };

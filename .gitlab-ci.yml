@@ -90,16 +90,17 @@ deploy-dev-back:
   variables:
     ENV: "dev"
     CLUSTER_NAME: "stage01"
-    TAG: ":master"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
   only:
     - master
+
 deploy-prod-back:
   extends: .deploy-prod-back
   stage: deploy
   variables:
     ENV: "prod"
     CLUSTER_NAME: "stage01"
-    TAG: ":release"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
   only:
     - release
 
