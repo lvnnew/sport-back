@@ -3,6 +3,8 @@ import getQueue from '../clients/queue/getQueue';
 import initRolesWithPermissions from './roles/initRolesWithPermissions';
 import commonInit from './commonInit';
 import initS3Buckets from './initS3Buckets';
+import initIndexes from './indexes/initIndexes';
+import initExtensaions from './extensions/initExtensaions';
 
 // yarn init:base
 // runlify start env=test yarn init:base
@@ -18,6 +20,10 @@ const app = async () => {
   await initS3Buckets();
 
   await commonInit(ctx);
+
+  await initIndexes(ctx);
+
+  await initExtensaions(ctx);
 
   // Permissions
   await initRolesWithPermissions(ctx);
