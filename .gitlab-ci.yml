@@ -39,7 +39,6 @@ tag-previous-with-sha:
   only:
     - master
     - release
-    - /^release-.*$/
   allow_failure: true # Firt run won't be able to create previous image
   variables:
     TAG_ORIGIN: :${CI_COMMIT_REF_SLUG}
@@ -65,7 +64,6 @@ build:
   only:
     - master
     - release
-    - /^release-.*$/
 
 tag-latest:
   extends: .tag-image
@@ -86,28 +84,35 @@ tag-latest:
   variables:
     GIT_STRATEGY: none
 
-deploy-stage-back:
+deploy-dev-back:
   extends: .deploy-dev-back
   stage: deploy
   variables:
-    ENV: "stage"
-    CLUSTER_NAME: "stage01"
-
+    ENV: "dev"
+    CLUSTER_NAME: "stage0101"
+    TAG: ":master"
+  only:
+    - master
 deploy-prod-back:
   extends: .deploy-prod-back
   stage: deploy
   variables:
     ENV: "prod"
-    CLUSTER_NAME: "stage01"
+    CLUSTER_NAME: "stage0101"
+    TAG: ":release"
+  only:
+    - release
 
-deploy-stage-back-previous:
+deploy-dev-back-previous:
   extends: .deploy-dev-back
   stage: deploy-previous
   when: manual
   variables:
-    ENV: "stage"
-    CLUSTER_NAME: "stage01"
+    ENV: "dev"
+    CLUSTER_NAME: "stage0101"
     TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
+  only:
+    - master
 
 deploy-prod-back-previous:
   extends: .deploy-prod-back
@@ -115,9 +120,10 @@ deploy-prod-back-previous:
   when: manual
   variables:
     ENV: "prod"
-    CLUSTER_NAME: "stage01"
+    CLUSTER_NAME: "stage0101"
     TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
-
+  only:
+    - release
 .deploy-dev-back:
   extends:
     - .deploy-dev
@@ -143,15 +149,13 @@ deploy-prod-back-previous:
     WORKER_ENABLED: "true"
     BOT_ENABLED: "true"
     ROOT_ENABLED: "false"
-  only:
-    - master
 
 .deploy-prod-back:
   extends:
     - .deploy-prod
     - .deploy-back
   variables:
-    KUBE_CONFIG: ${KUBE_PROD01_CONFIG}
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "true"
     INGRESS_ENABLED: "true"
     METRICS_ENABLED: "true"
@@ -174,11 +178,17 @@ deploy-prod-back-previous:
 
 .deploy-dev:
   extends: .deploy
+  stage: deploy
+  when: on_success
+  only:
+    - master
+  tags:
+    - dev
   variables:
-    ENV: "stage"
-    DEV: "true"
+    ENV: "dev"
+    DEV: "false"
     HOST: "making.ventures"
-    ROOT_ENABLED: "false"
+    ROOT_ENABLED: "true"
     TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
     ADM_JWT_SECRET: ${DEV_ADM_JWT_SECRET}
     ADMIN_RECAPTCHA_REQUIRED_SCORE: ${DEV_ADMIN_RECAPTCHA_REQUIRED_SCORE}
@@ -233,13 +243,15 @@ deploy-prod-back-previous:
     SMTP_PASS: ${DEV_SMTP_PASS}
     SMTP_PORT: ${DEV_SMTP_PORT}
     SMTP_USER: ${DEV_SMTP_USER}
-  only:
-    - master
 
 .deploy-prod:
   extends: .deploy
   stage: deploy
   when: manual
+  only:
+    - release
+  tags:
+    - prod
   variables:
     ENV: "prod"
     DEV: "false"
@@ -299,9 +311,6 @@ deploy-prod-back-previous:
     SMTP_PASS: ${PROD_SMTP_PASS}
     SMTP_PORT: ${PROD_SMTP_PORT}
     SMTP_USER: ${PROD_SMTP_USER}
-  only:
-    - release
-    - /^release-.*$/
 
 .deploy-back:
   variables:

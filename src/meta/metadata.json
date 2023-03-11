@@ -6851,6 +6851,12 @@
    "projectCategory": "back"
   },
   {
+   "command": "runlify start env=local yarn dev",
+   "name": "dev:local",
+   "needFor": "Запуска преокта в режиме разработки с использованием локального окружения",
+   "projectCategory": "back"
+  },
+  {
    "command": "runlify start env=migration prisma migrate dev --preview-feature",
    "name": "prisma:newMigration",
    "needFor": "Создания новой миграции базы данных",
@@ -6863,9 +6869,15 @@
    "projectCategory": "back"
   },
   {
-   "command": "runlify start yarn dev",
+   "command": "runlify start env=prod yarn dev",
+   "name": "dev:prod",
+   "needFor": "Запуска преокта в режиме разработки с использованием prod окружения",
+   "projectCategory": "back"
+  },
+  {
+   "command": "runlify start env=stage yarn dev",
    "name": "dev:stage",
-   "needFor": "Запуска преокта в режиме разработки с использование stage базы данных",
+   "needFor": "Запуска преокта в режиме разработки с использованием stage окружения",
    "projectCategory": "back"
   },
   {
@@ -7553,12 +7565,18 @@
  "defaultLanguage": "ru",
  "deployEnvironments": [
   {
-   "clusterName": "stage",
-   "name": "stage"
+   "branchName": "master",
+   "clusterName": "stage01",
+   "manualDeploy": false,
+   "name": "dev",
+   "workerClusterName": "workers01"
   },
   {
-   "clusterName": "stage",
-   "name": "prod"
+   "branchName": "release",
+   "clusterName": "stage01",
+   "manualDeploy": true,
+   "name": "prod",
+   "workerClusterName": "workers01"
   }
  ],
  "documents": [],
