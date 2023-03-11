@@ -89,7 +89,7 @@ deploy-dev-back:
   stage: deploy
   variables:
     ENV: "dev"
-    CLUSTER_NAME: "stage0101"
+    CLUSTER_NAME: "stage01"
     TAG: ":master"
   only:
     - master
@@ -98,7 +98,7 @@ deploy-prod-back:
   stage: deploy
   variables:
     ENV: "prod"
-    CLUSTER_NAME: "stage0101"
+    CLUSTER_NAME: "stage01"
     TAG: ":release"
   only:
     - release
@@ -109,7 +109,7 @@ deploy-dev-back-previous:
   when: manual
   variables:
     ENV: "dev"
-    CLUSTER_NAME: "stage0101"
+    CLUSTER_NAME: "stage01"
     TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
   only:
     - master
@@ -120,7 +120,7 @@ deploy-prod-back-previous:
   when: manual
   variables:
     ENV: "prod"
-    CLUSTER_NAME: "stage0101"
+    CLUSTER_NAME: "stage01"
     TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
   only:
     - release
