@@ -80,8 +80,23 @@ spec:
           value: {{ $.Values.database.main.write.uri | quote }}
         - name: LOGS_FORMAT
           value: {{ $.Values.logs.format | quote }}
-        - name: LOKI_URL
+                - name: LOKI_URL
           value: {{ $.Values.loki.url | quote }}
+
+        - name: S3_ACCESS_KEY_ID
+          value: {{ $.Values.s3.accessKeyId | quote }}
+        - name: S3_BUCKET_EMAIL_FILES
+          value: {{ $.Values.s3.bucket.emailFiles | quote }}
+        - name: S3_BUCKET_TMP_FILES_TO_DOWNLOAD
+          value: {{ $.Values.s3.bucket.tmpFilesToDownload | quote }}
+        - name: S3_ENDPOINT
+          value: {{ $.Values.s3.endpoint | quote }}
+        - name: S3_PUBLIC_ENDPOINT
+          value: {{ $.Values.s3.publicEndpoint | quote }}
+        - name: S3_REGION
+          value: {{ $.Values.s3.region | quote }}
+        - name: S3_SECRET_ACCESS_KEY
+          value: {{ $.Values.s3.secretAccessKey | quote }}
 
         - name: APP_URI
           value: {{ $.Values.app.prefix }}.{{ $.Values.ingress.host }}
