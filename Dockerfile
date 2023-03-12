@@ -18,7 +18,7 @@ RUN npm run prisma:gen
 RUN npm run build
 
 # Actual image (this version of node required for email sending by email-templates, not booster)
-FROM registry.gitlab.com/making.ventures/images/node-base-private
+FROM registry.gitlab.com/making.ventures/images/node-base
 
 RUN mkdir -p /usr/src/app/back
 WORKDIR /usr/src/app/back
