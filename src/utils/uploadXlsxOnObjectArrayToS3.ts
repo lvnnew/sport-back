@@ -4,7 +4,6 @@ import tmp from 'tmp';
 import {createS3Putter} from '../clients/s3';
 import exportDataToExcel from './fileGeneration/xlsx/createXlxs';
 import {File} from '../generated/graphql';
-import {getConfig} from '../config';
 
 export interface FileData {
   contentType: string;
@@ -17,7 +16,6 @@ const uploadXlsxOnObjectArrayToS3 = async <T extends Record<string, any>>(
   bucket: string,
   fileName: string,
 ): Promise<Omit<File, 'id'>> => {
-  const {s3Endpoint, s3PublicEndpoint} = await getConfig();
   const filePutter = createS3Putter(bucket);
   const fileNameWithExtension = `${fileName}.xlsx`;
   const s3FileName = `${uuid()}/${fileNameWithExtension}`;
@@ -29,14 +27,12 @@ const uploadXlsxOnObjectArrayToS3 = async <T extends Record<string, any>>(
 
   fs.remove(filePath);
 
-  const url = resUpload.Location.replace(s3Endpoint, s3PublicEndpoint);
-
   return {
     eTag: '',
     mimetype: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     originalName: fileNameWithExtension,
     s3Key: resUpload.Key,
-    url,
+    url: resUpload.Location,
     bytes: resUpload.sizeInBytes,
   };
 };
