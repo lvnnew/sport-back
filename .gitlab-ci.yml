@@ -337,6 +337,7 @@ deploy-prod-back-previous:
     - echo ${KUBE_CONFIG} | base64 -d > ${KUBECONFIG}
   script:
     - NAMESPACE=${NAMESPACE:-"mtbase-${ENV}"}
+    - echo TAG ${TAG}
     - echo NAMESPACE ${NAMESPACE}
     - echo chart ${NAMESPACE}-${DEPLOY_KIND}
 
