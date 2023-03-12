@@ -77,7 +77,6 @@ const envConfig = {
   s3BucketEmailFiles: utils.getStringConfig('s3.bucket.emailFiles', true),
   s3BucketTmpFilesToDownload: utils.getStringConfig('s3.bucket.tmpFilesToDownload', true),
   s3Endpoint: utils.getStringConfig('s3.endpoint', true),
-  s3PublicEndpoint: utils.getStringConfig('s3.publicEndpoint', true),
   s3Region: utils.getStringConfig('s3.region', true),
   s3SecretAccessKey: utils.getStringConfig('s3.secretAccessKey', true),
   smtpFrom: utils.getStringConfig('smtp.from', false),

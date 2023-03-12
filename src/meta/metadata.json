@@ -7479,18 +7479,6 @@
    "type": "string"
   },
   {
-   "default": "s3.eu-central-1.wasabisys.com",
-   "name": "s3.publicEndpoint",
-   "needFor": "Публичныйм эндпоинт S3, к которому имеет доступ полььзовательь",
-   "required": true,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
    "default": "eu-central-1",
    "name": "s3.region",
    "needFor": "Идентификатор доступа для авторизации в S3",
