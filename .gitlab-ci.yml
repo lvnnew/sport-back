@@ -237,6 +237,7 @@ deploy-prod-back-previous:
     S3_BUCKET_EMAIL_FILES: ${DEV_S3_BUCKET_EMAIL_FILES}
     S3_BUCKET_TMP_FILES_TO_DOWNLOAD: ${DEV_S3_BUCKET_TMP_FILES_TO_DOWNLOAD}
     S3_ENDPOINT: ${DEV_S3_ENDPOINT}
+    S3_PUBLIC_ENDPOINT: ${DEV_S3_PUBLIC_ENDPOINT}
     S3_REGION: ${DEV_S3_REGION}
     S3_SECRET_ACCESS_KEY: ${DEV_S3_SECRET_ACCESS_KEY}
     SMTP_FROM: ${DEV_SMTP_FROM}
@@ -305,6 +306,7 @@ deploy-prod-back-previous:
     S3_BUCKET_EMAIL_FILES: ${PROD_S3_BUCKET_EMAIL_FILES}
     S3_BUCKET_TMP_FILES_TO_DOWNLOAD: ${PROD_S3_BUCKET_TMP_FILES_TO_DOWNLOAD}
     S3_ENDPOINT: ${PROD_S3_ENDPOINT}
+    S3_PUBLIC_ENDPOINT: ${PROD_S3_PUBLIC_ENDPOINT}
     S3_REGION: ${PROD_S3_REGION}
     S3_SECRET_ACCESS_KEY: ${PROD_S3_SECRET_ACCESS_KEY}
     SMTP_FROM: ${PROD_SMTP_FROM}
@@ -402,6 +404,7 @@ deploy-prod-back-previous:
       --set "s3.bucket.emailFiles=${S3_BUCKET_EMAIL_FILES}"
       --set "s3.bucket.tmpFilesToDownload=${S3_BUCKET_TMP_FILES_TO_DOWNLOAD}"
       --set "s3.endpoint=${S3_ENDPOINT}"
+      --set "s3.publicEndpoint=${S3_PUBLIC_ENDPOINT}"
       --set "s3.region=${S3_REGION}"
       --set "s3.secretAccessKey=${S3_SECRET_ACCESS_KEY}"
       --set "smtp.from=${SMTP_FROM}"

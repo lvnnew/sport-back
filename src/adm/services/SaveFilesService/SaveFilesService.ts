@@ -22,18 +22,21 @@ class SaveFilesService {
     const uploaderFromStream = createUploaderFromStream(s3BucketTmpFilesToDownload);
 
     return async (file: Promise<FileUpload>): Promise<FileUploadResult> => {
+      const {s3Endpoint, s3PublicEndpoint} = await getConfig();
       const {createReadStream, filename, mimetype} = await file;
       const filePath = createFilePath(filename);
       const stream = createReadStream();
 
       const resUpload = await uploaderFromStream(filePath, stream);
 
+      const url = resUpload.Location.replace(s3Endpoint, s3PublicEndpoint);
+
       const dbFile = await this.ctx.service('files').create({
         eTag: resUpload.ETag,
         mimetype,
         originalName: filename,
         s3Key: resUpload.Key,
-        url: resUpload.Location,
+        url,
         bytes: resUpload.sizeInBytes,
       });
 

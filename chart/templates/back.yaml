@@ -148,6 +148,8 @@ spec:
           value: {{ $.Values.s3.bucket.tmpFilesToDownload | quote }}
         - name: S3_ENDPOINT
           value: {{ $.Values.s3.endpoint | quote }}
+        - name: S3_PUBLIC_ENDPOINT
+          value: {{ $.Values.s3.publicEndpoint | quote }}
         - name: S3_REGION
           value: {{ $.Values.s3.region | quote }}
         - name: S3_SECRET_ACCESS_KEY
