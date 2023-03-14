@@ -4,7 +4,7 @@ import initRolesWithPermissions from './roles/initRolesWithPermissions';
 import commonInit from './commonInit';
 import initS3Buckets from './initS3Buckets';
 import initIndexes from './indexes/initIndexes';
-import initExtensaions from './extensions/initExtensaions';
+import initExtensions from './extensions/initExtensions';
 
 // yarn init:base
 // runlify start env=test yarn init:base
@@ -23,7 +23,7 @@ const app = async () => {
 
   await initIndexes(ctx);
 
-  await initExtensaions(ctx);
+  await initExtensions(ctx);
 
   // Permissions
   await initRolesWithPermissions(ctx);
