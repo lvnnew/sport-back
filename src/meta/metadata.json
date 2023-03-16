@@ -23,6 +23,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -203,6 +204,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -388,6 +390,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -564,6 +567,7 @@
   {
    "auditable": false,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -704,6 +708,7 @@
   {
    "auditable": false,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": false,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1172,6 +1177,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1456,6 +1462,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1739,6 +1746,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -1948,6 +1956,7 @@
   {
    "auditable": false,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2075,6 +2084,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2323,6 +2333,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2453,6 +2464,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2596,6 +2608,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -2849,6 +2862,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3030,6 +3044,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3542,6 +3557,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3671,6 +3687,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -3937,6 +3954,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": true,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -4363,6 +4381,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -4545,6 +4564,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -4733,6 +4753,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -4993,6 +5014,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -5224,6 +5246,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -5380,6 +5403,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -5507,6 +5531,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -5701,6 +5726,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -5863,6 +5889,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -6008,6 +6035,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -6128,6 +6156,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -6279,6 +6308,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -6430,6 +6460,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -6583,6 +6614,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": true,
+   "creatableByUser": true,
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
@@ -7587,6 +7619,7 @@
   {
    "auditable": true,
    "commonElementsVisibleToAll": false,
+   "creatableByUser": true,
    "devPerefinedElements": [],
    "dimensions": [
     {
