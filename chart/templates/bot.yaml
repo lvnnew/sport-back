@@ -111,7 +111,7 @@ spec:
           value: {{ $.Values.database.main.write.uri | quote }}
         - name: LOGS_FORMAT
           value: {{ $.Values.logs.format | quote }}
-                - name: LOKI_URL
+        - name: LOKI_URL
           value: {{ $.Values.loki.url | quote }}
 
         - name: S3_ACCESS_KEY_ID
