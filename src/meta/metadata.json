@@ -182,6 +182,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -199,7 +200,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -364,6 +366,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -385,7 +388,8 @@
     [
      "login"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -549,6 +553,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -562,7 +567,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": false,
@@ -686,6 +692,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -703,7 +710,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": false,
@@ -1155,6 +1163,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -1172,7 +1181,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -1440,6 +1450,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -1457,7 +1468,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -1724,6 +1736,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -1741,7 +1754,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -1934,6 +1948,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -1951,7 +1966,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": false,
@@ -2062,6 +2078,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -2079,7 +2096,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -2311,6 +2329,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -2328,7 +2347,8 @@
    },
    "titleField": "originalName",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -2446,6 +2466,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -2459,7 +2480,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -2586,6 +2608,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -2603,7 +2626,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -2840,6 +2864,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -2857,7 +2882,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -3022,6 +3048,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -3039,7 +3066,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -3529,6 +3557,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -3552,7 +3581,8 @@
      "to",
      "uniqueKey"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -3665,6 +3695,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -3682,7 +3713,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -3928,6 +3960,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -3949,7 +3982,8 @@
     [
      "login"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -4355,6 +4389,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -4376,7 +4411,8 @@
     [
      "email"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -4542,6 +4578,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -4559,7 +4596,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -4725,6 +4763,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -4748,7 +4787,8 @@
      "roleId",
      "expiresAt"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -4987,6 +5027,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -5009,7 +5050,8 @@
      "messageTemplateId",
      "languageId"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -5224,6 +5266,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -5241,7 +5284,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -5381,6 +5425,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -5398,7 +5443,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -5509,6 +5555,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -5526,7 +5573,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -5704,6 +5752,7 @@
     }
    ],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -5721,7 +5770,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -5862,6 +5912,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -5884,7 +5935,8 @@
      "roleId",
      "permissionId"
     ]
-   ]
+   ],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -6017,6 +6069,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -6030,7 +6083,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -6138,6 +6192,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -6151,7 +6206,8 @@
    },
    "titleField": "id",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -6286,6 +6342,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -6303,7 +6360,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -6438,6 +6496,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -6455,7 +6514,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -6592,6 +6652,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -6609,7 +6670,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   },
   {
    "auditable": true,
@@ -6819,6 +6881,7 @@
    "needFor": {},
    "predefinedElements": [],
    "previewFeatures": [],
+   "removableByUser": true,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -6836,7 +6899,8 @@
    },
    "titleField": "title",
    "type": "catalog",
-   "uniqueConstraints": []
+   "uniqueConstraints": [],
+   "updatableByUser": true
   }
  ],
  "commands": [
@@ -7871,6 +7935,7 @@
    "predefinedElements": [],
    "previewFeatures": [],
    "registrarDepended": false,
+   "removableByUser": true,
    "resources": [
     {
      "category": "scalar",
@@ -7975,7 +8040,8 @@
      "entityTypeId",
      "entityId"
     ]
-   ]
+   ],
+   "updatableByUser": true
   }
  ],
  "languages": [
