@@ -43,6 +43,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -65,6 +66,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -86,6 +88,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Create",
       "ru": "Создать"
@@ -109,6 +112,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Manager",
       "ru": "Менеджер"
@@ -129,6 +133,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Token",
@@ -226,6 +231,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -248,6 +254,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -269,6 +276,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Login",
@@ -290,6 +298,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Password",
@@ -314,6 +323,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "User",
       "ru": "Пользователь"
@@ -414,6 +424,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -436,6 +447,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -457,6 +469,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Create",
       "ru": "Создать"
@@ -480,6 +493,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "User",
       "ru": "Пользователь"
@@ -500,6 +514,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Token",
@@ -592,6 +607,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -615,6 +631,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -636,6 +653,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -736,6 +754,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -758,6 +777,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -779,6 +799,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Date",
       "ru": "Дата"
@@ -799,6 +820,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -822,6 +844,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Success",
       "ru": "Успешно"
@@ -842,6 +865,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Error",
@@ -866,6 +890,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Entity type",
       "ru": "Сущность"
@@ -886,6 +911,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Entity Id",
@@ -910,6 +936,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Action Type",
       "ru": "Тип операции"
@@ -933,6 +960,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Manager",
       "ru": "Менеджер"
@@ -953,6 +981,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Логин"
@@ -976,6 +1005,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "User",
       "ru": "Пользователь"
@@ -998,6 +1028,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Foreign",
       "ru": "Внешняя сущность"
@@ -1018,6 +1049,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Foreign entity type",
@@ -1039,6 +1071,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Foreign entity Id",
@@ -1060,6 +1093,7 @@
      "showInEdit": true,
      "showInFilter": false,
      "showInList": false,
+     "showInShow": true,
      "stringType": "json",
      "title": {
       "en": "Action data",
@@ -1163,7 +1197,7 @@
    },
    "predefinedElements": [],
    "previewFeatures": [],
-   "removableByUser": true,
+   "removableByUser": false,
    "searchEnabled": true,
    "shardUniqKeys": null,
    "singleKey": true,
@@ -1182,7 +1216,7 @@
    "titleField": "title",
    "type": "catalog",
    "uniqueConstraints": [],
-   "updatableByUser": true
+   "updatableByUser": false
   },
   {
    "auditable": true,
@@ -1207,6 +1241,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -1229,6 +1264,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -1250,6 +1286,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Date",
       "ru": "Дату проверки"
@@ -1270,6 +1307,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Original entity type",
@@ -1291,6 +1329,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Original entity Id",
@@ -1315,6 +1354,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Autogeneration rule",
       "ru": "Правило автогенерации, которое запускалось"
@@ -1335,6 +1375,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Version",
       "ru": "Версия запускаемого правила"
@@ -1357,6 +1398,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Error occurred",
       "ru": "Произошла ли ошибка"
@@ -1377,6 +1419,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "error",
@@ -1493,6 +1536,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -1516,6 +1560,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -1537,6 +1582,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -1558,6 +1604,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Version",
       "ru": "Дата последнего изменения правила"
@@ -1578,6 +1625,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Original entity type",
@@ -1599,6 +1647,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Generating entity type",
@@ -1620,6 +1669,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Original entity filter",
@@ -1641,6 +1691,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Generating entity construction rules",
@@ -1664,6 +1715,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Ignore version on history",
       "ru": "Нужно ли учитывать версию при поиске сущностей ещё не обработанных правилом"
@@ -1780,6 +1832,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -1802,6 +1855,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -1826,6 +1880,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "From",
       "ru": "От"
@@ -1849,6 +1904,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "To",
       "ru": "К"
@@ -1869,6 +1925,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Expires at",
       "ru": "Истекает"
@@ -1891,6 +1948,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Active",
       "ru": "Активно"
@@ -1991,6 +2049,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -2014,6 +2073,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -2035,6 +2095,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -2122,6 +2183,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -2144,6 +2206,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -2165,6 +2228,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Original name"
@@ -2185,6 +2249,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": false,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Url"
@@ -2205,6 +2270,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Mimetype"
@@ -2225,6 +2291,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": false,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "S3 key"
@@ -2245,6 +2312,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": false,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "E tag"
@@ -2265,6 +2333,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": false,
+     "showInShow": true,
      "title": {
       "ru": "Bytes"
      },
@@ -2372,6 +2441,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -2395,6 +2465,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -2416,6 +2487,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -2505,6 +2577,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -2528,6 +2601,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -2549,6 +2623,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -2652,6 +2727,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -2674,6 +2750,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -2695,6 +2772,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -2718,6 +2796,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Mailing type"
      },
@@ -2737,6 +2816,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Priority"
      },
@@ -2756,6 +2836,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Date"
      },
@@ -2778,6 +2859,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Mailing campaign status"
      },
@@ -2800,6 +2882,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Message template"
      },
@@ -2907,6 +2990,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -2930,6 +3014,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -2951,6 +3036,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -2973,6 +3059,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Final"
      },
@@ -3092,6 +3179,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -3114,6 +3202,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -3138,6 +3227,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Mailing campaign"
      },
@@ -3160,6 +3250,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Template"
      },
@@ -3182,6 +3273,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Language"
      },
@@ -3201,6 +3293,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "To"
@@ -3221,6 +3314,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Locals"
@@ -3241,6 +3335,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Locals hash"
@@ -3261,6 +3356,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Priority"
      },
@@ -3280,6 +3376,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Date created"
      },
@@ -3299,6 +3396,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Date sent"
      },
@@ -3318,6 +3416,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Error"
@@ -3338,6 +3437,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Html"
@@ -3358,6 +3458,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Text"
@@ -3378,6 +3479,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Unique key"
@@ -3398,6 +3500,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Subject"
@@ -3421,6 +3524,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Mailing message status"
      },
@@ -3443,6 +3547,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Message template lang variant"
      },
@@ -3606,6 +3711,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -3629,6 +3735,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -3650,6 +3757,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -3739,6 +3847,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -3761,6 +3870,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -3782,6 +3892,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Login",
@@ -3803,6 +3914,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Password hash",
@@ -3826,6 +3938,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Email verified",
       "ru": "Email подтвержден"
@@ -3848,6 +3961,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Initial password changed",
       "ru": "Исходный пароль изменен"
@@ -3870,6 +3984,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Locked",
       "ru": "Заблокирован"
@@ -3893,6 +4008,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Managers",
       "ru": "Менеджеры"
@@ -4008,6 +4124,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -4030,6 +4147,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -4051,6 +4169,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -4072,6 +4191,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Lastname",
@@ -4093,6 +4213,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Firstname",
@@ -4117,6 +4238,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Language",
       "ru": "Язык"
@@ -4137,6 +4259,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Email",
@@ -4158,6 +4281,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Phone",
@@ -4183,6 +4307,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Фото"
      },
@@ -4202,6 +4327,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Telegram login",
@@ -4226,6 +4352,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Units",
       "ru": "Подразделение"
@@ -4248,6 +4375,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Head of unit",
       "ru": "Глава подразделения"
@@ -4270,6 +4398,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Active",
       "ru": "Активный"
@@ -4293,6 +4422,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Tenant"
      },
@@ -4437,6 +4567,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -4459,6 +4590,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -4483,6 +4615,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Manager",
       "ru": "Менеджер"
@@ -4506,6 +4639,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Permission",
       "ru": "Разрешение"
@@ -4526,6 +4660,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Expires at",
       "ru": "Истекает"
@@ -4622,6 +4757,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -4644,6 +4780,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -4668,6 +4805,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Manager",
       "ru": "Менеджер"
@@ -4691,6 +4829,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Role",
       "ru": "Роль"
@@ -4711,6 +4850,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Expires at",
       "ru": "Истекает"
@@ -4813,6 +4953,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -4835,6 +4976,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -4856,6 +4998,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -4876,6 +5019,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Subject template"
@@ -4896,6 +5040,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Body template"
@@ -4919,6 +5064,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Message template"
      },
@@ -4941,6 +5087,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Language"
      },
@@ -4960,6 +5107,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Additional style"
@@ -5075,6 +5223,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -5098,6 +5247,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -5119,6 +5269,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -5141,6 +5292,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Secret data"
      },
@@ -5163,6 +5315,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Message type"
      },
@@ -5182,6 +5335,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Data example"
@@ -5205,6 +5359,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Template style"
      },
@@ -5309,6 +5464,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -5332,6 +5488,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -5353,6 +5510,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -5373,6 +5531,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Description"
@@ -5468,6 +5627,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -5491,6 +5651,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -5512,6 +5673,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -5598,6 +5760,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -5621,6 +5784,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -5642,6 +5806,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -5665,6 +5830,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Has all permissions",
       "ru": "Доступны все разрешения"
@@ -5687,6 +5853,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "All tenants available",
       "ru": "Доступны все арендаторы"
@@ -5796,6 +5963,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -5818,6 +5986,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -5842,6 +6011,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Roles",
       "ru": "Роль"
@@ -5865,6 +6035,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Permission",
       "ru": "Разрешение"
@@ -5960,6 +6131,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Id",
@@ -5983,6 +6155,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -6004,6 +6177,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Updated"
      },
@@ -6023,6 +6197,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Hello count"
      },
@@ -6109,6 +6284,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -6131,6 +6307,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -6152,6 +6329,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Comment"
@@ -6232,6 +6410,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -6254,6 +6433,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -6275,6 +6455,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -6295,6 +6476,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Style"
@@ -6386,6 +6568,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -6408,6 +6591,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -6429,6 +6613,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -6451,6 +6636,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "UTC offset",
       "ru": "Смещение по UTC"
@@ -6540,6 +6726,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -6562,6 +6749,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -6583,6 +6771,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Title",
@@ -6607,6 +6796,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Parent id",
       "ru": "Родительское подразделение"
@@ -6696,6 +6886,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -6718,6 +6909,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Search",
@@ -6739,6 +6931,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Title"
@@ -6759,6 +6952,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Lastname"
@@ -6779,6 +6973,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Firstname"
@@ -6799,6 +6994,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "ru": "Email"
@@ -6822,6 +7018,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "ru": "Tenant"
      },
@@ -7701,6 +7898,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Entity type",
       "ru": "Тип сущности"
@@ -7721,6 +7919,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Entity",
@@ -7747,6 +7946,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Id",
       "ru": "Ид"
@@ -7770,6 +7970,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Entity type",
       "ru": "Тип сущности"
@@ -7790,6 +7991,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "stringType": "plain",
      "title": {
       "en": "Entity",
@@ -7811,6 +8013,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Last aggregates computed",
       "ru": "Агрегаты последний раз вычислены"
@@ -7831,6 +8034,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Last aggregates scheduled",
       "ru": "Последний раз было добавлено в очередь на обработку"
@@ -7851,6 +8055,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Last entity update",
       "ru": "Последнее обновление сущности"
@@ -7871,6 +8076,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Aggregate version",
       "ru": "Версия агрегата"
@@ -7949,6 +8155,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Last aggregates computed",
       "ru": "Агрегаты последний раз вычислены"
@@ -7969,6 +8176,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Last aggregates scheduled",
       "ru": "Последний раз было добавлено в очередь на обработку"
@@ -7989,6 +8197,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Last entity update",
       "ru": "Последнее обновление сущности"
@@ -8009,6 +8218,7 @@
      "showInEdit": true,
      "showInFilter": true,
      "showInList": true,
+     "showInShow": true,
      "title": {
       "en": "Aggregate version",
       "ru": "Версия агрегата"
