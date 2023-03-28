@@ -118,26 +118,32 @@ const fillInParams = ({
       //     minimum_should_match: 1,
       //   },
       // });
-      if (ids.length) {
-        elasticFilter.push({
-          bool: {
-            should: ids.map(id => ({
-              term: {
-                id,
-              },
-            })),
-            minimum_should_match: 1,
-          },
-        });
-      } else {
-        elasticFilter.push({
-          bool: {
-            must_not: [
-              {exists: {field: 'id'}},
-            ],
-          },
-        });
-      }
+      // if (ids.length) {
+      //   elasticFilter.push({
+      //     bool: {
+      //       should: ids.map(id => ({
+      //         term: {
+      //           id,
+      //         },
+      //       })),
+      //       minimum_should_match: 1,
+      //     },
+      //   });
+      // } else {
+      //   elasticFilter.push({
+      //     bool: {
+      //       must_not: [
+      //         {exists: {field: 'id'}},
+      //       ],
+      //     },
+      //   });
+      // }
+
+      elasticFilter.push({
+        terms: {
+          id: ids,
+        },
+      });
     }
 
     const inFields = R.toPairs(filter).filter(([key]) => key.endsWith('_in'));
@@ -146,19 +152,45 @@ const fillInParams = ({
     if (inFields.length) {
       for (const [key, values] of inFields) {
         const fieldName = key.replaceAll('_in', '');
-        if (values.length) {
-          elasticFilter.push({
-            bool: {
-              should: (values as any[]).map(value => ({
-                term: {
-                  [fieldName]: value,
-                },
-              })),
-              minimum_should_match: 1,
-            },
-          });
-        } else {
-          elasticFilter.push({
+        // if (values.length) {
+        //   elasticFilter.push({
+        //     bool: {
+        //       should: (values as any[]).map(value => ({
+        //         term: {
+        //           [fieldName]: value,
+        //         },
+        //       })),
+        //       minimum_should_match: 1,
+        //     },
+        //   });
+        // } else {
+        //   elasticFilter.push({
+        //     bool: {
+        //       must_not: [
+        //         {exists: {field: fieldName}},
+        //       ],
+        //     },
+        //   });
+        // }
+        // elasticFilter.push({
+        //   terms: {
+        //     [key.replaceAll('_in', '')]: values,
+        //   },
+        // });
+
+        const should: QueryDslQueryContainer[] = [];
+        const valuesWithoutNulls = values.filter((v: any) => v !== null);
+        const valuesHasNulls = values.includes(null);
+        // if (valuesWithoutNulls.length) {
+        should.push({
+          terms: {
+            [fieldName]: valuesWithoutNulls,
+          },
+        });
+        // }
+
+        if (valuesHasNulls) {
+          should.push({
             bool: {
               must_not: [
                 {exists: {field: fieldName}},
@@ -166,11 +198,15 @@ const fillInParams = ({
             },
           });
         }
-        // elasticFilter.push({
-        //   term: {
-        //     [key.replaceAll('_in', '')]: values,
-        //   },
-        // });
+
+        if (should.length) {
+          elasticFilter.push({
+            bool: {
+              should,
+              minimum_should_match: 1,
+            },
+          });
+        }
       }
     }
 
