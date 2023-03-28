@@ -108,31 +108,69 @@ const fillInParams = ({
 
     if ('ids' in filter) {
       const ids: Array<string | number | bigint> = filter.ids;
-      elasticFilter.push({
-        bool: {
-          should: ids.map(id => ({
-            term: {
-              id,
-            },
-          })),
-          minimum_should_match: 1,
-        },
-      });
-    }
-
-    const inFields = R.toPairs(filter).filter(([key]) => key.endsWith('_in'));
-    if (inFields.length) {
-      for (const [key, values] of inFields) {
+      // elasticFilter.push({
+      //   bool: {
+      //     should: ids.map(id => ({
+      //       term: {
+      //         id,
+      //       },
+      //     })),
+      //     minimum_should_match: 1,
+      //   },
+      // });
+      if (ids.length) {
         elasticFilter.push({
           bool: {
-            should: (values as any[]).map(value => ({
+            should: ids.map(id => ({
               term: {
-                [key.replaceAll('_in', '')]: value,
+                id,
               },
             })),
             minimum_should_match: 1,
           },
         });
+      } else {
+        elasticFilter.push({
+          bool: {
+            must_not: [
+              {exists: {field: 'id'}},
+            ],
+          },
+        });
+      }
+    }
+
+    const inFields = R.toPairs(filter).filter(([key]) => key.endsWith('_in'));
+    log.info('inFields');
+    log.info(JSON.stringify(inFields, null, 1));
+    if (inFields.length) {
+      for (const [key, values] of inFields) {
+        const fieldName = key.replaceAll('_in', '');
+        if (values.length) {
+          elasticFilter.push({
+            bool: {
+              should: (values as any[]).map(value => ({
+                term: {
+                  [fieldName]: value,
+                },
+              })),
+              minimum_should_match: 1,
+            },
+          });
+        } else {
+          elasticFilter.push({
+            bool: {
+              must_not: [
+                {exists: {field: fieldName}},
+              ],
+            },
+          });
+        }
+        // elasticFilter.push({
+        //   term: {
+        //     [key.replaceAll('_in', '')]: values,
+        //   },
+        // });
       }
     }
 
@@ -225,6 +263,7 @@ const fillInParams = ({
     req.size = perPage;
   }
 
+  log.info('req');
   log.info(JSON.stringify(req, null, 1));
 
   return req;
