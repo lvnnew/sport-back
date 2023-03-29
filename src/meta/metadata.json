@@ -27,6 +27,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -215,6 +216,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -408,6 +410,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -592,6 +595,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -738,6 +742,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -1225,6 +1230,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -1521,6 +1527,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -1816,6 +1823,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -2034,6 +2042,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -2167,6 +2176,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -2426,6 +2436,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -2562,6 +2573,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -2711,6 +2723,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -2975,6 +2988,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -3163,6 +3177,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -3696,6 +3711,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -3831,6 +3847,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -4108,6 +4125,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -4551,6 +4569,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -4741,6 +4760,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -4937,6 +4957,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -5208,6 +5229,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -5449,6 +5471,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -5612,6 +5635,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -5745,6 +5769,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -5947,6 +5972,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -6116,6 +6142,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -6268,6 +6295,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -6394,6 +6422,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -6552,6 +6581,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -6710,6 +6740,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -6870,6 +6901,7 @@
    "deletable": false,
    "devPerefinedElements": [],
    "editable": true,
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
@@ -7930,6 +7962,7 @@
      "updatableByUser": true
     }
    ],
+   "exportableByUser": true,
    "externalSearch": false,
    "fields": [
     {
