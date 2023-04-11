@@ -1,19 +1,23 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: mtbase-back
+  annotations:
   labels:
-    app: mtbase-back
+    app: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
     app.kubernetes.io/instance: prometheus-stack
     release: prometheus-stack
+  name: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
 spec:
   endpoints:
   - path: /metrics
     port: http
-  jobLabel: mtbase-back
+  jobLabel: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
   namespaceSelector:
     matchNames:
-    - default
+    - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: mtbase-back
+      projectName: {{ $.Values.global.projectName }}
+      deployKind: {{ $.Values.global.deployKind }}
+  targetLabels:
+  - {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
