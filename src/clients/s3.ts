@@ -251,8 +251,7 @@ export const createS3Downloader = (bucket: string) => async (filename: string, p
   const createLoadStream = await createS3LoadStream(bucket);
 
   await new Promise<void>((resolve, reject) => {
-    const stream = createLoadStream(filename)
-      .pipe(zipFile);
+    const stream = createLoadStream(filename);
     let hadError = false;
     stream.on('error', (err) => {
       hadError = true;
@@ -263,6 +262,8 @@ export const createS3Downloader = (bucket: string) => async (filename: string, p
         resolve();
       }
     });
+
+    stream.pipe(zipFile);
   });
 };
 
