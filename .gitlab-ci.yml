@@ -85,6 +85,7 @@ tag-latest:
     name: gcr.io/go-containerregistry/crane:debug
     entrypoint: ['']
   script:
+    - echo TAG_DESTINATION ${TAG_DESTINATION}
     - crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - crane cp ${CI_REGISTRY_IMAGE}:${TAG_ORIGIN} ${CI_REGISTRY_IMAGE}:${TAG_DESTINATION}
   variables:
@@ -355,6 +356,8 @@ deploy-prod-back-previous:
       --wait ${NAMESPACE}-${DEPLOY_KIND} chart
       --timeout 3600s
       -f chart/values_${ENV}.yaml
+      --namespace ${NAMESPACE}
+      --create-namespace
       --set "global.projectName=${PROJECT_NAME}"
       --set "global.clusterName=${CLUSTER_NAME}"
       --set "global.env=${ENV}"
@@ -422,4 +425,3 @@ deploy-prod-back-previous:
       --set "smtp.pass=${SMTP_PASS}"
       --set "smtp.port=${SMTP_PORT}"
       --set "smtp.user=${SMTP_USER}"
-      --namespace ${NAMESPACE}
