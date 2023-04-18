@@ -1,8 +1,8 @@
 {
  "back": {
   "limits": {
-   "cpu": "0.15",
-   "memory": "64Mi"
+   "cpu": "0.3",
+   "memory": "128Mi"
   },
   "materialUiIcon": "Brightness1Outlined",
   "name": "back",

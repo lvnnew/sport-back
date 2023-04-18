@@ -44,8 +44,8 @@ back:
     memory: "64Mi"
     cpu: "0.15"
   limits:
-    memory: "64Mi"
-    cpu: "0.15"
+    memory: "128Mi"
+    cpu: "0.3"
 
 metrics:
   enabled: true
