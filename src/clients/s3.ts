@@ -178,6 +178,19 @@ export const createS3Putter = (bucket: string) => async (localFilePath: string, 
   });
 };
 
+export const createSignedUrlGetter = (bucket: string) => async (key: string, expiresInSec = 60 * 60) => {
+  const s3 = await getS3();
+
+  return s3.getSignedUrl(
+    'getObject',
+    {
+      Bucket: bucket,
+      Key: key,
+      Expires: expiresInSec,
+    },
+  );
+};
+
 export const createS3PutterWithoutFileSaving = (bucket: string) => async (file: string, path: string) => {
   const s3 = await getS3();
   await createS3BucketIfNotExist(bucket);
