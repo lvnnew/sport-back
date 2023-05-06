@@ -34,6 +34,7 @@ export const getFromNconf = <T extends boolean>(name: string, required?: T): Val
 const utils = getConfigUtils(getFromNconf);
 
 const envConfig = {
+  env: envName,
   admJwtSecret: utils.getStringConfig('adm.jwt.secret', false),
   adminRecaptchaRequiredScore: utils.getFloatConfig('admin.recaptcha.requiredScore', false),
   adminRecaptchaSecretKey: utils.getStringConfig('admin.recaptcha.secretKey', false),

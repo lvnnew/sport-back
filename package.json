@@ -27,7 +27,7 @@
     "prisma": "prisma",
     "ts-node:withContext": "ts-node ./src/init/wrap.ts",
     "init:base": "ts-node src/init/baseInit.ts",
-    "init:permissions": "yarn ts-node:withContext src/init/roles/initRoles.ts",
+    "init:permissions": "yarn ts-node:withContext src/init/roles/initRolesWithPermissions.ts",
     "init:dev": "ts-node src/init/initDev.ts",
     "regen": "yarn ts-node src/meta/regenBasedOnMeta.ts && runlify regen",
     "preinstall": "npx only-allow yarn"
@@ -113,7 +113,7 @@
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "runlify": "^0.0.494",
+    "runlify": "^0.0.495",
     "safe-stable-stringify": "^2.4.1",
     "set-cookie-parser": "^2.5.1",
     "stream-size": "^0.0.6",
