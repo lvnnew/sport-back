@@ -154,7 +154,7 @@ deploy-prod-back-previous:
     - .deploy-dev
     - .deploy-worker
   variables:
-    KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "false"
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
@@ -180,7 +180,7 @@ deploy-prod-back-previous:
     - .deploy-prod
     - .deploy-worker
   variables:
-    KUBE_CONFIG: ${KUBE_WORKERS01_CONFIG}
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
     BACK_ENABLED: "false"
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"

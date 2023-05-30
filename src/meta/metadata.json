@@ -21,6 +21,7 @@
  },
  "catalogs": [
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -215,6 +216,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -414,6 +416,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -604,6 +607,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": false,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -754,6 +758,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": false,
    "commonElementsVisibleToAll": false,
    "creatableByUser": false,
@@ -1258,6 +1263,7 @@
    "updatableByUser": false
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -1564,6 +1570,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -1869,6 +1876,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -2094,6 +2102,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": false,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -2231,6 +2240,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -2499,6 +2509,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -2639,6 +2650,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -2792,6 +2804,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -3065,6 +3078,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -3258,6 +3272,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -3810,6 +3825,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -3949,6 +3965,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -4235,6 +4252,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": true,
    "creatableByUser": true,
@@ -4693,6 +4711,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -4889,6 +4908,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -5091,6 +5111,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -5371,6 +5392,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -5620,6 +5642,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -5788,6 +5811,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -5925,6 +5949,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -6133,6 +6158,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -6307,6 +6333,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -6464,6 +6491,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -6594,6 +6622,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -6757,6 +6786,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -6920,6 +6950,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
@@ -7085,6 +7116,7 @@
    "updatableByUser": true
   },
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": true,
    "creatableByUser": true,
@@ -8107,6 +8139,7 @@
  "glossary": [],
  "infoRegistries": [
   {
+   "allowedToChange": "",
    "auditable": true,
    "commonElementsVisibleToAll": false,
    "creatableByUser": true,
