@@ -12,7 +12,7 @@ export const getHourlyCronPattern = () => `${Math.floor(Math.random() * 59)} * *
 
 export const getFiveMinsCronPattern = () => '*/5 * * * *';
 
-export const getTenMinsCronPattern = () => '*/5 * * * *';
+export const getTenMinsCronPattern = () => '*/10 * * * *';
 
 export const getOneMinCronPattern = () => '* * * * *';
 

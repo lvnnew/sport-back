@@ -49,7 +49,7 @@ export const checkAndDestroyRefreshToken = async (userId: number, token: string,
 export const makeTokens = async (userId: number): Promise<AuthTokens> => {
   const {appJwtSecret} = await getConfig();
   if (!appJwtSecret) {
-    throw new Error('appJwtSecret not proovided');
+    throw new Error('appJwtSecret not provided');
   }
 
   const ctx = await createContext();
@@ -76,7 +76,7 @@ export const getJWTMemberIdOffExpiration = async (jwtToken?: string): Promise<nu
   if (jwtToken) {
     const {appJwtSecret} = await getConfig();
     if (!appJwtSecret) {
-      throw new Error('appJwtSecret not proovided');
+      throw new Error('appJwtSecret not provided');
     }
 
     const jwtPayload = jwt.verify(jwtToken, appJwtSecret, {ignoreExpiration: false});

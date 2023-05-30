@@ -27,7 +27,7 @@ export const register = (req: Request, res: Response, next: NextFunction) => {
 
         const {admJwtSecret} = await getConfig();
         if (!admJwtSecret) {
-          throw new Error('admJwtSecret not proovided');
+          throw new Error('admJwtSecret not provided');
         }
 
         // res.status(200).send({cardNumber: user.memberId, message: 'user created'});

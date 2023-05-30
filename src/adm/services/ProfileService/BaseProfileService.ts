@@ -165,7 +165,7 @@ class BaseProfileService {
       managersPermissionsCache.set(managerId, R.uniq(permissions.map(el => el.permissionId)));
     }
 
-    return managersPermissionsCache.get(managerId);
+    return managersPermissionsCache.get(managerId) as string[];
   };
 
   getPermissions = async() => {
@@ -187,7 +187,7 @@ class BaseProfileService {
     return this.getPermissionsOfManagerWithMeta(managerId);
   };
 
-  getAllowedTenantIdsOfManager = async (managerId: number) => {
+  getAllowedTenantIdsOfManager = async (managerId: number): Promise<number[]> => {
     if (!managerId) {
       return [];
     }
@@ -202,10 +202,10 @@ class BaseProfileService {
       managersTenantIdsCache.set(managerId, tenantIds);
     }
 
-    return managersTenantIdsCache.get(managerId);
+    return managersTenantIdsCache.get(managerId) as number[];
   };
 
-  getAllowedTenantIdsOfUser = async (userId: number) => {
+  getAllowedTenantIdsOfUser = async (userId: number): Promise<number[]> => {
     if (!userId) {
       return [];
     }
@@ -220,7 +220,7 @@ class BaseProfileService {
       usersTenantIdsCache.set(userId, tenantIds);
     }
 
-    return usersTenantIdsCache.get(userId);
+    return usersTenantIdsCache.get(userId) as number[];
   };
 
   getAllowedTenantIds = async () => {

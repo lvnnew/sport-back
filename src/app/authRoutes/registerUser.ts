@@ -26,7 +26,7 @@ export const registerUser = (req: Request, res: Response, next: NextFunction) =>
         log.info('user created in db');
         const {appJwtSecret} = await getConfig();
         if (!appJwtSecret) {
-          throw new Error('appJwtSecret not proovided');
+          throw new Error('appJwtSecret not provided');
         }
 
         // res.status(200).send({email: user.userId, message: 'user created'});

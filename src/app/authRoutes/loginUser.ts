@@ -31,7 +31,7 @@ export const loginUser = (req: Request, res: Response, next: NextFunction) => {
         log.warn(user.id);
         const {appJwtSecret} = await getConfig();
         if (!appJwtSecret) {
-          throw new Error('appJwtSecret not proovided');
+          throw new Error('appJwtSecret not provided');
         }
 
         const token = jwt.sign({id: user.id}, appJwtSecret, {
