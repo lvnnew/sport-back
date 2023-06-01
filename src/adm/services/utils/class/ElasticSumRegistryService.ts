@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types,max-len */
 import {AllRequestArgs} from '../../../../utils/types';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
-import {Obj, WithID} from './BaseService';
+import {Obj, PrismaLocalDelegation, WithID} from './BaseService';
 import {SumRegistryService} from './SumRegistryService';
 import {BaseElasticEntity} from './ElasticBaseSearch';
 import {Context, ServiceConfig} from '../../types';
@@ -21,6 +21,7 @@ export class ElasticSumRegistryService<
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ElasticEntity extends BaseElasticEntity,
+  PrismaDelegate extends PrismaLocalDelegation<Entity>,
   AutodefinablePart extends {} = DefinedRecord<Pick<MutationCreateArgs, AutodefinableKeys>>,
   ReliableCreateUserInput extends {} = Omit<MutationCreateArgs, ForbidenForUserKeys> & AutodefinablePart,
   AllowedForUserCreateInput extends Obj = Omit<MutationCreateArgs, ForbidenForUserKeys>,
@@ -38,6 +39,7 @@ export class ElasticSumRegistryService<
   AutodefinableKeys,
   ForbidenForUserKeys,
   RequiredDbNotUserKeys,
+  PrismaDelegate,
   AutodefinablePart,
   ReliableCreateUserInput,
   AllowedForUserCreateInput,
