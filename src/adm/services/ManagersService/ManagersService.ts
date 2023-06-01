@@ -12,6 +12,7 @@ import {BaseService} from '../utils/class/BaseService';
 import * as R from 'ramda';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -42,7 +43,8 @@ export class ManagersService extends BaseService<
   QueryAllManagersArgs,
   AutodefinableManagerKeys,
   ForbidenForUserManagerKeys,
-  RequiredDbNotUserManagerKeys
+  RequiredDbNotUserManagerKeys,
+  Prisma.ManagerDelegate<any>
 > {
   constructor(public ctx: Context) {
     super(ctx, ctx.prisma.manager, config);

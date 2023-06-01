@@ -12,6 +12,7 @@ import {BaseService} from '../utils/class/BaseService';
 import * as R from 'ramda';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -42,7 +43,8 @@ export class AutogenerationRulesService extends BaseService<
   QueryAllAutogenerationRulesArgs,
   AutodefinableAutogenerationRuleKeys,
   ForbidenForUserAutogenerationRuleKeys,
-  RequiredDbNotUserAutogenerationRuleKeys
+  RequiredDbNotUserAutogenerationRuleKeys,
+  Prisma.AutogenerationRuleDelegate<any>
 > {
   constructor(public ctx: Context) {
     super(ctx, ctx.prisma.autogenerationRule, config);

@@ -11,6 +11,7 @@ import initBuiltInHooks from './initBuiltInHooks';
 import {BaseService} from '../utils/class/BaseService';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -41,7 +42,8 @@ export class ManagersToRolesService extends BaseService<
   QueryAllManagersToRolesArgs,
   AutodefinableManagersToRoleKeys,
   ForbidenForUserManagersToRoleKeys,
-  RequiredDbNotUserManagersToRoleKeys
+  RequiredDbNotUserManagersToRoleKeys,
+  Prisma.ManagersToRoleDelegate<any>
 > {
   constructor(public ctx: Context) {
     super(ctx, ctx.prisma.managersToRole, config);
