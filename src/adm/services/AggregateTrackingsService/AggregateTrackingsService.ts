@@ -11,6 +11,7 @@ import initBuiltInHooks from './initBuiltInHooks';
 import {InfoRegistryService} from '../utils/class/InfoRegistryService';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -41,7 +42,8 @@ export class AggregateTrackingsService extends InfoRegistryService<
   QueryAllAggregateTrackingsArgs,
   AutodefinableAggregateTrackingKeys,
   ForbidenForUserAggregateTrackingKeys,
-  RequiredDbNotUserAggregateTrackingKeys
+  RequiredDbNotUserAggregateTrackingKeys,
+  Prisma.AggregateTrackingDelegate<any>
 > {
   constructor(public ctx: Context) {
     super(ctx, ctx.prisma.aggregateTracking, config);

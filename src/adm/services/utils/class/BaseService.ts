@@ -10,11 +10,24 @@ import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../..
 import * as R from 'ramda';
 import dayjs from 'dayjs';
 import {v4 as uuidv4} from 'uuid';
+import {serviceUtils, ServiceUtils} from './utils';
+import {ServiceErrors} from './ServiceErrors';
 
-export type WithID = { id: bigint | string | number };
+export type WithID = {id: bigint | string | number};
 export type Obj = Record<string, any>;
 
 export const toLogId = (entity: WithID): string | number => (typeof entity.id === 'bigint' ? entity.id.toString() : entity.id);
+
+export type PrismaLocalDelegation<Entity extends WithID> = {
+  findMany: (arg: any) => Promise<Entity[]>;
+  findFirst: (arg: any) => Promise<Entity | null>;
+  count: (arg: any) => Promise<Prisma.BatchPayload | number>;
+  create: (arg: any) => PrismaPromise<Entity>;
+  update: (arg: any) => PrismaPromise<Entity>;
+  upsert: (arg: any) => PrismaPromise<Entity>;
+  createMany: (arg: any) => PrismaPromise<Prisma.BatchPayload>;
+  delete: (arg: any) => PrismaPromise<Entity>;
+};
 
 export class BaseService<
   Entity extends WithID,
@@ -25,6 +38,7 @@ export class BaseService<
   AutodefinableKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
+  PrismaDelegate extends PrismaLocalDelegation<Entity>,
   AutodefinablePart extends {} = DefinedRecord<Pick<MutationCreateArgs, AutodefinableKeys>>,
   ReliableCreateUserInput extends {} = Omit<MutationCreateArgs, ForbidenForUserKeys> & AutodefinablePart,
   AllowedForUserCreateInput extends Obj = Omit<MutationCreateArgs, ForbidenForUserKeys>,
@@ -47,15 +61,17 @@ export class BaseService<
     currentData: Obj,
   ): Promise<T & AutodefinablePart> => currentData as T & AutodefinablePart;
 
+  allowedToChange = (_e: Entity | ReliableCreateUserInput | StrictCreateArgs | StrictUpdateArgs, _serviceUtils: ServiceUtils): boolean => true
+
   constructor(
     protected ctx: Context,
-    public prismaService: any, // todo: do something about it PrismaClient[keyof PrismaClient],
+    public prismaService: PrismaDelegate,
     public config: ServiceConfig,
   ) {
     super();
   }
 
-  async all (
+  async all(
     params: QueryAllArgs = {} as QueryAllArgs,
   ): Promise<Entity[]> {
     return this.prismaService.findMany(
@@ -63,16 +79,16 @@ export class BaseService<
     ) as Promise<Entity[]>;
   }
 
-  async findOne (
+  async findOne(
     params: QueryAllArgs = {} as QueryAllArgs,
   ): Promise<Entity | null> {
     return this.prismaService.findFirst(toPrismaRequest(
       await this._hooks.changeListFilter(this.ctx, params),
       {noId: false},
-    )) as Entity;
+    )) as Promise<Entity>;
   }
 
-  async findOneRequired (
+  async findOneRequired(
     params: QueryAllArgs = {} as QueryAllArgs,
   ): Promise<Entity> {
     const found = await this.findOne(params);
@@ -84,13 +100,13 @@ export class BaseService<
     return found;
   }
 
-  async get (
+  async get(
     id: Entity['id'],
   ): Promise<Entity | null> {
     return this.findOne({filter: {id}} as unknown as QueryAllArgs); // todo: fix unknown
   }
 
-  async getRequired (
+  async getRequired(
     id: Entity['id'],
   ): Promise<Entity> {
     const found = await this.get(id);
@@ -102,19 +118,20 @@ export class BaseService<
     return found;
   }
 
-  async count (
+  async count(
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
   ): Promise<number> {
-    return this.prismaService.count(toPrismaTotalRequest(await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs)));
+    // todo: need to write correct type for count in PrismaLocalDelegation
+    return this.prismaService.count(toPrismaTotalRequest(await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs))) as unknown as Promise<number>;
   }
 
-  async meta (
+  async meta(
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
   ): Promise<ListMetadata> {
     return this.count(params).then(count => ({count}));
   }
 
-  async create (
+  async create(
     data: MutationCreateArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Entity> {
@@ -138,92 +155,102 @@ export class BaseService<
       ),
     } as ReliableCreateUserInput;
 
-    const createOperation = this.prismaService.create({
-      data: createData,
-    });
-
-    const operations = [
-      createOperation,
-      ...(await this._hooks.additionalOperationsOnCreate(this.ctx, createData)),
-    ];
-
-    const [result] = await this.ctx.prisma.$transaction(operations);
-
-    if (!result) {
-      throw new Error('There is no such entity');
+    if (!this.allowedToChange(createData, serviceUtils)) {
+      throw new Error(ServiceErrors.DoNotAllowToChange);
     }
 
-    await Promise.all([
-      // update search. earlier we do not have id
-      !this.config.autogeneratedStringId && this.config.withSearch &&
+    try {
+      const createOperation = this.prismaService.create({
+        data: createData,
+      });
+      const operations = [
+        createOperation,
+        ...(await this._hooks.additionalOperationsOnCreate(this.ctx, createData)),
+      ];
+      const [result] = await this.ctx.prisma.$transaction(operations);
+      if (!result) {
+        throw new Error('There is no such entity');
+      }
+
+      await Promise.all([
+        // update search. earlier we do not have id
+        !this.config.autogeneratedStringId && this.config.withSearch &&
         this.prismaService.update({
           where: {id: result.id},
           data: {
             search: this.getSearchString(result),
           },
         }),
-      this.config.auditable ?
-        this.ctx.service('auditLogs').addCreateOperation({
-          entityTypeId: this.config.entityTypeId,
-          entityId: result.id,
-          actionData: data,
-        }) : null,
-      this.ctx.prisma.$transaction(await this.getPostOperations(result)),
-    ]);
+        this.config.auditable ?
+          this.ctx.service('auditLogs').addCreateOperation({
+            entityTypeId: this.config.entityTypeId,
+            entityId: result.id,
+            actionData: data,
+          }) : null,
+        this.ctx.prisma.$transaction(await this.getPostOperations(result)),
+      ]);
 
-    await this._hooks.afterCreate(this.ctx, result as Entity);
+      await this._hooks.afterCreate(this.ctx, result as Entity);
 
-    return result as Entity;
+      return result as Entity;
+    } catch (error: any) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002' && error.meta) {
+        throw new Error(`Недопустимо создание дублирующих записей. Поля по которым нарушена уникальность: ${(error.meta.target as any).join(', ')}.`);
+      }
+
+      throw error;
+    }
   }
 
-  async createMany (
+  async createMany(
     entries: StrictCreateArgsWithoutAutodefinable[],
     byUser = false,
   ): Promise<Prisma.BatchPayload> {
+    if (entries.length === 0) {
+      return {count: 0};
+    }
+
     // clear from fields forbidden for user
     const clearedData = byUser ? entries.map(data => R.omit(this.config.forbiddenForUserFields, data)) : entries;
 
     // Augment with default field
-    const augmentedByDefault = await Promise.all(
+    let augmentedByDefault = await Promise.all(
       clearedData.map(el => this.augmentByDefault(el)),
     ) as StrictUpdateArgs[];
 
-    let result;
     if (this.config.autogeneratedStringId) {
-      result = await this.prismaService.createMany({
-        data: augmentedByDefault.map(data => ({
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          id: uuidv4(),
-          ...R.mergeDeepLeft(
-            data,
-            this.config.withSearch ? {
-              search: this.getSearchString(data),
-            } : {},
-          ),
-        })),
-        skipDuplicates: true,
-      });
-    } else {
-      result = await this.prismaService.createMany({
-        data: augmentedByDefault.map(data => R.mergeDeepLeft(
-          data,
-          this.config.withSearch ? {
-            search: this.getSearchString(data),
-          } : {},
-        )),
-        skipDuplicates: true,
-      });
+      augmentedByDefault = R.map(R.mergeRight(() => ({id: uuidv4()})), augmentedByDefault) as StrictUpdateArgs[];
     }
 
-    if (!result) {
+    if (!R.all((d) => this.allowedToChange(d, serviceUtils), augmentedByDefault)) {
+      throw new Error(ServiceErrors.DoNotAllowToChange);
+    }
+
+    const additionalOperations = await Promise.all(augmentedByDefault.map((d) => this._hooks.additionalOperationsOnCreate(this.ctx, d as unknown as ReliableCreateUserInput)));
+
+    const createOperation = this.prismaService.createMany({
+      data: augmentedByDefault.map(data => R.mergeDeepLeft(
+        data,
+        this.config.withSearch ? {
+          search: this.getSearchString(data),
+        } : {},
+      )),
+      skipDuplicates: true,
+    });
+
+    const result = await this.ctx.prisma.$transaction([
+      createOperation,
+      ...R.unnest(additionalOperations),
+    ]);
+
+    if (!result?.[0]) {
       throw new Error('There is no such entity');
     }
 
-    return result;
+    return result?.[0];
   }
 
-  async update (
+  async update(
     data: MutationUpdateArgsWithoutAutodefinable,
     byUser = false,
   ): Promise<Entity> {
@@ -238,6 +265,10 @@ export class BaseService<
 
     // Augment with default field
     const augmentedByDefault = await this.augmentByDefault(augmentedByDb) as StrictUpdateArgs;
+
+    if (!this.allowedToChange(augmentedByDefault, serviceUtils)) {
+      throw new Error(ServiceErrors.DoNotAllowToChange);
+    }
 
     const processedData = await this._hooks.beforeUpdate(this.ctx, augmentedByDefault);
 
@@ -255,19 +286,26 @@ export class BaseService<
       },
     });
 
-    const operations = [
+    let operations: PrismaPromise<any>[] = [
       updateOperation,
-      this.config.auditable ? this.ctx.service('auditLogs').addUpdateOperation({
+    ];
+
+    if (this.config.auditable) {
+      operations.push(this.ctx.service('auditLogs').addUpdateOperation({
         entityTypeId: this.config.entityTypeId,
         entityId: toLogId(data),
         actionData: data,
-      }) : null,
+      }))
+    }
+
+    operations = [
+      ...operations,
       ...(await this._hooks.additionalOperationsOnUpdate(
         this.ctx,
         processedData as unknown as MutationUpdateArgs, // todo: fix type
       )),
       ...(await this.getPostOperations(processedData)),
-    ];
+    ]
 
     const [result] = await this.ctx.prisma.$transaction(operations);
 
@@ -282,7 +320,7 @@ export class BaseService<
     return result as Entity;
   }
 
-  async upsert (
+  async upsert(
     data: PartialFieldsInRecord<MutationUpdateArgsWithoutAutodefinable, 'id'>,
     byUser = false,
   ): Promise<Entity> {
@@ -298,15 +336,24 @@ export class BaseService<
     // augment data by fields from db
     const augmented = R.mergeLeft(augmentedByDefault, dbVersion || {} as Entity);
 
+    if (!this.allowedToChange(augmented, serviceUtils)) {
+      throw new Error(ServiceErrors.DoNotAllowToChange);
+    }
+
     const processedData = await this._hooks.beforeUpsert(this.ctx, {createData: augmented, updateData: augmented});
-    const createData = {
-      ...processedData.createData,
-      search: this.getSearchString(processedData.createData),
-    };
-    const updateData = {
-      ...processedData.updateData,
-      search: this.getSearchString(processedData.updateData),
-    };
+    let createData = processedData.createData;
+    let updateData = processedData.updateData;
+
+    if (this.config.withSearch) {
+      createData = {
+        ...createData,
+        search: this.getSearchString(createData),
+      };
+      updateData = {
+        ...updateData,
+        search: this.getSearchString(processedData.updateData),
+      };
+    }
 
     const result = await this.prismaService.upsert({
       create: createData,
@@ -321,7 +368,7 @@ export class BaseService<
     return result;
   }
 
-  async upsertAdvanced (
+  async upsertAdvanced(
     filter: QueryAllArgs['filter'],
     data: MutationCreateArgsWithoutAutodefinable,
     byUser = false,
@@ -341,10 +388,20 @@ export class BaseService<
     }
   }
 
-  async delete (
+  async delete(
     params: MutationRemoveArgs,
   ): Promise<Entity> {
     await this._hooks.beforeDelete(this.ctx, params);
+
+    const entity = await this.get(params.id);
+
+    if (!entity) {
+      throw new Error(`There is no entity with "${params.id}" id`);
+    }
+
+    if (!this.allowedToChange(entity, serviceUtils)) {
+      throw new Error(ServiceErrors.DoNotAllowToChange);
+    }
 
     const deleteOperation = this.prismaService.delete({
       where: {
@@ -352,21 +409,24 @@ export class BaseService<
       },
     });
 
-    const operations = [
+    let operations: PrismaPromise<any>[] = [
       deleteOperation,
-      this.config.auditable ? this.ctx.service('auditLogs').addDeleteOperation({
-        entityTypeId: this.config.entityTypeId,
-        entityId: toLogId(params),
-      }) : null,
-      ...(await this._hooks.additionalOperationsOnDelete(this.ctx, params)),
-      ...(await this.getUnPostOperations(params.id)),
     ];
 
-    const entity = await this.get(params.id);
-
-    if (!entity) {
-      throw new Error(`There is no entity with "${params.id}" id`);
+    if (this.config.auditable) {
+      operations.push(
+        this.ctx.service('auditLogs').addDeleteOperation({
+          entityTypeId: this.config.entityTypeId,
+          entityId: toLogId(params),
+        }),
+      );
     }
+
+    operations = [
+      ...operations,
+      ...(await this._hooks.additionalOperationsOnDelete(this.ctx, params)),
+      ...(await this.getUnPostOperations(params.id)),
+    ]
 
     const [result] = await this.ctx.prisma.$transaction(operations);
 
@@ -380,10 +440,10 @@ export class BaseService<
   }
 
   // fake methods for the document, they are populated in the next document class
-  protected async getPostOperations (_data: StrictUpdateArgs): Promise<PrismaPromise<any>[]> {
+  protected async getPostOperations(_data: StrictUpdateArgs): Promise<PrismaPromise<any>[]> {
     return [];
   }
-  protected async getUnPostOperations (_id: Entity['id']): Promise<PrismaPromise<any>[]> {
+  protected async getUnPostOperations(_id: Entity['id']): Promise<PrismaPromise<any>[]> {
     return [];
   }
 }

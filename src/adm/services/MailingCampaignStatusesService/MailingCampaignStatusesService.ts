@@ -11,6 +11,7 @@ import initBuiltInHooks from './initBuiltInHooks';
 import {BaseService} from '../utils/class/BaseService';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -41,7 +42,8 @@ export class MailingCampaignStatusesService extends BaseService<
   QueryAllMailingCampaignStatusesArgs,
   AutodefinableMailingCampaignStatusKeys,
   ForbidenForUserMailingCampaignStatusKeys,
-  RequiredDbNotUserMailingCampaignStatusKeys
+  RequiredDbNotUserMailingCampaignStatusKeys,
+  Prisma.MailingCampaignStatusDelegate<any>
 > {
   constructor(public ctx: Context) {
     super(ctx, ctx.prisma.mailingCampaignStatus, config);

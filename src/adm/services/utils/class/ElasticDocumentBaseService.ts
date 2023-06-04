@@ -1,5 +1,5 @@
 /* eslint-disable max-len,@typescript-eslint/ban-types */
-import {Obj, WithID} from './BaseService';
+import {Obj, PrismaLocalDelegation, WithID} from './BaseService';
 import {DocumentBaseService} from './DocumentBaseService';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
 import {AllRequestArgs} from '../../../../utils/types';
@@ -22,6 +22,7 @@ export class ElasticDocumentBaseService<
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ElasticEntity extends BaseElasticEntity,
   RegistryEntries extends {},
+  PrismaDelegate extends PrismaLocalDelegation<Entity>,
   AutodefinablePart extends {} = DefinedRecord<Pick<MutationCreateArgs, AutodefinableKeys>>,
   ReliableCreateUserInput extends {} = Omit<MutationCreateArgs, ForbidenForUserKeys> & AutodefinablePart,
   AllowedForUserCreateInput extends Obj = Omit<MutationCreateArgs, ForbidenForUserKeys>,
@@ -32,6 +33,7 @@ export class ElasticDocumentBaseService<
   MutationUpdateArgsWithoutAutodefinable extends WithID = PartialFieldsInRecord<MutationUpdateArgs, AutodefinableKeys> & Pick<MutationUpdateArgs, 'id'> // todo: I added & Pick<MutationUpdateArgs, 'id'>,
 > extends DocumentBaseService<Entity, MutationCreateArgs, MutationUpdateArgs, MutationRemoveArgs, QueryAllArgs, AutodefinableKeys, ForbidenForUserKeys, RequiredDbNotUserKeys,
   RegistryEntries,
+  PrismaDelegate,
   AutodefinablePart,
   ReliableCreateUserInput,
   AllowedForUserCreateInput,

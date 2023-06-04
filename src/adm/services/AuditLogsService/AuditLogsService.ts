@@ -12,6 +12,7 @@ import {BaseService} from '../utils/class/BaseService';
 import * as R from 'ramda';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
+import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -42,7 +43,8 @@ export class AuditLogsService extends BaseService<
   QueryAllAuditLogsArgs,
   AutodefinableAuditLogKeys,
   ForbidenForUserAuditLogKeys,
-  RequiredDbNotUserAuditLogKeys
+  RequiredDbNotUserAuditLogKeys,
+  Prisma.AuditLogDelegate<any>
 > {
   constructor(public ctx: Context) {
     super(ctx, ctx.prisma.auditLog, config);

@@ -1,5 +1,5 @@
 /* eslint-disable max-len,@typescript-eslint/ban-types */
-import {BaseService, Obj, WithID} from './BaseService';
+import {BaseService, Obj, PrismaLocalDelegation, WithID} from './BaseService';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
 import {AllRequestArgs} from '../../../../utils/types';
 import * as R from 'ramda';
@@ -24,6 +24,7 @@ export class ElasticBaseSearch<
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ElasticEntity extends BaseElasticEntity,
+  PrismaDelegate extends PrismaLocalDelegation<Entity>,
   AutodefinablePart extends {} = DefinedRecord<Pick<MutationCreateArgs, AutodefinableKeys>>,
   ReliableCreateUserInput extends {} = Omit<MutationCreateArgs, ForbidenForUserKeys> & AutodefinablePart,
   AllowedForUserCreateInput extends Obj = Omit<MutationCreateArgs, ForbidenForUserKeys>,
@@ -33,6 +34,7 @@ export class ElasticBaseSearch<
   MutationCreateArgsWithoutAutodefinable extends Obj = PartialFieldsInRecord<MutationCreateArgs, AutodefinableKeys>,
   MutationUpdateArgsWithoutAutodefinable extends WithID = PartialFieldsInRecord<MutationUpdateArgs, AutodefinableKeys> & Pick<MutationUpdateArgs, 'id'> // todo: I added & Pick<MutationUpdateArgs, 'id'>,
 > extends BaseService<Entity, MutationCreateArgs, MutationUpdateArgs, MutationRemoveArgs, QueryAllArgs, AutodefinableKeys, ForbidenForUserKeys, RequiredDbNotUserKeys,
+  PrismaDelegate,
   AutodefinablePart,
   ReliableCreateUserInput,
   AllowedForUserCreateInput,

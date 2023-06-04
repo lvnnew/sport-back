@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types,max-len */
 import {AllRequestArgs} from '../../../../utils/types';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
-import {BaseService, Obj, WithID} from './BaseService';
+import {BaseService, Obj, PrismaLocalDelegation, WithID} from './BaseService';
 
 export class SumRegistryService<
   Entity extends WithID,
@@ -12,6 +12,7 @@ export class SumRegistryService<
   AutodefinableKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
+  PrismaDelegate extends PrismaLocalDelegation<Entity>,
   AutodefinablePart extends {} = DefinedRecord<Pick<MutationCreateArgs, AutodefinableKeys>>,
   ReliableCreateUserInput extends {} = Omit<MutationCreateArgs, ForbidenForUserKeys> & AutodefinablePart,
   AllowedForUserCreateInput extends Obj = Omit<MutationCreateArgs, ForbidenForUserKeys>,
@@ -29,6 +30,7 @@ export class SumRegistryService<
   AutodefinableKeys,
   ForbidenForUserKeys,
   RequiredDbNotUserKeys,
+  PrismaDelegate,
   AutodefinablePart,
   ReliableCreateUserInput,
   AllowedForUserCreateInput,

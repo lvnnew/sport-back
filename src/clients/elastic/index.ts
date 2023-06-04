@@ -147,8 +147,6 @@ const fillInParams = ({
     }
 
     const inFields = R.toPairs(filter).filter(([key]) => key.endsWith('_in'));
-    log.info('inFields');
-    log.info(JSON.stringify(inFields, null, 1));
     if (inFields.length) {
       for (const [key, values] of inFields) {
         const fieldName = key.replaceAll('_in', '');
@@ -298,9 +296,6 @@ const fillInParams = ({
 
     req.size = perPage;
   }
-
-  log.info('req');
-  log.info(JSON.stringify(req, null, 1));
 
   return req;
 };

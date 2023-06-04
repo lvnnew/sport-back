@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-types,max-len */
 import {AllRequestArgs} from '../../../../utils/types';
-import {BaseService, Obj, WithID} from './BaseService';
+import {BaseService, Obj, PrismaLocalDelegation, WithID} from './BaseService';
 import {Context, DocumentConfig} from '../../types';
 import {PrismaPromise} from '@prisma/client';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
 import * as R from 'ramda';
+import {serviceUtils} from './utils';
+import {ServiceErrors} from './ServiceErrors';
 
 export const getRegistrarFields = R.pick(['row', 'registrarTypeId', 'registrarId']);
 
@@ -18,6 +20,7 @@ export class DocumentBaseService<
   ForbidenForUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RequiredDbNotUserKeys extends keyof Entity & keyof MutationCreateArgs & keyof MutationUpdateArgs,
   RegistryEntries extends {},
+  PrismaDelegate extends PrismaLocalDelegation<Entity>,
   AutodefinablePart extends {} = DefinedRecord<Pick<MutationCreateArgs, AutodefinableKeys>>,
   ReliableCreateUserInput extends {} = Omit<MutationCreateArgs, ForbidenForUserKeys> & AutodefinablePart,
   AllowedForUserCreateInput extends Obj = Omit<MutationCreateArgs, ForbidenForUserKeys>,
@@ -35,6 +38,7 @@ export class DocumentBaseService<
   AutodefinableKeys,
   ForbidenForUserKeys,
   RequiredDbNotUserKeys,
+  PrismaDelegate,
   AutodefinablePart,
   ReliableCreateUserInput,
   AllowedForUserCreateInput,
@@ -55,6 +59,9 @@ export class DocumentBaseService<
   async post (
     data: Entity,
   ): Promise<void> {
+    if (!this.allowedToChange(data, serviceUtils)) {
+      throw new Error(ServiceErrors.DoNotAllowToChange);
+    }
     await this.ctx.prisma.$transaction(await this.getPostOperations(await this.augmentByDefault(data)));
   }
 

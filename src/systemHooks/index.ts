@@ -5,6 +5,8 @@ import initPgParsers from './initPgParsers';
 import initBigIntSerialization from './initBigIntSerialization';
 import initRolesWithPermissions from '../init/roles/initRolesWithPermissions';
 import {getConfig} from '../config';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 // Runs on any start of the system: as api backend, as worker, as cli-command, etc.
 export const onStart = async (ctx?: Context) => {
@@ -12,6 +14,8 @@ export const onStart = async (ctx?: Context) => {
 
   initPgParsers();
   initBigIntSerialization();
+
+  dayjs.extend(utc);
 
   if (ctx) {
     log.info('bootstrapping');
