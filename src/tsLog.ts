@@ -1,8 +1,8 @@
 import {Logger} from 'tslog';
-import {ConfigUtils} from './config/getConfigUtils';
+import {getFromNconf} from './config/getConfigUtils';
 
 export const log = new Logger({
   maskValuesOfKeys: [],
   name: 'adm-graph-server',
-  type: ConfigUtils.getFromNconf('logs.format') === 'json' ? 'json' : 'pretty',
+  type: getFromNconf('logs.format') === 'json' ? 'json' : 'pretty',
 });
