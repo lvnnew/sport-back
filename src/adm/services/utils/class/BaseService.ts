@@ -426,7 +426,7 @@ export class BaseService<
       ...operations,
       ...(await this._hooks.additionalOperationsOnDelete(this.ctx, params)),
       ...(await this.getUnPostOperations(params.id)),
-    ]
+    ];
 
     const [result] = await this.ctx.prisma.$transaction(operations);
 

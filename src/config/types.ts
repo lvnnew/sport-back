@@ -1,3 +1,18 @@
-export type ValueBasedOnRequired<Req extends boolean, Val extends number | string | boolean | Date | bigint = string>
-  = Req extends true ? Val : Val | undefined
+export interface EnvVarConfig {
+  id: string;
+  type: 'string' | 'int' | 'float' | 'bigint' | 'datetime' | 'date' | 'bool';
+  title: string;
+  required: boolean;
+  hidden: boolean;
+  editable: boolean;
+}
 
+export interface EnvVarConfigBaseValues extends EnvVarConfig {
+  environment?: any;
+  file?: any;
+}
+
+export interface EnvVarConfigValues extends EnvVarConfigBaseValues {
+  db?: any;
+  resulted?: any;
+}

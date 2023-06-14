@@ -6,6 +6,7 @@ import {AdditionalAuditLogActionTypesService} from './AuditLogActionTypesService
 import {AdditionalAuditLogsService} from './AuditLogsService/AdditionalAuditLogsService';
 import {AdditionalAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AdditionalAutogenerationHistoryEntriesService';
 import {AdditionalAutogenerationRulesService} from './AutogenerationRulesService/AdditionalAutogenerationRulesService';
+import {AdditionalConfigurationVariablesService} from './ConfigurationVariablesService/AdditionalConfigurationVariablesService';
 import {AdditionalDelegationsService} from './DelegationsService/AdditionalDelegationsService';
 import {AdditionalEntitiesService} from './EntitiesService/AdditionalEntitiesService';
 import {AdditionalFilesService} from './FilesService/AdditionalFilesService';
@@ -45,6 +46,7 @@ export interface BaseServices {
   auditLogs: AdditionalAuditLogsService;
   autogenerationHistoryEntries: AdditionalAutogenerationHistoryEntriesService;
   autogenerationRules: AdditionalAutogenerationRulesService;
+  configurationVariables: AdditionalConfigurationVariablesService;
   delegations: AdditionalDelegationsService;
   entities: AdditionalEntitiesService;
   files: AdditionalFilesService;

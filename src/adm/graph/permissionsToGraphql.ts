@@ -11,6 +11,7 @@ import auditLogActionTypesPermissionToGraphql from './services/auditLogActionTyp
 import auditLogsPermissionToGraphql from './services/auditLogs/permissionsToGraphql';
 import autogenerationHistoryEntriesPermissionToGraphql from './services/autogenerationHistoryEntries/permissionsToGraphql';
 import autogenerationRulesPermissionToGraphql from './services/autogenerationRules/permissionsToGraphql';
+import configurationVariablesPermissionToGraphql from './services/configurationVariables/permissionsToGraphql';
 import delegationsPermissionToGraphql from './services/delegations/permissionsToGraphql';
 import entitiesPermissionToGraphql from './services/entities/permissionsToGraphql';
 import filesPermissionToGraphql from './services/files/permissionsToGraphql';
@@ -58,6 +59,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   auditLogs: auditLogsPermissionToGraphql,
   autogenerationHistoryEntries: autogenerationHistoryEntriesPermissionToGraphql,
   autogenerationRules: autogenerationRulesPermissionToGraphql,
+  configurationVariables: configurationVariablesPermissionToGraphql,
   delegations: delegationsPermissionToGraphql,
   entities: entitiesPermissionToGraphql,
   files: filesPermissionToGraphql,

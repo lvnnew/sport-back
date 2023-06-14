@@ -230,6 +230,9 @@ export type Query = {
   AutogenerationRule?: Maybe<AutogenerationRule>;
   allAutogenerationRules?: Maybe<Array<Maybe<AutogenerationRule>>>;
   _allAutogenerationRulesMeta?: Maybe<ListMetadata>;
+  ConfigurationVariable?: Maybe<ConfigurationVariable>;
+  allConfigurationVariables?: Maybe<Array<Maybe<ConfigurationVariable>>>;
+  _allConfigurationVariablesMeta?: Maybe<ListMetadata>;
   Delegation?: Maybe<Delegation>;
   allDelegations?: Maybe<Array<Maybe<Delegation>>>;
   _allDelegationsMeta?: Maybe<ListMetadata>;
@@ -481,6 +484,27 @@ export type Query_AllAutogenerationRulesMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<AutogenerationRuleFilter>;
+};
+
+
+export type QueryConfigurationVariableArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllConfigurationVariablesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<ConfigurationVariableFilter>;
+};
+
+
+export type Query_AllConfigurationVariablesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<ConfigurationVariableFilter>;
 };
 
 
@@ -1054,6 +1078,9 @@ export type Mutation = {
   createAutogenerationRule?: Maybe<AutogenerationRule>;
   updateAutogenerationRule?: Maybe<AutogenerationRule>;
   removeAutogenerationRule?: Maybe<AutogenerationRule>;
+  createConfigurationVariable?: Maybe<ConfigurationVariable>;
+  updateConfigurationVariable?: Maybe<ConfigurationVariable>;
+  removeConfigurationVariable?: Maybe<ConfigurationVariable>;
   createDelegation?: Maybe<Delegation>;
   updateDelegation?: Maybe<Delegation>;
   removeDelegation?: Maybe<Delegation>;
@@ -1339,6 +1366,23 @@ export type MutationUpdateAutogenerationRuleArgs = {
 
 
 export type MutationRemoveAutogenerationRuleArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationCreateConfigurationVariableArgs = {
+  id: Scalars['ID'];
+  value: Scalars['JSON'];
+};
+
+
+export type MutationUpdateConfigurationVariableArgs = {
+  id: Scalars['ID'];
+  value: Scalars['JSON'];
+};
+
+
+export type MutationRemoveConfigurationVariableArgs = {
   id: Scalars['ID'];
 };
 
@@ -2177,6 +2221,19 @@ export type AutogenerationRuleFilter = {
   ignoreVersionOnHistory?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type ConfigurationVariable = {
+  __typename?: 'ConfigurationVariable';
+  id: Scalars['ID'];
+  value: Scalars['JSON'];
+};
+
+export type ConfigurationVariableFilter = {
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  value?: InputMaybe<Scalars['JSON']>;
+  value_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
+};
+
 export type Delegation = {
   __typename?: 'Delegation';
   id: Scalars['Int'];
@@ -2261,6 +2318,7 @@ export enum EntityType {
   AuditLogs = 'auditLogs',
   AutogenerationHistoryEntries = 'autogenerationHistoryEntries',
   AutogenerationRules = 'autogenerationRules',
+  ConfigurationVariables = 'configurationVariables',
   Delegations = 'delegations',
   Entities = 'entities',
   Files = 'files',
@@ -3017,6 +3075,8 @@ export type ResolversTypes = {
   AutogenerationHistoryEntryFilter: AutogenerationHistoryEntryFilter;
   AutogenerationRule: ResolverTypeWrapper<AutogenerationRule>;
   AutogenerationRuleFilter: AutogenerationRuleFilter;
+  ConfigurationVariable: ResolverTypeWrapper<ConfigurationVariable>;
+  ConfigurationVariableFilter: ConfigurationVariableFilter;
   Delegation: ResolverTypeWrapper<Delegation>;
   DelegationFilter: DelegationFilter;
   Entity: ResolverTypeWrapper<Entity>;
@@ -3160,6 +3220,8 @@ export type ResolversParentTypes = {
   AutogenerationHistoryEntryFilter: AutogenerationHistoryEntryFilter;
   AutogenerationRule: AutogenerationRule;
   AutogenerationRuleFilter: AutogenerationRuleFilter;
+  ConfigurationVariable: ConfigurationVariable;
+  ConfigurationVariableFilter: ConfigurationVariableFilter;
   Delegation: Delegation;
   DelegationFilter: DelegationFilter;
   Entity: Entity;
@@ -3498,6 +3560,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   AutogenerationRule?: Resolver<Maybe<ResolversTypes['AutogenerationRule']>, ParentType, ContextType, RequireFields<QueryAutogenerationRuleArgs, 'id'>>;
   allAutogenerationRules?: Resolver<Maybe<Array<Maybe<ResolversTypes['AutogenerationRule']>>>, ParentType, ContextType, Partial<QueryAllAutogenerationRulesArgs>>;
   _allAutogenerationRulesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllAutogenerationRulesMetaArgs>>;
+  ConfigurationVariable?: Resolver<Maybe<ResolversTypes['ConfigurationVariable']>, ParentType, ContextType, RequireFields<QueryConfigurationVariableArgs, 'id'>>;
+  allConfigurationVariables?: Resolver<Maybe<Array<Maybe<ResolversTypes['ConfigurationVariable']>>>, ParentType, ContextType, Partial<QueryAllConfigurationVariablesArgs>>;
+  _allConfigurationVariablesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllConfigurationVariablesMetaArgs>>;
   Delegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<QueryDelegationArgs, 'id'>>;
   allDelegations?: Resolver<Maybe<Array<Maybe<ResolversTypes['Delegation']>>>, ParentType, ContextType, Partial<QueryAllDelegationsArgs>>;
   _allDelegationsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllDelegationsMetaArgs>>;
@@ -3608,6 +3673,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createAutogenerationRule?: Resolver<Maybe<ResolversTypes['AutogenerationRule']>, ParentType, ContextType, RequireFields<MutationCreateAutogenerationRuleArgs, 'id' | 'title' | 'originalEntityType' | 'generatingEntityType' | 'originalEntityFilter' | 'generatingEntityConstructionRules' | 'ignoreVersionOnHistory'>>;
   updateAutogenerationRule?: Resolver<Maybe<ResolversTypes['AutogenerationRule']>, ParentType, ContextType, RequireFields<MutationUpdateAutogenerationRuleArgs, 'id' | 'title' | 'originalEntityType' | 'generatingEntityType' | 'originalEntityFilter' | 'generatingEntityConstructionRules' | 'ignoreVersionOnHistory'>>;
   removeAutogenerationRule?: Resolver<Maybe<ResolversTypes['AutogenerationRule']>, ParentType, ContextType, RequireFields<MutationRemoveAutogenerationRuleArgs, 'id'>>;
+  createConfigurationVariable?: Resolver<Maybe<ResolversTypes['ConfigurationVariable']>, ParentType, ContextType, RequireFields<MutationCreateConfigurationVariableArgs, 'id' | 'value'>>;
+  updateConfigurationVariable?: Resolver<Maybe<ResolversTypes['ConfigurationVariable']>, ParentType, ContextType, RequireFields<MutationUpdateConfigurationVariableArgs, 'id' | 'value'>>;
+  removeConfigurationVariable?: Resolver<Maybe<ResolversTypes['ConfigurationVariable']>, ParentType, ContextType, RequireFields<MutationRemoveConfigurationVariableArgs, 'id'>>;
   createDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationCreateDelegationArgs, 'fromId' | 'toId' | 'active'>>;
   updateDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationUpdateDelegationArgs, 'id' | 'fromId' | 'toId' | 'active'>>;
   removeDelegation?: Resolver<Maybe<ResolversTypes['Delegation']>, ParentType, ContextType, RequireFields<MutationRemoveDelegationArgs, 'id'>>;
@@ -3767,6 +3835,12 @@ export type AutogenerationRuleResolvers<ContextType = any, ParentType extends Re
   originalEntityFilter?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   generatingEntityConstructionRules?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ignoreVersionOnHistory?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ConfigurationVariableResolvers<ContextType = any, ParentType extends ResolversParentTypes['ConfigurationVariable'] = ResolversParentTypes['ConfigurationVariable']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4091,6 +4165,7 @@ export type Resolvers<ContextType = any> = {
   AuditLog?: AuditLogResolvers<ContextType>;
   AutogenerationHistoryEntry?: AutogenerationHistoryEntryResolvers<ContextType>;
   AutogenerationRule?: AutogenerationRuleResolvers<ContextType>;
+  ConfigurationVariable?: ConfigurationVariableResolvers<ContextType>;
   Delegation?: DelegationResolvers<ContextType>;
   Entity?: EntityResolvers<ContextType>;
   File?: FileResolvers<ContextType>;

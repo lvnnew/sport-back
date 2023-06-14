@@ -9,6 +9,7 @@ enum Entity {
   AuditLog = 'auditLog',
   AutogenerationHistoryEntry = 'autogenerationHistoryEntry',
   AutogenerationRule = 'autogenerationRule',
+  ConfigurationVariable = 'configurationVariable',
   Delegation = 'delegation',
   Entity = 'entity',
   File = 'file',

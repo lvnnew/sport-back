@@ -38,6 +38,10 @@ const initEntities = async (ctx: Context) => {
       title: 'Правило автогенерации',
     },
     {
+      id: Entity.ConfigurationVariable,
+      title: 'Конфигурационные переменные',
+    },
+    {
       id: Entity.Delegation,
       title: 'Делегирования',
     },

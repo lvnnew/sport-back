@@ -185,6 +185,8 @@ spec:
           value: {{ $.Values.s3.region | quote }}
         - name: S3_SECRET_ACCESS_KEY
           value: {{ $.Values.s3.secretAccessKey | quote }}
+        - name: SENTRY_DSN
+          value: {{ $.Values.sentry.dsn | quote }}
         - name: SMTP_FROM
           value: {{ $.Values.smtp.from | quote }}
         - name: SMTP_HOST

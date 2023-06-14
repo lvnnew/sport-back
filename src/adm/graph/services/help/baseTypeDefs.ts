@@ -10,6 +10,7 @@ export default gql`
     auditLogs
     autogenerationHistoryEntries
     autogenerationRules
+    configurationVariables
     delegations
     entities
     files

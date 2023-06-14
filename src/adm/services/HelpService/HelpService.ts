@@ -13,6 +13,7 @@ const infoFilesForService = {
   auditLogs: 'docs/catalogs/auditLogs.md',
   autogenerationHistoryEntries: 'docs/catalogs/autogenerationHistoryEntries.md',
   autogenerationRules: 'docs/catalogs/autogenerationRules.md',
+  configurationVariables: 'docs/catalogs/configurationVariables.md',
   delegations: 'docs/catalogs/delegations.md',
   entities: 'docs/catalogs/entities.md',
   files: 'docs/catalogs/files.md',

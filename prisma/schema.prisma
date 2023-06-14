@@ -103,6 +103,12 @@ model AutogenerationHistoryEntry {
 }
 
 
+model ConfigurationVariable {
+	id	String	@id
+	value	Json
+}
+
+
 model ManagerLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
