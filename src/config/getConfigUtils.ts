@@ -1,142 +1,15 @@
+import winston, {format, Logger as WLogger} from 'winston';
 import LRUCache from 'lru-cache';
 import nconf from 'nconf';
 import {constantCase, camelCase} from 'change-case';
 import {exists, read} from 'fs-jetpack';
+import {Logger} from 'tslog';
 
 import {EnvVarConfig, EnvVarConfigBaseValues, EnvVarConfigValues} from './types';
 import {getKnexByUri} from '../clients/knex/getKnexByUri';
 import {envVarsConfig, Config} from './config';
-import log from '../log';
 
-export const hideValue = (val: EnvVarConfigValues): EnvVarConfigValues => {
-  const hidden = '********';
-
-  if (val.hidden) {
-    return {
-      ...val,
-      environment: hidden,
-      file: hidden,
-      db: hidden,
-      resulted: hidden,
-    };
-  }
-
-  return val;
-};
-
-export const getFromNconf = (id: string) => nconf.get(constantCase(id)) || nconf.get(id);
-
-export const parseValue = (config: EnvVarConfig, value: string | undefined | Date) => {
-  const getStringConfig = (): string | undefined => {
-    if (typeof value === 'undefined') {
-      return value as any;
-    }
-
-    if (typeof value === 'string') {
-      return value;
-    }
-
-    throw new Error(
-      `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
-    );
-  };
-
-  const getIntConfig = (): number | undefined => {
-    if (typeof value === 'undefined') {
-      return value as any;
-    }
-
-    if (typeof value === 'number') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return Number(value);
-    }
-
-    throw new Error(
-      `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
-    );
-  };
-
-  const getFloatConfig = getIntConfig;
-
-  const getBigIntConfig = (): bigint | undefined => {
-    if (typeof value === 'undefined') {
-      return value as any;
-    }
-
-    if (typeof value === 'bigint') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return BigInt(value);
-    }
-
-    throw new Error(
-      `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
-    );
-  };
-
-  const getDateTimeConfig = (): Date | undefined => {
-    if (typeof value === 'undefined') {
-      return value as any;
-    }
-
-    if (value instanceof Date) {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      // todo: check that date is a valid
-      return new Date(value);
-    }
-
-    throw new Error(
-      `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
-    );
-  };
-
-  const getDateConfig = getDateTimeConfig;
-
-  const getBooleanConfig = (): boolean | undefined => {
-    if (typeof value === 'undefined') {
-      return value as any;
-    }
-
-    if (typeof value === 'boolean') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return value.toLowerCase() === 'true';
-    }
-
-    throw new Error(
-      `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
-    );
-  };
-
-  switch (config.type) {
-  case 'string':
-    return getStringConfig();
-  case 'int':
-    return getIntConfig();
-  case 'float':
-    return getFloatConfig();
-  case 'bigint':
-    return getBigIntConfig();
-  case 'datetime':
-    return getDateTimeConfig();
-  case 'date':
-    return getDateConfig();
-  case 'bool':
-    return getBooleanConfig();
-  default:
-    throw new Error('Invalid config variable type');
-  }
-};
+export type TLogger = Pick<WLogger, 'info' | 'error' | 'debug' | 'warn'>;
 
 export class ConfigUtils {
   private cache: LRUCache<'values' | 'config', any>;
@@ -146,6 +19,11 @@ export class ConfigUtils {
   constructor() {
     this.cache = new LRUCache({
       ttl: 30_000, // 30 sec
+      updateAgeOnGet: false,
+      updateAgeOnHas: false,
+      allowStale: false,
+      max: 500,
+      maxSize: 5000,
     });
 
     this.initBaseConfig();
@@ -157,7 +35,7 @@ export class ConfigUtils {
 
     this.baseConfig = envVarsConfig.map((conf) => ({
       ...conf,
-      environment: parseValue(conf, getFromNconf(conf.id)),
+      environment: this.parseValue(conf, this.getFromNconf(conf.id)),
     }));
 
     // initiating file variables
@@ -174,20 +52,48 @@ export class ConfigUtils {
 
     this.baseConfig = this.baseConfig.map((conf) => ({
       ...conf,
-      file: parseValue(conf, getFromNconf(conf.id)),
+      file: this.parseValue(conf, this.getFromNconf(conf.id)),
     }));
 
     this.defaultConfig = {env: envName};
   }
 
+  getLog (): TLogger {
+    const logFormat = this.getFromNconf('logs.format');
+    return winston.createLogger({
+      defaultMeta: {
+        loggerName: 'adm-graph-server',
+      },
+      format: format.combine(
+        format.errors({stack: true}),
+        format.timestamp(),
+        logFormat === 'json' ? winston.format.json() : winston.format.cli(),
+      ),
+      transports: [
+        new winston.transports.Console(),
+      ],
+    });
+  }
+
+  getTsLog () {
+    const logFormat = this.getFromNconf('logs.format');
+    return new Logger({
+      maskValuesOfKeys: [],
+      name: 'adm-graph-server',
+      type: logFormat === 'json' ? 'json' : 'pretty',
+    });
+  }
+
   async updateFromDB (): Promise<Config> {
-    const knexInstance = getKnexByUri(getFromNconf('database.main.write.uri'));
+    const knexInstance = getKnexByUri(this.getFromNconf('database.main.write.uri'));
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const schema: string | null = knexInstance.schema?.client?.connectionSettings?.schema ?? 'public';
 
     let dbValues = {};
+
+    const log = this.getLog();
 
     try {
       const result = await knexInstance.raw(`select id, value from ${schema}."ConfigurationVariable";`);
@@ -207,7 +113,7 @@ export class ConfigUtils {
     }
 
     const values = this.baseConfig.map((conf) => {
-      const db = parseValue(conf, dbValues[conf.id]);
+      const db = this.parseValue(conf, dbValues[conf.id]);
 
       const resulted = db ?? conf.environment ?? conf.file;
 
@@ -222,14 +128,14 @@ export class ConfigUtils {
       };
     });
 
-    this.cache.set('values', values);
+    this.cache.set('values', values, {size: 1});
 
     const config = values.reduce((accum, v) => ({
       ...accum,
       [camelCase(v.id)]: v.db ?? v.environment ?? v.file,
     }), this.defaultConfig) as Config;
 
-    this.cache.set('config', config);
+    this.cache.set('config', config, {size: 1});
 
     return config;
   }
@@ -253,12 +159,144 @@ export class ConfigUtils {
   async getSafeConfig (): Promise<EnvVarConfigValues[]> {
     const config = await this.getConfigValues();
 
-    return config.map(hideValue);
+    return config.map(this.hideValue);
   }
 
   async getSafeVariable (id: string): Promise<EnvVarConfigValues | undefined> {
     const config = await this.getConfigValues();
 
     return config.find(el => el.id === id);
+  }
+
+  hideValue (val: EnvVarConfigValues): EnvVarConfigValues {
+    const hidden = '********';
+
+    if (val.hidden) {
+      return {
+        ...val,
+        environment: hidden,
+        file: hidden,
+        db: hidden,
+        resulted: hidden,
+      };
+    }
+
+    return val;
+  }
+
+  getFromNconf (id: string) {
+    return nconf.get(constantCase(id)) || nconf.get(id);
+  }
+
+  parseValue (config: EnvVarConfig, value: string | undefined | Date) {
+    const getStringConfig = (): string | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (typeof value === 'string') {
+        return value;
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getIntConfig = (): number | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (typeof value === 'number') {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        return Number(value);
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getFloatConfig = getIntConfig;
+
+    const getBigIntConfig = (): bigint | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (typeof value === 'bigint') {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        return BigInt(value);
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getDateTimeConfig = (): Date | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (value instanceof Date) {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        // todo: check that date is a valid
+        return new Date(value);
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getDateConfig = getDateTimeConfig;
+
+    const getBooleanConfig = (): boolean | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (typeof value === 'boolean') {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        return value.toLowerCase() === 'true';
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    switch (config.type) {
+    case 'string':
+      return getStringConfig();
+    case 'int':
+      return getIntConfig();
+    case 'float':
+      return getFloatConfig();
+    case 'bigint':
+      return getBigIntConfig();
+    case 'datetime':
+      return getDateTimeConfig();
+    case 'date':
+      return getDateConfig();
+    case 'bool':
+      return getBooleanConfig();
+    default:
+      throw new Error('Invalid config variable type');
+    }
   }
 }
