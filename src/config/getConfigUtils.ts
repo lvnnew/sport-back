@@ -1,127 +1,302 @@
-import {ValueBasedOnRequired} from './types';
+import winston, {format, Logger as WLogger} from 'winston';
+import LRUCache from 'lru-cache';
+import nconf from 'nconf';
+import {constantCase, camelCase} from 'change-case';
+import {exists, read} from 'fs-jetpack';
+import {Logger} from 'tslog';
 
-const getConfigUtils = (
-  getFromNconf: <T extends boolean>(name: string, required?: T) => ValueBasedOnRequired<T, string | number | boolean | Date>,
-) => {
-  const getStringConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, string> => {
-    const value = getFromNconf(name, required);
+import {EnvVarConfig, EnvVarConfigBaseValues, EnvVarConfigValues} from './types';
+import {getKnexByUri} from '../clients/knex/getKnexByUri';
+import {envVarsConfig, Config} from './config';
 
-    if (typeof value === 'undefined') {
-      if (required) {
-        throw new Error(`Config var "${name}" is required`);
+export type TLogger = Pick<WLogger, 'info' | 'error' | 'debug' | 'warn'>;
+
+export class ConfigUtils {
+  private cache: LRUCache<'values' | 'config', any>;
+  private baseConfig: EnvVarConfigBaseValues[] = [];
+  private defaultConfig: Partial<Config> = {};
+
+  constructor() {
+    this.cache = new LRUCache({
+      ttl: 30_000, // 30 sec
+      updateAgeOnGet: false,
+      updateAgeOnHas: false,
+      allowStale: false,
+      max: 500,
+      maxSize: 5000,
+    });
+
+    this.initBaseConfig();
+  }
+
+  initBaseConfig () {
+    // initiating environment variables
+    nconf.argv().env();
+
+    this.baseConfig = envVarsConfig.map((conf) => ({
+      ...conf,
+      environment: this.parseValue(conf, this.getFromNconf(conf.id)),
+    }));
+
+    // initiating file variables
+    nconf.file({file: './config/default.json'});
+
+    const developerRunlifyConfig = read('runlify.developer.json', 'json') || 'dev';
+
+    const envName = process.env.ENV || developerRunlifyConfig?.defaultEnvironment;
+    const file = `./config/${envName}.json`;
+
+    if (exists(file)) {
+      nconf.file({file});
+    }
+
+    this.baseConfig = this.baseConfig.map((conf) => ({
+      ...conf,
+      file: this.parseValue(conf, this.getFromNconf(conf.id)),
+    }));
+
+    this.defaultConfig = {env: envName};
+  }
+
+  getLog (): TLogger {
+    const logFormat = this.getFromNconf('logs.format');
+    return winston.createLogger({
+      defaultMeta: {
+        loggerName: 'adm-graph-server',
+      },
+      format: format.combine(
+        format.errors({stack: true}),
+        format.timestamp(),
+        logFormat === 'json' ? winston.format.json() : winston.format.cli(),
+      ),
+      transports: [
+        new winston.transports.Console(),
+      ],
+    });
+  }
+
+  getTsLog () {
+    const logFormat = this.getFromNconf('logs.format');
+    return new Logger({
+      maskValuesOfKeys: [],
+      name: 'adm-graph-server',
+      type: logFormat === 'json' ? 'json' : 'pretty',
+    });
+  }
+
+  async updateFromDB (): Promise<Config> {
+    const knexInstance = getKnexByUri(this.getFromNconf('database.main.write.uri'));
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const schema: string | null = knexInstance.schema?.client?.connectionSettings?.schema ?? 'public';
+
+    let dbValues = {};
+
+    const log = this.getLog();
+
+    try {
+      const result = await knexInstance.raw(`select id, value from ${schema}."ConfigurationVariable";`);
+
+      dbValues = result.rows.reduce((accum: Record<string, any>, {id, value}: {id: string, value: string}) => {
+        try {
+          accum[id] = JSON.parse(value);
+        } catch {
+          accum[id] = undefined;
+          log.error(`Configuration variable with id: ${id} has an invalid value in DB: ${value}`);
+        }
+
+        return accum;
+      }, {});
+    } catch {
+      log.error('Project has run without db configuration variables');
+    }
+
+    const values = this.baseConfig.map((conf) => {
+      const db = this.parseValue(conf, dbValues[conf.id]);
+
+      const resulted = db ?? conf.environment ?? conf.file;
+
+      if (typeof resulted === 'undefined' && conf.required) {
+        throw new Error(`Config var "${conf.id}" is required`);
       }
 
-      return value as any;
+      return {
+        ...conf,
+        db,
+        resulted,
+      };
+    });
+
+    this.cache.set('values', values, {size: 1});
+
+    const config = values.reduce((accum, v) => ({
+      ...accum,
+      [camelCase(v.id)]: v.db ?? v.environment ?? v.file,
+    }), this.defaultConfig) as Config;
+
+    this.cache.set('config', config, {size: 1});
+
+    return config;
+  }
+
+  async getConfig (): Promise<Config> {
+    if (this.cache.has('config')) {
+      return this.cache.get('config') as Config;
     }
 
-    if (typeof value === 'string') {
-      return value;
+    return await this.updateFromDB();
+  }
+
+  private async getConfigValues () {
+    if (!this.cache.has('values')) {
+      await this.updateFromDB();
     }
 
-    throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
-  };
+    return this.cache.get('values') as EnvVarConfigValues[];
+  }
 
-  const getIntConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, number> => {
-    const value = getFromNconf(name, required);
+  async getSafeConfig (): Promise<EnvVarConfigValues[]> {
+    const config = await this.getConfigValues();
 
-    if (typeof value === 'undefined') {
-      if (required) {
-        throw new Error(`Config var "${name}" is required`);
+    return config.map(this.hideValue);
+  }
+
+  async getSafeVariable (id: string): Promise<EnvVarConfigValues | undefined> {
+    const config = await this.getConfigValues();
+
+    return config.find(el => el.id === id);
+  }
+
+  hideValue (val: EnvVarConfigValues): EnvVarConfigValues {
+    const hidden = '********';
+
+    if (val.hidden) {
+      return {
+        ...val,
+        environment: hidden,
+        file: hidden,
+        db: hidden,
+        resulted: hidden,
+      };
+    }
+
+    return val;
+  }
+
+  getFromNconf (id: string) {
+    return nconf.get(constantCase(id)) || nconf.get(id);
+  }
+
+  parseValue (config: EnvVarConfig, value: string | undefined | Date) {
+    const getStringConfig = (): string | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
       }
 
-      return value as any;
-    }
-
-    if (typeof value === 'number') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return Number(value);
-    }
-
-    throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
-  };
-
-  const getFloatConfig = getIntConfig;
-
-  const getBigIntConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, bigint> => {
-    const value = getFromNconf(name, required);
-
-    if (typeof value === 'undefined') {
-      if (required) {
-        throw new Error(`Config var "${name}" is required`);
+      if (typeof value === 'string') {
+        return value;
       }
 
-      return value as any;
-    }
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
 
-    if (typeof value === 'bigint') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return BigInt(value);
-    }
-
-    throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
-  };
-
-  const getDateTimeConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, Date> => {
-    const value = getFromNconf(name, required);
-
-    if (typeof value === 'undefined') {
-      if (required) {
-        throw new Error(`Config var "${name}" is required`);
+    const getIntConfig = (): number | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
       }
 
-      return value as any;
-    }
-
-    if (value instanceof Date) {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return new Date(value);
-    }
-
-    throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
-  };
-
-  const getDateConfig = getDateTimeConfig;
-
-  const getBooleanConfig = <T extends boolean>(name: string, required: T): ValueBasedOnRequired<T, boolean> => {
-    const value = getFromNconf(name, required);
-
-    if (typeof value === 'undefined') {
-      if (required) {
-        throw new Error(`Config var "${name}" is required`);
+      if (typeof value === 'number') {
+        return value;
       }
 
-      return value as any;
+      if (typeof value === 'string') {
+        return Number(value);
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getFloatConfig = getIntConfig;
+
+    const getBigIntConfig = (): bigint | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (typeof value === 'bigint') {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        return BigInt(value);
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getDateTimeConfig = (): Date | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (value instanceof Date) {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        // todo: check that date is a valid
+        return new Date(value);
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    const getDateConfig = getDateTimeConfig;
+
+    const getBooleanConfig = (): boolean | undefined => {
+      if (typeof value === 'undefined') {
+        return value as any;
+      }
+
+      if (typeof value === 'boolean') {
+        return value;
+      }
+
+      if (typeof value === 'string') {
+        return value.toLowerCase() === 'true';
+      }
+
+      throw new Error(
+        `Incorrect value. Value: "${value}", typeof: "${typeof value}"`,
+      );
+    };
+
+    switch (config.type) {
+    case 'string':
+      return getStringConfig();
+    case 'int':
+      return getIntConfig();
+    case 'float':
+      return getFloatConfig();
+    case 'bigint':
+      return getBigIntConfig();
+    case 'datetime':
+      return getDateTimeConfig();
+    case 'date':
+      return getDateConfig();
+    case 'bool':
+      return getBooleanConfig();
+    default:
+      throw new Error('Invalid config variable type');
     }
-
-    if (typeof value === 'boolean') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      return value.toLowerCase() === 'true';
-    }
-
-    throw new Error(`Incorrect value. Value: "${value}", typeof: "${typeof value}"`);
-  };
-
-  return {
-    getStringConfig,
-    getIntConfig,
-    getFloatConfig,
-    getBigIntConfig,
-    getDateTimeConfig,
-    getDateConfig,
-    getBooleanConfig,
-  };
-};
-
-export default getConfigUtils;
+  }
+}

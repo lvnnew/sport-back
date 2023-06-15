@@ -6,6 +6,7 @@ import {AdditionalAuditLogActionTypesService} from './AuditLogActionTypesService
 import {AdditionalAuditLogsService} from './AuditLogsService/AdditionalAuditLogsService';
 import {AdditionalAutogenerationHistoryEntriesService} from './AutogenerationHistoryEntriesService/AdditionalAutogenerationHistoryEntriesService';
 import {AdditionalAutogenerationRulesService} from './AutogenerationRulesService/AdditionalAutogenerationRulesService';
+import {AdditionalConfigurationVariablesService} from './ConfigurationVariablesService/AdditionalConfigurationVariablesService';
 import {AdditionalDelegationsService} from './DelegationsService/AdditionalDelegationsService';
 import {AdditionalEntitiesService} from './EntitiesService/AdditionalEntitiesService';
 import {AdditionalFilesService} from './FilesService/AdditionalFilesService';
@@ -47,6 +48,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   auditLogs: (ctx) => new AdditionalAuditLogsService(ctx),
   autogenerationHistoryEntries: (ctx) => new AdditionalAutogenerationHistoryEntriesService(ctx),
   autogenerationRules: (ctx) => new AdditionalAutogenerationRulesService(ctx),
+  configurationVariables: (ctx) => new AdditionalConfigurationVariablesService(ctx),
   delegations: (ctx) => new AdditionalDelegationsService(ctx),
   entities: (ctx) => new AdditionalEntitiesService(ctx),
   files: (ctx) => new AdditionalFilesService(ctx),
