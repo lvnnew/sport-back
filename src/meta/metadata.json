@@ -7864,6 +7864,18 @@
    "default": "",
    "editable": true,
    "hidden": false,
+   "name": "endpoint",
+   "needFor": "Путь к бекенду",
+   "required": false,
+   "scopes": [
+    "admin-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
    "name": "es.cloudId",
    "needFor": "Идентификатор аккаунта в облачном сервисе ElasticSearch",
    "required": false,
