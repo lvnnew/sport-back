@@ -6,6 +6,8 @@ import {
   AggregationsAggregate,
   BulkResponse,
   CountResponse,
+  Duration,
+  OpenPointInTimeResponse,
   QueryDslQueryContainer,
   SearchRequest,
   SearchResponse,
@@ -31,6 +33,7 @@ type ID = string | number | bigint;
 
 export interface ElasticClient {
   client: Client;
+  pit: (index: ElasticIndexes, time: Duration) => Promise<OpenPointInTimeResponse>;
   createSearcher: (index: ElasticIndexes) =>
     (args?: ElasticListArgs) => Promise<SearchResponse<unknown, Record<string, AggregationsAggregate>>>;
   createCounter: (index: ElasticIndexes) => (args?: ElasticListArgs) => Promise<CountResponse>;
@@ -442,6 +445,14 @@ export const getElastic = async () => {
       if (!elasticClient) {
         elasticClient = {
           client,
+          pit: async (indexPrefix: ElasticIndexes, time: Duration) => {
+            const index = await getFullIndexName(indexPrefix);
+
+            return await client.openPointInTime({
+              index,
+              keep_alive: time,
+            });
+          },
           deleteById: async (indexPrefix: ElasticIndexes, id) => {
             const index = await getFullIndexName(indexPrefix);
 
