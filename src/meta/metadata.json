@@ -7769,7 +7769,7 @@
    "type": "string"
   },
   {
-   "default": "postgresql://postgres:password@localhost:5432/migration",
+   "default": "postgresql://postgres:password@localhost:5432",
    "editable": false,
    "hidden": true,
    "name": "database.main.migration.uri",
@@ -8354,6 +8354,7 @@
   {
    "branchName": "master",
    "clusterName": "stage01",
+   "host": "making.ventures",
    "main": false,
    "manualDeploy": false,
    "metricsEnabled": true,
@@ -8363,6 +8364,7 @@
   {
    "branchName": "release",
    "clusterName": "stage01",
+   "host": "making.ventures",
    "main": true,
    "manualDeploy": true,
    "metricsEnabled": true,

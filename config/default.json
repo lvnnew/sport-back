@@ -12,7 +12,7 @@
   "bootstrap.enabled": false,
   "customer.recaptcha.requiredScore": "0.7",
   "customer.recaptcha.secretKey": "",
-  "database.main.migration.uri": "postgresql://postgres:password@localhost:5432/migration",
+  "database.main.migration.uri": "postgresql://postgres:password@localhost:5432",
   "database.main.readOnly.enabled": false,
   "database.main.readOnly.uri": "postgresql://postgres:password@localhost:5432",
   "database.main.write.uri": "postgresql://postgres:password@localhost:5432",
