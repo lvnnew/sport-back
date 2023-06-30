@@ -12,6 +12,7 @@ export const findUser = async (req: AuthenticatedRequest, res: Response) => {
     if (!user) {
       throw new Error('User not found');
     }
+
     res.status(200).send({
       auth: true,
       firstname: user.firstname,

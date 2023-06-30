@@ -12,6 +12,8 @@ import dayjs from 'dayjs';
 import {v4 as uuidv4} from 'uuid';
 import {serviceUtils, ServiceUtils} from './utils';
 import {ServiceErrors} from './ServiceErrors';
+import AppError from '../../../../AppError';
+import AppErrorCode from '../../../../types/AppErrorCode';
 
 export type WithID = {id: bigint | string | number};
 export type Obj = Record<string, any>;
@@ -61,7 +63,7 @@ export class BaseService<
     currentData: Obj,
   ): Promise<T & AutodefinablePart> => currentData as T & AutodefinablePart;
 
-  allowedToChange = (_e: Entity | ReliableCreateUserInput | StrictCreateArgs | StrictUpdateArgs, _serviceUtils: ServiceUtils): boolean => true
+  allowedToChange = (_e: Entity | ReliableCreateUserInput | StrictCreateArgs | StrictUpdateArgs, _serviceUtils: ServiceUtils): boolean => true;
 
   constructor(
     protected ctx: Context,
@@ -195,7 +197,13 @@ export class BaseService<
       return result as Entity;
     } catch (error: any) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002' && error.meta) {
-        throw new Error(`Недопустимо создание дублирующих записей. Поля по которым нарушена уникальность: ${(error.meta.target as any).join(', ')}.`);
+        throw new AppError(
+          `Недопустимо создание дублирующих записей. Поля по которым нарушена уникальность: ${(error.meta.target as any).join(', ')}.`,
+          AppErrorCode.Duplication,
+          {
+            fields: error.meta.target,
+          },
+        );
       }
 
       throw error;
@@ -295,7 +303,7 @@ export class BaseService<
         entityTypeId: this.config.entityTypeId,
         entityId: toLogId(data),
         actionData: data,
-      }))
+      }));
     }
 
     operations = [
@@ -305,7 +313,7 @@ export class BaseService<
         processedData as unknown as MutationUpdateArgs, // todo: fix type
       )),
       ...(await this.getPostOperations(processedData)),
-    ]
+    ];
 
     const [result] = await this.ctx.prisma.$transaction(operations);
 

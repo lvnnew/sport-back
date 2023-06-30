@@ -10,6 +10,7 @@ const resolvers = {
       if (!ctx.user.id) {
         throw new Error('Unauthorised 123');
       }
+
       const {context} = ctx;
       const user = await context.service('users').get(ctx.user.id);
       if (!user) {

@@ -1,3 +1,1 @@
-
-export const additionalServicesPermissionToGraphql = {
-};
+export const additionalServicesPermissionToGraphql = {};

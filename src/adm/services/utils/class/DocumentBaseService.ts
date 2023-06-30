@@ -62,6 +62,7 @@ export class DocumentBaseService<
     if (!this.allowedToChange(data, serviceUtils)) {
       throw new Error(ServiceErrors.DoNotAllowToChange);
     }
+
     await this.ctx.prisma.$transaction(await this.getPostOperations(await this.augmentByDefault(data)));
   }
 

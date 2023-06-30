@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import * as R from 'rambda';
+import * as R from 'ramda';
 
 export type ServiceUtils = {
   dayjs: typeof dayjs;
@@ -8,4 +8,4 @@ export type ServiceUtils = {
 export const serviceUtils: ServiceUtils = {
   dayjs,
   R,
-}
+};
