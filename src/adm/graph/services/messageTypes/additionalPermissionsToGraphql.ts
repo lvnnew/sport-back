@@ -5,9 +5,10 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const messageTypesPermissionToGraphql: Partial<PermissionToGraphql<MessageTypesService>> = {
-  ...messageTypesBasePermissionToGraphql,
-  ...messageTypesAdditionalPermissionToGraphql,
-};
+const messageTypesPermissionToGraphql:
+  Partial<PermissionToGraphql<MessageTypesService>> = {
+    ...messageTypesBasePermissionToGraphql,
+    ...messageTypesAdditionalPermissionToGraphql,
+  };
 
 export default messageTypesPermissionToGraphql;

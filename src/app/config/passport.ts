@@ -88,11 +88,11 @@ passport.use(
 );
 
 // const prepareCardNumber = (cardNumber: string) => cardNumber.toString()
-//   .replace(/\s/gu, '')
-//   .replace(/,/gu, '')
-//   .replace(/\./gu, '')
-//   .replace(/-/gu, '')
-//   .replace(/_/gu, '');
+//   .replaceAll(/\s/gu, '')
+//   .replaceAll(/,/gu, '')
+//   .replaceAll(/\./gu, '')
+//   .replaceAll(/-/gu, '')
+//   .replaceAll(/_/gu, '');
 
 passport.use(
   'appLogin',

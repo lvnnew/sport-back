@@ -4,8 +4,9 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const autogenerationRulesPermissionToGraphql: Partial<PermissionToGraphql<AutogenerationRulesService>> = {
-  ...autogenerationRulesBasePermissionToGraphql,
-};
+const autogenerationRulesPermissionToGraphql:
+  Partial<PermissionToGraphql<AutogenerationRulesService>> = {
+    ...autogenerationRulesBasePermissionToGraphql,
+  };
 
 export default autogenerationRulesPermissionToGraphql;

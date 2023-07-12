@@ -4,8 +4,9 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const templateStylesPermissionToGraphql: Partial<PermissionToGraphql<TemplateStylesService>> = {
-  ...templateStylesBasePermissionToGraphql,
-};
+const templateStylesPermissionToGraphql:
+  Partial<PermissionToGraphql<TemplateStylesService>> = {
+    ...templateStylesBasePermissionToGraphql,
+  };
 
 export default templateStylesPermissionToGraphql;

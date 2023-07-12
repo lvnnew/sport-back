@@ -14,18 +14,23 @@ const queryResolvers: Resolvers = {
   Query: {
     Delegation: (_, {id}, {context}: {context: Context}) =>
       context.service('delegations').get(id),
-    allDelegations: (_, params: QueryAllDelegationsArgs, {context}: {context: Context}) =>
-      context.service('delegations').all(params),
-    _allDelegationsMeta: (_, params: Query_AllDelegationsMetaArgs, {context}: {context: Context}) =>
-      context.service('delegations').meta(params),
+    allDelegations:
+      (_, params: QueryAllDelegationsArgs, {context}: {context: Context}) =>
+        context.service('delegations').all(params),
+    _allDelegationsMeta:
+      (_, params: Query_AllDelegationsMetaArgs, {context}: {context: Context}) =>
+        context.service('delegations').meta(params),
   },
   Mutation: {
-    createDelegation: (_, params: MutationCreateDelegationArgs, {context}: {context: Context}) =>
-      context.service('delegations').create(params, true),
-    updateDelegation: (_, params: MutationUpdateDelegationArgs, {context}: {context: Context}) =>
-      context.service('delegations').update(params, true),
-    removeDelegation: (_, params: MutationRemoveDelegationArgs, {context}: {context: Context}) =>
-      context.service('delegations').delete(params),
+    createDelegation:
+      (_, params: MutationCreateDelegationArgs, {context}: {context: Context}) =>
+        context.service('delegations').create(params, true),
+    updateDelegation:
+      (_, params: MutationUpdateDelegationArgs, {context}: {context: Context}) =>
+        context.service('delegations').update(params, true),
+    removeDelegation:
+      (_, params: MutationRemoveDelegationArgs, {context}: {context: Context}) =>
+        context.service('delegations').delete(params),
   },
 };
 

@@ -5,9 +5,10 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const appRefreshTokensPermissionToGraphql: Partial<PermissionToGraphql<AppRefreshTokensService>> = {
-  ...appRefreshTokensBasePermissionToGraphql,
-  ...appRefreshTokensAdditionalPermissionToGraphql,
-};
+const appRefreshTokensPermissionToGraphql:
+  Partial<PermissionToGraphql<AppRefreshTokensService>> = {
+    ...appRefreshTokensBasePermissionToGraphql,
+    ...appRefreshTokensAdditionalPermissionToGraphql,
+  };
 
 export default appRefreshTokensPermissionToGraphql;

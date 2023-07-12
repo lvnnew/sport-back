@@ -5,9 +5,10 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const permissionsPermissionToGraphql: Partial<PermissionToGraphql<PermissionsService>> = {
-  ...permissionsBasePermissionToGraphql,
-  ...permissionsAdditionalPermissionToGraphql,
-};
+const permissionsPermissionToGraphql:
+  Partial<PermissionToGraphql<PermissionsService>> = {
+    ...permissionsBasePermissionToGraphql,
+    ...permissionsAdditionalPermissionToGraphql,
+  };
 
 export default permissionsPermissionToGraphql;

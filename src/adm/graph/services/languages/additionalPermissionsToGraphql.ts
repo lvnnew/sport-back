@@ -5,9 +5,10 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const languagesPermissionToGraphql: Partial<PermissionToGraphql<LanguagesService>> = {
-  ...languagesBasePermissionToGraphql,
-  ...languagesAdditionalPermissionToGraphql,
-};
+const languagesPermissionToGraphql:
+  Partial<PermissionToGraphql<LanguagesService>> = {
+    ...languagesBasePermissionToGraphql,
+    ...languagesAdditionalPermissionToGraphql,
+  };
 
 export default languagesPermissionToGraphql;
