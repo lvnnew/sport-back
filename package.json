@@ -18,7 +18,7 @@
     "dev": "ts-node-dev --files src/index.ts",
     "dev:stage": "runlify start env=stage yarn dev",
     "dev:local": "runlify start env=local yarn dev",
-    "lint": "eslint ./src/**/*.ts",
+    "lint": "eslint src",
     "gen": "yarn ts-node src/gen/genGQSchemes.ts",
     "test": "jest --maxWorkers 2",
     "prisma:gen": "prisma generate",
