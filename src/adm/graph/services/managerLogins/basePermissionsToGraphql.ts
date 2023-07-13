@@ -3,13 +3,14 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const managerLoginsBasePermissionToGraphql: Partial<PermissionToGraphql<ManagerLoginsService>> = {
-  meta: '_allManagerLoginsMeta',
-  get: 'ManagerLogin',
-  all: 'allManagerLogins',
-  create: 'createManagerLogin',
-  update: 'updateManagerLogin',
-  delete: 'removeManagerLogin',
-};
+const managerLoginsBasePermissionToGraphql:
+  Partial<PermissionToGraphql<ManagerLoginsService>> = {
+    meta: '_allManagerLoginsMeta',
+    get: 'ManagerLogin',
+    all: 'allManagerLogins',
+    create: 'createManagerLogin',
+    update: 'updateManagerLogin',
+    delete: 'removeManagerLogin',
+  };
 
 export default managerLoginsBasePermissionToGraphql;

@@ -51,15 +51,15 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
     const filtersForAnd = pairsForAnd
       .map(([key, value]) => {
         if (key.includes('_lte')) {
-          return [key.replace(/(_lte)$/u, ''), {lte: value}];
+          return [key.replaceAll(/(_lte)$/u, ''), {lte: value}];
         } else if (key.includes('_gte')) {
-          return [key.replace(/(_gte)$/u, ''), {gte: value}];
+          return [key.replaceAll(/(_gte)$/u, ''), {gte: value}];
         } else if (key.includes('_lt')) {
-          return [key.replace(/(_lt)$/u, ''), {lt: value}];
+          return [key.replaceAll(/(_lt)$/u, ''), {lt: value}];
         } else if (key.includes('_gt')) {
-          return [key.replace(/(_gt)$/u, ''), {gt: value}];
+          return [key.replaceAll(/(_gt)$/u, ''), {gt: value}];
         } else if (key.includes('_in')) {
-          const clearedKey = key.replace(/(_in)$/u, '');
+          const clearedKey = key.replaceAll(/(_in)$/u, '');
           const values = value as unknown as any[];
           const hasNullValue = values.includes(null);
 

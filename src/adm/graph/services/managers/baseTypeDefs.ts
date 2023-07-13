@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {gql} from 'apollo-server';
 
 // DO NOT EDIT! THIS IS GENERATED FILE

@@ -110,7 +110,7 @@ export const envVarsConfig: EnvVarConfig[] = [{
 }, {
   id: 'app.title',
   type: 'string',
-  title: 'Человеческое название приложения',
+  title: 'Пользовательское название приложения',
   required: false,
   hidden: false,
   editable: true,
@@ -264,7 +264,7 @@ export const envVarsConfig: EnvVarConfig[] = [{
 }, {
   id: 'kafka.queue.defaultRetryTime',
   type: 'int',
-  title: 'Время паузы после первой ошибки, например 20000 мс, потом оно увеличывается экспоненциально с мультипликатором 1.5',
+  title: 'Время паузы после первой ошибки, например 20000 мс, потом оно увеличивается экспоненциально с мультипликатором 1.5',
   required: false,
   hidden: false,
   editable: true,

@@ -14,18 +14,23 @@ const queryResolvers: Resolvers = {
   Query: {
     File: (_, {id}, {context}: {context: Context}) =>
       context.service('files').get(id),
-    allFiles: (_, params: QueryAllFilesArgs, {context}: {context: Context}) =>
-      context.service('files').all(params),
-    _allFilesMeta: (_, params: Query_AllFilesMetaArgs, {context}: {context: Context}) =>
-      context.service('files').meta(params),
+    allFiles:
+      (_, params: QueryAllFilesArgs, {context}: {context: Context}) =>
+        context.service('files').all(params),
+    _allFilesMeta:
+      (_, params: Query_AllFilesMetaArgs, {context}: {context: Context}) =>
+        context.service('files').meta(params),
   },
   Mutation: {
-    createFile: (_, params: MutationCreateFileArgs, {context}: {context: Context}) =>
-      context.service('files').create(params, true),
-    updateFile: (_, params: MutationUpdateFileArgs, {context}: {context: Context}) =>
-      context.service('files').update(params, true),
-    removeFile: (_, params: MutationRemoveFileArgs, {context}: {context: Context}) =>
-      context.service('files').delete(params),
+    createFile:
+      (_, params: MutationCreateFileArgs, {context}: {context: Context}) =>
+        context.service('files').create(params, true),
+    updateFile:
+      (_, params: MutationUpdateFileArgs, {context}: {context: Context}) =>
+        context.service('files').update(params, true),
+    removeFile:
+      (_, params: MutationRemoveFileArgs, {context}: {context: Context}) =>
+        context.service('files').delete(params),
   },
 };
 

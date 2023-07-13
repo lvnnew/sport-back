@@ -8,32 +8,32 @@ const initMailingMessageStatuses = async (ctx: Context) => {
     {
       id: MailingMessageStatus.Draft,
       final: false,
-    title: 'Draft',
+      title: 'Draft',
     },
     {
       id: MailingMessageStatus.Stopped,
       final: false,
-    title: 'Stopped',
+      title: 'Stopped',
     },
     {
       id: MailingMessageStatus.Pending,
       final: false,
-    title: 'Pending',
+      title: 'Pending',
     },
     {
       id: MailingMessageStatus.Sent,
       final: true,
-    title: 'Sent',
+      title: 'Sent',
     },
     {
       id: MailingMessageStatus.Canceled,
       final: true,
-    title: 'Canceled',
+      title: 'Canceled',
     },
     {
       id: MailingMessageStatus.Errored,
       final: true,
-    title: 'Errored',
+      title: 'Errored',
     },
   ]);
 };

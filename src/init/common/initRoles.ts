@@ -8,14 +8,14 @@ const initRoles = async (ctx: Context) => {
     {
       id: Role.Admin,
       allTenantsAvailable: true,
-    hasAllPermissions: true,
-    title: 'Админ',
+      hasAllPermissions: true,
+      title: 'Админ',
     },
     {
       id: Role.Manager,
       allTenantsAvailable: false,
-    hasAllPermissions: false,
-    title: 'Менеджер',
+      hasAllPermissions: false,
+      title: 'Менеджер',
     },
   ]);
 };

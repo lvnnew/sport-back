@@ -5,9 +5,10 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const entitiesPermissionToGraphql: Partial<PermissionToGraphql<EntitiesService>> = {
-  ...entitiesBasePermissionToGraphql,
-  ...entitiesAdditionalPermissionToGraphql,
-};
+const entitiesPermissionToGraphql:
+  Partial<PermissionToGraphql<EntitiesService>> = {
+    ...entitiesBasePermissionToGraphql,
+    ...entitiesAdditionalPermissionToGraphql,
+  };
 
 export default entitiesPermissionToGraphql;

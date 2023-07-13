@@ -4,8 +4,9 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const appLoginsPermissionToGraphql: Partial<PermissionToGraphql<AppLoginsService>> = {
-  ...appLoginsBasePermissionToGraphql,
-};
+const appLoginsPermissionToGraphql:
+  Partial<PermissionToGraphql<AppLoginsService>> = {
+    ...appLoginsBasePermissionToGraphql,
+  };
 
 export default appLoginsPermissionToGraphql;

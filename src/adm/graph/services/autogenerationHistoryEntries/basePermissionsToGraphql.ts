@@ -3,13 +3,14 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const autogenerationHistoryEntriesBasePermissionToGraphql: Partial<PermissionToGraphql<AutogenerationHistoryEntriesService>> = {
-  meta: '_allAutogenerationHistoryEntriesMeta',
-  get: 'AutogenerationHistoryEntry',
-  all: 'allAutogenerationHistoryEntries',
-  create: 'createAutogenerationHistoryEntry',
-  update: 'updateAutogenerationHistoryEntry',
-  delete: 'removeAutogenerationHistoryEntry',
-};
+const autogenerationHistoryEntriesBasePermissionToGraphql:
+  Partial<PermissionToGraphql<AutogenerationHistoryEntriesService>> = {
+    meta: '_allAutogenerationHistoryEntriesMeta',
+    get: 'AutogenerationHistoryEntry',
+    all: 'allAutogenerationHistoryEntries',
+    create: 'createAutogenerationHistoryEntry',
+    update: 'updateAutogenerationHistoryEntry',
+    delete: 'removeAutogenerationHistoryEntry',
+  };
 
 export default autogenerationHistoryEntriesBasePermissionToGraphql;

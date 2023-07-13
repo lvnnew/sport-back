@@ -7677,7 +7677,7 @@
    "editable": true,
    "hidden": false,
    "name": "app.title",
-   "needFor": "Человеческое название приложения",
+   "needFor": "Пользовательское название приложения",
    "required": false,
    "scopes": [
     "back",
@@ -8045,7 +8045,7 @@
    "editable": true,
    "hidden": false,
    "name": "kafka.queue.defaultRetryTime",
-   "needFor": "Время паузы после первой ошибки, например 20000 мс, потом оно увеличывается экспоненциально с мультипликатором 1.5",
+   "needFor": "Время паузы после первой ошибки, например 20000 мс, потом оно увеличивается экспоненциально с мультипликатором 1.5",
    "required": false,
    "scopes": [
     "back",
@@ -8354,21 +8354,25 @@
   {
    "branchName": "master",
    "clusterName": "stage01",
+   "gitlabEnvPrefix": "dev",
    "host": "making.ventures",
    "main": false,
    "manualDeploy": false,
    "metricsEnabled": true,
    "name": "dev",
+   "runnerTag": "dev",
    "workerClusterName": "workers01"
   },
   {
    "branchName": "release",
    "clusterName": "stage01",
+   "gitlabEnvPrefix": "prod",
    "host": "making.ventures",
    "main": true,
    "manualDeploy": true,
    "metricsEnabled": true,
    "name": "prod",
+   "runnerTag": "prod",
    "workerClusterName": "workers01"
   }
  ],

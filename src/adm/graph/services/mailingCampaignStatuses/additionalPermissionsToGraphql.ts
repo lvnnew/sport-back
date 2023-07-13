@@ -5,9 +5,10 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const mailingCampaignStatusesPermissionToGraphql: Partial<PermissionToGraphql<MailingCampaignStatusesService>> = {
-  ...mailingCampaignStatusesBasePermissionToGraphql,
-  ...mailingCampaignStatusesAdditionalPermissionToGraphql,
-};
+const mailingCampaignStatusesPermissionToGraphql:
+  Partial<PermissionToGraphql<MailingCampaignStatusesService>> = {
+    ...mailingCampaignStatusesBasePermissionToGraphql,
+    ...mailingCampaignStatusesAdditionalPermissionToGraphql,
+  };
 
 export default mailingCampaignStatusesPermissionToGraphql;

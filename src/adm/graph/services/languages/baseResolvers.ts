@@ -14,18 +14,23 @@ const queryResolvers: Resolvers = {
   Query: {
     Language: (_, {id}, {context}: {context: Context}) =>
       context.service('languages').get(id),
-    allLanguages: (_, params: QueryAllLanguagesArgs, {context}: {context: Context}) =>
-      context.service('languages').all(params),
-    _allLanguagesMeta: (_, params: Query_AllLanguagesMetaArgs, {context}: {context: Context}) =>
-      context.service('languages').meta(params),
+    allLanguages:
+      (_, params: QueryAllLanguagesArgs, {context}: {context: Context}) =>
+        context.service('languages').all(params),
+    _allLanguagesMeta:
+      (_, params: Query_AllLanguagesMetaArgs, {context}: {context: Context}) =>
+        context.service('languages').meta(params),
   },
   Mutation: {
-    createLanguage: (_, params: MutationCreateLanguageArgs, {context}: {context: Context}) =>
-      context.service('languages').create(params, true),
-    updateLanguage: (_, params: MutationUpdateLanguageArgs, {context}: {context: Context}) =>
-      context.service('languages').update(params, true),
-    removeLanguage: (_, params: MutationRemoveLanguageArgs, {context}: {context: Context}) =>
-      context.service('languages').delete(params),
+    createLanguage:
+      (_, params: MutationCreateLanguageArgs, {context}: {context: Context}) =>
+        context.service('languages').create(params, true),
+    updateLanguage:
+      (_, params: MutationUpdateLanguageArgs, {context}: {context: Context}) =>
+        context.service('languages').update(params, true),
+    removeLanguage:
+      (_, params: MutationRemoveLanguageArgs, {context}: {context: Context}) =>
+        context.service('languages').delete(params),
   },
 };
 

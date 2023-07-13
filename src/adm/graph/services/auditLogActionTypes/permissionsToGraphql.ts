@@ -4,8 +4,9 @@ import {PermissionToGraphql} from '../../permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-const auditLogActionTypesPermissionToGraphql: Partial<PermissionToGraphql<AuditLogActionTypesService>> = {
-  ...auditLogActionTypesBasePermissionToGraphql,
-};
+const auditLogActionTypesPermissionToGraphql:
+  Partial<PermissionToGraphql<AuditLogActionTypesService>> = {
+    ...auditLogActionTypesBasePermissionToGraphql,
+  };
 
 export default auditLogActionTypesPermissionToGraphql;
