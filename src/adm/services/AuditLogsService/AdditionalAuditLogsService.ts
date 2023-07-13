@@ -25,6 +25,7 @@ export interface AuditLogAddUpdataOperationArgs extends AuditLogAddCreateOperati
 export interface AuditLogAddDeleteOperationArgs {
   entityTypeId: Entity,
   entityId: string | number,
+  actionData?: Record<string, any>,
 }
 
 export interface AdditionalAuditLogsMethods {
@@ -111,11 +112,13 @@ export class AdditionalAuditLogsService extends AuditLogsService {
   addDeleteOperation({
     entityTypeId,
     entityId,
+    actionData,
   }: AuditLogAddDeleteOperationArgs) {
     return this.addOperation({
       entityTypeId,
       entityId,
       title: `${entityTypeId} delete`,
+      actionData,
       actionTypeId: AuditLogActionType.Delete,
     });
   }

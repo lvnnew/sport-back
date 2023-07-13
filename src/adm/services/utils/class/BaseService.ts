@@ -426,6 +426,7 @@ export class BaseService<
         this.ctx.service('auditLogs').addDeleteOperation({
           entityTypeId: this.config.entityTypeId,
           entityId: toLogId(params),
+          actionData: entity,
         }),
       );
     }
