@@ -159,7 +159,7 @@ deploy-prod-back-previous:
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
     WORKER_ENABLED: "true"
-    BOT_ENABLED: "true"
+    BOT_ENABLED: "false"
     ROOT_ENABLED: "false"
 
 .deploy-prod-back:
@@ -185,8 +185,8 @@ deploy-prod-back-previous:
     INGRESS_ENABLED: "false"
     METRICS_ENABLED: "false"
     WORKER_ENABLED: "true"
-    BOT_ENABLED: "true"
-    ROOT_ENABLED: "true"
+    BOT_ENABLED: "false"
+    ROOT_ENABLED: "false"
 
 .deploy-dev:
   extends: .deploy
