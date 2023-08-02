@@ -2,7 +2,7 @@
  "back": {
   "limits": {
    "cpu": "0.15",
-   "memory": "64Mi"
+   "memory": "192Mi"
   },
   "materialUiIcon": "Brightness1Outlined",
   "name": "back",
@@ -11,7 +11,7 @@
   "replicas": 1,
   "requests": {
    "cpu": "0.15",
-   "memory": "64Mi"
+   "memory": "192Mi"
   },
   "title": {
    "ru": {

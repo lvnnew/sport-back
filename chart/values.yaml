@@ -41,10 +41,10 @@ back:
   enabled: true
   replicas: 1
   requests:
-    memory: "64Mi"
+    memory: "192Mi"
     cpu: "0.15"
   limits:
-    memory: "64Mi"
+    memory: "192Mi"
     cpu: "0.15"
 
 metrics:
