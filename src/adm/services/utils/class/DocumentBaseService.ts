@@ -109,7 +109,7 @@ export class DocumentBaseService<
         };
 
         const operations = [
-          this.ctx.prisma[registry].create({
+          (this.ctx.prisma[registry] as any).create({
             data: createData,
           }),
         ];
