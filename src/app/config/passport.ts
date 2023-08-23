@@ -60,7 +60,7 @@ passport.use(
         // Check there is no yet login for this user
         const login = await ctx.service('appLogins').findOne({filter: {login: email}});
         if (!login) {
-          return done(new Error(`There is no login for user with "${email}" email`), null);
+          return done(new Error(`There is no login for user with "${email}" email`));
         }
 
         const password = generator.generate({

@@ -7,7 +7,7 @@ import {APP_TOKEN_EXPIRES_IN} from '../config/consts';
 import {getConfig} from '../../config';
 
 export const registerUser = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('register', async (error, user, info) => {
+  passport.authenticate('register', async (error: any, user: Record<string, any> | false | null, info: Record<string, any>) => {
     if (error) {
       log.error(error);
       res.status(400).send({
@@ -20,7 +20,7 @@ export const registerUser = (req: Request, res: Response, next: NextFunction) =>
     if (info) {
       log.error(info.message);
       res.status(403).send(info.message);
-    } else {
+    } else if (user && user.id) {
       req.logIn(user, async () => {
         log.info('user');
         log.info('user created in db');
@@ -41,6 +41,9 @@ export const registerUser = (req: Request, res: Response, next: NextFunction) =>
           token,
         });
       });
+    } else {
+      log.error('There is no user or user id');
+      res.status(401).send();
     }
   })(req, res, next);
 };

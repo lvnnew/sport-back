@@ -7,7 +7,7 @@ import {ADM_TOKEN_EXPIRES_IN} from '../config/consts';
 import {getConfig} from '../../config';
 
 export const login = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate('admLogin', async (error, user, info) => {
+  passport.authenticate('admLogin', async (error: any, user: Record<string, any> | false | null, info: Record<string, any>) => {
     log.warn(user);
     if (error) {
       log.error(error);
