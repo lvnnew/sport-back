@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["fieldReference", "metrics", "extendedWhereUnique"]
+  previewFeatures = ["metrics"]
 }
 
 datasource db {

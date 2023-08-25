@@ -13785,10 +13785,10 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-runlify@^0.0.551:
-  version "0.0.551"
-  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.551.tgz#fe79c77ec41faa882025ff70ba2c92a9b178d285"
-  integrity sha512-Ya8N8ddgOdn8Or81Hkfj/RsyXkGatJUbcPtW3p2fd8ZZI/iRN76inGQoearrXwqp42zhTl4N6SbRxySJn3OOqg==
+runlify@^0.0.552:
+  version "0.0.552"
+  resolved "https://registry.yarnpkg.com/runlify/-/runlify-0.0.552.tgz#9ee763a832b6372f763a0bd3d6789491fd18c177"
+  integrity sha512-X4eaSE57t8iuwdJkFVzq+mND2/aUDyQB/YLWZbBk/3HNHXAVELyk97Dp25kOXKyBsx4mTnXnEaTl5vjliSLRcw==
   dependencies:
     appdata-path "^1.0.0"
     change-case "^4.1.2"
@@ -13801,8 +13801,8 @@ runlify@^0.0.551:
     markdown-table "2.0.0"
     nconf "^0.12.0"
     path "^0.12.7"
-    ramda "^0.28.0"
-    winston "^3.8.2"
+    ramda "^0.29.0"
+    winston "^3.10.0"
 
 rxjs@^7.2.0:
   version "7.5.1"
@@ -15626,23 +15626,6 @@ winston@^3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/winston/-/winston-3.10.0.tgz#d033cb7bd3ced026fed13bf9d92c55b903116803"
   integrity sha512-nT6SIDaE9B7ZRO0u3UvdrimG0HkB7dSTAgInQnNR2SOPJ4bvq5q79+pXLftKmP52lJGW15+H5MCK0nM9D3KB/g==
-  dependencies:
-    "@colors/colors" "1.5.0"
-    "@dabh/diagnostics" "^2.0.2"
-    async "^3.2.3"
-    is-stream "^2.0.0"
-    logform "^2.4.0"
-    one-time "^1.0.0"
-    readable-stream "^3.4.0"
-    safe-stable-stringify "^2.3.1"
-    stack-trace "0.0.x"
-    triple-beam "^1.3.0"
-    winston-transport "^4.5.0"
-
-winston@^3.8.2:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/winston/-/winston-3.8.2.tgz#56e16b34022eb4cff2638196d9646d7430fdad50"
-  integrity sha512-MsE1gRx1m5jdTTO9Ld/vND4krP2To+lgDoMEHGGa4HIlAUyXJtfc7CxQcGXVyz2IBpw5hbFkj2b/AtUdQwyRew==
   dependencies:
     "@colors/colors" "1.5.0"
     "@dabh/diagnostics" "^2.0.2"
