@@ -2,10 +2,10 @@ import axios from 'axios';
 import log from '../log';
 import {getConfig} from '../config';
 
-interface reCaptchaResponse {
-  success: boolean;
-  score: number;
-}
+// type ReCaptchaResponse = {
+//   success: boolean;
+//   score: number;
+// }
 
 async function reCaptchaValidate(token: string): Promise<{validated: boolean; score: number;}> {
   const {
@@ -21,7 +21,7 @@ async function reCaptchaValidate(token: string): Promise<{validated: boolean; sc
   }
 
   try {
-    const res = await axios.post<reCaptchaResponse>(
+    const res = await axios.post(
       `https://www.google.com/recaptcha/api/siteverify?secret=${customerRecaptchaSecretKey}&response=${token}`,
     );
 
