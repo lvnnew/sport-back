@@ -1,10 +1,10 @@
 import {AuditLogsService} from './AuditLogsService';
 import {
-  AuditLog,
+  AuditLog as GenAuditLog,
 } from '../../../generated/graphql';
 import AuditLogActionType from '../../../types/AuditLogActionType';
 import Entity from '../../../types/Entity';
-import getSearchStringCreator from '../utils/getSearchStringCreator';
+import {PrismaPromise} from '@prisma/client';
 
 export interface AuditLogAddOperationArgs {
   entityTypeId: Entity,
@@ -20,12 +20,17 @@ export interface AuditLogAddCreateOperationArgs {
   actionData?: Record<string, any>,
 }
 
-export interface AuditLogAddUpdataOperationArgs extends AuditLogAddCreateOperationArgs {}
+export interface AuditLogAddUpdataOperationArgs extends AuditLogAddCreateOperationArgs { }
 
 export interface AuditLogAddDeleteOperationArgs {
   entityTypeId: Entity,
   entityId: string | number,
   actionData?: Record<string, any>,
+}
+
+interface AuditLog extends GenAuditLog {
+  // todo: since graphQL does not know about json type, this is a temporary error fix
+  actionData: any;
 }
 
 export interface AdditionalAuditLogsMethods {
@@ -35,33 +40,14 @@ export interface AdditionalAuditLogsMethods {
   addDeleteOperation: (args: AuditLogAddDeleteOperationArgs) => Promise<AuditLog>;
 }
 
-const dateFieldsForSearch: string[] = [
-  'date',
-];
-
-const otherFieldsForSearch: string[] = [
-  'id',
-  'title',
-  'entityTypeId',
-  'entityId',
-  'actionTypeId',
-  'managerId',
-  'userId',
-  'foreignEntityType',
-  'foreignEntityId',
-  'actionData',
-];
-
-const getSearchString = getSearchStringCreator(dateFieldsForSearch, otherFieldsForSearch);
-
-export class AdditionalAuditLogsService extends AuditLogsService {
+export class AdditionalAuditLogsService extends AuditLogsService implements AdditionalAuditLogsMethods {
   addOperation({
     entityTypeId,
     entityId,
     actionTypeId,
     title,
     actionData,
-  }: AuditLogAddOperationArgs) {
+  }: AuditLogAddOperationArgs): PrismaPromise<AuditLog> {
     const data = {
       date: new Date(),
       title,
@@ -71,12 +57,13 @@ export class AdditionalAuditLogsService extends AuditLogsService {
       actionData: JSON.stringify(actionData),
       managerId: this.ctx.service('profile').getManagerId(),
       managerLogin: this.ctx.service('profile').getManagerLogin(),
+      unitName: this.ctx.service('profile').getUnitName(),
     };
 
     return this.ctx.prisma.auditLog.create({
       data: {
         ...data,
-        search: getSearchString(data),
+        search: this.getSearchString(data),
       },
     });
   }
