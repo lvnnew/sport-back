@@ -35,29 +35,39 @@ export type UserData = {
   managerId: number | null,
   managerLogin: string | null,
   ip: string | null,
+  unitName: string | null,
 }
 
 const opt = {
   max: 500,
   ttl: 1000 * 60, // 1 min
 };
+
 const managersTenantIdsCache = new LRUCache(opt);
+const usersTenantIdsCache = new LRUCache(opt);
 const managersPermissionsCache = new LRUCache(opt);
 const managerCache = new LRUCache(opt);
-const usersTenantIdsCache = new LRUCache(opt);
 
 class BaseProfileService {
-  userId: number | null = null;
-  managerId: number | null = null;
-  managerLogin: string | null = null;
-  ip: string | null = null;
+  protected userId: number | null = null;
+  protected managerId: number | null = null;
+  protected managerLogin: string | null = null;
+  protected unitName: string | null = null;
+  protected ip: string | null = null;
 
   constructor(protected ctx: Context) {}
 
   getUserId = () => this.userId;
   getManagerId = () => this.managerId;
+  getManagerIdOrThrow = () => {
+    if (!this.managerId) {
+      throw new Error('BaseProfileService: current manager is unknown');
+    }
 
+    return this.managerId;
+  };
   getManagerLogin = () => this.managerLogin;
+  getUnitName = () => this.unitName;
 
   setUserId = (newUserId: number) => {
     this.userId = newUserId;
@@ -69,6 +79,10 @@ class BaseProfileService {
 
   setManagerLogin = (login: string) => {
     this.managerLogin = login;
+  };
+
+  setUnitName = (unitName: string) => {
+    this.unitName = unitName;
   };
 
   getIp = () => this.ip;
@@ -154,7 +168,7 @@ class BaseProfileService {
     }));
   };
 
-  getPermissionsOfManager = async(managerId: number): Promise<string[]> => {
+  getPermissionsOfManager = async (managerId: number): Promise<string[]> => {
     if (!managerId) {
       return [];
     }
@@ -168,7 +182,7 @@ class BaseProfileService {
     return managersPermissionsCache.get(managerId) as string[];
   };
 
-  getPermissions = async() => {
+  getPermissions = async () => {
     if (!this.managerId) {
       log.error('getPermissions Current manager is unknown');
       throw new Error('getPermissions Current manager is unknown');
@@ -177,7 +191,7 @@ class BaseProfileService {
     return this.getPermissionsOfManager(this.managerId);
   };
 
-  getPermissionsWithMeta = async() => {
+  getPermissionsWithMeta = async () => {
     const managerId = this.getManagerId();
 
     if (!managerId) {
@@ -185,6 +199,68 @@ class BaseProfileService {
     }
 
     return this.getPermissionsOfManagerWithMeta(managerId);
+  };
+
+  getRolesOfManager = async (managerId: number) => {
+    const rawPermissions = await this.ctx.prisma.managersToRole.findMany({
+      where: {
+        managerId,
+      },
+      select: {
+        roleId: true,
+      },
+    });
+
+    return rawPermissions.map(el => el.roleId);
+  };
+
+  getRoles = async () => {
+    if (!this.managerId) {
+      log.error('getPermissions Current manager is unknown');
+      throw new Error('getPermissions Current manager is unknown');
+    }
+
+    return this.getRolesOfManager(this.managerId);
+  };
+
+  changePassword = async ({
+    password,
+  }: MutationChangePasswordArgs) => {
+    const managerId = this.getManagerId();
+    if (!managerId) {
+      throw new Error('No managers found.');
+    }
+
+    return this.ctx.service('managers').changePasswordByManagerId({password, managerId});
+  };
+
+  getManagerById = async (managerId: number) => {
+    log.info('getManagerById');
+
+    if (!managerId) {
+      return null;
+    }
+
+    if (!managerCache.has(managerId)) {
+      const manager = await this.ctx.service('managers').getRequired(managerId);
+
+      managerCache.set(managerId, manager);
+    }
+
+    return managerCache.get(managerId) as Manager;
+  };
+
+  getManager = async () => {
+    log.info('getManager');
+    const managerId = await this.getManagerId();
+
+    if (!managerId) {
+      // log.error('getManager Current manager is unknown');
+      // throw new Error('getManager Current manager is unknown');
+      return null;
+    }
+
+    return this.getManagerById(managerId);
   };
 
   getAllowedTenantIdsOfManager = async (managerId: number): Promise<number[]> => {
@@ -256,68 +332,6 @@ class BaseProfileService {
     const allowed = await this.getAllowedTenantIds();
 
     return allowed[0];
-  };
-
-  getRolesOfManager = async(managerId: number) => {
-    const rawPermissions = await this.ctx.prisma.managersToRole.findMany({
-      where: {
-        managerId,
-      },
-      select: {
-        roleId: true,
-      },
-    });
-
-    return rawPermissions.map(el => el.roleId);
-  };
-
-  getRoles = async () => {
-    if (!this.managerId) {
-      log.error('getPermissions Current manager is unknown');
-      throw new Error('getPermissions Current manager is unknown');
-    }
-
-    return this.getRolesOfManager(this.managerId);
-  };
-
-  changePassword = async({
-    password,
-  }: MutationChangePasswordArgs) => {
-    const managerId = this.getManagerId();
-    if (!managerId) {
-      throw new Error('No managers found.');
-    }
-
-    return this.ctx.service('managers').changePasswordByManagerId({password, managerId});
-  };
-
-  getManagerById = async (managerId: number) => {
-    log.info('getManagerById');
-
-    if (!managerId) {
-      return null;
-    }
-
-    if (!managerCache.has(managerId)) {
-      const manager = await this.ctx.service('managers').getRequired(managerId);
-
-      managerCache.set(managerId, manager);
-    }
-
-    return managerCache.get(managerId) as Manager;
-  };
-
-  getManager = async () => {
-    log.info('getManager');
-    const managerId = await this.getManagerId();
-
-    if (!managerId) {
-      // log.error('getManager Current manager is unknown');
-      // throw new Error('getManager Current manager is unknown');
-      return null;
-    }
-
-    return this.getManagerById(managerId);
   };
 }
 

@@ -150,6 +150,7 @@ const getAdmServer = () => new ApolloServer({
         userId: null,
         managerId: (req.user as any).id,
         managerLogin: (req.user as any).login,
+        unitName: null,
         ip: req.headers['x-forwarded-for'] as string ||
           req.socket.remoteAddress as string ||
           null,

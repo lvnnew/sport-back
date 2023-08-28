@@ -57,7 +57,6 @@ export class AdditionalAuditLogsService extends AuditLogsService implements Addi
       actionData: JSON.stringify(actionData),
       managerId: this.ctx.service('profile').getManagerId(),
       managerLogin: this.ctx.service('profile').getManagerLogin(),
-      unitName: this.ctx.service('profile').getUnitName(),
     };
 
     return this.ctx.prisma.auditLog.create({

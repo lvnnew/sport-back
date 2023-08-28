@@ -12,6 +12,7 @@ const getAppServer = () => new ApolloServer({
         userId: (req.user as any).id,
         managerId: null,
         managerLogin: null,
+        unitName: null,
         ip: req.headers['x-forwarded-for'] as string ||
           req.socket.remoteAddress as string ||
           null,
