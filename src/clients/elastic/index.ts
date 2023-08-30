@@ -13,6 +13,7 @@ import {
   SearchResponse,
   SearchTotalHits,
   SortOrder,
+  WriteResponseBase,
 } from '@elastic/elasticsearch/lib/api/types';
 import {BulkStats} from '@elastic/elasticsearch/lib/helpers';
 import Entity from '../../types/Entity';
@@ -40,6 +41,8 @@ export interface ElasticClient {
   createManyPutter: (index: ElasticIndexes) => (
     dataset: Array<Record<string, any> & {id: string | number | bigint}>,
   ) => Promise<BulkStats | undefined>;
+  createPutter: (index: ElasticIndexes) =>
+    (id: string, data: Record<string, any>) => Promise<WriteResponseBase>
   deleteById: (index: ElasticIndexes, id: ID | ID[]) => Promise<BulkResponse | null>;
 }
 
@@ -402,6 +405,18 @@ export const createElasticManyPutter = (client: Client, index: ElasticIndexes) =
   });
 };
 
+export const createElasticPutterByClient = (client: Client, index: Entity) =>
+  async (id: string, data: Record<string, any>) =>
+    client.index({
+      body: {
+        ...data,
+        // '@timestamp': new Date(),
+      },
+      id,
+      index: await getFullIndexName(index),
+      refresh: 'wait_for',
+    });
+
 export const getElastic = async () => {
   if (!elasticClient) {
     const {
@@ -477,6 +492,7 @@ export const getElastic = async () => {
           createSearcher: (index: ElasticIndexes) => createElasticSearcher(client, index),
           createCounter: (index: ElasticIndexes) => createElasticCounter(client, index),
           createManyPutter: (index: ElasticIndexes) => createElasticManyPutter(client, index),
+          createPutter: (index: ElasticIndexes) => createElasticPutterByClient(client, index),
         };
       }
     } else {
