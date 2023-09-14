@@ -12,6 +12,9 @@
     "node": ">=10"
   },
   "scripts": {
+    "compose:start": "docker compose -f compose/docker-compose.yml -p mtbase up starter",
+    "compose:stop": "docker compose -f compose/docker-compose.yml -p mtbase stop",
+    "compose:delete": "docker compose -f compose/docker-compose.yml -p mtbase down --volumes",
     "serve": "serve public",
     "build": "(rm -rf dist || true) && tsc",
     "start": "runlify start env=prod node --unhandled-rejections=strict dist/index.js",
