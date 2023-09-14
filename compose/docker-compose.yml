@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+# postgres
+  postgres:
+    image: "postgres"
+    ports:
+      - "5432:5432/tcp"
+    expose:
+      - "5432/tcp"
+    command: postgres -c 'max_connections=500'
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+# minio
+  minio:
+    image: "minio/minio"
+    ports:
+      - "9000:9000/tcp"
+      - "9001:9001/tcp"
+    volumes:
+      - minio-data:/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password
+    command: server --console-address ":9001" /data
+    restart: unless-stopped
+  mailhog:
+    image: "mailhog/mailhog"
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    restart: unless-stopped
+# launching all containers
+  starter:
+    image: alpine
+    entrypoint: /bin/sh -c 'echo All containers have been successfully launched! Yuuhu! Time to have fun dancing cha-cha-cha!'
+    pull_policy: always
+    depends_on:
+      - minio
+      - postgres
+      - mailhog
+# local data storage
+volumes:
+  postgres-data:
+  minio-data:
