@@ -282,5 +282,29 @@ describe('toPrismaWhere', () => {
       ],
     });
   });
+
+  it('converts filter with defined true condition', () => {
+    expect(
+      toPrismaWhere({str_defined: true}),
+    ).toEqual({
+      AND: [
+        {
+          str: {not: null},
+        },
+      ],
+    });
+  });
+
+  it('converts filter with defined false condition', () => {
+    expect(
+      toPrismaWhere({str_defined: false}),
+    ).toEqual({
+      AND: [
+        {
+          str: null,
+        },
+      ],
+    });
+  });
 });
 

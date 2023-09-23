@@ -14,6 +14,7 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
     '_lt',
     '_gt',
     '_in',
+    '_defined',
   ];
 
   const initialPairs = R.toPairs<string>(filter as Record<string, string>);
@@ -68,6 +69,14 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
             return ['OR', [{[clearedKey]: {in: valuesWithoutNull}}, {[clearedKey]: null}]];
           } else {
             return [clearedKey, {in: value}];
+          }
+        } else if (key.includes('_defined')) {
+          const clearedKey = key.replaceAll(/(_defined)$/gu, '');
+
+          if (value) {
+            return [clearedKey, {not: null}];
+          } else {
+            return [clearedKey, null];
           }
         }
 
