@@ -19,6 +19,7 @@ export class AdditionalStatsService extends StatsService {
 
     R.toPairs(stats)
       .filter(([key]) => !['id', 'updated', 'search'].includes(key))
+      .filter(([, velue]) => typeof velue === 'number')
       .forEach(([key, value]) => {
         gauge.set({label: key}, value || 0);
       });
