@@ -2,6 +2,7 @@
  "back": {
   "limits": {
    "cpu": "0.15",
+   "maxOldSpaceSize": 173,
    "memory": "192Mi"
   },
   "materialUiIcon": "Brightness1Outlined",
@@ -11,6 +12,7 @@
   "replicas": 1,
   "requests": {
    "cpu": "0.15",
+   "maxOldSpaceSize": 173,
    "memory": "192Mi"
   },
   "title": {
