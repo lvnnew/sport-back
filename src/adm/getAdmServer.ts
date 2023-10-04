@@ -109,8 +109,8 @@ const metricsPlugin: ApolloServerPlugin = {
       // log.info('operation');
       // log.info(JSON.stringify(operation, null, 1));
 
-      log.info('operationName');
-      log.info(JSON.stringify(operationName, null, 1));
+      // log.info('operationName');
+      // log.info(JSON.stringify(operationName, null, 1));
 
       // log.info('resolutionContext');
       // log.info(requestContext);
