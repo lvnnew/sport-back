@@ -7528,7 +7528,7 @@
   },
   {
    "command": "runlify start env=stage yarn dev",
-   "name": "dev:stage",
+   "name": "dev:dev",
    "needFor": "Запуска преокта в режиме разработки с использованием stage окружения",
    "projectCategory": "back"
   },
