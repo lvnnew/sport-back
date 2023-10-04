@@ -93,16 +93,40 @@ spec:
           # readOnlyRootFilesystem: true
           runAsUser: 1000
         env:
+        - name: NODE_ENV
+          value: production
         - name: RANDOM
           value: {{ $.Values.random | quote }}
-        - name: APP_NAME
-          value: {{ $.Values.app.name | quote }}
-        - name: APP_ENVIRONMENT
-          value: {{ $.Values.app.environment | quote }}
         - name: ENV
           value: '{{ $.Values.global.env }}'
         - name: APOLLO_KEY
           value: {{ $.Values.apollo.key | quote }}
+        - name: ADM_JWT_SECRET
+          value: {{ $.Values.adm.jwt.secret | quote }}
+        - name: ADMIN_RECAPTCHA_REQUIRED_SCORE
+          value: {{ $.Values.admin.recaptcha.requiredScore | quote }}
+        - name: ADMIN_RECAPTCHA_SECRET_KEY
+          value: {{ $.Values.admin.recaptcha.secretKey | quote }}
+        - name: ADMIN_UI_URL
+          value: {{ $.Values.admin.ui.url | quote }}
+        - name: APP_ENVIRONMENT
+          value: {{ $.Values.app.environment | quote }}
+        - name: APP_JWT_SECRET
+          value: {{ $.Values.app.jwt.secret | quote }}
+        - name: APP_NAME
+          value: {{ $.Values.app.name | quote }}
+        - name: APP_TITLE
+          value: {{ $.Values.app.title | quote }}
+        - name: APP_UI_URL
+          value: {{ $.Values.app.ui.url | quote }}
+        - name: AUTHORIZATION_BACKEND_CHECKS_ENABLED
+          value: {{ $.Values.authorization.backendChecks.enabled | quote }}
+        - name: BOOTSTRAP_ENABLED
+          value: {{ $.Values.bootstrap.enabled | quote }}
+        - name: CUSTOMER_RECAPTCHA_REQUIRED_SCORE
+          value: {{ $.Values.customer.recaptcha.requiredScore | quote }}
+        - name: CUSTOMER_RECAPTCHA_SECRET_KEY
+          value: {{ $.Values.customer.recaptcha.secretKey | quote }}
         - name: DATABASE_MAIN_MIGRATION_URI
           value: {{ $.Values.database.main.migration.uri | quote }}
         - name: DATABASE_MAIN_READ_ONLY_ENABLED
@@ -111,11 +135,50 @@ spec:
           value: {{ $.Values.database.main.readOnly.uri | quote }}
         - name: DATABASE_MAIN_WRITE_URI
           value: {{ $.Values.database.main.write.uri | quote }}
+        - name: ES_CLOUD_ID
+          value: {{ $.Values.es.cloudId | quote }}
+        - name: ES_ENABLED
+          value: {{ $.Values.es.enabled | quote }}
+        - name: ES_NODE
+          value: {{ $.Values.es.node | quote }}
+        - name: ES_PASSWORD
+          value: {{ $.Values.es.password | quote }}
+        - name: ES_TLS_REJECT_UNAUTHORIZED
+          value: {{ $.Values.es.tls.rejectUnauthorized | quote }}
+        - name: ES_USERNAME
+          value: {{ $.Values.es.username | quote }}
+        - name: GRAPHQL_PLAYGROUND_ENABLED
+          value: {{ $.Values.graphql.playground.enabled | quote }}
+        - name: KAFKA_AUTH_ENABLED
+          value: {{ $.Values.kafka.auth.enabled | quote }}
+        - name: KAFKA_BROKERS
+          value: {{ $.Values.kafka.brokers | quote }}
+        - name: KAFKA_ENABLED
+          value: {{ $.Values.kafka.enabled | quote }}
+        - name: KAFKA_PASSWORD
+          value: {{ $.Values.kafka.password | quote }}
+        - name: KAFKA_QUEUE_ACKS
+          value: {{ $.Values.kafka.queue.acks | quote }}
+        - name: KAFKA_QUEUE_DEFAULT_RETRY_TIME
+          value: {{ $.Values.kafka.queue.defaultRetryTime | quote }}
+        - name: KAFKA_QUEUE_MAX_ATTEMPTS_SIZE
+          value: {{ $.Values.kafka.queue.maxAttemptsSize | quote }}
+        - name: KAFKA_QUEUE_STACK_SIZE
+          value: {{ $.Values.kafka.queue.stackSize | quote }}
+        - name: KAFKA_QUEUE_SUPPORTED_VERSION
+          value: {{ $.Values.kafka.queue.supportedVersion | quote }}
+        - name: KAFKA_QUEUE_WAITING_INTERRUPT_TIME
+          value: {{ $.Values.kafka.queue.waitingInterruptTime | quote }}
+        - name: KAFKA_SSL_ENABLED
+          value: {{ $.Values.kafka.ssl.enabled | quote }}
+        - name: KAFKA_SSL_REJECT_UNAUTHORIZED
+          value: {{ $.Values.kafka.ssl.rejectUnauthorized | quote }}
+        - name: KAFKA_USERNAME
+          value: {{ $.Values.kafka.username | quote }}
         - name: LOGS_FORMAT
           value: {{ $.Values.logs.format | quote }}
         - name: LOKI_URL
           value: {{ $.Values.loki.url | quote }}
-
         - name: S3_ACCESS_KEY_ID
           value: {{ $.Values.s3.accessKeyId | quote }}
         - name: S3_BUCKET_EMAIL_FILES
@@ -124,12 +187,26 @@ spec:
           value: {{ $.Values.s3.bucket.tmpFilesToDownload | quote }}
         - name: S3_ENDPOINT
           value: {{ $.Values.s3.endpoint | quote }}
-        - name: S3_PUBLIC_ENDPOINT
-          value: {{ $.Values.s3.publicEndpoint | quote }}
         - name: S3_REGION
           value: {{ $.Values.s3.region | quote }}
         - name: S3_SECRET_ACCESS_KEY
           value: {{ $.Values.s3.secretAccessKey | quote }}
+        - name: SENTRY_DSN
+          value: {{ $.Values.sentry.dsn | quote }}
+        - name: SMTP_FROM
+          value: {{ $.Values.smtp.from | quote }}
+        - name: SMTP_HOST
+          value: {{ $.Values.smtp.host | quote }}
+        - name: SMTP_PASS
+          value: {{ $.Values.smtp.pass | quote }}
+        - name: SMTP_PORT
+          value: {{ $.Values.smtp.port | quote }}
+        - name: SMTP_REJECT_UNAUTHORIZED
+          value: {{ $.Values.smtp.rejectUnauthorized | quote }}
+        - name: SMTP_SECURE
+          value: {{ $.Values.smtp.secure | quote }}
+        - name: SMTP_USER
+          value: {{ $.Values.smtp.user | quote }}
 
         - name: APP_URI
           value: {{ $.Values.app.prefix }}.{{ $.Values.ingress.host }}

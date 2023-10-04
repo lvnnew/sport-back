@@ -41,6 +41,8 @@ export const getEmailSender = async () => {
       smtpUser,
       smtpPass,
       smtpFrom,
+      smtpSecure,
+      smtpRejectUnauthorized,
     } = await getConfig();
 
     if (!smtpHost || !smtpPort || !smtpFrom) {

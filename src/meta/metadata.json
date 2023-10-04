@@ -8323,7 +8323,7 @@
    "type": "string"
   },
   {
-   "default": "",
+   "default": 465,
    "editable": true,
    "hidden": false,
    "name": "smtp.port",
@@ -8337,7 +8337,7 @@
    "type": "int"
   },
   {
-   "default": "",
+   "default": false,
    "editable": true,
    "hidden": false,
    "name": "smtp.rejectUnauthorized",
@@ -8351,7 +8351,7 @@
    "type": "bool"
   },
   {
-   "default": "",
+   "default": true,
    "editable": true,
    "hidden": false,
    "name": "smtp.secure",
