@@ -49,5 +49,7 @@
   "smtp.host": "",
   "smtp.pass": "",
   "smtp.port": "",
+  "smtp.rejectUnauthorized": "",
+  "smtp.secure": "",
   "smtp.user": ""
 }

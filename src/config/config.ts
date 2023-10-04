@@ -55,6 +55,8 @@ export interface Config {
   smtpHost?: string;
   smtpPass?: string;
   smtpPort?: number;
+  smtpRejectUnauthorized?: boolean;
+  smtpSecure?: boolean;
   smtpUser?: string;
 }
 
@@ -405,6 +407,20 @@ export const envVarsConfig: EnvVarConfig[] = [{
   id: 'smtp.port',
   type: 'int',
   title: 'Порт почтового сервера',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'smtp.rejectUnauthorized',
+  type: 'bool',
+  title: 'Реджектить ли невалидные сертификаты',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'smtp.secure',
+  type: 'bool',
+  title: 'Использовать ли tls',
   required: false,
   hidden: false,
   editable: true,

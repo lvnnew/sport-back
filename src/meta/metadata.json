@@ -7528,7 +7528,7 @@
   },
   {
    "command": "runlify start env=stage yarn dev",
-   "name": "dev:dev",
+   "name": "dev:stage",
    "needFor": "Запуска преокта в режиме разработки с использованием stage окружения",
    "projectCategory": "back"
   },
@@ -8335,6 +8335,34 @@
     "telegramBot"
    ],
    "type": "int"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "smtp.rejectUnauthorized",
+   "needFor": "Реджектить ли невалидные сертификаты",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "smtp.secure",
+   "needFor": "Использовать ли tls",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
   },
   {
    "default": "",

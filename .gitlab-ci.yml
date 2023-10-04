@@ -257,6 +257,8 @@ deploy-prod-back-previous:
     SMTP_HOST: ${DEV_SMTP_HOST}
     SMTP_PASS: ${DEV_SMTP_PASS}
     SMTP_PORT: ${DEV_SMTP_PORT}
+    SMTP_REJECT_UNAUTHORIZED: ${DEV_SMTP_REJECT_UNAUTHORIZED}
+    SMTP_SECURE: ${DEV_SMTP_SECURE}
     SMTP_USER: ${DEV_SMTP_USER}
 
 .deploy-prod:
@@ -327,6 +329,8 @@ deploy-prod-back-previous:
     SMTP_HOST: ${PROD_SMTP_HOST}
     SMTP_PASS: ${PROD_SMTP_PASS}
     SMTP_PORT: ${PROD_SMTP_PORT}
+    SMTP_REJECT_UNAUTHORIZED: ${PROD_SMTP_REJECT_UNAUTHORIZED}
+    SMTP_SECURE: ${PROD_SMTP_SECURE}
     SMTP_USER: ${PROD_SMTP_USER}
 
 .deploy-back:
@@ -435,4 +439,6 @@ deploy-prod-back-previous:
       --set "smtp.host=${SMTP_HOST}"
       --set "smtp.pass=${SMTP_PASS}"
       --set "smtp.port=${SMTP_PORT}"
+      --set "smtp.rejectUnauthorized=${SMTP_REJECT_UNAUTHORIZED}"
+      --set "smtp.secure=${SMTP_SECURE}"
       --set "smtp.user=${SMTP_USER}"

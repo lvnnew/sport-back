@@ -42,6 +42,7 @@ export const getEmailSender = async () => {
       smtpPass,
       smtpFrom,
     } = await getConfig();
+
     if (!smtpHost || !smtpPort || !smtpFrom) {
       throw new Error('smtp creads is not provided');
     }
@@ -49,14 +50,14 @@ export const getEmailSender = async () => {
     const transporter = nodemailer.createTransport({
       host: smtpHost,
       port: smtpPort,
-      secure: false,
+      secure: smtpSecure ?? false,
       auth: smtpUser && smtpPass ? {
         user: smtpUser,
         pass: smtpPass,
       } : undefined,
       tls: {
         // do not fail on invalid certs
-        rejectUnauthorized: false,
+        rejectUnauthorized: smtpRejectUnauthorized ?? false,
       },
     });
 
