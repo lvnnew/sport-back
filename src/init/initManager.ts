@@ -2,6 +2,7 @@ import {Context} from '../adm/services/types';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';
 import Role from '../types/Role';
+import ManagerLoginType from '../types/ManagerLoginType';
 
 const initManager = async (
   ctx: Context,
@@ -45,9 +46,9 @@ const initManager = async (
       login: login ?? email,
       passwordHash: hashedPassword,
       emailVerified: true,
-      initialPasswordChanged: true,
       locked: false,
       managerId: manager.id,
+      managerLoginTypeId: ManagerLoginType.Internal,
     },
   );
 

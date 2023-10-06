@@ -2,6 +2,7 @@ import {ManagersService} from './ManagersService';
 import {MutationNewManagerArgs, MutationDeactivateManagersArgs, MutationChangePasswordByManagerIdArgs} from '../../../generated/graphql';
 import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../../../constants';
+import ManagerLoginType from '../../../types/ManagerLoginType';
 
 export class AdditionalManagersService extends ManagersService {
   async newManager(params: MutationNewManagerArgs) {
@@ -22,9 +23,9 @@ export class AdditionalManagersService extends ManagersService {
         login: params.email,
         passwordHash: hashedPassword,
         emailVerified: true,
-        initialPasswordChanged: true,
         locked: false,
         managerId: manager.id,
+        managerLoginTypeId: ManagerLoginType.Internal,
       },
     );
 

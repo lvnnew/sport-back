@@ -115,7 +115,7 @@ passport.use(
           return done(null, false, {message: 'bad cardNumber'});
         }
 
-        const passwordMatch = await bcrypt.compare(password, login.passwordHash);
+        const passwordMatch = await bcrypt.compare(password, login.passwordHash ?? '');
         if (passwordMatch !== true) {
           log.info('passwords do not match');
 

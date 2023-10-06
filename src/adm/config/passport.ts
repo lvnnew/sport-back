@@ -6,6 +6,7 @@ import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {createContext} from '../services/context';
 import {getConfig} from '../../config';
+import ManagerLoginType from '../../types/ManagerLoginType';
 
 passport.use(
   'admRegister',
@@ -33,9 +34,9 @@ passport.use(
           login: email,
           passwordHash: hashedPassword,
           emailVerified: false,
-          initialPasswordChanged: true,
           locked: true,
           managerId: manager.id,
+          managerLoginTypeId: ManagerLoginType.Internal,
         });
         log.info('user created');
 
@@ -70,7 +71,7 @@ passport.use(
           return done(null, false, {message: 'bad login'});
         }
 
-        const passwordMatch = await bcrypt.compare(password, login.passwordHash);
+        const passwordMatch = await bcrypt.compare(password, login.passwordHash ?? '');
         if (passwordMatch !== true) {
           log.info('passwords do not match');
 
