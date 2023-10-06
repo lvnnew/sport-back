@@ -16,6 +16,7 @@ import {AdditionalMailingCampaignsService} from './MailingCampaignsService/Addit
 import {AdditionalMailingMessageStatusesService} from './MailingMessageStatusesService/AdditionalMailingMessageStatusesService';
 import {AdditionalMailingMessagesService} from './MailingMessagesService/AdditionalMailingMessagesService';
 import {AdditionalMailingTypesService} from './MailingTypesService/AdditionalMailingTypesService';
+import {AdditionalManagerLoginTypesService} from './ManagerLoginTypesService/AdditionalManagerLoginTypesService';
 import {AdditionalManagerLoginsService} from './ManagerLoginsService/AdditionalManagerLoginsService';
 import {AdditionalManagersService} from './ManagersService/AdditionalManagersService';
 import {AdditionalManagersToPermissionsService} from './ManagersToPermissionsService/AdditionalManagersToPermissionsService';
@@ -58,6 +59,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
   mailingMessageStatuses: (ctx) => new AdditionalMailingMessageStatusesService(ctx),
   mailingMessages: (ctx) => new AdditionalMailingMessagesService(ctx),
   mailingTypes: (ctx) => new AdditionalMailingTypesService(ctx),
+  managerLoginTypes: (ctx) => new AdditionalManagerLoginTypesService(ctx),
   managerLogins: (ctx) => new AdditionalManagerLoginsService(ctx),
   managers: (ctx) => new AdditionalManagersService(ctx),
   managersToPermissions: (ctx) => new AdditionalManagersToPermissionsService(ctx),

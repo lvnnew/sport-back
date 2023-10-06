@@ -78,6 +78,10 @@ const initEntities = async (ctx: Context) => {
       title: 'Типы рассылок',
     },
     {
+      id: Entity.ManagerLoginType,
+      title: 'Manager login types',
+    },
+    {
       id: Entity.ManagerLogin,
       title: 'Логины менеджеров',
     },

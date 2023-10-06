@@ -19,6 +19,7 @@ enum Entity {
   MailingMessageStatus = 'mailingMessageStatus',
   MailingMessage = 'mailingMessage',
   MailingType = 'mailingType',
+  ManagerLoginType = 'managerLoginType',
   ManagerLogin = 'managerLogin',
   Manager = 'manager',
   ManagersToPermission = 'managersToPermission',

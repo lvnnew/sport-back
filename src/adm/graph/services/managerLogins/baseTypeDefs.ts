@@ -6,10 +6,10 @@ import {gql} from 'apollo-server';
 export default gql`
   type ManagerLogin {
     id: Int!
+    managerLoginTypeId: String!
     login: String!
-    passwordHash: String!
-    emailVerified: Boolean!
-    initialPasswordChanged: Boolean!
+    passwordHash: String
+    emailVerified: Boolean
     locked: Boolean!
     managerId: Int!
   }
@@ -18,12 +18,15 @@ export default gql`
     q: String
     ids: [Int]
     id: Int
+    managerLoginTypeId: String
+    managerLoginTypeId_in: [String]
     login: String
     login_in: [String]
     passwordHash: String
     passwordHash_in: [String]
+    passwordHash_defined: Boolean
     emailVerified: Boolean
-    initialPasswordChanged: Boolean
+    emailVerified_defined: Boolean
     locked: Boolean
     managerId: Int
     managerId_in: [Int]
@@ -40,8 +43,8 @@ export default gql`
   }
 
   type Mutation {
-    createManagerLogin(login: String!, passwordHash: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
-    updateManagerLogin(id: Int!, login: String!, passwordHash: String!, emailVerified: Boolean!, initialPasswordChanged: Boolean!, locked: Boolean!, managerId: Int!): ManagerLogin
+    createManagerLogin(managerLoginTypeId: String!, login: String!, passwordHash: String, emailVerified: Boolean, locked: Boolean!, managerId: Int!): ManagerLogin
+    updateManagerLogin(id: Int!, managerLoginTypeId: String!, login: String!, passwordHash: String, emailVerified: Boolean, locked: Boolean!, managerId: Int!): ManagerLogin
     removeManagerLogin(id: Int!): ManagerLogin
   }
 `;

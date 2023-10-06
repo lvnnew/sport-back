@@ -23,6 +23,7 @@ const infoFilesForService = {
   mailingMessageStatuses: 'docs/catalogs/mailingMessageStatuses.md',
   mailingMessages: 'docs/catalogs/mailingMessages.md',
   mailingTypes: 'docs/catalogs/mailingTypes.md',
+  managerLoginTypes: 'docs/catalogs/managerLoginTypes.md',
   managerLogins: 'docs/catalogs/managerLogins.md',
   managers: 'docs/catalogs/managers.md',
   managersToPermissions: 'docs/catalogs/managersToPermissions.md',

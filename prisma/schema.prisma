@@ -28,6 +28,14 @@ model Language {
 }
 
 
+model ManagerLoginType {
+	id	String	@id
+	search	String?
+	title	String?
+	managerLoginManagerLoginTypes	ManagerLogin[]	@relation("From-ManagerLogin.managerLoginType")
+}
+
+
 model Stat {
 	id	String	@id
 	search	String?
@@ -112,14 +120,15 @@ model ConfigurationVariable {
 model ManagerLogin {
 	id	Int	@default(autoincrement())	@id
 	search	String?
+	managerLoginTypeId	String
+	managerLoginType	ManagerLoginType	@relation("From-ManagerLogin.managerLoginType", fields: [managerLoginTypeId], references: [id])
 	login	String
-	passwordHash	String
-	emailVerified	Boolean
-	initialPasswordChanged	Boolean
+	passwordHash	String?
+	emailVerified	Boolean?
 	locked	Boolean
 	managerId	Int
 	manager	Manager	@relation("From-ManagerLogin.manager", fields: [managerId], references: [id])
-	@@unique([login])
+	@@unique([managerLoginTypeId, login])
 }
 
 

@@ -20,6 +20,7 @@ export default gql`
     mailingMessageStatuses
     mailingMessages
     mailingTypes
+    managerLoginTypes
     managerLogins
     managers
     managersToPermissions

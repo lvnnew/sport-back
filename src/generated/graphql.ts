@@ -262,6 +262,9 @@ export type Query = {
   MailingType?: Maybe<MailingType>;
   allMailingTypes?: Maybe<Array<Maybe<MailingType>>>;
   _allMailingTypesMeta?: Maybe<ListMetadata>;
+  ManagerLoginType?: Maybe<ManagerLoginType>;
+  allManagerLoginTypes?: Maybe<Array<Maybe<ManagerLoginType>>>;
+  _allManagerLoginTypesMeta?: Maybe<ListMetadata>;
   ManagerLogin?: Maybe<ManagerLogin>;
   allManagerLogins?: Maybe<Array<Maybe<ManagerLogin>>>;
   _allManagerLoginsMeta?: Maybe<ListMetadata>;
@@ -707,6 +710,27 @@ export type Query_AllMailingTypesMetaArgs = {
 };
 
 
+export type QueryManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllManagerLoginTypesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<ManagerLoginTypeFilter>;
+};
+
+
+export type Query_AllManagerLoginTypesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<ManagerLoginTypeFilter>;
+};
+
+
 export type QueryManagerLoginArgs = {
   id: Scalars['Int'];
 };
@@ -1109,6 +1133,9 @@ export type Mutation = {
   createMailingType?: Maybe<MailingType>;
   updateMailingType?: Maybe<MailingType>;
   removeMailingType?: Maybe<MailingType>;
+  createManagerLoginType?: Maybe<ManagerLoginType>;
+  updateManagerLoginType?: Maybe<ManagerLoginType>;
+  removeManagerLoginType?: Maybe<ManagerLoginType>;
   createManagerLogin?: Maybe<ManagerLogin>;
   updateManagerLogin?: Maybe<ManagerLogin>;
   removeManagerLogin?: Maybe<ManagerLogin>;
@@ -1600,11 +1627,28 @@ export type MutationRemoveMailingTypeArgs = {
 };
 
 
+export type MutationCreateManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationCreateManagerLoginArgs = {
+  managerLoginTypeId: Scalars['String'];
   login: Scalars['String'];
-  passwordHash: Scalars['String'];
-  emailVerified: Scalars['Boolean'];
-  initialPasswordChanged: Scalars['Boolean'];
+  passwordHash?: InputMaybe<Scalars['String']>;
+  emailVerified?: InputMaybe<Scalars['Boolean']>;
   locked: Scalars['Boolean'];
   managerId: Scalars['Int'];
 };
@@ -1612,10 +1656,10 @@ export type MutationCreateManagerLoginArgs = {
 
 export type MutationUpdateManagerLoginArgs = {
   id: Scalars['Int'];
+  managerLoginTypeId: Scalars['String'];
   login: Scalars['String'];
-  passwordHash: Scalars['String'];
-  emailVerified: Scalars['Boolean'];
-  initialPasswordChanged: Scalars['Boolean'];
+  passwordHash?: InputMaybe<Scalars['String']>;
+  emailVerified?: InputMaybe<Scalars['Boolean']>;
   locked: Scalars['Boolean'];
   managerId: Scalars['Int'];
 };
@@ -2328,6 +2372,7 @@ export enum EntityType {
   MailingMessageStatuses = 'mailingMessageStatuses',
   MailingMessages = 'mailingMessages',
   MailingTypes = 'mailingTypes',
+  ManagerLoginTypes = 'managerLoginTypes',
   ManagerLogins = 'managerLogins',
   Managers = 'managers',
   ManagersToPermissions = 'managersToPermissions',
@@ -2529,13 +2574,28 @@ export type MailingTypeFilter = {
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
+export type ManagerLoginType = {
+  __typename?: 'ManagerLoginType';
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type ManagerLoginTypeFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type ManagerLogin = {
   __typename?: 'ManagerLogin';
   id: Scalars['Int'];
+  managerLoginTypeId: Scalars['String'];
   login: Scalars['String'];
-  passwordHash: Scalars['String'];
-  emailVerified: Scalars['Boolean'];
-  initialPasswordChanged: Scalars['Boolean'];
+  passwordHash?: Maybe<Scalars['String']>;
+  emailVerified?: Maybe<Scalars['Boolean']>;
   locked: Scalars['Boolean'];
   managerId: Scalars['Int'];
 };
@@ -2544,12 +2604,15 @@ export type ManagerLoginFilter = {
   q?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   id?: InputMaybe<Scalars['Int']>;
+  managerLoginTypeId?: InputMaybe<Scalars['String']>;
+  managerLoginTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   login?: InputMaybe<Scalars['String']>;
   login_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   passwordHash?: InputMaybe<Scalars['String']>;
   passwordHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  passwordHash_defined?: InputMaybe<Scalars['Boolean']>;
   emailVerified?: InputMaybe<Scalars['Boolean']>;
-  initialPasswordChanged?: InputMaybe<Scalars['Boolean']>;
+  emailVerified_defined?: InputMaybe<Scalars['Boolean']>;
   locked?: InputMaybe<Scalars['Boolean']>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
@@ -3097,6 +3160,8 @@ export type ResolversTypes = {
   MailingMessageFilter: MailingMessageFilter;
   MailingType: ResolverTypeWrapper<MailingType>;
   MailingTypeFilter: MailingTypeFilter;
+  ManagerLoginType: ResolverTypeWrapper<ManagerLoginType>;
+  ManagerLoginTypeFilter: ManagerLoginTypeFilter;
   ManagerLogin: ResolverTypeWrapper<ManagerLogin>;
   ManagerLoginFilter: ManagerLoginFilter;
   Manager: ResolverTypeWrapper<Manager>;
@@ -3241,6 +3306,8 @@ export type ResolversParentTypes = {
   MailingMessageFilter: MailingMessageFilter;
   MailingType: MailingType;
   MailingTypeFilter: MailingTypeFilter;
+  ManagerLoginType: ManagerLoginType;
+  ManagerLoginTypeFilter: ManagerLoginTypeFilter;
   ManagerLogin: ManagerLogin;
   ManagerLoginFilter: ManagerLoginFilter;
   Manager: Manager;
@@ -3592,6 +3659,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   MailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<QueryMailingTypeArgs, 'id'>>;
   allMailingTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingType']>>>, ParentType, ContextType, Partial<QueryAllMailingTypesArgs>>;
   _allMailingTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingTypesMetaArgs>>;
+  ManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<QueryManagerLoginTypeArgs, 'id'>>;
+  allManagerLoginTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLoginType']>>>, ParentType, ContextType, Partial<QueryAllManagerLoginTypesArgs>>;
+  _allManagerLoginTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagerLoginTypesMetaArgs>>;
   ManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<QueryManagerLoginArgs, 'id'>>;
   allManagerLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLogin']>>>, ParentType, ContextType, Partial<QueryAllManagerLoginsArgs>>;
   _allManagerLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagerLoginsMetaArgs>>;
@@ -3704,8 +3774,11 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationCreateMailingTypeArgs, 'id' | 'title'>>;
   updateMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationUpdateMailingTypeArgs, 'id' | 'title'>>;
   removeMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationRemoveMailingTypeArgs, 'id'>>;
-  createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'login' | 'passwordHash' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
-  updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'login' | 'passwordHash' | 'emailVerified' | 'initialPasswordChanged' | 'locked' | 'managerId'>>;
+  createManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginTypeArgs, 'id'>>;
+  updateManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginTypeArgs, 'id'>>;
+  removeManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginTypeArgs, 'id'>>;
+  createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'managerLoginTypeId' | 'login' | 'locked' | 'managerId'>>;
+  updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'managerLoginTypeId' | 'login' | 'locked' | 'managerId'>>;
   removeManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
   newManager?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationNewManagerArgs, 'firstName' | 'lastName' | 'email' | 'password'>>;
   deactivateManagers?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationDeactivateManagersArgs, 'managerIds'>>;
@@ -3937,12 +4010,18 @@ export type MailingTypeResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type ManagerLoginTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagerLoginType'] = ResolversParentTypes['ManagerLoginType']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ManagerLoginResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagerLogin'] = ResolversParentTypes['ManagerLogin']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  managerLoginTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  passwordHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  initialPasswordChanged?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  passwordHash?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  emailVerified?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   locked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   managerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -4176,6 +4255,7 @@ export type Resolvers<ContextType = any> = {
   QuantityPerStatus?: QuantityPerStatusResolvers<ContextType>;
   MailingMessage?: MailingMessageResolvers<ContextType>;
   MailingType?: MailingTypeResolvers<ContextType>;
+  ManagerLoginType?: ManagerLoginTypeResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;
   Manager?: ManagerResolvers<ContextType>;
   ManagersToPermission?: ManagersToPermissionResolvers<ContextType>;

@@ -21,6 +21,7 @@ import mailingCampaignsPermissionToGraphql from './services/mailingCampaigns/per
 import mailingMessageStatusesPermissionToGraphql from './services/mailingMessageStatuses/permissionsToGraphql';
 import mailingMessagesPermissionToGraphql from './services/mailingMessages/permissionsToGraphql';
 import mailingTypesPermissionToGraphql from './services/mailingTypes/permissionsToGraphql';
+import managerLoginTypesPermissionToGraphql from './services/managerLoginTypes/permissionsToGraphql';
 import managerLoginsPermissionToGraphql from './services/managerLogins/permissionsToGraphql';
 import managersPermissionToGraphql from './services/managers/permissionsToGraphql';
 import managersToPermissionsPermissionToGraphql from './services/managersToPermissions/permissionsToGraphql';
@@ -69,6 +70,7 @@ export const permissionsToGraphql: Partial<Record<keyof Services, Partial<Permis
   mailingMessageStatuses: mailingMessageStatusesPermissionToGraphql,
   mailingMessages: mailingMessagesPermissionToGraphql,
   mailingTypes: mailingTypesPermissionToGraphql,
+  managerLoginTypes: managerLoginTypesPermissionToGraphql,
   managerLogins: managerLoginsPermissionToGraphql,
   managers: managersPermissionToGraphql,
   managersToPermissions: managersToPermissionsPermissionToGraphql,

@@ -16,6 +16,7 @@ import {AdditionalMailingCampaignsService} from './MailingCampaignsService/Addit
 import {AdditionalMailingMessageStatusesService} from './MailingMessageStatusesService/AdditionalMailingMessageStatusesService';
 import {AdditionalMailingMessagesService} from './MailingMessagesService/AdditionalMailingMessagesService';
 import {AdditionalMailingTypesService} from './MailingTypesService/AdditionalMailingTypesService';
+import {AdditionalManagerLoginTypesService} from './ManagerLoginTypesService/AdditionalManagerLoginTypesService';
 import {AdditionalManagerLoginsService} from './ManagerLoginsService/AdditionalManagerLoginsService';
 import {AdditionalManagersService} from './ManagersService/AdditionalManagersService';
 import {AdditionalManagersToPermissionsService} from './ManagersToPermissionsService/AdditionalManagersToPermissionsService';
@@ -56,6 +57,7 @@ export interface BaseServices {
   mailingMessageStatuses: AdditionalMailingMessageStatusesService;
   mailingMessages: AdditionalMailingMessagesService;
   mailingTypes: AdditionalMailingTypesService;
+  managerLoginTypes: AdditionalManagerLoginTypesService;
   managerLogins: AdditionalManagerLoginsService;
   managers: AdditionalManagersService;
   managersToPermissions: AdditionalManagersToPermissionsService;
