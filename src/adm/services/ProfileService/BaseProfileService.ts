@@ -1,12 +1,16 @@
 import * as R from 'ramda';
-import LRUCache from 'lru-cache';
 import {
   Manager,
+  ManagerLogin,
   MutationChangePasswordArgs,
 } from '../../../generated/graphql';
 import {KeyValuePair} from 'ramda';
 import log from '../../../log';
 import {Context} from '../types';
+import AppError from '../../../AppError';
+import AppErrorCode from '../../../types/AppErrorCode';
+import ManagerLoginType from '../../../types/ManagerLoginType';
+import Cacheable from '../../../decorators/Cacheable';
 
 // export const BASE_MILES_TO_RECEIVE_FOR_FLIGHT = 1000;
 // export const BASE_MILES_TO_UPGRADE_CLASS = 1000;
@@ -38,15 +42,23 @@ export type UserData = {
   unitName: string | null,
 }
 
-const opt = {
-  max: 500,
-  ttl: 1000 * 60, // 1 min
-};
+interface GetOrCreateManagerWithLoginByOidcLoginParams {
+  login: string,
+  email: string,
+  emailVerified: boolean,
+  lastName: string,
+  firstName: string,
+}
 
-const managersTenantIdsCache = new LRUCache(opt);
-const usersTenantIdsCache = new LRUCache(opt);
-const managersPermissionsCache = new LRUCache(opt);
-const managerCache = new LRUCache(opt);
+// const opt = {
+//   max: 500,
+//   ttl: 1000 * 60, // 1 min
+// };
+
+// const managersTenantIdsCache = new LRUCache(opt);
+// const usersTenantIdsCache = new LRUCache(opt);
+// const managersPermissionsCache = new LRUCache(opt);
+// const managerCache = new LRUCache(opt);
 
 class BaseProfileService {
   protected userId: number | null = null;
@@ -168,19 +180,15 @@ class BaseProfileService {
     }));
   };
 
-  getPermissionsOfManager = async (managerId: number): Promise<string[]> => {
+  async getPermissionsOfManager (managerId: number): Promise<string[]> {
     if (!managerId) {
       return [];
     }
 
-    if (!managersPermissionsCache.has(managerId)) {
-      const permissions = await this.getPermissionsOfManagerWithMeta(managerId);
+    const permissions = await this.getPermissionsOfManagerWithMeta(managerId);
 
-      managersPermissionsCache.set(managerId, R.uniq(permissions.map(el => el.permissionId)));
-    }
-
-    return managersPermissionsCache.get(managerId) as string[];
-  };
+    return R.uniq(permissions.map(el => el.permissionId));
+  }
 
   getPermissions = async () => {
     if (!this.managerId) {
@@ -234,21 +242,16 @@ class BaseProfileService {
     return this.ctx.service('managers').changePasswordByManagerId({password, managerId});
   };
 
-  getManagerById = async (managerId: number) => {
+  @Cacheable()
+  async getManagerById (managerId: number) {
     log.info('getManagerById');
 
     if (!managerId) {
       return null;
     }
 
-    if (!managerCache.has(managerId)) {
-      const manager = await this.ctx.service('managers').getRequired(managerId);
-
-      managerCache.set(managerId, manager);
-    }
-
-    return managerCache.get(managerId) as Manager;
-  };
+    return this.ctx.service('managers').getRequired(managerId);
+  }
 
   getManager = async () => {
     log.info('getManager');
@@ -263,41 +266,35 @@ class BaseProfileService {
     return this.getManagerById(managerId);
   };
 
-  getAllowedTenantIdsOfManager = async (managerId: number): Promise<number[]> => {
+  @Cacheable()
+  async getAllowedTenantIdsOfManager (managerId: number): Promise<number[]> {
     if (!managerId) {
       return [];
     }
 
-    if (!managersTenantIdsCache.has(managerId)) {
-      let tenantIds: number[] = [];
-      const manager = await this.ctx.prisma.manager.findFirst({where: {id: managerId}});
-      if (manager && manager.tenantId) {
-        tenantIds = [manager.tenantId];
-      }
-
-      managersTenantIdsCache.set(managerId, tenantIds);
+    let tenantIds: number[] = [];
+    const manager = await this.ctx.prisma.manager.findFirst({where: {id: managerId}});
+    if (manager && manager.tenantId) {
+      tenantIds = [manager.tenantId];
     }
 
-    return managersTenantIdsCache.get(managerId) as number[];
-  };
+    return tenantIds;
+  }
 
-  getAllowedTenantIdsOfUser = async (userId: number): Promise<number[]> => {
+  @Cacheable()
+  async getAllowedTenantIdsOfUser(userId: number) {
     if (!userId) {
       return [];
     }
 
-    if (!usersTenantIdsCache.has(userId)) {
-      let tenantIds: number[] = [];
-      const user = await this.ctx.prisma.user.findFirst({where: {id: userId}});
-      if (user && user.tenantId) {
-        tenantIds = [user.tenantId];
-      }
-
-      usersTenantIdsCache.set(userId, tenantIds);
+    let tenantIds: number[] = [];
+    const user = await this.ctx.prisma.user.findFirst({where: {id: userId}});
+    if (user && user.tenantId) {
+      tenantIds = [user.tenantId];
     }
 
-    return usersTenantIdsCache.get(userId) as number[];
-  };
+    return tenantIds;
+  }
 
   getAllowedTenantIds = async () => {
     const managerId = this.getManagerId();
@@ -332,6 +329,70 @@ class BaseProfileService {
     const allowed = await this.getAllowedTenantIds();
 
     return allowed[0];
+  };
+
+  getOrCreateManagerWithLoginByOidcLogin = async (
+    {
+      login,
+      email,
+      emailVerified,
+      lastName,
+      firstName,
+    }: GetOrCreateManagerWithLoginByOidcLoginParams,
+  ): Promise<{manager: Manager, login: ManagerLogin}> => {
+    const managerLogin = await this.ctx.prisma.managerLogin.findFirst({
+      include: {
+        manager: true,
+      },
+      where: {
+        login,
+        managerLoginTypeId: ManagerLoginType.Oidc,
+      },
+    });
+
+    if (managerLogin) {
+      return {
+        manager: managerLogin.manager,
+        login: managerLogin,
+      };
+    } else {
+      let manager: Manager | null = null;
+
+      if (emailVerified) {
+        manager = await this.ctx.prisma.manager.findFirst({
+          where: {
+            email,
+          },
+        });
+
+        if (!manager) {
+          manager = await this.ctx.service('managers').create({
+            email,
+            lastName,
+            firstName,
+            active: true,
+            headOfUnit: false,
+          });
+        }
+      } else {
+        throw new AppError('Your email not verified. Login can not be created', AppErrorCode.EmailNotVerified, {email});
+      }
+
+      const createdLogin = await this.ctx.service('managerLogins').create({
+        login,
+        emailVerified,
+        managerId: manager.id,
+        managerLoginTypeId: ManagerLoginType.Oidc,
+      });
+
+      log.info('createdManager');
+      log.info(JSON.stringify(manager, null, 1));
+
+      return {
+        manager: manager as any,
+        login: createdLogin,
+      };
+    }
   };
 }
 

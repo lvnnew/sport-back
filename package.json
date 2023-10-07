@@ -91,6 +91,7 @@
     "juice": "^8.1.0",
     "jwks-rsa": "^2.1.5",
     "kafkajs": "^2.2.4",
+    "keycloak-connect": "^22.0.4",
     "knex": "^2.5.1",
     "knex-tiny-logger": "^2.1.0",
     "lru-cache": "^7.14.0",
