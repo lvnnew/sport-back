@@ -1,6 +1,7 @@
 import log from '../log';
 import express, {Express, RequestHandler, Request, Response, NextFunction} from 'express';
 import {initAdmPassport} from './config/passport';
+import admAuthRouter from './authRouter';
 import {graphqlUploadExpress} from 'graphql-upload';
 import expressPlayground from 'graphql-playground-middleware-express';
 import getAdmServer from './getAdmServer';
@@ -149,6 +150,10 @@ const initAdmEndpoints = async (
 
   if (oidcEnabled) {
     app.use('/adm', keycloak.middleware());
+  }
+
+  if (!oidcEnabled) {
+    app.use('/adm/rest', admAuthRouter);
   }
 
   const admServer = getAdmServer();
