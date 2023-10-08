@@ -42,6 +42,12 @@ export interface Config {
   kafkaSslEnabled: boolean;
   kafkaSslRejectUnauthorized?: boolean;
   kafkaUsername?: string;
+  keycloakAdmClientId?: string;
+  keycloakAdmRealm?: string;
+  keycloakAdmUrl?: string;
+  keycloakAppClientId?: string;
+  keycloakAppRealm?: string;
+  keycloakAppUrl?: string;
   logsFormat?: string;
   lokiUrl?: string;
   s3AccessKeyId: string;
@@ -316,6 +322,48 @@ export const envVarsConfig: EnvVarConfig[] = [{
   id: 'kafka.username',
   type: 'string',
   title: 'Username доступа в kafka',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.adm.clientId',
+  type: 'string',
+  title: 'ИДентификатор клиента keycloak для админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.adm.realm',
+  type: 'string',
+  title: 'Реалм keycloak для админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.adm.url',
+  type: 'string',
+  title: 'Хост keycloak для админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.app.clientId',
+  type: 'string',
+  title: 'ИДентификатор клиента keycloak для приложения пользователя',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.app.realm',
+  type: 'string',
+  title: 'Реалм keycloak для приложения пользователя',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.app.url',
+  type: 'string',
+  title: 'Хост keycloak для приложения пользователя',
   required: false,
   hidden: false,
   editable: true,

@@ -8298,6 +8298,90 @@
    "type": "string"
   },
   {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.adm.clientId",
+   "needFor": "ИДентификатор клиента keycloak для админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.adm.realm",
+   "needFor": "Реалм keycloak для админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.adm.url",
+   "needFor": "Хост keycloak для админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.app.clientId",
+   "needFor": "ИДентификатор клиента keycloak для приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.app.realm",
+   "needFor": "Реалм keycloak для приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.app.url",
+   "needFor": "Хост keycloak для приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
    "default": "plain",
    "editable": true,
    "hidden": false,

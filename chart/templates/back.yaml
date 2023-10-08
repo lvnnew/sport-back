@@ -169,6 +169,18 @@ spec:
           value: {{ $.Values.kafka.ssl.rejectUnauthorized | quote }}
         - name: KAFKA_USERNAME
           value: {{ $.Values.kafka.username | quote }}
+        - name: KEYCLOAK_ADM_CLIENT_ID
+          value: {{ $.Values.keycloak.adm.clientId | quote }}
+        - name: KEYCLOAK_ADM_REALM
+          value: {{ $.Values.keycloak.adm.realm | quote }}
+        - name: KEYCLOAK_ADM_URL
+          value: {{ $.Values.keycloak.adm.url | quote }}
+        - name: KEYCLOAK_APP_CLIENT_ID
+          value: {{ $.Values.keycloak.app.clientId | quote }}
+        - name: KEYCLOAK_APP_REALM
+          value: {{ $.Values.keycloak.app.realm | quote }}
+        - name: KEYCLOAK_APP_URL
+          value: {{ $.Values.keycloak.app.url | quote }}
         - name: LOGS_FORMAT
           value: {{ $.Values.logs.format | quote }}
         - name: LOKI_URL
