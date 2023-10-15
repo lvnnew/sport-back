@@ -37,8 +37,8 @@ const getAuthMiddleware = (
     log.info('authMiddleware. req keys');
     log.info(Object.keys(req));
 
-    // log.info('kauth');
-    // log.info(JSON.stringify((req as any).kauth, null, 1));
+    log.info('kauth');
+    log.info(JSON.stringify((req as any).kauth, null, 1));
 
     log.info(`authMiddleware. roles: ${(req as any).kauth.grant.access_token.content.realm_access.roles.join(', ')}`);
     log.info(`authMiddleware. user id (sub): ${(req as any).kauth.grant.access_token.content.sub}`);
@@ -126,7 +126,7 @@ const getAuthMiddleware = (
 ];
 
 const keycloak = new Keycloak({}, {
-  realm: 'cmng-dev',
+  realm: 'prj-dev-admin',
   'bearer-only': true,
   'auth-server-url': 'https://kk.stage01.making.ventures',
   'ssl-required': 'external',
@@ -134,7 +134,7 @@ const keycloak = new Keycloak({}, {
   'confidential-port': 443,
 });
 
-const oidcEnabled = false;
+const oidcEnabled = true;
 
 const initAdmEndpoints = async (
   app: Express,
@@ -150,9 +150,7 @@ const initAdmEndpoints = async (
 
   if (oidcEnabled) {
     app.use('/adm', keycloak.middleware());
-  }
-
-  if (!oidcEnabled) {
+  } else {
     app.use('/adm/rest', admAuthRouter);
   }
 

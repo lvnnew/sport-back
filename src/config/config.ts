@@ -42,14 +42,12 @@ export interface Config {
   kafkaSslEnabled: boolean;
   kafkaSslRejectUnauthorized?: boolean;
   kafkaUsername?: string;
-  keycloakAdmClientId?: string;
-  keycloakAdmRealm?: string;
-  keycloakAdmUrl?: string;
-  keycloakAppClientId?: string;
-  keycloakAppRealm?: string;
-  keycloakAppUrl?: string;
   logsFormat?: string;
   lokiUrl?: string;
+  oidcAdmRealm?: string;
+  oidcAdmUrl?: string;
+  oidcAppRealm?: string;
+  oidcAppUrl?: string;
   s3AccessKeyId: string;
   s3BucketEmailFiles: string;
   s3BucketTmpFilesToDownload: string;
@@ -326,48 +324,6 @@ export const envVarsConfig: EnvVarConfig[] = [{
   hidden: false,
   editable: true,
 }, {
-  id: 'keycloak.adm.clientId',
-  type: 'string',
-  title: 'ИДентификатор клиента keycloak для админки',
-  required: false,
-  hidden: false,
-  editable: true,
-}, {
-  id: 'keycloak.adm.realm',
-  type: 'string',
-  title: 'Реалм keycloak для админки',
-  required: false,
-  hidden: false,
-  editable: true,
-}, {
-  id: 'keycloak.adm.url',
-  type: 'string',
-  title: 'Хост keycloak для админки',
-  required: false,
-  hidden: false,
-  editable: true,
-}, {
-  id: 'keycloak.app.clientId',
-  type: 'string',
-  title: 'ИДентификатор клиента keycloak для приложения пользователя',
-  required: false,
-  hidden: false,
-  editable: true,
-}, {
-  id: 'keycloak.app.realm',
-  type: 'string',
-  title: 'Реалм keycloak для приложения пользователя',
-  required: false,
-  hidden: false,
-  editable: true,
-}, {
-  id: 'keycloak.app.url',
-  type: 'string',
-  title: 'Хост keycloak для приложения пользователя',
-  required: false,
-  hidden: false,
-  editable: true,
-}, {
   id: 'logs.format',
   type: 'string',
   title: 'Формат логов (plain | json)',
@@ -378,6 +334,34 @@ export const envVarsConfig: EnvVarConfig[] = [{
   id: 'loki.url',
   type: 'string',
   title: 'Урл для доступа в Loki. Используется для запроса бизнес-логов',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'oidc.adm.realm',
+  type: 'string',
+  title: 'Реалм oidc для админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'oidc.adm.url',
+  type: 'string',
+  title: 'Хост oidc для админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'oidc.app.realm',
+  type: 'string',
+  title: 'Реалм oidc для приложения пользователя',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'oidc.app.url',
+  type: 'string',
+  title: 'Хост oidc для приложения пользователя',
   required: false,
   hidden: false,
   editable: true,

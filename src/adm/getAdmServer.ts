@@ -144,20 +144,39 @@ const metricsPlugin: ApolloServerPlugin = {
 };
 
 const getAdmServer = () => new ApolloServer({
-  context: async ({req}) => ({
-    context: await createUsersAwareContext(
-      {
-        userId: null,
-        managerId: (req.user as any).id,
-        managerLogin: (req.user as any).login,
-        unitName: null,
-        ip: req.headers['x-forwarded-for'] as string ||
+  context: async ({req}) => {
+    // log.info('req keys');
+    // log.info(Object.keys(req));
+
+    // // log.info('kauth');
+    // // log.info(JSON.stringify((req as any).kauth, null, 1));
+
+    // log.info(`roles: ${(req as any).kauth.grant.access_token.content.realm_access.roles.join(', ')}`);
+    // log.info(`user id (sub): ${(req as any).kauth.grant.access_token.content.sub}`);
+    // log.info(`email_verified: ${(req as any).kauth.grant.access_token.content.email_verified}`);
+    // log.info(`preferred_username: ${(req as any).kauth.grant.access_token.content.preferred_username}`);
+    // log.info(`given_name: ${(req as any).kauth.grant.access_token.content.given_name}`);
+    // log.info(`family_name: ${(req as any).kauth.grant.access_token.content.family_name}`);
+
+    // grant.access_token.content.realm_access.roles
+
+    log.info(`iadm server id: ${(req.user as any)?.id}`);
+
+    return {
+      context: await createUsersAwareContext(
+        {
+          userId: null,
+          managerId: (req.user as any)?.id,
+          managerLogin: (req.user as any)?.login,
+          unitName: null,
+          ip: req.headers['x-forwarded-for'] as string ||
           req.socket.remoteAddress as string ||
           null,
-      },
-      defaultContainer,
-    ),
-  }),
+        },
+        defaultContainer,
+      ),
+    };
+  },
   introspection: true,
   plugins: [authPlugin, metricsPlugin],
   schema,

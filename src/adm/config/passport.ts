@@ -1,11 +1,12 @@
 import bcrypt from 'bcrypt';
 import passport from 'passport';
-import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
+// import {Strategy as JWTstrategy, ExtractJwt} from 'passport-jwt';
 import {Strategy as LocalStrategy} from 'passport-local';
 import log from '../../log';
 import {BCRYPT_SALT_ROUNDS} from '../../constants';
 import {createContext} from '../services/context';
-import {getConfig} from '../../config';
+// import {Issuer, Strategy, BaseClient, TokenSet, UserinfoResponse} from 'openid-client';
+// import {getConfig} from '../../config';
 import ManagerLoginType from '../../types/ManagerLoginType';
 
 passport.use(
@@ -103,39 +104,57 @@ passport.use(
 );
 
 export const initAdmPassport = async () => {
-  const {admJwtSecret} = await getConfig();
-  if (!admJwtSecret) {
-    throw new Error('admJwtSecret is not provided');
-  }
+  // const {admJwtSecret} = await getConfig();
+  // if (!admJwtSecret) {
+  //   throw new Error('admJwtSecret is not provided');
+  // }
 
-  return passport.use(
-    'admJwt',
-    new JWTstrategy(
-      {
-        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-        secretOrKey: admJwtSecret,
-        ignoreExpiration: false,
-      },
-      async (jwtPayload, done) => {
-        const ctx = await createContext();
+  // passport.use(
+  //   'admOidc',
+  //   new Strategy(
+  //     {
+  //       client,
+  //     },
+  //     (
+  //       tokenSet: TokenSet,
+  //       userInfo: UserinfoResponse,
+  //       done: (err: any, user?: any) => void,
+  //     ) => {
+  //       log.info('userInfo');
+  //       log.info(JSON.stringify(userInfo, null, 1));
 
-        try {
-          if (!jwtPayload.id) {
-            log.error('Jwt. There is no id in payload');
-            done(null, false);
+  //       return done(null, tokenSet.claims());
+  //     },
+  //   ),
+  // );
 
-            return;
-          }
+  // return passport.use(
+  //   'admJwt',
+  //   new JWTstrategy(
+  //     {
+  //       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  //       secretOrKey: admJwtSecret,
+  //       ignoreExpiration: false,
+  //     },
+  //     async (jwtPayload, done) => {
+  //       const ctx = await createContext();
+  //       try {
+  //         if (!jwtPayload.id) {
+  //           log.error('Jwt. There is no id in payload');
+  //           done(null, false);
 
-          done(null, {
-            id: jwtPayload.id,
-            permissions: await ctx.service('profile').getPermissionsOfManager(jwtPayload.managerId),
-            roles: await ctx.service('profile').getRolesOfManager(jwtPayload.managerId),
-          });
-        } catch (error: any) {
-          done(error, false);
-        }
-      },
-    ),
-  );
+  //           return;
+  //         }
+
+  //         done(null, {
+  //           id: jwtPayload.id,
+  //           permissions: await ctx.service('profile').getPermissionsOfManager(jwtPayload.managerId),
+  //           roles: await ctx.service('profile').getRolesOfManager(jwtPayload.managerId),
+  //         });
+  //       } catch (error: any) {
+  //         done(error, false);
+  //       }
+  //     },
+  //   ),
+  // );
 };

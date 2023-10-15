@@ -8298,90 +8298,6 @@
    "type": "string"
   },
   {
-   "default": "",
-   "editable": true,
-   "hidden": false,
-   "name": "keycloak.adm.clientId",
-   "needFor": "ИДентификатор клиента keycloak для админки",
-   "required": false,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
-   "default": "",
-   "editable": true,
-   "hidden": false,
-   "name": "keycloak.adm.realm",
-   "needFor": "Реалм keycloak для админки",
-   "required": false,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
-   "default": "",
-   "editable": true,
-   "hidden": false,
-   "name": "keycloak.adm.url",
-   "needFor": "Хост keycloak для админки",
-   "required": false,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
-   "default": "",
-   "editable": true,
-   "hidden": false,
-   "name": "keycloak.app.clientId",
-   "needFor": "ИДентификатор клиента keycloak для приложения пользователя",
-   "required": false,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
-   "default": "",
-   "editable": true,
-   "hidden": false,
-   "name": "keycloak.app.realm",
-   "needFor": "Реалм keycloak для приложения пользователя",
-   "required": false,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
-   "default": "",
-   "editable": true,
-   "hidden": false,
-   "name": "keycloak.app.url",
-   "needFor": "Хост keycloak для приложения пользователя",
-   "required": false,
-   "scopes": [
-    "back",
-    "worker",
-    "telegramBot"
-   ],
-   "type": "string"
-  },
-  {
    "default": "plain",
    "editable": true,
    "hidden": false,
@@ -8406,6 +8322,82 @@
     "back",
     "worker",
     "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.adm.clientId",
+   "needFor": "Идентификатор клиента oidc для админки",
+   "required": false,
+   "scopes": [
+    "admin-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.adm.realm",
+   "needFor": "Реалм oidc для админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "admin-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.adm.url",
+   "needFor": "Хост oidc для админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "admin-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.app.clientId",
+   "needFor": "Идентификатор клиента oidc для приложения пользователя",
+   "required": false,
+   "scopes": [
+    "cutomer-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.app.realm",
+   "needFor": "Реалм oidc для приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "cutomer-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.app.url",
+   "needFor": "Хост oidc для приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "cutomer-app"
    ],
    "type": "string"
   },
