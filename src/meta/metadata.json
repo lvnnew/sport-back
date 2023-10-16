@@ -8298,6 +8298,62 @@
    "type": "string"
   },
   {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.adm.cli.password",
+   "needFor": "Пароль для доступа в api keycloak админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "admin-cli",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.adm.cli.username",
+   "needFor": "Пользователь для доступа в api keycloak админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.app.cli.password",
+   "needFor": "Пароль для доступа в api keycloak приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "admin-cli",
+   "editable": true,
+   "hidden": false,
+   "name": "keycloak.app.cli.username",
+   "needFor": "Пользователь для доступа в api keycloak приложения пользователя",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
    "default": "plain",
    "editable": true,
    "hidden": false,

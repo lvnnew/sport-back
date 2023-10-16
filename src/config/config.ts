@@ -42,6 +42,10 @@ export interface Config {
   kafkaSslEnabled: boolean;
   kafkaSslRejectUnauthorized?: boolean;
   kafkaUsername?: string;
+  keycloakAdmCliPassword?: string;
+  keycloakAdmCliUsername?: string;
+  keycloakAppCliPassword?: string;
+  keycloakAppCliUsername?: string;
   logsFormat?: string;
   lokiUrl?: string;
   oidcAdmRealm?: string;
@@ -320,6 +324,34 @@ export const envVarsConfig: EnvVarConfig[] = [{
   id: 'kafka.username',
   type: 'string',
   title: 'Username доступа в kafka',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.adm.cli.password',
+  type: 'string',
+  title: 'Пароль для доступа в api keycloak админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.adm.cli.username',
+  type: 'string',
+  title: 'Пользователь для доступа в api keycloak админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.app.cli.password',
+  type: 'string',
+  title: 'Пароль для доступа в api keycloak приложения пользователя',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'keycloak.app.cli.username',
+  type: 'string',
+  title: 'Пользователь для доступа в api keycloak приложения пользователя',
   required: false,
   hidden: false,
   editable: true,
