@@ -11,6 +11,7 @@ import passport from 'passport';
 import ManagerLoginType from '../types/ManagerLoginType';
 import AppError from '../AppError';
 import AppErrorCode from '../types/AppErrorCode';
+import {getConfig} from '../config';
 
 // https://www.npmjs.com/package/keycloak-connect
 // https://github.com/keycloak/keycloak-quickstarts/tree/latest/nodejs/resource-server
@@ -125,15 +126,6 @@ const getAuthMiddleware = (
   },
 ];
 
-const keycloak = new Keycloak({}, {
-  realm: 'prj-dev-admin',
-  'bearer-only': true,
-  'auth-server-url': 'https://kk.stage01.making.ventures',
-  'ssl-required': 'external',
-  resource: 'resource-server',
-  'confidential-port': 443,
-});
-
 const oidcEnabled = true;
 
 const initAdmEndpoints = async (
@@ -147,6 +139,27 @@ const initAdmEndpoints = async (
   const endpoints: string[] = [];
 
   initAdmPassport();
+
+  const {
+    // oidcAdmClientId,
+    oidcAdmRealm,
+    oidcAdmUrl,
+  } = await getConfig();
+
+  if (!oidcAdmRealm || !oidcAdmUrl) {
+    throw new Error('Oidc credentials not provided');
+  }
+
+  const keycloak = new Keycloak({}, {
+    // realm: 'prj-dev-admin',
+    realm: oidcAdmRealm,
+    'bearer-only': true,
+    // 'auth-server-url': 'https://kk.stage01.making.ventures',
+    'auth-server-url': oidcAdmUrl,
+    'ssl-required': 'external',
+    resource: 'resource-server',
+    'confidential-port': 443,
+  });
 
   if (oidcEnabled) {
     app.use('/adm', keycloak.middleware());

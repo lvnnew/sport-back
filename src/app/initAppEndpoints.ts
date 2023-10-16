@@ -13,7 +13,7 @@ const initAppEndpoints = async (
   _port: number,
   _production: boolean,
 ) => {
-  log.info('initRestEndpoints');
+  log.info('initAppEndpoints');
 
   const endpoints: string[] = [];
 
