@@ -8298,7 +8298,7 @@
    "type": "string"
   },
   {
-   "default": "admin-cli",
+   "default": "backend-api",
    "editable": true,
    "hidden": false,
    "name": "keycloak.adm.cli.client",
@@ -8326,7 +8326,7 @@
    "type": "string"
   },
   {
-   "default": "admin-cli",
+   "default": "backend-api",
    "editable": true,
    "hidden": false,
    "name": "keycloak.app.cli.client",
