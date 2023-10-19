@@ -3,9 +3,11 @@ import bcrypt from 'bcrypt';
 import {BCRYPT_SALT_ROUNDS} from '../constants';
 import Role from '../types/Role';
 import ManagerLoginType from '../types/ManagerLoginType';
+import {AdmKeycloak} from '../clients/keycloak/getAdmKeycloak';
 
 const initManager = async (
   ctx: Context,
+  keycloak: AdmKeycloak,
   {
     email,
     password,
@@ -56,6 +58,16 @@ const initManager = async (
     managerId: manager.id,
     roleId,
   })));
+
+  await keycloak.createOrUpdateUser(
+    {
+      username: email,
+      email,
+      password,
+      firstName,
+      lastName,
+    },
+  );
 
   return {
     manager,

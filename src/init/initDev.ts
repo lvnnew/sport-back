@@ -1,6 +1,7 @@
 import {createContext} from '../adm/services/context';
 import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
+import getAdmKeycloak from '../clients/keycloak/getAdmKeycloak';
 
 // yarn init:dev
 // runlify start env=test yarn init:dev
@@ -17,6 +18,7 @@ const app = async () => {
   await queue.migrate();
 
   const ctx = await createContext();
+  const keycloak = await getAdmKeycloak();
 
   await initTestManagers(ctx);
 

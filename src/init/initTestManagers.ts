@@ -1,6 +1,7 @@
 import {Context} from '../adm/services/types';
 import Role from '../types/Role';
 import initManager from './initManager';
+import {AdmKeycloak} from '../clients/keycloak/getAdmKeycloak';
 
 // yarn ts-node:withContext src/init/initTestManagers.ts
 // yarn ts-node:withContext src/init/initTestManagers.ts
@@ -22,6 +23,10 @@ const testManagers = [
   },
 ];
 
-export const initTestManagers = async (ctx: Context) => {
-  await Promise.all(testManagers.map(manager => initManager(ctx, manager)));
+export const initTestManagers = async (
+  ctx: Context,
+  keycloak: AdmKeycloak,
+) => {
+  // todo: error when regenerating when other fields exist, you may need to check for the existence of the manager in the database
+  await Promise.all(testManagers.map(manager => initManager(ctx, keycloak, manager)));
 };
