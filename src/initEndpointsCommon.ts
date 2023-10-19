@@ -2,7 +2,7 @@ import log from './log';
 import {RequestHandler, Express} from 'express';
 import cors from 'cors';
 import passport from 'passport';
-import {json, raw} from 'body-parser';
+import {json, raw, urlencoded} from 'body-parser';
 import helmet from 'helmet';
 import healthRouter from './rest/healthRouter';
 import getMetricsHandler from './rest/getMetricsHandler';
@@ -21,6 +21,7 @@ const initEndpointsCommon = async (
   app.use(cors());
   app.use(raw({limit: '50mb'}) as RequestHandler);
   app.use(json({limit: '1mb'}) as RequestHandler);
+  app.use(urlencoded({extended: true}));
   app.use(
   helmet(
     {
