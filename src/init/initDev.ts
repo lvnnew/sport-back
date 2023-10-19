@@ -20,7 +20,7 @@ const app = async () => {
   const ctx = await createContext();
   const keycloak = await getAdmKeycloak();
 
-  await initTestManagers(ctx);
+  await initTestManagers(ctx, keycloak);
 
   await ctx.close();
 };
