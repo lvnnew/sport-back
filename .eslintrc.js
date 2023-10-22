@@ -14,6 +14,11 @@ module.exports = {
     'eslint:recommended',
   ],
   rules: {
+    'import/no-cycle': [2, {ignoreExternal: true}], // eslint практически всё время искал циклы во внешних библиотеках
+    'import/no-deprecated': 'off', // TODO выключила это правило. В коде много deprecated-меток и я не видела что мы им следуем.
+    'import/extensions': 'off', // за это отвечает тс-компилятор
+    'unicorn/no-empty-file': 'off', // TODO подумать над включением
+    'import/default': 'off', // судя по всему не актуально для ts
     'simple-import-sort/imports': 'off',
     'array-bracket-newline': 'off',
     'array-element-newline': 'off',
