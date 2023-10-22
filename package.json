@@ -33,7 +33,9 @@
     "init:permissions": "yarn ts-node:withContext src/init/roles/initRolesWithPermissions.ts",
     "init:dev": "ts-node src/init/initDev.ts",
     "regen": "yarn ts-node src/meta/regenBasedOnMeta.ts && runlify regen",
-    "preinstall": "npx only-allow yarn"
+    "preinstall": "npx only-allow yarn",
+    "typecheck": "tsc -P tsconfig.json",
+    "typecheck:watch": "tsc -P tsconfig.json --watch"
   },
   "jest": {
     "preset": "ts-jest",
