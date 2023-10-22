@@ -129,7 +129,7 @@
     "tweetnacl": "^1.0.3",
     "tweetnacl-sealedbox-js": "^1.2.0",
     "tweetnacl-util": "^0.15.1",
-    "typescript": "^4.8.4",
+    "typescript": "^5.2.2",
     "unrar": "^0.2.0",
     "uuid": "^9.0.0",
     "winston": "^3.10.0",
