@@ -27,14 +27,16 @@ const initManager = async (
 ) => {
   const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
+  const preparedEmail = email.toLowerCase();
+
   const manager = await ctx.service('managers').upsertAdvanced(
     {
-      email,
+      email: preparedEmail,
       lastName,
       firstName,
     },
     {
-      email,
+      email: preparedEmail,
       lastName,
       firstName,
     },
@@ -42,10 +44,10 @@ const initManager = async (
 
   const managerLogin = await ctx.service('managerLogins').upsertAdvanced(
     {
-      login: login ?? email,
+      login: login ?? preparedEmail,
     },
     {
-      login: login ?? email,
+      login: login ?? preparedEmail,
       passwordHash: hashedPassword,
       emailVerified: true,
       locked: false,
@@ -61,8 +63,8 @@ const initManager = async (
 
   await keycloak.createOrUpdateUser(
     {
-      username: email,
-      email,
+      username: login ?? preparedEmail,
+      email: preparedEmail,
       password,
       firstName,
       lastName,
