@@ -11,21 +11,25 @@ import {WriteStream} from 'fs';
 
 let s3: S3 | null = null;
 
+export const createS3ByCredentials = (
+  s3AccessKeyId: string,
+  s3SecretAccessKey: string,
+  s3Endpoint: string,
+  s3Region: string,
+) => new S3({
+  accessKeyId: s3AccessKeyId,
+  endpoint: (new AWS.Endpoint(s3Endpoint) as unknown) as string,
+  region: s3Region,
+  secretAccessKey: s3SecretAccessKey,
+  s3ForcePathStyle: true,
+});
+
 export const getS3 = async () => {
   if (!s3) {
     const {s3AccessKeyId, s3SecretAccessKey, s3Endpoint, s3Region} = await getConfig();
-    const ep = new AWS.Endpoint(s3Endpoint);
-
-    // const opt = {credentials: amqp.credentials.plain(username, password)};
 
     if (!s3) {
-      s3 = new S3({
-        accessKeyId: s3AccessKeyId,
-        endpoint: (ep as unknown) as string,
-        region: s3Region,
-        secretAccessKey: s3SecretAccessKey,
-        s3ForcePathStyle: true,
-      });
+      s3 = createS3ByCredentials(s3AccessKeyId, s3SecretAccessKey, s3Endpoint, s3Region);
     }
   }
 
@@ -52,9 +56,7 @@ export const createS3Getter = (bucket: string) => async (path: string) => {
   return null;
 };
 
-export const createS3BucketIfNotExist = async (bucket: string, publicBucket = false): Promise<void> => {
-  const s3 = await getS3();
-
+export const createS3BucketIfNotExistForS3 = async (s3: AWS.S3, bucket: string, publicBucket = false): Promise<void> => {
   await new Promise<void>((resolve, reject) => {
     s3.createBucket({Bucket: bucket}, (err) => {
       if (err) {
@@ -103,6 +105,12 @@ export const createS3BucketIfNotExist = async (bucket: string, publicBucket = fa
       });
     });
   }
+};
+
+export const createS3BucketIfNotExist = async (bucket: string, publicBucket = false): Promise<void> => {
+  const s3 = await getS3();
+
+  return createS3BucketIfNotExistForS3(s3, bucket, publicBucket);
 };
 
 export const createS3StringPutter = (bucket: string) => async (fileNameWithExtension: string, data: string) => {
