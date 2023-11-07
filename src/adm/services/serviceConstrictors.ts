@@ -36,6 +36,7 @@ import {AdditionalUsersService} from './UsersService/AdditionalUsersService';
 import {getHelpService} from './HelpService/HelpService';
 import {ServiceConstrictors, BaseServiceConstrictors} from './types';
 import additionalServiceConstrictors from './additionalServiceConstrictors';
+import integrationClientConstrictors from './integrationClientConstrictors';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -81,6 +82,7 @@ export const baseServiceConstrictors: BaseServiceConstrictors = {
 const serviceConstrictors: ServiceConstrictors = {
   ...baseServiceConstrictors,
   ...additionalServiceConstrictors,
+  ...integrationClientConstrictors,
 };
 
 export default serviceConstrictors;
