@@ -11,6 +11,7 @@ import {QueueTypes} from '../../clients/queue/jobsTypes';
 import {ElasticClient} from '../../clients/elastic';
 import {Logger} from '../../log';
 import Entity from '../../types/Entity';
+import IntegrationClients from './IntegrationClients';
 
 export type Services = BaseServices & AdditionalServices;
 
@@ -24,6 +25,7 @@ export type Context = {
   log: Logger;
   close: () => Promise<void>;
   service: <N extends keyof Services>(name: N) => Services[N];
+  integrationClient: <N extends keyof IntegrationClients>(name: N) => IntegrationClients[N];
   container: interfaces.Container;
   kafka: KafkaContext;
   queue: QueueTypes;
@@ -61,4 +63,8 @@ export type AdditionalServiceConstrictors = {
   [K in keyof AdditionalServices] : ServiceConstrictor<K>
 };
 
-export type ServiceConstrictors = BaseServiceConstrictors & AdditionalServiceConstrictors;
+export type IntegrationClientsConstrictors = {
+  [K in keyof IntegrationClients] : (context: Context) => IntegrationClients[K]
+};
+
+export type ServiceConstrictors = BaseServiceConstrictors & AdditionalServiceConstrictors & IntegrationClientsConstrictors;

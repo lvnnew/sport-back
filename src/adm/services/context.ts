@@ -14,6 +14,7 @@ import {Knex} from 'knex';
 import {Client} from 'pg';
 import {WorkerUtils} from 'graphile-worker';
 import {ElasticClient} from '../../clients/elastic';
+import IntegrationClients from './IntegrationClients';
 
 let willRunOnce = true;
 
@@ -56,6 +57,7 @@ export const createContext = async (container: interfaces.Container = defaultCon
     log,
     close,
     service: (name: keyof Services) => container.get(name),
+    integrationClient: (name: keyof IntegrationClients) => container.get(name),
     container,
     kafka,
     queue: getQueueContext(kafka),
