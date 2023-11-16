@@ -331,7 +331,8 @@ class BaseProfileService {
     return allowed[0];
   };
 
-  getOrCreateManagerWithLoginByOidcLogin = async (
+  @Cacheable()
+  async getOrCreateManagerWithLoginByOidcLogin(
     {
       login,
       email,
@@ -339,7 +340,7 @@ class BaseProfileService {
       lastName,
       firstName,
     }: GetOrCreateManagerWithLoginByOidcLoginParams,
-  ): Promise<{manager: Manager, login: ManagerLogin}> => {
+  ): Promise<{manager: Manager, login: ManagerLogin}> {
     const managerLogin = await this.ctx.prisma.managerLogin.findFirst({
       include: {
         manager: true,
@@ -393,7 +394,7 @@ class BaseProfileService {
         login: createdLogin,
       };
     }
-  };
+  }
 }
 
 export default BaseProfileService;
