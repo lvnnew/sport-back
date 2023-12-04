@@ -6,6 +6,7 @@ import {
   AggregationsAggregate,
   BulkResponse,
   CountResponse,
+  IndicesCreateResponse,
   Duration,
   OpenPointInTimeResponse,
   QueryDslQueryContainer,
@@ -19,7 +20,7 @@ import {BulkStats} from '@elastic/elasticsearch/lib/helpers';
 import Entity from '../../types/Entity';
 import {snakeCase} from 'change-case';
 
-export type ElasticIndexes = Entity/* | AdditionalIndex*/;
+export type ElasticIndexes = Entity | string;
 
 export interface ElasticListArgs {
   sortField?: string,
@@ -31,6 +32,12 @@ export interface ElasticListArgs {
 }
 
 type ID = string | number | bigint;
+
+type PaginateByPit = {
+  batch: (Record<string, any> & {id: ID})[];
+  page: number;
+  lastPage: boolean;
+};
 
 export interface ElasticClient {
   client: Client;
@@ -44,17 +51,24 @@ export interface ElasticClient {
   createPutter: (index: ElasticIndexes) =>
     (id: string, data: Record<string, any>) => Promise<WriteResponseBase>
   deleteById: (index: ElasticIndexes, id: ID | ID[]) => Promise<BulkResponse | null>;
+  createIndex: (index: ElasticIndexes) => Promise<IndicesCreateResponse>;
+  paginateByPit: (index: ElasticIndexes, query?: QueryDslQueryContainer) => AsyncGenerator<PaginateByPit, void, unknown>;
 }
 
 let elasticClient: ElasticClient | null = null;
 
-export const getFullIndexName = async (index: ElasticIndexes) => {
+export const getAlias = async () => {
   const {appName, appEnvironment} = await getConfig();
   if (!appName || !appEnvironment) {
     throw new Error('appName and appEnvironment should be provided');
   }
 
-  return `${appName}-${appEnvironment}-${snakeCase(index as string)}`;
+  return `${appName}-${appEnvironment}`;
+};
+
+export const getFullIndexName = async (index: ElasticIndexes) => {
+  const alias = await getAlias();
+  return `${alias}-${snakeCase(index as string)}`;
 };
 
 const fillInParams = ({
@@ -91,6 +105,7 @@ const fillInParams = ({
         .filter((
           [key]) => key !== 'ids' &&
             !key.endsWith('_in') &&
+            !key.endsWith('not_in') &&
             !key.endsWith('_lt') &&
             !key.endsWith('_lte') &&
             !key.endsWith('_gt') &&
@@ -152,8 +167,46 @@ const fillInParams = ({
       });
     }
 
+    const notInFields = R.toPairs(filter).filter(([key]) => key.endsWith('_not_in'));
     const inFields = R.toPairs(filter).filter(([key]) => key.endsWith('_in'));
-    if (inFields.length) {
+    if (notInFields.length) {
+      for (const [key, values] of notInFields) {
+        const fieldName = key.replaceAll('_not_in', '');
+        const should: QueryDslQueryContainer[] = [];
+        const valuesWithoutNulls = values.filter((v: any) => v !== null);
+        const valuesHasNulls = values.includes(null);
+        should.push({
+          bool: {
+            must_not: [
+              {
+                terms: {
+                  [fieldName]: valuesWithoutNulls,
+                },
+              },
+            ],
+          },
+        });
+
+        if (valuesHasNulls) {
+          should.push({
+            bool: {
+              must_not: [
+                {exists: {field: fieldName}},
+              ],
+            },
+          });
+        }
+
+        if (should.length) {
+          elasticFilter.push({
+            bool: {
+              should,
+              minimum_should_match: 1,
+            },
+          });
+        }
+      }
+    } else if (inFields.length) {
       for (const [key, values] of inFields) {
         const fieldName = key.replaceAll('_in', '');
         // if (values.length) {
@@ -405,7 +458,7 @@ export const createElasticManyPutter = (client: Client, index: ElasticIndexes) =
   });
 };
 
-export const createElasticPutterByClient = (client: Client, index: Entity) =>
+export const createElasticPutterByClient = (client: Client, index: ElasticIndexes) =>
   async (id: string, data: Record<string, any>) =>
     client.index({
       body: {
@@ -458,16 +511,18 @@ export const getElastic = async () => {
       }
 
       if (!elasticClient) {
+        const pit = async (indexPrefix: ElasticIndexes, time: Duration) => {
+          const index = await getFullIndexName(indexPrefix);
+
+          return await client.openPointInTime({
+            index,
+            keep_alive: time,
+          });
+        };
+
         elasticClient = {
           client,
-          pit: async (indexPrefix: ElasticIndexes, time: Duration) => {
-            const index = await getFullIndexName(indexPrefix);
-
-            return await client.openPointInTime({
-              index,
-              keep_alive: time,
-            });
-          },
+          pit,
           deleteById: async (indexPrefix: ElasticIndexes, id) => {
             const index = await getFullIndexName(indexPrefix);
 
@@ -488,6 +543,54 @@ export const getElastic = async () => {
                 },
               })),
             });
+          },
+          createIndex: async (index: ElasticIndexes) => {
+            const alias = await getAlias();
+            const fullIndex = await getFullIndexName(index);
+            return client.indices.create({
+              index: fullIndex,
+              aliases: {
+                [alias]: {},
+              },
+            });
+          },
+          async *paginateByPit(index, query) {
+            const pitInst = await pit(index, '2m');
+
+            let page = 1;
+            const size = 1000;
+            let lastHit: any;
+            let lastPage = false;
+
+            while (!lastPage) {
+              log.info(`Processing page: ${page}`);
+
+              const result = await client.search({
+                sort: [{id: {order: 'desc'}}],
+                query,
+                pit: {
+                  id: pitInst.id,
+                  keep_alive: '2m',
+                },
+                search_after: lastHit ? lastHit.sort : undefined,
+                size,
+              });
+
+              lastHit = result.hits.hits[result.hits.hits.length - 1];
+              const batch = result.hits.hits.map((h: any) => h._source);
+
+              if (result.hits.hits.length !== size) {
+                lastPage = true;
+              }
+
+              yield {
+                batch,
+                page,
+                lastPage,
+              };
+
+              page++;
+            }
           },
           createSearcher: (index: ElasticIndexes) => createElasticSearcher(client, index),
           createCounter: (index: ElasticIndexes) => createElasticCounter(client, index),

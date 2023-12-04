@@ -13,6 +13,7 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
     '_gte',
     '_lt',
     '_gt',
+    '_not_in',
     '_in',
     '_defined',
   ];
@@ -59,6 +60,17 @@ export const toPrismaWhere = (filter?: Record<string, any> | null) => {
           return [key.replaceAll(/(_lt)$/gu, ''), {lt: value}];
         } else if (key.includes('_gt')) {
           return [key.replaceAll(/(_gt)$/gu, ''), {gt: value}];
+        } else if (key.includes('_not_in')) {
+          const clearedKey = key.replaceAll(/(_not_in)$/gu, '');
+          const values = value as unknown as any[];
+          const hasNullValue = values.includes(null);
+
+          if (hasNullValue) {
+            const valuesWithoutNull = values.filter(el => el !== null);
+            return ['OR', [{[clearedKey]: {notIn: valuesWithoutNull}}, {[clearedKey]: null}]];
+          } else {
+            return [clearedKey, {notIn: value}];
+          }
         } else if (key.includes('_in')) {
           const clearedKey = key.replaceAll(/(_in)$/gu, '');
           const values = value as unknown as any[];
