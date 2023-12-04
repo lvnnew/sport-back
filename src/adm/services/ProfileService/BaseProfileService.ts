@@ -362,7 +362,7 @@ class BaseProfileService {
       if (emailVerified) {
         manager = await this.ctx.prisma.manager.findFirst({
           where: {
-            email,
+            email: {equals: email, mode: 'insensitive'},
           },
         });
 
