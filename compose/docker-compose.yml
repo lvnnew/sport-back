@@ -12,7 +12,37 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./keycloak/init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
+  # keycloak
+  keycloak:
+    image: quay.io/keycloak/keycloak:legacy
+    volumes:
+      - type: bind
+        source: ./keycloak/init.json
+        target: /init.json
+        read_only: true
+    ports:
+      - "8180:8180"
+    command:
+      - "-Djboss.socket.binding.port-offset=100"
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=singleFile"
+      - "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
+      - "-Dkeycloak.migration.file=/init.json"
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: postgres
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_SCHEMA: keycloak_schema
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      KEYCLOAK_HOSTNAME: localhost
+      KEYCLOAK_FRONTEND_URL: http://localhost:8180/auth
+    depends_on:
+      - postgres
 # minio
   minio:
     image: "minio/minio"
@@ -35,11 +65,23 @@ services:
 # launching all containers
   starter:
     image: alpine
-    entrypoint: /bin/sh -c 'echo All containers have been successfully launched! Yuuhu! Time to have fun dancing cha-cha-cha!'
+    entrypoint: >
+      /bin/sh -c 'echo "    /\\___/\\
+         /       \\
+        l  ^   ^  l
+      --l----*----l--
+         \\   w   /     - Meow! All containers have been successfully launched! Time to have fun dancing cha-cha-cha!
+          ======
+         /       \\ __
+         l        l\\ \\
+         l        l/ /
+         l  l l   l /
+         \\ ml lm /_/"'
     pull_policy: always
     depends_on:
       - minio
       - postgres
+      - keycloak
       - mailhog
 # local data storage
 volumes:
