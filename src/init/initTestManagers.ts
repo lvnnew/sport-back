@@ -29,7 +29,7 @@ export const initTestManagers = async (
   keycloak: AdmKeycloak,
 ) => {
   for (const manager of testManagers) {
-    const existingManager = await ctx.prisma.manager.findMany({});
+    const existingManager = await ctx.prisma.manager.findMany({where: {email: manager.email}});
     if (existingManager) {
       log.info(`Manager with email ${manager.email} already exists. Skipping initialization.`);
       continue;
