@@ -1,5 +1,5 @@
 {
-  "realm": "cmng-local-admin",
+  "realm": "mtbase-local-admin",
   "enabled": true,
   "users": [
     {
@@ -45,7 +45,7 @@
       "emailVerified": false,
       "serviceAccountClientId": "backend-api",
       "realmRoles": [
-        "default-roles-cmng-dev-admin"
+        "default-roles-mtbase-dev-admin"
       ],
       "clientRoles": {
         "realm-management": [
@@ -56,7 +56,7 @@
   ],
   "clients": [
     {
-      "clientId": "cmng-admin",
+      "clientId": "mtbase-admin",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
