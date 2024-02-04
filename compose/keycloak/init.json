@@ -1,5 +1,5 @@
 {
-  "realm": "mtbase-local-admin",
+  "realm": "cmng-local-admin",
   "enabled": true,
   "users": [
     {
@@ -7,11 +7,12 @@
       "email": "admin@example.com",
       "enabled": true,
       "firstName": "Admin",
+      "lastName": "Test",
       "emailVerified": true,
       "credentials": [
         {
           "type": "password",
-          "value": "admin@example.com"
+          "value": "admin"
         }
       ],
       "realmRoles": ["offline_access"],
@@ -24,7 +25,7 @@
       "username": "admin-cli",
       "enabled": true,
       "firstName": "Admin",
-      "emailVerified": true,
+      "emailVerified": false,
       "credentials": [
         {
           "type": "password",
@@ -44,7 +45,7 @@
       "emailVerified": false,
       "serviceAccountClientId": "backend-api",
       "realmRoles": [
-        "default-roles-mtbase-dev-admin"
+        "default-roles-cmng-dev-admin"
       ],
       "clientRoles": {
         "realm-management": [
@@ -55,7 +56,7 @@
   ],
   "clients": [
     {
-      "clientId": "mtbase-admin",
+      "clientId": "cmng-admin",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,
