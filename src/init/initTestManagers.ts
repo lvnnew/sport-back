@@ -30,7 +30,7 @@ export const initTestManagers = async (
 ) => {
   for (const manager of testManagers) {
     const existingManager = await ctx.prisma.manager.findMany({where: {email: manager.email}});
-    if (existingManager) {
+    if (existingManager.length) {
       log.info(`Manager with email ${manager.email} already exists. Skipping initialization.`);
       continue;
     }
