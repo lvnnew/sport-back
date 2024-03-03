@@ -16,10 +16,13 @@ export default gql`
     id: Int
     login: String
     login_in: [String]
+    login_not_in: [String]
     passwordHash: String
     passwordHash_in: [String]
+    passwordHash_not_in: [String]
     userId: Int
     userId_in: [Int]
+    userId_not_in: [Int]
   }
 
   type ListMetadata {

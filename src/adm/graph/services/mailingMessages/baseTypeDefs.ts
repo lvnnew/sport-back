@@ -35,18 +35,25 @@ export default gql`
     id: Int
     mailingCampaignId: Int
     mailingCampaignId_in: [Int]
+    mailingCampaignId_not_in: [Int]
     templateId: String
     templateId_in: [String]
+    templateId_not_in: [String]
     languageId: String
     languageId_in: [String]
+    languageId_not_in: [String]
     to: String
     to_in: [String]
+    to_not_in: [String]
     locals: String
     locals_in: [String]
+    locals_not_in: [String]
     localsHash: String
     localsHash_in: [String]
+    localsHash_not_in: [String]
     priority: Int
     priority_in: [Int]
+    priority_not_in: [Int]
     priority_lte: Int
     priority_gte: Int
     priority_lt: Int
@@ -64,23 +71,30 @@ export default gql`
     dateSent_defined: Boolean
     error: String
     error_in: [String]
+    error_not_in: [String]
     error_defined: Boolean
     html: String
     html_in: [String]
+    html_not_in: [String]
     html_defined: Boolean
     text: String
     text_in: [String]
+    text_not_in: [String]
     text_defined: Boolean
     uniqueKey: String
     uniqueKey_in: [String]
+    uniqueKey_not_in: [String]
     uniqueKey_defined: Boolean
     subject: String
     subject_in: [String]
+    subject_not_in: [String]
     subject_defined: Boolean
     mailingMessageStatusId: String
     mailingMessageStatusId_in: [String]
+    mailingMessageStatusId_not_in: [String]
     messageTemplateLangVariantId: Int
     messageTemplateLangVariantId_in: [Int]
+    messageTemplateLangVariantId_not_in: [Int]
   }
 
   type ListMetadata {

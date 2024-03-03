@@ -18,15 +18,20 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_not_in: [String]
     title_defined: Boolean
     lastname: String
     lastname_in: [String]
+    lastname_not_in: [String]
     firstname: String
     firstname_in: [String]
+    firstname_not_in: [String]
     email: String
     email_in: [String]
+    email_not_in: [String]
     tenantId: Int
     tenantId_in: [Int]
+    tenantId_not_in: [Int]
     tenantId_defined: Boolean
   }
 

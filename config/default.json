@@ -10,6 +10,7 @@
   "app.ui.url": "http://localhost:4000",
   "authorization.backendChecks.enabled": false,
   "bootstrap.enabled": false,
+  "checkLoginIframe": false,
   "customer.recaptcha.requiredScore": "0.7",
   "customer.recaptcha.secretKey": "",
   "database.main.migration.uri": "postgresql://postgres:password@localhost:5432",

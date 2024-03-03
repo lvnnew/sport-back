@@ -25,10 +25,13 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_not_in: [String]
     mailingTypeId: String
     mailingTypeId_in: [String]
+    mailingTypeId_not_in: [String]
     priority: Int
     priority_in: [Int]
+    priority_not_in: [Int]
     priority_lte: Int
     priority_gte: Int
     priority_lt: Int
@@ -41,9 +44,11 @@ export default gql`
     date_defined: Boolean
     mailingCampaignStatusId: String
     mailingCampaignStatusId_in: [String]
+    mailingCampaignStatusId_not_in: [String]
     mailingCampaignStatusId_defined: Boolean
     messageTemplateId: String
     messageTemplateId_in: [String]
+    messageTemplateId_not_in: [String]
   }
 
   type ListMetadata {

@@ -16,7 +16,7 @@ import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-export type AutodefinableManagerLoginKeys = 'emailVerified' | 'locked';
+export type AutodefinableManagerLoginKeys = 'locked';
 export type ForbidenForUserManagerLoginKeys = never;
 export type RequiredDbNotUserManagerLoginKeys = never;
 
@@ -55,7 +55,6 @@ export class ManagerLoginsService extends BaseService<
       currentData: Record<string, any>,
     ): Promise<T & AutodefinableManagerLoginPart> => {
       const defaultFieldConstructors = {
-        emailVerified: async () => false,
         locked: async () => false,
       };
 

@@ -74,13 +74,6 @@ build:
       --destination ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}
       --destination ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}
       --single-snapshot
-  after_script:
-    - >
-      if [ $CI_JOB_STATUS != 'success' ]; then
-        sh ci-notify.sh "🆘 $CI_JOB_NAME failed"
-      else
-        sh ci-notify.sh "✅ $CI_JOB_NAME success"
-      fi
   only:
     - master
     - /^master-.*$/
@@ -230,6 +223,7 @@ deploy-prod-back-previous:
     APP_UI_URL: ${DEV_APP_UI_URL}
     AUTHORIZATION_BACKEND_CHECKS_ENABLED: ${DEV_AUTHORIZATION_BACKEND_CHECKS_ENABLED}
     BOOTSTRAP_ENABLED: ${DEV_BOOTSTRAP_ENABLED}
+    CHECK_LOGIN_IFRAME: ${DEV_CHECK_LOGIN_IFRAME}
     CUSTOMER_RECAPTCHA_REQUIRED_SCORE: ${DEV_CUSTOMER_RECAPTCHA_REQUIRED_SCORE}
     CUSTOMER_RECAPTCHA_SECRET_KEY: ${DEV_CUSTOMER_RECAPTCHA_SECRET_KEY}
     DATABASE_MAIN_MIGRATION_URI: ${DEV_DATABASE_MAIN_MIGRATION_URI}
@@ -310,6 +304,7 @@ deploy-prod-back-previous:
     APP_UI_URL: ${PROD_APP_UI_URL}
     AUTHORIZATION_BACKEND_CHECKS_ENABLED: ${PROD_AUTHORIZATION_BACKEND_CHECKS_ENABLED}
     BOOTSTRAP_ENABLED: ${PROD_BOOTSTRAP_ENABLED}
+    CHECK_LOGIN_IFRAME: ${PROD_CHECK_LOGIN_IFRAME}
     CUSTOMER_RECAPTCHA_REQUIRED_SCORE: ${PROD_CUSTOMER_RECAPTCHA_REQUIRED_SCORE}
     CUSTOMER_RECAPTCHA_SECRET_KEY: ${PROD_CUSTOMER_RECAPTCHA_SECRET_KEY}
     DATABASE_MAIN_MIGRATION_URI: ${PROD_DATABASE_MAIN_MIGRATION_URI}
@@ -428,6 +423,7 @@ deploy-prod-back-previous:
       --set "app.ui.url=${APP_UI_URL}"
       --set "authorization.backendChecks.enabled=${AUTHORIZATION_BACKEND_CHECKS_ENABLED}"
       --set "bootstrap.enabled=${BOOTSTRAP_ENABLED}"
+      --set "checkLoginIframe=${CHECK_LOGIN_IFRAME}"
       --set "customer.recaptcha.requiredScore=${CUSTOMER_RECAPTCHA_REQUIRED_SCORE}"
       --set "customer.recaptcha.secretKey=${CUSTOMER_RECAPTCHA_SECRET_KEY}"
       --set "database.main.migration.uri=${DATABASE_MAIN_MIGRATION_URI}"

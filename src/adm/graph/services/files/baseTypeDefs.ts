@@ -19,16 +19,22 @@ export default gql`
     id: Int
     originalName: String
     originalName_in: [String]
+    originalName_not_in: [String]
     url: String
     url_in: [String]
+    url_not_in: [String]
     mimetype: String
     mimetype_in: [String]
+    mimetype_not_in: [String]
     s3Key: String
     s3Key_in: [String]
+    s3Key_not_in: [String]
     eTag: String
     eTag_in: [String]
+    eTag_not_in: [String]
     bytes: Int
     bytes_in: [Int]
+    bytes_not_in: [Int]
     bytes_lte: Int
     bytes_gte: Int
     bytes_lt: Int

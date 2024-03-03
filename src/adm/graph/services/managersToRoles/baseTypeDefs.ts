@@ -22,8 +22,10 @@ export default gql`
     id: Int
     managerId: Int
     managerId_in: [Int]
+    managerId_not_in: [Int]
     roleId: String
     roleId_in: [String]
+    roleId_not_in: [String]
     expiresAt: Date
     expiresAt_lte: Date
     expiresAt_gte: Date

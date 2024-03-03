@@ -26,6 +26,7 @@ export default gql`
     id: ID
     title: String
     title_in: [String]
+    title_not_in: [String]
     version: Date
     version_lte: Date
     version_gte: Date
@@ -34,12 +35,16 @@ export default gql`
     version_defined: Boolean
     originalEntityType: String
     originalEntityType_in: [String]
+    originalEntityType_not_in: [String]
     generatingEntityType: String
     generatingEntityType_in: [String]
+    generatingEntityType_not_in: [String]
     originalEntityFilter: String
     originalEntityFilter_in: [String]
+    originalEntityFilter_not_in: [String]
     generatingEntityConstructionRules: String
     generatingEntityConstructionRules_in: [String]
+    generatingEntityConstructionRules_not_in: [String]
     ignoreVersionOnHistory: Boolean
   }
 

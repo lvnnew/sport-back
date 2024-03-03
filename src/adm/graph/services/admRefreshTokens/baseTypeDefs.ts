@@ -27,8 +27,10 @@ export default gql`
     create_gt: DateTime
     managerId: Int
     managerId_in: [Int]
+    managerId_not_in: [Int]
     token: String
     token_in: [String]
+    token_not_in: [String]
   }
 
   type ListMetadata {

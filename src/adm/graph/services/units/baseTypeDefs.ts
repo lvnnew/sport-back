@@ -15,8 +15,10 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_not_in: [String]
     parentId: Int
     parentId_in: [Int]
+    parentId_not_in: [Int]
     parentId_defined: Boolean
   }
 

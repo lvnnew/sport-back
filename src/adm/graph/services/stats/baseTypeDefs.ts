@@ -27,6 +27,7 @@ export default gql`
     updated_defined: Boolean
     helloCount: Int
     helloCount_in: [Int]
+    helloCount_not_in: [Int]
     helloCount_lte: Int
     helloCount_gte: Int
     helloCount_lt: Int

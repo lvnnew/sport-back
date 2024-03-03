@@ -16,6 +16,7 @@ export interface Config {
   appUiUrl?: string;
   authorizationBackendChecksEnabled?: boolean;
   bootstrapEnabled?: boolean;
+  checkLoginIframe?: boolean;
   customerRecaptchaRequiredScore?: string;
   customerRecaptchaSecretKey?: string;
   databaseMainMigrationUri: string;
@@ -142,6 +143,13 @@ export const envVarsConfig: EnvVarConfig[] = [{
   id: 'bootstrap.enabled',
   type: 'bool',
   title: 'Подготавливать окружеине при запуске',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'checkLoginIframe',
+  type: 'bool',
+  title: 'Проверка авторизации во фрейме включена',
   required: false,
   hidden: false,
   editable: true,

@@ -117,6 +117,8 @@ spec:
           value: {{ $.Values.authorization.backendChecks.enabled | quote }}
         - name: BOOTSTRAP_ENABLED
           value: {{ $.Values.bootstrap.enabled | quote }}
+        - name: CHECK_LOGIN_IFRAME
+          value: {{ $.Values.checkLoginIframe | quote }}
         - name: CUSTOMER_RECAPTCHA_REQUIRED_SCORE
           value: {{ $.Values.customer.recaptcha.requiredScore | quote }}
         - name: CUSTOMER_RECAPTCHA_SECRET_KEY

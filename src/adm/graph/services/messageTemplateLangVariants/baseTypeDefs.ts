@@ -20,17 +20,23 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_not_in: [String]
     title_defined: Boolean
     subjectTemplate: String
     subjectTemplate_in: [String]
+    subjectTemplate_not_in: [String]
     bodyTemplate: String
     bodyTemplate_in: [String]
+    bodyTemplate_not_in: [String]
     messageTemplateId: String
     messageTemplateId_in: [String]
+    messageTemplateId_not_in: [String]
     languageId: String
     languageId_in: [String]
+    languageId_not_in: [String]
     additionalStyle: String
     additionalStyle_in: [String]
+    additionalStyle_not_in: [String]
     additionalStyle_defined: Boolean
   }
 

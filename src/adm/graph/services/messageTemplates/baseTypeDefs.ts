@@ -19,14 +19,18 @@ export default gql`
     id: ID
     title: String
     title_in: [String]
+    title_not_in: [String]
     secretData: Boolean
     messageTypeId: String
     messageTypeId_in: [String]
+    messageTypeId_not_in: [String]
     dataExample: String
     dataExample_in: [String]
+    dataExample_not_in: [String]
     dataExample_defined: Boolean
     templateStyleId: Int
     templateStyleId_in: [Int]
+    templateStyleId_not_in: [Int]
     templateStyleId_defined: Boolean
   }
 

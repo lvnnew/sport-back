@@ -43,36 +43,47 @@ export default gql`
     date_gt: DateTime
     title: String
     title_in: [String]
+    title_not_in: [String]
     success: Boolean
     success_defined: Boolean
     error: String
     error_in: [String]
+    error_not_in: [String]
     error_defined: Boolean
     entityTypeId: String
     entityTypeId_in: [String]
+    entityTypeId_not_in: [String]
     entityId: String
     entityId_in: [String]
+    entityId_not_in: [String]
     actionTypeId: String
     actionTypeId_in: [String]
+    actionTypeId_not_in: [String]
     managerId: Int
     managerId_in: [Int]
+    managerId_not_in: [Int]
     managerId_defined: Boolean
     managerLogin: String
     managerLogin_in: [String]
+    managerLogin_not_in: [String]
     managerLogin_defined: Boolean
     userId: Int
     userId_in: [Int]
+    userId_not_in: [Int]
     userId_defined: Boolean
     foreign: Boolean
     foreign_defined: Boolean
     foreignEntityType: String
     foreignEntityType_in: [String]
+    foreignEntityType_not_in: [String]
     foreignEntityType_defined: Boolean
     foreignEntityId: String
     foreignEntityId_in: [String]
+    foreignEntityId_not_in: [String]
     foreignEntityId_defined: Boolean
     actionData: JSON
     actionData_in: [JSON]
+    actionData_not_in: [JSON]
     actionData_defined: Boolean
   }
 

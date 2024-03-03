@@ -23,8 +23,10 @@ export default gql`
     id: Int
     fromId: Int
     fromId_in: [Int]
+    fromId_not_in: [Int]
     toId: Int
     toId_in: [Int]
+    toId_not_in: [Int]
     expiresAt: Date
     expiresAt_lte: Date
     expiresAt_gte: Date
