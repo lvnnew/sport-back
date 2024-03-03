@@ -16,8 +16,10 @@ export default gql`
     id: Int
     roleId: String
     roleId_in: [String]
+    roleId_not_in: [String]
     permissionId: String
     permissionId_in: [String]
+    permissionId_not_in: [String]
   }
 
   type ListMetadata {

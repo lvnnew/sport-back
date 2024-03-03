@@ -14,6 +14,7 @@ export default gql`
     id: Int
     comment: String
     comment_in: [String]
+    comment_not_in: [String]
     comment_defined: Boolean
   }
 

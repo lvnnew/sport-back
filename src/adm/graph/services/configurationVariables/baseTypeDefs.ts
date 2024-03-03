@@ -19,6 +19,7 @@ export default gql`
     id: ID
     value: JSON
     value_in: [JSON]
+    value_not_in: [JSON]
   }
 
   type ListMetadata {

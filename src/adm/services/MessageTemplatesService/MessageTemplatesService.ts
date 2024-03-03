@@ -9,14 +9,13 @@ import {Context} from '../types';
 import initUserHooks from './initUserHooks';
 import initBuiltInHooks from './initBuiltInHooks';
 import {BaseService} from '../utils/class/BaseService';
-import * as R from 'ramda';
 import config from './config';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../types/utils';
 import {Prisma} from '@prisma/client';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-export type AutodefinableMessageTemplateKeys = 'secretData';
+export type AutodefinableMessageTemplateKeys = never;
 export type ForbidenForUserMessageTemplateKeys = never;
 export type RequiredDbNotUserMessageTemplateKeys = never;
 
@@ -50,22 +49,5 @@ export class MessageTemplatesService extends BaseService<
     super(ctx, ctx.prisma.messageTemplate, config);
     initBuiltInHooks(this);
     initUserHooks(this);
-
-    this.augmentByDefault = async <T>(
-      currentData: Record<string, any>,
-    ): Promise<T & AutodefinableMessageTemplatePart> => {
-      const defaultFieldConstructors = {
-        secretData: async () => false,
-      };
-
-      const pairedConstructors = R.toPairs(defaultFieldConstructors);
-
-      const resultedPairs: R.KeyValuePair<string, any>[] = [];
-      for (const [key, constructor] of pairedConstructors) {
-        resultedPairs.push([key, key in currentData && currentData[key] ? currentData[key] : await constructor()]);
-      }
-
-      return R.mergeLeft(currentData, R.fromPairs(resultedPairs)) as T & AutodefinableMessageTemplatePart;
-    };
   }
 }

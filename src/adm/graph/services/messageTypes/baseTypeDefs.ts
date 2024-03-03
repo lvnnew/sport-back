@@ -15,8 +15,10 @@ export default gql`
     id: ID
     title: String
     title_in: [String]
+    title_not_in: [String]
     description: String
     description_in: [String]
+    description_not_in: [String]
     description_defined: Boolean
   }
 

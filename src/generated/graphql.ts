@@ -195,8 +195,10 @@ export type AdmRefreshTokenFilter = {
   create_gt?: InputMaybe<Scalars['DateTime']>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  managerId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   token?: InputMaybe<Scalars['String']>;
   token_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  token_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ListMetadata = {
@@ -246,28 +248,28 @@ export type Query = {
   Language?: Maybe<Language>;
   allLanguages?: Maybe<Array<Maybe<Language>>>;
   _allLanguagesMeta?: Maybe<ListMetadata>;
-  MailingCampaignStatus?: Maybe<MailingCampaignStatus>;
-  allMailingCampaignStatuses?: Maybe<Array<Maybe<MailingCampaignStatus>>>;
-  _allMailingCampaignStatusesMeta?: Maybe<ListMetadata>;
   MailingCampaign?: Maybe<MailingCampaign>;
   allMailingCampaigns?: Maybe<Array<Maybe<MailingCampaign>>>;
   _allMailingCampaignsMeta?: Maybe<ListMetadata>;
-  MailingMessageStatus?: Maybe<MailingMessageStatus>;
-  allMailingMessageStatuses?: Maybe<Array<Maybe<MailingMessageStatus>>>;
-  _allMailingMessageStatusesMeta?: Maybe<ListMetadata>;
+  MailingCampaignStatus?: Maybe<MailingCampaignStatus>;
+  allMailingCampaignStatuses?: Maybe<Array<Maybe<MailingCampaignStatus>>>;
+  _allMailingCampaignStatusesMeta?: Maybe<ListMetadata>;
   getMessageQuantityPerStatus: QuantityPerStatus;
   MailingMessage?: Maybe<MailingMessage>;
   allMailingMessages?: Maybe<Array<Maybe<MailingMessage>>>;
   _allMailingMessagesMeta?: Maybe<ListMetadata>;
+  MailingMessageStatus?: Maybe<MailingMessageStatus>;
+  allMailingMessageStatuses?: Maybe<Array<Maybe<MailingMessageStatus>>>;
+  _allMailingMessageStatusesMeta?: Maybe<ListMetadata>;
   MailingType?: Maybe<MailingType>;
   allMailingTypes?: Maybe<Array<Maybe<MailingType>>>;
   _allMailingTypesMeta?: Maybe<ListMetadata>;
-  ManagerLoginType?: Maybe<ManagerLoginType>;
-  allManagerLoginTypes?: Maybe<Array<Maybe<ManagerLoginType>>>;
-  _allManagerLoginTypesMeta?: Maybe<ListMetadata>;
   ManagerLogin?: Maybe<ManagerLogin>;
   allManagerLogins?: Maybe<Array<Maybe<ManagerLogin>>>;
   _allManagerLoginsMeta?: Maybe<ListMetadata>;
+  ManagerLoginType?: Maybe<ManagerLoginType>;
+  allManagerLoginTypes?: Maybe<Array<Maybe<ManagerLoginType>>>;
+  _allManagerLoginTypesMeta?: Maybe<ListMetadata>;
   Manager?: Maybe<Manager>;
   allManagers?: Maybe<Array<Maybe<Manager>>>;
   _allManagersMeta?: Maybe<ListMetadata>;
@@ -600,27 +602,6 @@ export type Query_AllLanguagesMetaArgs = {
 };
 
 
-export type QueryMailingCampaignStatusArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryAllMailingCampaignStatusesArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  perPage?: InputMaybe<Scalars['Int']>;
-  sortField?: InputMaybe<Scalars['String']>;
-  sortOrder?: InputMaybe<Scalars['String']>;
-  filter?: InputMaybe<MailingCampaignStatusFilter>;
-};
-
-
-export type Query_AllMailingCampaignStatusesMetaArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  perPage?: InputMaybe<Scalars['Int']>;
-  filter?: InputMaybe<MailingCampaignStatusFilter>;
-};
-
-
 export type QueryMailingCampaignArgs = {
   id: Scalars['Int'];
 };
@@ -642,24 +623,24 @@ export type Query_AllMailingCampaignsMetaArgs = {
 };
 
 
-export type QueryMailingMessageStatusArgs = {
+export type QueryMailingCampaignStatusArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryAllMailingMessageStatusesArgs = {
+export type QueryAllMailingCampaignStatusesArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   sortField?: InputMaybe<Scalars['String']>;
   sortOrder?: InputMaybe<Scalars['String']>;
-  filter?: InputMaybe<MailingMessageStatusFilter>;
+  filter?: InputMaybe<MailingCampaignStatusFilter>;
 };
 
 
-export type Query_AllMailingMessageStatusesMetaArgs = {
+export type Query_AllMailingCampaignStatusesMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
-  filter?: InputMaybe<MailingMessageStatusFilter>;
+  filter?: InputMaybe<MailingCampaignStatusFilter>;
 };
 
 
@@ -689,6 +670,27 @@ export type Query_AllMailingMessagesMetaArgs = {
 };
 
 
+export type QueryMailingMessageStatusArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllMailingMessageStatusesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<MailingMessageStatusFilter>;
+};
+
+
+export type Query_AllMailingMessageStatusesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<MailingMessageStatusFilter>;
+};
+
+
 export type QueryMailingTypeArgs = {
   id: Scalars['ID'];
 };
@@ -710,27 +712,6 @@ export type Query_AllMailingTypesMetaArgs = {
 };
 
 
-export type QueryManagerLoginTypeArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type QueryAllManagerLoginTypesArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  perPage?: InputMaybe<Scalars['Int']>;
-  sortField?: InputMaybe<Scalars['String']>;
-  sortOrder?: InputMaybe<Scalars['String']>;
-  filter?: InputMaybe<ManagerLoginTypeFilter>;
-};
-
-
-export type Query_AllManagerLoginTypesMetaArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  perPage?: InputMaybe<Scalars['Int']>;
-  filter?: InputMaybe<ManagerLoginTypeFilter>;
-};
-
-
 export type QueryManagerLoginArgs = {
   id: Scalars['Int'];
 };
@@ -749,6 +730,27 @@ export type Query_AllManagerLoginsMetaArgs = {
   page?: InputMaybe<Scalars['Int']>;
   perPage?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<ManagerLoginFilter>;
+};
+
+
+export type QueryManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryAllManagerLoginTypesArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  sortField?: InputMaybe<Scalars['String']>;
+  sortOrder?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<ManagerLoginTypeFilter>;
+};
+
+
+export type Query_AllManagerLoginTypesMetaArgs = {
+  page?: InputMaybe<Scalars['Int']>;
+  perPage?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<ManagerLoginTypeFilter>;
 };
 
 
@@ -1118,27 +1120,27 @@ export type Mutation = {
   createLanguage?: Maybe<Language>;
   updateLanguage?: Maybe<Language>;
   removeLanguage?: Maybe<Language>;
-  createMailingCampaignStatus?: Maybe<MailingCampaignStatus>;
-  updateMailingCampaignStatus?: Maybe<MailingCampaignStatus>;
-  removeMailingCampaignStatus?: Maybe<MailingCampaignStatus>;
   createMailingCampaign?: Maybe<MailingCampaign>;
   updateMailingCampaign?: Maybe<MailingCampaign>;
   removeMailingCampaign?: Maybe<MailingCampaign>;
-  createMailingMessageStatus?: Maybe<MailingMessageStatus>;
-  updateMailingMessageStatus?: Maybe<MailingMessageStatus>;
-  removeMailingMessageStatus?: Maybe<MailingMessageStatus>;
+  createMailingCampaignStatus?: Maybe<MailingCampaignStatus>;
+  updateMailingCampaignStatus?: Maybe<MailingCampaignStatus>;
+  removeMailingCampaignStatus?: Maybe<MailingCampaignStatus>;
   createMailingMessage?: Maybe<MailingMessage>;
   updateMailingMessage?: Maybe<MailingMessage>;
   removeMailingMessage?: Maybe<MailingMessage>;
+  createMailingMessageStatus?: Maybe<MailingMessageStatus>;
+  updateMailingMessageStatus?: Maybe<MailingMessageStatus>;
+  removeMailingMessageStatus?: Maybe<MailingMessageStatus>;
   createMailingType?: Maybe<MailingType>;
   updateMailingType?: Maybe<MailingType>;
   removeMailingType?: Maybe<MailingType>;
-  createManagerLoginType?: Maybe<ManagerLoginType>;
-  updateManagerLoginType?: Maybe<ManagerLoginType>;
-  removeManagerLoginType?: Maybe<ManagerLoginType>;
   createManagerLogin?: Maybe<ManagerLogin>;
   updateManagerLogin?: Maybe<ManagerLogin>;
   removeManagerLogin?: Maybe<ManagerLogin>;
+  createManagerLoginType?: Maybe<ManagerLoginType>;
+  updateManagerLoginType?: Maybe<ManagerLoginType>;
+  removeManagerLoginType?: Maybe<ManagerLoginType>;
   newManager?: Maybe<Scalars['Void']>;
   deactivateManagers?: Maybe<Scalars['Void']>;
   changePasswordByManagerId?: Maybe<Scalars['Void']>;
@@ -1502,23 +1504,6 @@ export type MutationRemoveLanguageArgs = {
 };
 
 
-export type MutationCreateMailingCampaignStatusArgs = {
-  id: Scalars['ID'];
-  title: Scalars['String'];
-};
-
-
-export type MutationUpdateMailingCampaignStatusArgs = {
-  id: Scalars['ID'];
-  title: Scalars['String'];
-};
-
-
-export type MutationRemoveMailingCampaignStatusArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type MutationCreateMailingCampaignArgs = {
   title: Scalars['String'];
   mailingTypeId: Scalars['String'];
@@ -1545,21 +1530,19 @@ export type MutationRemoveMailingCampaignArgs = {
 };
 
 
-export type MutationCreateMailingMessageStatusArgs = {
+export type MutationCreateMailingCampaignStatusArgs = {
   id: Scalars['ID'];
-  title?: InputMaybe<Scalars['String']>;
-  final: Scalars['Boolean'];
+  title: Scalars['String'];
 };
 
 
-export type MutationUpdateMailingMessageStatusArgs = {
+export type MutationUpdateMailingCampaignStatusArgs = {
   id: Scalars['ID'];
-  title?: InputMaybe<Scalars['String']>;
-  final: Scalars['Boolean'];
+  title: Scalars['String'];
 };
 
 
-export type MutationRemoveMailingMessageStatusArgs = {
+export type MutationRemoveMailingCampaignStatusArgs = {
   id: Scalars['ID'];
 };
 
@@ -1610,6 +1593,25 @@ export type MutationRemoveMailingMessageArgs = {
 };
 
 
+export type MutationCreateMailingMessageStatusArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+  final: Scalars['Boolean'];
+};
+
+
+export type MutationUpdateMailingMessageStatusArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+  final: Scalars['Boolean'];
+};
+
+
+export type MutationRemoveMailingMessageStatusArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationCreateMailingTypeArgs = {
   id: Scalars['ID'];
   title: Scalars['String'];
@@ -1623,23 +1625,6 @@ export type MutationUpdateMailingTypeArgs = {
 
 
 export type MutationRemoveMailingTypeArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationCreateManagerLoginTypeArgs = {
-  id: Scalars['ID'];
-  title?: InputMaybe<Scalars['String']>;
-};
-
-
-export type MutationUpdateManagerLoginTypeArgs = {
-  id: Scalars['ID'];
-  title?: InputMaybe<Scalars['String']>;
-};
-
-
-export type MutationRemoveManagerLoginTypeArgs = {
   id: Scalars['ID'];
 };
 
@@ -1667,6 +1652,23 @@ export type MutationUpdateManagerLoginArgs = {
 
 export type MutationRemoveManagerLoginArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationCreateManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateManagerLoginTypeArgs = {
+  id: Scalars['ID'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveManagerLoginTypeArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -2045,8 +2047,10 @@ export type AggregateTrackingFilter = {
   id?: InputMaybe<Scalars['Int']>;
   entityTypeId?: InputMaybe<Scalars['String']>;
   entityTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entityTypeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entityId?: InputMaybe<Scalars['String']>;
   entityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entityId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   lastAggregatesComputed?: InputMaybe<Scalars['DateTime']>;
   lastAggregatesComputed_lte?: InputMaybe<Scalars['DateTime']>;
   lastAggregatesComputed_gte?: InputMaybe<Scalars['DateTime']>;
@@ -2065,6 +2069,7 @@ export type AggregateTrackingFilter = {
   lastEntityUpdate_gt?: InputMaybe<Scalars['DateTime']>;
   aggregateVersion?: InputMaybe<Scalars['Int']>;
   aggregateVersion_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  aggregateVersion_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   aggregateVersion_lte?: InputMaybe<Scalars['Int']>;
   aggregateVersion_gte?: InputMaybe<Scalars['Int']>;
   aggregateVersion_lt?: InputMaybe<Scalars['Int']>;
@@ -2085,10 +2090,13 @@ export type AppLoginFilter = {
   id?: InputMaybe<Scalars['Int']>;
   login?: InputMaybe<Scalars['String']>;
   login_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  login_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   passwordHash?: InputMaybe<Scalars['String']>;
   passwordHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  passwordHash_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   userId?: InputMaybe<Scalars['Int']>;
   userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  userId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
 };
 
 export type AppRefreshToken = {
@@ -2110,8 +2118,10 @@ export type AppRefreshTokenFilter = {
   create_gt?: InputMaybe<Scalars['DateTime']>;
   userId?: InputMaybe<Scalars['Int']>;
   userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  userId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   token?: InputMaybe<Scalars['String']>;
   token_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  token_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type AuditLogActionType = {
@@ -2126,6 +2136,7 @@ export type AuditLogActionTypeFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2159,36 +2170,47 @@ export type AuditLogFilter = {
   date_gt?: InputMaybe<Scalars['DateTime']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   success?: InputMaybe<Scalars['Boolean']>;
   success_defined?: InputMaybe<Scalars['Boolean']>;
   error?: InputMaybe<Scalars['String']>;
   error_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  error_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   error_defined?: InputMaybe<Scalars['Boolean']>;
   entityTypeId?: InputMaybe<Scalars['String']>;
   entityTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entityTypeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   entityId?: InputMaybe<Scalars['String']>;
   entityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  entityId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   actionTypeId?: InputMaybe<Scalars['String']>;
   actionTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  actionTypeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  managerId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   managerId_defined?: InputMaybe<Scalars['Boolean']>;
   managerLogin?: InputMaybe<Scalars['String']>;
   managerLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  managerLogin_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   managerLogin_defined?: InputMaybe<Scalars['Boolean']>;
   userId?: InputMaybe<Scalars['Int']>;
   userId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  userId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   userId_defined?: InputMaybe<Scalars['Boolean']>;
   foreign?: InputMaybe<Scalars['Boolean']>;
   foreign_defined?: InputMaybe<Scalars['Boolean']>;
   foreignEntityType?: InputMaybe<Scalars['String']>;
   foreignEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  foreignEntityType_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   foreignEntityType_defined?: InputMaybe<Scalars['Boolean']>;
   foreignEntityId?: InputMaybe<Scalars['String']>;
   foreignEntityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  foreignEntityId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   foreignEntityId_defined?: InputMaybe<Scalars['Boolean']>;
   actionData?: InputMaybe<Scalars['JSON']>;
   actionData_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
+  actionData_not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
   actionData_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2215,10 +2237,13 @@ export type AutogenerationHistoryEntryFilter = {
   date_gt?: InputMaybe<Scalars['DateTime']>;
   originalEntityType?: InputMaybe<Scalars['String']>;
   originalEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  originalEntityType_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   originalEntityId?: InputMaybe<Scalars['String']>;
   originalEntityId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  originalEntityId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   autogenerationRuleId?: InputMaybe<Scalars['String']>;
   autogenerationRuleId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  autogenerationRuleId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   version?: InputMaybe<Scalars['Date']>;
   version_lte?: InputMaybe<Scalars['Date']>;
   version_gte?: InputMaybe<Scalars['Date']>;
@@ -2227,6 +2252,7 @@ export type AutogenerationHistoryEntryFilter = {
   errorOccurred?: InputMaybe<Scalars['Boolean']>;
   error?: InputMaybe<Scalars['String']>;
   error_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  error_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   error_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2248,6 +2274,7 @@ export type AutogenerationRuleFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   version?: InputMaybe<Scalars['Date']>;
   version_lte?: InputMaybe<Scalars['Date']>;
   version_gte?: InputMaybe<Scalars['Date']>;
@@ -2256,12 +2283,16 @@ export type AutogenerationRuleFilter = {
   version_defined?: InputMaybe<Scalars['Boolean']>;
   originalEntityType?: InputMaybe<Scalars['String']>;
   originalEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  originalEntityType_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   generatingEntityType?: InputMaybe<Scalars['String']>;
   generatingEntityType_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  generatingEntityType_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   originalEntityFilter?: InputMaybe<Scalars['String']>;
   originalEntityFilter_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  originalEntityFilter_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   generatingEntityConstructionRules?: InputMaybe<Scalars['String']>;
   generatingEntityConstructionRules_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  generatingEntityConstructionRules_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   ignoreVersionOnHistory?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2276,6 +2307,7 @@ export type ConfigurationVariableFilter = {
   id?: InputMaybe<Scalars['ID']>;
   value?: InputMaybe<Scalars['JSON']>;
   value_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
+  value_not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
 };
 
 export type Delegation = {
@@ -2293,8 +2325,10 @@ export type DelegationFilter = {
   id?: InputMaybe<Scalars['Int']>;
   fromId?: InputMaybe<Scalars['Int']>;
   fromId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  fromId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   toId?: InputMaybe<Scalars['Int']>;
   toId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  toId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   expiresAt?: InputMaybe<Scalars['Date']>;
   expiresAt_lte?: InputMaybe<Scalars['Date']>;
   expiresAt_gte?: InputMaybe<Scalars['Date']>;
@@ -2316,6 +2350,7 @@ export type EntityFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2336,16 +2371,22 @@ export type FileFilter = {
   id?: InputMaybe<Scalars['Int']>;
   originalName?: InputMaybe<Scalars['String']>;
   originalName_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  originalName_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   url?: InputMaybe<Scalars['String']>;
   url_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  url_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   mimetype?: InputMaybe<Scalars['String']>;
   mimetype_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  mimetype_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   s3Key?: InputMaybe<Scalars['String']>;
   s3Key_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  s3Key_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   eTag?: InputMaybe<Scalars['String']>;
   eTag_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  eTag_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bytes?: InputMaybe<Scalars['Int']>;
   bytes_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  bytes_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   bytes_lte?: InputMaybe<Scalars['Int']>;
   bytes_gte?: InputMaybe<Scalars['Int']>;
   bytes_lt?: InputMaybe<Scalars['Int']>;
@@ -2403,21 +2444,8 @@ export type LanguageFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type MailingCampaignStatus = {
-  __typename?: 'MailingCampaignStatus';
-  id: Scalars['ID'];
-  title: Scalars['String'];
-};
-
-export type MailingCampaignStatusFilter = {
-  q?: InputMaybe<Scalars['String']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  id?: InputMaybe<Scalars['ID']>;
-  title?: InputMaybe<Scalars['String']>;
-  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type MailingCampaign = {
@@ -2437,10 +2465,13 @@ export type MailingCampaignFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   mailingTypeId?: InputMaybe<Scalars['String']>;
   mailingTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  mailingTypeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   priority?: InputMaybe<Scalars['Int']>;
   priority_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  priority_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   priority_lte?: InputMaybe<Scalars['Int']>;
   priority_gte?: InputMaybe<Scalars['Int']>;
   priority_lt?: InputMaybe<Scalars['Int']>;
@@ -2453,26 +2484,26 @@ export type MailingCampaignFilter = {
   date_defined?: InputMaybe<Scalars['Boolean']>;
   mailingCampaignStatusId?: InputMaybe<Scalars['String']>;
   mailingCampaignStatusId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  mailingCampaignStatusId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   mailingCampaignStatusId_defined?: InputMaybe<Scalars['Boolean']>;
   messageTemplateId?: InputMaybe<Scalars['String']>;
   messageTemplateId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  messageTemplateId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
-export type MailingMessageStatus = {
-  __typename?: 'MailingMessageStatus';
+export type MailingCampaignStatus = {
+  __typename?: 'MailingCampaignStatus';
   id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  final: Scalars['Boolean'];
+  title: Scalars['String'];
 };
 
-export type MailingMessageStatusFilter = {
+export type MailingCampaignStatusFilter = {
   q?: InputMaybe<Scalars['String']>;
   ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title_defined?: InputMaybe<Scalars['Boolean']>;
-  final?: InputMaybe<Scalars['Boolean']>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type QuantityPerStatus = {
@@ -2512,18 +2543,25 @@ export type MailingMessageFilter = {
   id?: InputMaybe<Scalars['Int']>;
   mailingCampaignId?: InputMaybe<Scalars['Int']>;
   mailingCampaignId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  mailingCampaignId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   templateId?: InputMaybe<Scalars['String']>;
   templateId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  templateId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   languageId?: InputMaybe<Scalars['String']>;
   languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  languageId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   to?: InputMaybe<Scalars['String']>;
   to_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  to_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   locals?: InputMaybe<Scalars['String']>;
   locals_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  locals_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   localsHash?: InputMaybe<Scalars['String']>;
   localsHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  localsHash_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   priority?: InputMaybe<Scalars['Int']>;
   priority_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  priority_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   priority_lte?: InputMaybe<Scalars['Int']>;
   priority_gte?: InputMaybe<Scalars['Int']>;
   priority_lt?: InputMaybe<Scalars['Int']>;
@@ -2541,23 +2579,48 @@ export type MailingMessageFilter = {
   dateSent_defined?: InputMaybe<Scalars['Boolean']>;
   error?: InputMaybe<Scalars['String']>;
   error_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  error_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   error_defined?: InputMaybe<Scalars['Boolean']>;
   html?: InputMaybe<Scalars['String']>;
   html_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  html_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   html_defined?: InputMaybe<Scalars['Boolean']>;
   text?: InputMaybe<Scalars['String']>;
   text_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  text_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   text_defined?: InputMaybe<Scalars['Boolean']>;
   uniqueKey?: InputMaybe<Scalars['String']>;
   uniqueKey_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  uniqueKey_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   uniqueKey_defined?: InputMaybe<Scalars['Boolean']>;
   subject?: InputMaybe<Scalars['String']>;
   subject_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  subject_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   subject_defined?: InputMaybe<Scalars['Boolean']>;
   mailingMessageStatusId?: InputMaybe<Scalars['String']>;
   mailingMessageStatusId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  mailingMessageStatusId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   messageTemplateLangVariantId?: InputMaybe<Scalars['Int']>;
   messageTemplateLangVariantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  messageTemplateLangVariantId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type MailingMessageStatus = {
+  __typename?: 'MailingMessageStatus';
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+  final: Scalars['Boolean'];
+};
+
+export type MailingMessageStatusFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
+  final?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type MailingType = {
@@ -2572,21 +2635,7 @@ export type MailingTypeFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type ManagerLoginType = {
-  __typename?: 'ManagerLoginType';
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-};
-
-export type ManagerLoginTypeFilter = {
-  q?: InputMaybe<Scalars['String']>;
-  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  id?: InputMaybe<Scalars['ID']>;
-  title?: InputMaybe<Scalars['String']>;
-  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  title_defined?: InputMaybe<Scalars['Boolean']>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ManagerLogin = {
@@ -2606,16 +2655,36 @@ export type ManagerLoginFilter = {
   id?: InputMaybe<Scalars['Int']>;
   managerLoginTypeId?: InputMaybe<Scalars['String']>;
   managerLoginTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  managerLoginTypeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   login?: InputMaybe<Scalars['String']>;
   login_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  login_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   passwordHash?: InputMaybe<Scalars['String']>;
   passwordHash_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  passwordHash_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   passwordHash_defined?: InputMaybe<Scalars['Boolean']>;
   emailVerified?: InputMaybe<Scalars['Boolean']>;
   emailVerified_defined?: InputMaybe<Scalars['Boolean']>;
   locked?: InputMaybe<Scalars['Boolean']>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  managerId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+};
+
+export type ManagerLoginType = {
+  __typename?: 'ManagerLoginType';
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type ManagerLoginTypeFilter = {
+  q?: InputMaybe<Scalars['String']>;
+  ids?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  title?: InputMaybe<Scalars['String']>;
+  title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Manager = {
@@ -2641,32 +2710,42 @@ export type ManagerFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
   lastName?: InputMaybe<Scalars['String']>;
   lastName_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lastName_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   firstName?: InputMaybe<Scalars['String']>;
   firstName_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  firstName_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   languageId?: InputMaybe<Scalars['String']>;
   languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  languageId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   languageId_defined?: InputMaybe<Scalars['Boolean']>;
   email?: InputMaybe<Scalars['String']>;
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  email_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   phone?: InputMaybe<Scalars['String']>;
   phone_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  phone_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   phone_defined?: InputMaybe<Scalars['Boolean']>;
   photoId?: InputMaybe<Scalars['Int']>;
   photoId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  photoId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   photoId_defined?: InputMaybe<Scalars['Boolean']>;
   telegramLogin?: InputMaybe<Scalars['String']>;
   telegramLogin_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  telegramLogin_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   telegramLogin_defined?: InputMaybe<Scalars['Boolean']>;
   unitId?: InputMaybe<Scalars['Int']>;
   unitId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  unitId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   unitId_defined?: InputMaybe<Scalars['Boolean']>;
   headOfUnit?: InputMaybe<Scalars['Boolean']>;
   active?: InputMaybe<Scalars['Boolean']>;
   tenantId?: InputMaybe<Scalars['Int']>;
   tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  tenantId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   tenantId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2684,8 +2763,10 @@ export type ManagersToPermissionFilter = {
   id?: InputMaybe<Scalars['Int']>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  managerId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   permissionId?: InputMaybe<Scalars['String']>;
   permissionId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  permissionId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   expiresAt?: InputMaybe<Scalars['Date']>;
   expiresAt_lte?: InputMaybe<Scalars['Date']>;
   expiresAt_gte?: InputMaybe<Scalars['Date']>;
@@ -2708,8 +2789,10 @@ export type ManagersToRoleFilter = {
   id?: InputMaybe<Scalars['Int']>;
   managerId?: InputMaybe<Scalars['Int']>;
   managerId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  managerId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   roleId?: InputMaybe<Scalars['String']>;
   roleId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  roleId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   expiresAt?: InputMaybe<Scalars['Date']>;
   expiresAt_lte?: InputMaybe<Scalars['Date']>;
   expiresAt_gte?: InputMaybe<Scalars['Date']>;
@@ -2735,17 +2818,23 @@ export type MessageTemplateLangVariantFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
   subjectTemplate?: InputMaybe<Scalars['String']>;
   subjectTemplate_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  subjectTemplate_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   bodyTemplate?: InputMaybe<Scalars['String']>;
   bodyTemplate_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  bodyTemplate_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   messageTemplateId?: InputMaybe<Scalars['String']>;
   messageTemplateId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  messageTemplateId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   languageId?: InputMaybe<Scalars['String']>;
   languageId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  languageId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   additionalStyle?: InputMaybe<Scalars['String']>;
   additionalStyle_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  additionalStyle_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   additionalStyle_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2765,14 +2854,18 @@ export type MessageTemplateFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   secretData?: InputMaybe<Scalars['Boolean']>;
   messageTypeId?: InputMaybe<Scalars['String']>;
   messageTypeId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  messageTypeId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   dataExample?: InputMaybe<Scalars['String']>;
   dataExample_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  dataExample_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   dataExample_defined?: InputMaybe<Scalars['Boolean']>;
   templateStyleId?: InputMaybe<Scalars['Int']>;
   templateStyleId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  templateStyleId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   templateStyleId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2789,8 +2882,10 @@ export type MessageTypeFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description?: InputMaybe<Scalars['String']>;
   description_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2806,6 +2901,7 @@ export type PermissionFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2831,6 +2927,7 @@ export type RoleFilter = {
   id?: InputMaybe<Scalars['ID']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
   hasAllPermissions?: InputMaybe<Scalars['Boolean']>;
   allTenantsAvailable?: InputMaybe<Scalars['Boolean']>;
@@ -2849,8 +2946,10 @@ export type RolesToPermissionFilter = {
   id?: InputMaybe<Scalars['Int']>;
   roleId?: InputMaybe<Scalars['String']>;
   roleId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  roleId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   permissionId?: InputMaybe<Scalars['String']>;
   permissionId_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  permissionId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type FileRes = {
@@ -2878,6 +2977,7 @@ export type StatFilter = {
   updated_defined?: InputMaybe<Scalars['Boolean']>;
   helloCount?: InputMaybe<Scalars['Int']>;
   helloCount_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  helloCount_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   helloCount_lte?: InputMaybe<Scalars['Int']>;
   helloCount_gte?: InputMaybe<Scalars['Int']>;
   helloCount_lt?: InputMaybe<Scalars['Int']>;
@@ -2897,6 +2997,7 @@ export type TagFilter = {
   id?: InputMaybe<Scalars['Int']>;
   comment?: InputMaybe<Scalars['String']>;
   comment_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  comment_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   comment_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2913,8 +3014,10 @@ export type TemplateStyleFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   style?: InputMaybe<Scalars['String']>;
   style_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  style_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Tenant = {
@@ -2930,9 +3033,11 @@ export type TenantFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
   utcOffset?: InputMaybe<Scalars['Int']>;
   utcOffset_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  utcOffset_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   utcOffset_lte?: InputMaybe<Scalars['Int']>;
   utcOffset_gte?: InputMaybe<Scalars['Int']>;
   utcOffset_lt?: InputMaybe<Scalars['Int']>;
@@ -2952,8 +3057,10 @@ export type UnitFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   parentId?: InputMaybe<Scalars['Int']>;
   parentId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  parentId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   parentId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2973,15 +3080,20 @@ export type UserFilter = {
   id?: InputMaybe<Scalars['Int']>;
   title?: InputMaybe<Scalars['String']>;
   title_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  title_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   title_defined?: InputMaybe<Scalars['Boolean']>;
   lastname?: InputMaybe<Scalars['String']>;
   lastname_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  lastname_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   firstname?: InputMaybe<Scalars['String']>;
   firstname_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  firstname_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   email?: InputMaybe<Scalars['String']>;
   email_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  email_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   tenantId?: InputMaybe<Scalars['Int']>;
   tenantId_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  tenantId_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
   tenantId_defined?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -3149,21 +3261,21 @@ export type ResolversTypes = {
   EntityType: EntityType;
   Language: ResolverTypeWrapper<Language>;
   LanguageFilter: LanguageFilter;
-  MailingCampaignStatus: ResolverTypeWrapper<MailingCampaignStatus>;
-  MailingCampaignStatusFilter: MailingCampaignStatusFilter;
   MailingCampaign: ResolverTypeWrapper<MailingCampaign>;
   MailingCampaignFilter: MailingCampaignFilter;
-  MailingMessageStatus: ResolverTypeWrapper<MailingMessageStatus>;
-  MailingMessageStatusFilter: MailingMessageStatusFilter;
+  MailingCampaignStatus: ResolverTypeWrapper<MailingCampaignStatus>;
+  MailingCampaignStatusFilter: MailingCampaignStatusFilter;
   QuantityPerStatus: ResolverTypeWrapper<QuantityPerStatus>;
   MailingMessage: ResolverTypeWrapper<MailingMessage>;
   MailingMessageFilter: MailingMessageFilter;
+  MailingMessageStatus: ResolverTypeWrapper<MailingMessageStatus>;
+  MailingMessageStatusFilter: MailingMessageStatusFilter;
   MailingType: ResolverTypeWrapper<MailingType>;
   MailingTypeFilter: MailingTypeFilter;
-  ManagerLoginType: ResolverTypeWrapper<ManagerLoginType>;
-  ManagerLoginTypeFilter: ManagerLoginTypeFilter;
   ManagerLogin: ResolverTypeWrapper<ManagerLogin>;
   ManagerLoginFilter: ManagerLoginFilter;
+  ManagerLoginType: ResolverTypeWrapper<ManagerLoginType>;
+  ManagerLoginTypeFilter: ManagerLoginTypeFilter;
   Manager: ResolverTypeWrapper<Manager>;
   ManagerFilter: ManagerFilter;
   ManagersToPermission: ResolverTypeWrapper<ManagersToPermission>;
@@ -3295,21 +3407,21 @@ export type ResolversParentTypes = {
   FileFilter: FileFilter;
   Language: Language;
   LanguageFilter: LanguageFilter;
-  MailingCampaignStatus: MailingCampaignStatus;
-  MailingCampaignStatusFilter: MailingCampaignStatusFilter;
   MailingCampaign: MailingCampaign;
   MailingCampaignFilter: MailingCampaignFilter;
-  MailingMessageStatus: MailingMessageStatus;
-  MailingMessageStatusFilter: MailingMessageStatusFilter;
+  MailingCampaignStatus: MailingCampaignStatus;
+  MailingCampaignStatusFilter: MailingCampaignStatusFilter;
   QuantityPerStatus: QuantityPerStatus;
   MailingMessage: MailingMessage;
   MailingMessageFilter: MailingMessageFilter;
+  MailingMessageStatus: MailingMessageStatus;
+  MailingMessageStatusFilter: MailingMessageStatusFilter;
   MailingType: MailingType;
   MailingTypeFilter: MailingTypeFilter;
-  ManagerLoginType: ManagerLoginType;
-  ManagerLoginTypeFilter: ManagerLoginTypeFilter;
   ManagerLogin: ManagerLogin;
   ManagerLoginFilter: ManagerLoginFilter;
+  ManagerLoginType: ManagerLoginType;
+  ManagerLoginTypeFilter: ManagerLoginTypeFilter;
   Manager: Manager;
   ManagerFilter: ManagerFilter;
   ManagersToPermission: ManagersToPermission;
@@ -3643,28 +3755,28 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   Language?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<QueryLanguageArgs, 'id'>>;
   allLanguages?: Resolver<Maybe<Array<Maybe<ResolversTypes['Language']>>>, ParentType, ContextType, Partial<QueryAllLanguagesArgs>>;
   _allLanguagesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllLanguagesMetaArgs>>;
-  MailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<QueryMailingCampaignStatusArgs, 'id'>>;
-  allMailingCampaignStatuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingCampaignStatus']>>>, ParentType, ContextType, Partial<QueryAllMailingCampaignStatusesArgs>>;
-  _allMailingCampaignStatusesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingCampaignStatusesMetaArgs>>;
   MailingCampaign?: Resolver<Maybe<ResolversTypes['MailingCampaign']>, ParentType, ContextType, RequireFields<QueryMailingCampaignArgs, 'id'>>;
   allMailingCampaigns?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingCampaign']>>>, ParentType, ContextType, Partial<QueryAllMailingCampaignsArgs>>;
   _allMailingCampaignsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingCampaignsMetaArgs>>;
-  MailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<QueryMailingMessageStatusArgs, 'id'>>;
-  allMailingMessageStatuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingMessageStatus']>>>, ParentType, ContextType, Partial<QueryAllMailingMessageStatusesArgs>>;
-  _allMailingMessageStatusesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingMessageStatusesMetaArgs>>;
+  MailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<QueryMailingCampaignStatusArgs, 'id'>>;
+  allMailingCampaignStatuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingCampaignStatus']>>>, ParentType, ContextType, Partial<QueryAllMailingCampaignStatusesArgs>>;
+  _allMailingCampaignStatusesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingCampaignStatusesMetaArgs>>;
   getMessageQuantityPerStatus?: Resolver<ResolversTypes['QuantityPerStatus'], ParentType, ContextType, RequireFields<QueryGetMessageQuantityPerStatusArgs, 'mailingCampaignId'>>;
   MailingMessage?: Resolver<Maybe<ResolversTypes['MailingMessage']>, ParentType, ContextType, RequireFields<QueryMailingMessageArgs, 'id'>>;
   allMailingMessages?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingMessage']>>>, ParentType, ContextType, Partial<QueryAllMailingMessagesArgs>>;
   _allMailingMessagesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingMessagesMetaArgs>>;
+  MailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<QueryMailingMessageStatusArgs, 'id'>>;
+  allMailingMessageStatuses?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingMessageStatus']>>>, ParentType, ContextType, Partial<QueryAllMailingMessageStatusesArgs>>;
+  _allMailingMessageStatusesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingMessageStatusesMetaArgs>>;
   MailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<QueryMailingTypeArgs, 'id'>>;
   allMailingTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['MailingType']>>>, ParentType, ContextType, Partial<QueryAllMailingTypesArgs>>;
   _allMailingTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllMailingTypesMetaArgs>>;
-  ManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<QueryManagerLoginTypeArgs, 'id'>>;
-  allManagerLoginTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLoginType']>>>, ParentType, ContextType, Partial<QueryAllManagerLoginTypesArgs>>;
-  _allManagerLoginTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagerLoginTypesMetaArgs>>;
   ManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<QueryManagerLoginArgs, 'id'>>;
   allManagerLogins?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLogin']>>>, ParentType, ContextType, Partial<QueryAllManagerLoginsArgs>>;
   _allManagerLoginsMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagerLoginsMetaArgs>>;
+  ManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<QueryManagerLoginTypeArgs, 'id'>>;
+  allManagerLoginTypes?: Resolver<Maybe<Array<Maybe<ResolversTypes['ManagerLoginType']>>>, ParentType, ContextType, Partial<QueryAllManagerLoginTypesArgs>>;
+  _allManagerLoginTypesMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagerLoginTypesMetaArgs>>;
   Manager?: Resolver<Maybe<ResolversTypes['Manager']>, ParentType, ContextType, RequireFields<QueryManagerArgs, 'id'>>;
   allManagers?: Resolver<Maybe<Array<Maybe<ResolversTypes['Manager']>>>, ParentType, ContextType, Partial<QueryAllManagersArgs>>;
   _allManagersMeta?: Resolver<Maybe<ResolversTypes['ListMetadata']>, ParentType, ContextType, Partial<Query_AllManagersMetaArgs>>;
@@ -3759,27 +3871,27 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   createLanguage?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<MutationCreateLanguageArgs, 'id'>>;
   updateLanguage?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<MutationUpdateLanguageArgs, 'id'>>;
   removeLanguage?: Resolver<Maybe<ResolversTypes['Language']>, ParentType, ContextType, RequireFields<MutationRemoveLanguageArgs, 'id'>>;
-  createMailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<MutationCreateMailingCampaignStatusArgs, 'id' | 'title'>>;
-  updateMailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<MutationUpdateMailingCampaignStatusArgs, 'id' | 'title'>>;
-  removeMailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<MutationRemoveMailingCampaignStatusArgs, 'id'>>;
   createMailingCampaign?: Resolver<Maybe<ResolversTypes['MailingCampaign']>, ParentType, ContextType, RequireFields<MutationCreateMailingCampaignArgs, 'title' | 'mailingTypeId' | 'priority' | 'messageTemplateId'>>;
   updateMailingCampaign?: Resolver<Maybe<ResolversTypes['MailingCampaign']>, ParentType, ContextType, RequireFields<MutationUpdateMailingCampaignArgs, 'id' | 'title' | 'mailingTypeId' | 'priority' | 'messageTemplateId'>>;
   removeMailingCampaign?: Resolver<Maybe<ResolversTypes['MailingCampaign']>, ParentType, ContextType, RequireFields<MutationRemoveMailingCampaignArgs, 'id'>>;
-  createMailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<MutationCreateMailingMessageStatusArgs, 'id' | 'final'>>;
-  updateMailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<MutationUpdateMailingMessageStatusArgs, 'id' | 'final'>>;
-  removeMailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<MutationRemoveMailingMessageStatusArgs, 'id'>>;
+  createMailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<MutationCreateMailingCampaignStatusArgs, 'id' | 'title'>>;
+  updateMailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<MutationUpdateMailingCampaignStatusArgs, 'id' | 'title'>>;
+  removeMailingCampaignStatus?: Resolver<Maybe<ResolversTypes['MailingCampaignStatus']>, ParentType, ContextType, RequireFields<MutationRemoveMailingCampaignStatusArgs, 'id'>>;
   createMailingMessage?: Resolver<Maybe<ResolversTypes['MailingMessage']>, ParentType, ContextType, RequireFields<MutationCreateMailingMessageArgs, 'mailingCampaignId' | 'templateId' | 'languageId' | 'to' | 'locals' | 'localsHash' | 'priority' | 'dateCreated' | 'mailingMessageStatusId' | 'messageTemplateLangVariantId'>>;
   updateMailingMessage?: Resolver<Maybe<ResolversTypes['MailingMessage']>, ParentType, ContextType, RequireFields<MutationUpdateMailingMessageArgs, 'id' | 'mailingCampaignId' | 'templateId' | 'languageId' | 'to' | 'locals' | 'localsHash' | 'priority' | 'dateCreated' | 'mailingMessageStatusId' | 'messageTemplateLangVariantId'>>;
   removeMailingMessage?: Resolver<Maybe<ResolversTypes['MailingMessage']>, ParentType, ContextType, RequireFields<MutationRemoveMailingMessageArgs, 'id'>>;
+  createMailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<MutationCreateMailingMessageStatusArgs, 'id' | 'final'>>;
+  updateMailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<MutationUpdateMailingMessageStatusArgs, 'id' | 'final'>>;
+  removeMailingMessageStatus?: Resolver<Maybe<ResolversTypes['MailingMessageStatus']>, ParentType, ContextType, RequireFields<MutationRemoveMailingMessageStatusArgs, 'id'>>;
   createMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationCreateMailingTypeArgs, 'id' | 'title'>>;
   updateMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationUpdateMailingTypeArgs, 'id' | 'title'>>;
   removeMailingType?: Resolver<Maybe<ResolversTypes['MailingType']>, ParentType, ContextType, RequireFields<MutationRemoveMailingTypeArgs, 'id'>>;
-  createManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginTypeArgs, 'id'>>;
-  updateManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginTypeArgs, 'id'>>;
-  removeManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginTypeArgs, 'id'>>;
   createManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginArgs, 'managerLoginTypeId' | 'login' | 'locked' | 'managerId'>>;
   updateManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginArgs, 'id' | 'managerLoginTypeId' | 'login' | 'locked' | 'managerId'>>;
   removeManagerLogin?: Resolver<Maybe<ResolversTypes['ManagerLogin']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginArgs, 'id'>>;
+  createManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationCreateManagerLoginTypeArgs, 'id'>>;
+  updateManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationUpdateManagerLoginTypeArgs, 'id'>>;
+  removeManagerLoginType?: Resolver<Maybe<ResolversTypes['ManagerLoginType']>, ParentType, ContextType, RequireFields<MutationRemoveManagerLoginTypeArgs, 'id'>>;
   newManager?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationNewManagerArgs, 'firstName' | 'lastName' | 'email' | 'password'>>;
   deactivateManagers?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationDeactivateManagersArgs, 'managerIds'>>;
   changePasswordByManagerId?: Resolver<Maybe<ResolversTypes['Void']>, ParentType, ContextType, RequireFields<MutationChangePasswordByManagerIdArgs, 'managerId' | 'password'>>;
@@ -3949,12 +4061,6 @@ export type LanguageResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MailingCampaignStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingCampaignStatus'] = ResolversParentTypes['MailingCampaignStatus']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type MailingCampaignResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingCampaign'] = ResolversParentTypes['MailingCampaign']> = {
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -3966,10 +4072,9 @@ export type MailingCampaignResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MailingMessageStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingMessageStatus'] = ResolversParentTypes['MailingMessageStatus']> = {
+export type MailingCampaignStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingCampaignStatus'] = ResolversParentTypes['MailingCampaignStatus']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  final?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4004,15 +4109,16 @@ export type MailingMessageResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MailingTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingType'] = ResolversParentTypes['MailingType']> = {
+export type MailingMessageStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingMessageStatus'] = ResolversParentTypes['MailingMessageStatus']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  final?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ManagerLoginTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagerLoginType'] = ResolversParentTypes['ManagerLoginType']> = {
+export type MailingTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['MailingType'] = ResolversParentTypes['MailingType']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4024,6 +4130,12 @@ export type ManagerLoginResolvers<ContextType = any, ParentType extends Resolver
   emailVerified?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   locked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   managerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ManagerLoginTypeResolvers<ContextType = any, ParentType extends ResolversParentTypes['ManagerLoginType'] = ResolversParentTypes['ManagerLoginType']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -4249,14 +4361,14 @@ export type Resolvers<ContextType = any> = {
   Entity?: EntityResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   Language?: LanguageResolvers<ContextType>;
-  MailingCampaignStatus?: MailingCampaignStatusResolvers<ContextType>;
   MailingCampaign?: MailingCampaignResolvers<ContextType>;
-  MailingMessageStatus?: MailingMessageStatusResolvers<ContextType>;
+  MailingCampaignStatus?: MailingCampaignStatusResolvers<ContextType>;
   QuantityPerStatus?: QuantityPerStatusResolvers<ContextType>;
   MailingMessage?: MailingMessageResolvers<ContextType>;
+  MailingMessageStatus?: MailingMessageStatusResolvers<ContextType>;
   MailingType?: MailingTypeResolvers<ContextType>;
-  ManagerLoginType?: ManagerLoginTypeResolvers<ContextType>;
   ManagerLogin?: ManagerLoginResolvers<ContextType>;
+  ManagerLoginType?: ManagerLoginTypeResolvers<ContextType>;
   Manager?: ManagerResolvers<ContextType>;
   ManagersToPermission?: ManagersToPermissionResolvers<ContextType>;
   ManagersToRole?: ManagersToRoleResolvers<ContextType>;

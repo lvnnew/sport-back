@@ -41,12 +41,12 @@ import usersPermissionToGraphql from './services/users/permissionsToGraphql';
 
 // DO NOT EDIT! THIS IS GENERATED FILE
 
-type queryFiles = keyof QueryResolvers;
-type mutationFiles = keyof MutationResolvers;
+type queryKeys = keyof QueryResolvers;
+type mutationKeys = keyof MutationResolvers;
 
 export type PermissionToGraphql <T = any> = Record<
   keyof T,
-  queryFiles | mutationFiles
+  queryKeys | mutationKeys
 >
 
 export const permissionsToGraphql: Partial<Record<keyof Services, Partial<PermissionToGraphql>>> = {

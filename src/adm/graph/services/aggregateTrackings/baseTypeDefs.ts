@@ -25,8 +25,10 @@ export default gql`
     id: Int
     entityTypeId: String
     entityTypeId_in: [String]
+    entityTypeId_not_in: [String]
     entityId: String
     entityId_in: [String]
+    entityId_not_in: [String]
     lastAggregatesComputed: DateTime
     lastAggregatesComputed_lte: DateTime
     lastAggregatesComputed_gte: DateTime
@@ -45,6 +47,7 @@ export default gql`
     lastEntityUpdate_gt: DateTime
     aggregateVersion: Int
     aggregateVersion_in: [Int]
+    aggregateVersion_not_in: [Int]
     aggregateVersion_lte: Int
     aggregateVersion_gte: Int
     aggregateVersion_lt: Int

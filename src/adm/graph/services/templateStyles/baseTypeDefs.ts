@@ -15,8 +15,10 @@ export default gql`
     id: Int
     title: String
     title_in: [String]
+    title_not_in: [String]
     style: String
     style_in: [String]
+    style_not_in: [String]
   }
 
   type ListMetadata {

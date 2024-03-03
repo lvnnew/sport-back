@@ -36,10 +36,13 @@ export default gql`
     date_gt: DateTime
     originalEntityType: String
     originalEntityType_in: [String]
+    originalEntityType_not_in: [String]
     originalEntityId: String
     originalEntityId_in: [String]
+    originalEntityId_not_in: [String]
     autogenerationRuleId: String
     autogenerationRuleId_in: [String]
+    autogenerationRuleId_not_in: [String]
     version: Date
     version_lte: Date
     version_gte: Date
@@ -48,6 +51,7 @@ export default gql`
     errorOccurred: Boolean
     error: String
     error_in: [String]
+    error_not_in: [String]
     error_defined: Boolean
   }
 
