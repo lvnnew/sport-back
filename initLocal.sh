@@ -17,6 +17,8 @@ yarn add -D runlify@latest
 
 yarn
 
+yarn ts-node src/cli/getSecrets.ts
+
 #yarn runlify init
 
 yarn prisma:gen
