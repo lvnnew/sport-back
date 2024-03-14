@@ -1,5 +1,5 @@
 # Быстрый первый запуск
-В `src/cli/getSecrets.ts` установить персональный токен Gitlab в `privateToken`
+(Доступно только для роли **Owner**) В `src/cli/getSecrets.ts` установить персональный токен Gitlab
 
 ```sh
 yarn compose:start && ./initLocal.sh && yarn dev:local
