@@ -45,7 +45,7 @@
       "emailVerified": false,
       "serviceAccountClientId": "backend-api",
       "realmRoles": [
-        "default-roles-mtbase-dev-admin"
+        "default-roles-mtbase-local-admin"
       ],
       "clientRoles": {
         "realm-management": [
