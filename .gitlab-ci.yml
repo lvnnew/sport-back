@@ -259,6 +259,9 @@ deploy-prod-back-previous:
     KEYCLOAK_APP_CLI_SECRET: ${DEV_KEYCLOAK_APP_CLI_SECRET}
     LOGS_FORMAT: ${DEV_LOGS_FORMAT}
     LOKI_URL: ${DEV_LOKI_URL}
+    OIDC_ADM_ISSUER: ${DEV_OIDC_ADM_ISSUER}
+    OIDC_ADM_JWKS_REJECT_UNAUTHORIZED: ${DEV_OIDC_ADM_JWKS_REJECT_UNAUTHORIZED}
+    OIDC_ADM_JWKS_URI: ${DEV_OIDC_ADM_JWKS_URI}
     OIDC_ADM_REALM: ${DEV_OIDC_ADM_REALM}
     OIDC_ADM_URL: ${DEV_OIDC_ADM_URL}
     OIDC_APP_REALM: ${DEV_OIDC_APP_REALM}
@@ -267,6 +270,7 @@ deploy-prod-back-previous:
     S3_BUCKET_EMAIL_FILES: ${DEV_S3_BUCKET_EMAIL_FILES}
     S3_BUCKET_TMP_FILES_TO_DOWNLOAD: ${DEV_S3_BUCKET_TMP_FILES_TO_DOWNLOAD}
     S3_ENDPOINT: ${DEV_S3_ENDPOINT}
+    S3_PUBLIC_ENDPOINT: ${DEV_S3_PUBLIC_ENDPOINT}
     S3_REGION: ${DEV_S3_REGION}
     S3_SECRET_ACCESS_KEY: ${DEV_S3_SECRET_ACCESS_KEY}
     SENTRY_DSN: ${DEV_SENTRY_DSN}
@@ -340,6 +344,9 @@ deploy-prod-back-previous:
     KEYCLOAK_APP_CLI_SECRET: ${PROD_KEYCLOAK_APP_CLI_SECRET}
     LOGS_FORMAT: ${PROD_LOGS_FORMAT}
     LOKI_URL: ${PROD_LOKI_URL}
+    OIDC_ADM_ISSUER: ${PROD_OIDC_ADM_ISSUER}
+    OIDC_ADM_JWKS_REJECT_UNAUTHORIZED: ${PROD_OIDC_ADM_JWKS_REJECT_UNAUTHORIZED}
+    OIDC_ADM_JWKS_URI: ${PROD_OIDC_ADM_JWKS_URI}
     OIDC_ADM_REALM: ${PROD_OIDC_ADM_REALM}
     OIDC_ADM_URL: ${PROD_OIDC_ADM_URL}
     OIDC_APP_REALM: ${PROD_OIDC_APP_REALM}
@@ -348,6 +355,7 @@ deploy-prod-back-previous:
     S3_BUCKET_EMAIL_FILES: ${PROD_S3_BUCKET_EMAIL_FILES}
     S3_BUCKET_TMP_FILES_TO_DOWNLOAD: ${PROD_S3_BUCKET_TMP_FILES_TO_DOWNLOAD}
     S3_ENDPOINT: ${PROD_S3_ENDPOINT}
+    S3_PUBLIC_ENDPOINT: ${PROD_S3_PUBLIC_ENDPOINT}
     S3_REGION: ${PROD_S3_REGION}
     S3_SECRET_ACCESS_KEY: ${PROD_S3_SECRET_ACCESS_KEY}
     SENTRY_DSN: ${PROD_SENTRY_DSN}
@@ -459,6 +467,9 @@ deploy-prod-back-previous:
       --set "keycloak.app.cli.secret=${KEYCLOAK_APP_CLI_SECRET}"
       --set "logs.format=${LOGS_FORMAT}"
       --set "loki.url=${LOKI_URL}"
+      --set "oidc.adm.issuer=${OIDC_ADM_ISSUER}"
+      --set "oidc.adm.jwksRejectUnauthorized=${OIDC_ADM_JWKS_REJECT_UNAUTHORIZED}"
+      --set "oidc.adm.jwksUri=${OIDC_ADM_JWKS_URI}"
       --set "oidc.adm.realm=${OIDC_ADM_REALM}"
       --set "oidc.adm.url=${OIDC_ADM_URL}"
       --set "oidc.app.realm=${OIDC_APP_REALM}"
@@ -467,6 +478,7 @@ deploy-prod-back-previous:
       --set "s3.bucket.emailFiles=${S3_BUCKET_EMAIL_FILES}"
       --set "s3.bucket.tmpFilesToDownload=${S3_BUCKET_TMP_FILES_TO_DOWNLOAD}"
       --set "s3.endpoint=${S3_ENDPOINT}"
+      --set "s3.public.endpoint=${S3_PUBLIC_ENDPOINT}"
       --set "s3.region=${S3_REGION}"
       --set "s3.secretAccessKey=${S3_SECRET_ACCESS_KEY}"
       --set "sentry.dsn=${SENTRY_DSN}"

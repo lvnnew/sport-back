@@ -10,6 +10,7 @@ import log from '../log';
 const testManagers = [
   {
     email: 'manager@example.com',
+    login: 'manager@example.com',
     password: 'manager',
     firstName: 'Manager',
     lastName: 'Test',
@@ -17,6 +18,7 @@ const testManagers = [
   },
   {
     email: 'admin@example.com',
+    login: 'admin@example.com',
     password: 'admin',
     firstName: 'Admin',
     lastName: 'Test',
