@@ -49,6 +49,9 @@ export interface Config {
   keycloakAppCliSecret?: string;
   logsFormat?: string;
   lokiUrl?: string;
+  oidcAdmIssuer?: string;
+  oidcAdmJwksRejectUnauthorized?: boolean;
+  oidcAdmJwksUri?: string;
   oidcAdmRealm?: string;
   oidcAdmUrl?: string;
   oidcAppRealm?: string;
@@ -57,6 +60,7 @@ export interface Config {
   s3BucketEmailFiles: string;
   s3BucketTmpFilesToDownload: string;
   s3Endpoint: string;
+  s3PublicEndpoint?: string;
   s3Region: string;
   s3SecretAccessKey: string;
   sentryDsn?: string;
@@ -378,6 +382,27 @@ export const envVarsConfig: EnvVarConfig[] = [{
   hidden: false,
   editable: true,
 }, {
+  id: 'oidc.adm.issuer',
+  type: 'string',
+  title: 'Issuer oidc для админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'oidc.adm.jwksRejectUnauthorized',
+  type: 'bool',
+  title: 'Запрещать невалидный ssl сертификат',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'oidc.adm.jwksUri',
+  type: 'string',
+  title: 'Uri jwks oidc для проверки авторизации админки',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
   id: 'oidc.adm.realm',
   type: 'string',
   title: 'Реалм oidc для админки',
@@ -431,6 +456,13 @@ export const envVarsConfig: EnvVarConfig[] = [{
   type: 'string',
   title: 'Эндпоинт S3, который использует бекенд',
   required: true,
+  hidden: true,
+  editable: false,
+}, {
+  id: 's3.public.endpoint',
+  type: 'string',
+  title: 'Эндпоинт S3, доступный для фронтенда',
+  required: false,
   hidden: true,
   editable: false,
 }, {

@@ -183,6 +183,12 @@ spec:
           value: {{ $.Values.logs.format | quote }}
         - name: LOKI_URL
           value: {{ $.Values.loki.url | quote }}
+        - name: OIDC_ADM_ISSUER
+          value: {{ $.Values.oidc.adm.issuer | quote }}
+        - name: OIDC_ADM_JWKS_REJECT_UNAUTHORIZED
+          value: {{ $.Values.oidc.adm.jwksRejectUnauthorized | quote }}
+        - name: OIDC_ADM_JWKS_URI
+          value: {{ $.Values.oidc.adm.jwksUri | quote }}
         - name: OIDC_ADM_REALM
           value: {{ $.Values.oidc.adm.realm | quote }}
         - name: OIDC_ADM_URL
@@ -199,6 +205,8 @@ spec:
           value: {{ $.Values.s3.bucket.tmpFilesToDownload | quote }}
         - name: S3_ENDPOINT
           value: {{ $.Values.s3.endpoint | quote }}
+        - name: S3_PUBLIC_ENDPOINT
+          value: {{ $.Values.s3.public.endpoint | quote }}
         - name: S3_REGION
           value: {{ $.Values.s3.region | quote }}
         - name: S3_SECRET_ACCESS_KEY

@@ -15759,6 +15759,57 @@
    "default": "",
    "editable": true,
    "hidden": false,
+   "name": "oidc.adm.issuer",
+   "needFor": "Issuer oidc для админки",
+   "required": false,
+   "scopes": [
+    "back",
+    "admin-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": false,
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.adm.jwksRejectUnauthorized",
+   "needFor": "Запрещать невалидный ssl сертификат",
+   "required": false,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "bool"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.adm.jwksUri",
+   "needFor": "Uri jwks oidc для проверки авторизации админки",
+   "required": false,
+   "scopes": [
+    "back"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
+   "name": "oidc.adm.logoutType",
+   "needFor": "Тип выхода админки",
+   "required": false,
+   "scopes": [
+    "admin-app"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": true,
+   "hidden": false,
    "name": "oidc.adm.realm",
    "needFor": "Реалм oidc для админки",
    "required": false,
@@ -15868,6 +15919,20 @@
    "name": "s3.endpoint",
    "needFor": "Эндпоинт S3, который использует бекенд",
    "required": true,
+   "scopes": [
+    "back",
+    "worker",
+    "telegramBot"
+   ],
+   "type": "string"
+  },
+  {
+   "default": "",
+   "editable": false,
+   "hidden": true,
+   "name": "s3.public.endpoint",
+   "needFor": "Эндпоинт S3, доступный для фронтенда",
+   "required": false,
    "scopes": [
     "back",
     "worker",
