@@ -70,6 +70,7 @@
  "sharding": false,
  "showMetaPage": true,
  "skipWarningThisIsGenerated": false,
+ "telemetry": false,
  "tenantsAvailable": false,
  "themesEnabled": true,
  "typesOnly": false,
