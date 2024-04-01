@@ -5,8 +5,8 @@
  "coreIndex": true,
  "corePrismaGetter": true,
  "dbName": "mtbase_stage",
- "detachedBackProject": "/home/leshenkov/Work/Meta Template Base/mtbase-back",
- "detachedUiProject": "/home/leshenkov/Work/Meta Template Base/mtbase-ui",
+ "detachedBackProject": "/home/leshenkov/Work/MetaTemplateBase/mtbase-back",
+ "detachedUiProject": "/home/leshenkov/Work/MetaTemplateBase/mtbase-ui",
  "forms": {
   "create": {
    "gen": true,
