@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     AppRefreshToken: (_, {id}, {context}: {context: Context}) =>
-      context.service('appRefreshTokens').get(id),
+      context.service('appRefreshTokens').get(id, true),
     allAppRefreshTokens:
       (_, params: QueryAllAppRefreshTokensArgs, {context}: {context: Context}) =>
-        context.service('appRefreshTokens').all(params),
+        context.service('appRefreshTokens').all(params, true),
     _allAppRefreshTokensMeta:
       (_, params: Query_AllAppRefreshTokensMetaArgs, {context}: {context: Context}) =>
-        context.service('appRefreshTokens').meta(params),
+        context.service('appRefreshTokens').meta(params, true),
   },
   Mutation: {
     createAppRefreshToken:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('appRefreshTokens').update(params, true),
     removeAppRefreshToken:
       (_, params: MutationRemoveAppRefreshTokenArgs, {context}: {context: Context}) =>
-        context.service('appRefreshTokens').delete(params),
+        context.service('appRefreshTokens').delete(params, true),
   },
 };
 

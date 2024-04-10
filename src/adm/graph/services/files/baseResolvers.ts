@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     File: (_, {id}, {context}: {context: Context}) =>
-      context.service('files').get(id),
+      context.service('files').get(id, true),
     allFiles:
       (_, params: QueryAllFilesArgs, {context}: {context: Context}) =>
-        context.service('files').all(params),
+        context.service('files').all(params, true),
     _allFilesMeta:
       (_, params: Query_AllFilesMetaArgs, {context}: {context: Context}) =>
-        context.service('files').meta(params),
+        context.service('files').meta(params, true),
   },
   Mutation: {
     createFile:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('files').update(params, true),
     removeFile:
       (_, params: MutationRemoveFileArgs, {context}: {context: Context}) =>
-        context.service('files').delete(params),
+        context.service('files').delete(params, true),
   },
 };
 

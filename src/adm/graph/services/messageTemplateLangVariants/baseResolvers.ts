@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     MessageTemplateLangVariant: (_, {id}, {context}: {context: Context}) =>
-      context.service('messageTemplateLangVariants').get(id),
+      context.service('messageTemplateLangVariants').get(id, true),
     allMessageTemplateLangVariants:
       (_, params: QueryAllMessageTemplateLangVariantsArgs, {context}: {context: Context}) =>
-        context.service('messageTemplateLangVariants').all(params),
+        context.service('messageTemplateLangVariants').all(params, true),
     _allMessageTemplateLangVariantsMeta:
       (_, params: Query_AllMessageTemplateLangVariantsMetaArgs, {context}: {context: Context}) =>
-        context.service('messageTemplateLangVariants').meta(params),
+        context.service('messageTemplateLangVariants').meta(params, true),
   },
   Mutation: {
     createMessageTemplateLangVariant:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('messageTemplateLangVariants').update(params, true),
     removeMessageTemplateLangVariant:
       (_, params: MutationRemoveMessageTemplateLangVariantArgs, {context}: {context: Context}) =>
-        context.service('messageTemplateLangVariants').delete(params),
+        context.service('messageTemplateLangVariants').delete(params, true),
   },
 };
 

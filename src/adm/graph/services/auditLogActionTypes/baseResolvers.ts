@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     AuditLogActionType: (_, {id}, {context}: {context: Context}) =>
-      context.service('auditLogActionTypes').get(id),
+      context.service('auditLogActionTypes').get(id, true),
     allAuditLogActionTypes:
       (_, params: QueryAllAuditLogActionTypesArgs, {context}: {context: Context}) =>
-        context.service('auditLogActionTypes').all(params),
+        context.service('auditLogActionTypes').all(params, true),
     _allAuditLogActionTypesMeta:
       (_, params: Query_AllAuditLogActionTypesMetaArgs, {context}: {context: Context}) =>
-        context.service('auditLogActionTypes').meta(params),
+        context.service('auditLogActionTypes').meta(params, true),
   },
   Mutation: {
     createAuditLogActionType:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('auditLogActionTypes').update(params, true),
     removeAuditLogActionType:
       (_, params: MutationRemoveAuditLogActionTypeArgs, {context}: {context: Context}) =>
-        context.service('auditLogActionTypes').delete(params),
+        context.service('auditLogActionTypes').delete(params, true),
   },
 };
 

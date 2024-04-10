@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     ManagerLoginType: (_, {id}, {context}: {context: Context}) =>
-      context.service('managerLoginTypes').get(id),
+      context.service('managerLoginTypes').get(id, true),
     allManagerLoginTypes:
       (_, params: QueryAllManagerLoginTypesArgs, {context}: {context: Context}) =>
-        context.service('managerLoginTypes').all(params),
+        context.service('managerLoginTypes').all(params, true),
     _allManagerLoginTypesMeta:
       (_, params: Query_AllManagerLoginTypesMetaArgs, {context}: {context: Context}) =>
-        context.service('managerLoginTypes').meta(params),
+        context.service('managerLoginTypes').meta(params, true),
   },
   Mutation: {
     createManagerLoginType:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('managerLoginTypes').update(params, true),
     removeManagerLoginType:
       (_, params: MutationRemoveManagerLoginTypeArgs, {context}: {context: Context}) =>
-        context.service('managerLoginTypes').delete(params),
+        context.service('managerLoginTypes').delete(params, true),
   },
 };
 

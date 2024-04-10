@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     Tag: (_, {id}, {context}: {context: Context}) =>
-      context.service('tags').get(id),
+      context.service('tags').get(id, true),
     allTags:
       (_, params: QueryAllTagsArgs, {context}: {context: Context}) =>
-        context.service('tags').all(params),
+        context.service('tags').all(params, true),
     _allTagsMeta:
       (_, params: Query_AllTagsMetaArgs, {context}: {context: Context}) =>
-        context.service('tags').meta(params),
+        context.service('tags').meta(params, true),
   },
   Mutation: {
     createTag:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('tags').update(params, true),
     removeTag:
       (_, params: MutationRemoveTagArgs, {context}: {context: Context}) =>
-        context.service('tags').delete(params),
+        context.service('tags').delete(params, true),
   },
 };
 

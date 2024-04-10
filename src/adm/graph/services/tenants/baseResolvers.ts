@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     Tenant: (_, {id}, {context}: {context: Context}) =>
-      context.service('tenants').get(id),
+      context.service('tenants').get(id, true),
     allTenants:
       (_, params: QueryAllTenantsArgs, {context}: {context: Context}) =>
-        context.service('tenants').all(params),
+        context.service('tenants').all(params, true),
     _allTenantsMeta:
       (_, params: Query_AllTenantsMetaArgs, {context}: {context: Context}) =>
-        context.service('tenants').meta(params),
+        context.service('tenants').meta(params, true),
   },
   Mutation: {
     createTenant:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('tenants').update(params, true),
     removeTenant:
       (_, params: MutationRemoveTenantArgs, {context}: {context: Context}) =>
-        context.service('tenants').delete(params),
+        context.service('tenants').delete(params, true),
   },
 };
 

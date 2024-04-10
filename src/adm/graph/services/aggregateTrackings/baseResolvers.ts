@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     AggregateTracking: (_, {id}, {context}: {context: Context}) =>
-      context.service('aggregateTrackings').get(id),
+      context.service('aggregateTrackings').get(id, true),
     allAggregateTrackings:
       (_, params: QueryAllAggregateTrackingsArgs, {context}: {context: Context}) =>
-        context.service('aggregateTrackings').all(params),
+        context.service('aggregateTrackings').all(params, true),
     _allAggregateTrackingsMeta:
       (_, params: Query_AllAggregateTrackingsMetaArgs, {context}: {context: Context}) =>
-        context.service('aggregateTrackings').meta(params),
+        context.service('aggregateTrackings').meta(params, true),
   },
   Mutation: {
     createAggregateTracking:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('aggregateTrackings').update(params, true),
     removeAggregateTracking:
       (_, params: MutationRemoveAggregateTrackingArgs, {context}: {context: Context}) =>
-        context.service('aggregateTrackings').delete(params),
+        context.service('aggregateTrackings').delete(params, true),
   },
 };
 
