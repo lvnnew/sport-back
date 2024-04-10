@@ -68,8 +68,9 @@ export class DocumentBaseService<
 
   async rePost (
     id: Entity['id'],
+    byUser = false,
   ): Promise<void> {
-    const data = await this.get(id);
+    const data = await this.get(id, byUser);
 
     if (!data) {
       throw new Error(`There is no document with "${id}" id`);
