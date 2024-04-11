@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     RolesToPermission: (_, {id}, {context}: {context: Context}) =>
-      context.service('rolesToPermissions').get(id),
+      context.service('rolesToPermissions').get(id, true),
     allRolesToPermissions:
       (_, params: QueryAllRolesToPermissionsArgs, {context}: {context: Context}) =>
-        context.service('rolesToPermissions').all(params),
+        context.service('rolesToPermissions').all(params, true),
     _allRolesToPermissionsMeta:
       (_, params: Query_AllRolesToPermissionsMetaArgs, {context}: {context: Context}) =>
-        context.service('rolesToPermissions').meta(params),
+        context.service('rolesToPermissions').meta(params, true),
   },
   Mutation: {
     createRolesToPermission:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('rolesToPermissions').update(params, true),
     removeRolesToPermission:
       (_, params: MutationRemoveRolesToPermissionArgs, {context}: {context: Context}) =>
-        context.service('rolesToPermissions').delete(params),
+        context.service('rolesToPermissions').delete(params, true),
   },
 };
 

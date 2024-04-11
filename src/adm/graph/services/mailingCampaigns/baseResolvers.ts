@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     MailingCampaign: (_, {id}, {context}: {context: Context}) =>
-      context.service('mailingCampaigns').get(id),
+      context.service('mailingCampaigns').get(id, true),
     allMailingCampaigns:
       (_, params: QueryAllMailingCampaignsArgs, {context}: {context: Context}) =>
-        context.service('mailingCampaigns').all(params),
+        context.service('mailingCampaigns').all(params, true),
     _allMailingCampaignsMeta:
       (_, params: Query_AllMailingCampaignsMetaArgs, {context}: {context: Context}) =>
-        context.service('mailingCampaigns').meta(params),
+        context.service('mailingCampaigns').meta(params, true),
   },
   Mutation: {
     createMailingCampaign:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('mailingCampaigns').update(params, true),
     removeMailingCampaign:
       (_, params: MutationRemoveMailingCampaignArgs, {context}: {context: Context}) =>
-        context.service('mailingCampaigns').delete(params),
+        context.service('mailingCampaigns').delete(params, true),
   },
 };
 

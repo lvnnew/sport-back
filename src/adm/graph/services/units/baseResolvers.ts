@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     Unit: (_, {id}, {context}: {context: Context}) =>
-      context.service('units').get(id),
+      context.service('units').get(id, true),
     allUnits:
       (_, params: QueryAllUnitsArgs, {context}: {context: Context}) =>
-        context.service('units').all(params),
+        context.service('units').all(params, true),
     _allUnitsMeta:
       (_, params: Query_AllUnitsMetaArgs, {context}: {context: Context}) =>
-        context.service('units').meta(params),
+        context.service('units').meta(params, true),
   },
   Mutation: {
     createUnit:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('units').update(params, true),
     removeUnit:
       (_, params: MutationRemoveUnitArgs, {context}: {context: Context}) =>
-        context.service('units').delete(params),
+        context.service('units').delete(params, true),
   },
 };
 

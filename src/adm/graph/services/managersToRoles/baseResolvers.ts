@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     ManagersToRole: (_, {id}, {context}: {context: Context}) =>
-      context.service('managersToRoles').get(id),
+      context.service('managersToRoles').get(id, true),
     allManagersToRoles:
       (_, params: QueryAllManagersToRolesArgs, {context}: {context: Context}) =>
-        context.service('managersToRoles').all(params),
+        context.service('managersToRoles').all(params, true),
     _allManagersToRolesMeta:
       (_, params: Query_AllManagersToRolesMetaArgs, {context}: {context: Context}) =>
-        context.service('managersToRoles').meta(params),
+        context.service('managersToRoles').meta(params, true),
   },
   Mutation: {
     createManagersToRole:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('managersToRoles').update(params, true),
     removeManagersToRole:
       (_, params: MutationRemoveManagersToRoleArgs, {context}: {context: Context}) =>
-        context.service('managersToRoles').delete(params),
+        context.service('managersToRoles').delete(params, true),
   },
 };
 

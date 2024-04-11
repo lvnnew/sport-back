@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     TemplateStyle: (_, {id}, {context}: {context: Context}) =>
-      context.service('templateStyles').get(id),
+      context.service('templateStyles').get(id, true),
     allTemplateStyles:
       (_, params: QueryAllTemplateStylesArgs, {context}: {context: Context}) =>
-        context.service('templateStyles').all(params),
+        context.service('templateStyles').all(params, true),
     _allTemplateStylesMeta:
       (_, params: Query_AllTemplateStylesMetaArgs, {context}: {context: Context}) =>
-        context.service('templateStyles').meta(params),
+        context.service('templateStyles').meta(params, true),
   },
   Mutation: {
     createTemplateStyle:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('templateStyles').update(params, true),
     removeTemplateStyle:
       (_, params: MutationRemoveTemplateStyleArgs, {context}: {context: Context}) =>
-        context.service('templateStyles').delete(params),
+        context.service('templateStyles').delete(params, true),
   },
 };
 

@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     Stat: (_, {id}, {context}: {context: Context}) =>
-      context.service('stats').get(id),
+      context.service('stats').get(id, true),
     allStats:
       (_, params: QueryAllStatsArgs, {context}: {context: Context}) =>
-        context.service('stats').all(params),
+        context.service('stats').all(params, true),
     _allStatsMeta:
       (_, params: Query_AllStatsMetaArgs, {context}: {context: Context}) =>
-        context.service('stats').meta(params),
+        context.service('stats').meta(params, true),
   },
   Mutation: {
     createStat:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('stats').update(params, true),
     removeStat:
       (_, params: MutationRemoveStatArgs, {context}: {context: Context}) =>
-        context.service('stats').delete(params),
+        context.service('stats').delete(params, true),
   },
 };
 

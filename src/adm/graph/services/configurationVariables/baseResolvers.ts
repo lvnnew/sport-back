@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     ConfigurationVariable: (_, {id}, {context}: {context: Context}) =>
-      context.service('configurationVariables').get(id),
+      context.service('configurationVariables').get(id, true),
     allConfigurationVariables:
       (_, params: QueryAllConfigurationVariablesArgs, {context}: {context: Context}) =>
-        context.service('configurationVariables').all(params),
+        context.service('configurationVariables').all(params, true),
     _allConfigurationVariablesMeta:
       (_, params: Query_AllConfigurationVariablesMetaArgs, {context}: {context: Context}) =>
-        context.service('configurationVariables').meta(params),
+        context.service('configurationVariables').meta(params, true),
   },
   Mutation: {
     createConfigurationVariable:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('configurationVariables').update(params, true),
     removeConfigurationVariable:
       (_, params: MutationRemoveConfigurationVariableArgs, {context}: {context: Context}) =>
-        context.service('configurationVariables').delete(params),
+        context.service('configurationVariables').delete(params, true),
   },
 };
 

@@ -65,35 +65,69 @@ export class BaseService<
 
   allowedToChange = (_e: Entity | ReliableCreateUserInput | StrictCreateArgs | StrictUpdateArgs, _serviceUtils: ServiceUtils): boolean => true;
 
+  async validate (_data: StrictCreateArgs | StrictUpdateArgs | Entity): Promise<void> {}
+
   constructor(
     protected ctx: Context,
     public prismaService: PrismaDelegate,
     public config: ServiceConfig,
   ) {
     super();
+
+    const boundValidate = this.validate.bind(this);
+
+    const validate = async <T extends StrictCreateArgs | StrictUpdateArgs> (_: Context, data: T): Promise<T> => {
+      await boundValidate(data);
+      return data;
+    };
+
+    const validateUpsert = async (_: Context, data: {
+      createData: ReliableCreateUserInput;
+      updateData: StrictUpdateArgs;
+    }) => {
+      await boundValidate(data.updateData);
+      return data as unknown as {
+        createData: StrictCreateArgs;
+        updateData: StrictUpdateArgs;
+      };
+    };
+
+    this.hooksAdd.beforeCreate(validate as any);
+    this.hooksAdd.beforeUpdate(validate);
+    this.hooksAdd.beforeUpsert(validateUpsert);
   }
 
   async all(
     params: QueryAllArgs = {} as QueryAllArgs,
+    byUser = false,
   ): Promise<Entity[]> {
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params) : params;
+
     return this.prismaService.findMany(
-      toPrismaRequest(await this._hooks.changeListFilter(this.ctx, params), {noId: false}),
+      toPrismaRequest(
+        requestParams,
+        {noId: false},
+      ),
     ) as Promise<Entity[]>;
   }
 
   async findOne(
     params: QueryAllArgs = {} as QueryAllArgs,
+    byUser = false,
   ): Promise<Entity | null> {
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params) : params;
+
     return this.prismaService.findFirst(toPrismaRequest(
-      await this._hooks.changeListFilter(this.ctx, params),
+      requestParams,
       {noId: false},
     )) as Promise<Entity>;
   }
 
   async findOneRequired(
     params: QueryAllArgs = {} as QueryAllArgs,
+    byUser = false,
   ): Promise<Entity> {
-    const found = await this.findOne(params);
+    const found = await this.findOne(params, byUser);
 
     if (!found) {
       throw new Error(`There is no entry with "${JSON.stringify(params)}" filter`);
@@ -104,14 +138,16 @@ export class BaseService<
 
   async get(
     id: Entity['id'],
+    byUser = false,
   ): Promise<Entity | null> {
-    return this.findOne({filter: {id}} as unknown as QueryAllArgs); // todo: fix unknown
+    return this.findOne({filter: {id}} as unknown as QueryAllArgs, byUser); // todo: fix unknown
   }
 
   async getRequired(
     id: Entity['id'],
+    byUser = false,
   ): Promise<Entity> {
-    const found = await this.get(id);
+    const found = await this.get(id, byUser);
 
     if (!found) {
       throw new Error(`There is no entry with "${id}" id`);
@@ -122,15 +158,21 @@ export class BaseService<
 
   async count(
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
+    byUser = false,
   ): Promise<number> {
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs) : params;
+
     // todo: need to write correct type for count in PrismaLocalDelegation
-    return this.prismaService.count(toPrismaTotalRequest(await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs))) as unknown as Promise<number>;
+    return this.prismaService.count(
+      toPrismaTotalRequest(requestParams),
+    ) as unknown as Promise<number>;
   }
 
   async meta(
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
+    byUser = false,
   ): Promise<ListMetadata> {
-    return this.count(params).then(count => ({count}));
+    return this.count(params, byUser).then(count => ({count}));
   }
 
   async create(
@@ -376,6 +418,19 @@ export class BaseService<
     return result;
   }
 
+  async upsertMany(
+    data: PartialFieldsInRecord<MutationUpdateArgsWithoutAutodefinable, 'id'>[],
+    byUser = false,
+  ) {
+    if (!data.length) {
+      return;
+    }
+
+    const promises = data.map(d => this.upsert(d, byUser));
+
+    return await Promise.all(promises);
+  }
+
   async upsertAdvanced(
     filter: QueryAllArgs['filter'],
     data: MutationCreateArgsWithoutAutodefinable,
@@ -398,10 +453,11 @@ export class BaseService<
 
   async delete(
     params: MutationRemoveArgs,
+    byUser = false,
   ): Promise<Entity> {
     await this._hooks.beforeDelete(this.ctx, params);
 
-    const entity = await this.get(params.id);
+    const entity = await this.get(params.id, byUser);
 
     if (!entity) {
       throw new Error(`There is no entity with "${params.id}" id`);

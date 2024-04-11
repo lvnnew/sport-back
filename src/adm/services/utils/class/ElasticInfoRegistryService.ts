@@ -4,7 +4,6 @@ import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../..
 import {Obj, PrismaLocalDelegation, WithID} from './BaseService';
 import {BaseElasticEntity} from './ElasticBaseSearch';
 import {Context, InfoRegistryConfig} from '../../types';
-import log from '../../../../log';
 import {toElasticRequest} from '../../../../utils/toElasticRequest';
 import {toPrismaRequest} from '../../../../utils/prisma/toPrismaRequest';
 import * as R from 'ramda';
@@ -77,7 +76,7 @@ export class ElasticInfoRegistryService<
       lastUpdated: new Date(),
     };
 
-    log.info(`entityId: ${id}`);
+    // log.info(`entityId: ${id}`);
 
     return this.prismaExternalService.upsert({
       where: {
@@ -106,10 +105,12 @@ export class ElasticInfoRegistryService<
 
   async all (
     params: QueryAllArgs = {} as QueryAllArgs,
+    byUser = false,
   ): Promise<Entity[]> {
     const elasticSearch = this.ctx.elastic.createSearcher(this.config.entityTypeId);
 
-    const search = await elasticSearch(toElasticRequest(await this._hooks.changeListFilter(this.ctx, params)));
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params) : params;
+    const search = await elasticSearch(toElasticRequest(requestParams));
 
     const ids = search.hits.hits.map((el) => (this.config.idType === 'bigint' && (el._source as Entity)?.id ? BigInt((el._source as Entity).id) : (el._source as Entity)?.id)).filter(Boolean);
 
@@ -123,10 +124,12 @@ export class ElasticInfoRegistryService<
 
   async count (
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
+    byUser = false,
   ): Promise<number> {
     const elasticCount = this.ctx.elastic.createCounter(this.config.entityTypeId);
 
-    const reg = R.omit(['sortOrder', 'sortField'], toElasticRequest(await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs)));
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs) : params;
+    const reg = R.omit(['sortOrder', 'sortField'], toElasticRequest(requestParams));
 
     const result = await elasticCount(reg);
 

@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     AutogenerationRule: (_, {id}, {context}: {context: Context}) =>
-      context.service('autogenerationRules').get(id),
+      context.service('autogenerationRules').get(id, true),
     allAutogenerationRules:
       (_, params: QueryAllAutogenerationRulesArgs, {context}: {context: Context}) =>
-        context.service('autogenerationRules').all(params),
+        context.service('autogenerationRules').all(params, true),
     _allAutogenerationRulesMeta:
       (_, params: Query_AllAutogenerationRulesMetaArgs, {context}: {context: Context}) =>
-        context.service('autogenerationRules').meta(params),
+        context.service('autogenerationRules').meta(params, true),
   },
   Mutation: {
     createAutogenerationRule:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('autogenerationRules').update(params, true),
     removeAutogenerationRule:
       (_, params: MutationRemoveAutogenerationRuleArgs, {context}: {context: Context}) =>
-        context.service('autogenerationRules').delete(params),
+        context.service('autogenerationRules').delete(params, true),
   },
 };
 

@@ -6,7 +6,6 @@ import * as R from 'ramda';
 import {DefinedFieldsInRecord, DefinedRecord, PartialFieldsInRecord} from '../../../../types/utils';
 import {toElasticRequest} from '../../../../utils/toElasticRequest';
 import {Context, ServiceConfig} from '../../types';
-import log from '../../../../log';
 import {PrismaPromise} from '@prisma/client';
 
 export interface BaseElasticEntity {
@@ -72,7 +71,7 @@ export class ElasticBaseSearch<
       lastUpdated: new Date(),
     };
 
-    log.info(`entityId: ${id}`);
+    // log.info(`entityId: ${id}`);
 
     return this.prismaExternalService.upsert({
       where: {
@@ -101,10 +100,12 @@ export class ElasticBaseSearch<
 
   async all (
     params: QueryAllArgs = {} as QueryAllArgs,
+    byUser = false,
   ): Promise<Entity[]> {
     const elasticSearch = this.ctx.elastic.createSearcher(this.config.entityTypeId);
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params) : params;
 
-    const search = await elasticSearch(toElasticRequest(await this._hooks.changeListFilter(this.ctx, params)));
+    const search = await elasticSearch(toElasticRequest(requestParams));
 
     const ids = search.hits.hits.map((el) => (this.config.idType === 'bigint' && (el._source as Entity)?.id ? BigInt((el._source as Entity).id) : (el._source as Entity)?.id)).filter(Boolean);
 
@@ -118,10 +119,12 @@ export class ElasticBaseSearch<
 
   async count (
     params: Omit<QueryAllArgs, 'sortField' | 'sortOrder'> = {} as Omit<QueryAllArgs, 'sortField' | 'sortOrder'>,
+    byUser = false,
   ): Promise<number> {
     const elasticCount = this.ctx.elastic.createCounter(this.config.entityTypeId);
+    const requestParams = byUser ? await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs) : params;
 
-    const reg = R.omit(['sortOrder', 'sortField'], toElasticRequest(await this._hooks.changeListFilter(this.ctx, params as QueryAllArgs)));
+    const reg = R.omit(['sortOrder', 'sortField'], toElasticRequest(requestParams));
 
     const result = await elasticCount(reg);
 

@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     Language: (_, {id}, {context}: {context: Context}) =>
-      context.service('languages').get(id),
+      context.service('languages').get(id, true),
     allLanguages:
       (_, params: QueryAllLanguagesArgs, {context}: {context: Context}) =>
-        context.service('languages').all(params),
+        context.service('languages').all(params, true),
     _allLanguagesMeta:
       (_, params: Query_AllLanguagesMetaArgs, {context}: {context: Context}) =>
-        context.service('languages').meta(params),
+        context.service('languages').meta(params, true),
   },
   Mutation: {
     createLanguage:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('languages').update(params, true),
     removeLanguage:
       (_, params: MutationRemoveLanguageArgs, {context}: {context: Context}) =>
-        context.service('languages').delete(params),
+        context.service('languages').delete(params, true),
   },
 };
 

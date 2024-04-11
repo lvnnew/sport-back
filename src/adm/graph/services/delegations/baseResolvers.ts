@@ -13,13 +13,13 @@ import {Context} from '../../../services/types';
 const queryResolvers: Resolvers = {
   Query: {
     Delegation: (_, {id}, {context}: {context: Context}) =>
-      context.service('delegations').get(id),
+      context.service('delegations').get(id, true),
     allDelegations:
       (_, params: QueryAllDelegationsArgs, {context}: {context: Context}) =>
-        context.service('delegations').all(params),
+        context.service('delegations').all(params, true),
     _allDelegationsMeta:
       (_, params: Query_AllDelegationsMetaArgs, {context}: {context: Context}) =>
-        context.service('delegations').meta(params),
+        context.service('delegations').meta(params, true),
   },
   Mutation: {
     createDelegation:
@@ -30,7 +30,7 @@ const queryResolvers: Resolvers = {
         context.service('delegations').update(params, true),
     removeDelegation:
       (_, params: MutationRemoveDelegationArgs, {context}: {context: Context}) =>
-        context.service('delegations').delete(params),
+        context.service('delegations').delete(params, true),
   },
 };
 
