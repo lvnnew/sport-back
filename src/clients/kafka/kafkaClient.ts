@@ -23,11 +23,12 @@ const mapLogLevel = (level: logLevel) => {
 
 const logCreator: kafkaLogCreator = () => {
   return ({level, log}) => {
-    const {message, ...extra} = log;
-    logger[mapLogLevel(level)](
-      message,
-      extra,
-    );
+    const mappedLevel = mapLogLevel(level);
+    logger.log({
+      level: mappedLevel,
+      message: `${log.broker} ${mappedLevel === 'error' ? log.error : log.message}`,
+      log,
+    });
   };
 };
 

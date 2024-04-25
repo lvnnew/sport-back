@@ -74,5 +74,6 @@
  "tenantsAvailable": false,
  "themesEnabled": true,
  "typesOnly": false,
+ "useSortedFilter": false,
  "usersEnabled": true
 }

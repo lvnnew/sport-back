@@ -9,7 +9,7 @@ import {EnvVarConfig, EnvVarConfigBaseValues, EnvVarConfigValues} from './types'
 import {getKnexByUri} from '../clients/knex/getKnexByUri';
 import {envVarsConfig, Config} from './config';
 
-export type TLogger = Pick<WLogger, 'info' | 'error' | 'debug' | 'warn'>;
+export type TLogger = Pick<WLogger, 'info' | 'error' | 'debug' | 'warn' | 'log'>;
 
 export class ConfigUtils {
   private cache: LRUCache<'values' | 'config', any>;
