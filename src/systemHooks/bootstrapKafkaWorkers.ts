@@ -41,15 +41,13 @@ const bootstrapKafkaWorkers = async (ctx: Context) => {
 
       for (const [queue, topicName] of Object.entries(topics)) {
         let metadata;
-        let tipicExist = false;
         try {
           metadata = await admin.admin.fetchTopicMetadata({topics: [topicName]});
-          tipicExist = true;
         } catch (error_: any) {
           log.warn(error_?.toString());
         }
 
-        if (tipicExist) {
+        if (metadata) {
           const meta = metadata && metadata.topics.find((m) => m.name === topicName);
           if (!meta || meta.partitions.length < localConfig[queue]) {
             // количество партиций только увеличивается
