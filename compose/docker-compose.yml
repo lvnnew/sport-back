@@ -43,6 +43,7 @@ services:
       KEYCLOAK_FRONTEND_URL: http://localhost:8180/auth
     depends_on:
       - postgres
+    restart: unless-stopped
 # minio
   minio:
     image: "minio/minio"
