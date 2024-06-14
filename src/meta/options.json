@@ -1,12 +1,13 @@
 {
  "adminBaseDockerimage": "nginx:1.23-alpine",
  "backendBaseDockerimage": "registry.gitlab.com/making.ventures/images/node-base",
+ "breadcrumb": true,
  "ciDockerRegistry": "registry.service.making.ventures",
  "coreIndex": true,
  "corePrismaGetter": true,
  "dbName": "mtbase_stage",
- "detachedBackProject": "/home/leshenkov/Work/MetaTemplateBase/mtbase-back",
- "detachedUiProject": "/home/leshenkov/Work/MetaTemplateBase/mtbase-ui",
+ "detachedBackProject": "F:\\Work\\Meta_Template_Base\\mtbase-back",
+ "detachedUiProject": "F:\\Work\\Meta_Template_Base\\mtbase-ui",
  "forms": {
   "create": {
    "gen": true,
@@ -57,6 +58,7 @@
  "genUiResources": true,
  "genUiResourcesPage": true,
  "genUiRoutes": true,
+ "ingressAnnotationBodySize": "50m",
  "k8sAppsDomain": "apps.making.ventures",
  "k8sChartName": "",
  "k8sImagePullSecrets": "docker-registry",
