@@ -32,6 +32,8 @@ const opts: BootstrapEntityOptions = {
   dbName: 'mtbase_stage',
   projectName: 'Meta Template Base',
   projectPrefix: 'mtbase',
+
+  breadcrumb: true,
 };
 
 const system = new SystemMetaBuilder('mtbase', opts);
