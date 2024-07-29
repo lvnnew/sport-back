@@ -143,6 +143,8 @@ spec:
           value: {{ $.Values.es.tls.rejectUnauthorized | quote }}
         - name: ES_USERNAME
           value: {{ $.Values.es.username | quote }}
+        - name: EXPORT_HTML_URL
+          value: {{ $.Values.exportHtml.url | quote }}
         - name: GRAPHQL_PLAYGROUND_ENABLED
           value: {{ $.Values.graphql.playground.enabled | quote }}
         - name: KAFKA_AUTH_ENABLED

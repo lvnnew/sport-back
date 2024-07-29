@@ -6,8 +6,8 @@
  "coreIndex": true,
  "corePrismaGetter": true,
  "dbName": "test_stage",
- "detachedBackProject": "F:\\Work\\Meta_Template_Base\\test-back",
- "detachedUiProject": "F:\\Work\\Meta_Template_Base\\test-ui",
+ "detachedBackProject": "F:\\Work\\test\\test-back",
+ "detachedUiProject": "F:\\Work\\test\\test-ui",
  "forms": {
   "create": {
    "gen": true,
@@ -43,7 +43,7 @@
  "genRootConfig": true,
  "genRootElements": true,
  "genUIApp": true,
- "genUiAppBar": true,
+ "genUiAppBar": false,
  "genUiChartFront": true,
  "genUiChartIngress": true,
  "genUiCiNotify": true,

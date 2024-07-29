@@ -8,12 +8,9 @@ const initPermissions = async (ctx: Context) => {
   const customPermissions = [
     'dashboards.main',
     'managers.changePasswordByManagerId',
-    'resources',
-    'metrics',
-    'dashboard',
-    'functions',
-    'meta',
-    'debug',
+    'commenting',
+    'spaAdmin',
+    'spaAnalyst',
   ];
 
   const permissions = [

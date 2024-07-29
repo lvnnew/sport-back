@@ -29,6 +29,7 @@ export interface Config {
   esPassword?: string;
   esTlsRejectUnauthorized?: boolean;
   esUsername?: string;
+  exportHtmlUrl?: string;
   graphqlPlaygroundEnabled?: boolean;
   kafkaAuthEnabled: boolean;
   kafkaBrokers?: string;
@@ -238,6 +239,13 @@ export const envVarsConfig: EnvVarConfig[] = [{
   id: 'es.username',
   type: 'string',
   title: 'Пользователь для авторизации в облачном сервисе ElasticSearch',
+  required: false,
+  hidden: false,
+  editable: true,
+}, {
+  id: 'exportHtml.url',
+  type: 'string',
+  title: 'ExportHtml url',
   required: false,
   hidden: false,
   editable: true,

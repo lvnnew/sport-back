@@ -4,6 +4,7 @@ import getQueue from '../clients/queue/getQueue';
 import {initTestManagers} from './initTestManagers';
 import getAdmKeycloak from '../clients/keycloak/getAdmKeycloak';
 import {getConfig} from '../config';
+import initDemoEntities from './initDemoEntities';
 
 // yarn init:dev
 // runlify start env=test yarn init:dev
@@ -25,6 +26,7 @@ const app = async () => {
   if (keycloakAdmCliSecret && keycloakAdmCliSecret.length) {
     const keycloak = await getAdmKeycloak();
     await initTestManagers(ctx, keycloak);
+    await initDemoEntities(ctx);
   }
 
   await ctx.close();

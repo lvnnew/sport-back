@@ -7,6 +7,9 @@ import {
 } from 'runlify';
 import path from 'path';
 import stringify from 'safe-stable-stringify';
+import addCatalogs from './addCatalogs';
+import addMenu from './addMenu';
+import addWscEntities from './addWscEntities';
 
 // yarn regen
 
@@ -26,6 +29,8 @@ const opts: BootstrapEntityOptions = {
   genUiRoutes: true,
   skipWarningThisIsGenerated: false,
 
+  genUiAppBar: false,
+
   detachedBackProject: path.join(dir, 'test-back'),
   detachedUiProject: path.join(dir, 'test-ui'),
   projectsGroup: 'test',
@@ -38,6 +43,13 @@ const opts: BootstrapEntityOptions = {
 
 const system = new SystemMetaBuilder('test', opts);
 
+system.editDeployEnvironment(
+  'prod',
+  {
+    host: 'sportdata.tech',
+  },
+);
+
 system.addConfigVar('smtp.host', 'string', false, '', 'Хост почтового сервера');
 system.addConfigVar('smtp.port', 'int', false, 465, 'Порт почтового сервера');
 system.addConfigVar('smtp.user', 'string', false, '', 'Имя пользователя для авторизации на почтовом сервере');
@@ -46,7 +58,20 @@ system.addConfigVar('smtp.from', 'string', false, '', 'Почтовый адре
 system.addConfigVar('smtp.secure', 'bool', false, true, 'Использовать ли tls');
 system.addConfigVar('smtp.rejectUnauthorized', 'bool', false, false, 'Реджектить ли невалидные сертификаты');
 
+system.addConfigVar('exportHtml.url', 'string', false, '', 'ExportHtml url', ['worker', 'back']);
+
+system.getBack().setMemory('512Mi', '512Mi').setCpu('0.5', '1');
+
+system
+  .addWorker('reports', 'Отчеты')
+  .setNeedFor('Для пересчета отчетов и загрузки файлов на S3')
+  .setMemory('370Mi', '5120Mi')
+  .setCpu('0.15', '0.25');
+
 addCommonEntities(system);
+addCatalogs(system);
+addWscEntities(system);
+addMenu(system);
 
 // stats
 const stats = system.addCatalog('stats', {plural: 'Stats', singular: 'Stats'}, opts);

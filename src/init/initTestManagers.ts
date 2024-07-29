@@ -1,7 +1,7 @@
 import {Context} from '../adm/services/types';
 import Role from '../types/Role';
 import initManager from './initManager';
-import {AdmKeycloak} from '../clients/keycloak/getAdmKeycloak';
+import getAdmKeycloak, {AdmKeycloak} from '../clients/keycloak/getAdmKeycloak';
 import log from '../log';
 
 // yarn ts-node:withContext src/init/initTestManagers.ts
@@ -24,12 +24,29 @@ const testManagers = [
     lastName: 'Test',
     roles: [Role.Admin],
   },
+  {
+    email: 'commenter@example.com',
+    login: 'commenter@example.com',
+    password: 'commenter',
+    firstName: 'commenter',
+    lastName: 'Test',
+    roles: [Role.Commenter],
+  },
+  {
+    email: 'analyst@example.com',
+    login: 'analyst@example.com',
+    password: 'analyst',
+    firstName: 'analyst',
+    lastName: 'analyst',
+    roles: [Role.Analyst],
+  },
 ];
 
 export const initTestManagers = async (
   ctx: Context,
-  keycloak: AdmKeycloak,
+  outerKeycloak?: AdmKeycloak,
 ) => {
+  const keycloak = outerKeycloak ? outerKeycloak : await getAdmKeycloak();
   for (const manager of testManagers) {
     const existingManager = await ctx.prisma.manager.findMany({where: {email: manager.email}});
     if (existingManager.length) {

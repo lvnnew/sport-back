@@ -23,6 +23,7 @@
   "es.password": "",
   "es.tls.rejectUnauthorized": false,
   "es.username": "",
+  "exportHtml.url": "",
   "graphql.playground.enabled": true,
   "kafka.auth.enabled": true,
   "kafka.brokers": "localhost:29092;localhost:29094",

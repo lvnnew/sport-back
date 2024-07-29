@@ -38,6 +38,14 @@ const initEntities = async (ctx: Context) => {
       title: 'Правило автогенерации',
     },
     {
+      id: Entity.Club,
+      title: 'Клубы',
+    },
+    {
+      id: Entity.Competition,
+      title: 'Турниры',
+    },
+    {
       id: Entity.ConfigurationVariable,
       title: 'Конфигурационные переменные',
     },
@@ -50,8 +58,32 @@ const initEntities = async (ctx: Context) => {
       title: 'Сущности',
     },
     {
+      id: Entity.EntitiesTracking,
+      title: 'Отслеживание сущностей',
+    },
+    {
+      id: Entity.EventTypeCategory,
+      title: 'Категории типов событий',
+    },
+    {
+      id: Entity.EventType,
+      title: 'Типы событий',
+    },
+    {
+      id: Entity.Event,
+      title: 'События',
+    },
+    {
       id: Entity.File,
       title: 'Файлы',
+    },
+    {
+      id: Entity.Glossary,
+      title: 'Глоссарий',
+    },
+    {
+      id: Entity.HistoryOfPlayerRole,
+      title: 'История ролей игроков',
     },
     {
       id: Entity.Language,
@@ -98,6 +130,26 @@ const initEntities = async (ctx: Context) => {
       title: 'Роли менеджеров',
     },
     {
+      id: Entity.MatchPeriodMarkup,
+      title: 'Разметки периодов',
+    },
+    {
+      id: Entity.MatchRequest,
+      title: 'Заявки на матчи',
+    },
+    {
+      id: Entity.MatchStatus,
+      title: 'Статусы матчей',
+    },
+    {
+      id: Entity.MatchVideo,
+      title: 'Видео матчей',
+    },
+    {
+      id: Entity.Match,
+      title: 'Матчи',
+    },
+    {
       id: Entity.MessageTemplateLangVariant,
       title: 'Языковые варианты шаблонов сообщений',
     },
@@ -110,8 +162,72 @@ const initEntities = async (ctx: Context) => {
       title: 'Типы сообщений',
     },
     {
+      id: Entity.Organizator,
+      title: 'Организаторы',
+    },
+    {
+      id: Entity.Parent,
+      title: 'Родители',
+    },
+    {
+      id: Entity.PeriodType,
+      title: 'Типы периодов',
+    },
+    {
       id: Entity.Permission,
       title: 'Разрешения',
+    },
+    {
+      id: Entity.PlayerAggregatedRole,
+      title: 'Агрегированные позиции',
+    },
+    {
+      id: Entity.PlayerCompetitionRating,
+      title: 'Рейтинги игроков команд на турнирах',
+    },
+    {
+      id: Entity.PlayerForCompetitionTeam,
+      title: 'Списки игроков команд на турнире ',
+    },
+    {
+      id: Entity.PlayerForMatchRequest,
+      title: 'Заявки игроков на матч',
+    },
+    {
+      id: Entity.PlayerForTeamMatchList,
+      title: 'Игроки заявки',
+    },
+    {
+      id: Entity.PlayerMatchRating,
+      title: 'Рейтинги игроков на матчах',
+    },
+    {
+      id: Entity.PlayerRank,
+      title: 'Ранги игроков',
+    },
+    {
+      id: Entity.PlayerRole,
+      title: 'Роли игроков',
+    },
+    {
+      id: Entity.Player,
+      title: 'Игроки',
+    },
+    {
+      id: Entity.ReportForClub,
+      title: 'Отчеты для клубов',
+    },
+    {
+      id: Entity.ReportForOrganization,
+      title: 'Отчеты для организаторов',
+    },
+    {
+      id: Entity.ReportForParent,
+      title: 'Отчеты для родителей',
+    },
+    {
+      id: Entity.ReportForTeam,
+      title: 'Отчеты для команд',
     },
     {
       id: Entity.Role,
@@ -130,6 +246,26 @@ const initEntities = async (ctx: Context) => {
       title: 'Tags',
     },
     {
+      id: Entity.TeamForCompetition,
+      title: 'Команды на турнире',
+    },
+    {
+      id: Entity.TeamForPlayer,
+      title: 'Игроки команд',
+    },
+    {
+      id: Entity.TeamMatchList,
+      title: 'Составы команд на матчи',
+    },
+    {
+      id: Entity.TeamMatchReport,
+      title: 'Командные отчеты',
+    },
+    {
+      id: Entity.Team,
+      title: 'Команды',
+    },
+    {
       id: Entity.TemplateStyle,
       title: 'Стили шаблонов',
     },
@@ -144,6 +280,18 @@ const initEntities = async (ctx: Context) => {
     {
       id: Entity.User,
       title: 'Пользователи',
+    },
+    {
+      id: Entity.WscContact,
+      title: 'WSC Contacts',
+    },
+    {
+      id: Entity.WscMessage,
+      title: 'WSC Messages',
+    },
+    {
+      id: Entity.WscUser,
+      title: 'WSC Users',
     },
   ]);
 };

@@ -41,11 +41,11 @@ back:
   enabled: true
   replicas: 1
   requests:
-    memory: "192Mi"
-    cpu: "0.15"
+    memory: "512Mi"
+    cpu: "0.5"
   limits:
-    memory: "192Mi"
-    cpu: "0.15"
+    memory: "512Mi"
+    cpu: "1"
 
 metrics:
   enabled: true
@@ -63,6 +63,16 @@ worker:
     maxOldSpaceSize: "58"
 
 workers:
+  - name: reports
+    file: dist/workers/reports/reportsWorker.js
+    requests:
+      memory: "370Mi"
+      cpu: "0.15"
+      maxOldSpaceSize: "333"
+    limits:
+      memory: "5120Mi"
+      cpu: "0.25"
+      maxOldSpaceSize: "4608"
 
 bot:
   enabled: false

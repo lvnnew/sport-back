@@ -122,6 +122,28 @@ deploy-prod-back:
     - release
     - /^release-.*$/
 
+deploy-dev-workers:
+  extends: .deploy-dev-workers
+  stage: deploy
+  variables:
+    ENV: "dev"
+    CLUSTER_NAME: "workers-stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
+  only:
+    - master
+    - /^master-.*$/
+
+deploy-prod-workers:
+  extends: .deploy-prod-workers
+  stage: deploy
+  variables:
+    ENV: "prod"
+    CLUSTER_NAME: "workers-stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
+  only:
+    - release
+    - /^release-.*$/
+
 deploy-dev-back-previous:
   extends: .deploy-dev-back
   stage: deploy-previous
@@ -141,6 +163,30 @@ deploy-prod-back-previous:
   variables:
     ENV: "prod"
     CLUSTER_NAME: "stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
+  only:
+    - release
+    - /^release-.*$/
+
+deploy-dev-workers-previous:
+  extends: .deploy-dev-workers
+  stage: deploy-previous
+  when: manual
+  variables:
+    ENV: "dev"
+    CLUSTER_NAME: "workers-stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
+  only:
+    - master
+    - /^master-.*$/
+
+deploy-prod-workers-previous:
+  extends: .deploy-prod-workers
+  stage: deploy-previous
+  when: manual
+  variables:
+    ENV: "prod"
+    CLUSTER_NAME: "workers-stage01"
     TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
   only:
     - release
@@ -239,6 +285,7 @@ deploy-prod-back-previous:
     ES_PASSWORD: ${DEV_ES_PASSWORD}
     ES_TLS_REJECT_UNAUTHORIZED: ${DEV_ES_TLS_REJECT_UNAUTHORIZED}
     ES_USERNAME: ${DEV_ES_USERNAME}
+    EXPORT_HTML_URL: ${DEV_EXPORT_HTML_URL}
     GRAPHQL_PLAYGROUND_ENABLED: ${DEV_GRAPHQL_PLAYGROUND_ENABLED}
     KAFKA_AUTH_ENABLED: ${DEV_KAFKA_AUTH_ENABLED}
     KAFKA_BROKERS: ${DEV_KAFKA_BROKERS}
@@ -294,7 +341,7 @@ deploy-prod-back-previous:
   variables:
     ENV: "prod"
     DEV: "false"
-    HOST: "making.ventures"
+    HOST: "sportdata.tech"
     ROOT_ENABLED: "true"
     TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
     ADM_JWT_SECRET: ${PROD_ADM_JWT_SECRET}
@@ -324,6 +371,7 @@ deploy-prod-back-previous:
     ES_PASSWORD: ${PROD_ES_PASSWORD}
     ES_TLS_REJECT_UNAUTHORIZED: ${PROD_ES_TLS_REJECT_UNAUTHORIZED}
     ES_USERNAME: ${PROD_ES_USERNAME}
+    EXPORT_HTML_URL: ${PROD_EXPORT_HTML_URL}
     GRAPHQL_PLAYGROUND_ENABLED: ${PROD_GRAPHQL_PLAYGROUND_ENABLED}
     KAFKA_AUTH_ENABLED: ${PROD_KAFKA_AUTH_ENABLED}
     KAFKA_BROKERS: ${PROD_KAFKA_BROKERS}
@@ -447,6 +495,7 @@ deploy-prod-back-previous:
       --set "es.password=${ES_PASSWORD}"
       --set "es.tls.rejectUnauthorized=${ES_TLS_REJECT_UNAUTHORIZED}"
       --set "es.username=${ES_USERNAME}"
+      --set "exportHtml.url=${EXPORT_HTML_URL}"
       --set "graphql.playground.enabled=${GRAPHQL_PLAYGROUND_ENABLED}"
       --set "kafka.auth.enabled=${KAFKA_AUTH_ENABLED}"
       --set "kafka.brokers=${KAFKA_BROKERS}"

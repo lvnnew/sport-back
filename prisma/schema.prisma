@@ -61,6 +61,55 @@ model AdmRefreshToken {
 }
 
 
+model WscContact {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	name	String
+	phoneNumber	String
+	wscUserId	Int
+	wscUser	WscUser	@relation("From-WscContact.wscUser", fields: [wscUserId], references: [id])
+	wscMessageWscContacts	WscMessage[]	@relation("From-WscMessage.wscContact")
+	@@unique([name, phoneNumber, wscUserId])
+}
+
+
+model WscMessage {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	externalId	String
+	dateTimeRaw	String
+	sender	String
+	content	String
+	wscUserId	Int
+	wscUser	WscUser	@relation("From-WscMessage.wscUser", fields: [wscUserId], references: [id])
+	wscContactId	Int
+	wscContact	WscContact	@relation("From-WscMessage.wscContact", fields: [wscContactId], references: [id])
+	@@unique([externalId])
+}
+
+
+model WscUser {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	login	String
+	passwordHash	String
+	accessToken	String?
+	wscContactWscUsers	WscContact[]	@relation("From-WscContact.wscUser")
+	wscMessageWscUsers	WscMessage[]	@relation("From-WscMessage.wscUser")
+	@@unique([login])
+	@@unique([accessToken])
+}
+
+
+model PlayerAggregatedRole {
+	id	String	@id
+	search	String?
+	title	String
+	playerRolePlayerAggregatedRoles	PlayerRole[]	@relation("From-PlayerRole.playerAggregatedRole")
+	playerPlayerAggregatedRoles	Player[]	@relation("From-Player.playerAggregatedRole")
+}
+
+
 model AuditLog {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -85,6 +134,29 @@ model AuditLog {
 }
 
 
+model MatchVideo {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	videoTitle	String
+	videoLink	String
+	matchId	Int?
+	match	Match?	@relation("From-MatchVideo.match", fields: [matchId], references: [id])
+	order	Int?
+	eventVideos	Event[]	@relation("From-Event.video")
+	matchPeriodMarkupMatchVideos	MatchPeriodMarkup[]	@relation("From-MatchPeriodMarkup.matchVideo")
+}
+
+
+model Glossary {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	description	String
+	periodTypeId	String
+	periodType	PeriodType	@relation("From-Glossary.periodType", fields: [periodTypeId], references: [id])
+}
+
+
 model Delegation {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -94,6 +166,108 @@ model Delegation {
 	to	Manager	@relation("From-Delegation.to", fields: [toId], references: [id])
 	expiresAt	DateTime?	@db.Date
 	active	Boolean
+}
+
+
+model PlayerForMatchRequest {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	matchRequestId	Int
+	matchRequest	MatchRequest	@relation("From-PlayerForMatchRequest.matchRequest", fields: [matchRequestId], references: [id])
+	playerId	Int
+	player	Player	@relation("From-PlayerForMatchRequest.player", fields: [playerId], references: [id])
+	@@unique([matchRequestId, playerId])
+}
+
+
+model MatchRequest {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	matchId	Int
+	match	Match	@relation("From-MatchRequest.match", fields: [matchId], references: [id])
+	teamForCompetitionId	Int
+	teamForCompetition	TeamForCompetition	@relation("From-MatchRequest.teamForCompetition", fields: [teamForCompetitionId], references: [id])
+	playerForMatchRequestMatchRequests	PlayerForMatchRequest[]	@relation("From-PlayerForMatchRequest.matchRequest")
+	@@unique([matchId, teamForCompetitionId])
+}
+
+
+model Player {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	firstname	String
+	lastname	String
+	patronymic	String?
+	title	String
+	playerName	String?
+	number	Int
+	dateOfBirth	DateTime	@db.Date
+	age	Int?
+	teamId	Int?
+	team	Team?	@relation("From-Player.team", fields: [teamId], references: [id])
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Player.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Player.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	parentId	Int?
+	parent	Parent?	@relation("From-Player.parent", fields: [parentId], references: [id])
+	linkToProfile	String?
+	playerRating	Int?
+	photoId	Int?
+	photo	File?	@relation("From-Player.photo", fields: [photoId], references: [id])
+	playerRatingAverage	Float?
+	commonPlayerRatingGoalkeeper	Int?
+	commonPlayerRatingAttack	Int?
+	commonPlayerRatingMidfielder	Int?
+	commonPlayerRatingDefender	Int?
+	playedMatches	Int?
+	averagePlayerRatingGoalkeeper	Float?
+	averagePlayerRatingAttack	Float?
+	averagePlayerRatingMidfielder	Float?
+	averagePlayerRatingDefender	Float?
+	playerAggregatedRoleId	String?
+	playerAggregatedRole	PlayerAggregatedRole?	@relation("From-Player.playerAggregatedRole", fields: [playerAggregatedRoleId], references: [id])
+	playerTag	String?
+	progressivePassAccuracy	Float?
+	playerRankId	String?
+	playerRank	PlayerRank?	@relation("From-Player.playerRank", fields: [playerRankId], references: [id])
+	eventMainPlayers	Event[]	@relation("From-Event.mainPlayer")
+	eventSecondPlayers	Event[]	@relation("From-Event.secondPlayer")
+	historyOfPlayerRolePlayers	HistoryOfPlayerRole[]	@relation("From-HistoryOfPlayerRole.player")
+	playerCompetitionRatingPlayers	PlayerCompetitionRating[]	@relation("From-PlayerCompetitionRating.player")
+	playerForCompetitionTeamPlayers	PlayerForCompetitionTeam[]	@relation("From-PlayerForCompetitionTeam.player")
+	playerForMatchRequestPlayers	PlayerForMatchRequest[]	@relation("From-PlayerForMatchRequest.player")
+	playerForTeamMatchListPlayers	PlayerForTeamMatchList[]	@relation("From-PlayerForTeamMatchList.player")
+	playerMatchRatingPlayers	PlayerMatchRating[]	@relation("From-PlayerMatchRating.player")
+	reportForParentPlayers	ReportForParent[]	@relation("From-ReportForParent.player")
+	teamForPlayerPlayers	TeamForPlayer[]	@relation("From-TeamForPlayer.player")
+}
+
+
+model PlayerForTeamMatchList {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	teamMatchListId	Int
+	teamMatchList	TeamMatchList	@relation("From-PlayerForTeamMatchList.teamMatchList", fields: [teamMatchListId], references: [id])
+	playerId	Int
+	player	Player	@relation("From-PlayerForTeamMatchList.player", fields: [playerId], references: [id])
+	startingPosition	Boolean?
+	onField	Boolean?
+	playerRoleId	String
+	playerRole	PlayerRole	@relation("From-PlayerForTeamMatchList.playerRole", fields: [playerRoleId], references: [id])
+	playerOnMatchNumber	Int?
+	@@unique([playerId, teamMatchListId])
+}
+
+
+model TeamForPlayer {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	playerId	Int
+	player	Player	@relation("From-TeamForPlayer.player", fields: [playerId], references: [id])
+	teamId	Int
+	team	Team	@relation("From-TeamForPlayer.team", fields: [teamId], references: [id])
+	@@unique([playerId, teamId])
 }
 
 
@@ -108,6 +282,98 @@ model AutogenerationHistoryEntry {
 	version	DateTime	@db.Date
 	errorOccurred	Boolean
 	error	String?
+}
+
+
+model HistoryOfPlayerRole {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	matchId	Int
+	match	Match	@relation("From-HistoryOfPlayerRole.match", fields: [matchId], references: [id])
+	playerId	Int
+	player	Player	@relation("From-HistoryOfPlayerRole.player", fields: [playerId], references: [id])
+	playerRoleId	String
+	playerRole	PlayerRole	@relation("From-HistoryOfPlayerRole.playerRole", fields: [playerRoleId], references: [id])
+	status	Boolean?
+	order	Int
+}
+
+
+model EventTypeCategory {
+	id	String	@id
+	search	String?
+	title	String
+	eventTypeEventTypeCategories	EventType[]	@relation("From-EventType.eventTypeCategory")
+}
+
+
+model Club {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Club.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Club.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	reportForClubClubs	ReportForClub[]	@relation("From-ReportForClub.club")
+	reportForTeamClubs	ReportForTeam[]	@relation("From-ReportForTeam.club")
+	teamClubs	Team[]	@relation("From-Team.club")
+}
+
+
+model TeamMatchReport {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	created	DateTime
+	matchId	Int
+	match	Match	@relation("From-TeamMatchReport.match", fields: [matchId], references: [id])
+	lastUpdated	DateTime?	@db.Date
+	fileId	Int?
+	file	File?	@relation("From-TeamMatchReport.file", fields: [fileId], references: [id])
+	needRecalculate	Boolean?	@default(false)
+	@@unique([matchId])
+}
+
+
+model Team {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	dateOfBirthFrom	Int
+	dateOfBirthTo	Int?
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Team.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Team.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	clubId	Int
+	club	Club	@relation("From-Team.club", fields: [clubId], references: [id])
+	fileId	Int?
+	file	File?	@relation("From-Team.file", fields: [fileId], references: [id])
+	playerTeams	Player[]	@relation("From-Player.team")
+	reportForClubTeams	ReportForClub[]	@relation("From-ReportForClub.team")
+	teamForCompetitionTeams	TeamForCompetition[]	@relation("From-TeamForCompetition.team")
+	teamForPlayerTeams	TeamForPlayer[]	@relation("From-TeamForPlayer.team")
+}
+
+
+model TeamForCompetition {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	fullTitle	String?
+	teamId	Int
+	team	Team	@relation("From-TeamForCompetition.team", fields: [teamId], references: [id])
+	competitionId	Int
+	competition	Competition	@relation("From-TeamForCompetition.competition", fields: [competitionId], references: [id])
+	eventTeamForCompetitions	Event[]	@relation("From-Event.teamForCompetition")
+	matchRequestTeamForCompetitions	MatchRequest[]	@relation("From-MatchRequest.teamForCompetition")
+	matchFirstTeams	Match[]	@relation("From-Match.firstTeam")
+	matchFirstTeamOnFields	Match[]	@relation("From-Match.firstTeamOnField")
+	matchSecondTeams	Match[]	@relation("From-Match.secondTeam")
+	playerForCompetitionTeamTeamForCompetitions	PlayerForCompetitionTeam[]	@relation("From-PlayerForCompetitionTeam.teamForCompetition")
+	reportForTeamTeamForCompetitions	ReportForTeam[]	@relation("From-ReportForTeam.teamForCompetition")
+	teamMatchListTeamForCompetitions	TeamMatchList[]	@relation("From-TeamMatchList.teamForCompetition")
+	@@unique([title, competitionId])
 }
 
 
@@ -143,6 +409,53 @@ model AppLogin {
 }
 
 
+model Match {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Match.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Match.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	title	String
+	competitionId	Int
+	competition	Competition	@relation("From-Match.competition", fields: [competitionId], references: [id])
+	firstTeamId	Int?
+	firstTeam	TeamForCompetition?	@relation("From-Match.firstTeam", fields: [firstTeamId], references: [id])
+	firstTeamColor	String?
+	firstTeamOnFieldId	Int?
+	firstTeamOnField	TeamForCompetition?	@relation("From-Match.firstTeamOnField", fields: [firstTeamOnFieldId], references: [id])
+	secondTeamId	Int?
+	secondTeam	TeamForCompetition?	@relation("From-Match.secondTeam", fields: [secondTeamId], references: [id])
+	secondTeamColor	String?
+	matchDate	DateTime	@db.Date
+	matchTime	String
+	duration	Int
+	place	String?
+	active	Boolean?
+	firstTeamPoints	Int?
+	secondTeamPoints	Int?
+	redCardFirstTeam	Int?
+	redCardSecondTeam	Int?
+	yellowCardFirstTeam	Int?
+	yellowCardSecondTeam	Int?
+	firstTeamHandleTime	Int?
+	secondTeamHandleTime	Int?
+	linkToProtocol	String?
+	matchStatusId	String?	@default("created")
+	matchStatus	MatchStatus?	@relation("From-Match.matchStatus", fields: [matchStatusId], references: [id])
+	eventMatches	Event[]	@relation("From-Event.match")
+	historyOfPlayerRoleMatches	HistoryOfPlayerRole[]	@relation("From-HistoryOfPlayerRole.match")
+	matchRequestMatches	MatchRequest[]	@relation("From-MatchRequest.match")
+	matchVideoMatches	MatchVideo[]	@relation("From-MatchVideo.match")
+	playerMatchRatingMatches	PlayerMatchRating[]	@relation("From-PlayerMatchRating.match")
+	reportForParentMatches	ReportForParent[]	@relation("From-ReportForParent.match")
+	reportForTeamMatches	ReportForTeam[]	@relation("From-ReportForTeam.match")
+	teamMatchListMatches	TeamMatchList[]	@relation("From-TeamMatchList.match")
+	teamMatchReportMatches	TeamMatchReport[]	@relation("From-TeamMatchReport.match")
+	@@unique([firstTeamId, secondTeamId, matchDate, matchTime])
+}
+
+
 model Manager {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -164,12 +477,39 @@ model Manager {
 	tenant	Tenant?	@relation("From-Manager.tenant", fields: [tenantId], references: [id])
 	admRefreshTokenManagers	AdmRefreshToken[]	@relation("From-AdmRefreshToken.manager")
 	auditLogManagers	AuditLog[]	@relation("From-AuditLog.manager")
+	clubCreatedByManagers	Club[]	@relation("From-Club.createdByManager")
+	clubLastChangedByManagers	Club[]	@relation("From-Club.lastChangedByManager")
+	competitionCreatedByManagers	Competition[]	@relation("From-Competition.createdByManager")
+	competitionLastChangedByManagers	Competition[]	@relation("From-Competition.lastChangedByManager")
 	delegationFroms	Delegation[]	@relation("From-Delegation.from")
 	delegationTos	Delegation[]	@relation("From-Delegation.to")
 	managerLoginManagers	ManagerLogin[]	@relation("From-ManagerLogin.manager")
 	managersToPermissionManagers	ManagersToPermission[]	@relation("From-ManagersToPermission.manager")
 	managersToRoleManagers	ManagersToRole[]	@relation("From-ManagersToRole.manager")
+	matchCreatedByManagers	Match[]	@relation("From-Match.createdByManager")
+	matchLastChangedByManagers	Match[]	@relation("From-Match.lastChangedByManager")
+	organizatorCreatedByManagers	Organizator[]	@relation("From-Organizator.createdByManager")
+	organizatorLastChangedByManagers	Organizator[]	@relation("From-Organizator.lastChangedByManager")
+	parentCreatedByManagers	Parent[]	@relation("From-Parent.createdByManager")
+	parentLastChangedByManagers	Parent[]	@relation("From-Parent.lastChangedByManager")
+	playerCreatedByManagers	Player[]	@relation("From-Player.createdByManager")
+	playerLastChangedByManagers	Player[]	@relation("From-Player.lastChangedByManager")
+	teamCreatedByManagers	Team[]	@relation("From-Team.createdByManager")
+	teamLastChangedByManagers	Team[]	@relation("From-Team.lastChangedByManager")
 	@@unique([email])
+}
+
+
+model Organizator {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Organizator.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Organizator.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	competitionOrganizations	Competition[]	@relation("From-Competition.organization")
+	reportForOrganizationOrganizators	ReportForOrganization[]	@relation("From-ReportForOrganization.organizator")
 }
 
 
@@ -183,6 +523,85 @@ model AggregateTracking {
 	lastEntityUpdate	DateTime
 	aggregateVersion	Int
 	@@unique([entityTypeId, entityId])
+}
+
+
+model EntitiesTracking {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	entityTypeId	String
+	entityType	Entity	@relation("From-EntitiesTracking.entityType", fields: [entityTypeId], references: [id])
+	entityId	String
+	lastEntityComputed	DateTime
+	lastEntityScheduled	DateTime?
+	lastEntityUpdate	DateTime
+	@@unique([entityTypeId, entityId])
+}
+
+
+model ReportForClub {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	teamId	Int
+	team	Team	@relation("From-ReportForClub.team", fields: [teamId], references: [id])
+	competitionId	Int
+	competition	Competition	@relation("From-ReportForClub.competition", fields: [competitionId], references: [id])
+	clubId	Int
+	club	Club	@relation("From-ReportForClub.club", fields: [clubId], references: [id])
+	lastUpdated	DateTime?	@db.Date
+	paid	Boolean?
+}
+
+
+model ReportForTeam {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	created	DateTime
+	title	String
+	teamForCompetitionId	Int
+	teamForCompetition	TeamForCompetition	@relation("From-ReportForTeam.teamForCompetition", fields: [teamForCompetitionId], references: [id])
+	matchId	Int
+	match	Match	@relation("From-ReportForTeam.match", fields: [matchId], references: [id])
+	clubId	Int
+	club	Club	@relation("From-ReportForTeam.club", fields: [clubId], references: [id])
+	lastUpdated	DateTime?	@db.Date
+	paid	Boolean?
+	fileId	Int?
+	file	File?	@relation("From-ReportForTeam.file", fields: [fileId], references: [id])
+	htmlFileId	Int?
+	htmlFile	File?	@relation("From-ReportForTeam.htmlFile", fields: [htmlFileId], references: [id])
+	jsonFileId	Int?
+	jsonFile	File?	@relation("From-ReportForTeam.jsonFile", fields: [jsonFileId], references: [id])
+	needRecalculate	Boolean?
+}
+
+
+model ReportForOrganization {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	competitionId	Int
+	competition	Competition	@relation("From-ReportForOrganization.competition", fields: [competitionId], references: [id])
+	organizatorId	Int
+	organizator	Organizator	@relation("From-ReportForOrganization.organizator", fields: [organizatorId], references: [id])
+	lastUpdated	DateTime?	@db.Date
+	paid	Boolean?
+}
+
+
+model ReportForParent {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	playerId	Int
+	player	Player	@relation("From-ReportForParent.player", fields: [playerId], references: [id])
+	matchId	Int
+	match	Match	@relation("From-ReportForParent.match", fields: [matchId], references: [id])
+	parentId	Int
+	parent	Parent	@relation("From-ReportForParent.parent", fields: [parentId], references: [id])
+	lastUpdated	DateTime?	@db.Date
+	paid	Boolean?
 }
 
 
@@ -226,6 +645,18 @@ model AutogenerationRule {
 }
 
 
+model MatchPeriodMarkup {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	timestamp	Int?
+	periodTypeId	String
+	periodType	PeriodType	@relation("From-MatchPeriodMarkup.periodType", fields: [periodTypeId], references: [id])
+	matchVideoId	Int?
+	matchVideo	MatchVideo?	@relation("From-MatchPeriodMarkup.matchVideo", fields: [matchVideoId], references: [id])
+	@@unique([matchVideoId, periodTypeId])
+}
+
+
 model Permission {
 	id	String	@id
 	search	String?
@@ -257,6 +688,17 @@ model RolesToPermission {
 }
 
 
+model PlayerRank {
+	id	String	@id
+	search	String?
+	title	String
+	rating	Int
+	fileId	Int?
+	file	File?	@relation("From-PlayerRank.file", fields: [fileId], references: [id])
+	playerPlayerRanks	Player[]	@relation("From-Player.playerRank")
+}
+
+
 model MailingCampaign {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -273,6 +715,46 @@ model MailingCampaign {
 }
 
 
+model PlayerCompetitionRating {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	competitionId	Int
+	competition	Competition	@relation("From-PlayerCompetitionRating.competition", fields: [competitionId], references: [id])
+	playerId	Int
+	player	Player	@relation("From-PlayerCompetitionRating.player", fields: [playerId], references: [id])
+	rating	Int
+}
+
+
+model PlayerMatchRating {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	matchId	Int
+	match	Match	@relation("From-PlayerMatchRating.match", fields: [matchId], references: [id])
+	playerId	Int
+	player	Player	@relation("From-PlayerMatchRating.player", fields: [playerId], references: [id])
+	rating	Int
+	progressivePassAccuracy	Float?
+	playerRatingAverage	Float?
+}
+
+
+model Parent {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	firstname	String
+	lastname	String
+	patronymic	String?
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Parent.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Parent.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	playerParents	Player[]	@relation("From-Player.parent")
+	reportForParentParents	ReportForParent[]	@relation("From-ReportForParent.parent")
+}
+
+
 model Role {
 	id	String	@id
 	search	String?
@@ -281,6 +763,20 @@ model Role {
 	allTenantsAvailable	Boolean
 	managersToRoleRoles	ManagersToRole[]	@relation("From-ManagersToRole.role")
 	rolesToPermissionRoles	RolesToPermission[]	@relation("From-RolesToPermission.role")
+}
+
+
+model PlayerRole {
+	id	String	@id
+	search	String?
+	title	String
+	shortTitle	String
+	playerAggregatedRoleId	String
+	playerAggregatedRole	PlayerAggregatedRole	@relation("From-PlayerRole.playerAggregatedRole", fields: [playerAggregatedRoleId], references: [id])
+	eventFirstPlayerRoles	Event[]	@relation("From-Event.firstPlayerRole")
+	eventSecondPlayerRoles	Event[]	@relation("From-Event.secondPlayerRole")
+	historyOfPlayerRolePlayerRoles	HistoryOfPlayerRole[]	@relation("From-HistoryOfPlayerRole.playerRole")
+	playerForTeamMatchListPlayerRoles	PlayerForTeamMatchList[]	@relation("From-PlayerForTeamMatchList.playerRole")
 }
 
 
@@ -293,6 +789,40 @@ model ManagersToRole {
 	role	Role	@relation("From-ManagersToRole.role", fields: [roleId], references: [id])
 	expiresAt	DateTime?	@db.Date
 	@@unique([managerId, roleId, expiresAt])
+}
+
+
+model Event {
+	id	Int	@default(autoincrement())	@id
+	date	DateTime
+	search	String?
+	timeSecond	Int?
+	linkToTimeSecond	String?
+	controversialPoint	Boolean?
+	startControversialPoint	Int?
+	highlight	Boolean?
+	startHighlight	Int?
+	order	Int
+	eventTypeId	String
+	eventType	EventType	@relation("From-Event.eventType", fields: [eventTypeId], references: [id])
+	videoId	Int?
+	video	MatchVideo?	@relation("From-Event.video", fields: [videoId], references: [id])
+	teamForCompetitionId	Int?
+	teamForCompetition	TeamForCompetition?	@relation("From-Event.teamForCompetition", fields: [teamForCompetitionId], references: [id])
+	mainPlayerId	Int?
+	mainPlayer	Player?	@relation("From-Event.mainPlayer", fields: [mainPlayerId], references: [id])
+	secondPlayerId	Int?
+	secondPlayer	Player?	@relation("From-Event.secondPlayer", fields: [secondPlayerId], references: [id])
+	firstPlayerRoleId	String?
+	firstPlayerRole	PlayerRole?	@relation("From-Event.firstPlayerRole", fields: [firstPlayerRoleId], references: [id])
+	secondPlayerRoleId	String?
+	secondPlayerRole	PlayerRole?	@relation("From-Event.secondPlayerRole", fields: [secondPlayerRoleId], references: [id])
+	periodTypeId	String?
+	periodType	PeriodType?	@relation("From-Event.periodType", fields: [periodTypeId], references: [id])
+	matchId	Int
+	match	Match	@relation("From-Event.match", fields: [matchId], references: [id])
+	points	Int
+	periodNumber	Int?
 }
 
 
@@ -324,11 +854,42 @@ model MailingMessage {
 }
 
 
+model TeamMatchList {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	matchId	Int
+	match	Match	@relation("From-TeamMatchList.match", fields: [matchId], references: [id])
+	teamForCompetitionId	Int
+	teamForCompetition	TeamForCompetition	@relation("From-TeamMatchList.teamForCompetition", fields: [teamForCompetitionId], references: [id])
+	playerForTeamMatchListTeamMatchLists	PlayerForTeamMatchList[]	@relation("From-PlayerForTeamMatchList.teamMatchList")
+	@@unique([matchId, teamForCompetitionId])
+}
+
+
+model PlayerForCompetitionTeam {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	teamForCompetitionId	Int
+	teamForCompetition	TeamForCompetition	@relation("From-PlayerForCompetitionTeam.teamForCompetition", fields: [teamForCompetitionId], references: [id])
+	playerId	Int
+	player	Player	@relation("From-PlayerForCompetitionTeam.player", fields: [playerId], references: [id])
+	@@unique([teamForCompetitionId, playerId])
+}
+
+
 model MailingCampaignStatus {
 	id	String	@id
 	search	String?
 	title	String
 	mailingCampaignMailingCampaignStatuses	MailingCampaign[]	@relation("From-MailingCampaign.mailingCampaignStatus")
+}
+
+
+model MatchStatus {
+	id	String	@id
+	search	String?
+	title	String
+	matchMatchStatuses	Match[]	@relation("From-Match.matchStatus")
 }
 
 
@@ -356,6 +917,7 @@ model Entity {
 	title	String?
 	aggregateTrackingEntityTypes	AggregateTracking[]	@relation("From-AggregateTracking.entityType")
 	auditLogEntityTypes	AuditLog[]	@relation("From-AuditLog.entityType")
+	entitiesTrackingEntityTypes	EntitiesTracking[]	@relation("From-EntitiesTracking.entityType")
 }
 
 
@@ -369,11 +931,63 @@ model Tenant {
 }
 
 
+model PeriodType {
+	id	String	@id
+	search	String?
+	title	String
+	order	Int
+	eventPeriodTypes	Event[]	@relation("From-Event.periodType")
+	glossaryPeriodTypes	Glossary[]	@relation("From-Glossary.periodType")
+	matchPeriodMarkupPeriodTypes	MatchPeriodMarkup[]	@relation("From-MatchPeriodMarkup.periodType")
+}
+
+
 model MailingType {
 	id	String	@id
 	search	String?
 	title	String
 	mailingCampaignMailingTypes	MailingCampaign[]	@relation("From-MailingCampaign.mailingType")
+}
+
+
+model EventType {
+	id	String	@id
+	search	String?
+	title	String
+	points	Int
+	eventTypeCategoryId	String?
+	eventTypeCategory	EventTypeCategory?	@relation("From-EventType.eventTypeCategory", fields: [eventTypeCategoryId], references: [id])
+	order	Int?	@default(0)
+	showInTranslationMode	Boolean?
+	needForSecondPlayer	Boolean?
+	dependsOnPoint	Boolean?
+	redCard	Boolean?
+	yellowCard	Boolean?
+	calculateBlock	Boolean?
+	calculateTakeaway	Boolean?
+	calculateSelection	Boolean?
+	calculateInterseption	Boolean?
+	calculateGuardian	Boolean?
+	calculatePositionError	Boolean?
+	calculateGrossError	Boolean?
+	calculatePositiveDribling	Boolean?
+	calculateNegativeDribling	Boolean?
+	calculatePositiveSgm	Boolean?
+	calculateNegativeSgm	Boolean?
+	calculatePositiveRgm	Boolean?
+	calculateNegativeRgm	Boolean?
+	calculateLosses	Boolean?
+	calculateGegenPressing	Boolean?
+	calculatePressing	Boolean?
+	calculateSaveBall	Boolean?
+	calculatePositiveTransfer	Boolean?
+	calculateNegativeTransfer	Boolean?
+	calculateHit	Boolean?
+	calculateHitTarget	Boolean?
+	calculateCorner	Boolean?
+	calculateFoul	Boolean?
+	calculateOffside	Boolean?
+	eventEventTypes	Event[]	@relation("From-Event.eventType")
 }
 
 
@@ -394,6 +1008,26 @@ model MessageType {
 }
 
 
+model Competition {
+	id	Int	@default(autoincrement())	@id
+	search	String?
+	title	String
+	dateOfBirthFrom	Int?
+	dateOfBirthTo	Int?
+	organizationId	Int
+	organization	Organizator	@relation("From-Competition.organization", fields: [organizationId], references: [id])
+	createdByManagerId	Int
+	createdByManager	Manager	@relation("From-Competition.createdByManager", fields: [createdByManagerId], references: [id])
+	lastChangedByManagerId	Int?
+	lastChangedByManager	Manager?	@relation("From-Competition.lastChangedByManager", fields: [lastChangedByManagerId], references: [id])
+	matchCompetitions	Match[]	@relation("From-Match.competition")
+	playerCompetitionRatingCompetitions	PlayerCompetitionRating[]	@relation("From-PlayerCompetitionRating.competition")
+	reportForClubCompetitions	ReportForClub[]	@relation("From-ReportForClub.competition")
+	reportForOrganizationCompetitions	ReportForOrganization[]	@relation("From-ReportForOrganization.competition")
+	teamForCompetitionCompetitions	TeamForCompetition[]	@relation("From-TeamForCompetition.competition")
+}
+
+
 model File {
 	id	Int	@default(autoincrement())	@id
 	search	String?
@@ -404,6 +1038,13 @@ model File {
 	eTag	String
 	bytes	Int?
 	managerPhotos	Manager[]	@relation("From-Manager.photo")
+	playerRankFiles	PlayerRank[]	@relation("From-PlayerRank.file")
+	playerPhotos	Player[]	@relation("From-Player.photo")
+	reportForTeamFiles	ReportForTeam[]	@relation("From-ReportForTeam.file")
+	reportForTeamHtmlFiles	ReportForTeam[]	@relation("From-ReportForTeam.htmlFile")
+	reportForTeamJsonFiles	ReportForTeam[]	@relation("From-ReportForTeam.jsonFile")
+	teamMatchReportFiles	TeamMatchReport[]	@relation("From-TeamMatchReport.file")
+	teamFiles	Team[]	@relation("From-Team.file")
 }
 
 
