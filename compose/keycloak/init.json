@@ -1,5 +1,5 @@
 {
-  "realm": "mtbase-local-admin",
+  "realm": "test-local-admin",
   "enabled": true,
   "users": [
     {
@@ -45,7 +45,7 @@
       "emailVerified": false,
       "serviceAccountClientId": "backend-api",
       "realmRoles": [
-        "default-roles-mtbase-local-admin"
+        "default-roles-test-local-admin"
       ],
       "clientRoles": {
         "realm-management": [
@@ -56,7 +56,7 @@
   ],
   "clients": [
     {
-      "clientId": "mtbase-admin",
+      "clientId": "test-admin",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,

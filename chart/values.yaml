@@ -94,7 +94,7 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "7200"
   host: "apps.making.ventures"
   letsencryptCert: true
-  domain: "mtbase-ep"
+  domain: "test-ep"
 
 resources:
   {}

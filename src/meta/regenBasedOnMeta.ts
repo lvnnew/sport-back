@@ -26,17 +26,17 @@ const opts: BootstrapEntityOptions = {
   genUiRoutes: true,
   skipWarningThisIsGenerated: false,
 
-  detachedBackProject: path.join(dir, 'mtbase-back'),
-  detachedUiProject: path.join(dir, 'mtbase-ui'),
-  projectsGroup: 'mtbase',
-  dbName: 'mtbase_stage',
+  detachedBackProject: path.join(dir, 'test-back'),
+  detachedUiProject: path.join(dir, 'test-ui'),
+  projectsGroup: 'test',
+  dbName: 'test_stage',
   projectName: 'Meta Template Base',
-  projectPrefix: 'mtbase',
+  projectPrefix: 'test',
 
   breadcrumb: true,
 };
 
-const system = new SystemMetaBuilder('mtbase', opts);
+const system = new SystemMetaBuilder('test', opts);
 
 system.addConfigVar('smtp.host', 'string', false, '', 'Хост почтового сервера');
 system.addConfigVar('smtp.port', 'int', false, 465, 'Порт почтового сервера');

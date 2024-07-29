@@ -7,9 +7,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mtbase-{{ .name  }}-worker
+  name: test-{{ .name  }}-worker
   labels:
-    app: mtbase-{{ .name  }}-worker
+    app: test-{{ .name  }}-worker
     projectName: {{ $.Values.global.projectName }}
     clusterName: {{ $.Values.global.clusterName }}
     env: {{ $.Values.global.env }}
@@ -22,7 +22,7 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: mtbase-{{ .name  }}-worker
+    app: test-{{ .name  }}-worker
 ---
 {{- end }}
 
@@ -30,7 +30,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mtbase-{{ .name  }}-worker
+  name: test-{{ .name  }}-worker
 spec:
   replicas: {{ default $.Values.worker.replicas .replicas }}
   strategy:
@@ -39,11 +39,11 @@ spec:
       maxSurge: 3
   selector:
     matchLabels:
-      app: mtbase-{{ .name  }}-worker
+      app: test-{{ .name  }}-worker
   template:
     metadata:
       labels:
-        app: mtbase-{{ .name  }}-worker
+        app: test-{{ .name  }}-worker
         projectName: {{ $.Values.global.projectName }}
         clusterName: {{ $.Values.global.clusterName }}
         env: {{ $.Values.global.env }}
@@ -52,8 +52,8 @@ spec:
       imagePullSecrets:
         - name: {{ $.Release.Name }}-pullsecret
       containers:
-      - name: mtbase-{{ .name  }}-worker
-        image: {{ $.Values.dockerRegistry.domain }}/mtbase/mtbase-back{{ $.Values.app.tag }}
+      - name: test-{{ .name  }}-worker
+        image: {{ $.Values.dockerRegistry.domain }}/test/test-back{{ $.Values.app.tag }}
         command: ["node", "{{ .file  }}"]
         ports:
         - name: main-port

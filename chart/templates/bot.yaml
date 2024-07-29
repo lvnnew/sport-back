@@ -7,9 +7,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mtbase-{{ .name  }}-bot
+  name: test-{{ .name  }}-bot
   labels:
-    app: mtbase-{{ .name  }}-bot
+    app: test-{{ .name  }}-bot
     projectName: {{ $.Values.global.projectName }}
     clusterName: {{ $.Values.global.clusterName }}
     env: {{ $.Values.global.env }}
@@ -22,7 +22,7 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: mtbase-{{ .name  }}-bot
+    app: test-{{ .name  }}-bot
 ---
 {{- end }}
 
@@ -30,7 +30,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mtbase-{{ .name  }}-bot
+  name: test-{{ .name  }}-bot
 spec:
   replicas: {{ default $.Values.bot.replicas .replicas }}
   strategy:
@@ -39,11 +39,11 @@ spec:
       maxSurge: 3
   selector:
     matchLabels:
-      app: mtbase-{{ .name  }}-bot
+      app: test-{{ .name  }}-bot
   template:
     metadata:
       labels:
-        app: mtbase-{{ .name  }}-bot
+        app: test-{{ .name  }}-bot
         projectName: {{ $.Values.global.projectName }}
         clusterName: {{ $.Values.global.clusterName }}
         env: {{ $.Values.global.env }}
@@ -52,8 +52,8 @@ spec:
       imagePullSecrets:
         - name: {{ $.Release.Name }}-pullsecret
       containers:
-      - name: mtbase-{{ .name  }}-bot
-        image: {{ $.Values.dockerRegistry.domain }}/mtbase/mtbase-back{{ $.Values.app.tag }}
+      - name: test-{{ .name  }}-bot
+        image: {{ $.Values.dockerRegistry.domain }}/test/test-back{{ $.Values.app.tag }}
         command: ["node", "{{ .file  }}"]
         ports:
         - name: main-port
@@ -96,7 +96,7 @@ spec:
         - name: RANDOM
           value: {{ $.Values.random | quote }}
         - name: APP_NAME
-          value: mtbase-{{ .name  }}-bot
+          value: test-{{ .name  }}-bot
         - name: ENV
           value: '{{ $.Values.global.env }}'
         - name: APOLLO_KEY

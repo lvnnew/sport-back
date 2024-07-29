@@ -15178,7 +15178,7 @@
    "type": "string"
   },
   {
-   "default": "mtbase",
+   "default": "test",
    "editable": true,
    "hidden": false,
    "name": "app.name",
@@ -16780,9 +16780,9 @@
  "menuItems": [],
  "methods": [],
  "models": [],
- "name": "mtbase",
+ "name": "test",
  "pages": [],
- "prefix": "mtbase",
+ "prefix": "test",
  "reports": [],
  "restApis": [],
  "roles": [],

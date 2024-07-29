@@ -5,9 +5,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mtbase-back
+  name: test-back
   labels:
-    app: mtbase-back
+    app: test-back
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -28,7 +28,7 @@ spec:
             path: "/"
             backend:
               service:
-                name: mtbase-back
+                name: test-back
                 port:
                   number: 3000
     {{ end }}
@@ -39,7 +39,7 @@ spec:
             path: "/"
             backend:
               service:
-                name: mtbase-back
+                name: test-back
                 port:
                   number: 3000
   tls:

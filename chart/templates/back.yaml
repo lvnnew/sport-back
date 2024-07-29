@@ -5,9 +5,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mtbase-back
+  name: test-back
   labels:
-    app: mtbase-back
+    app: test-back
     projectName: {{ $.Values.global.projectName }}
     clusterName: {{ $.Values.global.clusterName }}
     env: {{ $.Values.global.env }}
@@ -20,12 +20,12 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: mtbase-back
+    app: test-back
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mtbase-back
+  name: test-back
 spec:
   replicas: {{ $.Values.back.replicas }}
   strategy:
@@ -34,11 +34,11 @@ spec:
       maxSurge: 3
   selector:
     matchLabels:
-      app: mtbase-back
+      app: test-back
   template:
     metadata:
       labels:
-        app: mtbase-back
+        app: test-back
         projectName: {{ $.Values.global.projectName }}
         clusterName: {{ $.Values.global.clusterName }}
         env: {{ $.Values.global.env }}
@@ -47,8 +47,8 @@ spec:
       imagePullSecrets:
         - name: {{ $.Release.Name }}-pullsecret
       containers:
-      - name: mtbase-back
-        image: {{ $.Values.dockerRegistry.domain }}/mtbase/mtbase-back{{ $.Values.app.tag }}
+      - name: test-back
+        image: {{ $.Values.dockerRegistry.domain }}/test/test-back{{ $.Values.app.tag }}
         ports:
         - name: main-port
           containerPort: 3000

@@ -5,9 +5,9 @@
  "ciDockerRegistry": "registry.service.making.ventures",
  "coreIndex": true,
  "corePrismaGetter": true,
- "dbName": "mtbase_stage",
- "detachedBackProject": "F:\\Work\\Meta_Template_Base\\mtbase-back",
- "detachedUiProject": "F:\\Work\\Meta_Template_Base\\mtbase-ui",
+ "dbName": "test_stage",
+ "detachedBackProject": "F:\\Work\\Meta_Template_Base\\test-back",
+ "detachedUiProject": "F:\\Work\\Meta_Template_Base\\test-ui",
  "forms": {
   "create": {
    "gen": true,
@@ -66,8 +66,8 @@
  "k8sSubdomainPrefix": "",
  "mainColorOfAppTitile": true,
  "projectName": "Meta Template Base",
- "projectPrefix": "mtbase",
- "projectsGroup": "mtbase",
+ "projectPrefix": "test",
+ "projectsGroup": "test",
  "readOnly": false,
  "sharding": false,
  "showMetaPage": true,
