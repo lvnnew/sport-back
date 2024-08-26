@@ -5,9 +5,9 @@
  "ciDockerRegistry": "registry.service.making.ventures",
  "coreIndex": true,
  "corePrismaGetter": true,
- "dbName": "test_stage",
- "detachedBackProject": "F:\\Work\\test\\test-back",
- "detachedUiProject": "F:\\Work\\test\\test-ui",
+ "dbName": "sport_stage",
+ "detachedBackProject": "D:\\Work\\sport\\sport-back",
+ "detachedUiProject": "D:\\Work\\sport\\sport-ui",
  "forms": {
   "create": {
    "gen": true,
@@ -66,8 +66,8 @@
  "k8sSubdomainPrefix": "",
  "mainColorOfAppTitile": true,
  "projectName": "Meta Template Base",
- "projectPrefix": "test",
- "projectsGroup": "test",
+ "projectPrefix": "sport",
+ "projectsGroup": "sport",
  "readOnly": false,
  "sharding": false,
  "showMetaPage": true,

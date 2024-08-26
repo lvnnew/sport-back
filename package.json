@@ -1,5 +1,5 @@
 {
-  "name": "test-back",
+  "name": "sport-back",
   "version": "0.1.0",
   "description": "> TODO: description",
   "author": "Damir Manapov <tebuchet@gmail.com>",
@@ -12,9 +12,9 @@
     "node": ">=10"
   },
   "scripts": {
-    "compose:start": "docker compose -f compose/docker-compose.yml -p test up starter",
-    "compose:stop": "docker compose -f compose/docker-compose.yml -p test stop",
-    "compose:delete": "docker compose -f compose/docker-compose.yml -p test down --volumes",
+    "compose:start": "docker compose -f compose/docker-compose.yml -p sport up starter",
+    "compose:stop": "docker compose -f compose/docker-compose.yml -p sport stop",
+    "compose:delete": "docker compose -f compose/docker-compose.yml -p sport down --volumes",
     "serve": "serve public",
     "build": "(rm -rf dist || true) && tsc",
     "start": "runlify start env=prod node --unhandled-rejections=strict dist/index.js",
@@ -121,7 +121,7 @@
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "runlify": "^0.0.690",
+    "runlify": "^0.0.691",
     "safe-stable-stringify": "^2.4.3",
     "set-cookie-parser": "^2.6.0",
     "stream-size": "^0.0.6",

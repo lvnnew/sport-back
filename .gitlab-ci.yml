@@ -21,7 +21,7 @@ variables:
   VERBOSE: 'true'
   RELEASE: $CI_COMMIT_SHORT_SHA
   KUBECONFIG: /etc/deploy/config
-  PROJECT_NAME: test
+  PROJECT_NAME: sport
 
 check:
   stage: check
@@ -441,7 +441,7 @@ deploy-prod-workers-previous:
     - mkdir -p /etc/deploy
     - cp $KUBE_CONFIG $KUBECONFIG
   script:
-    - NAMESPACE=${NAMESPACE:-"test-${ENV}"}
+    - NAMESPACE=${NAMESPACE:-"sport-${ENV}"}
     - echo TAG ${TAG}
     - echo NAMESPACE ${NAMESPACE}
     - echo chart ${NAMESPACE}-${DEPLOY_KIND}

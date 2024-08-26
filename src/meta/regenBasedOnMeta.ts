@@ -31,17 +31,17 @@ const opts: BootstrapEntityOptions = {
 
   genUiAppBar: false,
 
-  detachedBackProject: path.join(dir, 'test-back'),
-  detachedUiProject: path.join(dir, 'test-ui'),
-  projectsGroup: 'test',
-  dbName: 'test_stage',
+  detachedBackProject: path.join(dir, 'sport-back'),
+  detachedUiProject: path.join(dir, 'sport-ui'),
+  projectsGroup: 'sport',
+  dbName: 'sport_stage',
   projectName: 'Meta Template Base',
-  projectPrefix: 'test',
+  projectPrefix: 'sport',
 
   breadcrumb: true,
 };
 
-const system = new SystemMetaBuilder('test', opts);
+const system = new SystemMetaBuilder('sport', opts);
 
 system.editDeployEnvironment(
   'prod',

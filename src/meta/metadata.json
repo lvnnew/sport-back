@@ -33494,7 +33494,7 @@
    "type": "string"
   },
   {
-   "default": "test",
+   "default": "sport",
    "editable": true,
    "hidden": false,
    "name": "app.name",
@@ -36791,9 +36791,9 @@
  ],
  "methods": [],
  "models": [],
- "name": "test",
+ "name": "sport",
  "pages": [],
- "prefix": "test",
+ "prefix": "sport",
  "reports": [],
  "restApis": [],
  "roles": [],

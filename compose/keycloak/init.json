@@ -1,5 +1,5 @@
 {
-  "realm": "test-local-admin",
+  "realm": "sport-local-admin",
   "enabled": true,
   "users": [
     {
@@ -7,7 +7,7 @@
       "email": "admin@example.com",
       "enabled": true,
       "firstName": "Admin",
-      "lastName": "Test",
+      "lastName": "sport",
       "emailVerified": true,
       "credentials": [
         {
@@ -45,7 +45,7 @@
       "emailVerified": false,
       "serviceAccountClientId": "backend-api",
       "realmRoles": [
-        "default-roles-test-local-admin"
+        "default-roles-sport-local-admin"
       ],
       "clientRoles": {
         "realm-management": [
@@ -56,7 +56,7 @@
   ],
   "clients": [
     {
-      "clientId": "test-admin",
+      "clientId": "sport-admin",
       "enabled": true,
       "publicClient": true,
       "directAccessGrantsEnabled": true,

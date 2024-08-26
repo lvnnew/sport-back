@@ -5,7 +5,7 @@
   "admin.ui.url": "http://localhost:8080",
   "app.environment": "dev",
   "app.jwt.secret": "appSecret",
-  "app.name": "test",
+  "app.name": "sport",
   "app.title": "Meta Template Base",
   "app.ui.url": "http://localhost:4000",
   "authorization.backendChecks.enabled": false,
