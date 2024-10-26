@@ -1,4 +1,4 @@
-image: node:18
+image: node:20
 
 # DO NOT EDIT! THIS IS GENERATED FILE
 
@@ -8,7 +8,6 @@ stages:
   - build
   - latest-image
   - deploy
-  - deploy-previous
 
 cache:
   paths:
@@ -133,6 +132,17 @@ deploy-dev-workers:
     - master
     - /^master-.*$/
 
+deploy-dev-bots:
+  extends: .deploy-dev-bots
+  stage: deploy
+  variables:
+    ENV: "dev"
+    CLUSTER_NAME: "stage01"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
+  only:
+    - master
+    - /^master-.*$/
+
 deploy-prod-workers:
   extends: .deploy-prod-workers
   stage: deploy
@@ -144,53 +154,17 @@ deploy-prod-workers:
     - release
     - /^release-.*$/
 
-deploy-dev-back-previous:
-  extends: .deploy-dev-back
-  stage: deploy-previous
-  when: manual
-  variables:
-    ENV: "dev"
-    CLUSTER_NAME: "stage01"
-    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
-  only:
-    - master
-    - /^master-.*$/
-
-deploy-prod-back-previous:
-  extends: .deploy-prod-back
-  stage: deploy-previous
-  when: manual
+deploy-prod-bots:
+  extends: .deploy-prod-bots
+  stage: deploy
   variables:
     ENV: "prod"
     CLUSTER_NAME: "stage01"
-    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
+    TAG: ":${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}"
   only:
     - release
     - /^release-.*$/
 
-deploy-dev-workers-previous:
-  extends: .deploy-dev-workers
-  stage: deploy-previous
-  when: manual
-  variables:
-    ENV: "dev"
-    CLUSTER_NAME: "workers-stage01"
-    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
-  only:
-    - master
-    - /^master-.*$/
-
-deploy-prod-workers-previous:
-  extends: .deploy-prod-workers
-  stage: deploy-previous
-  when: manual
-  variables:
-    ENV: "prod"
-    CLUSTER_NAME: "workers-stage01"
-    TAG: ":${CI_COMMIT_REF_SLUG}-previous-for-${CI_COMMIT_SHA}"
-  only:
-    - release
-    - /^release-.*$/
 .deploy-dev-back:
   extends:
     - .deploy-dev
@@ -217,6 +191,19 @@ deploy-prod-workers-previous:
     BOT_ENABLED: "false"
     ROOT_ENABLED: "false"
 
+.deploy-dev-bots:
+  extends:
+    - .deploy-dev
+    - .deploy-bot
+  variables:
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
+    BACK_ENABLED: "false"
+    INGRESS_ENABLED: "false"
+    METRICS_ENABLED: "false"
+    WORKER_ENABLED: "false"
+    BOT_ENABLED: "true"
+    ROOT_ENABLED: "false"
+
 .deploy-prod-back:
   extends:
     - .deploy-prod
@@ -241,6 +228,19 @@ deploy-prod-workers-previous:
     METRICS_ENABLED: "false"
     WORKER_ENABLED: "true"
     BOT_ENABLED: "false"
+    ROOT_ENABLED: "false"
+
+.deploy-prod-bots:
+  extends:
+    - .deploy-prod
+    - .deploy-bot
+  variables:
+    KUBE_CONFIG: ${KUBE_STAGE01_CONFIG}
+    BACK_ENABLED: "false"
+    INGRESS_ENABLED: "false"
+    METRICS_ENABLED: "false"
+    WORKER_ENABLED: "false"
+    BOT_ENABLED: "true"
     ROOT_ENABLED: "false"
 
 .deploy-dev:
@@ -420,18 +420,21 @@ deploy-prod-workers-previous:
     DEPLOY_KIND: "back"
     FLUENTD_ENABLED: "true"
     PROMETHEUS_RULES_ENABLED: "true"
+    HELM_ENV: ""
 
 .deploy-worker:
   variables:
     DEPLOY_KIND: "worker"
     FLUENTD_ENABLED: "false"
     PROMETHEUS_RULES_ENABLED: "false"
+    HELM_ENV: "--set mountebank.enabled=false --set exportHtml.enabled=false"
 
-.deploy-telegramBot:
+.deploy-bot:
   variables:
-    DEPLOY_KIND: "telegramBot"
+    DEPLOY_KIND: "bot"
     FLUENTD_ENABLED: "false"
     PROMETHEUS_RULES_ENABLED: "false"
+    HELM_ENV: ""
 
 .deploy:
   image:
@@ -451,6 +454,7 @@ deploy-prod-workers-previous:
       --wait ${NAMESPACE}-${DEPLOY_KIND} chart
       --timeout 3600s
       -f chart/values_${ENV}.yaml
+      ${HELM_ENV}
       --namespace ${NAMESPACE}
       --create-namespace
       --set "global.projectName=${PROJECT_NAME}"

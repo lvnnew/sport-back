@@ -5,9 +5,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sport-back
+  name: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
   labels:
-    app: sport-back
+    app: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
     projectName: {{ $.Values.global.projectName }}
     clusterName: {{ $.Values.global.clusterName }}
     env: {{ $.Values.global.env }}
@@ -20,12 +20,12 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: sport-back
+    app: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sport-back
+  name: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
 spec:
   replicas: {{ $.Values.back.replicas }}
   strategy:
@@ -34,11 +34,11 @@ spec:
       maxSurge: 3
   selector:
     matchLabels:
-      app: sport-back
+      app: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
   template:
     metadata:
       labels:
-        app: sport-back
+        app: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
         projectName: {{ $.Values.global.projectName }}
         clusterName: {{ $.Values.global.clusterName }}
         env: {{ $.Values.global.env }}
@@ -47,8 +47,8 @@ spec:
       imagePullSecrets:
         - name: {{ $.Release.Name }}-pullsecret
       containers:
-      - name: sport-back
-        image: {{ $.Values.dockerRegistry.domain }}/sport/sport-back{{ $.Values.app.tag }}
+      - name: {{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}
+        image: {{ $.Values.dockerRegistry.domain }}/{{ $.Values.global.projectGroup }}/{{ $.Values.global.projectName }}-{{ $.Values.global.deployKind }}{{ $.Values.app.tag }}
         ports:
         - name: main-port
           containerPort: 3000

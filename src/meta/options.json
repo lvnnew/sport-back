@@ -8,6 +8,7 @@
  "dbName": "sport_stage",
  "detachedBackProject": "D:\\Work\\sport\\sport-back",
  "detachedUiProject": "D:\\Work\\sport\\sport-ui",
+ "exportHtmlEnabled": false,
  "forms": {
   "create": {
    "gen": true,
@@ -65,6 +66,7 @@
  "k8sNamespacePrefix": "",
  "k8sSubdomainPrefix": "",
  "mainColorOfAppTitile": true,
+ "mountebankEnabled": false,
  "projectName": "Meta Template Base",
  "projectPrefix": "sport",
  "projectsGroup": "sport",

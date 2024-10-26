@@ -4,6 +4,8 @@
 global:
   env: noName
   clusterName: noName
+  projectName: sport
+  projectGroup: sport
   deployKind: noName
   imagePullPolicy: Always
 
@@ -48,7 +50,10 @@ back:
     cpu: "1"
 
 metrics:
-  enabled: true
+  enabled: false
+
+mountebank:
+  enabled: false
 
 worker:
   enabled: false
